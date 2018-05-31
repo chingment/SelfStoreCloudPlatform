@@ -2319,12 +2319,13 @@ height:50px;
 .f-tb {
 	width: 100%;
 	background-color: #e1e6eb;
+	table-layout: fixed;
 }
 
 .f-tb-t {
 	white-space: nowrap;
 	text-align: right;
-	/*width: 10%;*/
+	width: 65px;
 	FONT-SIZE: 9pt;
 	background-color: #F5F6FA;
 	height: 30px;
@@ -3486,7 +3487,7 @@ ul.ztree.zTreeDragUL {
 
 .f-tb1-detail {
 	width: 100%;
- table-layout: fixed;
+	table-layout: fixed;
 }
 
 

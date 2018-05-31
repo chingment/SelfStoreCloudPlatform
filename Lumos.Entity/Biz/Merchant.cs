@@ -13,9 +13,17 @@ namespace Lumos.Entity
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        public int UserId { get; set; }
+        [MaxLength(128)]
+        public string Sn { get; set; }
         [MaxLength(128)]
         public string Name { get; set; }
-        public int UserId { get; set; }
+        [MaxLength(128)]
+        public string ContactName { get; set; }
+        [MaxLength(128)]
+        public string ContactPhone { get; set; }
+        [MaxLength(128)]
+        public string ContactAddress { get; set; }
         public int Creator { get; set; }
         public DateTime CreateTime { get; set; }
         public int? Mender { get; set; }

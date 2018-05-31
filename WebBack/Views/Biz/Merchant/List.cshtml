@@ -9,7 +9,7 @@
 
     $(document).ready(function () {
         listTable = $("#list_table").loadDataTable({
-            url: "/Biz/Machine/GetList",
+            url: "/Biz/Merchant/GetList",
             pageIndex: 0,
             searchParams: $("#form1").serializeArray(),
             searchButtonId: "btn_Search",
@@ -20,11 +20,10 @@
                 var l_StrRows = "";
                 l_StrRows += "<tr>";
                 l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
-                l_StrRows += "<td class=\"overflow tipitem\" title=\"" + p_row.sn + "\"   >" + p_row.sn + "</td>";
-                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.deviceId + "\"   >" + p_row.deviceId + "</td>";
+                l_StrRows += "<td class=\"overflow tipitem\" title=\"" + p_row.userName + "\"   >" + p_row.userName + "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.name + "\"   >" + p_row.name + "</td>";
-                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.macAddress + "\">" + p_row.macAddress + "</td>";
-                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.createTime + "\">" + p_row.createTime + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.contactName + "\">" + p_row.contactName + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.contactPhone + "\">" + p_row.contactPhone + "</td>";
                 l_StrRows += "<td class=\"operation\">";
                 l_StrRows += l_Strlimt;
                 l_StrRows += "</td>";
@@ -33,7 +32,7 @@
             },
             operate: {
                 "edit": function (obj) {
-                    var url = '/Biz/Machine/Edit?id=' + obj.id;
+                    var url = '/Biz/Merchant/Edit?id=' + obj.id;
                     var title = '修改信息';
                     art.dialog.open(url, {
                         id: "openDialog", title: title, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
@@ -48,8 +47,8 @@
 
 
         $("#btn_Add").click(function () {
-            var url = '/Biz/Machine/Add';
-            var title = '登记';
+            var url = '/Biz/Merchant/Add';
+            var title = '新建';
             art.dialog.open(url, {
                 id: "openDialog", title: title, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '确定', ok: function () {
                     this.iframe.contentWindow.$('#form1').submit();
@@ -71,14 +70,14 @@
 
     <div class="search-bar">
         <div class="filter">
-            <span class="filter-label">设备ID：</span>
+            <span class="filter-label">名称：</span>
             <span class="filter-input">
-                <input type="text" class="input-control" name="DeviceId" style="width:120px;" />
+                <input type="text" class="input-control" name="Name" style="width:120px;" />
             </span>
         </div>
         <div class="filter"><input type="button" class="btn btn-search" id="btn_Search" value="查询" /> </div>
         <div class="filter" style="float:right">
-            <input type="button" class="btn btn-add" id="btn_Add" value="登记" />
+            <input type="button" class="btn btn-add" id="btn_Add" value="新建" />
         </div>
     </div>
     <div class="list">
@@ -88,22 +87,22 @@
                     <th style="width:5%" class="no">
                         序号
                     </th>
-                    <th style="width:10%">
-                        编号
+                    <th style="width:20%">
+                        账号
                     </th>
                     <th style="width:20%">
-                        设备ID
+                        商户名称
                     </th>
                     <th style="width:20%">
-                        名称
-                    </th>
-                    <th style="width:20%">
-                        Mac地址
+                        联系人
                     </th>
                     <th style="width:10%">
-                        登记时间
+                        联系电话
                     </th>
-                    <th style="width:15%" class="operation">
+                    <th style="width:10%">
+                        创建时间
+                    </th>
+                    <th style="width:10%" class="operation">
                         操作
                     </th>
                 </tr>

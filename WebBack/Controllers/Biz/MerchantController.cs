@@ -39,7 +39,7 @@ namespace WebBack.Controllers.Biz
                          join u in CurrentDb.SysClientUser on m.UserId equals u.Id
                          where
                                  (name.Length == 0 || m.Name.Contains(name))
-                         select new { m.Id, m.Name, m.CreateTime });
+                         select new { m.Id, u.UserName, m.Name, m.ContactName, m.ContactPhone, m.CreateTime });
 
             int total = query.Count();
 
@@ -55,7 +55,10 @@ namespace WebBack.Controllers.Biz
                 list.Add(new
                 {
                     item.Id,
+                    item.UserName,
                     item.Name,
+                    item.ContactName,
+                    item.ContactPhone,
                     item.CreateTime
                 });
 

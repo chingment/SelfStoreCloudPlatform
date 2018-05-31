@@ -59,6 +59,7 @@
     <Compile Include="Biz\Merchant.cs" />
     <Compile Include="ImgSet.cs" />
     <Compile Include="Sys\SysAgentUser.cs" />
+    <Compile Include="Sys\SysMerchatUser.cs" />
     <Compile Include="Sys\SysOpenIdInfo.cs" />
     <Compile Include="EnumerationRemarkConverter.cs" />
     <Compile Include="IpInfo.cs" />

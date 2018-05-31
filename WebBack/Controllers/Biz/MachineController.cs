@@ -37,13 +37,11 @@ namespace WebBack.Controllers.Biz
         public CustomJsonResult GetList(SearchCondition condition)
         {
             string deviceId = condition.DeviceId.ToSearchString();
-            string macAddress = condition.MacAddress.ToSearchString();
 
             var list = (from p in CurrentDb.Machine
                         where
-                                (deviceId.Length == 0 || p.DeviceId.Contains(deviceId)) &&
-                                 (macAddress.Length == 0 || p.MacAddress.Contains(macAddress))
-                        select new { p.Id, p.Name, p.DeviceId, p.MacAddress, p.CreateTime });
+                                (deviceId.Length == 0 || p.DeviceId.Contains(deviceId)) 
+                        select new { p.Id, p.Sn, p.Name, p.DeviceId, p.MacAddress, p.CreateTime });
 
             int total = list.Count();
 

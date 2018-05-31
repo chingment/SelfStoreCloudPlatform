@@ -18,7 +18,7 @@ namespace Lumos.Entity
         public int Id { get; set; }
 
         public SysUser() { }
- 
+
         public SysUser(string name) : this() { UserName = name; }
 
         /// <summary>
@@ -38,14 +38,14 @@ namespace Lumos.Entity
         /// </summary>
         [MaxLength(68)]
         [Required]
-        public  string PasswordHash { get; set; }
+        public string PasswordHash { get; set; }
 
         /// <summary>
         ///  安全钥匙
         /// </summary>
         [MaxLength(36)]
         [Required]
-        public  string SecurityStamp { get; set; }
+        public string SecurityStamp { get; set; }
 
         /// <summary>
         /// 手机号码
@@ -84,7 +84,7 @@ namespace Lumos.Entity
         /// </summary>
         public bool IsDelete { get; set; }
 
-        
+
         public Enumeration.UserStatus Status { get; set; }
 
         /// <summary>
@@ -115,5 +115,5 @@ namespace Lumos.Entity
         [MaxLength(128)]
         public string WechatNumber { get; set; }
 
-}
+    }
 }

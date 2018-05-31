@@ -1142,6 +1142,9 @@
     <Content Include="Views\Biz\Machine\Add.cshtml" />
     <Content Include="Views\Biz\Machine\Edit.cshtml" />
     <Content Include="Views\Biz\Machine\List.cshtml" />
+    <Content Include="Views\Biz\Merchant\Add.cshtml" />
+    <Content Include="Views\Biz\Merchant\Edit.cshtml" />
+    <Content Include="Views\Biz\Merchant\List.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>
@@ -1163,7 +1166,6 @@
     <Folder Include="Scripts\ckeditor\samples\plugins\magicline\" />
     <Folder Include="Scripts\ckeditor\samples\plugins\toolbar\" />
     <Folder Include="Scripts\ckeditor\samples\plugins\wysiwygarea\" />
-    <Folder Include="Views\Biz\Merchant\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

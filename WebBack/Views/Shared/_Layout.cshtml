@@ -10,7 +10,7 @@
     <meta content="" name="description">
     <title>@ViewBag.Title</title>
     <link href="~/favicon.ico" type="image/x-icon" rel="shortcut icon" />
-    @OwnStaticStylesResource.Render("base/Site.css")
+    @OwnStaticStylesResource.Render("base/Site.css?" + DateTime.Now.ToString("yyyyMMddHHmmss"))
     @RenderSection("styles", required: false)
     @OwnStaticScriptsResource.Render("ArtDialog/artDialog.source.js?skin=default")
     @OwnStaticScriptsResource.Render("ArtDialog/iframeTools.source.js")

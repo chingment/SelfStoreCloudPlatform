@@ -27,6 +27,10 @@ namespace Lumos.BLL
             CurrentDb.Machine.Add(machine);
             CurrentDb.SaveChanges();
 
+            machine.Sn = SnUtil.Build(machine.Id);
+            CurrentDb.SaveChanges();
+
+
             return new CustomJsonResult(ResultType.Success, "登记成功");
         }
 
@@ -38,6 +42,8 @@ namespace Lumos.BLL
             if (l_machine == null)
                 return new CustomJsonResult(ResultType.Failure, "不存在");
 
+            l_machine.Name = machine.Name;
+            l_machine.MacAddress = machine.MacAddress;
             l_machine.LastUpdateTime = this.DateTime;
             l_machine.Mender = operater;
             CurrentDb.SaveChanges();

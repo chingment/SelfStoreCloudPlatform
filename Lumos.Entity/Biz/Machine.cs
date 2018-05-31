@@ -14,6 +14,8 @@ namespace Lumos.Entity
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [MaxLength(128)]
+        public string Sn { get; set; }
+        [MaxLength(128)]
         public string Name { get; set; }
         [MaxLength(128)]
         public string DeviceId { get; set; }
