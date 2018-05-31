@@ -5,7 +5,7 @@ using System.Web;
 
 namespace WebBack.Models.Sys.Banner
 {
-    public class BannerDetailsViewModel : OwnViewModel
+    public class BannerDetailsViewModel : OwnBaseViewModel
     {
         private Lumos.Entity.SysBanner _sysBanner = new Lumos.Entity.SysBanner();
 

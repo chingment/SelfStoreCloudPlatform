@@ -153,6 +153,8 @@
     <Compile Include="App_Start\Own\OwnRequest.cs" />
     <Compile Include="App_Start\Own\OwnResponse.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\Biz\MachineController.cs" />
+    <Compile Include="Controllers\Biz\MerchantController.cs" />
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="App_Start\Own\NPOIExcelHelper.cs" />
@@ -180,7 +182,13 @@
     <Compile Include="App_Start\Own\OwnNoResubmitAttribute.cs" />
     <Compile Include="App_Start\Own\OwnStaticResource.cs" />
     <Compile Include="App_Start\Own\OwnStatisticsTrackerAttribute.cs" />
-    <Compile Include="Models\OwnViewModel.cs" />
+    <Compile Include="Models\Biz\Machine\AddViewModel.cs" />
+    <Compile Include="Models\Biz\Machine\EditViewModel.cs" />
+    <Compile Include="Models\Biz\Machine\SearchCondition.cs" />
+    <Compile Include="Models\Biz\Merchant\AddViewModel.cs" />
+    <Compile Include="Models\Biz\Merchant\EditViewModel.cs" />
+    <Compile Include="Models\Biz\Merchant\SearchCondition.cs" />
+    <Compile Include="Models\OwnBaseViewModel.cs" />
     <Compile Include="Models\Home\ChangePasswordModel.cs" />
     <Compile Include="Models\Home\LoginModel.cs" />
     <Compile Include="Models\Home\TaskByHandleSearchCondition.cs" />
@@ -1131,6 +1139,9 @@
     <Content Include="Views\Sys\AgentUser\List.cshtml" />
     <Content Include="Views\Sys\AgentUser\SelectList.cshtml" />
     <Content Include="Views\Sys\SmsSend\Logs.cshtml" />
+    <Content Include="Views\Biz\Machine\Add.cshtml" />
+    <Content Include="Views\Biz\Machine\Edit.cshtml" />
+    <Content Include="Views\Biz\Machine\List.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>
@@ -1140,12 +1151,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Web.sitemap" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\Biz\" />
-    <Folder Include="Models\Biz\" />
     <Folder Include="Scripts\ckeditor\samples\assets\inlineall\" />
     <Folder Include="Scripts\ckeditor\samples\assets\outputxhtml\" />
     <Folder Include="Scripts\ckeditor\samples\assets\uilanguages\" />
@@ -1155,7 +1163,7 @@
     <Folder Include="Scripts\ckeditor\samples\plugins\magicline\" />
     <Folder Include="Scripts\ckeditor\samples\plugins\toolbar\" />
     <Folder Include="Scripts\ckeditor\samples\plugins\wysiwygarea\" />
-    <Folder Include="Views\Biz\" />
+    <Folder Include="Views\Biz\Merchant\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -6,7 +6,7 @@ using System.Web;
 
 namespace WebBack.Models.Sys.User
 {
-    public class DetailsViewModel : OwnViewModel
+    public class DetailsViewModel : OwnBaseViewModel
     {
 
         private SysUser _sysUser = new SysUser();

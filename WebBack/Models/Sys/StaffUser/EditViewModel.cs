@@ -6,7 +6,7 @@ using System.Web;
 
 namespace WebBack.Models.Sys.StaffUser
 {
-    public class EditViewModel : OwnViewModel
+    public class EditViewModel : OwnBaseViewModel
     {
         private SysStaffUser _sysStaffUser = new SysStaffUser();
 

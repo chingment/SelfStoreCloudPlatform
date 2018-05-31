@@ -67,6 +67,9 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="BaseProvider.cs" />
+    <Compile Include="Biz\BizFactory.cs" />
+    <Compile Include="Biz\MachineProvider.cs" />
+    <Compile Include="Biz\MerchantProvider.cs" />
     <Compile Include="Factory..cs" />
     <Compile Include="OrderSn.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -104,7 +107,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Biz\" />
     <Folder Include="Sdk\" />
     <Folder Include="Service\" />
     <Folder Include="Task\" />

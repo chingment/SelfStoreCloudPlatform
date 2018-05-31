@@ -1,0 +1,147 @@
+﻿@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_LayoutHomeIframeMainList.cshtml";
+}
+
+<script type="text/javascript">
+
+    var listTable;
+
+    $(document).ready(function () {
+        listTable = $("#list_table").loadDataTable({
+            url: "/Biz/Machine/GetList",
+            pageIndex: 0,
+            searchParams: $("#form1").serializeArray(),
+            searchButtonId: "btn_Search",
+            containerId: "form1",
+            rowDataCombie: function (p_index, p_row) {
+                var l_Strlimt = "";
+                l_Strlimt += "@Html.IsInPermission("<a href=\\\"javascript:void(0)\\\" operate=\\\"edit\\\"   class=\\\"a-btn a-btn-edit\\\"  >修改</a>")";
+                var l_StrRows = "";
+                l_StrRows += "<tr>";
+                l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
+                l_StrRows += "<td class=\"overflow tipitem\" title=\"" + p_row.deviceId + "\"   >" + p_row.deviceId + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.name + "\"   >" + p_row.name + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.macAddress + "\">" + p_row.macAddress + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.createTime + "\">" + p_row.createTime + "</td>";
+                l_StrRows += "<td class=\"operation\">";
+                l_StrRows += l_Strlimt;
+                l_StrRows += "</td>";
+                l_StrRows += "</tr>";
+                return l_StrRows;
+            },
+            operate: {
+                "edit": function (obj) {
+                    var url = '/Biz/Machine/Edit?id=' + obj.id;
+                    var title = '修改信息';
+                    art.dialog.open(url, {
+                        id: "openDialog", title: title, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
+                            this.iframe.contentWindow.$('#form1').submit();
+                            return false;
+                        }
+                    });
+                }
+            }
+        });
+
+
+
+        $("#btn_Add").click(function () {
+            var url = '/Biz/Machine/Add';
+            var title = '登记';
+            art.dialog.open(url, {
+                id: "openDialog", title: title, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '确定', ok: function () {
+                    this.iframe.contentWindow.$('#form1').submit();
+                    return false;
+                }
+            });
+        });
+
+
+    });
+
+
+
+
+</script>
+
+<form id="form1" name="form1">
+    @Html.AntiForgeryToken()
+
+    <div class="search-bar">
+        <div class="filter">
+            <span class="filter-label">设备ID：</span>
+            <span class="filter-input">
+                <input type="text" class="input-control" name="DeviceId" style="width:120px;" />
+            </span>
+        </div>
+        <div class="filter">
+            <span class="filter-label">名称：</span>
+            <span class="filter-input">
+                <input type="text" class="input-control" name="Name" style="width:120px;" />
+            </span>
+        </div>
+        <div class="filter">
+            <span class="filter-label">Mac地址：</span>
+            <span class="filter-input">
+                <input type="text" class="input-control" name="MacAddress" style="width:120px;" />
+            </span>
+        </div>
+        <div class="filter"><input type="button" class="btn btn-search" id="btn_Search" value="查询" /> </div>
+
+        <div class="filter" style="float:right">
+            <input type="button" class="btn btn-add" id="btn_Add" value="登记" />
+            @*<input type="button" class="btn btn-add" id="btn_ExportExcel" value="导入" />*@
+        </div>
+    </div>
+    <div class="list">
+        <table id="list_table" class="list-tb" cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <th style="width:5%" class="no">
+                        序号
+                    </th>
+                    <th style="width:20%">
+                        设备ID
+                    </th>
+                    <th style="width:20%">
+                        名称
+                    </th>
+                    <th style="width:20%">
+                        Mac地址
+                    </th>
+                    <th style="width:20%">
+                        登记时间
+                    </th>
+                    <th style="width:15%" class="operation">
+                        操作
+                    </th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="6">
+                        <div class="pull-left">
+                            <span class="load-tip"></span>
+                        </div>
+                        <div class="pull-right pagination">
+                            <div class="pagination-info">
+
+                            </div>
+                            <div class="pagination-index">
+
+                            </div>
+                            <div class="pagination-goto">
+
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</form>
+
+
+

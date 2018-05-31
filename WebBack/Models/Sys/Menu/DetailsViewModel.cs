@@ -6,7 +6,7 @@ using System.Web;
 
 namespace WebBack.Models.Sys.Menu
 {
-    public class DetailsViewModel : OwnViewModel
+    public class DetailsViewModel : OwnBaseViewModel
     {
         private SysMenu _sysMenu = new SysMenu();
     

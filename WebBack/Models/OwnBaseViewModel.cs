@@ -9,7 +9,7 @@ using System.Web;
 
 namespace WebBack.Models
 {
-    public class OwnViewModel : BaseViewModel
+    public class OwnBaseViewModel : BaseViewModel
     {
         private LumosDbContext _currentDb;
 
@@ -22,7 +22,7 @@ namespace WebBack.Models
             }
         }
 
-        public OwnViewModel()
+        public OwnBaseViewModel()
         {
             _currentDb = new LumosDbContext();
         }

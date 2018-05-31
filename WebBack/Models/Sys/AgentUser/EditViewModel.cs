@@ -6,7 +6,7 @@ using System.Web;
 
 namespace WebBack.Models.Sys.AgentUser
 {
-    public class EditViewModel : OwnViewModel
+    public class EditViewModel : OwnBaseViewModel
     {
         private SysAgentUser _sysAgentUser = new SysAgentUser();
 

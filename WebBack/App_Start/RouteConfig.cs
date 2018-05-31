@@ -13,14 +13,6 @@ namespace WebBack
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-
-            routes.MapRoute(
-         name: "App_Default",
-         url: "App/{controller}/{action}/{id}",
-         defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
-         namespaces:new string[] { "WebBack.Controllers.App" }
-      );
-
             routes.MapRoute(
                    name: "Biz_Default",
                    url: "Biz/{controller}/{action}/{id}",

@@ -6,7 +6,7 @@ using System.Web;
 
 namespace WebBack.Models.Sys.SalesmanUser
 {
-    public class EditViewModel : OwnViewModel
+    public class EditViewModel : OwnBaseViewModel
     {
         private SysSalesmanUser _sysSalesmanUser = new SysSalesmanUser();
 

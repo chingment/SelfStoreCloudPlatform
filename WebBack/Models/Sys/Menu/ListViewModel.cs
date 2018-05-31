@@ -8,7 +8,7 @@ using System.Web;
 
 namespace WebBack.Models.Sys.Menu
 {
-    public class ListViewModel:OwnViewModel
+    public class ListViewModel:OwnBaseViewModel
     {
         private List<SysPermission> _sysPermission = new List<SysPermission>();
 

@@ -6,7 +6,7 @@ using System.Web;
 
 namespace WebBack.Models.Sys.Menu
 {
-    public class EditViewModel: OwnViewModel
+    public class EditViewModel: OwnBaseViewModel
     {
         private SysMenu _sysMenu = new SysMenu();
         private List<SysPermission> _sysPermission = new List<SysPermission>();

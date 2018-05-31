@@ -6,7 +6,7 @@ using System.Web;
 
 namespace WebBack.Models.Sys.Role
 {
-    public class AddViewModel: OwnViewModel
+    public class AddViewModel: OwnBaseViewModel
     {
         private SysRole _sysRole = new SysRole();
 
