@@ -1,0 +1,138 @@
+﻿@model WebBack.Models.UpLoadFileViewModel
+@{
+    Layout = null;
+}
+
+<script>
+
+    function exportExcel() {
+
+        var uploadInput = $('#markupload_file');
+        var uploadFileNameInput = $('.file-name');
+        var uploadFileName = $(uploadInput).val();//文件名
+        var uploadAcceptFileType = $(uploadInput).attr("filetype").toLowerCase();
+        var fileNameTxt = $(uploadFileNameInput).text();
+        if (uploadFileName == "" || fileNameTxt == "") {
+            $(uploadInput).val('');
+            $(uploadFileNameInput).text('');
+            art.dialog.alert('请您浏览选择上传的文件，格式为' + uploadAcceptFileType);
+            return false;
+        }
+
+        var uploadFileType = uploadFileName.substring(uploadFileName.lastIndexOf(".") + 1).toLowerCase();
+
+        var arrUploadAcceptFileType = new Array();
+        var uploadAcceptFileTypes = uploadAcceptFileType.split(',');
+        for (var i = 0; i < uploadAcceptFileTypes.length; i++) {
+            arrUploadAcceptFileType.push(uploadAcceptFileTypes[i])
+        }
+
+
+        var isAcceptFileType = false;
+        for (var i in arrUploadAcceptFileType) {
+            if (arrUploadAcceptFileType[i] == uploadFileType) {
+                isAcceptFileType = true;
+            }
+        }
+
+        if (!isAcceptFileType) {
+            $(uploadInput).val('');
+            $(uploadFileNameInput).text('');
+            art.dialog.alert('您上传的文件格式不正确，请重新选择，格式为' + uploadAcceptFileType);
+            return;
+        }
+
+
+        var fileLen = $.lumos.getFileSize('markupload_file');
+        if (fileLen != -1) {
+            if (fileLen == 0) {
+                $(uploadInput).val('');
+                $(uploadFileNameInput).text('');
+                art.dialog.alert('文件不存在或者文件的内容为空,请重新选择');
+                return;
+            }
+            else if (fileLen > 50) {
+                $(uploadInput).val('');
+                $(uploadFileNameInput).text('');
+                art.dialog.alert('文件大小不能超过50M,请重新选择');
+                return;
+            }
+        }
+
+
+
+
+        art.dialog.confirm('确定要上传文件？', function () {
+            var p_d = art.dialog({
+                title: '文件上传',
+                content: '正在上传文件...请稍后！',
+                cancel: false,
+                lock: true,
+                drag: false,
+                dblclickClose: false
+            });
+
+            var form = $("#markupload_form");
+            $(form).ajaxSubmit({
+                type: "post",
+                dataType: "json",
+                url: "@Model.Url",
+                success: function (d) {
+                    p_d.close();
+                    $(uploadInput).val('');
+                    $(uploadFileNameInput).text('');
+
+                    if (d.result == "Success") {
+                        art.dialog.tips(d.message);
+
+                    }
+                    else {
+                        var data = d.data;
+                        if (typeof data == 'undefined') {
+
+                            art.dialog.tips(d.message);
+                        }
+                        else {
+                            var msg = "";
+                            msg += "<h3>上传文件失败,完善以下信息后再次上传文件</h3>";
+                            for (var i = 0; i < data.length; i++) {
+                                msg += "<span style='margin-left:5px;'>设备ID号为:" + data[i].key + ",存在以下错误</span>:<BR/>";
+
+                                var point = data[i].point;
+                                for (var j = 0; j < point.length; j++) {
+                                    msg += "<span style='margin-left:30px;'>" + point[j] + "</span>;<BR/>";
+                                }
+                                msg += "<BR/>";
+                            }
+                            art.dialog.alert(msg)
+                        }
+                    }
+                },
+                error: function (err) {
+                    $(uploadInput).val('');
+                    $(uploadFileNameInput).text('');
+                    art.dialog.alert('上传文件发生错误,请尝试重新上传');
+                }
+            });
+        });
+    }
+</script>
+
+
+<div class="gbr-row-title clearfix">
+    <div class="pull-left">
+        <h5>上传文件</h5>
+    </div>
+</div>
+<div style="margin:20px 0px;height:30px;">
+    <div class="markupload" style="position:relative;width:300px; height:33px; float:left;margin-right:20px ">
+        <div class="file-name" id="file_name"></div>
+        <div class="file-msg"></div>
+        <label class="file-browse" for="markupload_file">浏览..</label>
+        <div class='file-loading'>上传中...</div>
+        <form id='markupload_form' method='post' enctype="multipart/form-data" style="display:none;">
+            <input type='file' name='markupload_file' id='markupload_file' class="markupload-file" filetype="xls" accept='application/vnd.ms-excel'>
+        </form>
+    </div>
+</div>
+

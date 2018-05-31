@@ -1,0 +1,161 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutHomeIframeMainList.cshtml";
+}
+
+
+<script type="text/javascript">
+
+    var listTable;
+
+    $(document).ready(function () {
+        listTable = $("#list_table").loadDataTable({
+            url: "../StaffUser/GetList",
+            pageIndex: 0,
+            searchParams: $("#form1").serializeArray(),
+            searchButtonId: "btn_Search",
+            containerId: "form1",
+            rowDataCombie: function (p_index, p_row) {
+                var l_Strlimt = "";
+                l_Strlimt += "@Html.IsInPermission("<a href=\\\"javascript:void(0)\\\" operate=\\\"edit\\\"   class=\\\"a-btn a-btn-edit\\\"  >修改</a>")";
+                l_Strlimt += "@Html.IsInPermission("<a href=\\\"javascript:void(0)\\\" operate=\\\"delete\\\"  class=\\\"a-btn\\\" >删除</a>")";
+                var l_StrRows = "";
+                l_StrRows += "<tr>";
+                l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
+                l_StrRows += "<td class=\"overflow tipitem\" title=\"" + p_row.userName + "\"   >" + p_row.userName + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.fullName + "\">" + p_row.fullName + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.phoneNumber + "\">" + p_row.phoneNumber + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.email + "\">" + p_row.email + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.createTime + "\">" + p_row.createTime + "</td>";
+                l_StrRows += "<td class=\"operation\">";
+                l_StrRows += l_Strlimt;
+                l_StrRows += "</td>";
+                l_StrRows += "</tr>";
+                return l_StrRows;
+            },
+            operate: {
+                "delete": function (obj) {
+                    var array = new Array();
+                    $.each(obj, function (i, n) {
+                        array.push({ name: "userIds", value: n.id });
+                    });
+
+                    $.lumos.postJson({
+                        url: "../StaffUser/Delete",
+                        data: array,
+                        success: function (d) {
+                            listTable.loadData(0);
+                            $.lumos.tips(d.message);
+                        }
+                    });
+                },
+                "edit": function (obj) {
+                    var url = '../StaffUser/Edit?id=' + obj.id;
+                    
+                    var title = '修改用户';
+                    art.dialog.open(url, {
+                        id: "openDialog", title: title, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
+                            this.iframe.contentWindow.$('#form1').submit();
+                            return false;
+                        }
+                    });
+                }
+            }
+        });
+
+
+
+        $("#btn_Add").click(function () {
+            var url = '../StaffUser/Add';
+            var title = '新建';
+            art.dialog.open(url, {
+                id: "openDialog", title: title, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '确定', ok: function () {
+                    this.iframe.contentWindow.$('#form1').submit();
+                    return false;
+                }
+            });
+        });
+
+
+    });
+
+
+
+
+</script>
+
+<form id="form1" name="form1">
+    @Html.AntiForgeryToken()
+
+    <div class="search-bar">
+        <div class="filter">
+            <span class="filter-label">用户名：</span>
+            <span class="filter-input">
+                <input type="text" class="input-control" name="UserName" style="width:120px;" />
+            </span>
+        </div>
+        <div class="filter">
+            <span class="filter-label">姓名：</span>
+            <span class="filter-input">
+                <input type="text" class="input-control" name="FullName" style="width:120px;" />
+            </span>
+        </div>
+
+        <div class="filter"><input type="button" class="btn btn-search" id="btn_Search" value="查询" /> </div>
+
+        <div class="filter" style="float:right">
+        <input type="button" class="btn btn-add" id="btn_Add" value="新建" />
+        <input type="button" class="btn btn-sure" id="btn_Add" value="删除" multiple="true" operate="delete" style="margin-left:0px;margin-right:0px;" />  </div>
+    </div>
+    <div class="list">
+        <table id="list_table" class="list-tb" cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <th style="width:15%" class="no">
+                        <input type="checkbox" name="list_table_ckb" childname="list_table_ckb_child" />
+                    </th>
+                    <th style="width:15%">
+                        用户名
+                    </th>
+                    <th style="width:15%">
+                        姓名
+                    </th>
+                    <th style="width:15%">
+                        手机
+                    </th>
+                    <th style="width:15%">
+                        邮箱
+                    </th>
+                    <th style="width:15%">
+                        时间
+                    </th>
+                    <th style="width:10%" class="operation">
+                        操作
+                    </th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="7">
+                        <div class="pull-left">
+                            <span class="load-tip"></span>
+                        </div>
+                        <div class="pull-right pagination">
+                            <div class="pagination-info">
+
+                            </div>
+                            <div class="pagination-index">
+
+                            </div>
+                            <div class="pagination-goto">
+
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</form>
+

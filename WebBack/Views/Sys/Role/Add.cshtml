@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/_LayoutHomeDialog.cshtml";
+}
+
+@section scripts{
+    <script type="text/javascript">
+        <!--
+        $(this).ready(function () {
+
+            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { }, onSuccess: function () { return add(); } });
+            $("#Model_SysRole_Name").formValidator({ onShow: "请输入！", onFocus: "不能为空,且不超过20个字符！", onCorrect: "&nbsp;" }).inputValidator({ min: 1, max: 20, empty: { leftEmpty: false, emptyError: "不能为空！" }, onError: "不能为空,且不超过20个字符！" });
+            $("#Model_SysRole_Description").formValidator({ onShow: "&nbsp;", onFocus: "不超过500个字符", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 500, onError: "不超过500个字符" });
+        });
+
+        function add() {
+            art.dialog.confirm(
+'确定要新建？',
+function () {
+    var l_Data = $("#form1").serializeArray();
+    var pId = $.lumos.getUrlParamValue("id");
+    l_Data.push({ name: "Model.SysRole.PId", value: pId });
+
+    $.lumos.postJson({
+        url: "../Role/Add",
+        data: l_Data,
+        success: function (d) {
+            if (d.result == resultType.success) {
+                $.lumos.parentDialog().loadTreeList(pId);
+                $.lumos.tips(d.message, true);
+            }
+            else {
+                $.lumos.tips(d.message);
+            }
+        }
+    });
+});
+
+            return false;
+        }
+        //-->
+    </script>
+}
+
+
+
+<form name="form1" method="post" id="form1">
+    @Html.AntiForgeryToken()
+    <table class="f-tb" cellpadding="0" cellspacing="1">
+        <tr>
+            <td class="f-tb-t" style="width:50px">
+                名称：
+            </td>
+            <td class="f-tb-c">
+                <input name="Model.SysRole.Name" type="text" id="Model_SysRole_Name" value="" class="input-control" style="width:250px;" />
+                <span id="Model_SysRole_NameTip"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="f-tb-t">
+                描述：
+            </td>
+            <td class="f-tb-c" style="white-space:normal;">
+                <textarea name="Model.SysRole.Description" rows="5" cols="42" id="Model_SysRole_Description" class="input-control"></textarea>
+                <span id="Model_SysRole_DescriptionTip"></span>
+            </td>
+        </tr>
+        <tr style="display:none">
+            <td class="f-tb-t"></td>
+            <td class="f-tb-c">
+                <input type="submit" name="btn_Submit" id="btn_Submit" value="确定" class="btn btn-sure" />
+                <input type="button" name="btn_Cancle" id="btn_Cancle" value="关闭" class="btn btn-close dialog-close" />
+            </td>
+        </tr>
+    </table>
+</form>

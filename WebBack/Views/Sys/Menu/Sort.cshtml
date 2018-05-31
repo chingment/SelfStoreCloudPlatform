@@ -1,0 +1,106 @@
+﻿@{
+    ViewBag.Title = "Sort";
+    Layout = "~/Views/Shared/_LayoutHomeDialog.cshtml";
+}
+
+@section scripts{
+    <script type="text/javascript">
+     <!--
+        //设置菜单树形属性
+        var setting = {
+            view: {
+                showLine: true,
+                addDiyDom: addDiyDom
+            },
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            }
+        };
+
+        var IDMark_A = "_a";
+        function addDiyDom(treeId, treeNode) {
+            if (treeNode.id == "1") return;
+            var aObj = $("#" + treeNode.tId + IDMark_A);
+            var editStr = "";
+            editStr = "<input id='menuId_" + treeNode.id + "' type='text' class='menuPriority' name='menuId_" + treeNode.id + "' type='text' style='width:80px;' value='" + treeNode.Priority + "' onkeypress = 'return event.keyCode>=48&&event.keyCode<=57||event.keyCode==46'   />";
+            aObj.after(editStr);
+        }
+
+        function keyPress() {
+            var keyCode = event.keyCode;
+            if ((keyCode >= 48 && keyCode <= 57)){
+                          event.returnValue = true;
+            } else {
+                  event.returnValue = false;
+            }
+        }
+
+
+        $(this).ready(function () {
+                loadTreeList();
+        });
+
+
+        function edit() {
+
+            var isflag = false;
+
+            $(".menuPriority").each(function () {
+                var v=$(this).val();
+                if (v > 10000||v=="") {
+                    isflag = true;
+                }
+            })
+
+            if (isflag) {
+                $.lumos.tips("输入的值必须不能为空,且小于或等于10000");
+                return;
+            }
+
+            art.dialog.confirm(
+'确定要保存？',
+function () {
+    var l_Data = decodeURIComponent($("#form1").serialize());
+    $.lumos.postJson({
+        url: "../Menu/EditSort",
+        data: l_Data,
+        success: function (d) {
+            $.lumos.parentDialog().loadTreeList();
+            $.lumos.tips(d.message);
+
+        }
+    });
+});
+            return false;
+        }
+
+        function loadTreeList() {
+
+            $.lumos.postJson({
+                url: "../Menu/GetTree?pId=" + $.lumos.getUrlParamValue("id"),
+                success: function (d) {
+                    var obj = eval(d.data);
+                     $.fn.zTree.init($("#treemenu"), setting, obj);
+                }
+            });
+
+        }
+
+  //-->
+    </script>
+}
+
+
+
+<form name="form1" method="post" id="form1">
+  
+    @AntiForgery.GetHtml()
+    <ul id="treemenu" class="ztree" style="overflow: auto; "></ul>
+    <div class="btn-area" style="text-align:center;display:none;">
+        <input type="button" name="btn_Save" value="保存" id="btn_Save" class="btn btn-save" onclick="edit()" />
+    </div>
+</form>
+
+

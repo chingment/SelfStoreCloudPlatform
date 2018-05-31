@@ -1,0 +1,206 @@
+﻿(function ($) {
+	$.lumos = lumos = {
+
+		htmlEncode: function (str) {
+			var s = "";
+			if (str.length == 0) return "";
+			s = str.replace(/&/g, "&amp;");
+			s = s.replace(/</g, "&lt;");
+			s = s.replace(/>/g, "&gt;");
+			s = s.replace(/ /g, "&nbsp;");
+			s = s.replace(/\'/g, "&#39;");
+			s = s.replace(/\"/g, "&quot;");
+			s = s.replace(/\n/g, "<br>");
+			return s;
+		},
+
+		htmlDecode: function html_decode(str) {
+			var s = "";
+			if (str.length == 0) return "";
+			s = str.replace(/&amp;/g, "&");
+			s = s.replace(/&lt;/g, "<");
+			s = s.replace(/&gt;/g, ">");
+			s = s.replace(/&nbsp;/g, " ");
+			s = s.replace(/&#39;/g, "\'");
+			s = s.replace(/&quot;/g, "\"");
+			s = s.replace(/<br>/g, "\n");
+			return s;
+		},
+
+		messageBox: function (opts) {
+			opts = $.extend({
+				type: 'tip',
+				title: '标题',
+				content: '内容',
+				isPopup: true,
+				showBoxId: '',
+				padding: "0px 0px"
+			}, opts || {});
+
+
+			var _type = opts.type.toLowerCase();
+			var _title = opts.title;
+			var _content = opts.content;
+			var _isPopup = opts.isPopup;
+			var _showBoxId = opts.showBoxId;
+			var _padding = opts.padding;
+
+			var errorHtml = '  <div class="messagebox">';
+			errorHtml += ' <div class="wrapper">';
+			errorHtml += '   <div class="content">';
+			errorHtml += '     <dl>';
+			errorHtml += '      <dt class="' + _type + '" ></dt>';
+			errorHtml += '    <dd >';
+			errorHtml += '     <h1>' + _title + '</h1>';
+			errorHtml += '      <p>' + lumos.htmlDecode(_content) + '</p>';
+			errorHtml += '     </dd>';
+			errorHtml += '   </dl>';
+			errorHtml += '  <div class="clear"></div>';
+			errorHtml += ' </div';
+			errorHtml += ' </div';
+			errorHtml += '</div>';
+
+
+
+
+			if (_isPopup) {
+				art.dialog({
+					content: errorHtml,
+					cancelVal: '关闭',
+					title: '提示',
+					width: "500px",
+					height: "100px",
+					cancel: true,
+					padding: _padding
+				});
+			}
+			else {
+				if (_showBoxId != '') {
+					$("#" + _showBoxId).html(errorHtml)
+				}
+				else {
+
+					if ($("#main_right_content").length > 0) {
+						$('#main_right_content').append(errorHtml)
+					}
+					else if ($("#gbr_main_content").length > 0) {
+						$('#gbr_main_content').append(errorHtml)
+					}
+					else {
+						$('body').append(errorHtml)
+					}
+
+				}
+			}
+
+
+
+
+		},
+
+		openDialog: function (ostr, title, iwidth, iheight) {
+		       art.dialog.open(str, { title: title, width: iwidth, height: iheight });
+		       return false;
+		},
+
+		closeDialog: function () {
+		    art.dialog.close();
+		    return false;
+		},
+
+		getUrlParamValue: function getUrlParam(name) {
+		    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+		    var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+		    if (r != null) return unescape(r[2]); return null; //返回参数值
+
+		},
+
+		postJson: function (opts) {
+
+			opts = $.extend({
+				url: '',
+				data: null,
+				async: true,
+				timeout: 0,
+				beforeSend: function () { },
+				success: function () { }
+			}, opts || {});
+
+			var _url = opts.url;
+
+			if (_url == '') {
+				art.dialog.tips("请求失败,链接为空");
+				return;
+			}
+
+			var _data = opts.data;
+			var _async = opts.async;
+			var _timeout = opts.timeout;
+			var _success = opts.success;
+			var _beforeSend = opts.beforeSend;
+
+			$.ajax({
+				type: "Post",
+				dataType: "json",
+				async: _async,
+				timeout: _timeout,
+				data: _data,
+				url: _url,
+				beforeSend: _beforeSend,
+				complete: function (XMLHttpRequest, status) {
+					if (status == 'timeout') {
+						art.dialog.tips("网络请求超时,请重新打开页面");
+					}
+					else if (status == 'error') {
+						art.dialog.tips("网络请求失败,请检查网络是否已连接");
+					}
+				}
+			}).done(function (data) {
+				if (data.result == "Exception") {
+					var messsage = data.content;
+					$.lumos.messageBox({ type: "exception", title: messsage.Title, content: messsage.Content })
+				}
+				else {
+					_success(data);
+				}
+			});
+		},
+
+		ajaxSubmit: function (opts) {
+
+			opts = $.extend({
+				formId: "form1",
+				url: '',
+				success: function () { return false; }
+			}, opts || {});
+
+			var _formId = opts.formId;
+			var _url = opts.url;
+			var _success = opts.success;
+
+			if (_url == '') {
+				art.dialog.tips("请求失败,链接为空");
+				return;
+			}
+
+
+			$('#' + _formId).ajaxSubmit({
+				type: "post",  //提交方式
+				dataType: "json",
+				url: _url,
+				success: function (data) {
+
+					if (data.result == "Exception") {
+						var messsage = data.content;
+						$.lumos.messageBox({ type: "exception", title: messsage.Title, content: messsage.Content })
+					}
+					else {
+						_success(data);
+					}
+				}
+			});
+
+		}
+	}
+
+})(jQuery);

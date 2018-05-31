@@ -1,0 +1,55 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutHomeIframeMainList.cshtml";
+}
+@section styles{
+    <style type="text/css">
+        #gbr_row_functionpage > .gbr-row {
+            overflow: auto;
+        }
+        
+         .report-table {
+            border: 1px solid #B1CDE3;
+            padding: 0;
+            margin: 0 auto;
+            border-collapse: collapse;
+            white-space: nowrap;
+        }
+
+            .report-table tbody tr td, .report-table thead tr th {
+                border: 1px solid #B1CDE3;
+                background: #fff;
+                font-size: 12px;
+                padding: 3px 3px 3px 8px;
+                color: #4f6b72;
+                white-space: nowrap;
+            }
+    </style>
+
+    @RenderSection("styles", required: false)
+}
+@section scripts{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('.btn-search').live('click', function () {
+                search();
+            });
+
+            $('.btn-export-excel').live('click', function () {
+                exportExcel();
+            });
+        });
+
+
+
+    </script>
+
+    @RenderSection("scripts", required: false)
+}
+
+@RenderBody()
+@section scriptsbyend{
+    @RenderSection("scriptsbyend", required: false)
+}
+

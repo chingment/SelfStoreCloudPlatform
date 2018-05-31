@@ -1,0 +1,55 @@
+﻿@model WebBack.Models.Sys.LogView.ListModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutHomeIframeMainList.cshtml";
+}
+
+
+
+<table class="list-tb" cellpadding="0" cellspacing="0">
+    <thead>
+        <tr>
+            <th style="width:20%">
+                日志
+            </th>
+            <th style="width:80%">
+                时间
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model.Files.Length>0)
+            {
+                foreach (var file in Model.Files)
+                {
+
+                    <tr>
+                        <td>
+                            <a href="?Parent=@Model.Parent&File=@file.Name">@file.Name</a>
+                        </td>
+                        <td>
+                            @file.LastWriteTime.ToUnifiedFormatDateTime()
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5" class="emptytip">暂时没有数据</td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+

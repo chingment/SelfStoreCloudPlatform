@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0E039414-2A2E-48B4-8DB7-C4346106FA68}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Lumos.DAL</RootNamespace>
+    <AssemblyName>Lumos.DAL</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.0.0\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="AuthorizeRelay\AuthorizeRelay.cs" />
+    <Compile Include="AuthorizeRelay\AuthorizeRelayDbContext.cs" />
+    <Compile Include="AuthorizeRelay\DbContextDatabaseExtensions.cs" />
+    <Compile Include="AuthorizeRelay\PassWordHelper.cs" />
+    <Compile Include="AuthorizeRelay\PermissionCodeAttribute.cs" />
+    <Compile Include="AuthorizeRelay\QueryParam.cs" />
+    <Compile Include="ContextFactory.cs" />
+    <Compile Include="AuthorizeRelay\PermissionCode.cs" />
+    <Compile Include="DatabaseFactory\DatabaseFactory.cs" />
+    <Compile Include="DatabaseFactory\DatabaseParameter.cs" />
+    <Compile Include="DatabaseFactory\DBOptionBySqlSentenceProvider.cs" />
+    <Compile Include="DatabaseFactory\DBOptionFactory.cs" />
+    <Compile Include="DatabaseFactory\IDBOption.cs" />
+    <Compile Include="DatabaseFactory\IDBOptionBySqlSentence.cs" />
+    <Compile Include="DatabaseFactory\SqlServerOptionBySqlSentence.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="LumosDbContext.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lumos.Entity\Lumos.Entity.csproj">
+      <Project>{c19704c7-7d89-42e8-9f15-d8c1a1a0c525}</Project>
+      <Name>Lumos.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lumos.MVC\Lumos.Mvc.csproj">
+      <Project>{ed113ad7-1b20-4b05-8961-9b701e51734c}</Project>
+      <Name>Lumos.Mvc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lumos\Lumos.csproj">
+      <Project>{27883666-32aa-447f-aa1f-6128b76fbee8}</Project>
+      <Name>Lumos</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

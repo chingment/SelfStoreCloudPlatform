@@ -1,0 +1,54 @@
+﻿@model WebBack.Models.Sys.User.DetailsViewModel
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutHomeDialog.cshtml";
+}
+
+<div class="gbr-row">
+    <form id="form1" name="form1" method="post">
+        @Html.AntiForgeryToken()
+        <table class="f-tb" cellpadding="0" cellspacing="1">
+            <tr>
+                <td class="f-tb-t" style="width:50px;">
+                    用户名：
+                </td>
+                <td class="f-tb-c">
+                    @Model.SysUser.UserName
+                </td>
+            </tr>
+            <tr>
+                <td class="f-tb-t">
+                    姓名：
+                </td>
+                <td class="f-tb-c">
+                    @Model.SysUser.FullName
+                </td>
+            </tr>
+            <tr>
+                <td class="f-tb-t">
+                    E-mail：
+                </td>
+                <td class="f-tb-c">
+                    @Model.SysUser.Email
+                </td>
+            </tr>
+            <tr>
+                <td class="f-tb-t">
+                    手机：
+                </td>
+                <td class="f-tb-c">
+                    @Model.SysUser.PhoneNumber
+                </td>
+            </tr>
+            @*<tr>
+                <td class="f-tb-t"></td>
+                <td class="f-tb-c">
+                    <input type="button" name="btn_Cancle" id="btn_Cancle" value="关闭" class="btn btn-close dialog-close" />
+                </td>
+            </tr>*@
+        </table>
+    </form>
+</div>
+
+
+

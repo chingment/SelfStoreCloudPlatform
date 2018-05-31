@@ -1,0 +1,847 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Product</title>
+    <link href="Content/W/Site.css" rel="stylesheet" />
+    <link href="Content/W/owl.carousel.css" rel="stylesheet" />
+    <script type="text/javascript" src="/Scripts/W/jquery-1.8.3.js"></script>
+    <script type="text/javascript" src="/Scripts/W/owl.carousel.js"></script>
+    <script type="text/javascript" src="Scripts/W/jquery.mouseoverbox.js"></script>
+    <script type="text/javascript" src="Scripts/W/artDialog/artDialog.source.js?skin=default"></script>
+    <!--<script type="text/JavaScript" src="/Scripts/W/artDialog/jquery.artDialog.source.js?skin=default"></script>-->
+    <script type="text/JavaScript" src="/Scripts/W/artDialog/iframeTools.source.js"></script>
+
+    <style type="text/css">
+        .gbr-product {
+            width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+            .gbr-product > .wrapper > .content {
+                height: 460px;
+                padding: 20px 0px;
+                width: 1060px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+                .gbr-product > .wrapper > .content > .left {
+                    border: 1px solid #000;
+                    height: 400px;
+                    float: left;
+                    width: 118px;
+                    /*margin-right:20px;
+                margin-left:20px*/
+                }
+
+
+                .gbr-product > .wrapper > .content > .middle {
+                    float: left;
+                    width: 780px;
+                    margin-left: 18px;
+                    margin-right: 18px;
+                }
+
+                .gbr-product > .wrapper > .content > .right {
+                    float: left;
+                    border: 1px solid #000;
+                    width: 118px;
+                    height: 100%;
+                    /*  margin-right: 20px;
+                margin-left: 20px;*/
+                }
+
+
+
+        .filters-box {
+            overflow: hidden;
+        }
+
+        .filter .title {
+            background-color: #95bcf2;
+            border-bottom: 1px solid #000;
+            width: 100%;
+            display: block;
+            line-height: 30px;
+            height: 30px;
+            font-weight: 600;
+            padding: 2px;
+        }
+
+        .filter .options > li {
+            border-bottom: 1px solid #000;
+            width: 100%;
+            display: block;
+            line-height: 28px;
+            height: 28px;
+            padding: 2px 10px;
+        }
+
+
+        .retailers-box {
+            overflow: hidden;
+        }
+
+            .retailers-box .title {
+                background-color: #95bcf2;
+                border-bottom: 1px solid #000;
+                width: 100%;
+                display: block;
+                line-height: 30px;
+                height: 30px;
+                font-weight: 600;
+                padding: 2px;
+            }
+
+            .retailers-box .options > li {
+                border-bottom: 1px solid #000;
+                width: 100%;
+                display: block;
+                line-height: 28px;
+                height: 28px;
+                padding: 2px 10px;
+            }
+
+
+        .product-box {
+            border: 1px solid #000;
+            height: 300px;
+            width: 100%;
+        }
+
+
+
+        .owl-product {
+            padding: 20px 0px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+            .owl-product .item {
+                display: block;
+                margin: 5px;
+            }
+
+                .owl-product .item span {
+                    display: block;
+                }
+
+
+                .owl-product .item ul li:first-child {
+                    margin-bottom: 5px;
+                }
+
+            .owl-product img {
+                width: 120px;
+                height: 120px;
+                /*border: 1px solid #000;*/
+            }
+
+
+            .owl-product .owl-prev {
+                display: block;
+                width: 30px;
+                height: 30px;
+                position: absolute;
+                top: 130px;
+                left: 0px;
+                background: url(images/templatemo_slider_left1.png) no-repeat;
+            }
+
+            .owl-product .owl-next {
+                display: block;
+                top: 130px;
+                right: 5px;
+                width: 30px;
+                height: 30px;
+                position: absolute;
+                background: url(images/templatemo_slider_right1.png) no-repeat;
+            }
+
+
+
+
+
+
+        .cart-box {
+            border: 1px solid #000;
+            height: 140px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+
+        .owl-cart {
+            padding: 14px 0px;
+        }
+
+            .owl-cart .item {
+                display: block;
+                margin: 5px;
+            }
+
+            .owl-cart .item span {
+                display: block;
+                text-align: center;
+            }
+
+            .owl-cart .item span img {
+                    width: 100px;
+                    height: 100px;
+             }
+
+
+            .owl-cart .owl-prev {
+                display: block;
+                width: 30px;
+                height: 30px;
+                position: absolute;
+                top: 50px;
+                left: 0px;
+                background: url(images/templatemo_slider_left1.png) no-repeat;
+            }
+
+            .owl-cart .owl-next {
+                display: block;
+                top: 50px;
+                right: 5px;
+                width: 30px;
+                height: 30px;
+                position: absolute;
+                background: url(images/templatemo_slider_right1.png) no-repeat;
+            }
+
+
+
+        /* 弹出层 */
+        .poptip {
+            position: absolute;
+            z-index: 999;
+            right: 20px;
+            top: 20px;
+            background: #fff;
+            border: #9ca09f 1px solid;
+            border: #9ca09f 1px solid;
+            width: 144px;
+            text-align: center;
+            padding: 3px;
+            border-radius: 5px;
+        }
+
+            .poptip span.t_bg, .poptip span.b_bg, .poptip span.arrow {
+                position: absolute;
+                background: url(images/tips.png) no-repeat;
+                display: block;
+            }
+
+            .poptip span.t_bg, .poptip span.b_bg {
+                width: 152px;
+                height: 6px;
+                overflow: hidden;
+            }
+
+            .poptip span.t_bg {
+                background-position: left top;
+                left: -1px;
+                top: -6px;
+                background-image: inherit;
+            }
+
+            .poptip span.b_bg {
+                background-position: left -6px;
+                right: -1px;
+                bottom: -6px;
+                background-image: inherit;
+            }
+
+            .poptip span.arrow_bottom {
+                background-position: -16px -17px;
+                width: 15px;
+                height: 8px;
+                overflow: hidden;
+                top: -8px;
+                left: 50%;
+            }
+
+            .poptip span.arrow_bottom_left {
+                background-position: -16px -17px;
+                width: 15px;
+                height: 8px;
+                overflow: hidden;
+                top: -8px;
+                left: 20px;
+            }
+
+
+            .poptip span.arrow_bottom_right {
+                background-position: -16px -17px;
+                width: 15px;
+                height: 8px;
+                overflow: hidden;
+                top: -8px;
+                right: 20px;
+            }
+
+
+            .poptip span.arrow_top {
+                background-position: left -17px;
+                width: 15px;
+                height: 8px;
+                overflow: hidden;
+                bottom: -8px;
+                right: 50%;
+            }
+
+
+            .poptip span.arrow_top_left {
+                background-position: left -17px;
+                width: 15px;
+                height: 8px;
+                overflow: hidden;
+                bottom: -8px;
+                left: 20px;
+            }
+
+            .poptip span.arrow_top_right {
+                background-position: left -17px;
+                width: 15px;
+                height: 8px;
+                overflow: hidden;
+                bottom: -8px;
+                right: 20px;
+            }
+
+
+            .poptip span.arrow_right {
+                background-position: -42px -12px;
+                width: 7px;
+                height: 13px;
+                overflow: hidden;
+                top: 20%;
+                left: -7px;
+            }
+
+            .poptip span.arrow_left {
+                background-position: -34px -12px;
+                width: 8px;
+                height: 13px;
+                overflow: hidden;
+                top: 20%;
+                right: -7px;
+            }
+
+            .poptip span.arrow_leftH {
+                background-position: -34px -12px;
+                width: 7px;
+                height: 13px;
+                overflow: hidden;
+                top: 80%;
+                right: -6px;
+            }
+
+            .poptip img {
+                width: 110px;
+                height: 110px;
+                margin: 0 auto;
+            }
+
+            .poptip p {
+                text-align: center;
+                height: 32px;
+                line-height: 16px;
+                overflow: hidden;
+                color: #000;
+            }
+
+    
+            
+         .filter-lists-container span.filter-item {
+            position: relative;
+            background-image: inherit;
+            display: inline;
+            text-align: left;
+        }
+
+        /*media screen, projection*/
+        .filter-lists-container .filter-entries {
+            margin-bottom: 5px;
+            line-height: 20px;
+        }
+
+
+
+
+        /*media screen, projection*/
+        .filter-lists-container .filter-entries-label {
+            float: left;
+            margin-right: 3px;
+            width: 65px;
+            text-align: right;
+        }
+
+        /*media screen, projection*/
+        .filter-lists-container .filter-entries-more {
+            float: right;
+        }
+
+        /*media screen, projection*/
+        .filter-lists-container .filter-entries-values {
+            margin-left: 70px;
+            margin-right: 0px;
+            text-align: left;
+        }
+
+        /*media screen, projection*/
+        .filter-item {
+            margin: 0 3px 3px 3px;
+        }
+
+        /*media screen, projection*/
+        .filter-item {
+            display: inline-block;
+            padding-left: 5px;
+            padding-right: 5px;
+            white-space: nowrap;
+        }
+
+        /*media screen, projection*/
+        .filter-item-show {
+            display: inline;
+        }
+    </style>
+   
+
+</head>
+<body>
+    <div class="gb">
+        <div class="gbr gbr-product">
+            <div class="wrapper">
+                <div class="content clearfix">
+                    <div class="left">
+                        <div class="wrapper">
+                            <div class="content clearfix">
+                                <ul class="filters-box">
+                                    <li class="filter">
+                                        <span class="title">Colors</span>
+                                        <ul class="options">
+                                            <li>Red</li>
+                                            <li>Green</li>
+                                            <li>Black</li>
+                                            <li>Orange</li>
+                                        </ul>
+                                    </li>
+                                    <li class="filter">
+                                        <span class="title">Fabric</span>
+                                        <ul class="options">
+                                            <li>Cotton</li>
+                                            <li>Wool</li>
+                                            <li>Silk</li>
+                                            <li>Linen</li>
+                                            <li>Nylon</li>
+                                            <li>Ramine</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="middle">
+                        <div class="wrapper">
+                            <div class="content clearfix middle-box" id="middle_box">
+                                <!-- ProductBox -->
+                                <div class="product-box" id="product_box">
+                                    <div id="owl_product" class="owl-carousel owl-product">
+                                        <a class="item">
+                                            <ul>
+                                                <li style="margin-bottom: 5px;">
+                                                    <span info="manosque|羽绒服|1,223.00">
+                                                        <img src="images/demo/saved/81.jpg" alt="">
+                                                    </span>
+                                                </li>
+                                                <li>
+                                                    <span info="manosque|羽绒服|2,223.00">
+                                                        <img src="images/demo/saved/81.jpg" alt="">
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                        </a>
+                                        <a class="item">
+                                            <ul>
+                                                <li>
+                                                    <span info="manosque|羽绒服|3,223.00">
+                                                        <img src="images/demo/saved/81.jpg" alt="">
+                                                    </span>
+                                                </li>
+                                                <li>
+                                                    <span info="manosque|羽绒服|4,223.00">
+                                                        <img src="images/demo/saved/81.jpg" alt="">
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                        </a>
+                                        <a class="item">
+                                            <ul>
+                                                <li>
+                                                    <span info="manosque|羽绒服|5,223.00">
+                                                        <img src="images/demo/saved/81.jpg" alt="">
+                                                    </span>
+                                                </li>
+                                                <li>
+                                                    <span info="manosque|羽绒服|6,223.00">
+                                                        <img src="images/demo/saved/81.jpg" alt="">
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                        </a>
+                                        <a class="item">
+                                            <ul>
+                                                <li>
+                                                    <span info="manosque|羽绒服|7,223.00">
+                                                        <img src="images/demo/saved/81.jpg" alt="">
+                                                    </span>
+                                                </li>
+                                                <li>
+                                                    <span info="manosque|羽绒服|8,223.00">
+                                                        <img src="images/demo/saved/81.jpg" alt="">
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                        </a>
+                                        <a class="item">
+                                            <ul>
+                                                <li>
+                                                    <span info="manosque|羽绒服|9,223.00">
+                                                        <img src="images/demo/saved/81.jpg" alt="">
+                                                    </span>
+                                                </li>
+                                                <li>
+                                                    <span info="manosque|羽绒服|10,223.00">
+                                                        <img src="images/demo/saved/81.jpg" alt="">
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                        </a>
+                                        <a class="item">
+                                            <ul>
+                                                <li>
+                                                    <span info="manosque|羽绒服|11,223.00">
+                                                        <img src="images/demo/saved/81.jpg" alt="">
+                                                    </span>
+                                                </li>
+                                                <li>
+                                                    <span info="manosque|羽绒服|12,223.00">
+                                                        <img src="images/demo/saved/81.jpg" alt="">
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                        </a>
+                                        <a class="item">
+                                            <ul>
+                                                <li>
+                                                    <span info="manosque|羽绒服|13,223.00">
+                                                        <img src="images/demo/saved/81.jpg" alt="">
+                                                    </span>
+                                                </li>
+                                                <li>
+                                                    <span info="manosque|羽绒服|14,223.00">
+                                                        <img src="images/demo/saved/81.jpg" alt="">
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                        </a>
+                                        <a class="item">
+                                            <ul>
+                                                <li>
+                                                    <span info="manosque|羽绒服|15,223.00">
+                                                        <img src="images/demo/saved/81.jpg" alt="">
+                                                    </span>
+                                                </li>
+                                                <li>
+                                                    <span info="manosque|羽绒服|16,223.00">
+                                                        <img src="images/demo/saved/81.jpg" alt="">
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                        </a>
+                                        <a class="item">
+                                            <ul>
+                                                <li>
+                                                    <span info="manosque|羽绒服|17,223.00">
+                                                        <img src="images/demo/saved/81.jpg" alt="">
+                                                    </span>
+                                                </li>
+                                                <li>
+                                                    <span info="manosque|羽绒服|18,223.00">
+                                                        <img src="images/demo/saved/81.jpg" alt="">
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                        </a>
+                                        <a class="item">
+                                            <ul>
+                                                <li>
+                                                    <span info="manosque|羽绒服|19,223.00">
+                                                        <img src="images/demo/saved/81.jpg" alt="">
+                                                    </span>
+                                                </li>
+                                                <li>
+                                                    <span info="manosque|羽绒服|20,223.00">
+                                                        <img src="images/demo/saved/81.jpg" alt="">
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- ProductBox end -->
+                                <!-- CartBox -->
+                                <div class="cart-box">
+                                    <div id="owl_cart" class="owl-carousel owl-cart">
+                                        <a class="item">
+                                            <span info="manosque|羽绒服|5,223.00">
+                                                <img src="images/demo/saved/81.jpg" alt="">
+                                            </span>
+                                        </a>
+                                        <a class="item">
+                                            <span info="manosque|羽绒服|5,223.00">
+                                                <img src="images/demo/saved/81.jpg" alt="">
+                                            </span>
+                                        </a>
+                                        <a class="item">
+                                            <span info="manosque|羽绒服|5,223.00">
+                                                <img src="images/demo/saved/81.jpg" alt="">
+                                            </span>
+                                        </a>
+                                        <a class="item">
+                                            <span info="manosque|羽绒服|5,223.00">
+                                                <img src="images/demo/saved/81.jpg" alt="">
+                                            </span>
+                                        </a>
+                                        <a class="item">
+                                            <span info="manosque|羽绒服|5,223.00">
+                                                <img src="images/demo/saved/81.jpg" alt="">
+                                            </span>
+                                        </a>
+                                        <a class="item">
+                                            <span info="manosque|羽绒服|5,223.00">
+                                                <img src="images/demo/saved/81.jpg" alt="">
+                                            </span>
+                                        </a>
+                                        <a class="item">
+                                            <span info="manosque|羽绒服|5,223.00">
+                                                <img src="images/demo/saved/81.jpg" alt="">
+                                            </span>
+                                        </a>
+                                        <a class="item">
+                                            <span info="manosque|羽绒服|5,223.00">
+                                                <img src="images/demo/saved/81.jpg" alt="">
+                                            </span>
+                                        </a>
+                                        <a class="item">
+                                            <span info="manosque|羽绒服|5,223.00">
+                                                <img src="images/demo/saved/81.jpg" alt="">
+                                            </span>
+                                        </a>
+                                        <a class="item">
+                                            <span info="manosque|羽绒服|5,223.00">
+                                                <img src="images/demo/saved/81.jpg" alt="">
+                                            </span>k
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- CartBox end -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="wrapper">
+                            <div class="content clearfix">
+                                <div class="retailers-box" style="height: 380px;">
+                                    <span class="title">Retailers</span>
+                                    <ul class="options">
+                                        <li>Bonobos</li>
+                                        <li>Jcrew</li>
+                                        <li>Jack Erwin</li>
+                                        <li>Mr Porter</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <span style="height: 30px; line-height: 30px; display: block; text-align: center;"><a href="MyCart.html">My Cart</a></span>
+                                    <span style="height: 30px; line-height: 30px; display: block; text-align: center;"><a href="#">Check Out</a></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+
+
+        function a() {
+            alert("dasd");
+        }
+
+
+        $(document).ready(function () {
+
+            $("#owl_product .item  ul li span ").each(function () {
+
+
+                // var ihtml = $(this).attr('info');
+
+                var ihtml = '';
+                ihtml += '  <div style="border: 1px solid rgb(0, 0, 0); border-image: none; width: 170px; height: 220px; margin-right: 10px; float: left;">';
+                ihtml += '  <div class="filter-lists-container" style="width:170px;">';
+                ihtml += '   <dl class="filter-entries clearfix">';
+                ihtml += '    <dt class="filter-entries-label">Material:</dt>';
+                ihtml += '   <dd class="filter-entries-values">';
+                ihtml += '    <span class="filter-item "> 100% Cotton</span>';
+                ihtml += '  </dd>';
+                ihtml += '  </dl>';
+                ihtml += '  <dl class="filter-entries clearfix">';
+                ihtml += '    <dt class="filter-entries-label">Color:</dt>';
+                ihtml += '   <dd class="filter-entries-values">';
+                ihtml += '     <span class="filter-item">Red</span>';
+                ihtml += '     <span class="filter-item">Blue</span>';
+                ihtml += '    <span class="filter-item">Blue</span>';
+                ihtml += '     <span class="filter-item">Blue</span>';
+                ihtml += '     <span class="filter-item">Blue</span>';
+                ihtml += '     <span class="filter-item">Blue</span>';
+                ihtml += '   </dd>';
+                ihtml += '  </dl>';
+                ihtml += '   <dl class="filter-entries clearfix">';
+                ihtml += '   <dt class="filter-entries-label">Style:</dt>';
+                ihtml += '   <dd class="filter-entries-values">';
+                ihtml += '     <span class="filter-item ">   Striped</span>';
+                ihtml += '    </dd>';
+                ihtml += '  </dl>';
+                ihtml += ' <dl class="filter-entries clearfix">';
+                ihtml += '   <dt class="filter-entries-label">Price:</dt>';
+                ihtml += '  <dd class="filter-entries-values">';
+                ihtml += '     <span class="filter-item ">1000</span>';
+                ihtml += ' </dd>';
+                ihtml += '  </dl>';
+                ihtml += ' <dl class="filter-entries clearfix">';
+                ihtml += '   <dt class="filter-entries-label">Size:</dt>';
+                ihtml += '  <dd class="filter-entries-values">';
+                ihtml += '    <span class="filter-item ">S-L</span>';
+                ihtml += '  </dd>';
+                ihtml += '  </dl>';
+                ihtml += ' </div>';
+                ihtml += ' </div>';
+                ihtml += ' <div style=" border-image: none; width: 150px; height: 220px; float: left;">';
+                ihtml += '<div style="border: 1px solid rgb(0, 0, 0); width:100%;height: 158px; margin-bottom:5px;">';
+                ihtml += $(this).attr('info');
+                ihtml += ' </div>';
+                ihtml += ' <div style="text-align:left; line-height:28px;">';
+                ihtml += '   <input type="button" value="Add To Cart" onclick="a()"/><br />';
+                ihtml += '  <span>Reserve at $<input type="text" style="width:50px;" /></span>';
+                ihtml += '</div>';
+
+                $(this).mouseOverTip({
+                    width: '360px',
+                    height: '230px',
+                    outlineBoxId: "middle_box",
+                    boxId: "middle_box_xiuTipBox",
+                    content: ihtml
+                });
+            });
+
+
+            //$("#owl_cart .item   span ").each(function () {
+
+
+            //    // var ihtml = $(this).attr('info');
+
+            //    var ihtml = '';
+            //    ihtml += '  <div style="border: 1px solid rgb(0, 0, 0); border-image: none; width: 100px; height: 100px; margin-right: 10px; float: left;">';
+            //    ihtml += '  <div class="filter-lists-container" style="width:170px;">';
+            //    ihtml += '   <dl class="filter-entries clearfix">';
+            //    ihtml += '    <dt class="filter-entries-label">Material:</dt>';
+            //    ihtml += '   <dd class="filter-entries-values">';
+            //    ihtml += '    <span class="filter-item "> 100% Cotton</span>';
+            //    ihtml += '  </dd>';
+            //    ihtml += '  </dl>';
+            //    ihtml += '  <dl class="filter-entries clearfix">';
+            //    ihtml += '    <dt class="filter-entries-label">Color:</dt>';
+            //    ihtml += '   <dd class="filter-entries-values">';
+            //    ihtml += '     <span class="filter-item">Red</span>';
+            //    ihtml += '     <span class="filter-item">Blue</span>';
+            //    ihtml += '    <span class="filter-item">Blue</span>';
+            //    ihtml += '     <span class="filter-item">Blue</span>';
+            //    ihtml += '     <span class="filter-item">Blue</span>';
+            //    ihtml += '     <span class="filter-item">Blue</span>';
+            //    ihtml += '   </dd>';
+            //    ihtml += '  </dl>';
+            //    ihtml += '   <dl class="filter-entries clearfix">';
+            //    ihtml += '   <dt class="filter-entries-label">Style:</dt>';
+            //    ihtml += '   <dd class="filter-entries-values">';
+            //    ihtml += '     <span class="filter-item ">   Striped</span>';
+            //    ihtml += '    </dd>';
+            //    ihtml += '  </dl>';
+            //    ihtml += ' <dl class="filter-entries clearfix">';
+            //    ihtml += '   <dt class="filter-entries-label">Price:</dt>';
+            //    ihtml += '  <dd class="filter-entries-values">';
+            //    ihtml += '     <span class="filter-item ">1000</span>';
+            //    ihtml += ' </dd>';
+            //    ihtml += '  </dl>';
+            //    ihtml += ' <dl class="filter-entries clearfix">';
+            //    ihtml += '   <dt class="filter-entries-label">Size:</dt>';
+            //    ihtml += '  <dd class="filter-entries-values">';
+            //    ihtml += '    <span class="filter-item ">S-L</span>';
+            //    ihtml += '  </dd>';
+            //    ihtml += '  </dl>';
+            //    ihtml += ' </div>';
+            //    ihtml += ' </div>';
+
+
+            //    $(this).mouseOverTip({
+            //        width: '150px',
+            //        height: '150px',
+            //        outlineBoxId: "middle_box",
+            //        boxId: "savedmiddle_box_xiuTipBox",
+            //        content: ihtml
+            //    });
+            //});
+
+
+        });
+
+    </script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('#owl_product').owlCarousel({
+                items: 6,
+                navigation: true,
+                mouseDrag:false,
+                itemsDesktop: [1199, 6],
+                itemsDesktopSmall: [979, 6],
+                itemsTablet: [768, 6],
+                itemsMobile: [479, 6],
+                navigationText: ["", ""]
+            });
+
+
+            $('#owl_cart').owlCarousel({
+                items: 6,
+                navigation: true,
+                mouseDrag: false,
+                itemsDesktop: [1199, 6],
+                itemsDesktopSmall: [979, 6],
+                itemsTablet: [768, 6],
+                itemsMobile: [479, 6],
+                navigationText: ["", ""]
+            });
+
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C19704C7-7D89-42E8-9F15-D8C1A1A0C525}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Lumos.Entity</RootNamespace>
+    <AssemblyName>Lumos.Entity</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="BizEnumeration.cs" />
+    <Compile Include="Biz\BizProcessesAudit.cs" />
+    <Compile Include="Biz\BizProcessesAuditDetails.cs" />
+    <Compile Include="ImgSet.cs" />
+    <Compile Include="Sys\SysAgentUser.cs" />
+    <Compile Include="Sys\SysOpenIdInfo.cs" />
+    <Compile Include="EnumerationRemarkConverter.cs" />
+    <Compile Include="IpInfo.cs" />
+    <Compile Include="DBNullCreationConverter.cs" />
+    <Compile Include="EnumerationTypeConverter.cs" />
+    <Compile Include="PageEntity.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RemarkAttribute.cs" />
+    <Compile Include="SysEnumeration.cs" />
+    <Compile Include="Sys\SysAppKeySecret.cs" />
+    <Compile Include="Sys\SysBannerType.cs" />
+    <Compile Include="Sys\SysClientCode.cs" />
+    <Compile Include="Sys\SysClientUser.cs" />
+    <Compile Include="Sys\SysMenuPermission.cs" />
+    <Compile Include="Sys\SysMessage.cs" />
+    <Compile Include="Sys\SysOperateHistory.cs" />
+    <Compile Include="Sys\SysPageAccessRecord.cs" />
+    <Compile Include="Sys\SysRole.cs" />
+    <Compile Include="Sys\SysSalesmanUser.cs" />
+    <Compile Include="Sys\SysSmsToken.cs" />
+    <Compile Include="Sys\SysStaffUser.cs" />
+    <Compile Include="Sys\SysPermission.cs" />
+    <Compile Include="Sys\SysMenu.cs" />
+    <Compile Include="Sys\SysProvinceCity.cs" />
+    <Compile Include="Sys\SysRolePermission.cs" />
+    <Compile Include="Sys\SysRoleMenu.cs" />
+    <Compile Include="Sys\SysUser.cs" />
+    <Compile Include="Sys\SysItemCacheUpdateTime.cs" />
+    <Compile Include="Sys\SysUserLoginHistory .cs" />
+    <Compile Include="Sys\SysUserRole.cs" />
+    <Compile Include="Sys\SysVerifyEmail.cs" />
+    <Compile Include="Sys\SysBanner.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Lumos\Lumos.csproj">
+      <Project>{27883666-32aa-447f-aa1f-6128b76fbee8}</Project>
+      <Name>Lumos</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

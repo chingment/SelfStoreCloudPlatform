@@ -1,0 +1,52 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string action = Request.RequestContext.RouteData.Values["action"] == null ? "" : Request.RequestContext.RouteData.Values["action"].ToString().ToLower();
+    string smallHeaderActions = ("Login").ToLower();
+    string headerSmall = Request.QueryString["hs"];
+    string headerClass = "";
+    if (smallHeaderActions.IndexOf(action) > -1)
+    {
+        headerClass = "gbr-header-small";
+    }
+}
+@section styles{
+    @RenderSection("styles", required: false)
+}
+
+@section scripts{
+    @RenderSection("scripts", required: false)
+}
+
+<div class="gb">
+    <div class="gbr gbr-header @headerClass" id="gbr_header">
+        <div class="wrapper">
+            <div class="content clearfix">
+                <ul class="content-left">
+                    <li>
+                        <span class="title">@OwnWebSettingUtils.GetWebName()</span>
+                    </li>
+                </ul>
+                <ul class="content-right btn-dropdownmenu">
+                </ul>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+    <div class="gbr gbr-main" id="gbr_main">
+        <div class="wrapper">
+            <div class="content clearfix" id="gbr_main_content">
+                @RenderBody()
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+
+@section scriptsbyend{
+    @RenderSection("scriptsbyend", required: false)
+}

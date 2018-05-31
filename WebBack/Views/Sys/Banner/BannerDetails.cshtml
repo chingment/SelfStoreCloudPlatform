@@ -1,0 +1,44 @@
+﻿@model WebBack.Models.Sys.Banner.BannerDetailsViewModel
+@{
+    ViewBag.Title = "EditBanner";
+    Layout = "~/Views/Shared/_AppLayout.cshtml";
+}
+@section scripts{
+
+    @OwnStaticScriptsResource.Render("ArtDialog/artDialog.source.js?skin=default")
+    @OwnStaticScriptsResource.Render("ArtDialog/iframeTools.source.js")
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#lbl_Title').text(art.dialog.data('banner_Title'));
+            $('#lbl_Content').html(art.dialog.data('banner_Content'));
+        });
+
+        function submit(operate, fun) {
+            art.dialog.confirm(
+           '确定要撤销？',
+            function () {
+                var l_Data = $('#form1').serializeArray();
+                l_Data.push({ name: "Model.Operate", value: operate });
+                $.lumos.postJson({
+                    url: "../Banner/EditBanner",
+                    data: l_Data,
+                    success: function (d) {
+                        fun(d);
+                    }
+                });
+            });
+
+            return false;
+        }
+
+    </script>
+}
+
+<div class="news">
+    <h3 id="lbl_Title">@Model.SysBanner.Title</h3>
+    <p>日期：@Model.SysBanner.CreateTime.ToUnifiedFormatDateTime()   &nbsp;&nbsp; 浏览次数：@Model.SysBanner.ReadCount</p>
+</div>
+<div class="news-con" id="lbl_Content">
+    @Html.Raw(Model.SysBanner.Content)
+</div>

@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{640A898E-2B63-4A12-AC93-2C61D718CC6C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Lumos.BLL</RootNamespace>
+    <AssemblyName>Lumos.BLL</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\log4net465\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.0.0\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="BaseProvider.cs" />
+    <Compile Include="Factory..cs" />
+    <Compile Include="OrderSn.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sys\AuthorizeRelayProvider.cs" />
+    <Compile Include="Sys\SysAppKeySecretProvider.cs" />
+    <Compile Include="Sys\SysBannerProvider.cs" />
+    <Compile Include="Sys\SysFactory.cs" />
+    <Compile Include="Sys\SysItemCacheUpdateTimeProvider.cs" />
+    <Compile Include="Sys\SysUserProvider.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lumos.Common\Lumos.Common.csproj">
+      <Project>{241bdf50-401f-44bf-81cd-acc2ffc3a952}</Project>
+      <Name>Lumos.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lumos.Entity\Lumos.Entity.csproj">
+      <Project>{c19704c7-7d89-42e8-9f15-d8c1a1a0c525}</Project>
+      <Name>Lumos.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lumos.DAL\Lumos.DAL.csproj">
+      <Project>{0e039414-2a2e-48b4-8db7-c4346106fa68}</Project>
+      <Name>Lumos.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lumos.MVC\Lumos.Mvc.csproj">
+      <Project>{ed113ad7-1b20-4b05-8961-9b701e51734c}</Project>
+      <Name>Lumos.Mvc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lumos\Lumos.csproj">
+      <Project>{27883666-32aa-447f-aa1f-6128b76fbee8}</Project>
+      <Name>Lumos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MySDK\MySDK.csproj">
+      <Project>{8479fcaf-4aef-40d4-b76d-246282522fb7}</Project>
+      <Name>MySDK</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Biz\" />
+    <Folder Include="Sdk\" />
+    <Folder Include="Service\" />
+    <Folder Include="Task\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

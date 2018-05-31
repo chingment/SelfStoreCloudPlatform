@@ -1,0 +1,458 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutHomeIframeMainList.cshtml";
+}
+
+@section scripts{
+    <script type="text/javascript">
+
+
+        function getSelectedNode() {
+            var selObj = zTree.getSelectedNodes();
+            if ($.lumos.isNullOrEmpty(selObj)) {
+                $.lumos.tips("请在左边树形结构选中节点信息");
+                return null;
+            }
+            return selObj[0];
+        }
+
+        var zTree;
+        var listRoleUser
+        var tab;
+        $(this).ready(function () {
+
+            tab = $("#tab1").tab({
+                click: function (index) {
+
+                    var selObj = getSelectedNode();
+                    if (selObj == null) {
+                        return false;
+                    }
+
+                    $(".Model_SysRole_Id").val(selObj.id);
+          
+                    switch (index) {
+                        case 0:
+                            getDetails();
+                            break;
+                        case 1:
+                            listRoleUser.loadData();
+                            break;
+                        case 2:
+                            loadRoleMenuTreeList()
+                            break;
+                    }
+
+
+                    return true;
+                }
+            });
+
+            loadTreeList();
+
+            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { art.dialog.tips(msg); } });
+            $("#Model_SysRole_Id").formValidator({ onShow: "&nbsp;", onFocus: "", onCorrect: "&nbsp;" }).inputValidator({ min: 1, onError: "请在左边树形结构选中节点信息" });
+            $("#Model_SysRole_Name").formValidator({ onShow: "&nbsp;", onFocus: "", onCorrect: "&nbsp;" }).inputValidator({ min: 1, max: 20, empty: { leftEmpty: false, emptyError: "名称不能为空" }, onError: "名称不能超过20个字符" });
+            $("#Model_SysRole_Description").formValidator({ onShow: "&nbsp;", onFocus: "", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 500, onError: "备注不能超过500个字符" });
+
+            $("#btn_add").click(function () {
+
+                //var selObj = getSelectedNode();
+                //if (selObj == null) {
+                //    return;
+                //}
+                //   var url = '../Role/Add?type=add&id=' + selObj.id + '&pName=' + escape(selObj.name);
+                var id = 1;
+                var url = '/Sys/Role/Add?type=add&id=' + id + '&pName=';
+                var title = '新建';
+                art.dialog.open(url, {
+                    id: "openDialog", title: title, width: '650px', height: '350px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '确定', ok: function () {
+                        this.iframe.contentWindow.add(function (d) {
+                            if (d.result == resultType.success) {
+                                $.lumos.parentDialog().loadTreeList(id);
+                                $.lumos.tips(d.message, true);
+                            }
+                            else {
+                                $.lumos.tips(d.message);
+                            }
+                        });
+                        return false;
+                    }
+                });
+
+            });
+
+            $("#btn_delete").click(function () {
+
+
+                var selObj = getSelectedNode();
+                if (selObj == null) {
+                    return;
+                }
+
+
+                art.dialog.confirm(
+                    "确定删除[" + selObj.name + "]节点及其子节点吗？",
+                         function () {
+                             var id = selObj.id;
+                             var data = [];
+                             var nodes = zTree.getSelectedNodeFollowChildren();
+                             $.each(nodes, function (i, n) {
+                                 data.push({ name: "ids", value: n.id });
+                             });
+
+                             $.lumos.postJson({
+                                 url: "/Sys/Role/Delete",
+                                 data: data,
+                                 success: function (d) {
+                                     art.dialog.tips(d.message);
+                                     loadTreeList();
+                                 }
+                             });
+
+                             return true;
+                         });
+
+
+                return false;
+            });
+
+            $("#btn_add_roleuser").click(function () {
+
+                var selObj = getSelectedNode();
+                if (selObj == null) {
+                    return;
+                }
+                $.lumos.openDialog('/Sys/Role/AddUserToRole?type=add&id=' + selObj.id + '&pName=' + escape(selObj.name), '添加角色用户', '650px', '520px');
+
+            });
+
+            $("#btn_save_rolemenu").click(function () {
+
+
+                var selObj = getSelectedNode();
+                if (selObj == null) {
+                    return;
+                }
+
+
+                var nodes = zTreeRoleMenu.getCheckedNodes(true);
+
+                var array = new Array();
+                for (var key in nodes) {
+                    array.push({ name: "menuIds", value: nodes[key].id });
+                }
+                art.dialog.confirm(
+'确定要保存？',
+function () {
+    var id = $("#Model_SysRole_Id").val();
+
+    array.push({ name: "roleId", value: id });
+
+    $.lumos.postJson({
+        url: "../Role/SaveRoleMenu",
+        data: array,
+        success: function (d) {
+            $.lumos.tips(d.message);
+        }
+    });
+});
+                return false;
+            });
+
+            listRoleUser = $("#list_table_roleuser").loadDataTable({
+                url: "/Sys/Role/GetRoleUserList",
+                pageIndex: 0,
+                searchParams: $("#form2").serializeArray(),
+                searchButtonId: "btn_Search",
+                containerId: "form2",
+                rowDataCombie: function (p_index, p_row) {
+                    var l_Strlimt = "";
+                    l_Strlimt += "@Html.IsInPermission("<a href=\\\"javascript:void(0)\\\" operate=\\\"delete\\\"  class=\\\"a-btn\\\" >删除</a>")";
+                    var l_StrRows = "";
+                    l_StrRows += "<tr>";
+                    l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
+                    l_StrRows += "<td class=\"overflow tipitem\" title=\"" + p_row.userName + "\"   >" + p_row.userName + "</td>";
+                    l_StrRows += "<td class=\"overflow\" title=\"" + p_row.fullName + "\">" + p_row.fullName + "</td>";
+                    l_StrRows += "<td class=\"operation\">";
+                    l_StrRows += l_Strlimt;
+                    l_StrRows = l_StrRows.replace(/{key}/g, p_row.id);
+                    l_StrRows = l_StrRows.replace(/{title}/g, p_row.userName);
+                    l_StrRows += "</td>";
+                    l_StrRows += "</tr>";
+                    return l_StrRows;
+                },
+                operate: {
+                    "delete": function (keys) {
+                        var selObj = getSelectedNode();
+                        if (selObj == null) {
+                            return;
+                        }
+                        var array = new Array();
+                        array.push({ name: "roleId", value: selObj.id });
+                        $.each(keys, function (i, n) {
+                            array.push({ name: "userIds", value: n.userId });
+                        });
+
+
+                        $.lumos.postJson({
+                            url: "/Sys/Role/RemoveUserFromRole",
+                            data: array,
+                            success: function (d) {
+                                listRoleUser.loadData(0);
+                                $.lumos.tips(d.message);
+                            }
+                        });
+
+                    }
+                }
+            });
+
+        });
+
+        function treeNodeOnClick(event, treeId, treeNode, clickFlag) {
+
+            $("#txt_PName").defaultPassed();
+            $("#Model_SysRole_Name").defaultPassed();
+
+            var parentName = "/";
+            if (treeNode.getParentNode() != null) {
+                parentName = treeNode.getParentNode().name;
+                $(".a-btn-del").show();
+            }
+            else {
+                $(".a-btn-del").hide();
+            }
+
+            tab.click();
+  
+        }
+
+        function getDetails() {
+            var id = $("#Model_SysRole_Id").val();
+            $.lumos.postJson({
+                data: { id: id },
+                url: "../Role/GetDetails",
+                success: function (d) {
+                    $("#Model_SysRole_Name").val(d.data.sysRole.name);
+                    $("#Model_SysRole_Description").val(d.data.sysRole.description);
+                }
+            });
+        }
+
+        function loadTreeList(id) {
+
+            $.lumos.postJson({
+                url: "/Sys/Role/GetRoleTree",
+                success: function (d) {
+                    var obj = eval(d.data);
+                    zTree = $.fn.zTree.init($("#treemenu"), {
+                        view: {
+                            showLine: true,
+                            selectedMulti: false
+                        },
+                        data: {
+                            simpleData: { enable: true }
+                        },
+                        callback: {
+                            onClick: treeNodeOnClick
+                        }
+                    }, obj);
+                    var node = zTree.getNodeByParam("id", id, null);
+                    zTree.selectNode(node);
+                }
+            });
+
+        }
+
+        function edit() {
+
+            var selObj = getSelectedNode();
+            if (selObj == null) {
+                return false;
+            }
+
+            var isValid = $.formValidator.pageIsValid();
+            if (isValid) {
+                art.dialog.confirm(
+         '确定要保存？',
+         function () {
+
+             var l_Data = $("#form1").serializeArray();
+             $.lumos.postJson({
+                 url: "/Sys/Role/Edit",
+                 data: l_Data,
+                 success: function (d) {
+                     art.dialog.tips(d.message);
+                     loadTreeList(id);
+
+                 }
+             });
+         });
+            }
+            return false;
+        }
+
+        var zTreeRoleMenu;
+
+        function loadRoleMenuTreeList() {
+            var id = $("#Model_SysRole_Id").val();
+            $.lumos.postJson({
+                url: "/Sys/Role/GetRoleMenuTreeList",
+                data: { roleId: id },
+                success: function (d) {
+                    var zNodes = d.data;
+                    zTreeRoleMenu = $.fn.zTree.init($("#rolemenu_tree"), {
+                        view: {
+                            selectedMulti: false
+                        },
+                        check: {
+                            enable: true
+                        },
+                        data: {
+                            simpleData: {
+                                enable: true
+                            },
+                            key: {
+                                url: "_url"
+                            }
+
+                        }
+                    }, zNodes);
+                }
+            });
+
+        }
+
+        //-->
+    </script>
+}
+
+
+<dl class="tree-tab">
+    <dd class="tree-tab-left">
+        <ul id="treemenu" class="ztree"></ul>
+    </dd>
+    <dd class="tree-tab-right">
+        <div class="tab" id="tab1">
+            <div class="tab-item">
+                <ul>
+                    <li class="item first selected"><a class="a-btn-info" href="javascript:void(0)">基本信息</a></li>
+                    <li class="item"><a class="a-btn-info" href="javascript:void(0)">关联用户</a></li>
+                    <li class="item"><a class="a-btn-info" href="javascript:void(0)">关联菜单</a></li>
+                </ul>
+            </div>
+            <div class="tab-content">
+                <div class="subcontent">
+                    <div class="f-btn-area" style="margin-bottom:5px;">
+                        <input type="button" class="btn btn-open" id="btn_add" value="新建" />
+                        <input type="button" class="btn btn-delete" id="btn_delete" value="删除" />
+                    </div>
+                    <form name="form1" method="post" id="form1">
+                        @AntiForgery.GetHtml()
+                        <table class="f-tb" cellpadding="0" cellspacing="1">
+                            <tr>
+                                <td class="f-tb-t" style="width:50px">
+                                    名称：
+                                </td>
+                                <td class="f-tb-c">
+                                    <input name="Model.SysRole.Id" type="hidden" class="Model_SysRole_Id" id="Model_SysRole_Id"  />
+                                    <input name="Model.SysRole.Name" type="text" autocomplete="off" value="" id="Model_SysRole_Name" style="width: 250px;" class="input-control" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="f-tb-t">
+                                    备注：
+                                </td>
+                                <td class="f-tb-c">
+                                    <textarea name="Model.SysRole.Description" rows="5" cols="42" id="Model_SysRole_Description" class="input-control"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="f-tb-t"></td>
+                                <td class="f-tb-c">
+                                    <input type="button" onclick="return edit()" name="btn_Save" value="保存" id="btn_Save" class="btn btn-sure" />
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <div class="subcontent">
+                    <form id="form2" name="form2">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="RoleId" class="Model_SysRole_Id" />
+                        <div class="search-bar">
+                            <div class="filter">
+                                <span class="filter-label">用户名：</span>
+                                <span class="filter-input">
+                                    <input type="text" class="input-control" name="UserName" style="width:120px;" />
+                                </span>
+                            </div>
+                            <div class="filter">
+                                <span class="filter-label">姓名：</span>
+                                <span class="filter-input">
+                                    <input type="text" class="input-control" name="FullName" style="width:120px;" />
+                                </span>
+                            </div>
+
+                            <div class="filter"><input type="button" class="btn btn-search" id="btn_Search" value="查询" /> </div>
+
+                            <div class="filter" style="float:right"><input type="button" class="btn btn-add" id="btn_add_roleuser" value="添加" /><input type="button" class="btn btn-sure" id="btn_Add" value="删除" multiple="true" operate="delete" style="margin-right:0px;margin-left:5px;" />  </div>
+                        </div>
+                        <div class="list">
+                            <table id="list_table_roleuser" class="list-tb" cellpadding="0" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th style="width:15%" class="no">
+                                            <input type="checkbox" name="list_table_ckb" childname="list_table_ckb_child" />
+                                        </th>
+                                        <th style="width:15%">
+                                            用户名
+                                        </th>
+                                        <th style="width:15%">
+                                            姓名
+                                        </th>
+                                        <th style="width:10%" class="operation">
+                                            操作
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="4">
+                                            <div class="pull-left">
+                                                <span class="load-tip"></span>
+                                            </div>
+                                            <div class="pull-right pagination">
+                                                <div class="pagination-info">
+
+                                                </div>
+                                                <div class="pagination-index">
+
+                                                </div>
+                                                <div class="pagination-goto">
+
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+                <div class="subcontent">
+                    <form id="form3" name="form3">
+                        <ul id="rolemenu_tree" class="ztree"></ul>
+                        <div class="f-btn-area" style="margin-bottom:5px; text-align:center">
+                            <input type="button" class="btn btn-sure" id="btn_save_rolemenu" value="保存" style="margin-right:5px;" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </dd>
+</dl>
+
+

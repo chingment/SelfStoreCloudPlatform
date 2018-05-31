@@ -1,0 +1,11 @@
+﻿<Config>
+ <Tax StartPoint="3500">
+  <Level Rate="3" TakeOut="0">1500</Level>
+  <Level Rate="10" TakeOut="105">4500</Level>
+  <Level Rate="20" TakeOut="555">9000</Level>
+  <Level Rate="25" TakeOut="1005">35000</Level>
+  <Level Rate="30" TakeOut="2755">55000</Level>
+  <Level Rate="35" TakeOut="5505">80000</Level>
+  <Level Rate="45" TakeOut="13505">80000</Level>
+ </Tax>
+</Config>

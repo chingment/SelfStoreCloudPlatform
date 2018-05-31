@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="GBK"?>
+<CarBusinessDetailInfoQueryRequest>
+	<RequestHead>
+		<request_Type></request_Type>
+		<user></user>
+		<password></password>
+		<queryId></queryId>
+		<sourceSystemCode></sourceSystemCode>
+		<versionNo></versionNo>
+		<areaCode></areaCode>
+		<areaName></areaName>
+		<tradeTime></tradeTime>
+		<response_Type>01</response_Type>
+		<signData></signData>
+	</RequestHead>
+	<CarBusinessDetailInfoQueryRequestMain>
+		<Channel>
+			<channelCode>000001</channelCode>
+			<channelName></channelName>
+			<channelComCode></channelComCode>
+			<channelComName></channelComName>
+			<channelProductCode></channelProductCode>
+			<channelOperateCode></channelOperateCode>
+			<channelTradeCode>000005</channelTradeCode>
+			<channelTradeSerialNo>20151102092648</channelTradeSerialNo>
+			<channelRelationNo></channelRelationNo>
+			<channelTradeDate>20151102</channelTradeDate>
+		</Channel>
+		<cPlyNo>10200000103301120160023269</cPlyNo>
+		<cAppNo></cAppNo>
+		<cInsuredNme></cInsuredNme>
+		<cCertfCls></cCertfCls>
+		<cCertfCde></cCertfCde>
+		<cPlateNo></cPlateNo>
+		<cFrmNo></cFrmNo>
+		<cAppTyp>P</cAppTyp>
+	</CarBusinessDetailInfoQueryRequestMain>
+</CarBusinessDetailInfoQueryRequest>

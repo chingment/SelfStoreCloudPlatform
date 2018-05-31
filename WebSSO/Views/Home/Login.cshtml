@@ -1,0 +1,168 @@
+﻿@model WebSSO.Models.Home.LoginModel
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+}
+@section styles{
+    <style type="text/css">
+        .gbr-main, .gbr-main > .wrapper > .content {
+            background-color: transparent;
+        }
+
+        .gbr-footer, .gbr-footer a, .gbr-footer a:visited, .gbr-footer .copyright {
+            color: #fff;
+        }
+    </style>
+}
+
+@section scripts{
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $(window).resizeEnd({
+                delay: 0,
+                isLoad: true
+            }, function () {
+
+                var windowHeight = $(window).height();
+                var windowWidth = $(window).width();
+
+                $('#bg_page_login_img').width(windowWidth).height(windowHeight);;
+            });
+
+        });
+
+
+    </script>
+}
+
+<div id="bg_page_login" class="bg-page-login">
+    <img id="bg_page_login_img" src="~/images/bg_login1.jpg" style="position: absolute; left: 0px;opacity:1; overflow: hidden; transition: opacity .8s ease" />
+</div>
+<div class="gbr-row gbr-row-login">
+    <form id="form1" onsubmit="return login()">
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" id="txt_ReturnUrl" name="ReturnUrl" value="@Model.ReturnUrl" />
+
+        <div class="h-form-container login-box">
+            <div class="h-message">
+                <span id="lbl_Message"></span>
+            </div>
+            <dl class="h-entry clearfix">
+                <dt class="h-entry-label">用户名： </dt>
+                <dd class="h-entry-values">
+                    <span class="h-item "><input type="text" id="txt_UserName" autocomplete="off" name="UserName" value="" style="width:180px;" placeholder="请输入登录帐号" /></span>
+                    <div class="clear"></div>
+                </dd>
+            </dl>
+            <div class="h-line"></div>
+            <dl class="h-entry">
+                <dt class="h-entry-label">密码：</dt>
+                <dd class="h-entry-values">
+                    <span class="h-item"><input type="password" id="txt_Password" autocomplete="off" name="Password" value="" style="width: 180px;" placeholder="请输入密码" /></span>
+                    <div class="clear"></div>
+                </dd>
+            </dl>
+            <div class="h-line"></div>
+            <dl class="h-entry clearfix">
+                <dt class="h-entry-label">验证码：</dt>
+                <dd class="h-entry-values">
+                    <span class="h-item"><input type="text" id="txt_VerifyCode" name="txt_VerifyCode" value="" style="width: 100px;" placeholder="请输入密码" /><img id="img_VerifyCode" style="border:0px;" class="img-verify" alt="验证码" /></span>
+                    <div class="clear"></div>
+                </dd>
+            </dl>
+            <div class="h-line"></div>
+            <div class="h-button">
+                <input type="submit" id="btn_Login" name="btn_Login" value="登录" style="width: 100%;" />
+                <div class="clear"></div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section scriptsbyend{
+    <script type="text/javascript">
+
+        function login() {
+            var msgObj = $("#lbl_Message");
+            $(msgObj).text("");
+            var userName = $("#txt_UserName").val().replace(/(^\s*)|(\s*$)/g, "");
+            var passWord = $("#txt_Password").val();
+            var verifyCode = $("#txt_VerifyCode").val().replace(/(^\s*)|(\s*$)/g, "");
+
+            if (userName.length == 0) {
+                $(msgObj).text("用户名不能为空");
+                return false;
+            }
+
+            if (passWord.length == 0) {
+                $(msgObj).text("密码不能空");
+                return false;
+            }
+
+            if (verifyCode.length == 0) {
+                $(msgObj).text("验证码不能空");
+                return false;
+            }
+            else {
+                if (verifyCode.length != 4) {
+                    $(msgObj).text("验证码必须为四位字符");
+                    return false;
+                }
+            }
+            $("#btn_Login").attr("disabled", "disabled");
+            $.ajax({
+                type: "post",
+                url: "/Home/Login",
+                dataType: "json",
+                data: $('#form1').serialize(),
+                beforeSend: function (data) {
+                    $(msgObj).text("正在登录中...");
+                },
+                complete: function (XMLHttpRequest, status) {
+                    if (status == 'timeout') {
+                        $("#btn_Login").removeAttr("disabled")
+                        art.dialog.tips("网络请求超时,请重新打开页面");
+                    }
+                    else if (status == 'error') {
+                        $("#btn_Login").removeAttr("disabled");
+                        art.dialog.tips("网络请求失败,请检查网络是否已连接");
+                    }
+                }
+            }).done(function (d) {
+                if (d.result == resultType.success) {
+                    $(msgObj).text("");
+                    window.location.href = d.data.url;
+                }
+                else {
+                    $("#btn_Login").removeAttr("disabled");
+                    imgVerifyCode.getCode();
+                    $(msgObj).text(d.message);
+                }
+            });
+            return false;
+        }
+
+        var imgVerifyCode;
+        $(document).ready(function () {
+
+            if (window.parent.length > 0) {
+                window.top.location.href = "/Home/Login";
+            }
+
+            imgVerifyCode = $.imgVerifyCode.init({
+                imgId: 'img_VerifyCode',
+                btnId: 'a_VerifyCode',
+                sessionName: 'WebSSOLoginVerifyCode'
+            });
+
+        });
+    </script>
+}
+
+
+
+

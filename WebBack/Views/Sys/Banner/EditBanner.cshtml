@@ -1,0 +1,118 @@
+﻿@model WebBack.Models.Sys.Banner.EditBannerViewModel
+@{
+    ViewBag.Title = "EditBanner";
+    Layout = "~/Views/Shared/_LayoutHomeDialog.cshtml";
+}
+
+@section scripts{
+    <script src="~/Scripts/ckeditor/ckeditor.js"></script>
+    <script src="~/Scripts/ckeditor/config.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            CKEDITOR.replace('Model_SysBanner_Content', { height: '180px' });
+
+            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { art.dialog.tips(msg); } });
+            $("#Model_SysBanner_Title").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 60, onError: "标题不能为空,且不超过60个字符！" });
+            $("#Model_SysBanner_Source").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 20, onError: "来源不能为空,且不超过20个字符！" });
+            $("#Model_SysBanner_ImgUrl").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请上传封面图片" });
+
+        });
+
+        function submit(operate, fun) {
+            var stemTxt = CKEDITOR.instances.Model_SysBanner_Content.document.getBody().getText();
+            var stem = CKEDITOR.instances.Model_SysBanner_Content.getData();
+            var form = $("#form1");
+            if (operate == operateType.save) {
+                msg = "确定要保存？";
+            }
+            else if (operate == operateType.submit) {
+                msg = "确定要提交？";
+            }
+            else if (operate == operateType.cancle) {
+                msg = "确定要撤销？";
+            }
+            var isValid = $.formValidator.pageIsValid();
+            if (isValid) {
+
+                if (stemTxt.trim() == '') {
+                    art.dialog.tips('请输入正文');
+                    return;
+                }
+
+                $("#Model_SysBanner_Content").val(stem);
+
+                art.dialog.confirm(
+               msg,
+                function () {
+                    var l_Data = $(form).serializeArray();
+                    l_Data.push({ name: "Model.Operate", value: operate });
+                    $.lumos.postJson({
+                        url: "/Sys/Banner/EditBanner",
+                        data: l_Data,
+                        success: function (d) {
+                            fun(d);
+                        }
+                    });
+                });
+            }
+
+            return false;
+        }
+
+    </script>
+}
+
+<div class="gbr-row">
+    <form id="form1" name="form1" method="post">
+        @Html.AntiForgeryToken()
+
+        <input name="Model.SysBanner.Id" type="hidden" value="@Model.SysBanner.Id" />
+        <div class="cked-item">
+            <div class="cked-title">
+                <label class="frm_label" for="">
+                    <span class="title">标题</span>
+                </label>
+            </div>
+            <div>
+                <input name="Model.SysBanner.Title" class="input-control" autocomplete="off" type="text" id="Model_SysBanner_Title" style="width: 700px;" value="@Model.SysBanner.Title" />
+            </div>
+        </div>
+        <div class="cked-item">
+            <div class="cked-title">
+                <label class="frm_label" for="">
+                    <span class="title">来源</span>
+                </label>
+            </div>
+            <div>
+                <input name="Model.SysBanner.Source" class="input-control" autocomplete="off" type="text" id="Model_SysBanner_Source" value="@Model.SysBanner.Source" style="width: 100px;" />
+            </div>
+        </div>
+        <div class="cked-item">
+            <div class="cked-title">
+                <label class="frm_label" for="">
+                    <span class="title" style="float:left;">封面</span>
+                    <span class="tip" style="float:left;">大图片建议尺寸：900像素 * 500像素</span>
+                </label>
+            </div>
+            <span class="uploadimgbox" upload="true">
+                <span class="uploadimg" inputname="Model.SysBanner.ImgUrl" path="Banner" generatesize="false">
+                    <img src="@Model.SysBanner.ImgUrl" id="Model_SysBanner_ImgUrl_src" />
+                    <span class="uploadimg-click" style="">上传</span>
+                    <input id="Model_SysBanner_ImgUrl" value="@Model.SysBanner.ImgUrl" name="Model.SysBanner.ImgUrl" type="hidden" />
+                </span>
+                <span class="uploadimg-view" style="">预览</span>
+            </span>
+        </div>
+        <div class="cked-item">
+            <div class="cked-title">
+                <label class="frm_label" for="">
+                    <span class="title">正文</span>
+                </label>
+            </div>
+            <textarea id="Model_SysBanner_Content" name="Model.SysBanner.Content" class="ckeditor">@Model.SysBanner.Content</textarea>
+        </div>
+    </form>
+</div>
+

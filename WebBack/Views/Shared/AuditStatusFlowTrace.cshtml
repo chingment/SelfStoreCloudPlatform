@@ -1,0 +1,42 @@
+﻿@model List<Lumos.Entity.BizProcessesAuditDetails>
+@{
+    Layout = null;
+}
+
+<div class="gbr-row-title clearfix">
+    <div class="pull-left">
+        <h5>流程跟踪</h5>
+    </div>
+    <div class="pull-right f-tb1-item-pull-right">
+        <h6></h6>
+    </div>
+</div>
+
+<ul>
+    @if (Model != null)
+    {
+        if (Model.Count > 0)
+        {
+            foreach (var auditDetail in Model)
+            {
+                <li style="line-height:18px;">
+                    <div>[@(auditDetail.CreateTime.ToUnifiedFormatDateTime())] (@auditDetail.AuditStatus.ToEnumCnName(auditDetail.AuditStatusEnumName))-@auditDetail.Description</div>
+                    <div style="padding-left:125px">
+                        @auditDetail.AuditComments
+                    </div>
+                </li>
+            }
+        }
+        else
+        {
+            <li style="line-height:18px;"><span style="margin-left:10px;">暂无</span></li>
+        }
+    }
+    else
+    {
+        <li style="line-height:18px;"><span style="margin-left:10px;">暂无</span></li>
+    }
+</ul>
+
+
+

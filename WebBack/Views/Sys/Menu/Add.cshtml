@@ -1,0 +1,122 @@
+﻿@model WebBack.Models.Sys.Menu.AddViewModel
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/_LayoutHomeDialog.cshtml";
+}
+@section scripts{
+    <script type="text/javascript">
+        $(this).ready(function () {
+
+            var id = $.lumos.getUrlParamValue("id");
+            var pName = $.lumos.getUrlParamValue("pName");
+            $("#lbl_PName").text(pName);
+
+            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { }, onSuccess: function () { return add(); } });
+            $("#Model_SysMenu_Name").formValidator({ onShow: "&nbsp;", onFocus: "不能为空,且不超过20个字符", onCorrect: "&nbsp;" }).inputValidator({ min: 1, max: 20, empty: { leftEmpty: false, emptyError: "不能为空" }, onError: "不能为空,且不超过20个字符" });
+            $("#Model_SysMenu_Url").formValidator({ onShow: "&nbsp;", onFocus: "不超过200个字符", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 200, onError: "不超过200个字符" });
+            $("#Model_SysMenu_Description").formValidator({ onShow: "&nbsp;", onFocus: "不超过500个字符", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 500, onError: "不超过500个字符" });
+        });
+
+        function add() {
+
+            art.dialog.confirm(
+     '确定要新建？',
+     function () {
+         var l_Data = $("#form1").serializeArray();
+         l_Data.push({ name: "Model.SysMenu.PId", value: $.lumos.getUrlParamValue("id") });
+         $.lumos.postJson({
+             url: "../Menu/Add",
+             data: l_Data,
+             success: function (d) {
+                 if (d.result == resultType.success) {
+                     $.lumos.parentDialog().loadTreeList($.lumos.getUrlParamValue("id"));
+                     $.lumos.tips(d.message,true);
+                 }
+                 else {
+                     $.lumos.tips(d.message);
+                 }
+             }
+         });
+
+     });
+
+            return false;
+        }
+    </script>
+}
+<form name="form1" method="post" action="#" id="form1">
+    @AntiForgery.GetHtml()
+    @Html.GenerateUniqueSubmitIdentifier()
+    <table class="f-tb" cellpadding="0" cellspacing="1">
+        <tr>
+            <td class="f-tb-t" style="width:50px">
+                上级名称：
+            </td>
+            <td class="f-tb-c">
+                <label id="lbl_PName"></label>
+            </td>
+        </tr>
+        <tr>
+            <td class="f-tb-t">
+                名称：
+            </td>
+            <td class="f-tb-c">
+                <input name="Model.SysMenu.Name" type="text" autocomplete="off" id="Model_SysMenu_Name" style="width:250px;" class="input-control" />
+                <span id="Model_SysMenu_NameTip"></span>
+            </td>
+        </tr>
+        <tr class="tr_url">
+            <td class="f-tb-t">
+                网页路径：
+            </td>
+            <td class="f-tb-c">
+                <input name="Model.SysMenu.Url" type="text" autocomplete="off" id="Model_SysMenu_Url" class="input-control"
+                       style="width: 350px;" />
+                <span id="Model_SysMenu_UrlTip"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="f-tb-t">
+                权限：
+            </td>
+            <td class="f-tb-c">
+
+                @for (int i = 0; i < Model.SysPermission.Count; i++)
+                {
+                    if (Model.SysPermission[i].Id != "1")
+                    {
+                        <span style="width:180px;float:left">
+                            <input id="cb_Permission_@i" type="checkbox" name="Model.SysMenu.Permission" value="@Model.SysPermission[i].Id" />
+                            <label for="cb_Permission_@i">@Model.SysPermission[i].Name</label>
+                        </span>
+                    }
+
+                    if (i % 3 == 0 && i != 0)
+                    {
+                        <br />
+                    }
+                }
+
+            </td>
+        </tr>
+        <tr>
+            <td class="f-tb-t">
+                备注：
+            </td>
+            <td class="f-tb-c">
+                <textarea name="Model.SysMenu.Description" rows="5" cols="46" id="Model_SysMenu_Description" class="input-control"></textarea>
+                <span id="Model_SysMenu_DescriptionTip"></span>
+            </td>
+        </tr>
+        <tr style="display:none">
+            <td class="f-tb-t"></td>
+            <td class="f-tb-c">
+                <input type="submit" name="btn_Submit" id="btn_Submit" value="确定" class="btn btn-sure" />
+                <input type="button" name="btn_Cancle" id="btn_Cancle" value="关闭" class="btn btn-close dialog-close" />
+            </td>
+        </tr>
+    </table>
+</form>
+
+
+

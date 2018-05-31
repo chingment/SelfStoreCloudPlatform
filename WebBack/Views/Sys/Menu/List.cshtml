@@ -1,0 +1,329 @@
+﻿@model WebBack.Models.Sys.Menu.ListViewModel
+@{
+    ViewBag.Title = "菜单列表";
+    Layout = "~/Views/Shared/_LayoutHomeIframeMainList.cshtml";
+}
+@section scripts{
+    <script type="text/javascript">
+        var num = 0;
+        var maxMum = 2;
+        var zTree;
+        $(this).ready(function () {
+
+            $(".tab").tab();
+
+            loadTreeList();
+
+            //表单验证处理
+            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { }, onSuccess: function () { return update(); } });
+            $("#Model_SysMenu_Name").formValidator({ onShow: "&nbsp;", onFocus: "不超过20个字符", onCorrect: "&nbsp;", empty: false, onEmpty: "不能为空" }).inputValidator({ min: 1, max: 20, empty: { leftEmpty: false, emptyError: "不能为空" }, onError: "不超过20个字符" });
+            $("#Model_SysMenu_Url").formValidator({ onShow: "&nbsp;", onFocus: "不超过200个字符", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 200, onError: "不超过200个字符" });
+            $("#Model_SysMenu_Description").formValidator({ onShow: "&nbsp;", onFocus: "不超过500个字符", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 500, onError: "不超过500个字符" });
+            //处理添加按钮
+            $("#btn_add").click(function () {
+                var selObj = getSelectedNode();
+                if (selObj == null) {
+                    return;
+                }
+
+                var url = '../Menu/Add?id=' + selObj.id + '&pName=' + escape(selObj.name)
+                var title = '新建';
+                art.dialog.open(url, {
+                    id: "openDialog", title: title, width: '700px', height: '480px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '确定', ok: function () {
+                        this.iframe.contentWindow.$('#form1').submit();
+                        return false;
+                    }
+                });
+            });
+
+            //处理删除按钮
+            $("#btn_delete").click(function () {
+
+                var selObj = getSelectedNode();
+                if (selObj == null) {
+                    return;
+                }
+
+                art.dialog.confirm(
+                    "确定删除[" + selObj.name + "]节点及其子节点吗？",
+                    function () {
+                        var id = selObj.id;
+                        var data = [];
+                        var nodes = zTree.getSelectedNodeFollowChildren();
+                        $.each(nodes, function (i, n) {
+                            data.push({ name: "ids", value: n.id });
+                        });
+
+                        $.lumos.postJson({
+                            url: "../Menu/Delete",
+                            data: data,
+                            success: function (d) {
+                                art.dialog.tips(d.message);
+                                loadTreeList(id);
+                            }
+                        });
+                        return true;
+                    });
+                return false;
+            });
+
+            $("#btn_sort").click(function () {
+                var selObj = getSelectedNode();
+                if (selObj == null) {
+                    return;
+                }
+
+                if (typeof selObj.children == "undefined") {
+                    $.lumos.tips("该节点没有子节点！");
+                    return;
+                }
+
+
+                var url = '../Menu/Sort?id=' + selObj.id + '&pName=' + escape(selObj.name);
+                var title = '排序';
+                art.dialog.open(url, {
+                    id: "openDialog", title: title, width: '650px', height: '400px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
+                        this.iframe.contentWindow.edit();
+                        return false;
+                    }
+                });
+
+            });
+
+        });
+
+        function getChildNodeGrade(treeNode) {
+            var p = treeNode.getParentNode();
+            if (p != null) {
+                num += 1;
+                getChildNodeGrade(p);
+            }
+        }
+
+        function treeNodeOnClick(event, treeId, treeNode, clickFlag) {
+
+            $("#txt_Name").defaultPassed();
+
+            var parentName = "/";
+            if (treeNode.getParentNode() != null) {
+                parentName = treeNode.getParentNode().name;
+                $("#btn_delete").show();
+            }
+            else {
+                $("#btn_delete").hide();
+            }
+
+            /*最大支持几级菜单由maxMum决定 可修改这个值*/
+            num = 0;
+            getChildNodeGrade(treeNode);
+            if (num >= maxMum) {
+                $("#btn_add").hide();
+            }
+            else {
+                $("#btn_add").show();
+            }
+
+            $.lumos.postJson({
+                url: "../Menu/GetDetails",
+                data: { id: treeNode.id },
+                success: function (d) {
+
+                    if (d.result == resultType.success) {
+                        $("#lbl_PName").text(parentName);
+                        $("#txt_PName").val(parentName);
+                        var menu = d.data.sysMenu;
+                        $("#Model_SysMenu_Name").val(menu.name);
+                        $("#Model_SysMenu_Name").defaultPassed();
+                        $("#Model_SysMenu_Url").val(menu.url);
+                        $("#Model_SysMenu_Description").val(menu.description);
+                        $("#Model_SysMenu_Description").defaultPassed();
+
+                        $("input[name='Model.SysMenu.Permission']").attr("checked", false);
+
+                        var menuPermission = d.data.sysMenuPermission
+                        for (var i = 0; i < menuPermission.length; i++) {
+
+                            $("input[name='Model.SysMenu.Permission'][value='" + menuPermission[i].permissionId + "']").attr("checked", true);
+                        }
+
+                    }
+                }
+            });
+
+        }
+
+        function getSelectedNode() {
+            var selObj = zTree.getSelectedNodes();
+            if ($.lumos.isNullOrEmpty(selObj)) {
+                $.lumos.tips("请在左边树形结构选中节点信息");
+                return null;
+            }
+            return selObj[0];
+        }
+
+        function update() {
+
+            var selObj = getSelectedNode();
+            if (selObj == null) {
+                return false;
+            }
+
+            art.dialog.confirm(
+        '确定要保存？',
+        function () {
+            var id = selObj.id;
+            var postData = $("#form1").serializeArray();
+
+            postData.push({ name: "Model.SysMenu.Id", value: id });
+            $.lumos.postJson({
+                url: "../Menu/Edit",
+                data: postData,
+                success: function (d) {
+                    $.lumos.tips(d.message);
+                    loadTreeList(id);
+                }
+            });
+        });
+
+
+            return false;
+        }
+
+        function loadTreeList(id) {
+
+            $.lumos.postJson({
+                url: "../Menu/GetTree?pId=0",
+                success: function (d) {
+                    var obj = d.data;
+                    zTree = $.fn.zTree.init($("#treemenu"), {
+                        view: {
+                            showLine: true,
+                            selectedMulti: false
+                        },
+                        data: {
+                            simpleData: {
+                                enable: true
+                            },
+                            key: {
+                                url: "_url"
+                            }
+                        },
+                        callback: {
+                            onClick: treeNodeOnClick
+                        },
+                        async: {
+                            url: ""
+                        }
+
+                    }, obj);
+                    var node = zTree.getNodeByParam("id", id, null);
+                    zTree.selectNode(node);
+
+                    var left = $('#treemenu').height();
+                    var right = $('#tree_tab_right').height();
+                    if (left > right) {
+                        $('#tree_tab_right').height(left+20);
+                    }
+                }
+            });
+        }
+
+    </script>
+}
+
+<form name="form1" id="form1">
+    @Html.AntiForgeryToken()
+    <dl class="tree-tab" id="tree_tab">
+        <dd class="tree-tab-left" id="tree_tab_left">
+            <ul id="treemenu" class="ztree"></ul>
+        </dd>
+        <dd class="tree-tab-right" id="tree_tab_right">
+            <div class="tab" id="tab1">
+                <div class="tab-item">
+                    <ul>
+                        <li class="item first selected"><a href="javascript:void(0)">基本信息</a></li>
+                    </ul>
+                </div>
+                <div class="tab-content">
+                    <div class="subcontent">
+                        <div class="f-btn-area">
+                            <input type="button" class="btn btn-open" id="btn_add" value="新建" />
+                            <input type="button" class="btn btn-open" id="btn_sort" value="排序" />
+                            <input type="button" class="btn btn-delete" id="btn_delete" value="删除" />
+                        </div>
+                        <table class="f-tb" cellpadding="0" cellspacing="1">
+                            <tr>
+                                <td class="f-tb-t" style="width:50px">
+                                    上级名称：
+                                </td>
+                                <td class="f-tb-c">
+                                    <label id="lbl_PName">/</label>
+                                    <input name="txt_PName" type="hidden" id="txt_PName" />
+                                    <input name="txt_PId" type="hidden" id="txt_PId" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="f-tb-t">
+                                    名称：
+                                </td>
+                                <td class="f-tb-c">
+                                    <input name="Model.SysMenu.Name" type="text" autocomplete="off" id="Model_SysMenu_Name" style="width: 250px;" class="input-control" />
+                                    <span id="Model_SysMenu_NameTip"></span>
+                                </td>
+                            </tr>
+                            <tr class="tr_url">
+                                <td class="f-tb-t">
+                                    网页路径：
+                                </td>
+                                <td class="f-tb-c">
+                                    <input name="Model.SysMenu.Url" type="text" autocomplete="off" id="Model_SysMenu_Url"
+                                           class="input-control" style="width: 350px;" />
+                                    <span id="txt_UrlTip"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="f-tb-t">
+                                    权限：
+                                </td>
+                                <td class="f-tb-c">
+                                    @for (int i = 0; i < Model.SysPermission.Count; i++)
+                                    {
+                                        if (Model.SysPermission[i].Id != "1")
+                                        {
+                                            <span style="width:180px;float:left">
+                                                <input id="cb_Permission_@i" type="checkbox" name="Model.SysMenu.Permission" value="@Model.SysPermission[i].Id" />
+                                                <label for="cb_Permission_@i">@Model.SysPermission[i].Name</label>
+                                            </span>
+                                        }
+
+                                        if (i % 3 == 0 && i != 0)
+                                        {
+                                            <br />
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="f-tb-t">
+                                    备注：
+                                </td>
+                                <td class="f-tb-c">
+                                    <textarea name="Model.SysMenu.Description" rows="5" cols="46" id="Model_SysMenu_Description" class="input-control"></textarea>
+                                    <span id="Model_SysMenu_DescriptionTip"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="f-tb-t">
+                                    &nbsp;
+                                </td>
+                                <td class="f-tb-c">
+                                    <input type="submit" name="btn_Save" value="保存" id="btn_Save" class="btn btn-sure" />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </dd>
+    </dl>
+</form>

@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "_LayoutHomeIframeMain";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+    @RenderSection("styles", required: false)
+}
+@section scripts{
+    @OwnStaticScriptsResource.Render("jquery.formValidator.js")
+    @OwnStaticScriptsResource.Render("jquery.formValidatorRegex.js")
+    @OwnStaticScriptsResource.Render("Jquery.tree/jquery.ztree.core-3.2.js")
+    @OwnStaticScriptsResource.Render("Jquery.tree/jquery.ztree.excheck-3.2.js")
+    @RenderSection("scripts", required: false)
+}
+
+@RenderBody()
+@section scriptsbyend{
+    @RenderSection("scriptsbyend", required: false)
+}
+
+

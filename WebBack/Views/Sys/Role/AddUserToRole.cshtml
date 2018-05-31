@@ -1,0 +1,130 @@
+﻿@{
+    ViewBag.Title = "RoleUserSel";
+    Layout = "~/Views/Shared/_LayoutHomeDialog.cshtml";
+}
+
+<script type="text/javascript">
+
+    var listTable;
+
+    $(document).ready(function () {
+
+
+        $("#txt_RoleId").val($.lumos.getUrlParamValue("id"));
+
+        listTable = $("#list_table").loadDataTable({
+            url: "../Role/GetNotBindUsers",
+            pageIndex: 0,
+            searchParams: $("#form1").serializeArray(),
+            searchButtonId: "btn_Search",
+            containerId: "form1",
+            rowDataCombie: function (p_index, p_row) {
+                var l_Strlimt = "";
+                l_Strlimt += "@Html.IsInPermission("<a href=\\\"javascript:void(0)\\\" operate=\\\"select\\\"  class=\\\"a-btn\\\" >选择</a>")";
+                var l_StrRows = "";
+                l_StrRows += "<tr>";
+                l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
+                l_StrRows += "<td class=\"overflow tipitem\" title=\"" + p_row.userName + "\"   >" + p_row.userName + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.fullName + "\">" + p_row.fullName + "</td>";
+                l_StrRows += "<td class=\"operation\">";
+                l_StrRows += l_Strlimt;
+                l_StrRows = l_StrRows.replace(/{key}/g, p_row.id);
+                l_StrRows = l_StrRows.replace(/{title}/g, p_row.userName);
+                l_StrRows += "</td>";
+                l_StrRows += "</tr>";
+                return l_StrRows;
+            },
+            operate:
+                {
+                    "select": function (keys) {
+                        var array = new Array();
+                        array.push({ name: "roleId", value: $.lumos.getUrlParamValue("id") });
+                        $.each(keys, function (i, n) {
+                            array.push({ name: "userIds", value: n.id });
+                        });
+
+                        $.lumos.postJson({
+                            url: "../Role/AddUserToRole",
+                            data: array,
+                            success: function (d) {
+                                $.lumos.parentDialog().listRoleUser.loadData('c');
+                                $.lumos.tips(d.message, true);
+                            }
+                        });
+
+                    }
+                }
+        });
+
+    });
+
+
+
+
+</script>
+
+<form id="form1" name="form1">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="RoleId" id="txt_RoleId" />
+    <div class="search-bar">
+        <div class="filter">
+            <span class="filter-label">用户名：</span>
+            <span class="filter-input">
+                <input type="text" class="input-control" name="UserName" style="width:120px;" />
+            </span>
+        </div>
+        <div class="filter">
+            <span class="filter-label">姓名：</span>
+            <span class="filter-input">
+                <input type="text" class="input-control" name="FullName" style="width:120px;" />
+            </span>
+        </div>
+
+        <div class="filter"><input type="button" class="btn btn-search" id="btn_Search" value="查询" /> </div>
+
+        <div class="filter" style="float:right"><input type="button" class="btn btn-sure" id="btn_Add" value="选择" multiple="true" operate="select" style="margin-left:0px;margin-right:0px;" />  </div>
+    </div>
+    <div class="list">
+        <table id="list_table" class="list-tb" cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <th style="width:15%" class="no">
+                        <input type="checkbox" name="list_table_ckb" childname="list_table_ckb_child" />
+                    </th>
+                    <th style="width:15%">
+                        用户名
+                    </th>
+                    <th style="width:15%">
+                        姓名
+                    </th>
+                    <th style="width:10%" class="operation">
+                        操作
+                    </th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="7">
+                        <div class="pull-left">
+                            <span class="load-tip"></span>
+                        </div>
+                        <div class="pull-right pagination">
+                            <div class="pagination-info">
+
+                            </div>
+                            <div class="pagination-index">
+
+                            </div>
+                            <div class="pagination-goto">
+
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</form>
+
+

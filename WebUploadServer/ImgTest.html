@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="Scripts/ArtDialog/artDialog.source.js"></script>
+    <script src="Scripts/ArtDialog/iframeTools.source.js"></script>
+    <script src="Scripts/jquery-1.8.3.min.js"></script>
+    <script src="Scripts/jquery.form.js"></script>
+    <script src="Scripts/Jquery.Lumos.2.0.1.js"></script>
+    <script src="Scripts/Jquery.Lumos.Com.2.0.1.js"></script>
+    <script src="Scripts/Jquery.Lumos.Biz.2.0.1.js"></script>
+    <script type="text/javascript">
+
+        $(this).ready(function () {
+
+            $("#file_RealUserIdPic").uploadImage({ form: "form1", url: "/Common/UploadImage", path: "/Client", imgId: "img_RealUserIdPic" });
+
+        });
+    </script>
+</head>
+<body>
+    <form id="form1" name="form1" enctype="multipart/form-data" method="post">
+        <input name="file_RealUserIdPic" id="file_RealUserIdPic" type="file" />
+        <div id="img_RealUserIdPicBox">
+            <img class="open-bigimg" id="img_RealUserIdPic" height="100px" style="display:none" />
+        </div>
+    </form>
+</body>
+</html>

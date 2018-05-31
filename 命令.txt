@@ -1,0 +1,4 @@
+1 Enable-Migrations -EnableAutomaticMigrations  启动配置
+2  Add-Migration 名称 获取更新
+3  Update-Database  更新到数据库
+4   Add-Migration Inheritance 自写代码
