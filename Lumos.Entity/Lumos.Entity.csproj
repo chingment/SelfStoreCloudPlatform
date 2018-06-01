@@ -57,6 +57,7 @@
     <Compile Include="Biz\BizProcessesAuditDetails.cs" />
     <Compile Include="Biz\Machine.cs" />
     <Compile Include="Biz\Merchant.cs" />
+    <Compile Include="Biz\MerchantMachine.cs" />
     <Compile Include="ImgSet.cs" />
     <Compile Include="Sys\SysAgentUser.cs" />
     <Compile Include="Sys\SysMerchatUser.cs" />

@@ -85,6 +85,7 @@ namespace Lumos.DAL.AuthorizeRelay
 
         public IDbSet<SysItemCacheUpdateTime> SysItemCacheUpdateTime { get; set; }
 
+        public IDbSet<SysMerchatUser> SysMerchatUser { get; set; }
 
         public AuthorizeRelayDbContext(string nameOrConnectionString)
             : base(nameOrConnectionString)

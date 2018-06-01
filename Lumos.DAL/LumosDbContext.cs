@@ -26,7 +26,7 @@ namespace Lumos.DAL
 
         public IDbSet<Machine> Machine { get; set; }
         public IDbSet<Merchant> Merchant { get; set; }
-
+        public IDbSet<MerchantMachine> MerchantMachine { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

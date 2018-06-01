@@ -8,6 +8,7 @@ namespace WebBack.Models.Biz.Merchant
     public class EditViewModel : OwnBaseViewModel
     {
         private Lumos.Entity.Merchant _merchant = new Lumos.Entity.Merchant();
+        private Lumos.Entity.SysMerchatUser _sysMerchatUser = new Lumos.Entity.SysMerchatUser();
 
         public Lumos.Entity.Merchant Merchant
         {
@@ -18,6 +19,18 @@ namespace WebBack.Models.Biz.Merchant
             set
             {
                 _merchant = value;
+            }
+        }
+
+        public Lumos.Entity.SysMerchatUser SysMerchatUser
+        {
+            get
+            {
+                return _sysMerchatUser;
+            }
+            set
+            {
+                _sysMerchatUser = value;
             }
         }
 
@@ -33,6 +46,12 @@ namespace WebBack.Models.Biz.Merchant
             {
                 _merchant = merchant;
 
+                var sysMerchatUser = CurrentDb.SysMerchatUser.Where(m => m.Id == merchant.UserId).FirstOrDefault();
+
+                if (sysMerchatUser != null)
+                {
+                    _sysMerchatUser = sysMerchatUser;
+                }
 
             }
         }

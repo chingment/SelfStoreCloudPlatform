@@ -36,7 +36,7 @@ namespace WebBack.Controllers.Biz
 
             string name = condition.Name.ToSearchString();
             var query = (from m in CurrentDb.Merchant
-                         join u in CurrentDb.SysClientUser on m.UserId equals u.Id
+                         join u in CurrentDb.SysUser on m.UserId equals u.Id
                          where
                                  (name.Length == 0 || m.Name.Contains(name))
                          select new { m.Id, u.UserName, m.Name, m.ContactName, m.ContactPhone, m.CreateTime });
@@ -73,14 +73,16 @@ namespace WebBack.Controllers.Biz
         [HttpPost]
         public CustomJsonResult Add(AddViewModel model)
         {
-            return BizFactory.Merchant.Add(this.CurrentUserId, model.Merchant);
+            model.SysMerchatUser.UserName = string.Format("{0}{1}", "M", model.SysMerchatUser.UserName);
+
+            return BizFactory.Merchant.Add(this.CurrentUserId, model.SysMerchatUser, model.Merchant);
         }
 
         [HttpPost]
 
         public CustomJsonResult Edit(EditViewModel model)
         {
-            return BizFactory.Merchant.Edit(this.CurrentUserId, model.Merchant);
+            return BizFactory.Merchant.Edit(this.CurrentUserId, model.SysMerchatUser, model.Merchant);
         }
 
     }

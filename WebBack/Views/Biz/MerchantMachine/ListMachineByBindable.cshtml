@@ -1,0 +1,128 @@
+﻿@{
+    ViewBag.Title = "RoleUserSel";
+    Layout = "~/Views/Shared/_LayoutHomeDialog.cshtml";
+}
+
+<script type="text/javascript">
+
+    var listTable;
+
+    $(document).ready(function () {
+
+
+        $("#txt_StoreId").val($.lumos.getUrlParamValue("id"));
+
+        listTable = $("#list_table").loadDataTable({
+            url: "/Biz/MerchantMachine/GetMachineListByBindable",
+            pageIndex: 0,
+            searchParams: $("#form1").serializeArray(),
+            searchButtonId: "btn_Search",
+            containerId: "form1",
+            rowDataCombie: function (p_index, p_row) {
+                var l_Strlimt = "";
+                l_Strlimt += "@Html.IsInPermission("<a href=\\\"javascript:void(0)\\\" operate=\\\"bind\\\"  class=\\\"a-btn\\\" >绑定</a>")";
+                var l_StrRows = "";
+                l_StrRows += "<tr>";
+                l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
+                l_StrRows += "<td class=\"overflow tipitem\" title=\"" + p_row.deviceId + "\"   >" + p_row.deviceId + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.name + "\"   >" + p_row.name + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.macAddress + "\">" + p_row.macAddress + "</td>";
+                l_StrRows += "<td class=\"operation\">";
+                l_StrRows += l_Strlimt;
+                l_StrRows += "</td>";
+                l_StrRows += "</tr>";
+                return l_StrRows;
+            },
+            operate:
+                {
+                    "bind": function (obj) {
+
+                        art.dialog.confirm(
+     "确定要绑定？",
+         function () {
+             var array = new Array();
+             array.push({ name: "merchantId", value: $.lumos.getUrlParamValue("merchantId") });
+             array.push({ name: "machineId", value: obj.id });
+
+             $.lumos.postJson({
+                 isUseHandling: true,
+                 url: "/Biz/MerchantMachine/Bind",
+                 data: array,
+                 success: function (d) {
+                     $.lumos.parentDialog().listTable.loadData(0);
+                     art.dialog.close();
+                 }
+             });
+         });
+
+
+                    }
+                }
+        });
+
+    });
+
+
+
+
+</script>
+
+<form id="form1" name="form1">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="StoreId" id="txt_StoreId" />
+    <div class="search-bar">
+        <div class="filter">
+            <span class="filter-label">设备ID：</span>
+            <span class="filter-input">
+                <input type="text" class="input-control" name="DeviceId" style="width:120px;" />
+            </span>
+        </div>
+        <div class="filter"><input type="button" class="btn btn-search" id="btn_Search" value="查询" /> </div>
+    </div>
+    <div class="list">
+        <table id="list_table" class="list-tb" cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <th style="width:5%" class="no">
+                        序号
+                    </th>
+                    <th style="width:30%">
+                        设备ID
+                    </th>
+                    <th style="width:30%">
+                        名称
+                    </th>
+                    <th style="width:25%">
+                        Mac地址
+                    </th>
+                    <th style="width:10%" class="operation">
+                        操作
+                    </th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="5">
+                        <div class="pull-left">
+
+                        </div>
+                        <div class="pull-right pagination">
+                            <div class="pagination-info">
+
+                            </div>
+                            <div class="pagination-index">
+
+                            </div>
+                            <div class="pagination-goto">
+
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</form>
+
+

@@ -1,4 +1,4 @@
-﻿@model WebBack.Models.Biz.Machine.EditViewModel
+﻿@model WebBack.Models.Biz.Merchant.EditViewModel
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_LayoutHomeDialog.cshtml";
@@ -10,9 +10,26 @@
 
         $(this).ready(function () {
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); }, onSuccess: function () { return edit(); } });
-            //$("#Model_Machine_DeviceId").formValidator().inputValidator({ min: 1, max: 100, onError: "设备ID不能为空，且不超过100个字符" });
-            $("#Model_Machine_MacAddress").formValidator().inputValidator({ min: 1, max: 100, onError: "Mac地址不能为空，且不超过100个字符" });
-            $("#Model_Machine_Name").formValidator().inputValidator({ min: 1, max: 100, onError: "名称不能为空，且不超过100个字符" });
+
+            $("#Model_SysMerchatUser_Password").formValidator().regexValidator({ regExp: regexEnum.password, onError: "密码由6到20个数字、英文字母或下划线组成" });
+            $("#Model_SysMerchatUser_Password").attr("disabled", true).unFormValidator(true);
+            $("#Model_Merchant_ContactName").formValidator().inputValidator({ min: 1, max: 100, onError: "联系人不能为空，且不超过100个字符" });
+            $("#Model_Merchant_ContactPhone").formValidator().inputValidator({ min: 1, max: 100, onError: "联系电话不能为空，且不超过100个字符" });
+
+            $("#abtn-editPwd").toggle(function () {
+                $("#lbl_Password").hide();
+                $("#Model_SysMerchatUser_Password").show();
+                $("#Model_SysMerchatUser_Password").attr("disabled", false).unFormValidator(false);
+                $(this).text("取消");
+            }, function () {
+                $("#lbl_Password").show();
+                $("#Model_SysMerchatUser_Password").hide();
+                $("#Model_SysMerchatUser_Password").val("");
+                $("#Model_SysMerchatUser_Password").attr("disabled", true).unFormValidator(true);
+                $(this).text("修改");
+            }
+);
+
         });
 
         function edit() {
@@ -22,7 +39,7 @@ function () {
     var postData = $("#form1").serializeArray();
 
     $.lumos.postJson({
-        url: "/Biz/Machine/Edit",
+        url: "/Biz/Merchant/Edit",
         data: postData,
         success: function (d) {
 
@@ -46,29 +63,81 @@ function () {
 
 <form id="form1">
     @Html.AntiForgeryToken()
+    <input name="Model.Merchant.Id" type="hidden" value="@Model.Merchant.Id" />
+    <input name="Model.SysMerchatUser.UserName" type="hidden" value="@Model.SysMerchatUser.UserName" />
     <div class="gbr-row-title clearfix">
         <div class="pull-left">
-            <h5>基本信息</h5>
+            <h5>账号信息</h5>
         </div>
         <div class="pull-right f-tb1-item-pull-right">
             <h6></h6>
         </div>
     </div>
-    <input name="Model.Machine.Id" type="hidden" value="@Model.Machine.Id" />
-    <table class="f-tb" cellpadding="0" cellspacing="1" style="width:100%">
+
+    <table class="f-tb" cellpadding="0" cellspacing="1">
         <tr>
-            <td class="f-tb-t" style="width:10%">设备ID：</td>
-            <td class="f-tb-c" style="width:40%">@Model.Machine.DeviceId</td>
-            <td class="f-tb-t" style="width:10%"><span class="required-symbol">*</span>Mac地址：</td>
-            <td class="f-tb-c" style="width:40%"><input name="Model.Machine.MacAddress" class="input-control" type="text" id="Model_Machine_MacAddress" style="width: 150px;" value="@Model.Machine.MacAddress" /></td>
+            <td class="f-tb-t">
+                账号：
+            </td>
+            <td class="f-tb-c">
+                @Model.SysMerchatUser.UserName
+            </td>
         </tr>
         <tr>
-            <td class="f-tb-t"><span class="required-symbol">*</span>名称：</td>
-            <td class="f-tb-c"><input name="Model.Machine.Name" class="input-control" type="text" id="Model_Machine_Name" style="width: 150px;" value="@Model.Machine.Name" /></td>
-            <td class="f-tb-t"></td>
-            <td class="f-tb-c"></td>
+            <td class="f-tb-t">
+                <span class="required-symbol">*</span>密码：
+            </td>
+            <td class="f-tb-c">
+                <label id="lbl_Password">******</label>
+                <input name="Model.SysMerchatUser.Password" class="input-control" autocomplete="off" type="password" id="Model_SysMerchatUser_Password" style="width: 150px;display:none;" />
+                <a class="a-btn" id="abtn-editPwd" href="javascript:void(0)">修改</a>
+            </td>
+        </tr>
+    </table>
+    <div class="gbr-row-title clearfix">
+        <div class="pull-left">
+            <h5>商户信息</h5>
+        </div>
+        <div class="pull-right f-tb1-item-pull-right">
+            <h6></h6>
+        </div>
+    </div>
+
+    <table class="f-tb" cellpadding="0" cellspacing="1" style="width:100%">
+        <tr>
+            <td class="f-tb-t">
+                商户名称：
+            </td>
+            <td class="f-tb-c">
+                @Model.Merchant.Name
+            </td>
+        </tr>
+        <tr>
+            <td class="f-tb-t">
+                <span class="required-symbol">*</span>联系人：
+            </td>
+            <td class="f-tb-c">
+                <input name="Model.Merchant.ContactName" class="input-control" type="text" id="Model_Merchant_ContactName" style="width: 150px;" value="@Model.Merchant.ContactName" />
+            </td>
+        </tr>
+        <tr>
+            <td class="f-tb-t">
+                <span class="required-symbol">*</span>联系电话：
+            </td>
+            <td class="f-tb-c">
+                <input name="Model.Merchant.ContactPhone" class="input-control" type="text" id="Model_Merchant_ContactPhone" style="width: 150px;" value="@Model.Merchant.ContactPhone" />
+            </td>
+        </tr>
+        <tr>
+            <td class="f-tb-t">
+                联系地址：
+            </td>
+            <td class="f-tb-c">
+                <input name="Model.Merchant.ContactAddress" class="input-control" type="text" id="Model_Merchant_ContactAddress" style="width: 150px;" value="@Model.Merchant.ContactAddress" />
+            </td>
         </tr>
     </table>
 
 </form>
+
 

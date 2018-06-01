@@ -70,7 +70,8 @@ namespace Lumos.Entity
             Staff = 1,
             Client = 2,
             Agent = 3,
-            Salesman = 4
+            Salesman = 4,
+            Merchant = 5
         }
 
         /// <summary>

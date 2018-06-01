@@ -12,16 +12,12 @@ namespace Lumos.Entity
     public partial class Enumeration
     {
 
-        public enum MerchantPosMachineStatus
+        public enum MerchantMachineStatus
         {
             [Remark("未知")]
             Unknow = 0,
-            [Remark("正常")]
-            Normal = 1,
-            [Remark("未激活")]
-            NoActive = 2,
-            [Remark("到期")]
-            Expiry = 3,
+            [Remark("已绑定")]
+            Bind = 1,
             [Remark("已解绑")]
             Unbind = 4
         }

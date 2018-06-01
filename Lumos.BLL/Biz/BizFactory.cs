@@ -24,5 +24,13 @@ namespace Lumos.BLL
             }
         }
 
+        public static MerchantMachineProvider MerchantMachine
+        {
+            get
+            {
+                return new MerchantMachineProvider();
+            }
+        }
+
     }
 }
