@@ -28,5 +28,9 @@ namespace Lumos.Entity
         public DateTime CreateTime { get; set; }
         public int? Mender { get; set; }
         public DateTime? LastUpdateTime { get; set; }
+        public string ApiHost { get; set; }
+        public string ApiKey { get; set; }
+        public string ApiSecret { get; set; }
+        public int PayTimeout { get; set; }
     }
 }

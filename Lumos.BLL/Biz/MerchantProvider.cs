@@ -40,6 +40,10 @@ namespace Lumos.BLL
                 merchant.UserId = sysMerchatUser.Id;
                 merchant.CreateTime = this.DateTime;
                 merchant.Creator = operater;
+                merchant.ApiHost = "http://api.17fanju.com";
+                merchant.ApiKey = "fanju";
+                merchant.ApiSecret = "7460e6512f1940f68c00fe1fdb2b7eb1";
+                merchant.PayTimeout = 120;
 
                 CurrentDb.Merchant.Add(merchant);
                 CurrentDb.SaveChanges();
