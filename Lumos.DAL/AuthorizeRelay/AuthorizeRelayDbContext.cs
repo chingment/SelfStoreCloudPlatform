@@ -81,8 +81,6 @@ namespace Lumos.DAL.AuthorizeRelay
 
         public IDbSet<SysSmsSendHistory> SysSmsSendHistory { get; set; }
 
-        public IDbSet<SysOpenIdInfo> SysOpenIdInfo { get; set; }
-
         public IDbSet<SysItemCacheUpdateTime> SysItemCacheUpdateTime { get; set; }
 
         public IDbSet<SysMerchatUser> SysMerchatUser { get; set; }

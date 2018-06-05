@@ -53,15 +53,18 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="BizEnumeration.cs" />
+    <Compile Include="Biz\MachineBanner.cs" />
     <Compile Include="Biz\BizProcessesAudit.cs" />
     <Compile Include="Biz\BizProcessesAuditDetails.cs" />
     <Compile Include="Biz\Machine.cs" />
+    <Compile Include="Biz\MachineProductStock.cs" />
     <Compile Include="Biz\Merchant.cs" />
     <Compile Include="Biz\MerchantMachine.cs" />
+    <Compile Include="Biz\Store.cs" />
+    <Compile Include="Biz\StoreMachine.cs" />
     <Compile Include="ImgSet.cs" />
     <Compile Include="Sys\SysAgentUser.cs" />
     <Compile Include="Sys\SysMerchatUser.cs" />
-    <Compile Include="Sys\SysOpenIdInfo.cs" />
     <Compile Include="EnumerationRemarkConverter.cs" />
     <Compile Include="IpInfo.cs" />
     <Compile Include="DBNullCreationConverter.cs" />

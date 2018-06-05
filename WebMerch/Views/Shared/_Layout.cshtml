@@ -1,0 +1,199 @@
+﻿@{
+    ViewBag.Title = OwnBreadcrumb.GetTitle();
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta content="" name="description">
+    <title>@ViewBag.Title</title>
+    <link href="~/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+    @OwnStaticStylesResource.Render("base/Site.css")
+    @RenderSection("styles", required: false)
+    @OwnStaticScriptsResource.Render("ArtDialog/artDialog.source.js?skin=default")
+    @OwnStaticScriptsResource.Render("ArtDialog/iframeTools.source.js")
+    @OwnStaticScriptsResource.Render("DatePicker/WdatePicker.js")
+    @OwnStaticScriptsResource.Render("jquery-1.8.3.min.js")
+    @OwnStaticScriptsResource.Render("json2.js")
+    @OwnStaticScriptsResource.Render("jquery.form.js")
+    @OwnStaticScriptsResource.Render("jquery.cookie.js")
+    @OwnStaticScriptsResource.Render("jquery.lumos.back.1.0.0.js?" + DateTime.Now.ToString("yyyyMMddHHmmss"))
+    @OwnStaticScriptsResource.Render("jquery.resizeEnd.js")
+    <script type="text/javascript">
+        (function ($) {
+
+            $.imgVerifyCode = {
+                init: function (opts) {
+
+                    opts = $.extend({
+                        imgId: 'img1',
+                        btnId: 'a1',
+                        sessionName: 'verifycode'
+                    }, opts || {});
+
+
+                    function getImgVerifyCode() {
+
+                        $("#" + opts.imgId).attr("src", "/Common/GetImgVerifyCode?name=" + opts.sessionName + "&date=" + new Date().getTime());
+
+                    }
+
+                    getImgVerifyCode();
+
+                    $('#' + opts.imgId + ',#' + opts.btnId).live("click", function () {
+                        getImgVerifyCode();
+                    });
+
+                    this.getImgVerifyCode = getImgVerifyCode;
+
+                    return this;
+                },
+                getCode: function () {
+                    this.getImgVerifyCode();
+                }
+            };
+
+        })(jQuery);
+
+        $(document).ready(function () {
+
+            $("ul.btn-dropdownmenu > .parent").on("mouseenter", function (e) {
+                var _this = $(this);
+
+                var children = $(_this).find('.children');
+                var display = $(children).css('display');
+
+                if (display == "none") {
+                    $(children).show();
+                    $(_this).addClass('open');
+                }
+                else {
+                    $(children).hide();
+                    $(_this).removeClass('open');
+                }
+
+                $(_this).mouseleave(function () {
+                    $(children).hide();
+                    $(_this).removeClass('open');
+                });
+
+            });
+
+            $('.status-bar span').click(function () {
+                $('.status-bar span').removeClass('selected')
+                $(this).addClass('selected')
+            });
+
+
+            $("input[childname$='child']").multiSelect();
+
+
+            $(".uploadimg").initUploadImage();
+
+
+            $("#tab1").tab();
+
+
+            $('#btn_select_staffuser').live('click', function () {
+                var dialogtitle = "选择用户";
+
+                var l_title = $(this).attr("dialog-title")
+                if (typeof l_title != 'undefined') {
+                    dialogtitle = l_title;
+                }
+                art.dialog.open('../StaffUser/SelectList', {
+                    id: "openDialog565", title: l_title, width: '600px', height: '480px', lock: true, drag: false, cancelVal: '关闭', cancel: true
+                });
+
+            });
+
+
+            $('#btn_select_salesmanUser').live('click', function () {
+                var dialogtitle = "选择业务人员";
+
+                var l_title = $(this).attr("dialog-title")
+                if (typeof l_title != 'undefined') {
+                    dialogtitle = l_title;
+                }
+                art.dialog.open('../SalesmanUser/SelectList', {
+                    id: "openDialog565", title: l_title, width: '600px', height: '480px', lock: true, drag: false, cancelVal: '关闭', cancel: true
+                });
+
+            });
+
+
+        });
+
+        function tips(message) {
+            var windowWidth = $(window).width();
+            var left = (windowWidth / 2) - (130 / 2);
+            $('#custom_noTitle_aui_content', window.top.document).text(message);
+            $('#custom_noTitle', window.top.document).show();
+            $('#custom_noTitle', window.top.document).css('left', left)
+            setTimeout(function () { $('#custom_noTitle', window.top.document).hide() }, 1500);
+        }
+
+    </script>
+    @RenderSection("scripts", required: false)
+</head>
+<body>
+    <div id="custom_noTitle" class=" aui_state_noTitle   aui_state_focus" style="position: fixed; left: 609px; top: 221px; display: none; width: auto; z-index: 9999999; ">
+        <div class="aui_outer">
+            <table class="aui_border">
+                <tbody>
+                    <tr>
+                        <td class="aui_nw"></td>
+                        <td class="aui_n"></td>
+                        <td class="aui_ne"></td>
+                    </tr>
+                    <tr>
+                        <td class="aui_w"></td>
+                        <td class="aui_c">
+                            <div class="aui_inner">
+                                <table class="aui_dialog">
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="2" class="aui_header">
+                                                <div class="aui_titleBar">
+                                                    <div class="aui_title" style="cursor: move; display: none;"></div>
+                                                    <a class="aui_close" href="javascript:/*artDialog*/;" style="display: none;">×</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="aui_icon" style="display: none;">
+                                                <div class="aui_iconBg" style="background: none;">
+                                                </div>
+                                            </td>
+                                            <td class="aui_main" style="width: auto; height: auto;">
+                                                <div class="aui_content" style="padding: 20px 25px;">
+                                                    <div style="padding: 0 1em;" id="custom_noTitle_aui_content">正在加载</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="aui_footer">
+                                                <div class="aui_buttons" style="display: none;"></div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                        <td class="aui_e"></td>
+                    </tr>
+                    <tr>
+                        <td class="aui_sw"></td>
+                        <td class="aui_s"></td>
+                        <td class="aui_se" style="cursor: se-resize;"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    @RenderBody()
+    @RenderSection("scriptsbyend", required: false)
+</body>
+</html>

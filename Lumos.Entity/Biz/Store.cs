@@ -8,24 +8,28 @@ using System.Threading.Tasks;
 
 namespace Lumos.Entity
 {
-    [Table("Machine")]
-    public class Machine
+    [Table("Store")]
+    public class Store
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [MaxLength(128)]
-        public string Sn { get; set; }
+        public int UserId { get; set; }
+        public int MerchantId { get; set; }
         [MaxLength(128)]
         public string Name { get; set; }
+        public double Lat { get; set; }
+        public double Lng { get; set; }
         [MaxLength(128)]
-        public string DeviceId { get; set; }
+        public string AreaCode { get; set; }
         [MaxLength(128)]
-        public string MacAddress { get; set; }
+        public string AreaName { get; set; }
+        [MaxLength(128)]
+        public string Address { get; set; }
+        public string Description { get; set; }
+        public Enumeration.StoreStatus Status { get; set; }
         public int Creator { get; set; }
         public DateTime CreateTime { get; set; }
         public int? Mender { get; set; }
         public DateTime? LastUpdateTime { get; set; }
-        public bool IsUse { get; set; }
-
     }
 }

@@ -33,24 +33,7 @@ namespace Lumos.BLL
 
         public bool CanGetData(int userId, DateTime? lastUpdateTime, out DateTime? updateTime)
         {
-
-            updateTime = CurrentDb.SysItemCacheUpdateTime.Where(m => (m.Type == Entity.Enumeration.SysItemCacheType.Banner || m.Type == Entity.Enumeration.SysItemCacheType.CarInsCompanys || m.Type == Entity.Enumeration.SysItemCacheType.CarKinds
-            || m.Type == Entity.Enumeration.SysItemCacheType.TalentDemandWorkJob || m.Type == Entity.Enumeration.SysItemCacheType.ExtendedApp) || (m.Type == Entity.Enumeration.SysItemCacheType.User && m.ReferenceId == userId)).Max(m => m.LastUpdateTime);
-
-
-
-            if (lastUpdateTime == null)
-                return true;
-
-            if (updateTime == null)
-                return true;
-
-            if (updateTime.ToUnifiedFormatDateTime() == lastUpdateTime.ToUnifiedFormatDateTime())
-            {
-                return false;
-            }
-
-
+            updateTime = this.DateTime;
             return true;
         }
 

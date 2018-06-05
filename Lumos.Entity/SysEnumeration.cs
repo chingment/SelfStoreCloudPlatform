@@ -253,5 +253,10 @@ namespace Lumos.Entity
             ExportExcel = 102
         }
 
+        public enum SysItemCacheType
+        {
+            Unknow = 0,
+            User = 1
+        }
     }
 }

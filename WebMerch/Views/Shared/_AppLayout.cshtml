@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "Details";
+    Layout = null;
+    string strUrl = System.Configuration.ConfigurationManager.AppSettings["custom:WebAppStaticResourceServerUrl"];
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link href="@(strUrl)/Content/Base/Site.css" rel="stylesheet" type="text/css" />
+    @RenderSection("styles", required: false)
+    <script src="@(strUrl)/Scripts/Jquery-1.8.3.min.js"></script>
+    <script src="@(strUrl)/Scripts/owl.carousel.min.js"></script>
+    <script src="@(strUrl)/Scripts/jquery.lumos.mobile.1.0.0.js"></script>
+    @RenderSection("scripts", required: false)
+</head>
+<body>
+    <div class="dialog-loading">
+        <img src="@(strUrl+"/Content/base/images/loading.gif")" style="width:32px;" />
+    </div>
+
+    <div class="view-main">
+        <div class="dialog-tips">
+            <span></span>
+        </div>
+    </div>
+
+
+    @RenderBody()
+    @RenderSection("scriptsbyend", required: false)
+</body>
+</html>
+
+

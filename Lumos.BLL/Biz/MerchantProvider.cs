@@ -32,7 +32,7 @@ namespace Lumos.BLL
                 sysMerchatUser.CreateTime = this.DateTime;
                 sysMerchatUser.Creator = operater;
                 sysMerchatUser.Status = Enumeration.UserStatus.Normal;
-                sysMerchatUser.Type = Enumeration.UserType.Client;
+                sysMerchatUser.Type = Enumeration.UserType.Merchant;
                 CurrentDb.SysMerchatUser.Add(sysMerchatUser);
                 CurrentDb.SaveChanges();
 
