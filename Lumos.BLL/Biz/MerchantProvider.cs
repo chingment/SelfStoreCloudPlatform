@@ -25,7 +25,7 @@ namespace Lumos.BLL
                 {
                     return new CustomJsonResult(ResultType.Failure, "账号已经存在");
                 }
-
+                sysMerchatUser.Id = GuidUtil.New();
                 sysMerchatUser.PasswordHash = PassWordHelper.HashPassword(sysMerchatUser.Password);
                 sysMerchatUser.SecurityStamp = Guid.NewGuid().ToString();
                 sysMerchatUser.RegisterTime = this.DateTime;
@@ -36,7 +36,7 @@ namespace Lumos.BLL
                 CurrentDb.SysMerchatUser.Add(sysMerchatUser);
                 CurrentDb.SaveChanges();
 
-
+                merchant.Id = GuidUtil.New();
                 merchant.UserId = sysMerchatUser.Id;
                 merchant.CreateTime = this.DateTime;
                 merchant.Creator = operater;

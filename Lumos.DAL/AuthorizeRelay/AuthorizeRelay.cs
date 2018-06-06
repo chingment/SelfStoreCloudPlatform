@@ -79,6 +79,7 @@ namespace Lumos.DAL.AuthorizeRelay
         private void AddOperateHistory(string operater, Enumeration.OperateType operateType, string referenceId, string content)
         {
             SysOperateHistory operateHistory = new SysOperateHistory();
+            operateHistory.Id = GuidUtil.New();
             operateHistory.UserId = operater;
             operateHistory.ReferenceId = referenceId;
             operateHistory.Ip = "";
@@ -254,10 +255,9 @@ namespace Lumos.DAL.AuthorizeRelay
                     {
                         foreach (string roleId in roleIds)
                         {
-                            if (roleId != "0")
-                            {
-                                _db.SysUserRole.Add(new SysUserRole { UserId = user.Id, RoleId = roleId });
-                            }
+
+                            _db.SysUserRole.Add(new SysUserRole { Id = GuidUtil.New(), UserId = user.Id, RoleId = roleId, Creator = operater, CreateTime = DateTime.Now });
+
                         }
                     }
                 }
@@ -315,7 +315,7 @@ namespace Lumos.DAL.AuthorizeRelay
                         {
                             if (roleId != "0")
                             {
-                                _db.SysUserRole.Add(new SysUserRole { UserId = user.Id, RoleId = roleId });
+                                _db.SysUserRole.Add(new SysUserRole { Id = GuidUtil.New(), UserId = user.Id, RoleId = roleId, Creator = operater, CreateTime = DateTime.Now });
                             }
                         }
                     }
@@ -480,7 +480,7 @@ namespace Lumos.DAL.AuthorizeRelay
         {
             foreach (string userId in userIds)
             {
-                _db.SysUserRole.Add(new SysUserRole { UserId = userId, RoleId = roleId });
+                _db.SysUserRole.Add(new SysUserRole { Id = GuidUtil.New(), UserId = userId, RoleId = roleId, Creator = operater, CreateTime = DateTime.Now });
                 _db.SaveChanges();
 
                 AddOperateHistory(operater, Enumeration.OperateType.Update, roleId, string.Format("添加用户(ID：{0})到角色(ID:{1})", userId, roleId));
@@ -584,7 +584,7 @@ namespace Lumos.DAL.AuthorizeRelay
             {
                 foreach (var m in perssions)
                 {
-                    _db.SysMenuPermission.Add(new SysMenuPermission { MenuId = sysMenu.Id, PermissionId = m });
+                    _db.SysMenuPermission.Add(new SysMenuPermission { Id = GuidUtil.New(), MenuId = sysMenu.Id, PermissionId = m, Creator = operater, CreateTime = DateTime.Now });
                 }
             }
 

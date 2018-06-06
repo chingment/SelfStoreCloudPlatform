@@ -16,6 +16,13 @@ namespace WebUploadImageServer.Controllers
 {
     public class UploadFileController : BaseApiController
     {
+        public string GetUploadPath(string path)
+        {
+            string rootPath = "/Upload/";
+            rootPath += path;
+            return rootPath;
+        }
+
         public HttpResponseMessage Post(UploadFileEntity entity)
         {
             LogUtil.SetTrackId();
@@ -43,7 +50,7 @@ namespace WebUploadImageServer.Controllers
 
                     string imageSign = "";
 
-                    string savefolder = CommonSetting.GetUploadPath(entity.UploadFolder);
+                    string savefolder = GetUploadPath(entity.UploadFolder);
                     string extension = Path.GetExtension(entity.FileName).ToLower();
                     string yyyyMMddhhmmssfff = Guid.NewGuid().ToString();
                     string originalNewfilename = imageSign + yyyyMMddhhmmssfff + extension;//原图片文件名称

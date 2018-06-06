@@ -18,7 +18,7 @@ namespace Lumos
 
         public static void OnActionExecuting(ActionExecutingContext filterContext)
         {
-
+            LogUtil.Info(filterContext.RequestContext.HttpContext.Request.RawUrl);
         }
 
         public static void OnActionExecuted(ActionExecutedContext filterContext)

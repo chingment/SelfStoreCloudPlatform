@@ -24,5 +24,8 @@ namespace Lumos.Entity
         [Column(Order = 2)]
         [MaxLength(128)]
         public string PermissionId { get; set; }
+
+        public string Creator { get; set; }
+        public DateTime CreateTime { get; set; }
     }
 }

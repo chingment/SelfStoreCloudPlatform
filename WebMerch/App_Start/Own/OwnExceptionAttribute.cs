@@ -21,14 +21,6 @@ namespace WebMerch
         void IExceptionFilter.OnException(ExceptionContext filterContext)
         {
 
-            if (LogicalThreadContext.Properties["trackid"] == null)
-            {
-                if (HttpContext.Current.Session != null)
-                {
-                    LogicalThreadContext.Properties["trackid"] = HttpContext.Current.Session.SessionID;
-                }
-            }
-
             bool isAjaxRequest = filterContext.RequestContext.HttpContext.Request.IsAjaxRequest();
             string controller = (string)filterContext.RouteData.Values["controller"];
             string action = (string)filterContext.RouteData.Values["action"];

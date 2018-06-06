@@ -20,10 +20,10 @@
                 var l_StrRows = "";
                 l_StrRows += "<tr>";
                 l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
-                l_StrRows += "<td class=\"overflow tipitem\" title=\"" + p_row.sn + "\"   >" + p_row.sn + "</td>";
-                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.deviceId + "\"   >" + p_row.deviceId + "</td>";
+                l_StrRows += "<td class=\"overflow tipitem\" title=\"" + p_row.deviceId + "\"   >" + p_row.deviceId + "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.name + "\"   >" + p_row.name + "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.macAddress + "\">" + p_row.macAddress + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.isUse + "\">" + p_row.isUse + "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.createTime + "\">" + p_row.createTime + "</td>";
                 l_StrRows += "<td class=\"operation\">";
                 l_StrRows += l_Strlimt;
@@ -88,9 +88,6 @@
                     <th style="width:5%" class="no">
                         序号
                     </th>
-                    <th style="width:10%">
-                        编号
-                    </th>
                     <th style="width:20%">
                         设备ID
                     </th>
@@ -101,9 +98,12 @@
                         Mac地址
                     </th>
                     <th style="width:10%">
+                        已使用
+                    </th>
+                    <th style="width:15%">
                         登记时间
                     </th>
-                    <th style="width:15%" class="operation">
+                    <th style="width:10%" class="operation">
                         操作
                     </th>
                 </tr>
@@ -111,7 +111,7 @@
             <tbody></tbody>
             <tfoot>
                 <tr>
-                    <td colspan="7">
+                    <td colspan="8">
                         <div class="pull-left">
                             <span class="load-tip"></span>
                         </div>

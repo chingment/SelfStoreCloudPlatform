@@ -15,7 +15,7 @@ namespace Lumos.Entity
     public class SysOperateHistory
     {
 
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
         public string Id { get; set; }
         public string UserId { get; set; }
         [MaxLength(128)]

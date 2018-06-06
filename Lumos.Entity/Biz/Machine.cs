@@ -14,8 +14,6 @@ namespace Lumos.Entity
         [Key]
         public string Id { get; set; }
         [MaxLength(128)]
-        public string Sn { get; set; }
-        [MaxLength(128)]
         public string Name { get; set; }
         [MaxLength(128)]
         public string DeviceId { get; set; }

@@ -19,7 +19,7 @@ namespace Lumos.BLL
             if (l_posMachine != null)
                 return new CustomJsonResult(ResultType.Failure, "该POS机设备ID已经登记");
 
-
+            machine.Id = GuidUtil.New();
             machine.CreateTime = this.DateTime;
             machine.Creator = operater;
 

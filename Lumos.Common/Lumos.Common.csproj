@@ -72,7 +72,6 @@
     <Compile Include="SqlHelper.cs" />
     <Compile Include="Utils\DataTableUtils.cs" />
     <Compile Include="Utils\DateTimeUtils.cs" />
-    <Compile Include="CommonSetting.cs" />
     <Compile Include="Utils\CommonUtils.cs" />
     <Compile Include="Utils\CookieUtils.cs" />
     <Compile Include="Extensions\HtmlExtensions.cs" />

@@ -20,18 +20,15 @@ namespace WebBack
 {
     public class MvcApplication : System.Web.HttpApplication
     {
+
         protected void Application_Start()
         {
-            
+            log4net.Config.XmlConfigurator.Configure();
+            LogUtil.Info("应用程序开始");
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            //Database.SetInitializer<LumosDbContext>(new FxContextDatabaseInitializerForCreateDatabaseIfNotExists());
-            //Database.SetInitializer<LumosDbContext>(new FxContextDatabaseInitializerForDropCreateDatabaseAlways());
-
-
-            //扩展
             ViewEngines.Engines.Clear();
             ViewEngines.Engines.Add(new RazorViewEngineExtension());
         }

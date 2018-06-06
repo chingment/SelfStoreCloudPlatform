@@ -39,7 +39,7 @@
 function () {
     var array = new Array();
     array.push({ name: "merchantId", value: $.lumos.getUrlParamValue("merchantId") });
-    array.push({ name: "machineId", value: obj.id });
+    array.push({ name: "machineId", value: obj.machineId });
 
     $.lumos.postJson({
         isUseHandling: true,

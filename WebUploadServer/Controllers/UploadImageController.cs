@@ -20,6 +20,13 @@ namespace WebUploadImageServer.Controllers
 
     public class UploadImageController : BaseApiController
     {
+        public  string GetUploadPath(string path)
+        {
+            string rootPath = "/Upload/";
+            rootPath += path;
+            return rootPath;
+        }
+
         private bool GreateMiniImageModel(string originalpath, string savepath, int tWidth, int tHeight)
         {
             System.Drawing.Image SImage = System.Drawing.Image.FromFile(originalpath);
@@ -90,7 +97,7 @@ namespace WebUploadImageServer.Controllers
                     int[] smallImgSize = new int[2] { 100, 100 };
                     string imageSign = "";
 
-                    string savefolder = CommonSetting.GetUploadPath(entity.UploadFolder);
+                    string savefolder = GetUploadPath(entity.UploadFolder);
                     string extension = Path.GetExtension(entity.FileName).ToLower();
                     string yyyyMMddhhmmssfff = Guid.NewGuid().ToString();
                     string originalNewfilename = imageSign + yyyyMMddhhmmssfff + "_O" + extension;//原图片文件名称

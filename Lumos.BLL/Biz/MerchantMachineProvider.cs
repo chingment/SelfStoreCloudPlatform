@@ -33,6 +33,7 @@ namespace Lumos.BLL
                 if (merchantMachine == null)
                 {
                     merchantMachine = new MerchantMachine();
+                    merchantMachine.Id = GuidUtil.New();
                     merchantMachine.UserId = merchant.UserId;
                     merchantMachine.MerchantId = merchantId;
                     merchantMachine.MachineId = machineId;

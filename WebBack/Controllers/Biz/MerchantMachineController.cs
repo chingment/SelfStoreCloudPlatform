@@ -37,7 +37,7 @@ namespace WebBack.Controllers.Biz
             var list = (from u in CurrentDb.Machine
                         where u.IsUse == false &&
                                (deviceId.Length == 0 || u.DeviceId.Contains(deviceId))
-                        select new { u.Id, u.Sn, u.Name, u.DeviceId, u.MacAddress, u.CreateTime });
+                        select new { u.Id, u.Name, u.DeviceId, u.MacAddress, u.CreateTime });
 
             int total = list.Count();
 

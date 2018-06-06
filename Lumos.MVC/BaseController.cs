@@ -186,7 +186,7 @@ namespace Lumos.Mvc
         #endregion 公共的方法
 
 
-        public string CurrentUserId { get; }
+        public virtual string CurrentUserId { get; set; }
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {

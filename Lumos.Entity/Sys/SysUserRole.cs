@@ -18,5 +18,7 @@ namespace Lumos.Entity
         public string RoleId { get; set; }
         [Key, Column(Order = 2)]
         public string UserId { get; set; }
+        public string Creator { get; set; }
+        public DateTime CreateTime { get; set; }
     }
 }

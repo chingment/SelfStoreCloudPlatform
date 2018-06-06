@@ -30,6 +30,12 @@ namespace WebMerch
     public abstract class OwnBaseController : BaseController
     {
 
-
+        public override string CurrentUserId
+        {
+            get
+            {
+                return OwnRequest.GetCurrentUserId();
+            }
+        }
     }
 }

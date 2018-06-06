@@ -39,17 +39,34 @@ namespace WebBack.Controllers.Biz
         {
             string deviceId = condition.DeviceId.ToSearchString();
 
-            var list = (from p in CurrentDb.Machine
-                        where
-                                (deviceId.Length == 0 || p.DeviceId.Contains(deviceId)) 
-                        select new { p.Id, p.Sn, p.Name, p.DeviceId, p.MacAddress, p.CreateTime });
+            var query = (from p in CurrentDb.Machine
+                         where
+                                 (deviceId.Length == 0 || p.DeviceId.Contains(deviceId))
+                         select new { p.Id, p.Name, p.DeviceId, p.MacAddress, p.IsUse, p.CreateTime });
 
-            int total = list.Count();
+            int total = query.Count();
 
             int pageIndex = condition.PageIndex;
             int pageSize = 10;
-            list = list.OrderByDescending(r => r.CreateTime).Skip(pageSize * (pageIndex)).Take(pageSize);
+            query = query.OrderByDescending(r => r.CreateTime).Skip(pageSize * (pageIndex)).Take(pageSize);
 
+            List<object> list = new List<object>();
+
+            foreach (var item in query)
+            {
+
+                list.Add(new
+                {
+                    item.Id,
+                    item.Name,
+                    item.DeviceId,
+                    IsUse = (item.IsUse == true ? "是" : "否"),
+                    item.MacAddress,
+                    item.CreateTime
+                });
+
+
+            }
 
             PageEntity pageEntity = new PageEntity { PageSize = pageSize, TotalRecord = total, Rows = list };
 

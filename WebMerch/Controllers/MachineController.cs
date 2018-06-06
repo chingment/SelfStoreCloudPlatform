@@ -40,7 +40,7 @@ namespace WebMerch.Controllers.Biz
                                  (deviceId.Length == 0 || p.DeviceId.Contains(deviceId))
                                  &&
                                  mp.UserId == this.CurrentUserId
-                         select new { p.Id, p.Sn, p.Name, p.DeviceId, p.MacAddress, p.CreateTime });
+                         select new { p.Id, p.Name, p.DeviceId, p.MacAddress,p.IsUse, p.CreateTime });
 
             int total = query.Count();
 
