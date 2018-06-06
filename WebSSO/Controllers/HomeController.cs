@@ -21,6 +21,7 @@ namespace WebSSO.Controllers
         {
             string guid = Guid.Empty.ToString().Replace("-", "");
 
+            LogUtil.Info("daddsd");
             Session["WebSSOLoginVerifyCode"] = null;
 
             LoginModel model = new LoginModel();

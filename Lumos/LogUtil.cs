@@ -35,24 +35,12 @@ namespace Lumos
 
             var trace = new System.Diagnostics.StackTrace();
 
-            //for (int i = 0; i < trace.FrameCount; i++)
-            //{
-            //    ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-            //    System.Reflection.MethodBase mb2 = trace.GetFrame(i).GetMethod();
-            //    if (mb2 != null)
-            //    {
-            //        if (mb2.DeclaringType != null)
-            //        {
-            //            log.Info(string.Format("[CALL STACK][{0}]: {1}.{2}", i, mb2.DeclaringType.FullName, mb2.Name));
-            //        }
-            //    }
-            //}
-
             string name = type.Name;
             if (trace.FrameCount >= 3)
             {
                 System.Reflection.MethodBase mb = trace.GetFrame(2).GetMethod();
                 type = mb.DeclaringType;
+
                 name = string.Format("{0}.{1}", mb.DeclaringType.FullName, mb.Name);
             }
 
@@ -61,7 +49,25 @@ namespace Lumos
 
         public static void Info(string msg)
         {
-            GetLog().Info(msg);
+            string r_msg = "\r\n";
+            //var trace = new System.Diagnostics.StackTrace();
+            //for (int i = 0; i < trace.FrameCount; i++)
+            //{
+            //    System.Reflection.MethodBase mb2 = trace.GetFrame(i).GetMethod();
+            //    if (mb2 != null)
+            //    {
+            //        if (mb2.DeclaringType != null)
+            //        {
+            //            if (mb2.DeclaringType.Assembly.FullName.ToLower().IndexOf("lumos") > -1 || mb2.DeclaringType.Assembly.FullName.ToLower().IndexOf("websso") > -1)
+            //            {
+            //                r_msg += string.Format("[CALL STACK][{0}]: {1}.{2}\r\n", i, mb2.DeclaringType.FullName, mb2.Name);
+            //            }
+            //        }
+            //    }
+            //}
+
+
+            GetLog().Info(r_msg + msg);
         }
 
         public static void Warn(string msg)
