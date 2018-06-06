@@ -11,7 +11,7 @@ namespace Lumos.BLL.Service.Term
 {
     public class MachineService : BaseProvider
     {
-        public CustomJsonResult ApiConfig(int operater, string deviceId)
+        public CustomJsonResult ApiConfig(string operater, string deviceId)
         {
             CustomJsonResult result = new CustomJsonResult();
 

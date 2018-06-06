@@ -1,4 +1,5 @@
-﻿using Lumos.BLL;
+﻿using Lumos;
+using Lumos.BLL;
 using Lumos.BLL.Service.Term;
 using Lumos.DAL;
 using Lumos.DAL.AuthorizeRelay;
@@ -20,7 +21,7 @@ namespace WebTermApi.Controllers
         [HttpGet]
         public APIResponse ApiConfig(string deviceId)
         {
-            IResult result = TermServiceFactory.Machine.ApiConfig(0, deviceId);
+            IResult result = TermServiceFactory.Machine.ApiConfig("0", deviceId);
             return new APIResponse(result);
 
         }

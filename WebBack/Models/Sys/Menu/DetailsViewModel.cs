@@ -40,7 +40,7 @@ namespace WebBack.Models.Sys.Menu
         {
 
         }
-        public DetailsViewModel(int id)
+        public DetailsViewModel(string id)
         {
             var sysMenu = CurrentDb.SysMenu.Where(m => m.Id == id).FirstOrDefault();
             if (sysMenu != null)

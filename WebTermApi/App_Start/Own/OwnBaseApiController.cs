@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Http;
 using WebTermApi.Models;
 using Lumos.Entity;
+using Lumos;
 
 namespace WebTermApi
 {
@@ -39,28 +40,10 @@ namespace WebTermApi
             }
         }
 
-        protected ILog Log
-        {
-            get
-            {
-                return LogManager.GetLogger(this.GetType());
-            }
-        }
-
-        protected static ILog GetLog(Type t)
-        {
-            return LogManager.GetLogger(t);
-        }
-
-        protected void SetTrackID()
-        {
-            if (LogicalThreadContext.Properties["trackid"] == null)
-                LogicalThreadContext.Properties["trackid"] = Guid.NewGuid().ToString("N");
-        }
 
         public OwnBaseApiController()
         {
-            SetTrackID();
+            LogUtil.SetTrackId();
             _currentDb = new LumosDbContext();
             _result = new APIResult { Result = ResultType.Unknown, Code = ResultCode.Unknown, Message = "未知" };
         }
@@ -81,8 +64,6 @@ namespace WebTermApi
 
         public string GetUploadImageUrl(ImageModel imagemodel, string savepath)
         {
-            ILog log = LogManager.GetLogger(this.GetType());
-
             if (imagemodel == null)
             {
                 return null;
@@ -121,14 +102,14 @@ namespace WebTermApi
                 else
                 {
                     rm.Message = "上传图片发生异常";
-                    log.Error("调用API上传图片发生异常");
+                    LogUtil.Error("调用API上传图片发生异常");
                 }
 
 
             }
             catch (Exception ex)
             {
-                log.Error(ex);
+                LogUtil.Error("",ex);
 
             }
             return imageUrl;
@@ -151,29 +132,5 @@ namespace WebTermApi
             return remarks;
         }
 
-        public bool IsSaleman(int userId)
-        {
-            var user = CurrentDb.SysUser.Where(m => m.Id == userId).FirstOrDefault();
-
-            if (user == null)
-                return true;
-
-            if (user.UserName.Length < 2)
-                return false;
-
-            string pfrix = user.UserName.Substring(0, 2);
-
-            if (pfrix.ToLower() == "ag")
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-
-    
     }
 }

@@ -11,9 +11,9 @@ namespace Lumos.Entity
     [Table("Merchant")]
     public class Merchant
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-        public int UserId { get; set; }
+        [Key]
+        public string Id { get; set; }
+        public string UserId { get; set; }
         [MaxLength(128)]
         public string Sn { get; set; }
         [MaxLength(128)]
@@ -24,9 +24,9 @@ namespace Lumos.Entity
         public string ContactPhone { get; set; }
         [MaxLength(128)]
         public string ContactAddress { get; set; }
-        public int Creator { get; set; }
+        public string Creator { get; set; }
         public DateTime CreateTime { get; set; }
-        public int? Mender { get; set; }
+        public string Mender { get; set; }
         public DateTime? LastUpdateTime { get; set; }
         public string ApiHost { get; set; }
         public string ApiKey { get; set; }

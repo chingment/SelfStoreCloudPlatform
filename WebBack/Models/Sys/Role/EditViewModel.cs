@@ -29,7 +29,7 @@ namespace WebBack.Models.Sys.Role
         }
 
 
-        public EditViewModel(int id)
+        public EditViewModel(string id)
         {
             var sysRole = CurrentDb.SysRole.Where(m => m.Id == id).FirstOrDefault();
             if(sysRole!=null)

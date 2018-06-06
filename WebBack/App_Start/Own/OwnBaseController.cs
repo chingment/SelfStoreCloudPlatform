@@ -29,39 +29,7 @@ namespace WebBack
     [ValidateInput(false)]
     public abstract class OwnBaseController : BaseController
     {
-        private LumosDbContext _currentDb;
 
-        public LumosDbContext CurrentDb
-        {
-            get
-            {
-                return _currentDb;
-            }
-        }
-
-        public OwnBaseController()
-        {
-            _currentDb = new LumosDbContext();
-        }
-
-        protected override void OnActionExecuting(ActionExecutingContext filterContext)
-        {
-            base.OnActionExecuting(filterContext);
-
-            if (!filterContext.HttpContext.Request.IsAjaxRequest())
-            {
-                CurrentDb.SysPageAccessRecord.Add(new SysPageAccessRecord() { UserId = this.CurrentUserId, AccessTime = DateTime.Now, PageUrl = filterContext.HttpContext.Request.Url.AbsolutePath, Ip = CommonUtils.GetIP() });
-                CurrentDb.SaveChanges();
-            }
-        }
-
-        public override int CurrentUserId
-        {
-            get
-            {
-                return OwnRequest.GetCurrentUserId();
-            }
-        }
 
     }
 }

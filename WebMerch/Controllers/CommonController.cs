@@ -14,6 +14,7 @@ using Lumos.Entity;
 using Lumos.Mvc;
 using log4net;
 using System.Text;
+using Lumos;
 
 namespace WebMerch.Controllers
 {
@@ -23,7 +24,7 @@ namespace WebMerch.Controllers
         [HttpPost]
         public ActionResult CkEditorUpLoadFile()
         {
-            Log.Info("调用上传图片接口(CkEditorUpLoadFile)");
+            LogUtil.Info("调用上传图片接口(CkEditorUpLoadFile)");
             string CKEditorFuncNum = Request.QueryString["CKEditorFuncNum"];
             try
             {
@@ -39,7 +40,7 @@ namespace WebMerch.Controllers
 
                 string strUrl = System.Configuration.ConfigurationManager.AppSettings["custom:UploadServerUrl"];
 
-                Log.Info("调用上传图片接口" + strUrl);
+                LogUtil.Info("调用上传图片接口" + strUrl);
 
                 byte[] bytes = null;
                 using (var binaryReader = new BinaryReader(Request.Files[0].InputStream))
@@ -57,7 +58,7 @@ namespace WebMerch.Controllers
                 if (rm.Result == ResultType.Exception || rm.Result == ResultType.Unknown)
                 {
                     rm.Message = "上传图片发生异常";
-                    Log.Error("调用api上传图片失败");
+                    LogUtil.Error("调用api上传图片失败");
 
                     return Content(CkEditorUpLoadCallFunction(CKEditorFuncNum, "远程上传图片发生异常"));
                 }
@@ -68,7 +69,7 @@ namespace WebMerch.Controllers
             }
             catch (Exception ex)
             {
-                Log.Error("调用上传图片接口(CkEditorUpLoadFile)", ex);
+                LogUtil.Error("调用上传图片接口(CkEditorUpLoadFile)", ex);
                 return Content(CkEditorUpLoadCallFunction(CKEditorFuncNum, ex.Message));
             }
         }
@@ -90,7 +91,7 @@ namespace WebMerch.Controllers
             //rm.ContentType = "text/html";
             try
             {
-                Log.Info("调用上传图片接口");
+                LogUtil.Info("调用上传图片接口");
 
                 HttpPostedFileBase file_upload = Request.Files[fileinputname];
 
@@ -115,7 +116,7 @@ namespace WebMerch.Controllers
 
 
                 string strUrl = System.Configuration.ConfigurationManager.AppSettings["custom:UploadServerUrl"];
-                Log.Info("调用上传图片接口" + strUrl);
+                LogUtil.Info("调用上传图片接口" + strUrl);
 
                 byte[] bytes = null;
                 using (var binaryReader = new BinaryReader(Request.Files[0].InputStream))
@@ -133,14 +134,14 @@ namespace WebMerch.Controllers
                 if (rm.Result == ResultType.Exception || rm.Result == ResultType.Unknown)
                 {
                     rm.Message = "上传图片发生异常.";
-                    Log.Error("调用api上传图片失败");
+                    LogUtil.Error("调用api上传图片失败");
                 }
             }
             catch (Exception ex)
             {
                 rm.Result = ResultType.Exception;
                 rm.Message = "上传图片发生异常..";
-                Log.Error(ex);
+                LogUtil.Error("",ex);
 
             }
             return rm;

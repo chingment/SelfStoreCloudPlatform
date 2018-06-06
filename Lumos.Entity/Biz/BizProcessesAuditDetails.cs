@@ -12,8 +12,8 @@ namespace Lumos.Entity
     [Table("BizProcessesAuditDetails")]
     public class BizProcessesAuditDetails
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        [Key]
+        public string Id { get; set; }
 
         public int AuditStep { get; set; }
 
@@ -25,9 +25,9 @@ namespace Lumos.Entity
         [MaxLength(128)]
         public string AuditStatusEnumName { get; set; }
 
-        public int BizProcessesAuditId { get; set; }
+        public string BizProcessesAuditId { get; set; }
 
-        public int? Auditor { get; set; }
+        public string Auditor { get; set; }
 
         [MaxLength(1024)]
         public string AuditComments { get; set; }
@@ -37,13 +37,13 @@ namespace Lumos.Entity
 
         public DateTime? AuditTime { get; set; }
 
-        public int Creator { get; set; }
+        public string Creator { get; set; }
 
         public DateTime CreateTime { get; set; }
 
         public Enumeration.BizProcessesAuditType AduitType { get; set; }
 
-        public int AduitReferenceId { get; set; }
+        public string AduitReferenceId { get; set; }
 
     }
 

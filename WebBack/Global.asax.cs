@@ -14,7 +14,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Security;
-
+using Lumos;
 
 namespace WebBack
 {
@@ -39,16 +39,6 @@ namespace WebBack
 
         protected void Application_Error(object sender, EventArgs e)
         {
-            if (LogicalThreadContext.Properties["trackid"] == null)
-            {
-                if (this.Session != null)
-                {
-                    LogicalThreadContext.Properties["trackid"] = this.Session.SessionID;
-                }
-            }
-
-
-            ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
             HttpApplication ap = sender as HttpApplication;
             System.Exception ex = ap.Server.GetLastError();
@@ -61,7 +51,7 @@ namespace WebBack
                 case 404:
                     break;
                 default:
-                    log.Error("Application to catch an exception error", ex);
+                    LogUtil.Error("Application to catch an exception error", ex);
                     break;
             }
         }

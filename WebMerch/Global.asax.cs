@@ -14,7 +14,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Security;
-
+using Lumos;
 
 namespace WebMerch
 {
@@ -47,9 +47,6 @@ namespace WebMerch
                 }
             }
 
-
-            ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
             HttpApplication ap = sender as HttpApplication;
             System.Exception ex = ap.Server.GetLastError();
 
@@ -61,7 +58,7 @@ namespace WebMerch
                 case 404:
                     break;
                 default:
-                    log.Error("Application to catch an exception error", ex);
+                    LogUtil.Error("Application to catch an exception error", ex);
                     break;
             }
         }

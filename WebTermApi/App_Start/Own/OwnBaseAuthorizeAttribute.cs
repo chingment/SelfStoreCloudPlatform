@@ -24,21 +24,6 @@ namespace WebTermApi
     {
         private readonly string key = "_MonitorApiLog_";
 
-
-        protected ILog Log
-        {
-            get
-            {
-                return LogManager.GetLogger(this.GetType());
-            }
-        }
-
-        protected void SetTrackID()
-        {
-            if (ThreadContext.Properties["trackid"] == null)
-                ThreadContext.Properties["trackid"] = DateTime.Now.TimeOfDay.TotalMilliseconds.ToString("00000000"); //Guid.NewGuid().ToString("N");
-        }
-
         private DateTime GetDateTimeTolerance(long timestamp)
         {
             DateTime dt = DateTime.Parse(DateTime.Now.ToString("1970-01-01 00:00:00")).AddSeconds(timestamp);
@@ -82,8 +67,8 @@ namespace WebTermApi
         {
             try
             {
-                SetTrackID();
-                Log.Info("调用API接口");
+
+                LogUtil.Info("调用API接口");
                 DateTime requestTime = DateTime.Now;
                 var request = ((HttpContextWrapper)actionContext.Request.Properties["MS_HttpContext"]).Request;
                 var requestMethod = request.HttpMethod;
@@ -95,7 +80,7 @@ namespace WebTermApi
 
                 if (app_version != null)
                 {
-                    Log.Info("app_version:" + app_version);
+                    LogUtil.Info("app_version:" + app_version);
                 }
 
                 string app_data = null;
@@ -106,7 +91,7 @@ namespace WebTermApi
                     stream.Seek(0, SeekOrigin.Begin);
                     app_data = new StreamReader(stream).ReadToEnd();
 
-                    Log.Info("app_data:" + app_data);
+                    LogUtil.Info("app_data:" + app_data);
 
                     #region 过滤图片
                     if (app_data.LastIndexOf(",\"ImgData\":{") > -1)
@@ -146,7 +131,7 @@ namespace WebTermApi
                 monitorApiLog.RequestTime = requestTime;
                 monitorApiLog.RequestUrl = request.RawUrl;
                 monitorApiLog.SignatureData = new SignatureData { Key = app_key, Sign = app_sign, TimeStamp = app_timestamp_s, Data = app_data };
-                Log.Info(string.Format("API请求:{0}", monitorApiLog.ToString()));
+                LogUtil.Info(string.Format("API请求:{0}", monitorApiLog.ToString()));
 
                 actionContext.ActionArguments[key] = monitorApiLog;
 
@@ -192,7 +177,7 @@ namespace WebTermApi
 
                 if (signStr != app_sign)
                 {
-                    Log.Warn("API签名错误");
+                    LogUtil.Warn("API签名错误");
                     APIResult result = new APIResult(ResultType.Failure, ResultCode.FailureSign, "签名错误");
                     actionContext.Response = new APIResponse(result);
                     return;
@@ -202,7 +187,7 @@ namespace WebTermApi
             }
             catch (Exception ex)
             {
-                Log.Error(string.Format("API错误:{0}", ex.Message), ex);
+                LogUtil.Error(string.Format("API错误:{0}", ex.Message), ex);
                 APIResult result = new APIResult(ResultType.Exception, ResultCode.Exception, "内部错误");
                 actionContext.Response = new APIResponse(result);
 
@@ -219,7 +204,7 @@ namespace WebTermApi
             MonitorApiLog monitorApiLog = actionContext.ActionContext.ActionArguments[key] as MonitorApiLog;
             monitorApiLog.ResponseTime = responseTime;
             monitorApiLog.ResponseData = content;//form表单提交的数据
-            Log.Info(string.Format("API响应:{0}", monitorApiLog.ToString()));
+            LogUtil.Info(string.Format("API响应:{0}", monitorApiLog.ToString()));
             return content;
         }
 

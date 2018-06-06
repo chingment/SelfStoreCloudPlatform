@@ -1,4 +1,5 @@
 ﻿using log4net;
+using Lumos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +16,10 @@ namespace WebTermApi
     {
         public override void OnException(HttpActionExecutedContext actionExecutedContext)
         {
-            ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
             Exception ex = actionExecutedContext.Exception;
-            log.Error("API调用出现异常", ex);
-            log.Error(ex.InnerException.Message);
-            log.Error(ex.StackTrace);
+            LogUtil.Error("API调用出现异常", ex);
+            LogUtil.Error(ex.InnerException.Message);
+            LogUtil.Error(ex.StackTrace);
         }
     }
 

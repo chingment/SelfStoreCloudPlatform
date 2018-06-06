@@ -14,7 +14,6 @@ namespace Lumos.Session.Redis
     /// </summary>
     public class RedisSession : ISession
     {
-        private ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         private const string SessionSign = "SessionName";
         private const int TimeOut = 10080;

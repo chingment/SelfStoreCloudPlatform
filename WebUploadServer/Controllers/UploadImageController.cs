@@ -1,4 +1,5 @@
 ﻿using log4net;
+using Lumos;
 using Lumos.Common;
 using Lumos.Mvc;
 using System;
@@ -75,8 +76,8 @@ namespace WebUploadImageServer.Controllers
 
         public HttpResponseMessage Post(UploadFileEntity entity)
         {
-            SetTrackID();
-            Log.Info("调用UploadImage");
+            LogUtil.SetTrackId();
+            LogUtil.Info("调用UploadImage");
             HttpContextBase context = (HttpContextBase)Request.Properties["MS_HttpContext"];//获取传统context
             HttpRequestBase request = context.Request;//定义传统request对象 
             CustomJsonResult r = new CustomJsonResult();
@@ -156,7 +157,7 @@ namespace WebUploadImageServer.Controllers
             {
                 r.Result = ResultType.Exception;
                 r.Message = "上传失败";
-                Log.Error("WebApi上传图片异常", ex);
+                LogUtil.Error("WebApi上传图片异常", ex);
 
             }
 

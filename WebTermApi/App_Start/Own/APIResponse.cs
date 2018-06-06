@@ -1,4 +1,5 @@
-﻿using Lumos.Mvc;
+﻿using Lumos;
+using Lumos.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,4 +1,5 @@
 ﻿using log4net;
+using Lumos;
 using Lumos.Common;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,6 @@ namespace WebTermApi
 
         protected void Application_Error(object sender, EventArgs e)
         {
-            ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
             HttpApplication ap = sender as HttpApplication;
             System.Exception ex = ap.Server.GetLastError();
@@ -37,7 +37,7 @@ namespace WebTermApi
                 case 404:
                     break;
                 default:
-                    log.Error("应用程序捕捉到异常", ex);
+                    LogUtil.Error("应用程序捕捉到异常", ex);
                     break;
             }
         }

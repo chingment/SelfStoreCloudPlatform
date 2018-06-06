@@ -20,9 +20,14 @@ namespace WebSSO
 {
     public class MvcApplication : System.Web.HttpApplication
     {
+        private ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         protected void Application_Start()
         {
-            
+            //log.Info("开始");
+
+           
+
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

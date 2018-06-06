@@ -21,13 +21,13 @@ namespace WebBack.Models.Sys.StaffUser
                 _sysStaffUser = value;
             }
         }
-        public int[] UserRoleIds { get; set; }
+        public string[] UserRoleIds { get; set; }
         public EditViewModel()
         {
 
         }
 
-        public EditViewModel(int id)
+        public EditViewModel(string id)
         {
             var sysStaffUser = CurrentDb.SysStaffUser.Where(m => m.Id == id).FirstOrDefault();
             if (sysStaffUser != null)

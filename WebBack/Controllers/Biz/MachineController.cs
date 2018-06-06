@@ -12,6 +12,7 @@ using NPOI.SS.UserModel;
 using System.Data;
 using System.Transactions;
 using WebBack.Models.Biz.Machine;
+using Lumos;
 
 namespace WebBack.Controllers.Biz
 {
@@ -28,7 +29,7 @@ namespace WebBack.Controllers.Biz
             return View();
         }
 
-        public ViewResult Edit(int id)
+        public ViewResult Edit(string id)
         {
             EditViewModel model = new EditViewModel(id);
             return View(model);

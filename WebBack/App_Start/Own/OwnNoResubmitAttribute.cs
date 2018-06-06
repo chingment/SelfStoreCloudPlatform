@@ -1,4 +1,5 @@
-﻿using Lumos.Common;
+﻿using Lumos;
+using Lumos.Common;
 using Lumos.Mvc;
 using Newtonsoft.Json;
 using System;

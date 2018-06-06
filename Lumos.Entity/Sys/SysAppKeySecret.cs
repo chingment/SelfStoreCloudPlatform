@@ -12,8 +12,8 @@ namespace Lumos.Entity
     [Table("SysAppKeySecret")]
     public class SysAppKeySecret
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        [Key]
+        public string Id { get; set; }
 
         [MaxLength(128)]
         public string Key { get; set; }
@@ -23,11 +23,11 @@ namespace Lumos.Entity
 
         public Enumeration.AppKeySecretStatus Status { get; set; }
 
-        public int Creator { get; set; }
+        public string Creator { get; set; }
 
         public DateTime CreateTime { get; set; }
 
-        public int? Mender { get; set; }
+        public string Mender { get; set; }
 
         public DateTime? LastUpdateTime { get; set; }
     }

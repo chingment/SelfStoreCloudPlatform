@@ -39,7 +39,7 @@ namespace WebBack.Models.Biz.Merchant
 
         }
 
-        public EditViewModel(int id)
+        public EditViewModel(string id)
         {
             var merchant = CurrentDb.Merchant.Where(m => m.Id == id).FirstOrDefault();
             if (merchant != null)

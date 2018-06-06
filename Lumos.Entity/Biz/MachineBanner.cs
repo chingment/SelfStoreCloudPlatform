@@ -12,18 +12,18 @@ namespace Lumos.Entity
     [Table("MachineBanner")]
     public class MachineBanner
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-        public int UserId { get; set; }
-        public int MerchantId { get; set; }
-        public int MachineId { get; set; }
+        [Key]
+        public string Id { get; set; }
+        public string UserId { get; set; }
+        public string MerchantId { get; set; }
+        public string MachineId { get; set; }
         [MaxLength(1024)]
         public string ImgUrl { get; set; }
         public int Priority { get; set; }
         public Enumeration.MachineBannerStatus Status { get; set; }
-        public int Creator { get; set; }
+        public string Creator { get; set; }
         public DateTime CreateTime { get; set; }
-        public int? Mender { get; set; }
+        public string Mender { get; set; }
         public DateTime? LastUpdateTime { get; set; }
     }
 }

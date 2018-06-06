@@ -11,15 +11,6 @@ namespace Lumos.Common
 {
     public sealed class Signature
     {
-
-        ILog Log
-        {
-            get
-            {
-                return LogManager.GetLogger(this.GetType());
-            }
-        }
-
         ///// <summary>
         ///// 服务器可以接受的调用方时间戳与服务器时间的时差，单位秒
         ///// </summary>

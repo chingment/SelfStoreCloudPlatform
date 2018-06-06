@@ -12,6 +12,7 @@ using Lumos.Common;
 using System.Globalization;
 using Lumos.Mvc;
 using Lumos.Session;
+using Lumos;
 
 namespace WebBack
 {

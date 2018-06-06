@@ -26,7 +26,7 @@ namespace WebBack.Models.Sys.Role
         {
 
         }
-        public DetailsViewModel(int id)
+        public DetailsViewModel(string id)
         {
             var sysRole = CurrentDb.SysRole.Where(m => m.Id == id).FirstOrDefault();
             if (sysRole != null)

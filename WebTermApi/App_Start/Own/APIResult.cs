@@ -1,4 +1,5 @@
-﻿using Lumos.Mvc;
+﻿using Lumos;
+using Lumos.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
@@ -9,25 +10,6 @@ using System.Web;
 
 namespace WebTermApi
 {
-
-    //public enum ResultType
-    //{
-    //    Unknown = 0,
-    //    Success = 1,
-    //    Failure = 2,
-    //    Exception = 3
-    //}
-
-    //public enum ResultCode
-    //{
-    //    Unknown = 0,
-    //    Success = 1000,
-    //    Failure = 2000,
-    //    FailureSign = 2010,
-    //    FailureSignIn = 2020,
-    //    FailureNoData = 2030,
-    //    Exception = 3000
-    //}
 
     public class APIResult : IResult
     {

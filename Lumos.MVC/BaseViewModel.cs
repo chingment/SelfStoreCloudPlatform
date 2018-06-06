@@ -11,7 +11,7 @@ namespace Lumos.Mvc
 
     public abstract class BaseViewModel
     {
-        public virtual int Operater { get; set; }
+        public virtual string Operater { get; set; }
 
         public bool IsHasOperater { get; set; }
 

@@ -13,11 +13,11 @@ namespace WebBack
         public const string SESSION_NAME = "SessionName";
 
 
-        public static int GetCurrentUserId()
+        public static string GetCurrentUserId()
         {
             var userInfo = GetUserInfo();
             if (userInfo == null)
-                return 0;
+                return "";
 
             return userInfo.UserId;
         }

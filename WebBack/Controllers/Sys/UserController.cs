@@ -7,6 +7,7 @@ using Lumos.DAL.AuthorizeRelay;
 using Lumos.Common;
 using WebBack.Models.Sys.User;
 using Lumos.Mvc;
+using Lumos;
 
 namespace WebBack.Controllers.Sys
 {
@@ -22,7 +23,7 @@ namespace WebBack.Controllers.Sys
         }
 
 
-        public ViewResult Details(int id)
+        public ViewResult Details(string id)
         {
             DetailsViewModel model =new DetailsViewModel(id);
             return View(model);

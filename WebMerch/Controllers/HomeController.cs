@@ -15,6 +15,7 @@ using System.Text;
 using MySDK;
 using System.Linq;
 using System.Data.Entity.Core.Objects;
+using Lumos;
 
 namespace WebMerch.Controllers
 {

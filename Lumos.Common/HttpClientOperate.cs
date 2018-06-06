@@ -15,7 +15,6 @@ namespace Lumos.Common
 
         public static T Post<T>(string requestUri, string webapiBaseUrl, HttpContent httpContent)
         {
-            ILog log = LogManager.GetLogger("");
 
             var httpClient = new HttpClient()
 
@@ -67,7 +66,7 @@ namespace Lumos.Common
 
             catch (Exception ex)
             {
-                log.Error(ex);
+                LogUtil.Error("错误",ex);
                 return t;
 
             }

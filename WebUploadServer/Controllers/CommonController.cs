@@ -1,4 +1,5 @@
 ﻿using log4net;
+using Lumos;
 using Lumos.Common;
 using Lumos.Mvc;
 using System;
@@ -17,8 +18,7 @@ namespace WebUploadImageServer.Controllers
 
         public CustomJsonResult UploadImage(string fileInputName, string path, string oldFileName)
         {
-            ILog log = LogManager.GetLogger(this.GetType());
-            log.Info("测试上传服务");
+            LogUtil.Info("测试上传服务");
             CustomJsonResult rm = new CustomJsonResult();
            // rm.ContentType = "text/html";
             try
@@ -57,7 +57,7 @@ namespace WebUploadImageServer.Controllers
             }
             catch (Exception ex)
             {
-                log.Error("上传图片发生异常", ex);
+                LogUtil.Error("上传图片发生异常", ex);
                 rm.Result = ResultType.Exception;
                 rm.Message = "上传图片发生异常";
                 

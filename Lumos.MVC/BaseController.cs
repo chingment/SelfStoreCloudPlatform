@@ -1,5 +1,6 @@
 ﻿using log4net;
 using Lumos.Common;
+using Lumos.DAL;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -57,7 +58,7 @@ namespace Lumos.Mvc
         #endregion
 
         #region 公共的方法
-        public string ConvertToZTreeJson(object obj, string idField, string pIdField, string nameField, string IconSkinField, params int[] isCheckedIds)
+        public string ConvertToZTreeJson(object obj, string idField, string pIdField, string nameField, string IconSkinField, params string[] isCheckedIds)
         {
             StringBuilder Json = new StringBuilder();
             Json.Append("[");
@@ -73,7 +74,7 @@ namespace Lumos.Mvc
                     if (name == idField.ToLower())
                     {
                         Json.Append("\"id\":" + JsonConvert.SerializeObject(value) + ",\"open\":true,");
-                        int v = int.Parse(value.ToString());
+                        string v = value.ToString();
                         if (isCheckedIds.Contains(v))
                         {
                             Json.Append("\"checked\":true,");
@@ -119,7 +120,7 @@ namespace Lumos.Mvc
             return Json.ToString();
         }
 
-        public string ConvertToZTreeJson2(object obj, string idField, string pIdField, string nameField, string IconSkinField, params int[] isCheckedIds)
+        public string ConvertToZTreeJson2(object obj, string idField, string pIdField, string nameField, string IconSkinField, params string[] isCheckedIds)
         {
             StringBuilder Json = new StringBuilder();
             Json.Append("[");
@@ -135,7 +136,7 @@ namespace Lumos.Mvc
                     if (name == idField.ToLower())
                     {
                         Json.Append("\"id\":" + JsonConvert.SerializeObject(value) + ",");
-                        int v = int.Parse(value.ToString());
+                        string v = value.ToString();
                         if (isCheckedIds.Contains(v))
                         {
                             Json.Append("\"checked\":true,");
@@ -184,55 +185,28 @@ namespace Lumos.Mvc
 
         #endregion 公共的方法
 
-        #region Log
-        protected ILog Log
-        {
-            get
-            {
-                return LogManager.GetLogger(this.GetType());
-            }
-        }
 
-        protected static ILog GetLog(Type t)
-        {
-            return LogManager.GetLogger(t);
-        }
-
-        protected static ILog GetLog()
-        {
-            //return LogWebBack.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType); //有问题，子类调用，返回的还是父类的logger
-
-            var trace = new System.Diagnostics.StackTrace();
-            Type baseType = typeof(BaseController);
-            for (int i = 0; i < trace.FrameCount; i++)
-            {
-                var frame = trace.GetFrame(i);
-                var method = frame.GetMethod();
-                var type = method.DeclaringType;
-                if (type.IsSubclassOf(baseType)) return GetLog(type);
-            }
-            return LogManager.GetLogger(baseType);
-        }
-
-        protected void SetTrackID()
-        {
-            if (LogicalThreadContext.Properties["trackid"] == null)
-                LogicalThreadContext.Properties["trackid"] = this.Session.SessionID;
-        }
-        #endregion 
-
-        public virtual int CurrentUserId { get; }
-
+        public string CurrentUserId { get; }
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
-
-            SetTrackID();
-
-            ILog log = LogManager.GetLogger(CommonSetting.LoggerAccessWeb);
-            log.Info(FormatUtils.AccessWeb(this.CurrentUserId, ""));
-
+            LogUtil.SetTrackId();
         }
+
+        private LumosDbContext _currentDb;
+
+        public LumosDbContext CurrentDb
+        {
+            get
+            {
+                return _currentDb;
+            }
         }
+
+        public BaseController()
+        {
+            _currentDb = new LumosDbContext();
+        }
+    }
 }

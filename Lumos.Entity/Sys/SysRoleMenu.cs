@@ -12,18 +12,14 @@ namespace Lumos.Entity
     [Table("SysRoleMenu")]
     public class SysRoleMenu
     {
-        /// <summary>
-        /// 角色ID
-        /// </summary>
+        public string Id { get; set; }
         [Key]
         [Column(Order = 1)]
-        public int RoleId { get; set; }
-
-        /// <summary>
-        /// 菜单ID
-        /// </summary>
+        public string RoleId { get; set; }
         [Key]
         [Column(Order = 2)]
-        public int MenuId { get; set; }
+        public string MenuId { get; set; }
+        public string Creator { get; set; }
+        public DateTime CreateTime { get; set; }
     }
 }

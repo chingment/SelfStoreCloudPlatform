@@ -2,6 +2,7 @@
 using Aliyun.Acs.Core.Exceptions;
 using Aliyun.Acs.Core.Profile;
 using Aliyun.Acs.Dysmsapi.Model.V20170525;
+using Lumos;
 using Lumos.DAL;
 using Lumos.Entity;
 using Lumos.Mvc;
@@ -36,7 +37,7 @@ namespace MySDK
             sendHistory.TemplateCode = template;
             sendHistory.Phone = mobile;
             sendHistory.CreateTime = DateTime.Now;
-            sendHistory.Creator = 0;
+            sendHistory.Creator = "0";
             sendHistory.ValidCode = validCode;
             if (expireSecond != null)
             {

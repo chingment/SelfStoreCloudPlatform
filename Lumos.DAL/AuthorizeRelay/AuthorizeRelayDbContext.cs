@@ -56,25 +56,8 @@ namespace Lumos.DAL.AuthorizeRelay
 
         public IDbSet<SysProvinceCity> SysProvinceCity { get; set; }
 
-        public IDbSet<SysClientUser> SysClientUser { get; set; }
-
-        public IDbSet<SysSalesmanUser> SysSalesmanUser { get; set; }
-
-        public IDbSet<SysAgentUser> SysAgentUser { get; set; }
-
         public IDbSet<SysClientCode> SysClientCode { get; set; }
-
-        public IDbSet<SysVerifyEmail> SysVerifyEmail { get; set; }
-
         public IDbSet<SysOperateHistory> SysOperateHistory { get; set; }
-
-        public IDbSet<SysMessage> SysMessage { get; set; }
-
-
-        public IDbSet<SysBanner> SysBanner { get; set; }
-
-        public IDbSet<SysBannerType> SysBannerType { get; set; }
-
         public IDbSet<SysPageAccessRecord> SysPageAccessRecord { get; set; }
 
         public IDbSet<SysAppKeySecret> SysAppKeySecret { get; set; }

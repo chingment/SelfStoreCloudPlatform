@@ -1,4 +1,5 @@
-﻿using Lumos.BLL;
+﻿using Lumos;
+using Lumos.BLL;
 using Lumos.Entity;
 using Lumos.Mvc;
 using System;
@@ -79,14 +80,14 @@ namespace WebBack.Controllers.Biz
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public CustomJsonResult Bind(int merchantId, int machineId)
+        public CustomJsonResult Bind(string merchantId, string machineId)
         {
             return BizFactory.MerchantMachine.Bind(this.CurrentUserId, merchantId, machineId);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public CustomJsonResult UnBind(int merchantId, int machineId)
+        public CustomJsonResult UnBind(string merchantId, string machineId)
         {
             return BizFactory.MerchantMachine.UnBind(this.CurrentUserId, merchantId, machineId);
         }

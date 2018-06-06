@@ -63,7 +63,6 @@
     <Compile Include="Biz\Store.cs" />
     <Compile Include="Biz\StoreMachine.cs" />
     <Compile Include="ImgSet.cs" />
-    <Compile Include="Sys\SysAgentUser.cs" />
     <Compile Include="Sys\SysMerchatUser.cs" />
     <Compile Include="EnumerationRemarkConverter.cs" />
     <Compile Include="IpInfo.cs" />
@@ -74,15 +73,11 @@
     <Compile Include="RemarkAttribute.cs" />
     <Compile Include="SysEnumeration.cs" />
     <Compile Include="Sys\SysAppKeySecret.cs" />
-    <Compile Include="Sys\SysBannerType.cs" />
     <Compile Include="Sys\SysClientCode.cs" />
-    <Compile Include="Sys\SysClientUser.cs" />
     <Compile Include="Sys\SysMenuPermission.cs" />
-    <Compile Include="Sys\SysMessage.cs" />
     <Compile Include="Sys\SysOperateHistory.cs" />
     <Compile Include="Sys\SysPageAccessRecord.cs" />
     <Compile Include="Sys\SysRole.cs" />
-    <Compile Include="Sys\SysSalesmanUser.cs" />
     <Compile Include="Sys\SysSmsToken.cs" />
     <Compile Include="Sys\SysStaffUser.cs" />
     <Compile Include="Sys\SysPermission.cs" />
@@ -94,8 +89,6 @@
     <Compile Include="Sys\SysItemCacheUpdateTime.cs" />
     <Compile Include="Sys\SysUserLoginHistory .cs" />
     <Compile Include="Sys\SysUserRole.cs" />
-    <Compile Include="Sys\SysVerifyEmail.cs" />
-    <Compile Include="Sys\SysBanner.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

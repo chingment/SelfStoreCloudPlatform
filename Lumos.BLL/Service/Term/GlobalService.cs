@@ -11,7 +11,7 @@ namespace Lumos.BLL.Service.Term
 {
     public class GlobalService : BaseProvider
     {
-        public CustomJsonResult DataSet(int operater, int merchantId, int machineId, DateTime? datetime)
+        public CustomJsonResult DataSet(string operater, string merchantId, string machineId, DateTime? datetime)
         {
             CustomJsonResult result = new CustomJsonResult();
             var model = new DataSetModel();

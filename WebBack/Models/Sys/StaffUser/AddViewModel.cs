@@ -22,6 +22,6 @@ namespace WebBack.Models.Sys.StaffUser
             }
         }
 
-        public int[] UserRoleIds { get; set; }
+        public string[] UserRoleIds { get; set; }
     }
 }

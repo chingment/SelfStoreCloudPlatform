@@ -16,7 +16,7 @@ namespace WebBack.Models.Biz.Machine
 
         }
 
-        public EditViewModel(int id)
+        public EditViewModel(string id)
         {
             var posMachine = CurrentDb.Machine.Where(m => m.Id == id).FirstOrDefault();
             if (posMachine != null)

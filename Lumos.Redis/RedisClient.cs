@@ -52,7 +52,6 @@ namespace Lumos.Redis
     public class RedisClient<T> where T : class
     {
 
-        private ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         IDatabase client = RedisManager.Manager.GetDatabase();
         /// <summary>  
         /// Session管理  
@@ -87,7 +86,7 @@ namespace Lumos.Redis
             }
             catch (Exception ex)
             {
-                log.Error("RedisClient Error(KSet):" + ex.Message);
+                LogUtil.Error("RedisClient Error(KSet):" + ex.Message);
             }
             return isFlag;
         }
@@ -107,7 +106,7 @@ namespace Lumos.Redis
             }
             catch (Exception ex)
             {
-                log.Error("RedisClient Error(KGet):" + ex.Message);
+                LogUtil.Error("RedisClient Error(KGet):" + ex.Message);
             }
             return default(T);
         }
@@ -122,7 +121,7 @@ namespace Lumos.Redis
             }
             catch (Exception ex)
             {
-                log.Error("RedisClient Error(KGet):" + ex.Message);
+                LogUtil.Error("RedisClient Error(KGet):" + ex.Message);
             }
             return null;
         }
@@ -136,7 +135,7 @@ namespace Lumos.Redis
             }
             catch (Exception ex)
             {
-                log.Error("RedisClient Error(KSetEntryIn):" + ex.Message);
+                LogUtil.Error("RedisClient Error(KSetEntryIn):" + ex.Message);
             }
         }
 
@@ -148,7 +147,7 @@ namespace Lumos.Redis
             }
             catch (Exception ex)
             {
-                log.Error("RedisClient Error(KSetEntryIn):" + ex.Message);
+                LogUtil.Error("RedisClient Error(KSetEntryIn):" + ex.Message);
             }
         }
     }

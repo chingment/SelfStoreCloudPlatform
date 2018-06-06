@@ -12,11 +12,8 @@ namespace Lumos.Entity
     [Table("SysSmsSendHistory")]
     public class SysSmsSendHistory
     {
-        /// <summary>
-        /// 主键
-        /// </summary>
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id { get; set; }
+        [Key]
+        public string Id { get; set; }
 
         [MaxLength(128)]
         public string ApiName { get; set; }
@@ -43,7 +40,7 @@ namespace Lumos.Entity
 
         public DateTime? ExpireTime { get; set; }
 
-        public int Creator { get; set; }
+        public string Creator { get; set; }
 
         public DateTime CreateTime { get; set; }
 

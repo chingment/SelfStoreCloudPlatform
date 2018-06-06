@@ -11,7 +11,6 @@ namespace Lumos.BLL.Service.Term.Models.Global
         public DataSetModel()
         {
             this.Banner = new List<BannerModel>();
-
         }
         public string BtnBuyImgUrl { get; set; }
         public string BtnPickImgUrl { get; set; }

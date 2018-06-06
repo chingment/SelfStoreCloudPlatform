@@ -21,7 +21,7 @@ namespace Lumos.BLL
             }
         }
 
-        public void UpdateUser(int userId)
+        public void UpdateUser(string userId)
         {
             var sysItemCacheUpdateTime = CurrentDb.SysItemCacheUpdateTime.Where(m => m.Type == Entity.Enumeration.SysItemCacheType.User && m.ReferenceId == userId).FirstOrDefault();
             if (sysItemCacheUpdateTime != null)
@@ -31,7 +31,7 @@ namespace Lumos.BLL
             }
         }
 
-        public bool CanGetData(int userId, DateTime? lastUpdateTime, out DateTime? updateTime)
+        public bool CanGetData(string userId, DateTime? lastUpdateTime, out DateTime? updateTime)
         {
             updateTime = this.DateTime;
             return true;

@@ -8,7 +8,7 @@ namespace Lumos.BLL
 {
     public class SysUserProvider : BaseProvider
     {
-        public string GetFullName(int? id)
+        public string GetFullName(string id)
         {
             if (id == null)
                 return "";

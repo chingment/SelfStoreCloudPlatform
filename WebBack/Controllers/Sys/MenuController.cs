@@ -1,4 +1,5 @@
-﻿using Lumos.BLL;
+﻿using Lumos;
+using Lumos.BLL;
 using Lumos.Common;
 using Lumos.DAL.AuthorizeRelay;
 using Lumos.Entity;
@@ -35,16 +36,16 @@ namespace WebBack.Controllers.Sys
 
 
 
-        public CustomJsonResult GetDetails(int id)
+        public CustomJsonResult GetDetails(string id)
         {
             DetailsViewModel model = new DetailsViewModel(id);
             return Json(ResultType.Success, model, "");
         }
 
-        public CustomJsonResult GetTree(int pId)
+        public CustomJsonResult GetTree(string pId)
         {
             SysMenu[] arr;
-            if (pId == 0)
+            if (pId == "0")
             {
                 arr = CurrentDb.SysMenu.OrderByDescending(m => m.Priority).ToArray();
             }
@@ -82,7 +83,7 @@ namespace WebBack.Controllers.Sys
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public CustomJsonResult Delete(int[] ids)
+        public CustomJsonResult Delete(string[] ids)
         {
             return SysFactory.AuthorizeRelay.DeleteMenu(this.CurrentUserId, ids);
         }
@@ -97,7 +98,7 @@ namespace WebBack.Controllers.Sys
                 string name = Request.Form.AllKeys[i].ToString();
                 if (name.IndexOf("menuId") > -1)
                 {
-                    int id = int.Parse(name.Split('_')[1].Trim());
+                    string id = name.Split('_')[1].Trim();
                     int priority = int.Parse(Request.Form[i].Trim());
                     SysMenu model = CurrentDb.SysMenu.Where(m => m.Id == id).FirstOrDefault();
                     if (model != null)

@@ -24,14 +24,6 @@ namespace Lumos.BLL
             }
         }
 
-        public static SysBannerProvider Banner
-        {
-            get
-            {
-                return new SysBannerProvider();
-            }
-        }
-
         public static SysItemCacheUpdateTimeProvider SysItemCacheUpdateTime
         {
             get

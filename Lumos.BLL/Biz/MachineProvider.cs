@@ -11,7 +11,7 @@ namespace Lumos.BLL
 {
     public class MachineProvider : BaseProvider
     {
-        public CustomJsonResult Add(int operater, Machine machine)
+        public CustomJsonResult Add(string operater, Machine machine)
         {
             CustomJsonResult result = new CustomJsonResult();
 
@@ -27,14 +27,14 @@ namespace Lumos.BLL
             CurrentDb.Machine.Add(machine);
             CurrentDb.SaveChanges();
 
-            machine.Sn = SnUtil.Build(machine.Id);
+           // machine.Sn = SnUtil.Build(machine.Id);
             CurrentDb.SaveChanges();
 
 
             return new CustomJsonResult(ResultType.Success, "登记成功");
         }
 
-        public CustomJsonResult Edit(int operater, Machine machine)
+        public CustomJsonResult Edit(string operater, Machine machine)
         {
             CustomJsonResult result = new CustomJsonResult();
 

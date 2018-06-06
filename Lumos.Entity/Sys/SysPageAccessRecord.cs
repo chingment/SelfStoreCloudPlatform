@@ -11,33 +11,14 @@ namespace Lumos.Entity
     [Table("SysPageAccessRecord")]
     public class SysPageAccessRecord
     {
-        /// <summary>
-        /// 主键
-        /// </summary>
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id { get; set; }
 
-        /// <summary>
-        /// 用户ID
-        /// </summary>
-        public int UserId { get; set; }
-
-        /// <summary>
-        /// 访问时间
-        /// </summary>
+        [Key]
+        public string Id { get; set; }
+        public string UserId { get; set; }
         [MaxLength(256)]
-        [Column(TypeName = "varchar")]
         public string PageUrl { get; set; }
-
-        /// <summary>
-        /// Ip地址
-        /// </summary>
         [MaxLength(128)]
         public string Ip { get; set; }
-
-        /// <summary>
-        /// 访问时间
-        /// </summary>
         public DateTime AccessTime { get; set; }
     }
 }

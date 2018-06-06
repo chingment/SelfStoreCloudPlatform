@@ -12,14 +12,14 @@ namespace Lumos.Entity
     [Table("SysMenu")]
     public class SysMenu
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        [Key]
+        public string Id { get; set; }
 
         [MaxLength(128)]
         [Required]
         public string Name { get; set; }
 
-        public int PId { get; set; }
+        public string PId { get; set; }
 
         [MaxLength(256)]
         public string Url { get; set; }
@@ -29,11 +29,11 @@ namespace Lumos.Entity
 
         public int Priority { get; set; }
 
-        public int Creator { get; set; }
+        public string Creator { get; set; }
 
         public DateTime CreateTime { get; set; }
 
-        public int? Mender { get; set; }
+        public string Mender { get; set; }
 
         public DateTime? LastUpdateTime { get; set; }
 

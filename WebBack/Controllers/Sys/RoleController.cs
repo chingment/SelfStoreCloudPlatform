@@ -1,4 +1,5 @@
-﻿using Lumos.BLL;
+﻿using Lumos;
+using Lumos.BLL;
 using Lumos.Common;
 using Lumos.DAL.AuthorizeRelay;
 using Lumos.Entity;
@@ -41,13 +42,13 @@ namespace WebBack.Controllers.Sys
         }
 
 
-        public CustomJsonResult GetDetails(int id)
+        public CustomJsonResult GetDetails(string id)
         {
             DetailsViewModel model = new DetailsViewModel(id);
             return Json(ResultType.Success, model);
         }
 
-        public CustomJsonResult GetRoleMenuTreeList(int roleId)
+        public CustomJsonResult GetRoleMenuTreeList(string roleId)
         {
             var roleMenus = SysFactory.AuthorizeRelay.GetRoleMenus(roleId);
             var isCheckedIds = from p in roleMenus select p.Id;
@@ -135,14 +136,14 @@ namespace WebBack.Controllers.Sys
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public CustomJsonResult AddUserToRole(int roleId, int[] userIds)
+        public CustomJsonResult AddUserToRole(string roleId, string[] userIds)
         {
             return SysFactory.AuthorizeRelay.AddUserToRole(this.CurrentUserId, roleId, userIds);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public CustomJsonResult RemoveUserFromRole(int roleId, int[] userIds)
+        public CustomJsonResult RemoveUserFromRole(string roleId, string[] userIds)
         {
             return SysFactory.AuthorizeRelay.RemoveUserFromRole(this.CurrentUserId, roleId, userIds);
         }
@@ -150,7 +151,7 @@ namespace WebBack.Controllers.Sys
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public CustomJsonResult SaveRoleMenu(int roleId, int[] menuIds)
+        public CustomJsonResult SaveRoleMenu(string roleId, string[] menuIds)
         {
             return SysFactory.AuthorizeRelay.SaveRoleMenu(this.CurrentUserId, roleId, menuIds);
         }
@@ -174,7 +175,7 @@ namespace WebBack.Controllers.Sys
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public CustomJsonResult Delete(int[] ids)
+        public CustomJsonResult Delete(string[] ids)
         {
             return SysFactory.AuthorizeRelay.DeleteRole(this.CurrentUserId, ids);
         }

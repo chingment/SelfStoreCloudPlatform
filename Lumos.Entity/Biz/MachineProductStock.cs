@@ -10,21 +10,21 @@ namespace Lumos.Entity
 {
     public class MachineProductStock
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-        public int UserId { get; set; }
-        public int MerchantId { get; set; }
-        public int MachineId { get; set; }
-        public int StoreId { get; set; }
-        public int ProductId { get; set; }
-        public int ProductSkuId { get; set; }
+        [Key]
+        public string Id { get; set; }
+        public string UserId { get; set; }
+        public string MerchantId { get; set; }
+        public string MachineId { get; set; }
+        public string StoreId { get; set; }
+        public string ProductId { get; set; }
+        public string ProductSkuId { get; set; }
         public int Quantity { get; set; }
         public int LockQuantity { get; set; }
         public int SellQuantity { get; set; }
         public bool IsOffSell { get; set; }
-        public int Creator { get; set; }
+        public string Creator { get; set; }
         public DateTime CreateTime { get; set; }
-        public int? Mender { get; set; }
+        public string Mender { get; set; }
         public DateTime? LastUpdateTime { get; set; }
     }
 }

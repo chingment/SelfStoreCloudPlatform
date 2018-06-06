@@ -241,9 +241,9 @@
                             <ul class="navmenu-left">
                                 @if (OwnRequest.IsLogin())
                                 {
-
+                                    string pId = "00000000000000000000000000000001";
                                     var menus = OwnRequest.GetMenus();
-                                    var menuLevel1 = from c in menus where c.PId == 1 select c;
+                                    var menuLevel1 = from c in menus where c.PId == pId select c;
                                     foreach (var menuLevel1Child in menuLevel1)
                                     {
                                         <li class="parent">

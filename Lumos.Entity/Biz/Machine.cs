@@ -11,8 +11,8 @@ namespace Lumos.Entity
     [Table("Machine")]
     public class Machine
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        [Key]
+        public string Id { get; set; }
         [MaxLength(128)]
         public string Sn { get; set; }
         [MaxLength(128)]
@@ -21,9 +21,9 @@ namespace Lumos.Entity
         public string DeviceId { get; set; }
         [MaxLength(128)]
         public string MacAddress { get; set; }
-        public int Creator { get; set; }
+        public string Creator { get; set; }
         public DateTime CreateTime { get; set; }
-        public int? Mender { get; set; }
+        public string Mender { get; set; }
         public DateTime? LastUpdateTime { get; set; }
         public bool IsUse { get; set; }
 

@@ -6,15 +6,21 @@ using WebSSO.Models.Home;
 using System.Web.Mvc;
 using Lumos.Session;
 using System;
+using Lumos;
+using log4net;
+using System.Reflection;
 
 namespace WebSSO.Controllers
 {
 
     public class HomeController : OwnBaseController
     {
+
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            string guid = Guid.Empty.ToString().Replace("-", "");
+
             Session["WebSSOLoginVerifyCode"] = null;
 
             LoginModel model = new LoginModel();
@@ -68,28 +74,18 @@ namespace WebSSO.Controllers
                     //returnUrl = string.Format("{0}?returnUrl={1}", host, model.ReturnUrl);
                     returnUrl = string.Format("{0}", host);
                     break;
-                case Enumeration.UserType.Client:
-                    break;
-                case Enumeration.UserType.Agent:
-                    host = System.Configuration.ConfigurationManager.AppSettings["custom:WebAgentUrl"];
-                    //returnUrl = string.Format("{0}?returnUrl={1}", host, model.ReturnUrl);
-                    returnUrl = string.Format("{0}", host);
-                    break;
                 case Enumeration.UserType.Merchant:
                     host = System.Configuration.ConfigurationManager.AppSettings["custom:WebMerchUrl"];
                     //returnUrl = string.Format("{0}?returnUrl={1}", host, model.ReturnUrl);
                     returnUrl = string.Format("{0}", host);
                     break;
-                case Enumeration.UserType.Salesman:
-                    break;
             }
-
 
 
             UserInfo userInfo = new UserInfo();
             userInfo.UserId = result.User.Id;
             userInfo.UserName = result.User.UserName;
-            userInfo.Token = Guid.NewGuid().ToString().Replace("-", "");
+            userInfo.Token = GuidUtil.New();
 
             SSOUtil.SetUserInfo(userInfo);
 

@@ -1,4 +1,5 @@
-﻿using Lumos.BLL;
+﻿using Lumos;
+using Lumos.BLL;
 using Lumos.BLL.Service.Term;
 using Lumos.DAL;
 using Lumos.DAL.AuthorizeRelay;
@@ -17,9 +18,9 @@ namespace WebTermApi.Controllers
     public class GlobalController : OwnBaseApiController
     {
         [HttpGet]
-        public APIResponse DataSet(int merchantId, int machineId, DateTime? datetime)
+        public APIResponse DataSet(string merchantId, string machineId, DateTime? datetime)
         {
-            IResult result = TermServiceFactory.Global.DataSet(0, merchantId, machineId, datetime);
+            IResult result = TermServiceFactory.Global.DataSet("0", merchantId, machineId, datetime);
             return new APIResponse(result);
         }
     }

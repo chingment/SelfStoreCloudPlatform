@@ -195,24 +195,24 @@
                                     </span>
                                 </a>
                             </li>
-                                <li class="parent">
-                                    <a href="javascript:void(0)" class="directory">
-                                        <span class="title">
-                                            欢迎您,@OwnRequest.GetUserNameWithSymbol()
-                                        </span>
-                                        <span class="more"></span>
-                                    </a>
-                                    <ul class="children">
-                                        <li><a href="/Home/ChangePassword" target="iframeMain">修改密码</a></li>
-                                        <li>
-                                            @using (Html.BeginForm("LogOff", "Home", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-                                            {
-                                                @Html.AntiForgeryToken()
-                                            }
-                                            <a href="javascript:document.getElementById('logoutForm').submit()">退出</a>
-                                        </li>
-                                    </ul>
-                                </li>
+                            <li class="parent">
+                                <a href="javascript:void(0)" class="directory">
+                                    <span class="title">
+                                        欢迎您,@OwnRequest.GetUserNameWithSymbol()
+                                    </span>
+                                    <span class="more"></span>
+                                </a>
+                                <ul class="children">
+                                    <li><a href="/Home/ChangePassword" target="iframeMain">修改密码</a></li>
+                                    <li>
+                                        @using (Html.BeginForm("LogOff", "Home", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                        }
+                                        <a href="javascript:document.getElementById('logoutForm').submit()">退出</a>
+                                    </li>
+                                </ul>
+                            </li>
 
                         }
                     </ul>
@@ -233,30 +233,39 @@
                                     <li class="parent">
                                         <span><span class="icon icon_navmenu_level1_common"></span><span>机器管理</span></span>
                                         <ul class="children">
-
                                             <li>
                                                 <a gotopage="/SalesmanUser/List" target="iframeMain">
                                                     <span class="icon"></span><span>机器列表</span>
                                                 </a>
                                             </li>
+                                        </ul>
+                                    </li>
+                                    <li class="parent">
+                                        <span><span class="icon icon_navmenu_level1_common"></span><span>便利店管理</span></span>
+                                        <ul class="children">
                                             <li>
-                                                <a gotopage="/ApplyPos/List" target="iframeMain">
-                                                    <span class="icon"></span><span>业务员申领POS机登记</span>
+                                                <a gotopage="/SalesmanUser/List" target="iframeMain">
+                                                    <span class="icon"></span><span>便利店设置</span>
                                                 </a>
                                             </li>
                                         </ul>
                                     </li>
                                     <li class="parent">
-                                        <span><span class="icon icon_navmenu_level1_common"></span><span>信息查询</span></span>
+                                        <span><span class="icon icon_navmenu_level1_common"></span><span>商品管理</span></span>
                                         <ul class="children">
                                             <li>
                                                 <a gotopage="/PosMachine/List" target="iframeMain">
-                                                    <span class="icon"></span><span>POS机查看</span>
+                                                    <span class="icon"></span><span>商品设置</span>
                                                 </a>
                                             </li>
                                             <li>
                                                 <a gotopage="/Merchant/List" target="iframeMain">
-                                                    <span class="icon"></span><span>商户信息查看</span>
+                                                    <span class="icon"></span><span>商品分类</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a gotopage="/Merchant/List" target="iframeMain">
+                                                    <span class="icon"></span><span>商品模块</span>
                                                 </a>
                                             </li>
                                         </ul>
@@ -266,17 +275,22 @@
                                         <ul class="children">
                                             <li>
                                                 <a gotopage="/Order/List?status=1" target="iframeMain">
-                                                    <span class="icon"></span><span>已提交订单</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a gotopage="/Order/List?status=2" target="iframeMain">
-                                                    <span class="icon"></span><span>跟进中订单</span>
+                                                    <span class="icon"></span><span>待支付订单</span>
                                                 </a>
                                             </li>
                                             <li>
                                                 <a gotopage="/Order/List?status=3" target="iframeMain">
-                                                    <span class="icon"></span><span>待支付订单</span>
+                                                    <span class="icon"></span><span>待提货订单</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a gotopage="/Order/List?status=3" target="iframeMain">
+                                                    <span class="icon"></span><span>待发货订单</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a gotopage="/Order/List?status=3" target="iframeMain">
+                                                    <span class="icon"></span><span>已发货订单</span>
                                                 </a>
                                             </li>
                                             <li>

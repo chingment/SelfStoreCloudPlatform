@@ -14,8 +14,8 @@ namespace Lumos.Entity
     [Table("SysUser")]
     public class SysUser
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        [Key]
+        public string Id { get; set; }
 
         public SysUser() { }
 
@@ -90,7 +90,7 @@ namespace Lumos.Entity
         /// <summary>
         /// 创建人
         /// </summary>
-        public int Creator { get; set; }
+        public string Creator { get; set; }
 
         /// <summary>
         /// 创建时间
@@ -100,7 +100,7 @@ namespace Lumos.Entity
         /// <summary>
         /// 修改人
         /// </summary>
-        public int? Mender { get; set; }
+        public string Mender { get; set; }
 
         /// <summary>
         /// 最后修改时间
@@ -111,9 +111,6 @@ namespace Lumos.Entity
 
         [NotMapped]
         public string Password { get; set; }
-
-        [MaxLength(128)]
-        public string WechatNumber { get; set; }
 
     }
 }

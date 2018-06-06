@@ -12,12 +12,10 @@ namespace Lumos.Entity
     [Table("SysRolePermission")]
     public class SysRolePermission
     {
-        /// <summary>
-        /// 角色ID
-        /// </summary>
+        public string Id { get; set; }
         [Key]
         [Column(Order = 1)]
-        public int RoleId { get; set; }
+        public string RoleId { get; set; }
 
         /// <summary>
         /// 权限ID

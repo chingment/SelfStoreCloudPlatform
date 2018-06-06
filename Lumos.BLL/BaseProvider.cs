@@ -52,18 +52,5 @@ namespace Lumos.BLL
             return p;
         }
 
-        protected ILog Log
-        {
-            get
-            {
-                return LogManager.GetLogger(this.GetType());
-            }
-        }
-
-        protected static ILog GetLog(Type t)
-        {
-            return LogManager.GetLogger(t);
-        }
-
     }
 }

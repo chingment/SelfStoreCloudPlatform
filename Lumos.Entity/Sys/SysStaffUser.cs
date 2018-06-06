@@ -13,9 +13,5 @@ namespace Lumos.Entity
     public class SysStaffUser : SysUser
     {
 
-        [MaxLength(50)]
-        public string CtiNo { get; set; }
-
-
     }
 }

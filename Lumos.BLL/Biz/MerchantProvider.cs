@@ -12,7 +12,7 @@ namespace Lumos.BLL
 {
     public class MerchantProvider : BaseProvider
     {
-        public CustomJsonResult Add(int operater, SysMerchatUser sysMerchatUser, Merchant merchant)
+        public CustomJsonResult Add(string operater, SysMerchatUser sysMerchatUser, Merchant merchant)
         {
             CustomJsonResult result = new CustomJsonResult();
 
@@ -47,7 +47,7 @@ namespace Lumos.BLL
 
                 CurrentDb.Merchant.Add(merchant);
                 CurrentDb.SaveChanges();
-                merchant.Sn = SnUtil.Build(merchant.Id);
+                //merchant.Sn = SnUtil.Build(merchant.Id);
                 CurrentDb.SaveChanges();
 
                 ts.Complete();
@@ -59,7 +59,7 @@ namespace Lumos.BLL
             return result;
         }
 
-        public CustomJsonResult Edit(int operater, SysMerchatUser sysMerchatUser, Merchant merchant)
+        public CustomJsonResult Edit(string operater, SysMerchatUser sysMerchatUser, Merchant merchant)
         {
             CustomJsonResult result = new CustomJsonResult();
             using (TransactionScope ts = new TransactionScope())

@@ -11,19 +11,12 @@ namespace Lumos.Entity
 {
 
     [Table("SysUserRole")]
-    public  class SysUserRole 
+    public class SysUserRole
     {
-        /// <summary>
-        /// 角色ID
-        /// </summary>
-        [Key, Column(Order = 0)]
-        public int RoleId { get; set; }
-
-        /// <summary>
-        /// 用户ID
-        /// </summary>
-        [Key, Column(Order = 1)]
-        public int UserId { get; set; }
-
+        public string Id { get; set; }
+        [Key,Column(Order = 1)]
+        public string RoleId { get; set; }
+        [Key, Column(Order = 2)]
+        public string UserId { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using log4net;
+using Lumos;
 using Lumos.Common;
 using Lumos.Mvc;
 using System;
@@ -91,8 +92,7 @@ namespace WebSSO
             {
                 string result = filterContext.Result.ToString();
 
-                ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-                log.Info(result);
+                LogUtil.Info(result);
 
                 if (result != "System.Web.Mvc.EmptyResult")
                 {

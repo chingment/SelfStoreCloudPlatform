@@ -9,6 +9,7 @@ using WebBack.Models.Sys.StaffUser;
 using Lumos.Mvc;
 using Lumos.DAL;
 using Lumos.BLL;
+using Lumos;
 
 namespace WebBack.Controllers.Sys
 {
@@ -34,7 +35,7 @@ namespace WebBack.Controllers.Sys
             return View();
         }
 
-        public ViewResult Edit(int id)
+        public ViewResult Edit(string id)
         {
             EditViewModel model = new EditViewModel(id);
             return View(model);
@@ -81,7 +82,7 @@ namespace WebBack.Controllers.Sys
         }
 
 
-        public CustomJsonResult GetUserRoleTree(int userId = 0)
+        public CustomJsonResult GetUserRoleTree(string userId)
         {
             var isCheckedIds = CurrentDb.SysUserRole.Where(x => x.UserId == userId).Select(x => x.RoleId);
             object json = ConvertToZTreeJson2(CurrentDb.SysRole.ToArray(), "id", "pid", "name", "role", isCheckedIds.ToArray());
@@ -103,7 +104,7 @@ namespace WebBack.Controllers.Sys
             user.Type = Enumeration.UserType.Staff;
             user.IsDelete = false;
             user.Status = Enumeration.UserStatus.Normal;
-            int[] userRoleIds = model.UserRoleIds;
+            string[] userRoleIds = model.UserRoleIds;
 
             return SysFactory.AuthorizeRelay.CreateUser<SysStaffUser>(this.CurrentUserId, user, userRoleIds);
         }
@@ -118,13 +119,13 @@ namespace WebBack.Controllers.Sys
             user.FullName = model.SysStaffUser.FullName;
             user.Email = model.SysStaffUser.Email;
             user.PhoneNumber = model.SysStaffUser.PhoneNumber;
-            int[] userRoleIds = model.UserRoleIds;
+            string[] userRoleIds = model.UserRoleIds;
             return SysFactory.AuthorizeRelay.UpdateUser<SysStaffUser>(this.CurrentUserId, user, userRoleIds);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public CustomJsonResult Delete(int[] userIds)
+        public CustomJsonResult Delete(string[] userIds)
         {
             return SysFactory.AuthorizeRelay.DeleteUser(this.CurrentUserId, userIds);
         }

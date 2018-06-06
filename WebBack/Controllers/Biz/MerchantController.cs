@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using Lumos.Common;
 using Lumos.BLL;
 using WebBack.Models.Biz.Merchant;
+using Lumos;
 
 namespace WebBack.Controllers.Biz
 {
@@ -24,7 +25,7 @@ namespace WebBack.Controllers.Biz
             return View();
         }
 
-        public ViewResult Edit(int id)
+        public ViewResult Edit(string id)
         {
             EditViewModel model = new EditViewModel(id);
             return View(model);

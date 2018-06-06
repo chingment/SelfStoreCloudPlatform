@@ -65,10 +65,8 @@
     <Compile Include="BaseController.cs" />
     <Compile Include="BaseSearchCondition.cs" />
     <Compile Include="BaseViewModel.cs" />
-    <Compile Include="CustomJsonResult.cs" />
     <Compile Include="GoToViewModel.cs" />
     <Compile Include="HmlExtension.cs" />
-    <Compile Include="IResult.cs" />
     <Compile Include="MessageBoxModel.cs" />
     <Compile Include="MvcExtensions.cs" />
     <Compile Include="BaseStatisticsTrackerAttribute.cs" />
@@ -79,9 +77,17 @@
       <Project>{241bdf50-401f-44bf-81cd-acc2ffc3a952}</Project>
       <Name>Lumos.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lumos.DAL\Lumos.DAL.csproj">
+      <Project>{0e039414-2a2e-48b4-8db7-c4346106fa68}</Project>
+      <Name>Lumos.DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lumos.Entity\Lumos.Entity.csproj">
       <Project>{c19704c7-7d89-42e8-9f15-d8c1a1a0c525}</Project>
       <Name>Lumos.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lumos.Session\Lumos.Session.csproj">
+      <Project>{d2f78ae2-3125-44b8-8629-ec3c5bc6c46b}</Project>
+      <Name>Lumos.Session</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lumos\Lumos.csproj">
       <Project>{27883666-32aa-447f-aa1f-6128b76fbee8}</Project>

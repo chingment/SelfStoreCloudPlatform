@@ -12,6 +12,7 @@ using NPOI.SS.UserModel;
 using System.Data;
 using System.Transactions;
 using WebMerch.Models.Machine;
+using Lumos;
 
 namespace WebMerch.Controllers.Biz
 {
@@ -23,7 +24,7 @@ namespace WebMerch.Controllers.Biz
             return View();
         }
 
-        public ViewResult Edit(int id)
+        public ViewResult Edit(string id)
         {
             EditViewModel model = new EditViewModel(id);
             return View(model);

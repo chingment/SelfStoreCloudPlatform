@@ -1,4 +1,5 @@
 ﻿using log4net;
+using Lumos;
 using Lumos.DAL;
 using Lumos.Entity;
 using Lumos.Mvc;
@@ -47,8 +48,6 @@ namespace MySDK
 
         public static CustomJsonResult Send(string template, string smsparam, string mobile)
         {
-            ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
             LumosDbContext currentDb = new LumosDbContext();
 
             SysSmsSendHistory sendHistory = new SysSmsSendHistory();
@@ -56,7 +55,7 @@ namespace MySDK
             sendHistory.TemplateParams = smsparam;
             sendHistory.TemplateCode = template;
             sendHistory.Phone = mobile;
-            sendHistory.Creator = 0;
+            sendHistory.Creator = "0";
             sendHistory.CreateTime = DateTime.Now;
 
             CustomJsonResult result = new CustomJsonResult();
@@ -125,7 +124,7 @@ namespace MySDK
                     currentDb.SysSmsSendHistory.Add(sendHistory);
                     currentDb.SaveChanges();
 
-                    log.ErrorFormat("调用短信{0}接口-错误信息:{1}", sendHistory.ApiName, apiResult.Message);
+                    LogUtil.Error(string.Format("调用短信{0}接口-错误信息:{1}", sendHistory.ApiName, apiResult.Message));
 
                     result = new CustomJsonResult(ResultType.Failure, "发送失败");
                 }
@@ -142,7 +141,7 @@ namespace MySDK
                 currentDb.SysSmsSendHistory.Add(sendHistory);
                 currentDb.SaveChanges();
 
-                log.ErrorFormat("调用短信{0}接口-错误信息:{1},描述:{2}", sendHistory.ApiName, ex.Message, ex.StackTrace);
+                LogUtil.Error(string.Format("调用短信{0}接口-错误信息:{1},描述:{2}", sendHistory.ApiName, ex.Message, ex.StackTrace));
 
                 return new CustomJsonResult(ResultType.Failure, "发送失败");
             }

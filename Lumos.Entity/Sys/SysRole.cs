@@ -15,35 +15,21 @@ namespace Lumos.Entity
     [Table("SysRole")]
     public class SysRole 
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        [Key]
+        public string Id { get; set; }
 
         [MaxLength(128)]
         public string Name { get; set; }
 
-        public SysRole()
-        {
-
-        }
-
-        public SysRole(string name) : this() { Name = name; }
-
-        /// <summary>
-        /// 父角色ID
-        /// </summary>
-        public virtual int PId { get; set; }
-
-        /// <summary>
-        /// 描述
-        /// </summary>
+        public string PId { get; set; }
         [MaxLength(512)]
-        public virtual string Description { get; set; }
+        public string Description { get; set; }
 
-        public int Creator { get; set; }
+        public string Creator { get; set; }
 
         public DateTime CreateTime { get; set; }
 
-        public int? Mender { get; set; }
+        public string Mender { get; set; }
 
         public DateTime? LastUpdateTime { get; set; }
     }

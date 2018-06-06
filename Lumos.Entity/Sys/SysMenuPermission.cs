@@ -11,16 +11,10 @@ namespace Lumos.Entity
     [Table("SysMenuPermission")]
     public class SysMenuPermission
     {
-        /// <summary>
-        ///菜单ID
-        /// </summary>
+        public string Id { get; set; }
         [Key]
         [Column(Order = 1)]
-        public int MenuId { get; set; }
-
-        /// <summary>
-        /// 权限ID
-        /// </summary>
+        public string MenuId { get; set; }
         [Key]
         [Column(Order = 2, TypeName = "varchar")]
         [MaxLength(128)]
