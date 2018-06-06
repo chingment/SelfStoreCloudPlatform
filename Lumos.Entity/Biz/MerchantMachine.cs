@@ -19,15 +19,15 @@ namespace Lumos.Entity
         public int MachineId { get; set; }
         public string Name { get; set; }
         public Enumeration.MerchantMachineStatus Status { get; set; }
+        [MaxLength(1024)]
+        public string LogoImgUrl { get; set; }
+        [MaxLength(1024)]
+        public string BtnBuyImgUrl { get; set; }
+        [MaxLength(1024)]
+        public string BtnPickImgUrl { get; set; }
         public int Creator { get; set; }
         public DateTime CreateTime { get; set; }
         public int? Mender { get; set; }
         public DateTime? LastUpdateTime { get; set; }
-        //[MaxLength(256)]
-        //public string LogoImgUrl { get; set; }
-        //[MaxLength(256)]
-        //public string BtnBuyImgUrl { get; set; }
-        //[MaxLength(256)]
-        //public string BtnPickImgUrl { get; set; }
     }
 }

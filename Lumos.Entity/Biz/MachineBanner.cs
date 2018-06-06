@@ -9,13 +9,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Lumos.Entity
 {
+    [Table("MachineBanner")]
     public class MachineBanner
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public Enumeration.MachineBannerType Type { get; set; }
-        [MaxLength(256)]
-        public string Title { get; set; }
+        public int UserId { get; set; }
+        public int MerchantId { get; set; }
+        public int MachineId { get; set; }
         [MaxLength(1024)]
         public string ImgUrl { get; set; }
         public int Priority { get; set; }

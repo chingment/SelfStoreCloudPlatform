@@ -78,12 +78,10 @@ namespace Lumos.Entity
         {
             [Remark("未知")]
             Unknow = 0,
-            [Remark("暂存")]
-            Save = 1,
-            [Remark("已发布")]
-            Release = 2,
-            [Remark("撤销")]
-            Cancle = 3
+            [Remark("正常")]
+            Normal = 1,
+            [Remark("已删除")]
+            Deleted = 2
         }
 
 

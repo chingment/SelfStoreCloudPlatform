@@ -95,7 +95,7 @@ namespace WebTermApi.Controllers
         {
             ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-            model.Add("获取机器接口配置信息", MachineApiConfig("000000000000000"));
+            //model.Add("获取机器接口配置信息", MachineApiConfig("000000000000000"));
             model.Add("获取全局数据", GlobalDataSet(1, 1, DateTime.Now));
 
             return View(model);

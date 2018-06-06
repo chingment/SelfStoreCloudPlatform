@@ -39,7 +39,6 @@ namespace Lumos.BLL
                     merchantMachine.Status = Enumeration.MerchantMachineStatus.Bind;
                     merchantMachine.CreateTime = this.DateTime;
                     merchantMachine.Creator = operater;
-
                     CurrentDb.MerchantMachine.Add(merchantMachine);
                 }
                 else
@@ -48,6 +47,10 @@ namespace Lumos.BLL
                     merchantMachine.LastUpdateTime = this.DateTime;
                     merchantMachine.Mender = operater;
                 }
+
+                merchantMachine.LogoImgUrl = "http://file.17fanju.com/Upload/machTmp/tmp/LogoImg.png";
+                merchantMachine.BtnBuyImgUrl = "http://file.17fanju.com/Upload/machTmp/tmp/BtnBuyImg.png";
+                merchantMachine.BtnPickImgUrl = "http://file.17fanju.com/Upload/machTmp/tmp/BtnPickImg.png";
 
                 CurrentDb.SaveChanges();
                 ts.Complete();
