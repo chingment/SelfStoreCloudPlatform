@@ -8,6 +8,7 @@ namespace Lumos.BLL.Service.Term.Models.Machine
 {
     public class ApiConfigModel
     {
+        public string UserId { get; set; }
         public string MerchantId { get; set; }
         public string MachineId { get; set; }
         public string ApiHost { get; set; }

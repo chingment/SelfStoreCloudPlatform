@@ -543,6 +543,7 @@ namespace Lumos.DAL.AuthorizeRelay
 
         public CustomJsonResult CreateMenu(string operater, SysMenu sysMenu, string[] perssionId)
         {
+            sysMenu.Id = GuidUtil.New();
             sysMenu.Creator = operater;
             sysMenu.CreateTime = DateTime.Now;
             _db.SysMenu.Add(sysMenu);
@@ -552,7 +553,7 @@ namespace Lumos.DAL.AuthorizeRelay
             {
                 foreach (var id in perssionId)
                 {
-                    _db.SysMenuPermission.Add(new SysMenuPermission { MenuId = sysMenu.Id, PermissionId = id });
+                    _db.SysMenuPermission.Add(new SysMenuPermission { Id = GuidUtil.New(), MenuId = sysMenu.Id, PermissionId = id, Creator = operater, CreateTime = DateTime.Now });
                 }
             }
             _db.SaveChanges();

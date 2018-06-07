@@ -21,7 +21,7 @@ namespace WebTermApi.Controllers
         [HttpGet]
         public APIResponse ApiConfig(string deviceId)
         {
-            IResult result = TermServiceFactory.Machine.ApiConfig("0", deviceId);
+            IResult result = TermServiceFactory.Machine.ApiConfig(GuidUtil.Empty(), deviceId);
             return new APIResponse(result);
 
         }

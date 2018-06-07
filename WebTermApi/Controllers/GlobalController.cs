@@ -18,9 +18,9 @@ namespace WebTermApi.Controllers
     public class GlobalController : OwnBaseApiController
     {
         [HttpGet]
-        public APIResponse DataSet(string merchantId, string machineId, DateTime? datetime)
+        public APIResponse DataSet(string userId, string merchantId, string machineId, DateTime? datetime)
         {
-            IResult result = TermServiceFactory.Global.DataSet("0", merchantId, machineId, datetime);
+            IResult result = TermServiceFactory.Global.DataSet(userId, merchantId, machineId, datetime);
             return new APIResponse(result);
         }
     }

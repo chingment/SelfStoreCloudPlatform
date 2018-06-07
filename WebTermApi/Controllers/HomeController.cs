@@ -25,8 +25,8 @@ namespace WebTermApi.Controllers
         private string key = "test";
         private string secret = "6ZB97cdVz211O08EKZ6yriAYrHXFBowC";
         private long timespan = (long)(DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalSeconds;
-        //private string host = "http://localhost:18665";
-        private string host = "http://demo.mobile.17fanju.com";
+        private string host = "http://localhost:18665";
+        // private string host = "http://demo.mobile.17fanju.com";
         public static string GetQueryString(Dictionary<string, string> parames)
         {
             // 第一步：把字典按Key的字母顺序排序
@@ -94,8 +94,8 @@ namespace WebTermApi.Controllers
         public ActionResult Index()
         {
 
-            //model.Add("获取机器接口配置信息", MachineApiConfig("000000000000000"));
-            model.Add("获取全局数据", GlobalDataSet(1, 1, DateTime.Now));
+            model.Add("获取机器接口配置信息", MachineApiConfig("000000000000000"));
+            model.Add("获取全局数据", GlobalDataSet("ca66ca85c5bf435581ecd2380554ecfe", "d1e8ad564c0f4516b2de95655a4146c7", "00000000000000000000000000000006", DateTime.Now));
 
             return View(model);
         }
@@ -119,9 +119,10 @@ namespace WebTermApi.Controllers
 
         }
 
-        public string GlobalDataSet(int merchantId, int machineId, DateTime datetime)
+        public string GlobalDataSet(string userId, string merchantId, string machineId, DateTime datetime)
         {
             Dictionary<string, string> parames = new Dictionary<string, string>();
+            parames.Add("userId", userId.ToString());
             parames.Add("merchantId", merchantId.ToString());
             parames.Add("machineId", machineId.ToString());
             parames.Add("datetime", datetime.ToUnifiedFormatDateTime());
@@ -132,7 +133,7 @@ namespace WebTermApi.Controllers
             headers.Add("timestamp", timespan.ToString());
             headers.Add("sign", signStr);
             HttpUtil http = new HttpUtil();
-            string result = http.HttpGet("" + host + "/api/Global/DataSet?merchantId=" + merchantId + "&machineId=" + machineId + "&datetime=" + HttpUtility.UrlEncode(datetime.ToUnifiedFormatDateTime(), UTF8Encoding.UTF8).ToUpper(), headers);
+            string result = http.HttpGet("" + host + "/api/Global/DataSet?userId=" + userId + "&merchantId=" + merchantId + "&machineId=" + machineId + "&datetime=" + HttpUtility.UrlEncode(datetime.ToUnifiedFormatDateTime(), UTF8Encoding.UTF8).ToUpper(), headers);
 
             return result;
 
