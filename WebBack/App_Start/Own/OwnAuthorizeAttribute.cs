@@ -48,6 +48,24 @@ namespace WebBack
             string userAgent = request.UserAgent;
             string returnUrl = isAjaxRequest == true ? request.UrlReferrer.AbsoluteUri : request.Url.AbsoluteUri;
 
+
+
+            if (request.HttpMethod == "POST")
+            {
+                if (request.IsAjaxRequest())
+                {
+                    var antiForgeryCookie = request.Cookies[AntiForgeryConfig.CookieName];
+
+                    var cookieValue = antiForgeryCookie != null
+                        ? antiForgeryCookie.Value
+                        : null;
+                    //从cookies 和 Headers 中 验证防伪标记
+                    //这里可以加try-catch
+                    AntiForgery.Validate(cookieValue, request.Headers["__RequestVerificationToken"]);
+                }
+            }
+
+
             string token = request.QueryString["token"];
 
             if (token != null)
@@ -63,6 +81,9 @@ namespace WebBack
                     response.Cookies.Add(new HttpCookie(OwnRequest.SESSION_NAME, token));
                 }
             }
+
+
+
 
             var userInfo = OwnRequest.GetUserInfo();
 

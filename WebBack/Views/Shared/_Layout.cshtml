@@ -180,6 +180,7 @@
             </table>
         </div>
     </div>
+    @Html.AntiForgeryToken()
     @RenderBody()
     @RenderSection("scriptsbyend", required: false)
 </body>

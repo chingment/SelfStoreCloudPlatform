@@ -559,6 +559,16 @@
 
             // alert(JSON.stringify(postStr))
 
+
+
+            //获取防伪标记
+            var token = $('[name=__RequestVerificationToken]').val();
+            var headers = {};
+            //防伪标记放入headers
+            //也可以将防伪标记放入data
+            headers["__RequestVerificationToken"] = token;
+
+
             var handling;
 
 
@@ -566,6 +576,7 @@
                 type: "Post",
                 dataType: "json",
                 async: _async,
+                headers: headers,
                 timeout: _timeout,
                 contentType: 'application/json;charset=utf-8',
                 data: postStr,
