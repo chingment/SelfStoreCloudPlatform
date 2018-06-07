@@ -43,8 +43,6 @@
 </div>
 <div class="gbr-row gbr-row-login">
     <form id="form1" onsubmit="return login()">
-        @Html.AntiForgeryToken()
-
         <input type="hidden" id="txt_ReturnUrl" name="ReturnUrl" value="@Model.ReturnUrl" />
 
         <div class="h-form-container login-box">

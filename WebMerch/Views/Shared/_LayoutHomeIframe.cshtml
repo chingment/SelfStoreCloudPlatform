@@ -207,7 +207,7 @@
                                     <li>
                                         @using (Html.BeginForm("LogOff", "Home", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
                                         {
-                                            @Html.AntiForgeryToken()
+                                           
                                         }
                                         <a href="javascript:document.getElementById('logoutForm').submit()">退出</a>
                                     </li>

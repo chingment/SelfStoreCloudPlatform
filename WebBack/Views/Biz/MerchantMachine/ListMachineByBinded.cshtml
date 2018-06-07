@@ -79,7 +79,6 @@ function () {
 </script>
 
 <form id="form1" name="form1">
-    @Html.AntiForgeryToken()
     <input name="MerchantId" type="hidden" value="@Request.QueryString["merchantId"]" />
     <div class="search-bar">
         <div class="filter">
