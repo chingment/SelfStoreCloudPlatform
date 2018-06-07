@@ -11,7 +11,7 @@ namespace Lumos.BLL
 {
     public class MerchantMachineProvider : BaseProvider
     {
-        public CustomJsonResult Bind(string operater, string merchantId, string machineId)
+        public CustomJsonResult BindOn(string operater, string merchantId, string machineId)
         {
             CustomJsonResult result = new CustomJsonResult();
 
@@ -61,7 +61,7 @@ namespace Lumos.BLL
             return result;
         }
 
-        public CustomJsonResult UnBind(string operater, string merchantId, string machineId)
+        public CustomJsonResult BindOff(string operater, string merchantId, string machineId)
         {
             CustomJsonResult result = new CustomJsonResult();
 

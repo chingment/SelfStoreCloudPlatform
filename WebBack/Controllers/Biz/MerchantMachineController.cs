@@ -80,16 +80,16 @@ namespace WebBack.Controllers.Biz
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public CustomJsonResult Bind(string merchantId, string machineId)
+        public CustomJsonResult BindOn(string merchantId, string machineId)
         {
-            return BizFactory.MerchantMachine.Bind(this.CurrentUserId, merchantId, machineId);
+            return BizFactory.MerchantMachine.BindOn(this.CurrentUserId, merchantId, machineId);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public CustomJsonResult UnBind(string merchantId, string machineId)
+        public CustomJsonResult BindOff(string merchantId, string machineId)
         {
-            return BizFactory.MerchantMachine.UnBind(this.CurrentUserId, merchantId, machineId);
+            return BizFactory.MerchantMachine.BindOff(this.CurrentUserId, merchantId, machineId);
         }
 
     }

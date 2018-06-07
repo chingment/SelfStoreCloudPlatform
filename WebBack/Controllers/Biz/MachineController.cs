@@ -24,6 +24,11 @@ namespace WebBack.Controllers.Biz
             return View();
         }
 
+        public ViewResult ListByBind()
+        {
+            return View();
+        }
+
         public ViewResult Add()
         {
             return View();
@@ -31,7 +36,14 @@ namespace WebBack.Controllers.Biz
 
         public ViewResult Edit(string id)
         {
-            EditViewModel model = new EditViewModel(id);
+            var model = new EditViewModel(id);
+            return View(model);
+        }
+
+        public ViewResult Bind(string id)
+        {
+            var model = new BindViewModel(id);
+
             return View(model);
         }
 
@@ -50,17 +62,35 @@ namespace WebBack.Controllers.Biz
             int pageSize = 10;
             query = query.OrderByDescending(r => r.CreateTime).Skip(pageSize * (pageIndex)).Take(pageSize);
 
-            List<object> list = new List<object>();
+            var list = query.ToList();
 
-            foreach (var item in query)
+            List<object> olist = new List<object>();
+
+            foreach (var item in list)
             {
 
-                list.Add(new
+                string merchantId = "";
+                string merchantName = "未绑定商户";
+                var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.MachineId == item.Id && m.Status == Enumeration.MerchantMachineStatus.Bind).FirstOrDefault();
+                if (merchantMachine != null)
                 {
-                    item.Id,
-                    item.Name,
+                    var merchant = CurrentDb.Merchant.Where(m => m.Id == merchantMachine.MerchantId).FirstOrDefault();
+                    if (merchant != null)
+                    {
+                        merchantName = merchant.Name;
+                    }
+                }
+
+                olist.Add(new
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    MerchantId = merchantId,
+                    MerchantName = merchantName,
                     item.DeviceId,
-                    IsUse = (item.IsUse == true ? "是" : "否"),
+                    item.IsUse,
+                    UseStatusName = (item.IsUse == true ? "是" : "否"),
+                    BindStatusName = (item.IsUse == true ? "已绑定" : "未绑定"),
                     item.MacAddress,
                     item.CreateTime
                 });
@@ -68,11 +98,10 @@ namespace WebBack.Controllers.Biz
 
             }
 
-            PageEntity pageEntity = new PageEntity { PageSize = pageSize, TotalRecord = total, Rows = list };
+            PageEntity pageEntity = new PageEntity { PageSize = pageSize, TotalRecord = total, Rows = olist };
 
             return Json(ResultType.Success, pageEntity, "");
         }
-
 
         [HttpPost]
         public CustomJsonResult Add(AddViewModel model)
@@ -88,5 +117,20 @@ namespace WebBack.Controllers.Biz
             return BizFactory.Machine.Edit(this.CurrentUserId, model.Machine);
         }
 
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public CustomJsonResult Bind(string merchantId, string machineId)
+        {
+            var machine = CurrentDb.Machine.Where(m => m.Id == machineId).FirstOrDefault();
+            if (machine.IsUse)
+            {
+                return BizFactory.MerchantMachine.BindOff(this.CurrentUserId, merchantId, machineId);
+            }
+            else
+            {
+                return BizFactory.MerchantMachine.BindOn(this.CurrentUserId, merchantId, machineId);
+            }
+        }
     }
 }

@@ -16,7 +16,7 @@
             containerId: "form1",
             rowDataCombie: function (p_index, p_row) {
                 var l_Strlimt = "";
-                l_Strlimt += "@Html.IsInPermission("<a href=\\\"javascript:void(0)\\\" operate=\\\"unbind\\\"  class=\\\"a-btn\\\" >解绑</a>")";
+                l_Strlimt += "@Html.IsInPermission("<a href=\\\"javascript:void(0)\\\" operate=\\\"bindoff\\\"  class=\\\"a-btn\\\" >解绑</a>")";
                 var l_StrRows = "";
                 l_StrRows += "<tr>";
                 l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
@@ -31,7 +31,7 @@
             },
             operate:
                 {
-                    "unbind": function (obj) {
+                    "bindoff": function (obj) {
 
 
                         art.dialog.confirm(
@@ -43,7 +43,7 @@ function () {
 
     $.lumos.postJson({
         isUseHandling: true,
-        url: "/Biz/MerchantMachine/UnBind",
+        url: "/Biz/MerchantMachine/BindOff",
         data: array,
         success: function (d) {
             listTable.loadData(0);

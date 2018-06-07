@@ -180,6 +180,7 @@
     <Compile Include="App_Start\Own\OwnNoResubmitAttribute.cs" />
     <Compile Include="App_Start\Own\OwnStaticResource.cs" />
     <Compile Include="Models\Biz\Machine\AddViewModel.cs" />
+    <Compile Include="Models\Biz\Machine\BindViewModel.cs" />
     <Compile Include="Models\Biz\Machine\EditViewModel.cs" />
     <Compile Include="Models\Biz\Machine\SearchCondition.cs" />
     <Compile Include="Models\Biz\MerchantMachine\SearchCondition.cs" />
@@ -1123,6 +1124,9 @@
     <Content Include="Views\Biz\MerchantMachine\ListMerchant.cshtml" />
     <Content Include="Views\Biz\MerchantMachine\ListMachineByBinded.cshtml" />
     <Content Include="Views\Biz\MerchantMachine\ListMachineByBindable.cshtml" />
+    <Content Include="Views\Biz\Machine\ListByBind.cshtml" />
+    <Content Include="Views\Biz\Machine\Bind.cshtml" />
+    <Content Include="Views\Biz\Merchant\ListBySelect.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

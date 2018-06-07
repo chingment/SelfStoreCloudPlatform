@@ -98,52 +98,13 @@
             $("#tab1").tab();
 
 
-            $('#btn_select_staffuser').live('click', function () {
-                var dialogtitle = "选择用户";
-
+            $('#btn_select_mrchUser').live('click', function () {
+                var dialogtitle = "选择";
                 var l_title = $(this).attr("dialog-title")
                 if (typeof l_title != 'undefined') {
                     dialogtitle = l_title;
                 }
-                art.dialog.open('../StaffUser/SelectList', {
-                    id: "openDialog565", title: l_title, width: '600px', height: '480px', lock: true, drag: false, cancelVal: '关闭', cancel: true
-                });
-
-            });
-
-
-            $('#btn_select_salesmanUser').live('click', function () {
-                var dialogtitle = "选择业务人员";
-
-                var l_title = $(this).attr("dialog-title")
-                if (typeof l_title != 'undefined') {
-                    dialogtitle = l_title;
-                }
-                var l_requiredinput = $(this).attr("requiredinput")
-
-                var r = '';
-                if (l_requiredinput != 'undefined') {
-                    r = $('#' + l_requiredinput).val();
-                    if (r == '') {
-                        $.lumos.tips('请先选择代理商');
-                        return;
-                    }
-                }
-
-                art.dialog.open('../SalesmanUser/SelectList?agentId=' + r, {
-                    id: "openDialog565", title: l_title, width: '600px', height: '480px', lock: true, drag: false, cancelVal: '关闭', cancel: true
-                });
-
-            });
-
-            $('#btn_select_agentUser').live('click', function () {
-                var dialogtitle = "选择代理商";
-
-                var l_title = $(this).attr("dialog-title")
-                if (typeof l_title != 'undefined') {
-                    dialogtitle = l_title;
-                }
-                art.dialog.open('../AgentUser/SelectList', {
+                art.dialog.open('/Biz/Merchant/ListBySelect', {
                     id: "openDialog565", title: l_title, width: '600px', height: '480px', lock: true, drag: false, cancelVal: '关闭', cancel: true
                 });
 
