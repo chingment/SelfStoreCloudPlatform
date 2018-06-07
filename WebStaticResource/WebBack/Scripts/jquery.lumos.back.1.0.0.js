@@ -498,45 +498,66 @@
             var _complete = opts.complete;
             var _isUseHandling = opts.isUseHandling
 
-            //判断__RequestVerificationToken是否存在
-            var tokeName = "__RequestVerificationToken";
-            var token = $("input[name=" + tokeName + "]");
-            var tokenValue = "";
-            if ($(token).length > 0) {
-                tokenValue = $($(token)[0]).val();
-                if (_data != null) {
-                    var isExist = false;
-                    var type = Object.prototype.toString.call(_data);
-                    if (type == "[object Array]") {
 
 
-                        $.each(_data, function (i, n) {
-                            $.each(n, function (x, j) {
-                                if (j == tokeName) {
-                                    isExist = true;
-                                    return;
-                                }
-                            })
-                        });
-                        if (!isExist) {
-                            _data.push({ name: tokeName, value: tokenValue });
-                        }
-                    }
-                    else if (type == "[object Object]") {
-                        $.each(_data, function (x, j) {
+            var postStr = "";
+            var obj = {};
+            if (_data != null) {
+                if (typeof (_data.length) != 'undefined') {
+                    $.each(_data, function (i, v) {
+                        obj[v.name] = v.value;
+                    })
 
-                            if (x == tokeName) {
-                                isExist = true;
-                                return;
-                            }
-                        })
-
-                        if (!isExist) {
-                            _data.__RequestVerificationToken = tokenValue
-                        }
-                    }
+                    postStr = JSON.stringify(obj);
+                }
+                else {
+                    postStr = JSON.stringify(_data);
                 }
             }
+
+            //判断__RequestVerificationToken是否存在
+            //var tokeName = "__RequestVerificationToken";
+            //var token = $("input[name=" + tokeName + "]");
+            //var tokenValue = "";
+            //if ($(token).length > 0) {
+            //    tokenValue = $($(token)[0]).val();
+            //    if (_data != null) {
+            //        var isExist = false;
+            //        var type = Object.prototype.toString.call(_data);
+            //        if (type == "[object Array]") {
+
+
+            //            $.each(_data, function (i, n) {
+            //                $.each(n, function (x, j) {
+            //                    if (j == tokeName) {
+            //                        isExist = true;
+            //                        return;
+            //                    }
+            //                })
+            //            });
+            //            if (!isExist) {
+            //                _data.push({ name: tokeName, value: tokenValue });
+            //            }
+            //        }
+            //        else if (type == "[object Object]") {
+            //            $.each(_data, function (x, j) {
+
+            //                if (x == tokeName) {
+            //                    isExist = true;
+            //                    return;
+            //                }
+            //            })
+
+            //            if (!isExist) {
+            //                _data.__RequestVerificationToken = tokenValue
+            //            }
+            //        }
+            //    }
+            //}
+
+
+
+            // alert(JSON.stringify(postStr))
 
             var handling;
 
@@ -546,7 +567,8 @@
                 dataType: "json",
                 async: _async,
                 timeout: _timeout,
-                data: _data,
+                contentType: 'application/json;charset=utf-8',
+                data: postStr,
                 url: _url,
                 beforeSend: function (XMLHttpRequest) {
                     if (_isUseHandling) {

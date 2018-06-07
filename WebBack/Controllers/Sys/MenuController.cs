@@ -61,14 +61,12 @@ namespace WebBack.Controllers.Sys
 
         [HttpPost]
         [OwnNoResubmit]
-        [ValidateAntiForgeryToken]
         public CustomJsonResult Add(AddViewModel model)
         {
             return SysFactory.AuthorizeRelay.CreateMenu(this.CurrentUserId, model.SysMenu, model.SysMenu.Permission);
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public CustomJsonResult Edit(EditViewModel model)
         {
             var menu = new SysMenu();
@@ -82,32 +80,30 @@ namespace WebBack.Controllers.Sys
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public CustomJsonResult Delete(string[] ids)
         {
             return SysFactory.AuthorizeRelay.DeleteMenu(this.CurrentUserId, ids);
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public CustomJsonResult EditSort()
+        public CustomJsonResult EditSort(List<SysMenu> sysMenu)
         {
 
-            for (int i = 0; i < Request.Form.Count; i++)
-            {
-                string name = Request.Form.AllKeys[i].ToString();
-                if (name.IndexOf("menuId") > -1)
-                {
-                    string id = name.Split('_')[1].Trim();
-                    int priority = int.Parse(Request.Form[i].Trim());
-                    SysMenu model = CurrentDb.SysMenu.Where(m => m.Id == id).FirstOrDefault();
-                    if (model != null)
-                    {
-                        model.Priority = priority;
-                        CurrentDb.SaveChanges();
-                    }
-                }
-            }
+            //for (int i = 0; i < Request.Form.Count; i++)
+            //{
+            //    string name = Request.Form.AllKeys[i].ToString();
+            //    if (name.IndexOf("menuId") > -1)
+            //    {
+            //        string id = name.Split('_')[1].Trim();
+            //        int priority = int.Parse(Request.Form[i].Trim());
+            //        SysMenu model = CurrentDb.SysMenu.Where(m => m.Id == id).FirstOrDefault();
+            //        if (model != null)
+            //        {
+            //            model.Priority = priority;
+            //            CurrentDb.SaveChanges();
+            //        }
+            //    }
+            //}
             return Json(ResultType.Success, "保存成功");
 
         }

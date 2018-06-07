@@ -1,0 +1,138 @@
+﻿@model WebBack.Models.Biz.ProductKind.AddViewModel
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/_LayoutHomeDialog.cshtml";
+}
+@section scripts{
+    <script type="text/javascript">
+        $(this).ready(function () {
+
+            var id = $.lumos.getUrlParamValue("id");
+            var pName = $.lumos.getUrlParamValue("pName");
+            $("#lbl_PName").text(pName);
+
+            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { art.dialog.tips(msg); } });
+            $("#Model_ProductKind_Name").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 20, empty: { leftEmpty: false, emptyError: "名称不能为空" }, onError: "名称不能为空,且不超过20个字符" });
+            $("#Model_ProductKind_MainImg").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请上传封面" });
+            $("#Model_ProductKind_IconImg").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请上传小图标" });
+            $("#Model_ProductKind_Status").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择状态" });
+            $("#Model_ProductKind_Description").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 0, max: 500, onError: "备注不超过500个字符" });
+        });
+
+        function submit(fun) {
+
+            var isValid = $.formValidator.pageIsValid();
+            if (isValid) {
+                art.dialog.confirm(
+         '确定要新建？',
+         function () {
+             var l_Data = $("#form1").serializeArray();
+             l_Data.push({ name: "Model.ProductKind.PId", value: $.lumos.getUrlParamValue("id") });
+             $.lumos.postJson({
+                 url: "/Biz/ProductKind/Add",
+                 data: l_Data,
+                 success: function (d) {
+                     fun(d);
+                 }
+             });
+
+         });
+            }
+            return false;
+        }
+    </script>
+}
+<form name="form1" method="post" action="#" id="form1">
+    @AntiForgery.GetHtml()
+    @Html.GenerateUniqueSubmitIdentifier()
+    <table class="f-tb" cellpadding="0" cellspacing="1">
+        <tr>
+            <td class="f-tb-t" style="width:50px">
+                上级名称：
+            </td>
+            <td class="f-tb-c">
+                <label id="lbl_PName"></label>
+            </td>
+        </tr>
+        <tr>
+            <td class="f-tb-t">
+                <span class="required-symbol">*</span>名称：
+            </td>
+            <td class="f-tb-c">
+                <input name="Model.ProductKind.Name" type="text" autocomplete="off" id="Model_ProductKind_Name" style="width:250px;" class="input-control" />
+            </td>
+        </tr>
+        <tr>
+            <td class="f-tb-t">
+                图片：
+            </td>
+            <td class="f-tb-c">
+
+                <table class="f-tb1-detail" style="text-align:center;width:auto">
+                    <tr style="vertical-align:top">
+                        <td>
+                            <div>
+                                <span class="uploadimgbox" upload="true">
+                                    <span class="uploadimg" inputname="Model.ProductKind.MainImg" path="productkind">
+                                        <img src="~/Static/default1.jpg" />
+                                        <span class="uploadimg-click" style="">上传</span>
+                                        <input id="Model_ProductKind_MainImg" value="" name="Model.ProductKind.MainImg" type="hidden" />
+                                    </span>
+                                    <span class="uploadimg-view" style="">预览</span>
+                                </span>
+                            </div>
+                            <div>
+                                <span><span class="required-symbol">*</span>封面</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <span class="uploadimgbox" upload="true">
+                                    <span class="uploadimg" inputname="Model.ProductKind.IconImg" path="productkind">
+                                        <img src="~/Static/default1.jpg" />
+                                        <span class="uploadimg-click" style="">上传</span>
+                                        <input id="Model_ProductKind_IconImg" value="" name="Model.ProductKind.IconImg" type="hidden" />
+                                    </span>
+                                    <span class="uploadimg-view" style="">预览</span>
+                                </span>
+                            </div>
+                            <div>
+                                <span><span class="required-symbol">*</span>小图标</span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+
+
+            </td>
+        </tr>
+        <tr>
+            <td class="f-tb-t" style="width:50px;">
+                <span class="required-symbol">*</span>状态：
+            </td>
+            <td class="f-tb-c">
+                @(Html.initEnumeration<Lumos.Entity.Enumeration.ProductKindStatus>(Lumos.Entity.Enumeration.InputType.Select, "Model.ProductKind.Status", new { @class = "select-control", defaulttext = "请选择", hidevalue = new Lumos.Entity.Enumeration.ProductKindStatus[] { Lumos.Entity.Enumeration.ProductKindStatus.Unknow } }))
+                <span id="Model_ProductKindStatusTip"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="f-tb-t">
+                备注：
+            </td>
+            <td class="f-tb-c">
+                <textarea name="Model.ProductKind.Description" rows="5" cols="46" id="Model_ProductKind_Description" class="input-control"></textarea>
+            </td>
+        </tr>
+        <tr style="display:none">
+            <td class="f-tb-t"></td>
+            <td class="f-tb-c">
+                <input type="submit" name="btn_Submit" id="btn_Submit" value="确定" class="btn btn-sure" />
+                <input type="button" name="btn_Cancle" id="btn_Cancle" value="关闭" class="btn btn-close dialog-close" />
+            </td>
+        </tr>
+    </table>
+</form>
+
+
+

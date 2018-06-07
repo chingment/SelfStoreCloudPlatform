@@ -84,7 +84,15 @@ namespace Lumos.Entity
             Deleted = 2
         }
 
-
+        public enum ProductKindStatus
+        {
+            [Remark("未知")]
+            Unknow = 0,
+            [Remark("正常")]
+            Valid = 1,
+            [Remark("停用")]
+            Invalid = 2
+        }
 
     }
 }

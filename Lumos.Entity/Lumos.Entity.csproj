@@ -60,6 +60,7 @@
     <Compile Include="Biz\MachineProductStock.cs" />
     <Compile Include="Biz\Merchant.cs" />
     <Compile Include="Biz\MerchantMachine.cs" />
+    <Compile Include="Biz\ProductKind.cs" />
     <Compile Include="Biz\Store.cs" />
     <Compile Include="Biz\StoreMachine.cs" />
     <Compile Include="ImgSet.cs" />

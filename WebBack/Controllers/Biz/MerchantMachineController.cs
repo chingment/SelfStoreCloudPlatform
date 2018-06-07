@@ -79,14 +79,12 @@ namespace WebBack.Controllers.Biz
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public CustomJsonResult BindOn(string merchantId, string machineId)
         {
             return BizFactory.MerchantMachine.BindOn(this.CurrentUserId, merchantId, machineId);
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public CustomJsonResult BindOff(string merchantId, string machineId)
         {
             return BizFactory.MerchantMachine.BindOff(this.CurrentUserId, merchantId, machineId);

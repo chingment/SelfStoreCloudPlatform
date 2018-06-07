@@ -24,7 +24,7 @@
             if (treeNode.id == "1") return;
             var aObj = $("#" + treeNode.tId + IDMark_A);
             var editStr = "";
-            editStr = "<input type='text' name='priority' id='" + treeNode .id+ "'  type='text' style='width:80px;' value='" + treeNode.Priority + "' onkeypress = 'return event.keyCode>=48&&event.keyCode<=57||event.keyCode==46'   />";
+            editStr = "<input id='kindId_" + treeNode.id + "' type='text' class='menuPriority' name='kindId_" + treeNode.id + "' type='text' style='width:80px;' value='" + treeNode.Priority + "' onkeypress = 'return event.keyCode>=48&&event.keyCode<=57||event.keyCode==46'   />";
             aObj.after(editStr);
         }
 
@@ -59,51 +59,16 @@
                 return;
             }
 
+            var pId = $.lumos.getUrlParamValue("id");
             art.dialog.confirm(
 '确定要保存？',
 function () {
-    var l_Data = [];
-
-    $("#form1").find('input[name="priority"]').each(function () {
-
-        var id = $(this).attr("id");
-        var priority = $(this).val();
-
-       //var l_Data1 = [];
-       //l_Data1.push({ name: "id", value: id });
-       //l_Data1.push({ name: "priority", value: priority });
-
-       //l_Data.push(l_Data1);
-        l_Data.push({
-            Id: id,
-            Priority: priority
-        })
-    });
-
-
-    //var lstmodel = new Array();
-    //lstmodel.push({ UserName: '李军', Age: 32, Birthday: '1983/11/21' });
-    //lstmodel.push({ UserName: '王军', Age: 42, Birthday: '1973/11/21' });
-    //lstmodel.push({ UserName: '刘军', Age: 52, Birthday: '1963/11/21' });
-
-    //alert(JSON.stringify(l_Data));
-    //$.ajax({
-    //    url: '../Menu/EditSort',
-    //    type: 'POST',
-    //    data: JSON.stringify(l_Data),
-    //    contentType: 'application/json;charset=utf-8', //上传后直接是List，不需要反序列化
-    //    async: false,
-    //    datatype: 'json',
-    //    cache: false
-    //})
-
-
-
+    var l_Data = decodeURIComponent($("#form1").serialize());
     $.lumos.postJson({
-        url: "../Menu/EditSort",
-        data: JSON.stringify(l_Data),
+        url: "/Biz/ProductKind/Sort?pId=" + pId,
+        data: l_Data,
         success: function (d) {
-            $.lumos.parentDialog().loadTreeList();
+            $.lumos.parentDialog().loadTreeList(pId);
             $.lumos.tips(d.message);
 
         }
@@ -115,7 +80,7 @@ function () {
         function loadTreeList() {
 
             $.lumos.postJson({
-                url: "../Menu/GetTree?pId=" + $.lumos.getUrlParamValue("id"),
+                url: "/Biz/ProductKind/GetTreeList?pId=" + $.lumos.getUrlParamValue("id"),
                 success: function (d) {
                     var obj = eval(d.data);
                      $.fn.zTree.init($("#treemenu"), setting, obj);
@@ -131,7 +96,7 @@ function () {
 
 
 <form name="form1" method="post" id="form1">
-
+  
     @AntiForgery.GetHtml()
     <ul id="treemenu" class="ztree" style="overflow: auto; "></ul>
     <div class="btn-area" style="text-align:center;display:none;">

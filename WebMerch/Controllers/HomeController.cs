@@ -41,7 +41,6 @@ namespace WebMerch.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
             OwnRequest.Quit();
@@ -50,7 +49,6 @@ namespace WebMerch.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public CustomJsonResult ChangePassword(ChangePasswordModel model)
         {
             SysFactory.AuthorizeRelay.ChangePassword(this.CurrentUserId, this.CurrentUserId, model.OldPassword, model.NewPassword);

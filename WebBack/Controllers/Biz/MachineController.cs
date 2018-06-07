@@ -119,7 +119,6 @@ namespace WebBack.Controllers.Biz
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public CustomJsonResult Bind(string merchantId, string machineId)
         {
             var machine = CurrentDb.Machine.Where(m => m.Id == machineId).FirstOrDefault();

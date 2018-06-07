@@ -15,8 +15,6 @@ namespace Lumos.Entity
         public string Id { get; set; }
         public string UserId { get; set; }
         [MaxLength(128)]
-        public string Sn { get; set; }
-        [MaxLength(128)]
         public string Name { get; set; }
         [MaxLength(128)]
         public string ContactName { get; set; }

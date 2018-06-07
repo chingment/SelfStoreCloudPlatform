@@ -39,7 +39,6 @@ namespace WebBack.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
             OwnRequest.Quit();
@@ -48,7 +47,6 @@ namespace WebBack.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public CustomJsonResult ChangePassword(ChangePasswordModel model)
         {
 

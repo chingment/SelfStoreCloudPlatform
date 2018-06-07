@@ -160,6 +160,7 @@
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MachineController.cs" />
+    <Compile Include="Controllers\ProductKindController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -176,6 +177,10 @@
     <Compile Include="Models\OwnViewModel.cs" />
     <Compile Include="Models\Home\ChangePasswordModel.cs" />
     <Compile Include="Models\Home\LoginModel.cs" />
+    <Compile Include="Models\ProductKind\AddViewModel.cs" />
+    <Compile Include="Models\ProductKind\DetailsViewModel.cs" />
+    <Compile Include="Models\ProductKind\EditViewModel.cs" />
+    <Compile Include="Models\ProductKind\ProductSearchCondition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Machine\EditViewModel.cs" />
     <Compile Include="Models\Machine\SearchCondition.cs" />
@@ -217,6 +222,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\ProductKind\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

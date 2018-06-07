@@ -91,7 +91,6 @@ namespace WebBack.Controllers.Sys
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public CustomJsonResult Add(AddViewModel model)
         {
 
@@ -111,7 +110,6 @@ namespace WebBack.Controllers.Sys
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public CustomJsonResult Edit(EditViewModel model)
         {
             var user = new SysStaffUser();
@@ -125,7 +123,6 @@ namespace WebBack.Controllers.Sys
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public CustomJsonResult Delete(string[] userIds)
         {
             return SysFactory.AuthorizeRelay.DeleteUser(this.CurrentUserId, userIds);

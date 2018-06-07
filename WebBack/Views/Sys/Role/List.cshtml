@@ -30,7 +30,7 @@
                     }
 
                     $(".Model_SysRole_Id").val(selObj.id);
-          
+
                     switch (index) {
                         case 0:
                             getDetails();
@@ -138,20 +138,28 @@
 
                 var nodes = zTreeRoleMenu.getCheckedNodes(true);
 
-                var array = new Array();
+                var menuIds = new Array();
+
                 for (var key in nodes) {
-                    array.push({ name: "menuIds", value: nodes[key].id });
+                    menuIds.push(nodes[key].id);
                 }
                 art.dialog.confirm(
 '确定要保存？',
 function () {
+
     var id = $("#Model_SysRole_Id").val();
 
-    array.push({ name: "roleId", value: id });
+
+    var l_Data = {
+        roleId: id,
+        menuIds: menuIds
+    }
+
+    //array.push({ name: "roleId", value: id });
 
     $.lumos.postJson({
         url: "../Role/SaveRoleMenu",
-        data: array,
+        data: l_Data,
         success: function (d) {
             $.lumos.tips(d.message);
         }
@@ -225,7 +233,7 @@ function () {
             }
 
             tab.click();
-  
+
         }
 
         function getDetails() {
@@ -356,7 +364,7 @@ function () {
                                     名称：
                                 </td>
                                 <td class="f-tb-c">
-                                    <input name="Model.SysRole.Id" type="hidden" class="Model_SysRole_Id" id="Model_SysRole_Id"  />
+                                    <input name="Model.SysRole.Id" type="hidden" class="Model_SysRole_Id" id="Model_SysRole_Id" />
                                     <input name="Model.SysRole.Name" type="text" autocomplete="off" value="" id="Model_SysRole_Name" style="width: 250px;" class="input-control" />
                                 </td>
                             </tr>

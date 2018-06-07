@@ -32,5 +32,13 @@ namespace Lumos.BLL
             }
         }
 
+        public static ProductKindProvider ProductKind
+        {
+            get
+            {
+                return new ProductKindProvider();
+            }
+        }
+
     }
 }

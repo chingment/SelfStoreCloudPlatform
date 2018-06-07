@@ -135,14 +135,12 @@ namespace WebBack.Controllers.Sys
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public CustomJsonResult AddUserToRole(string roleId, string[] userIds)
         {
             return SysFactory.AuthorizeRelay.AddUserToRole(this.CurrentUserId, roleId, userIds);
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public CustomJsonResult RemoveUserFromRole(string roleId, string[] userIds)
         {
             return SysFactory.AuthorizeRelay.RemoveUserFromRole(this.CurrentUserId, roleId, userIds);
@@ -150,7 +148,6 @@ namespace WebBack.Controllers.Sys
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public CustomJsonResult SaveRoleMenu(string roleId, string[] menuIds)
         {
             return SysFactory.AuthorizeRelay.SaveRoleMenu(this.CurrentUserId, roleId, menuIds);
@@ -158,7 +155,6 @@ namespace WebBack.Controllers.Sys
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public CustomJsonResult Add(AddViewModel model)
         {
             return SysFactory.AuthorizeRelay.CreateRole(this.CurrentUserId, model.SysRole);
@@ -166,7 +162,6 @@ namespace WebBack.Controllers.Sys
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public CustomJsonResult Edit(EditViewModel model)
         {
             return SysFactory.AuthorizeRelay.UpdateRole(this.CurrentUserId, model.SysRole);
@@ -174,7 +169,6 @@ namespace WebBack.Controllers.Sys
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public CustomJsonResult Delete(string[] ids)
         {
             return SysFactory.AuthorizeRelay.DeleteRole(this.CurrentUserId, ids);

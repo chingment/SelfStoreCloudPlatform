@@ -37,7 +37,6 @@ namespace WebSSO.Controllers
         /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         [CheckVerifyCode("WebSSOLoginVerifyCode")]
         public CustomJsonResult Login(LoginModel model)
         {

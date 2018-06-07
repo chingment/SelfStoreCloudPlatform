@@ -71,6 +71,7 @@
     <Compile Include="Biz\MachineProvider.cs" />
     <Compile Include="Biz\MerchantMachineProvider.cs" />
     <Compile Include="Biz\MerchantProvider.cs" />
+    <Compile Include="Biz\ProductKindProvider.cs" />
     <Compile Include="Factory..cs" />
     <Compile Include="Service\Term\GlobalService.cs" />
     <Compile Include="Service\Term\Models\Global\DataSetModel.cs" />
