@@ -20,7 +20,7 @@ namespace WebTermApi.Controllers
         [HttpGet]
         public APIResponse DataSet(string userId, string merchantId, string machineId, DateTime? datetime)
         {
-            IResult result = TermServiceFactory.Global.DataSet(userId, merchantId, machineId, datetime);
+            IResult result = TermServiceFactory.Global.DataSet(userId, userId, merchantId, machineId, datetime);
             return new APIResponse(result);
         }
     }

@@ -13,6 +13,11 @@ namespace Lumos.BLL
 {
     public class ProductKindProvider : BaseProvider
     {
+
+
+
+
+
         public CustomJsonResult Add(string operater, ProductKind productKind)
         {
             CustomJsonResult result = new CustomJsonResult();
@@ -56,8 +61,8 @@ namespace Lumos.BLL
             var _productKind = CurrentDb.ProductKind.Where(m => m.Id == productKind.Id).FirstOrDefault();
 
             _productKind.Name = productKind.Name;
-            _productKind.MainImg = productKind.MainImg;
-            _productKind.IconImg = productKind.IconImg;
+            //_productKind.MainImg = productKind.MainImg;
+            //_productKind.IconImg = productKind.IconImg;
             _productKind.Status = productKind.Status;
             _productKind.Description = productKind.Description;
             _productKind.Mender = operater;

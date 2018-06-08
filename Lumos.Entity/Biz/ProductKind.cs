@@ -19,16 +19,14 @@ namespace Lumos.Entity
         [MaxLength(128)]
         public string Name { get; set; }
 
+        [MaxLength(128)]
+        public string MerchantId { get; set; }
+        [MaxLength(128)]
+        public string UserId { get; set; }
         public string PId { get; set; }
 
         [MaxLength(512)]
         public string Description { get; set; }
-
-        [MaxLength(512)]
-        public string IconImg { get; set; }
-
-        [MaxLength(512)]
-        public string MainImg { get; set; }
 
         public bool IsDelete { get; set; }
 

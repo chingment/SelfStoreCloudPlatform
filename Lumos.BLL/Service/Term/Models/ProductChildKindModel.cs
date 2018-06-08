@@ -8,12 +8,13 @@ namespace Lumos.BLL.Service.Term.Models
 {
     public class ProductChildKindModel
     {
-        public int Id { get; set; }
+        public ProductChildKindModel()
+        {
+
+        }
+
+        public string Id { get; set; }
 
         public string Name { get; set; }
-
-        public string ImgUrl { get; set; }
-
-        public List<ProductSkuModel> Child { get; set; }
     }
 }

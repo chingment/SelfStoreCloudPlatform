@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -25,8 +26,9 @@ namespace WebTermApi.Controllers
         private string key = "test";
         private string secret = "6ZB97cdVz211O08EKZ6yriAYrHXFBowC";
         private long timespan = (long)(DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalSeconds;
-        private string host = "http://localhost:18665";
-        // private string host = "http://demo.mobile.17fanju.com";
+
+        private string host = "";
+
         public static string GetQueryString(Dictionary<string, string> parames)
         {
             // 第一步：把字典按Key的字母顺序排序
@@ -93,6 +95,15 @@ namespace WebTermApi.Controllers
 
         public ActionResult Index()
         {
+            if (ConfigurationManager.AppSettings["custom:IsTest"] == null)
+            {
+                host = "http://localhost:18665";
+            }
+            else
+            {
+                host = "http://demo.mobile.17fanju.com";
+            }
+
 
             model.Add("获取机器接口配置信息", MachineApiConfig("000000000000000"));
             model.Add("获取全局数据", GlobalDataSet("ca66ca85c5bf435581ecd2380554ecfe", "d1e8ad564c0f4516b2de95655a4146c7", "00000000000000000000000000000006", DateTime.Now));

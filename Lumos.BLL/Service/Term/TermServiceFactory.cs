@@ -24,5 +24,13 @@ namespace Lumos.BLL.Service.Term
                 return new GlobalService();
             }
         }
+
+        public static ProductKindService ProductKind
+        {
+            get
+            {
+                return new ProductKindService();
+            }
+        }
     }
 }
