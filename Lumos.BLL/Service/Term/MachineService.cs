@@ -52,5 +52,89 @@ namespace Lumos.BLL.Service.Term
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", model);
         }
+
+        public List<ProductSkuModel> GetProductSkus(string operater, string userId, string merchantId, string machineId)
+        {
+            var productSkuModels = new List<ProductSkuModel>();
+
+            var machineStocks = CurrentDb.MachineStock.Where(m => m.UserId == userId && m.MerchantId == merchantId && m.MachineId == machineId && m.IsOffSell == false).ToList();
+
+            var productSkuIds = machineStocks.Select(m => m.ProductSkuId).Distinct();
+            foreach (var productSkuId in productSkuIds)
+            {
+                var productSku = CurrentDb.ProductSku.Where(m => m.Id == productSkuId).FirstOrDefault();
+                if (productSku != null)
+                {
+                    var productSkuModel = new ProductSkuModel();
+
+                    productSkuModel.Quantity = machineStocks.Where(m => m.ProductSkuId == productSkuId).Sum(m => m.Quantity);
+                    productSkuModel.LockQuantity = machineStocks.Where(m => m.ProductSkuId == productSkuId).Sum(m => m.LockQuantity);
+                    productSkuModel.SellQuantity = machineStocks.Where(m => m.ProductSkuId == productSkuId).Sum(m => m.SellQuantity);
+
+                    productSkuModel.Id = productSku.Id;
+                    productSkuModel.Name = productSku.Name;
+                    productSkuModel.KindId = productSku.KindId;
+                    productSkuModel.SpecDes = productSku.SpecDes;
+                    productSkuModel.DetailsDes = productSku.DetailsDes;
+                    productSkuModel.BriefInfo = productSku.BriefInfo;
+                    productSkuModel.ShowPirce = productSku.ShowPrice.ToF2Price();
+                    productSkuModel.SalesPrice = productSku.SalePrice.ToF2Price();
+                    productSkuModel.DisplayImgUrls = productSku.DispalyImgUrls;
+                    productSkuModel.ImgUrl = "";
+
+                    productSkuModels.Add(productSkuModel);
+                }
+            }
+
+
+            return productSkuModels;
+        }
+
+        public List<BannerModel> GetBanners(string operater, string userId, string merchantId, string machineId)
+        {
+            var bannerModels = new List<BannerModel>();
+            #region banners
+            var banners = CurrentDb.MachineBanner.Where(m => m.MerchantId == merchantId && m.MachineId == machineId && m.Status == Entity.Enumeration.MachineBannerStatus.Normal).OrderByDescending(m => m.Priority).ToList();
+
+            foreach (var item in banners)
+            {
+
+                bannerModels.Add(new BannerModel { ImgUrl = item.ImgUrl });
+            }
+            #endregion banners
+
+            return bannerModels;
+        }
+
+        public CustomJsonResult GetSlotSkusStock(string operater, string userId, string merchantId, string machineId)
+        {
+            var slotProductSkuModels = new List<SlotProductSkuModel>();
+
+            var machineStocks = CurrentDb.MachineStock.Where(m => m.UserId == userId && m.MerchantId == merchantId && m.MachineId == machineId && m.IsOffSell == false).ToList();
+
+            var productSkus = CurrentDb.ProductSku.Where(m => m.UserId == userId && m.MerchantId == merchantId).ToList();
+
+            foreach (var item in machineStocks)
+            {
+                var productSku = productSkus.Where(m => m.Id == item.ProductSkuId).FirstOrDefault();
+                if (productSku != null)
+                {
+                    var slotProductSkuModel = new SlotProductSkuModel();
+
+                    slotProductSkuModel.Id = productSku.Id;
+                    slotProductSkuModel.SlotId = item.SlotId;
+                    slotProductSkuModel.Name = productSku.Name;
+                    slotProductSkuModel.ImgUrl = "";
+                    slotProductSkuModel.Quantity = item.Quantity;
+                    slotProductSkuModel.LockQuantity = item.LockQuantity;
+                    slotProductSkuModel.SellQuantity = item.SellQuantity;
+
+                    slotProductSkuModels.Add(slotProductSkuModel);
+                }
+            }
+
+
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", slotProductSkuModels);
+        }
     }
 }

@@ -57,10 +57,11 @@
     <Compile Include="Biz\BizProcessesAudit.cs" />
     <Compile Include="Biz\BizProcessesAuditDetails.cs" />
     <Compile Include="Biz\Machine.cs" />
-    <Compile Include="Biz\MachineProductStock.cs" />
+    <Compile Include="Biz\MachineStock.cs" />
     <Compile Include="Biz\Merchant.cs" />
     <Compile Include="Biz\MerchantMachine.cs" />
     <Compile Include="Biz\ProductKind.cs" />
+    <Compile Include="Biz\ProductSku.cs" />
     <Compile Include="Biz\Store.cs" />
     <Compile Include="Biz\StoreMachine.cs" />
     <Compile Include="ImgSet.cs" />

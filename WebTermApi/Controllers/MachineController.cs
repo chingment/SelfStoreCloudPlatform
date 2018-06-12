@@ -25,5 +25,13 @@ namespace WebTermApi.Controllers
             return new APIResponse(result);
 
         }
+
+
+        public APIResponse GetSlotSkusStock(string userId, string merchantId, string machineId)
+        {
+            IResult result = TermServiceFactory.Machine.GetSlotSkusStock(userId, userId, merchantId, machineId);
+            return new APIResponse(result);
+
+        }
     }
 }

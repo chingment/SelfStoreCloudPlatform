@@ -53,6 +53,7 @@
     <Compile Include="CustomJsonResult.cs" />
     <Compile Include="GuidUtil.cs" />
     <Compile Include="IResult.cs" />
+    <Compile Include="JsonObjectConvert.cs" />
     <Compile Include="LogUtil.cs" />
     <Compile Include="MonitorLog.cs" />
     <Compile Include="NullToEmptyStringResolver.cs" />

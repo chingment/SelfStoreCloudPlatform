@@ -29,6 +29,10 @@ namespace Lumos.DAL
         public IDbSet<MerchantMachine> MerchantMachine { get; set; }
         public IDbSet<MachineBanner>  MachineBanner { get; set; }
         public IDbSet<ProductKind> ProductKind { get; set; }
+        public IDbSet<ProductSku> ProductSku { get; set; }
+
+        public IDbSet<MachineStock> MachineStock { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

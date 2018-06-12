@@ -11,7 +11,7 @@ namespace Lumos.BLL.Service.Term
 {
     public class GlobalService : BaseProvider
     {
-        public CustomJsonResult DataSet(string operater,string userId, string merchantId, string machineId, DateTime? datetime)
+        public CustomJsonResult DataSet(string operater, string userId, string merchantId, string machineId, DateTime? datetime)
         {
             CustomJsonResult result = new CustomJsonResult();
             var model = new DataSetModel();
@@ -23,18 +23,10 @@ namespace Lumos.BLL.Service.Term
             model.BtnBuyImgUrl = machine.BtnBuyImgUrl;
             model.BtnPickImgUrl = machine.BtnPickImgUrl;
 
-            #region banners
-            var banners = CurrentDb.MachineBanner.Where(m => m.MerchantId == merchantId && m.MachineId == machineId && m.Status == Entity.Enumeration.MachineBannerStatus.Normal).OrderByDescending(m => m.Priority).ToList();
 
-            foreach (var item in banners)
-            {
-                model.Banners.Add(new BannerModel { ImgUrl = item.ImgUrl });
-            }
-            #endregion banners
-
-
-            model.ProductKinds = TermServiceFactory.ProductKind.GetKinds(userId,merchantId);
-
+            model.Banners = TermServiceFactory.Machine.GetBanners(userId, userId, userId, merchantId);
+            model.ProductKinds = TermServiceFactory.ProductKind.GetKinds(userId, userId, merchantId);
+            model.ProductSkus = TermServiceFactory.Machine.GetProductSkus(userId, userId, merchantId, machineId);
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", model);
         }

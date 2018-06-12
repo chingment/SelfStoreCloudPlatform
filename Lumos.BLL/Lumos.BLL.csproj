@@ -78,7 +78,9 @@
     <Compile Include="Service\Term\Models\ProductChildKindModel.cs" />
     <Compile Include="Service\Term\Models\ProductKindModel.cs" />
     <Compile Include="Service\Term\Models\ProductSkuModel.cs" />
+    <Compile Include="Service\Term\Models\SlotProductSkuModel.cs" />
     <Compile Include="Service\Term\ProductKindService.cs" />
+    <Compile Include="Service\Term\ProductSkuProvider.cs" />
     <Compile Include="Service\Term\TermServiceFactory.cs" />
     <Compile Include="Service\Term\MachineService.cs" />
     <Compile Include="Service\Term\Models\BannerModel.cs" />

@@ -22,5 +22,6 @@ namespace Lumos.BLL.Service.Term.Models.Global
         public List<ProductSkuModel> ProductSkus { get; set; }
 
         public List<ProductKindModel> ProductKinds { get; set; }
+
     }
 }

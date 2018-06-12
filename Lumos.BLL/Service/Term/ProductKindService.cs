@@ -9,7 +9,7 @@ namespace Lumos.BLL.Service.Term
 {
     public class ProductKindService : BaseProvider
     {
-        public List<ProductKindModel> GetKinds(string userId, string merchantId)
+        public List<ProductKindModel> GetKinds(string operater, string userId, string merchantId)
         {
 
             var productKindModels = new List<ProductKindModel>();
