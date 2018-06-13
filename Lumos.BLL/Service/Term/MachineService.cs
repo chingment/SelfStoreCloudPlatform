@@ -1,5 +1,6 @@
 ﻿using Lumos.BLL.Service.Term.Models;
 using Lumos.BLL.Service.Term.Models.Machine;
+using Lumos.Entity;
 using Lumos.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,50 @@ namespace Lumos.BLL.Service.Term
 {
     public class MachineService : BaseProvider
     {
+
+        private void test()
+        {
+
+            string useriId = "ca66ca85c5bf435581ecd2380554ecfe";
+            string merchantId = "d1e8ad564c0f4516b2de95655a4146c7";
+            string machineId = "00000000000000000000000000000006";
+            string storeId = "00000000000000000000000000000006";
+            var machineStocks = CurrentDb.MachineStock.Where(m => m.UserId == useriId && m.MerchantId == merchantId && m.MachineId == machineId).ToList();
+
+            foreach (var item in machineStocks)
+            {
+                CurrentDb.MachineStock.Remove(item);
+                CurrentDb.SaveChanges();
+            }
+
+
+            var productSkus = CurrentDb.ProductSku.ToList();
+
+            foreach (var item in productSkus)
+            {
+                var machineStock = new MachineStock();
+
+                machineStock.Id = GuidUtil.New();
+                machineStock.UserId = useriId;
+                machineStock.MerchantId = merchantId;
+                machineStock.MachineId = machineId;
+                machineStock.StoreId = storeId;
+                machineStock.SlotId = GuidUtil.New();
+                machineStock.ProductSkuId = item.Id;
+                machineStock.Quantity = 2;
+                machineStock.SellQuantity = 1;
+                machineStock.LockQuantity = 1;
+                machineStock.IsOffSell = false;
+                machineStock.CreateTime = DateTime.Now;
+                machineStock.Creator = machineId;
+
+                CurrentDb.MachineStock.Add(machineStock);
+                CurrentDb.SaveChanges();
+
+            }
+
+        }
+
         public CustomJsonResult ApiConfig(string operater, string deviceId)
         {
             CustomJsonResult result = new CustomJsonResult();
@@ -55,14 +100,15 @@ namespace Lumos.BLL.Service.Term
 
         public List<ProductSkuModel> GetProductSkus(string operater, string userId, string merchantId, string machineId)
         {
+
             var productSkuModels = new List<ProductSkuModel>();
 
             var machineStocks = CurrentDb.MachineStock.Where(m => m.UserId == userId && m.MerchantId == merchantId && m.MachineId == machineId && m.IsOffSell == false).ToList();
-
+            var productSkus = CurrentDb.ProductSku.Where(m => m.UserId == userId && m.MerchantId == merchantId).ToList();
             var productSkuIds = machineStocks.Select(m => m.ProductSkuId).Distinct();
             foreach (var productSkuId in productSkuIds)
             {
-                var productSku = CurrentDb.ProductSku.Where(m => m.Id == productSkuId).FirstOrDefault();
+                var productSku = productSkus.Where(m => m.Id == productSkuId).FirstOrDefault();
                 if (productSku != null)
                 {
                     var productSkuModel = new ProductSkuModel();
@@ -80,7 +126,7 @@ namespace Lumos.BLL.Service.Term
                     productSkuModel.ShowPirce = productSku.ShowPrice.ToF2Price();
                     productSkuModel.SalesPrice = productSku.SalePrice.ToF2Price();
                     productSkuModel.DisplayImgUrls = productSku.DispalyImgUrls;
-                    productSkuModel.ImgUrl = "";
+                    productSkuModel.ImgUrl = ImgSet.GetMain(productSku.DispalyImgUrls);
 
                     productSkuModels.Add(productSkuModel);
                 }
