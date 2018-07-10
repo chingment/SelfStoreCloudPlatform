@@ -24,7 +24,7 @@ namespace Lumos.BLL.Service.Term
             model.BtnPickImgUrl = machine.BtnPickImgUrl;
 
 
-            model.Banners = TermServiceFactory.Machine.GetBanners(userId, userId, userId, merchantId);
+            model.Banners = TermServiceFactory.Machine.GetBanners(userId, userId, merchantId, machineId);
             model.ProductKinds = TermServiceFactory.ProductKind.GetKinds(userId, userId, merchantId);
             model.ProductSkus = TermServiceFactory.Machine.GetProductSkus(userId, userId, merchantId, machineId);
 

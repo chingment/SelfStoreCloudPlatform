@@ -11,7 +11,7 @@ namespace Lumos.BLL.Service.Term.Models.Global
         public DataSetModel()
         {
             this.Banners = new List<BannerModel>();
-            this.ProductSkus = new List<ProductSkuModel>();
+            this.ProductSkus = new Dictionary<string, ProductSkuModel>();
             this.ProductKinds = new List<ProductKindModel>();
         }
         public string BtnBuyImgUrl { get; set; }
@@ -19,7 +19,7 @@ namespace Lumos.BLL.Service.Term.Models.Global
         public string LogoImgUrl { get; set; }
         public List<BannerModel> Banners { get; set; }
 
-        public List<ProductSkuModel> ProductSkus { get; set; }
+        public Dictionary<string, ProductSkuModel> ProductSkus { get; set; }
 
         public List<ProductKindModel> ProductKinds { get; set; }
 
