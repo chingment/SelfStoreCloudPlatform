@@ -75,10 +75,13 @@
     <Compile Include="Factory..cs" />
     <Compile Include="Service\Term\GlobalService.cs" />
     <Compile Include="Service\Term\Models\Global\DataSetModel.cs" />
+    <Compile Include="Service\Term\Models\OrderReservePms.cs" />
+    <Compile Include="Service\Term\Models\OrderReserveResult.cs" />
     <Compile Include="Service\Term\Models\ProductChildKindModel.cs" />
     <Compile Include="Service\Term\Models\ProductKindModel.cs" />
     <Compile Include="Service\Term\Models\ProductSkuModel.cs" />
     <Compile Include="Service\Term\Models\SlotProductSkuModel.cs" />
+    <Compile Include="Service\Term\OrderService.cs" />
     <Compile Include="Service\Term\ProductKindService.cs" />
     <Compile Include="Service\Term\ProductSkuProvider.cs" />
     <Compile Include="Service\Term\TermServiceFactory.cs" />

@@ -1,6 +1,7 @@
 ﻿
 using log4net;
 using Lumos.BLL;
+using Lumos.BLL.Service.Term.Models;
 using Lumos.Common;
 using Lumos.DAL;
 using Lumos.Entity;
@@ -105,9 +106,13 @@ namespace WebTermApi.Controllers
             }
 
 
-            model.Add("获取机器接口配置信息", MachineApiConfig("000000000000000"));
-            model.Add("获取全局数据", GlobalDataSet("ca66ca85c5bf435581ecd2380554ecfe", "d1e8ad564c0f4516b2de95655a4146c7", "00000000000000000000000000000006", DateTime.Now));
+            string userId = "ca66ca85c5bf435581ecd2380554ecfe";
+            string merchantId = "d1e8ad564c0f4516b2de95655a4146c7";
+            string machineId = "00000000000000000000000000000006";
 
+            // model.Add("获取机器接口配置信息", MachineApiConfig("000000000000000"));
+            //  model.Add("获取全局数据", GlobalDataSet(userId, merchantId, machineId, DateTime.Now));
+            model.Add("预定商品", OrderReserve(userId, merchantId, machineId));
             return View(model);
         }
 
@@ -150,5 +155,31 @@ namespace WebTermApi.Controllers
 
         }
 
+        public string OrderReserve(string userId, string merchantId, string machineId)
+        {
+
+            OrderReservePms pms = new OrderReservePms();
+            pms.UserId = userId;
+            pms.MerchantId = merchantId;
+            pms.MachineId = machineId;
+            pms.PayWay = "";
+
+            pms.Details.Add(new OrderReservePms.Detail() { SkuId = "1", Quantity = 1 });
+
+            string a1 = JsonConvert.SerializeObject(pms);
+
+            string signStr = Signature.Compute(key, secret, timespan, a1);
+
+            Dictionary<string, string> headers1 = new Dictionary<string, string>();
+            headers1.Add("key", key);
+            headers1.Add("timestamp", (timespan.ToString()).ToString());
+            headers1.Add("sign", signStr);
+
+            HttpUtil http = new HttpUtil();
+            string respon_data4 = http.HttpPostJson("" + host + "/api/Order/Reserve", a1, headers1);
+
+            return respon_data4;
+
+        }
     }
 }

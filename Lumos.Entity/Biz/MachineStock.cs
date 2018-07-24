@@ -19,6 +19,8 @@ namespace Lumos.Entity
         public string SlotId { get; set; }
         public string MachineId { get; set; }
         public string ProductSkuId { get; set; }
+        public string ProductSkuName { get; set; }
+        public decimal SalesPrice { get; set; }
         public int Quantity { get; set; }
         public int LockQuantity { get; set; }
         public int SellQuantity { get; set; }

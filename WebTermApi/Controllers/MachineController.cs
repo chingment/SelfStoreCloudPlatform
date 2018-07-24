@@ -1,6 +1,7 @@
 ﻿using Lumos;
 using Lumos.BLL;
 using Lumos.BLL.Service.Term;
+using Lumos.BLL.Service.Term.Models;
 using Lumos.DAL;
 using Lumos.DAL.AuthorizeRelay;
 using Lumos.Entity;
@@ -25,7 +26,6 @@ namespace WebTermApi.Controllers
             return new APIResponse(result);
 
         }
-
 
         public APIResponse GetSlotSkusStock(string userId, string merchantId, string machineId)
         {

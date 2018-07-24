@@ -94,5 +94,17 @@ namespace Lumos.Entity
             Invalid = 2
         }
 
+
+        public enum MachineStockLogChangeTpye
+        {
+            [Remark("未知")]
+            Unknow = 0,
+            [Remark("销售")]
+            Sales = 1,
+            [Remark("锁定")]
+            Lock = 2,
+            [Remark("解锁")]
+            UnLock = 3
+        }
     }
 }

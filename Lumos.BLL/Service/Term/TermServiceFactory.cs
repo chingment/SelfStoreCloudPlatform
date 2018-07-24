@@ -32,5 +32,13 @@ namespace Lumos.BLL.Service.Term
                 return new ProductKindService();
             }
         }
+
+        public static OrderService Order
+        {
+            get
+            {
+                return new OrderService();
+            }
+        }
     }
 }
