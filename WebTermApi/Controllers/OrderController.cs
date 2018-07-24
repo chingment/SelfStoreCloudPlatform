@@ -20,5 +20,12 @@ namespace WebTermApi.Controllers
             return new APIResponse(result);
 
         }
+
+        public APIResponse PayQuery(OrderReservePms pms)
+        {
+            IResult result = TermServiceFactory.Order.Reserve(GuidUtil.Empty(), pms);
+            return new APIResponse(result);
+
+        }
     }
 }
