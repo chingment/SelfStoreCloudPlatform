@@ -10,11 +10,13 @@ namespace Lumos.BLL.Service.Term.Models
     {
         public ProductChildKindModel()
         {
-
+            this.Childs = new List<string>();
         }
 
         public string Id { get; set; }
 
         public string Name { get; set; }
+
+        public List<string> Childs { get; set; }
     }
 }

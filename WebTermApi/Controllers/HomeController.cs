@@ -110,9 +110,9 @@ namespace WebTermApi.Controllers
             string merchantId = "d1e8ad564c0f4516b2de95655a4146c7";
             string machineId = "00000000000000000000000000000006";
 
-            // model.Add("获取机器接口配置信息", MachineApiConfig("000000000000000"));
-            //  model.Add("获取全局数据", GlobalDataSet(userId, merchantId, machineId, DateTime.Now));
-            model.Add("预定商品", OrderReserve(userId, merchantId, machineId));
+            model.Add("获取机器接口配置信息", MachineApiConfig("000000000000000"));
+            model.Add("获取全局数据", GlobalDataSet(userId, merchantId, machineId, DateTime.Now));
+            // model.Add("预定商品", OrderReserve(userId, merchantId, machineId));
             return View(model);
         }
 

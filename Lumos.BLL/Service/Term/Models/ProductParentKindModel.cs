@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.Term.Models
 {
-    public class ProductKindModel
+    public class ProductParentKindModel
     {
-        public ProductKindModel()
+        public ProductParentKindModel()
         {
             this.Banners = new List<BannerModel>();
             this.Childs = new List<ProductChildKindModel>();
@@ -21,5 +21,6 @@ namespace Lumos.BLL.Service.Term.Models
         public List<BannerModel> Banners { get; set; }
 
         public List<ProductChildKindModel> Childs { get; set; }
+
     }
 }

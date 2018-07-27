@@ -25,7 +25,7 @@ namespace Lumos.BLL.Service.Term
 
 
             model.Banners = TermServiceFactory.Machine.GetBanners(userId, userId, merchantId, machineId);
-            model.ProductKinds = TermServiceFactory.ProductKind.GetKinds(userId, userId, merchantId);
+            model.ProductKinds = TermServiceFactory.ProductKind.GetKinds(userId, userId, merchantId, machineId);
             model.ProductSkus = TermServiceFactory.Machine.GetProductSkus(userId, userId, merchantId, machineId);
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", model);
