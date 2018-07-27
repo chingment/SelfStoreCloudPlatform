@@ -105,6 +105,7 @@ namespace WebTermApi.Controllers
                 host = "http://demo.mobile.17fanju.com";
             }
 
+            host = "http://demo.mobile.17fanju.com";
 
             string userId = "ca66ca85c5bf435581ecd2380554ecfe";
             string merchantId = "d1e8ad564c0f4516b2de95655a4146c7";

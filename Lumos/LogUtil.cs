@@ -11,6 +11,8 @@ namespace Lumos
 {
     public static class LogUtil
     {
+        private static ILog log2 = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         public static void SetTrackId()
         {
             string trackid = Guid.NewGuid().ToString();
