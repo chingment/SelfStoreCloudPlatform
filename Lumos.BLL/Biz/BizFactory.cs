@@ -40,5 +40,13 @@ namespace Lumos.BLL
             }
         }
 
+        public static StoreProvider Store
+        {
+            get
+            {
+                return new StoreProvider();
+            }
+        }
+
     }
 }

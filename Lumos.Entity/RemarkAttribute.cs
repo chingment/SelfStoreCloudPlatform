@@ -7,6 +7,13 @@ using System.Threading.Tasks;
 
 namespace System
 {
+    public class ValueAndCnName
+    {
+        public int Value { get; set; }
+
+        public string Name { get; set; }
+    }
+
     /// <summary>
     /// 备注特性
     /// </summary>
@@ -44,6 +51,8 @@ namespace System
             }
             return name;
         }
+
+
 
     }
 
@@ -98,6 +107,30 @@ namespace System
                 return "";
             }
         }
+
+        public static ValueAndCnName GetValueAndCnName(this Enum em)
+        {
+
+            Type type = em.GetType();
+            FieldInfo fd = type.GetField(em.ToString());
+            if (fd == null)
+                return new ValueAndCnName { Value = 0, Name = "" };
+
+            ValueAndCnName valueAndCnName = new ValueAndCnName();
+            object[] attrs = fd.GetCustomAttributes(typeof(RemarkAttribute), false);
+            string name = string.Empty;
+            foreach (RemarkAttribute attr in attrs)
+            {
+                name = attr.CnName;
+            }
+            object a = em.ToString();
+            valueAndCnName.Value = Convert.ToInt32(em);
+            valueAndCnName.Name = name;
+
+
+            return valueAndCnName;
+        }
+
 
     }
 }

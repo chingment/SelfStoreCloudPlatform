@@ -1,0 +1,185 @@
+﻿@model WebMerch.Models.Store.EditViewModel
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/_LayoutHomeDialog.cshtml";
+}
+
+@section scripts{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+
+            $.formValidator.initConfig({ formID: "form_store", onError: function (msg) { art.dialog.tips(msg); }, onSuccess: function () { return submit(); } });
+            $("#Model_Store_Name").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "名称不能为空,且不超过50个字符！" });
+            $("#Model_Store_Address").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 200, onError: "地址不能为空,请在地图中点击获取！" });
+
+
+            $("#list_machine").loadDataTable({
+                url: "/Store/GetMachineListByBind",
+                pageIndex: 0,
+                searchParams: $("#form_machine").serializeArray(),
+                searchButtonId: "btn_Search",
+                containerId: "form_machine",
+                isShowLoading: false,
+                rowDataCombie: function (p_index, p_row) {
+                    var l_Strlimt = "";
+                    l_Strlimt += "@Html.IsInPermission("<a href=\\\"javascript:void(0)\\\" operate=\\\"delete\\\"  class=\\\"a-btn\\\" >移除</a>")";
+                    var l_StrRows = "";
+                    l_StrRows += "<tr>";
+                    l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
+                    l_StrRows += "<td class=\"overflow tipitem\" title=\"" + p_row.deviceId + "\"   >" + p_row.deviceId + "</td>";
+                    l_StrRows += "<td class=\"overflow\" title=\"" + p_row.name + "\">" + p_row.name + "</td>";
+                    l_StrRows += "<td class=\"operation\">";
+                    l_StrRows += l_Strlimt;
+                    l_StrRows += "</td>";
+                    l_StrRows += "</tr>";
+                    return l_StrRows;
+                }
+            });
+
+            $("#btn_add_machine").click(function () {
+
+                var url = '/Store/MachineListByNoBind?id=' + $.lumos.getUrlParamValue("id");
+                var title = '选择绑定';
+                art.dialog.open(url, {
+                    id: "openDialog333", title: title, width: '600px', height: '400px', lock: true, drag: false, cancelVal: '关闭', cancel: true
+                });
+
+            });
+
+        });
+
+        function submit() {
+
+            var form = $("#form_store");
+
+            art.dialog.confirm(
+           '确定要保存？',
+            function () {
+                var l_Data = $(form).serializeArray();
+                $.lumos.postJson({
+                    isUseHandling: true,
+                    url: "/Store/Edit",
+                    data: l_Data,
+                    success: function (d) {
+                        $.lumos.tips(d.message);
+                        $.lumos.parentDialog().listTable.loadData();
+                    }
+                });
+            });
+
+
+            return false;
+        }
+
+    </script>
+}
+
+<div class="gbr-row">
+    <div class="tab" id="tab1">
+        <div class="tab-item">
+            <ul>
+                <li class="item first selected"><a class="a-btn-info" href="javascript:void(0)">基本信息</a></li>
+                <li class="item"><a class="a-btn-info" href="javascript:void(0)">机器管理</a></li>
+            </ul>
+        </div>
+        <div class="tab-content">
+            <div class="subcontent">
+                <form id="form_store" name="form_store">
+                    <input id="Model_Store_Id" name="Model.Store.Id" type="hidden" value="@Model.Store.Id" />
+                    <table class="f-tb" cellpadding="0" cellspacing="1">
+                        <tr>
+                            <td class="f-tb-t">名称：</td>
+                            <td class="f-tb-c">
+                                <span>
+                                    <input id="Model_Store_Name" name="Model.Store.Name" type="text" class="input-control" value="@Model.Store.Name" style="width:200px;" />
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="f-tb-t">地址：</td>
+                            <td class="f-tb-c">
+                                <span>
+                                    <input id="Model_Store_Address" name="Model.Store.Address" type="text" class="input-control" value="@Model.Store.Address" style="width:300px;" />
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="f-tb-t">状态：</td>
+                            <td class="f-tb-c">
+                                <span>@Model.Store.Status.GetCnName()</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="f-tb-t"></td>
+                            <td class="f-tb-c">
+                                <input type="submit" name="btn_Submit" id="btn_Submit" value="保存" class="btn btn-sure" />
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <div class="subcontent">
+
+                <form id="form_machine" name="form_machine">
+                    <input id="Id" name="Id" type="hidden" value="@Model.Store.Id" />
+                    <div class="search-bar">
+                        <div class="filter">
+                            <span class="filter-label">名称：</span>
+                            <span class="filter-input">
+                                <input type="text" class="input-control" name="Name" style="width:120px;" />
+                            </span>
+                        </div>
+
+                        <div class="filter"><input type="button" class="btn btn-search" id="btn_Search" value="查询" /> </div>
+
+                        <div class="filter" style="float:right"><input type="button" class="btn btn-add" id="btn_add_machine" value="选择绑定" /> </div>
+                    </div>
+                    <div class="list">
+                        <table id="list_machine" class="list-tb" cellpadding="0" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th style="width:15%" class="no">
+                                        序号
+                                    </th>
+                                    <th style="width:15%">
+                                        设备ID
+                                    </th>
+                                    <th style="width:15%">
+                                        名称
+                                    </th>
+                                    <th style="width:10%" class="operation">
+                                        操作
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="4">
+                                        <div class="pull-left">
+                                            <span class="load-tip"></span>
+                                        </div>
+                                        <div class="pull-right pagination">
+                                            <div class="pagination-info">
+
+                                            </div>
+                                            <div class="pagination-index">
+
+                                            </div>
+                                            <div class="pagination-goto">
+
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

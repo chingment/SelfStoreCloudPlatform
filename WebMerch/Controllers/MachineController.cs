@@ -40,7 +40,9 @@ namespace WebMerch.Controllers.Biz
                                  (deviceId.Length == 0 || p.DeviceId.Contains(deviceId))
                                  &&
                                  mp.UserId == this.CurrentUserId
-                         select new { p.Id, p.Name, p.DeviceId, p.MacAddress,p.IsUse, p.CreateTime });
+                                 &&
+                                 mp.Status == Enumeration.MerchantMachineStatus.Bind
+                         select new { p.Id, mp.Name, p.DeviceId, p.MacAddress, p.IsUse, p.CreateTime });
 
             int total = query.Count();
 
@@ -54,9 +56,30 @@ namespace WebMerch.Controllers.Biz
             foreach (var item in list)
             {
 
+                string storeId = "";
+                string storeName = "未绑定便利店";
+                var storeMachine = CurrentDb.StoreMachine.Where(m => m.MachineId == item.Id).FirstOrDefault();
+                if (storeMachine != null)
+                {
+                    var store = CurrentDb.Store.Where(m => m.Id == storeMachine.StoreId).FirstOrDefault();
+                    if (store != null)
+                    {
+                        storeName = store.Name;
+                    }
+                }
+
+                olist.Add(new
+                {
+                    item.Id,
+                    item.Name,
+                    item.DeviceId,
+                    storeName,
+                    item.CreateTime
+                });
+
             }
 
-            PageEntity pageEntity = new PageEntity { PageSize = pageSize, TotalRecord = total, Rows = list };
+            PageEntity pageEntity = new PageEntity { PageSize = pageSize, TotalRecord = total, Rows = olist };
 
             return Json(ResultType.Success, pageEntity, "");
         }

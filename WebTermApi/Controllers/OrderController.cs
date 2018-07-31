@@ -20,7 +20,7 @@ namespace WebTermApi.Controllers
             return new APIResponse(result);
 
         }
-
+        [HttpGet]
         public APIResponse PayQuery(OrderReservePms pms)
         {
             IResult result = TermServiceFactory.Order.Reserve(GuidUtil.Empty(), pms);

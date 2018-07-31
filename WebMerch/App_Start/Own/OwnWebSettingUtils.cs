@@ -45,7 +45,7 @@ namespace WebMerch
         /// <returns></returns>
         public static string GetWebName()
         {
-            return "贩聚社团代理商平台";
+            return "贩聚社团商家平台";
         }
 
     }

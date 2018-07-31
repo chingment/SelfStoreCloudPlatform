@@ -1,0 +1,74 @@
+﻿@model WebMerch.Models.Store.AddViewModel
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/_LayoutHomeDialog.cshtml";
+}
+
+@section scripts{
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { art.dialog.tips(msg); } });
+            $("#Model_Store_Name").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "名称不能为空,且不超过50个字符！" });
+            $("#Model_Store_Address").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 200, onError: "地址不能为空,请在地图中点击获取！" });
+        });
+
+        function submit(fun) {
+
+            var form = $("#form1");
+            var isValid = $.formValidator.pageIsValid();
+            if (isValid) {
+                art.dialog.confirm(
+               '确定要提交？',
+                function () {
+                    var l_Data = $(form).serializeArray();
+                    $.lumos.postJson({
+                        isUseHandling: true,
+                        url: "/Store/Add",
+                        data: l_Data,
+                        success: function (d) {
+                            fun(d);
+                        }
+                    });
+                });
+            }
+
+            return false;
+        }
+
+    </script>
+}
+
+<div class="gbr-row">
+    <form id="form1" name="form1" method="post">
+        @Html.AntiForgeryToken()
+        <table class="f-tb" cellpadding="0" cellspacing="1">
+            <tr>
+                <td class="f-tb-t" style="width:50px">
+                    名称<span class="required-symbol">*</span>：
+                </td>
+                <td class="f-tb-c">
+                    <input id="Model_Store_Name" name="Model.Store.Name" type="text" class="input-control" value="" style="width:300px;" />
+                </td>
+            </tr>
+            <tr>
+                <td class="f-tb-t" style="width:50px">
+                    地址<span class="required-symbol">*</span>：
+                </td>
+                <td class="f-tb-c">
+                    <input id="Model_Store_Address" name="Model.Store.Address" type="text" class="input-control" value="" style="width:300px;" />
+                </td>
+            </tr>
+            <tr>
+                <td class="f-tb-t" style="width:50px">
+                    描述：
+                </td>
+                <td class="f-tb-c">
+                    <textarea id="Model_Store_Description" name="Model.Store.Description" class="ckeditor" style="width:80%;height:150px;"></textarea>
+                </td>
+            </tr>
+        </table>
+
+    </form>
+</div>

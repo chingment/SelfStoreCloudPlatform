@@ -161,6 +161,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MachineController.cs" />
     <Compile Include="Controllers\ProductKindController.cs" />
+    <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -181,6 +182,10 @@
     <Compile Include="Models\ProductKind\DetailsViewModel.cs" />
     <Compile Include="Models\ProductKind\EditViewModel.cs" />
     <Compile Include="Models\ProductKind\ProductSearchCondition.cs" />
+    <Compile Include="Models\Store\AddViewModel.cs" />
+    <Compile Include="Models\Store\DetailsViewModel.cs" />
+    <Compile Include="Models\Store\EditViewModel.cs" />
+    <Compile Include="Models\Store\SearchCondition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Machine\EditViewModel.cs" />
     <Compile Include="Models\Machine\SearchCondition.cs" />
@@ -210,6 +215,13 @@
     <Content Include="Views\Shared\_LayoutHomeMainList.cshtml" />
     <Content Include="Views\Shared\_LayoutHomeMainReport.cshtml" />
     <Content Include="Views\Shared\_LayoutHomeMainTree.cshtml" />
+    <Content Include="Views\Machine\List.cshtml" />
+    <Content Include="Views\Machine\Edit.cshtml" />
+    <Content Include="Views\Store\Add.cshtml" />
+    <Content Include="Views\Store\MachineListByNoBind.cshtml" />
+    <Content Include="Views\Store\Edit.cshtml" />
+    <Content Include="Views\Store\MachineSet.cshtml" />
+    <Content Include="Views\Store\List.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

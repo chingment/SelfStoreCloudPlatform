@@ -1,0 +1,126 @@
+﻿@{
+    ViewBag.Title = "RoleUserSel";
+    Layout = "~/Views/Shared/_LayoutHomeDialog.cshtml";
+}
+
+<script type="text/javascript">
+
+    var listTable;
+
+    $(document).ready(function () {
+
+        listTable = $("#list_table").loadDataTable({
+            url: "/Store/GetMachineListByNoBind",
+            pageIndex: 0,
+            searchParams: $("#form1").serializeArray(),
+            searchButtonId: "btn_Search",
+            containerId: "form1",
+            rowDataCombie: function (p_index, p_row) {
+                var l_Strlimt = "";
+                l_Strlimt += "@Html.IsInPermission("<a href=\\\"javascript:void(0)\\\" operate=\\\"select\\\"  class=\\\"a-btn\\\" >绑定</a>")";
+                var l_StrRows = "";
+                l_StrRows += "<tr>";
+                l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
+                l_StrRows += "<td class=\"overflow tipitem\" title=\"" + p_row.deviceId + "\"   >" + p_row.deviceId + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.name + "\">" + p_row.name + "</td>";
+                l_StrRows += "<td class=\"operation\">";
+                l_StrRows += l_Strlimt;
+                l_StrRows += "</td>";
+                l_StrRows += "</tr>";
+                return l_StrRows;
+            },
+            operate:
+                {
+                    "select": function (keys) {
+                        var array = new Array();
+                        array.push({ name: "storeId", value: $.lumos.getUrlParamValue("id") });
+                        $.each(keys, function (i, n) {
+                            array.push({ name: "machineIds", value: n.id });
+                        });
+
+                        $.lumos.postJson({
+                            isUseHandling: true,
+                            url: "/Store/BindMachine",
+                            data: array,
+                            success: function (d) {
+                                $.lumos.parentDialog().listTable.loadData(0);
+                                art.dialog.close();
+                            }
+                        });
+
+                    }
+                }
+        });
+
+    });
+
+
+
+
+</script>
+
+<form id="form1" name="form1">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="StoreId" id="txt_StoreId" value="@Request.QueryString["id"]" />
+    <div class="search-bar">
+        <div class="filter">
+            <span class="filter-label">设备Id：</span>
+            <span class="filter-input">
+                <input type="text" class="input-control" name="Code" style="width:120px;" />
+            </span>
+        </div>
+        <div class="filter">
+            <span class="filter-label">名称：</span>
+            <span class="filter-input">
+                <input type="text" class="input-control" name="Name" style="width:120px;" />
+            </span>
+        </div>
+
+        <div class="filter"><input type="button" class="btn btn-search" id="btn_Search" value="查询" /> </div>
+
+        <div class="filter" style="float:right"></div>
+    </div>
+    <div class="list">
+        <table id="list_table" class="list-tb" cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <th style="width:10%" class="no">
+                        序号
+                    </th>
+                    <th style="width:40%">
+                        设备Id
+                    </th>
+                    <th style="width:40%">
+                        名称
+                    </th>
+                    <th style="width:10%" class="operation">
+                        操作
+                    </th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4">
+                        <div class="pull-left">
+
+                        </div>
+                        <div class="pull-right pagination">
+                            <div class="pagination-info">
+
+                            </div>
+                            <div class="pagination-index">
+
+                            </div>
+                            <div class="pagination-goto">
+
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</form>
+
+

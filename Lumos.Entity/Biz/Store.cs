@@ -15,18 +15,11 @@ namespace Lumos.Entity
         public string Id { get; set; }
         public string UserId { get; set; }
         public string MerchantId { get; set; }
+        public Enumeration.StoreStatus Status { get; set; }
         [MaxLength(128)]
         public string Name { get; set; }
-        public double Lat { get; set; }
-        public double Lng { get; set; }
-        [MaxLength(128)]
-        public string AreaCode { get; set; }
-        [MaxLength(128)]
-        public string AreaName { get; set; }
         [MaxLength(128)]
         public string Address { get; set; }
-        public string Description { get; set; }
-        public Enumeration.StoreStatus Status { get; set; }
         public string Creator { get; set; }
         public DateTime CreateTime { get; set; }
         public string Mender { get; set; }

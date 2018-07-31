@@ -33,8 +33,9 @@ namespace Lumos.DAL
 
         public IDbSet<MachineStock> MachineStock { get; set; }
         public IDbSet<MachineStockLog> MachineStockLog { get; set; }
+        public IDbSet<Store> Store { get; set; }
+        public IDbSet<StoreMachine> StoreMachine { get; set; }
 
-        
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
