@@ -10,17 +10,14 @@ namespace Lumos.BLL.Service.Term.Models
     {
         public ProductParentKindModel()
         {
-            this.Banners = new List<BannerModel>();
-            this.Childs = new List<ProductChildKindModel>();
+            this.Childs = new List<string>();
         }
 
         public string Id { get; set; }
 
         public string Name { get; set; }
 
-        public List<BannerModel> Banners { get; set; }
-
-        public List<ProductChildKindModel> Childs { get; set; }
+        public List<string> Childs { get; set; }
 
     }
 }

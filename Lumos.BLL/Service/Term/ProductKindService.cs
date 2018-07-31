@@ -32,26 +32,17 @@ namespace Lumos.BLL.Service.Term
                         productParentKindModel.Id = productParentKind.Id;
                         productParentKindModel.Name = productParentKind.Name;
 
-                        productParentKindModel.Banners.Add(new BannerModel() { ImgUrl = "http://file.17fanju.com/Upload/machTmp/tmp/banner1.png" });
-                        productParentKindModel.Banners.Add(new BannerModel() { ImgUrl = "http://file.17fanju.com/Upload/machTmp/tmp/banner2.png" });
-
                         var productChildKinds = productKinds.Where(m => m.PId == productParentKind.Id).ToList();
 
                         if (productChildKinds.Count > 0)
                         {
-
                             foreach (var productChildKind in productChildKinds)
                             {
-                                var productChildKindModel = new ProductChildKindModel();
-
-                                productChildKindModel.Id = productChildKind.Id;
-                                productChildKindModel.Name = productChildKind.Name;
                                 var l_productSkuIds = productSkus.Where(m => m.KindId == productChildKind.Id).Select(m => m.Id).ToList();
                                 if (l_productSkuIds.Count > 0)
                                 {
-                                    productChildKindModel.Childs.AddRange(l_productSkuIds);
+                                    productParentKindModel.Childs.AddRange(l_productSkuIds);
                                 }
-                                productParentKindModel.Childs.Add(productChildKindModel);
                             }
                         }
 

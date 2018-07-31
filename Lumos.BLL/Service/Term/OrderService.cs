@@ -33,7 +33,6 @@ namespace Lumos.BLL.Service.Term
 
                 //检查是否有预定的商品与库存不对应
 
-
                 string skuNamesByEmpty = "";
                 foreach (var skuId in skuIds)
                 {
