@@ -175,6 +175,7 @@
     <Compile Include="App_Start\Own\OwnNoResubmitAttribute.cs" />
     <Compile Include="App_Start\Own\OwnStaticResource.cs" />
     <Compile Include="App_Start\Own\OwnStatisticsTrackerAttribute.cs" />
+    <Compile Include="Models\MachineStock\SearchCondition.cs" />
     <Compile Include="Models\OwnBaseViewModel.cs" />
     <Compile Include="Models\OwnViewModel.cs" />
     <Compile Include="Models\Home\ChangePasswordModel.cs" />

@@ -26,7 +26,8 @@ namespace WebMerch.Controllers.Biz
 
         public ViewResult Edit(string id)
         {
-            EditViewModel model = new EditViewModel(id);
+            EditViewModel model = new EditViewModel();
+            model.LoadData(id);
             return View(model);
         }
 
@@ -42,7 +43,7 @@ namespace WebMerch.Controllers.Biz
                                  mp.UserId == this.CurrentUserId
                                  &&
                                  mp.Status == Enumeration.MerchantMachineStatus.Bind
-                         select new { p.Id, mp.Name, p.DeviceId, p.MacAddress, p.IsUse, p.CreateTime });
+                         select new { mp.Id, MachineId = p.Id, mp.Name, p.DeviceId, p.MacAddress, p.IsUse, p.CreateTime });
 
             int total = query.Count();
 
@@ -55,10 +56,8 @@ namespace WebMerch.Controllers.Biz
             List<object> olist = new List<object>();
             foreach (var item in list)
             {
-
-                string storeId = "";
                 string storeName = "未绑定便利店";
-                var storeMachine = CurrentDb.StoreMachine.Where(m => m.MachineId == item.Id).FirstOrDefault();
+                var storeMachine = CurrentDb.StoreMachine.Where(m => m.MachineId == item.MachineId).FirstOrDefault();
                 if (storeMachine != null)
                 {
                     var store = CurrentDb.Store.Where(m => m.Id == storeMachine.StoreId).FirstOrDefault();
@@ -84,5 +83,53 @@ namespace WebMerch.Controllers.Biz
             return Json(ResultType.Success, pageEntity, "");
         }
 
+        [HttpPost]
+        public CustomJsonResult Edit(EditViewModel model)
+        {
+            return BizFactory.MerchantMachine.Edit(this.CurrentUserId, model.MerchantMachine);
+        }
+
+        public CustomJsonResult GetSkuList(Models.MachineStock.SearchCondition condition)
+        {
+
+            string name = "";
+            if (condition.Name != null)
+            {
+                name = condition.Name.ToSearchString();
+            }
+
+            var query = from u in CurrentDb.MachineStock
+                         where
+                         u.UserId == this.CurrentUserId &&
+                         u.StoreId == condition.StoreId &&
+                         u.MerchantId == condition.MerchantId &&
+                         u.MachineId == condition.MerchantId &&
+                         (name.Length == 0 || u.ProductSkuName.Contains(name))
+                         select new { u.Id, u.SlotId, u.ProductSkuName, u.Quantity, u.LockQuantity, u.SellQuantity, u.SalesPrice };
+
+            int total = query.Count();
+
+            int pageIndex = condition.PageIndex;
+            int pageSize = 10;
+            query = query.OrderBy(r => r.Id);
+
+            var list = query.ToList();
+
+            List<object> olist = new List<object>();
+            foreach (var item in list)
+            {
+                olist.Add(new
+                {
+                    item.Id,
+                    item.SlotId,
+                    item.ProductSkuName
+                });
+
+            }
+
+            PageEntity pageEntity = new PageEntity { PageSize = pageSize, TotalRecord = total, Rows = olist };
+
+            return Json(ResultType.Success, pageEntity);
+        }
     }
 }

@@ -4,13 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace WebMerch.Models.Machine
+namespace WebMerch.Models.MachineStock
 {
     public class SearchCondition : BaseSearchCondition
     {
-        public string MacAddress { get; set; }
+        public string StoreId { get; set; }
 
-        public string DeviceId { get; set; }
+        public string MerchantId { get; set; }
+
+        public string MachineId { get; set; }
 
     }
 }

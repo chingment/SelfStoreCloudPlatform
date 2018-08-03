@@ -138,7 +138,6 @@ namespace WebMerch.Controllers.Biz
             return Json(ResultType.Success, pageEntity);
         }
 
-
         public CustomJsonResult GetMachineListByBindable(SearchCondition condition)
         {
 

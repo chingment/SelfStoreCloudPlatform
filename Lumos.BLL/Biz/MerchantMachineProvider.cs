@@ -92,5 +92,15 @@ namespace Lumos.BLL
 
             return result;
         }
+
+        public CustomJsonResult Edit(string operater, MerchantMachine merchantMachine)
+        {
+            var l_MerchantMachine = CurrentDb.MerchantMachine.Where(m => m.Id == merchantMachine.Id).FirstOrDefault();
+            l_MerchantMachine.Name = merchantMachine.Name;
+            l_MerchantMachine.Mender = operater;
+            l_MerchantMachine.LastUpdateTime = DateTime.Now;
+            CurrentDb.SaveChanges();
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
+        }
     }
 }
