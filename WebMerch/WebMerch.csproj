@@ -161,6 +161,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MachineController.cs" />
     <Compile Include="Controllers\ProductKindController.cs" />
+    <Compile Include="Controllers\ProductSkuController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -182,6 +183,10 @@
     <Compile Include="Models\ProductKind\DetailsViewModel.cs" />
     <Compile Include="Models\ProductKind\EditViewModel.cs" />
     <Compile Include="Models\ProductKind\ProductSearchCondition.cs" />
+    <Compile Include="Models\ProductSku\AddViewModel.cs" />
+    <Compile Include="Models\ProductSku\DetailsViewModel.cs" />
+    <Compile Include="Models\ProductSku\EditViewModel.cs" />
+    <Compile Include="Models\ProductSku\SearchCondition.cs" />
     <Compile Include="Models\Store\AddViewModel.cs" />
     <Compile Include="Models\Store\DetailsViewModel.cs" />
     <Compile Include="Models\Store\EditViewModel.cs" />
@@ -197,6 +202,8 @@
     <None Include="log4net.config">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Static\404.html" />
+    <Content Include="Static\default1.jpg" />
     <Content Include="Views\Home\ChangePassword.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Main.cshtml" />
@@ -218,10 +225,16 @@
     <Content Include="Views\Machine\List.cshtml" />
     <Content Include="Views\Machine\Edit.cshtml" />
     <Content Include="Views\Store\Add.cshtml" />
-    <Content Include="Views\Store\MachineListByNoBind.cshtml" />
+    <Content Include="Views\Store\MachineListByBindable.cshtml" />
     <Content Include="Views\Store\Edit.cshtml" />
     <Content Include="Views\Store\MachineSet.cshtml" />
     <Content Include="Views\Store\List.cshtml" />
+    <Content Include="Views\ProductSku\Add.cshtml" />
+    <Content Include="Views\ProductSku\Edit.cshtml" />
+    <Content Include="Views\ProductSku\List.cshtml" />
+    <Content Include="Views\ProductKind\Add.cshtml" />
+    <Content Include="Views\ProductKind\List.cshtml" />
+    <Content Include="Views\ProductKind\Sort.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>
@@ -234,7 +247,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\ProductKind\" />
+    <Folder Include="Scripts\ckeditor\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

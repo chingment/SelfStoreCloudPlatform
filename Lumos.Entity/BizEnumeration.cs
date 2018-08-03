@@ -106,5 +106,15 @@ namespace Lumos.Entity
             [Remark("解锁")]
             UnLock = 3
         }
+
+        public enum ReceptionMode
+        {
+            [Remark("未知")]
+            Unknow = 0,
+            [Remark("机器自取")]
+            Machine = 1,
+            [Remark("快递专送")]
+            Express = 2
+        }
     }
 }

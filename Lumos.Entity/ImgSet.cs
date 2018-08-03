@@ -1,22 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Lumos.Entity
 {
+    [ComplexType]
     public class ImgSet
     {
         public string ImgUrl { get; set; }
-
         public bool IsMain { get; set; }
-
         public string Name { get; set; }
-
         public int Priority { set; get; }
-
-
         public static string GetMain(string jsonStr)
         {
             string imgUrl = "";

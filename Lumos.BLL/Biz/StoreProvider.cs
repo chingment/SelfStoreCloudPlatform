@@ -48,7 +48,7 @@ namespace Lumos.BLL
             return result;
         }
 
-        public CustomJsonResult BindMachine(string operater, string storeId, string[] machineIds)
+        public CustomJsonResult BindOnMachine(string operater, string storeId, string[] machineIds)
         {
             CustomJsonResult result = new CustomJsonResult();
             using (TransactionScope ts = new TransactionScope())
@@ -102,5 +102,23 @@ namespace Lumos.BLL
             return result;
         }
 
+        public CustomJsonResult BindOffMachine(string operater, string storeId, string machineId)
+        {
+            CustomJsonResult result = new CustomJsonResult();
+            using (TransactionScope ts = new TransactionScope())
+            {
+                var storeMachine = CurrentDb.StoreMachine.Where(m => m.StoreId == storeId && m.MachineId == machineId).FirstOrDefault();
+
+                storeMachine.Status = Enumeration.StoreMachineStatus.Unbind;
+                storeMachine.CreateTime = this.DateTime;
+                storeMachine.Creator = operater;
+                CurrentDb.SaveChanges();
+
+            
+                ts.Complete();
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
+            }
+            return result;
+        }
     }
 }

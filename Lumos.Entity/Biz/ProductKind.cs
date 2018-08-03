@@ -15,31 +15,23 @@ namespace Lumos.Entity
     {
         [Key]
         public string Id { get; set; }
-
         [MaxLength(128)]
+        public string PId { get; set; }
         public string Name { get; set; }
-
         [MaxLength(128)]
         public string MerchantId { get; set; }
         [MaxLength(128)]
         public string UserId { get; set; }
-        public string PId { get; set; }
-
+        public string IconImg { get; set; }
+        public string MainImg { get; set; }
         [MaxLength(512)]
         public string Description { get; set; }
-
         public bool IsDelete { get; set; }
-
         public Lumos.Entity.Enumeration.ProductKindStatus Status { get; set; }
-
         public int Priority { get; set; }
-
         public string Creator { get; set; }
-
         public DateTime CreateTime { get; set; }
-
         public string Mender { get; set; }
-
         public DateTime? LastUpdateTime { get; set; }
 
     }

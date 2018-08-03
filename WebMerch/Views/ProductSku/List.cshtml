@@ -1,0 +1,183 @@
+﻿
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_LayoutHomeIframeMainList.cshtml";
+}
+
+<script type="text/javascript">
+
+    var listTable;
+
+    $(document).ready(function () {
+
+
+        listTable = $("#list_table").loadDataTable({
+            url: "/ProductSku/GetList",
+            pageIndex: 0,
+            searchParams: $("#form1").serializeArray(),
+            searchButtonId: "btn_Search",
+            containerId: "form1",
+            rowDataCombie: function (p_index, p_row) {
+                var l_StrRows = "";
+                l_StrRows += "<tr>";
+                l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
+                l_StrRows += "<td class=\"overflow tipitem\"><div> <img src=\"" + p_row.mainImg + "\" style=\"width:50px;height:50px\"><div></td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.name + "\">" + p_row.name + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.kindName + "\">" + p_row.kindName + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.salePrice + "\">" + p_row.salePrice + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.showPrice + "\">" + p_row.showPrice + "</td>";
+                l_StrRows += "<td class=\"operation\">";
+
+                if (p_row.isDelete) {
+                    l_StrRows += "<a href=\"javascript:void(0)\"  class=\"a-btn\" >已删除</a>";
+                }
+                else {
+                    l_StrRows += "<a href=\"javascript:void(0)\" operate=\"edit\"   class=\"a-btn a-btn-edit\"  >修改</a>";
+                    // l_StrRows += "<a href=\"javascript:void(0)\" operate=\"delete\"   class=\"a-btn a-btn-edit\"  >删除</a>";
+                }
+
+                l_StrRows += "</td>";
+                l_StrRows += "</tr>";
+                return l_StrRows;
+            },
+            operate: {
+                "delete": function (obj) {
+
+                    $.lumos.postJson({
+                        url: "/Biz/ProductSku/Delete",
+                        data: { id: obj[0].id },
+                        success: function (d) {
+                            listTable.loadData(0);
+                            $.lumos.tips(d.message);
+                        }
+                    });
+
+                },
+                "edit": function (obj) {
+                    var url = '/Biz/ProductSku/Edit?id=' + obj.id;
+                    var title = '商品信息修改';
+                    var dialog = art.dialog.open(url, {
+                        id: "openDialog", title: title, width: '800px', height: '600px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
+                            this.iframe.contentWindow.submit(function (d) {
+                                if (d.result == resultType.success) {
+                                    dialog.close();
+                                    listTable.loadData();
+                                }
+                                $.lumos.tips(d.message);
+                            });
+                            return false;
+                        }
+                    });
+                }
+            }
+        });
+
+
+        $("#btn_Add").click(function () {
+            var url = '/ProductSku/Add';
+            var title = '新建';
+            var dialog = art.dialog.open(url, {
+                id: "openDialog", title: title, width: '800px', height: '600px', lock: true, drag: false, cancelVal: '关闭', cancel: true,
+                button: [{
+                    name: '确定',
+                    callback: function () {
+                        this.iframe.contentWindow.submit(function (d) {
+                            if (d.result == resultType.success) {
+                                dialog.close();
+                                listTable.loadData();
+                            }
+                            $.lumos.tips(d.message);
+                        });
+                        return false;
+                    },
+                    focus: true
+                }]
+            });
+        });
+
+
+        $("#btn_ExportExcel").click(function () {
+            var url = '/Biz/ProductSku/ExportAdd';
+            var title = '导入';
+            art.dialog.open(url, {
+                id: "openDialog", title: title, width: '400px', height: '140px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '确定', ok: function () {
+                    this.iframe.contentWindow.exportExcel();
+                    return false;
+                }
+            });
+        });
+
+    });
+
+
+
+
+</script>
+
+<form id="form1" name="form1">
+    @Html.AntiForgeryToken()
+    <div class="search-bar">
+        <div class="filter">
+            <span class="filter-label">名称：</span>
+            <span class="filter-input">
+                <input type="text"  class="input-control" name="Name" style="width:120px;" />
+            </span>
+        </div>
+        <div class="filter"><input type="button" class="btn btn-search" id="btn_Search" value="查询" /> </div>
+
+        <div class="filter" style="float:right">
+            <input type="button" class="btn btn-add" id="btn_Add" value="新建" />
+        </div>
+    </div>
+    <div class="list">
+        <table id="list_table" class="list-tb" cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <th style="width:5%" class="no">
+                        序号
+                    </th>
+                    <th style="width:10%">
+                        图片
+                    </th>
+                    <th style="width:15%">
+                        名称
+                    </th>
+                    <th style="width:15%">
+                        模块
+                    </th>
+                    <th style="width:15%">
+                        销售价
+                    </th>
+                    <th style="width:15%">
+                        展示价
+                    </th>
+                    <th style="width:15%" class="operation">
+                        操作
+                    </th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="7">
+                        <div class="pull-left">
+                            <span class="load-tip"></span>
+                        </div>
+                        <div class="pull-right pagination">
+                            <div class="pagination-info">
+
+                            </div>
+                            <div class="pagination-index">
+
+                            </div>
+                            <div class="pagination-goto">
+
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</form>
+

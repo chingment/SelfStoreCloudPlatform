@@ -207,7 +207,7 @@
                                     <li>
                                         @using (Html.BeginForm("LogOff", "Home", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
                                         {
-                                           
+
                                         }
                                         <a href="javascript:document.getElementById('logoutForm').submit()">退出</a>
                                     </li>
@@ -256,6 +256,11 @@
                                             <li>
                                                 <a gotopage="/ProductSku/List" target="iframeMain">
                                                     <span class="icon"></span><span>商品设置</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a gotopage="/ProductKind/List" target="iframeMain">
+                                                    <span class="icon"></span><span>商品模块设置</span>
                                                 </a>
                                             </li>
                                         </ul>

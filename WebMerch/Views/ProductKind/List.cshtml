@@ -45,12 +45,12 @@
 
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { art.dialog.tips(msg); } });
 
-            $("#Model_ProductKind_Id").formValidator({ onShow: "&nbsp;", onFocus: "请在左边树形结构选中节点信息", onCorrect: "&nbsp;" }).inputValidator({ min: 1, max: 20, empty: { leftEmpty: false, emptyError: "不能为空" }, onError: "不超过20个字符" });
-            $("#Model_ProductKind_Name").formValidator({ onShow: "&nbsp;", onFocus: "不超过20个字符", onCorrect: "&nbsp;" }).inputValidator({ min: 1, max: 20, empty: { leftEmpty: false, emptyError: "不能为空" }, onError: "不超过20个字符" });
+            $("#Model_ProductKind_Id").formValidator({ onShow: "", onFocus: "请在左边树形结构选中节点信息", onCorrect: "&nbsp;" }).inputValidator({ min: 1, max: 100, empty: { leftEmpty: false, emptyError: "不能为空" }, onError: "请在左边树形结构选中节点信息" });
+            $("#Model_ProductKind_Name").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 20, empty: { leftEmpty: false, emptyError: "不能为空" }, onError: "名称不能超过20个字符" });
             $("#Model_ProductKind_MainImg").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请上传封面" });
             $("#Model_ProductKind_IconImg").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请上传小图标" });
             $("#Model_ProductKind_Status").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择状态" });
-            $("#Model_ProductKind_Description").formValidator({ onShow: "&nbsp;", onFocus: "不超过500个字符", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 500, onError: "不超过500个字符" });
+            $("#Model_ProductKind_Description").formValidator({ onShow: "", onFocus: "不超过500个字符", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 500, onError: "不超过500个字符" });
 
             $("#btn_add").click(function () {
 
@@ -59,7 +59,7 @@
                     return;
                 }
 
-                var url = '/Biz/ProductKind/Add?type=add&id=' + selObj.id + '&pName=' + escape(selObj.name);
+                var url = '/ProductKind/Add?type=add&id=' + selObj.id + '&pName=' + escape(selObj.name);
                 var title = '新建';
                 art.dialog.open(url, {
                     id: "openDialog", title: title, width: '650px', height: '450px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '确定', ok: function () {
@@ -98,7 +98,7 @@
                              });
 
                              $.lumos.postJson({
-                                 url: "/Biz/ProductKind/Delete",
+                                 url: "/ProductKind/Delete",
                                  data: data,
                                  success: function (d) {
                                      art.dialog.tips(d.message);
@@ -125,7 +125,7 @@
                 }
 
 
-                var url = '/Biz/ProductKind/Sort?id=' + selObj.id + '&pName=' + escape(selObj.name);
+                var url = '/ProductKind/Sort?id=' + selObj.id + '&pName=' + escape(selObj.name);
                 var title = '排序';
                 art.dialog.open(url, {
                     id: "openDialog", title: title, width: '650px', height: '400px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
@@ -137,7 +137,7 @@
             });
 
             listProduct = $("#list_table_product").loadDataTable({
-                url: "/Biz/ProductKind/GetProductList",
+                url: "/ProductKind/GetProductSkuList",
                 pageIndex: 0,
                 searchParams: $("#form2").serializeArray(),
                 searchButtonId: "btn_Search",
@@ -149,7 +149,7 @@
                     l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
                     l_StrRows += "<td class=\"overflow \" ><div> <img src=\"" + p_row.mainImg + "\" style=\"width:50px;height:50px\"><div></td>";
                     l_StrRows += "<td class=\"overflow tipitem\" title=\"" + p_row.name + "\">" + p_row.name + "</td>";
-                    l_StrRows += "<td class=\"overflow tipitem\" title=\"" + p_row.productCategory + "\">" + p_row.productCategory + "</td>";
+                    l_StrRows += "<td class=\"overflow tipitem\" title=\"" + p_row.kindName + "\">" + p_row.kindName + "</td>";
                     l_StrRows += "</tr>";
                     return l_StrRows;
                 },
@@ -239,7 +239,7 @@
             var id = $("#Model_ProductKind_Id").val();
             $.lumos.postJson({
                 data: { id: id },
-                url: "/Biz/ProductKind/GetDetails",
+                url: "/ProductKind/GetDetails",
                 success: function (d) {
                     if (d.result == resultType.success) {
                         var data = d.data.productKind;
@@ -261,7 +261,7 @@
         function loadTreeList(id) {
 
             $.lumos.postJson({
-                url: "/Biz/ProductKind/GetTreeList?pId=0",
+                url: "/ProductKind/GetTreeList?pId=0",
                 success: function (d) {
                     var obj = eval(d.data);
                     zTree = $.fn.zTree.init($("#treemenu"), {
@@ -298,7 +298,7 @@
              var l_Data = $("#form1").serializeArray();
              l_Data.push({ name: "Model.ProductKind.Id", value: id });
              $.lumos.postJson({
-                 url: "/Biz/ProductKind/Edit",
+                 url: "/ProductKind/Edit",
                  data: l_Data,
                  success: function (d) {
                      art.dialog.tips(d.message);
@@ -456,7 +456,7 @@
                                             名称
                                         </th>
                                         <th style="width:15%">
-                                            分类
+                                            模块
                                         </th>
                                     </tr>
                                 </thead>

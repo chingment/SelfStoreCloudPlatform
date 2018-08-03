@@ -1,4 +1,4 @@
-﻿@model WebBack.Models.Biz.ProductKind.AddViewModel
+﻿@model WebMerch.Models.ProductKind.AddViewModel
 @{
     ViewBag.Title = "Add";
     Layout = "~/Views/Shared/_LayoutHomeDialog.cshtml";
@@ -29,7 +29,7 @@
              var l_Data = $("#form1").serializeArray();
              l_Data.push({ name: "Model.ProductKind.PId", value: $.lumos.getUrlParamValue("id") });
              $.lumos.postJson({
-                 url: "/Biz/ProductKind/Add",
+                 url: "/ProductKind/Add",
                  data: l_Data,
                  success: function (d) {
                      fun(d);

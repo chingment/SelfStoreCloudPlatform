@@ -31,7 +31,7 @@ namespace WebMerch.Controllers.Biz
             return View(model);
         }
 
-        public ViewResult MachineListByNoBind()
+        public ViewResult MachineListByBindable()
         {
             return View();
         }
@@ -106,7 +106,7 @@ namespace WebMerch.Controllers.Biz
 
             var query = (from u in CurrentDb.Machine
                          where (from d in CurrentDb.StoreMachine
-                                where d.StoreId == condition.Id
+                                where d.StoreId == condition.Id && d.Status == Enumeration.StoreMachineStatus.Bind
                                 select d.MachineId).Contains(u.Id)
 
                          where
@@ -139,7 +139,7 @@ namespace WebMerch.Controllers.Biz
         }
 
 
-        public CustomJsonResult GetMachineListByNoBind(SearchCondition condition)
+        public CustomJsonResult GetMachineListByBindable(SearchCondition condition)
         {
 
             string name = "";
@@ -187,9 +187,15 @@ namespace WebMerch.Controllers.Biz
         }
 
         [HttpPost]
-        public CustomJsonResult BindMachine(string storeId, string[] machineIds)
+        public CustomJsonResult BindOnMachine(string storeId, string[] machineIds)
         {
-            return BizFactory.Store.BindMachine(this.CurrentUserId, storeId, machineIds);
+            return BizFactory.Store.BindOnMachine(this.CurrentUserId, storeId, machineIds);
+        }
+
+        [HttpPost]
+        public CustomJsonResult BindOffMachine(string storeId, string machineId)
+        {
+            return BizFactory.Store.BindOffMachine(this.CurrentUserId, storeId, machineId);
         }
     }
 }

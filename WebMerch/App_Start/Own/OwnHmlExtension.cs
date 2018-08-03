@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.Text;
 using System.Security.Cryptography;
 using WebMerch;
+using Lumos;
 
 namespace System.Web
 {
@@ -166,6 +167,96 @@ namespace System.Web
             else
             {
                 return helper.Raw("");
+            }
+        }
+
+
+        public static MvcHtmlString initProductKind(this HtmlHelper helper, string name, List<ProductKind> productKind, string selectval = null)
+        {
+
+            StringBuilder sb = new StringBuilder();
+
+            string id = name.Replace('.', '_');
+            sb.Append("<select multiple='multiple' id=\"" + id + "\" data-placeholder=\"选择分类模块\" name =\"" + name + "\" class=\"chosen-select\" style=\"width: 400px;\" >");
+            sb.Append("<option value=\"-1\"></option>");
+
+            var p_category = productKind.Where(m => m.PId == GuidUtil.Empty()).ToList();
+
+            string[] arr_selectval = null;
+
+            if (selectval != null)
+            {
+                arr_selectval = selectval.Split(',');
+            }
+
+            foreach (var m in p_category)
+            {
+                var catalogList1 = productKind.Where(c => c.PId == m.Id).ToList();
+
+                string disabled = "";
+
+                if (catalogList1.Count > 0)
+                {
+                    disabled = "disabled";
+                }
+
+                string selected = "";
+
+                if (selectval != null)
+                {
+                    if (arr_selectval.Contains(m.Id.ToString()))
+                    {
+                        selected = "selected";
+                    }
+                }
+
+                sb.Append("<option value=\"" + m.Id + "\"  " + disabled + " " + selected + "   >&nbsp;" + m.Name + "</option>");
+
+                GetProductKindNodes(sb, productKind, m.Id, 1, arr_selectval);
+            }
+
+            sb.Append("</select>");
+            return new MvcHtmlString(sb.ToString());
+        }
+
+        private static void GetProductKindNodes(StringBuilder sb, List<ProductKind> productKind, string pId, int nLevel, string[] arr_selectval)
+        {
+
+            var catalogList = productKind.Where(m => m.PId == pId).ToList();
+
+            string _s = "";
+            for (int i = 0; i <= nLevel; i++)
+            {
+                _s += "&nbsp;&nbsp;";
+            }
+            _s += "&nbsp;&nbsp;";
+            nLevel += 1;
+
+
+
+            foreach (var m in catalogList)
+            {
+                var catalogList1 = productKind.Where(c => c.PId == m.Id).ToList();
+
+                string disabled = "";
+
+                if (catalogList1.Count > 0)
+                {
+                    disabled = "disabled";
+                }
+
+                string selected = "";
+                if (arr_selectval != null)
+                {
+                    if (arr_selectval.Contains(m.Id.ToString()))
+                    {
+                        selected = "selected";
+                    }
+                }
+
+                sb.Append("<option value=\"" + m.Id + "\" " + disabled + " " + selected + "  >" + _s + m.Name + "</option>");
+
+                GetProductKindNodes(sb, productKind, m.Id, nLevel, arr_selectval);
             }
         }
     }

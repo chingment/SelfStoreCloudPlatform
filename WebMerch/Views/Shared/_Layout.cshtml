@@ -10,7 +10,7 @@
     <meta content="" name="description">
     <title>@ViewBag.Title</title>
     <link href="~/favicon.ico" type="image/x-icon" rel="shortcut icon" />
-    @OwnStaticStylesResource.Render("base/Site.css")
+    @OwnStaticStylesResource.Render("base/Site.css?" + DateTime.Now.ToString("yyyyMMddHHmmss"))
     @RenderSection("styles", required: false)
     @OwnStaticScriptsResource.Render("ArtDialog/artDialog.source.js?skin=default")
     @OwnStaticScriptsResource.Render("ArtDialog/iframeTools.source.js")
@@ -18,6 +18,7 @@
     @OwnStaticScriptsResource.Render("jquery-1.8.3.min.js")
     @OwnStaticScriptsResource.Render("json2.js")
     @OwnStaticScriptsResource.Render("jquery.form.js")
+    @OwnStaticScriptsResource.Render("chosen.jquery.js?" + DateTime.Now.ToString("yyyyMMddHHmmss"))
     @OwnStaticScriptsResource.Render("jquery.cookie.js")
     @OwnStaticScriptsResource.Render("jquery.lumos.back.1.0.0.js?" + DateTime.Now.ToString("yyyyMMddHHmmss"))
     @OwnStaticScriptsResource.Render("jquery.resizeEnd.js")
@@ -94,7 +95,7 @@
 
 
             $("#tab1").tab();
-
+            $('.chosen-select').chosen({ search_contains: true });
 
             $('#btn_select_staffuser').live('click', function () {
                 var dialogtitle = "选择用户";

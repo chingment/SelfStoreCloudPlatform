@@ -34,7 +34,7 @@ namespace WebMerch.Controllers
             ProductKind[] arr;
             if (pId == 0)
             {
-                arr = CurrentDb.ProductKind.Where(m => m.IsDelete == false).OrderByDescending(m => m.Priority).ToArray();
+                arr = CurrentDb.ProductKind.Where(m => m.UserId == this.CurrentUserId && m.IsDelete == false).OrderByDescending(m => m.Priority).ToArray();
             }
             else
             {
@@ -57,6 +57,7 @@ namespace WebMerch.Controllers
         [OwnNoResubmit]
         public CustomJsonResult Add(AddViewModel model)
         {
+            model.ProductKind.UserId = this.CurrentUserId;
             return BizFactory.ProductKind.Add(this.CurrentUserId, model.ProductKind);
         }
 
@@ -74,32 +75,46 @@ namespace WebMerch.Controllers
             return BizFactory.ProductKind.Delete(this.CurrentUserId, ids);
         }
 
-        //public CustomJsonResult GetProductList(ProductSearchCondition condition)
-        //{
-        //    string name = condition.Name.ToSearchString();
-        //    string kindId = BizFactory.Product.BuildProductKindIdForSearch(condition.KindId);
-        //    var list = (from p in CurrentDb.Product
-        //                where SqlFunctions.CharIndex(kindId, p.ProductKindIds) > 0 &&
-        //                         (name.Length == 0 || p.Name.Contains(name))
-        //                select new { p.Id, p.Name, p.MainImg, p.CreateTime, p.Supplier, p.ProductCategory });
+        public CustomJsonResult GetProductSkuList(ProductSearchCondition condition)
+        {
+            var kinds = BizFactory.ProductKind.GetProductKind(condition.KindId);
 
-        //    int total = list.Count();
+            string[] kindIds = kinds.Select(m => m.Id).ToArray();
 
-        //    int pageIndex = condition.PageIndex;
-        //    int pageSize = 10;
-        //    list = list.OrderBy(r => r.Id).Skip(pageSize * (pageIndex)).Take(pageSize);
+            string name = condition.Name.ToSearchString();
+            var query = (from p in CurrentDb.ProductSku
+                         where (kindIds.Contains(p.KindId) || p.KindId == condition.KindId) &&
+                                  (name.Length == 0 || p.Name.Contains(name))
+                         select new { p.Id, p.Name, p.CreateTime, p.KindName, p.DispalyImgUrls, p.SalePrice, p.ShowPrice });
 
-        //    PageEntity pageEntity = new PageEntity { PageSize = pageSize, TotalRecord = total, Rows = list };
+            int total = query.Count();
 
-        //    return Json(ResultType.Success, pageEntity);
-        //}
+            int pageIndex = condition.PageIndex;
+            int pageSize = 10;
+            query = query.OrderBy(r => r.Id).Skip(pageSize * (pageIndex)).Take(pageSize);
+
+            var list = query.ToList();
+
+            List<object> olist = new List<object>();
+            foreach (var item in list)
+            {
+                olist.Add(new
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    MainImg = ImgSet.GetMain(item.DispalyImgUrls),
+                    KindName = item.KindName,
+                    SalePrice = item.SalePrice.ToF2Price(),
+                    ShowPrice = item.ShowPrice.ToF2Price(),
+                    CreateTime = item.CreateTime,
+                });
+            }
 
 
-        //[HttpPost]
-        //public CustomJsonResult RemoveProductFromKind(int kindId, int[] productIds)
-        //{
-        //    return BizFactory.ProductKind.RemoveProductFromKind(this.CurrentUserId, kindId, productIds);
-        //}
+            PageEntity pageEntity = new PageEntity { PageSize = pageSize, TotalRecord = total, Rows = olist };
+
+            return Json(ResultType.Success, pageEntity);
+        }
 
         //[HttpPost]
         //public CustomJsonResult Sort(int pId)

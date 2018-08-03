@@ -14,97 +14,108 @@ namespace Lumos.BLL
     public class ProductKindProvider : BaseProvider
     {
 
-
-
-
-
         public CustomJsonResult Add(string operater, ProductKind productKind)
         {
             CustomJsonResult result = new CustomJsonResult();
-            //if (productKind.PId == "0")
-            //{
-            //    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "请选择上级分类");
-            //}
 
-            //using (TransactionScope ts = new TransactionScope())
-            //{
-            //    var existObject = CurrentDb.ProductKind.Where(m => m.Name == productKind.Name).FirstOrDefault();
-            //    if (existObject != null)
-            //    {
-            //        return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "名称已存在");
-            //    }
+            using (TransactionScope ts = new TransactionScope())
+            {
+                var existObject = CurrentDb.ProductKind.Where(m => m.UserId == productKind.UserId && m.Name == productKind.Name).FirstOrDefault();
+                if (existObject != null)
+                {
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "名称已存在");
+                }
 
-            //    existObject = CurrentDb.ProductKind.Where(m => m.PId == productKind.PId).OrderByDescending(m => m.Id).FirstOrDefault();
-            //    if (existObject == null)//同级没有分类
-            //    {
-            //        productKind.Id = productKind.PId * 10000 + 1;
-            //    }
-            //    else//同级已存在分类则+1
-            //    {
-            //        productKind.Id = existObject.Id + 1;
-            //    }
+                var merchant = CurrentDb.Merchant.Where(m => m.UserId == productKind.UserId).FirstOrDefault();
 
-            //    productKind.Creator = operater;
-            //    productKind.CreateTime = DateTime.Now;
-            //    CurrentDb.ProductKind.Add(productKind);
-            //    CurrentDb.SaveChanges();
-            //    ts.Complete();
-            //    result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "添加成功");
-            //}
+                productKind.Id = GuidUtil.New();
+                productKind.MerchantId = merchant.Id;
+                productKind.Creator = operater;
+                productKind.CreateTime = DateTime.Now;
+                CurrentDb.ProductKind.Add(productKind);
+                CurrentDb.SaveChanges();
+                ts.Complete();
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "添加成功");
+            }
 
             return result;
         }
 
-        public CustomJsonResult Edit(string operater, ProductKind productKind)
+
+        private void GetDept(string pId, ref int level)
         {
 
-            var _productKind = CurrentDb.ProductKind.Where(m => m.Id == productKind.Id).FirstOrDefault();
+            var l_productKind = CurrentDb.ProductKind.Where(m => m.Id == pId).FirstOrDefault();
+            if (l_productKind != null)
+            {
+                level += 1;
 
-            _productKind.Name = productKind.Name;
-            //_productKind.MainImg = productKind.MainImg;
-            //_productKind.IconImg = productKind.IconImg;
-            _productKind.Status = productKind.Status;
-            _productKind.Description = productKind.Description;
-            _productKind.Mender = operater;
-            _productKind.LastUpdateTime = DateTime.Now;
+                GetDept(l_productKind.PId, ref level);
+            }
+        }
+
+        public CustomJsonResult Edit(string operater, ProductKind productKind)
+        {
+            var l_productKind = CurrentDb.ProductKind.Where(m => m.Id == productKind.Id).FirstOrDefault();
+
+            var existObject = CurrentDb.ProductKind.Where(m => m.UserId == l_productKind.UserId && m.Id != productKind.Id && m.Name == productKind.Name).FirstOrDefault();
+            if (existObject != null)
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "名称已存在");
+            }
+
+
+            l_productKind.Name = productKind.Name;
+            l_productKind.MainImg = productKind.MainImg;
+            l_productKind.IconImg = productKind.IconImg;
+            l_productKind.Status = productKind.Status;
+            l_productKind.Description = productKind.Description;
+            l_productKind.Mender = operater;
+            l_productKind.LastUpdateTime = DateTime.Now;
+
+            int b = 0;
+            GetDept(l_productKind.PId, ref b);
 
             CurrentDb.SaveChanges();
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "修改成功");
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
 
+        }
+
+        public IEnumerable<ProductKind> GetProductKind(string p_id)
+        {
+            var query = from c in CurrentDb.ProductKind
+                        where c.PId == p_id
+                        select c;
+
+            return query.ToList().Concat(query.ToList().SelectMany(t => GetProductKind(t.Id)));
         }
 
         public CustomJsonResult Delete(string operater, string[] ids)
         {
+            if (ids != null)
+            {
+                foreach (var id in ids)
+                {
+                    var productKind = CurrentDb.ProductKind.Where(m => m.Id == id).FirstOrDefault();
+                    if (productKind != null)
+                    {
+                        productKind.IsDelete = true;
 
-            //if (ids != null)
-            //{
-            //    foreach (var id in ids)
-            //    {
-            //        var productKind = CurrentDb.ProductKind.Where(m => m.Id == id).FirstOrDefault();
-            //        if (productKind != null)
-            //        {
-            //            productKind.IsDelete = true;
+                        var productSkus = CurrentDb.ProductSku.Where(m => m.KindId == id).ToList();
 
-            //            string str_id = id.ToString();
+                        foreach (var productSku in productSkus)
+                        {
+                            productSku.KindId = null;
+                            productSku.KindName = null;
+                            productKind.Mender = operater;
+                            productKind.LastUpdateTime = this.DateTime;
+                        }
 
-            //            string search_id = BizFactory.Product.BuildProductKindIdForSearch(str_id);
-
-            //            var products = CurrentDb.Product.Where(m => SqlFunctions.CharIndex(search_id, m.ProductKindIds) > 0).ToList();
-
-            //            foreach (var product in products)
-            //            {
-            //                product.ProductKindIds = GetRemoveKindId(product.ProductKindIds, new string[1] { str_id });
-
-            //                CurrentDb.SaveChanges();
-            //            }
-
-            //            CurrentDb.SaveChanges();
-            //        }
-
-            //    }
-
-            //}
+                        CurrentDb.SaveChanges();
+                    }
+                }
+            }
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "删除成功");
         }
