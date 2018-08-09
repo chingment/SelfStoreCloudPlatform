@@ -105,13 +105,15 @@ namespace WebMerch.Controllers.Biz
             }
 
             var query = (from u in CurrentDb.Machine
+                         join p in CurrentDb.MerchantMachine on u.Id equals p.MachineId
                          where (from d in CurrentDb.StoreMachine
                                 where d.StoreId == condition.Id && d.Status == Enumeration.StoreMachineStatus.Bind
                                 select d.MachineId).Contains(u.Id)
-
-                         where
-                                               (name.Length == 0 || u.Name.Contains(name))
-                         select new { u.Id, u.Name, u.DeviceId }).Distinct();
+                         &&
+                         (name.Length == 0 || u.Name.Contains(name))
+                         && p.Status == Enumeration.MerchantMachineStatus.Bind
+                         && p.UserId == this.CurrentUserId
+                         select new { u.Id, p.Name, u.DeviceId }).Distinct();
 
             int total = query.Count();
 
@@ -148,17 +150,17 @@ namespace WebMerch.Controllers.Biz
             }
 
             var query = (from u in CurrentDb.Machine
-                         where (from d in CurrentDb.MerchantMachine
-                                where d.UserId == this.CurrentUserId
-                                select d.MachineId).Contains(u.Id)
-                                &&
+                         join p in CurrentDb.MerchantMachine on u.Id equals p.MachineId
+                         where
                                 !(from d2 in CurrentDb.StoreMachine
                                   where d2.UserId == this.CurrentUserId &&
                                   d2.Status == Enumeration.StoreMachineStatus.Bind
                                   select d2.MachineId).Contains(u.Id)
-                         where
-                                               (name.Length == 0 || u.Name.Contains(name))
-                         select new { u.Id, u.Name, u.DeviceId }).Distinct();
+                         &&
+                         (name.Length == 0 || u.Name.Contains(name))
+                         && p.UserId == this.CurrentUserId
+                         && p.Status == Enumeration.MerchantMachineStatus.Bind
+                         select new { u.Id, p.Name, u.DeviceId }).Distinct();
 
             int total = query.Count();
 

@@ -16,11 +16,15 @@ namespace Lumos.BLL
             CustomJsonResult result = new CustomJsonResult();
             using (TransactionScope ts = new TransactionScope())
             {
+                var existObject = CurrentDb.Store.Where(m => m.UserId == store.UserId && m.Name == store.Name).FirstOrDefault();
+                if (existObject != null)
+                {
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "名称已存在,请使用其它");
+                }
                 store.Id = GuidUtil.New();
-                store.Status = Enumeration.StoreStatus.Setting;
+                store.Status = Enumeration.StoreStatus.Closed;
                 store.CreateTime = this.DateTime;
                 store.Creator = operater;
-
                 CurrentDb.Store.Add(store);
                 CurrentDb.SaveChanges();
 
@@ -37,8 +41,25 @@ namespace Lumos.BLL
             using (TransactionScope ts = new TransactionScope())
             {
                 var l_Store = CurrentDb.Store.Where(m => m.Id == store.Id).FirstOrDefault();
+
+                var existObject = CurrentDb.Store.Where(m => m.UserId == l_Store.UserId && m.Id != store.Id && m.Name == store.Name).FirstOrDefault();
+                if (existObject != null)
+                {
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "名称已存在,请使用其它");
+                }
+
+                if (store.Status == Enumeration.StoreStatus.Opened)
+                {
+                    var storeMachineBindCount = CurrentDb.StoreMachine.Where(m => m.StoreId == store.Id && m.Status == Enumeration.StoreMachineStatus.Bind).Count();
+                    if (storeMachineBindCount == 0)
+                    {
+                        return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "设置为正常状态，必须先在机器管理里绑定一台机器");
+                    }
+                }
+
                 l_Store.Name = store.Name;
                 l_Store.Address = store.Address;
+                l_Store.Status = store.Status;
                 l_Store.LastUpdateTime = this.DateTime;
                 l_Store.Mender = operater;
                 CurrentDb.SaveChanges();
@@ -97,7 +118,7 @@ namespace Lumos.BLL
                 }
 
                 ts.Complete();
-                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "绑定成功");
             }
             return result;
         }
@@ -107,16 +128,31 @@ namespace Lumos.BLL
             CustomJsonResult result = new CustomJsonResult();
             using (TransactionScope ts = new TransactionScope())
             {
-                var storeMachine = CurrentDb.StoreMachine.Where(m => m.StoreId == storeId && m.MachineId == machineId).FirstOrDefault();
+                var storeMachines = CurrentDb.StoreMachine.Where(m => m.StoreId == storeId).ToList();
 
-                storeMachine.Status = Enumeration.StoreMachineStatus.Unbind;
-                storeMachine.CreateTime = this.DateTime;
-                storeMachine.Creator = operater;
+                foreach (var item in storeMachines)
+                {
+                    if (item.MachineId == machineId)
+                    {
+                        item.Status = Enumeration.StoreMachineStatus.Unbind;
+                        item.LastUpdateTime = this.DateTime;
+                        item.Mender = operater;
+                    }
+                }
+
+                var storeMachineBindCount = storeMachines.Where(m => m.Status == Enumeration.StoreMachineStatus.Bind).Count();
+                if (storeMachineBindCount == 0)
+                {
+                    var store = CurrentDb.Store.Where(m => m.Id == storeId).FirstOrDefault();
+
+                    store.Status = Enumeration.StoreStatus.Closed;
+                    store.LastUpdateTime = this.DateTime;
+                    store.Mender = operater;
+                }
+
                 CurrentDb.SaveChanges();
-
-            
                 ts.Complete();
-                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "解绑成功");
             }
             return result;
         }

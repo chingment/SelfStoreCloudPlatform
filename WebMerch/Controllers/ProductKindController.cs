@@ -82,10 +82,9 @@ namespace WebMerch.Controllers
             string[] kindIds = kinds.Select(m => m.Id).ToArray();
 
             string name = condition.Name.ToSearchString();
-            var query = (from p in CurrentDb.ProductSku
-                         where (kindIds.Contains(p.KindId) || p.KindId == condition.KindId) &&
+            var query = (from p in CurrentDb.ProductSku where 
                                   (name.Length == 0 || p.Name.Contains(name))
-                         select new { p.Id, p.Name, p.CreateTime, p.KindName, p.DispalyImgUrls, p.SalePrice, p.ShowPrice });
+                         select new { p.Id, p.Name, p.CreateTime, p.KindNames, p.DispalyImgUrls, p.SalePrice, p.ShowPrice });
 
             int total = query.Count();
 
@@ -103,7 +102,7 @@ namespace WebMerch.Controllers
                     Id = item.Id,
                     Name = item.Name,
                     MainImg = ImgSet.GetMain(item.DispalyImgUrls),
-                    KindName = item.KindName,
+                    KindNames = item.KindNames,
                     SalePrice = item.SalePrice.ToF2Price(),
                     ShowPrice = item.ShowPrice.ToF2Price(),
                     CreateTime = item.CreateTime,

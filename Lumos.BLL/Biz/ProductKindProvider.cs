@@ -32,6 +32,9 @@ namespace Lumos.BLL
                 productKind.MerchantId = merchant.Id;
                 productKind.Creator = operater;
                 productKind.CreateTime = DateTime.Now;
+                int depth = 0;
+                GetDepth(productKind.PId, ref depth);
+                productKind.Depth = depth;
                 CurrentDb.ProductKind.Add(productKind);
                 CurrentDb.SaveChanges();
                 ts.Complete();
@@ -42,7 +45,7 @@ namespace Lumos.BLL
         }
 
 
-        private void GetDept(string pId, ref int level)
+        private void GetDepth(string pId, ref int level)
         {
 
             var l_productKind = CurrentDb.ProductKind.Where(m => m.Id == pId).FirstOrDefault();
@@ -50,7 +53,7 @@ namespace Lumos.BLL
             {
                 level += 1;
 
-                GetDept(l_productKind.PId, ref level);
+                GetDepth(l_productKind.PId, ref level);
             }
         }
 
@@ -72,10 +75,9 @@ namespace Lumos.BLL
             l_productKind.Description = productKind.Description;
             l_productKind.Mender = operater;
             l_productKind.LastUpdateTime = DateTime.Now;
-
-            int b = 0;
-            GetDept(l_productKind.PId, ref b);
-
+            int depth = 0;
+            GetDepth(l_productKind.PId, ref depth);
+            l_productKind.Depth = depth;
             CurrentDb.SaveChanges();
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
@@ -102,15 +104,15 @@ namespace Lumos.BLL
                     {
                         productKind.IsDelete = true;
 
-                        var productSkus = CurrentDb.ProductSku.Where(m => m.KindId == id).ToList();
+                        //var productSkus = CurrentDb.ProductSku.Where(m => m.KindId == id).ToList();
 
-                        foreach (var productSku in productSkus)
-                        {
-                            productSku.KindId = null;
-                            productSku.KindName = null;
-                            productKind.Mender = operater;
-                            productKind.LastUpdateTime = this.DateTime;
-                        }
+                        //foreach (var productSku in productSkus)
+                        //{
+                        //    productSku.KindId = null;
+                        //    productSku.KindName = null;
+                        //    productKind.Mender = operater;
+                        //    productKind.LastUpdateTime = this.DateTime;
+                        //}
 
                         CurrentDb.SaveChanges();
                     }

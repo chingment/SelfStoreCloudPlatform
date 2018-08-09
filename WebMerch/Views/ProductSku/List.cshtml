@@ -23,7 +23,7 @@
                 l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
                 l_StrRows += "<td class=\"overflow tipitem\"><div> <img src=\"" + p_row.mainImg + "\" style=\"width:50px;height:50px\"><div></td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.name + "\">" + p_row.name + "</td>";
-                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.kindName + "\">" + p_row.kindName + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.kindNames + "\">" + p_row.kindNames + "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.salePrice + "\">" + p_row.salePrice + "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.showPrice + "\">" + p_row.showPrice + "</td>";
                 l_StrRows += "<td class=\"operation\">";
@@ -33,7 +33,6 @@
                 }
                 else {
                     l_StrRows += "<a href=\"javascript:void(0)\" operate=\"edit\"   class=\"a-btn a-btn-edit\"  >修改</a>";
-                    // l_StrRows += "<a href=\"javascript:void(0)\" operate=\"delete\"   class=\"a-btn a-btn-edit\"  >删除</a>";
                 }
 
                 l_StrRows += "</td>";
@@ -54,7 +53,7 @@
 
                 },
                 "edit": function (obj) {
-                    var url = '/Biz/ProductSku/Edit?id=' + obj.id;
+                    var url = '/ProductSku/Edit?id=' + obj.id;
                     var title = '商品信息修改';
                     var dialog = art.dialog.open(url, {
                         id: "openDialog", title: title, width: '800px', height: '600px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
@@ -120,7 +119,7 @@
         <div class="filter">
             <span class="filter-label">名称：</span>
             <span class="filter-input">
-                <input type="text"  class="input-control" name="Name" style="width:120px;" />
+                <input type="text" class="input-control" name="Name" style="width:120px;" />
             </span>
         </div>
         <div class="filter"><input type="button" class="btn btn-search" id="btn_Search" value="查询" /> </div>

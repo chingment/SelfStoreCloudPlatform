@@ -29,7 +29,7 @@ namespace WebMerch.Controllers
             return View(model);
         }
 
-        public ViewResult Edit(int id)
+        public ViewResult Edit(string id)
         {
             EditViewModel model = new EditViewModel();
             model.LoadData(id);
@@ -48,11 +48,9 @@ namespace WebMerch.Controllers
         [HttpPost]
         public CustomJsonResult Edit(EditViewModel model)
         {
-            //var displayimgs = model.DispalyImgs.Where(m => m.ImgUrl != null).ToList();
-            //model.ProductSku.DispalyImgs = Newtonsoft.Json.JsonConvert.SerializeObject(displayimgs);
-            //return BizFactory.ProductSku.Edit(this.CurrentUserId, model.ProductSku);
-
-            return null;
+            var displayimgs = model.DispalyImgs.Where(m => m.ImgUrl != null).ToList();
+            model.ProductSku.DispalyImgUrls = Newtonsoft.Json.JsonConvert.SerializeObject(displayimgs);
+            return BizFactory.ProductSku.Edit(this.CurrentUserId, model.ProductSku);
         }
 
         [HttpPost]
@@ -68,7 +66,7 @@ namespace WebMerch.Controllers
         {
             var query = (from u in CurrentDb.ProductSku
                          where (condition.Name == null || u.Name.Contains(condition.Name))
-                         select new { u.Id, u.Name, u.CreateTime, u.KindName, u.SalePrice, u.ShowPrice, u.DispalyImgUrls });
+                         select new { u.Id, u.Name, u.CreateTime, u.KindNames, u.SalePrice, u.ShowPrice, u.DispalyImgUrls });
 
             int total = query.Count();
 
@@ -87,7 +85,7 @@ namespace WebMerch.Controllers
                     Id = item.Id,
                     Name = item.Name,
                     MainImg = ImgSet.GetMain(item.DispalyImgUrls),
-                    KindName = item.KindName,
+                    KindNames = item.KindNames,
                     SalePrice = item.SalePrice.ToF2Price(),
                     ShowPrice = item.ShowPrice.ToF2Price(),
                     CreateTime = item.CreateTime,

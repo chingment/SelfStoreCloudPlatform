@@ -33,6 +33,7 @@ namespace Lumos.Entity
         public DateTime CreateTime { get; set; }
         public string Mender { get; set; }
         public DateTime? LastUpdateTime { get; set; }
+        public int Depth { get; set; }
 
     }
 }

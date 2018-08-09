@@ -1,4 +1,5 @@
-﻿using Lumos.Mvc;
+﻿using Lumos.Entity;
+using Lumos.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,7 @@ namespace WebMerch.Models.Machine
                     _machine = machine;
                 }
 
-                var storeMachine = CurrentDb.StoreMachine.Where(m => m.MachineId == merchantMachine.MachineId).FirstOrDefault();
+                var storeMachine = CurrentDb.StoreMachine.Where(m => m.MachineId == merchantMachine.MachineId && m.Status == Enumeration.StoreMachineStatus.Bind).FirstOrDefault();
                 if (storeMachine != null)
                 {
                     var store = CurrentDb.Store.Where(m => m.Id == storeMachine.StoreId).FirstOrDefault();

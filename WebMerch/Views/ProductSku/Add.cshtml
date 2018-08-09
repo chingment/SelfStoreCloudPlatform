@@ -17,20 +17,20 @@
 
         $(document).ready(function () {
 
-            CKEDITOR.replace('Model_ProductSku_Description', { height: '180px' });
+            CKEDITOR.replace('Model_ProductSku_DetailsDes', { height: '180px' });
 
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { art.dialog.tips(msg); } });
-            $("#Model_ProductSku_Name").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "商品名称不能为空,且不超过50个字符！" });
-            $("#Model_ProductSku_BriefInfo").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 100, onError: "商品简短描述不能为空,且不超过100个字符！" });
-            $("#Model_ProductSku_ShowPrice").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "市场价不能为空,且不超过50个字符！" });
+            $("#Model_ProductSku_Name").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "商品名称不能为空,且不超过50个字符" });
+            $("#Model_ProductSku_KindIds").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择所属模块" });
+            $("#Model_ProductSku_RecipientModeIds").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择收货模式" });
+            $("#Model_ProductSku_ShowPrice").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "市场价不能为空,且不超过50个字符" });
             $("#Model_ProductSku_ShowPrice").decimalInput(2);
-            $("#Model_ProductSku_SalePrice").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "售价不能为空,且不超过50个字符！" });
+            $("#Model_ProductSku_SalePrice").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "售价不能为空,且不超过50个字符" });
             $("#Model_ProductSku_SalePrice").decimalInput(2);
-            $("#Model_ProductSku_Supplier").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "生产商不能为空,且不超过50个字符！" });
             $("#Model_DispalyImgs_ImgUrl_0").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请上传商品封面图片" });
+            $("#Model_ProductSku_BriefInfo").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 100, onError: "商品简短描述不能为空,且不超过100个字符" });
 
-
-            $("#ddl_ProductKindIds").live("change", function () {
+            $("#ddl_ProductKind").live("change", function () {
 
                 var v = "";
                 var t = "";
@@ -53,22 +53,47 @@
                     t = t.substring(0, t.length - 1);
                 }
 
-                $("#Model_Product_ProductKindIds").val(v);
-                $('#Model_Product_ProductKindNames').val(t);
+                $("#Model_ProductSku_KindIds").val(v);
+                $('#Model_ProductSku_KindNames').val(t);
             });
 
+            $("#ddl_RecipientMode").live("change", function () {
 
+                var v = "";
+                var t = "";
+                var sels = $(this).find("option:selected");
+
+                for (var i = 0; i < sels.length; i++) {
+                    var _v = $(sels[i]).val();
+                    _v = _v.replace(/&nbsp;/ig, "");
+                    _v = $.trim(_v);
+                    v += _v + ",";
+
+                    var _t = $(sels[i]).text();
+                    _t = _t.replace(/&nbsp;/ig, "");
+                    _t = $.trim(_t);
+                    t += _t + ",";
+                }
+
+                if (v != "") {
+                    v = v.substring(0, v.length - 1);
+                    t = t.substring(0, t.length - 1);
+                }
+
+                $("#Model_ProductSku_RecipientModeIds").val(v);
+                $('#Model_ProductSku_RecipientModeNames').val(t);
+            });
         });
 
         function submit(fun) {
 
 
-            var stem = CKEDITOR.instances.Model_ProductSku_Description.getData();
+            var stem = CKEDITOR.instances.Model_ProductSku_DetailsDes.getData();
             var form = $("#form1");
             var isValid = $.formValidator.pageIsValid();
             if (isValid) {
 
-                $("#Model_ProductSku_Description").val(stem);
+                $("#Model_ProductSku_DetailsDes").val(stem);
 
                 art.dialog.confirm(
                '确定要提交？',
@@ -101,34 +126,120 @@
                 <td class="f-tb-c">
                     <input id="Model_ProductSku_Name" name="Model.ProductSku.Name" type="text" class="input-control" value="" style="width:300px;" />
                 </td>
+
+                <td class="f-tb-c" rowspan="5">
+                    @*<div class="cked-title">
+                        <label class="frm_label" for="">
+                           span class="tip" style="float:left;">建议尺寸：320 * 320</span>
+                                            </label>
+                                        </div>*@
+
+                    <table class="f-tb1-detail" id="list_GoodsPic" style="text-align:center;width:auto;margin:auto;">
+                        <tr style="vertical-align:top">
+                            <td>
+                                <div>
+                                    <span class="uploadimgbox" upload="true">
+                                        <span class="uploadimg" inputname="Model.DispalyImgs[0].ImgUrl" path="product">
+                                            <img src="~/Static/default1.jpg" />
+                                            <span class="uploadimg-click" style="">上传</span>
+                                            <input id="Model_DispalyImgs_ImgUrl_0" value="" name="Model.DispalyImgs[0].ImgUrl" type="hidden" />
+                                            <input id="Model_DispalyImgs_IsMain_0" value="true" name="Model.DispalyImgs[0].IsMain" type="hidden" />
+                                        </span>
+                                        <span class="uploadimg-view" style="">预览</span>
+                                    </span>
+                                </div>
+                                <div>
+                                    <span>封面</span><span class="required-symbol">*</span>
+                                </div>
+                            </td>
+                            @*<td>
+                                    <div>
+                                        <span class="uploadimgbox" upload="true">
+                                            <span class="uploadimg" inputname="Model.DispalyImgs[1].ImgUrl" path="product">
+                                                <img src="" />
+                                                <span class="uploadimg-click" style="">上传</span>
+                                                <input id="Model_DispalyImgs_ImgUrl_1" value="" name="Model.DispalyImgs[1].ImgUrl" type="hidden" />
+                                                <input id="Model_DispalyImgs_IsMain_1" value="false" name="Model.DispalyImgs[1].IsMain" type="hidden" />
+                                            </span>
+                                            <span class="uploadimg-view" style="">预览</span>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span>图片1</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <span class="uploadimgbox" upload="true">
+                                            <span class="uploadimg" inputname="Model.DispalyImgs[2].ImgUrl" path="product">
+                                                <img src="" />
+                                                <span class="uploadimg-click" style="">上传</span>
+                                                <input id="Model_DispalyImgs_ImgUrl_2" value="" name="Model.DispalyImgs[2].ImgUrl" type="hidden" />
+                                                <input id="Model_DispalyImgs_IsMain_2" value="false" name="Model.DispalyImgs[2].IsMain" type="hidden" />
+                                            </span>
+                                            <span class="uploadimg-view" style="">预览</span>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span>图片2</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <span class="uploadimgbox" upload="true">
+                                            <span class="uploadimg" inputname="Model.DispalyImgs[3].ImgUrl" path="product">
+                                                <img src="" />
+                                                <span class="uploadimg-click" style="">上传</span>
+                                                <input id="Model_DispalyImgs_ImgUrl_3" value="" name="Model.DispalyImgs[3].ImgUrl" type="hidden" />
+                                                <input id="Model_DispalyImgs_IsMain_3" value="false" name="Model.DispalyImgs[3].IsMain" type="hidden" />
+                                            </span>
+                                            <span class="uploadimg-view" style="">预览</span>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span>图片3</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <span class="uploadimgbox" upload="true">
+                                            <span class="uploadimg" inputname="Model.DispalyImgs[4].ImgUrl" path="product">
+                                                <img src="" />
+                                                <span class="uploadimg-click" style="">上传</span>
+                                                <input id="Model_DispalyImgs_ImgUrl_4" value="" name="Model.DispalyImgs[4].ImgUrl" type="hidden" />
+                                                <input id="Model_DispalyImgs_IsMain_4" value="false" name="Model.DispalyImgs[4].IsMain" type="hidden" />
+                                            </span>
+                                            <span class="uploadimg-view" style="">预览</span>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span>图片4</span>
+                                    </div>
+                                </td>*@
+                        </tr>
+                    </table>
+
+
+
+                </td>
+
             </tr>
             <tr>
                 <td class="f-tb-t">
                     所属模块<span class="required-symbol">*</span>：
                 </td>
                 <td class="f-tb-c">
-                    <input id="Model_Product_KindName" name="Model.Product.KindName" type="hidden" value="" />
-                    <input id="Model_Product_KindId" name="Model.Product.KindId" type="hidden" value="" />
-                    @Html.initProductKind("ddl.ProductKindIds", Model.Kind)
-                </td>
-            </tr>
-            <tr>
-                <td class="f-tb-t" style="width:50px">
-                    简短描述<span class="required-symbol">*</span>：
-                </td>
-                <td class="f-tb-c">
-                    <input id="Model_ProductSku_BriefInfo" name="Model.ProductSku.BriefInfo" type="text" class="input-control" value="" style="width:300px;" />
+                    <input id="Model_ProductSku_KindNames" name="Model.ProductSku.KindNames" type="hidden" value="" />
+                    <input id="Model_ProductSku_KindIds" name="Model.ProductSku.KindIds" type="hidden" value="" />
+                    @Html.initProductKind("ddl.ProductKind")
                 </td>
             </tr>
             <tr>
                 <td class="f-tb-t" style="width:50px">收货模式<span class="required-symbol">*</span>：</td>
                 <td class="f-tb-c">
-
-                    <select  multiple='multiple' name="Model.ProductSku.ReceptionMode" id="Model_ProductSku_ReceptionMode" class="chosen-select width-325px">
-                        <option value="1" selected>机器自取</option>
-                        <option value="2">快递专送</option>/
-                    </select>
-
+                    <input id="Model_ProductSku_RecipientModeNames" name="Model.ProductSku.RecipientModeNames" type="hidden" value="" />
+                    <input id="Model_ProductSku_RecipientModeIds" name="Model.ProductSku.RecipientModeIds" type="hidden" value="" />
+                    @Html.initRecipientMode("ddl.RecipientModel")
                 </td>
             </tr>
             <tr>
@@ -136,7 +247,7 @@
                     展示价<span class="required-symbol">*</span>：
                 </td>
                 <td class="f-tb-c">
-                    <input id="Model_ProductSku_ShowPrice" name="Model.ProductSku.ShowPrice" type="text" class="input-control" value="" style="width:300px;" />
+                    <input id="Model_ProductSku_ShowPrice" name="Model.ProductSku.ShowPrice" type="text" class="input-control" value="" style="width:80px;" />
                 </td>
             </tr>
             <tr>
@@ -144,115 +255,23 @@
                     销售价<span class="required-symbol">*</span>：
                 </td>
                 <td class="f-tb-c">
-                    <input id="Model_ProductSku_SalePrice" name="Model.ProductSku.SalePrice" type="text" class="input-control" value="" style="width:300px;" />
+                    <input id="Model_ProductSku_SalePrice" name="Model.ProductSku.SalePrice" type="text" class="input-control" value="" style="width:80px;" />
                 </td>
             </tr>
             <tr>
-                <td class="f-tb-t">
-                    图片：
+                <td class="f-tb-t" style="width:50px">
+                    简短描述<span class="required-symbol">*</span>：
                 </td>
-                <td class="f-tb-c">
-                    @*<div class="cked-title">
-                        <label class="frm_label" for="">
-                           span class="tip" style="float:left;">建议尺寸：320 * 320</span>
-                                            </label>
-                                        </div>*@
-                    <div>
-                        <table class="f-tb1-detail" id="list_GoodsPic" style="text-align:center;width:auto">
-                            <tr style="vertical-align:top">
-                                <td>
-                                    <div>
-                                        <span class="uploadimgbox" upload="true">
-                                            <span class="uploadimg" inputname="Model.DispalyImgs[0].ImgUrl" path="product">
-                                                <img src="~/Static/default1.jpg" />
-                                                <span class="uploadimg-click" style="">上传</span>
-                                                <input id="Model_DispalyImgs_ImgUrl_0" value="" name="Model.DispalyImgs[0].ImgUrl" type="hidden" />
-                                                <input id="Model_DispalyImgs_IsMain_0" value="true" name="Model.DispalyImgs[0].IsMain" type="hidden" />
-                                            </span>
-                                            <span class="uploadimg-view" style="">预览</span>
-                                        </span>
-                                    </div>
-                                    <div>
-                                        <span>封面</span><span class="required-symbol">*</span>
-                                    </div>
-                                </td>
-                                @*<td>
-                                        <div>
-                                            <span class="uploadimgbox" upload="true">
-                                                <span class="uploadimg" inputname="Model.DispalyImgs[1].ImgUrl" path="product">
-                                                    <img src="" />
-                                                    <span class="uploadimg-click" style="">上传</span>
-                                                    <input id="Model_DispalyImgs_ImgUrl_1" value="" name="Model.DispalyImgs[1].ImgUrl" type="hidden" />
-                                                    <input id="Model_DispalyImgs_IsMain_1" value="false" name="Model.DispalyImgs[1].IsMain" type="hidden" />
-                                                </span>
-                                                <span class="uploadimg-view" style="">预览</span>
-                                            </span>
-                                        </div>
-                                        <div>
-                                            <span>图片1</span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div>
-                                            <span class="uploadimgbox" upload="true">
-                                                <span class="uploadimg" inputname="Model.DispalyImgs[2].ImgUrl" path="product">
-                                                    <img src="" />
-                                                    <span class="uploadimg-click" style="">上传</span>
-                                                    <input id="Model_DispalyImgs_ImgUrl_2" value="" name="Model.DispalyImgs[2].ImgUrl" type="hidden" />
-                                                    <input id="Model_DispalyImgs_IsMain_2" value="false" name="Model.DispalyImgs[2].IsMain" type="hidden" />
-                                                </span>
-                                                <span class="uploadimg-view" style="">预览</span>
-                                            </span>
-                                        </div>
-                                        <div>
-                                            <span>图片2</span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div>
-                                            <span class="uploadimgbox" upload="true">
-                                                <span class="uploadimg" inputname="Model.DispalyImgs[3].ImgUrl" path="product">
-                                                    <img src="" />
-                                                    <span class="uploadimg-click" style="">上传</span>
-                                                    <input id="Model_DispalyImgs_ImgUrl_3" value="" name="Model.DispalyImgs[3].ImgUrl" type="hidden" />
-                                                    <input id="Model_DispalyImgs_IsMain_3" value="false" name="Model.DispalyImgs[3].IsMain" type="hidden" />
-                                                </span>
-                                                <span class="uploadimg-view" style="">预览</span>
-                                            </span>
-                                        </div>
-                                        <div>
-                                            <span>图片3</span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div>
-                                            <span class="uploadimgbox" upload="true">
-                                                <span class="uploadimg" inputname="Model.DispalyImgs[4].ImgUrl" path="product">
-                                                    <img src="" />
-                                                    <span class="uploadimg-click" style="">上传</span>
-                                                    <input id="Model_DispalyImgs_ImgUrl_4" value="" name="Model.DispalyImgs[4].ImgUrl" type="hidden" />
-                                                    <input id="Model_DispalyImgs_IsMain_4" value="false" name="Model.DispalyImgs[4].IsMain" type="hidden" />
-                                                </span>
-                                                <span class="uploadimg-view" style="">预览</span>
-                                            </span>
-                                        </div>
-                                        <div>
-                                            <span>图片4</span>
-                                        </div>
-                                    </td>*@
-                            </tr>
-                        </table>
-                    </div>
-
-
+                <td class="f-tb-c" colspan="2">
+                    <input id="Model_ProductSku_BriefInfo" name="Model.ProductSku.BriefInfo" type="text" class="input-control" value="" style="width:300px;" />
                 </td>
             </tr>
             <tr>
                 <td class="f-tb-t" style="width:50px">
                     商品详情：
                 </td>
-                <td class="f-tb-c">
-                    <textarea id="Model_ProductSku_Description" name="Model.ProductSku.Description" class="ckeditor"></textarea>
+                <td class="f-tb-c" colspan="2">
+                    <textarea id="Model_ProductSku_DetailsDes" name="Model.ProductSku.DetailsDes" class="ckeditor"></textarea>
                 </td>
             </tr>
         </table>

@@ -36,14 +36,10 @@ namespace Lumos.Entity
         {
             [Remark("未知")]
             Unknow = 0,
-            [Remark("设置中")]
-            Setting = 1,
-            [Remark("维护中")]
-            Maintain = 2,
             [Remark("正常")]
-            Opened = 3,
+            Opened = 1,
             [Remark("关闭")]
-            Closed = 4
+            Closed = 2
         }
 
         public enum BizProcessesAuditType

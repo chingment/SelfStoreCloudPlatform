@@ -38,11 +38,11 @@ namespace Lumos.BLL.Service.Term
                         {
                             foreach (var productChildKind in productChildKinds)
                             {
-                                var l_productSkuIds = productSkus.Where(m => m.KindId == productChildKind.Id).Select(m => m.Id).ToList();
-                                if (l_productSkuIds.Count > 0)
-                                {
-                                    productParentKindModel.Childs.AddRange(l_productSkuIds);
-                                }
+                                //var l_productSkuIds = productSkus.Where(m => m.KindId == productChildKind.Id).Select(m => m.Id).ToList();
+                                //if (l_productSkuIds.Count > 0)
+                                //{
+                                //    productParentKindModel.Childs.AddRange(l_productSkuIds);
+                                //}
                             }
                         }
 

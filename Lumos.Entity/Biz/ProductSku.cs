@@ -17,8 +17,10 @@ namespace Lumos.Entity
         public string Id { get; set; }
         public string UserId { get; set; }
         public string MerchantId { get; set; }
-        public string KindId { get; set; }
-        public string KindName { get; set; }
+        public string KindIds { get; set; }
+        public string KindNames { get; set; }
+        public string RecipientModeIds { get; set; }
+        public string RecipientModeNames { get; set; }
         public string Name { get; set; }
         public string ImgUrl { get; set; }
         public string DispalyImgUrls { get; set; }
@@ -30,9 +32,7 @@ namespace Lumos.Entity
         public string Creator { get; set; }
         public DateTime CreateTime { get; set; }
         public DateTime? LastUpdateTime { get; set; }
-
-        [NotMapped]
-        public List<ImgSet> DispalyImgUrls_Ds { get; set; }
+        public string Mender { get; set; }
     }
 
 

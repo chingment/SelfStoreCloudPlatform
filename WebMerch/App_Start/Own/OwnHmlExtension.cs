@@ -8,6 +8,7 @@ using System.Text;
 using System.Security.Cryptography;
 using WebMerch;
 using Lumos;
+using Lumos.DAL;
 
 namespace System.Web
 {
@@ -95,7 +96,8 @@ namespace System.Web
                 foreach (T t in Enum.GetValues(typeof(T)))
                 {
                     string strKey = Convert.ToInt32(t).ToString();
-                    string strValue = Enum.GetName(typeof(T), t);
+                    Enum en = (Enum)Enum.Parse(t.GetType(), strKey);
+                    string strValue = en.GetCnName();
                     string id = name + i;
 
                     string checkeds = "";
@@ -128,6 +130,11 @@ namespace System.Web
                 {
                     string strKey = Convert.ToInt32(t).ToString();
                     string strValue = Enum.GetName(typeof(T), t);
+
+
+                    Enum en = (Enum)Enum.Parse(t.GetType(), strKey);
+                    string strValueName = en.GetCnName();
+
                     string id = name + i;
                     string checkeds = "";
                     if (selectValue != null)
@@ -142,7 +149,22 @@ namespace System.Web
                             }
                         }
                     }
-                    sb.Append(" <input type=\"radio\" name=\"" + name + "\" id=\"" + name + "\" value=\"" + strKey + "\" " + checkeds + "  /><label for=\"" + id + "\">" + strValue + "</label>");
+
+                    bool isHide = false;
+                    if (hidValue != null)
+                    {
+                        if (hidValue.Length > 0)
+                        {
+                            if (hidValue.Contains(t))
+                            {
+                                isHide = true;
+                            }
+                        }
+                    }
+                    if (!isHide)
+                    {
+                        sb.Append(" <input type=\"radio\" name=\"" + name + "\" id=\"" + id + "\" value=\"" + strKey + "\" " + checkeds + "  /><label for=\"" + id + "\">" + strValueName + "</label>");
+                    }
                     i++;
                 }
             }
@@ -171,13 +193,15 @@ namespace System.Web
         }
 
 
-        public static MvcHtmlString initProductKind(this HtmlHelper helper, string name, List<ProductKind> productKind, string selectval = null)
+        public static MvcHtmlString initProductKind(this HtmlHelper helper, string name, string selectval = null)
         {
 
+            LumosDbContext dbContext = new LumosDbContext();
+            var productKind = dbContext.ProductKind.Where(m => m.IsDelete == false).ToList();
             StringBuilder sb = new StringBuilder();
 
             string id = name.Replace('.', '_');
-            sb.Append("<select multiple='multiple' id=\"" + id + "\" data-placeholder=\"选择分类模块\" name =\"" + name + "\" class=\"chosen-select\" style=\"width: 400px;\" >");
+            sb.Append("<select multiple='multiple' id=\"" + id + "\" data-placeholder=\"请选择\" name =\"" + name + "\" class=\"chosen-select\" style=\"width: 325px;\" >");
             sb.Append("<option value=\"-1\"></option>");
 
             var p_category = productKind.Where(m => m.PId == GuidUtil.Empty()).ToList();
@@ -191,11 +215,10 @@ namespace System.Web
 
             foreach (var m in p_category)
             {
-                var catalogList1 = productKind.Where(c => c.PId == m.Id).ToList();
 
                 string disabled = "";
 
-                if (catalogList1.Count > 0)
+                if (m.Depth < 2)
                 {
                     disabled = "disabled";
                 }
@@ -236,11 +259,11 @@ namespace System.Web
 
             foreach (var m in catalogList)
             {
-                var catalogList1 = productKind.Where(c => c.PId == m.Id).ToList();
+
 
                 string disabled = "";
 
-                if (catalogList1.Count > 0)
+                if (m.Depth < 2)
                 {
                     disabled = "disabled";
                 }
@@ -259,5 +282,50 @@ namespace System.Web
                 GetProductKindNodes(sb, productKind, m.Id, nLevel, arr_selectval);
             }
         }
+
+
+        public static MvcHtmlString initRecipientMode(this HtmlHelper helper, string name, string selectval = null)
+        {
+
+            StringBuilder sb = new StringBuilder();
+
+            string id = name.Replace('.', '_');
+            sb.Append("<select multiple='multiple' id=\"" + id + "\" data-placeholder=\"请选择\" name =\"" + name + "\" class=\"chosen-select\" style=\"width: 325px;\" >");
+            sb.Append("<option value=\"-1\"></option>");
+
+            string[] arr_selectval = null;
+
+            if (selectval != null)
+            {
+                arr_selectval = selectval.Split(',');
+            }
+
+            Enumeration.ReceptionMode[] models = new Enumeration.ReceptionMode[2] { Enumeration.ReceptionMode.Machine, Enumeration.ReceptionMode.Express };
+
+            foreach (Enumeration.ReceptionMode t in models)
+            {
+                string strKey = Convert.ToInt32(t).ToString();
+                Enum en = (Enum)Enum.Parse(t.GetType(), strKey);
+                string strValue = en.GetCnName();
+     
+                string selected = "";
+
+                if (selectval != null)
+                {
+                    if (arr_selectval.Contains(strKey))
+                    {
+                        selected = "selected";
+                    }
+                }
+
+                sb.Append("<option value=\"" + strKey + "\"  " + selected + "   >&nbsp;" + strValue + "</option>");
+
+
+            }
+            sb.Append("/<select>");
+
+            return new MvcHtmlString(sb.ToString());
+        }
+
     }
 }

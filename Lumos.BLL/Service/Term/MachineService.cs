@@ -120,7 +120,6 @@ namespace Lumos.BLL.Service.Term
 
                     productSkuModel.Id = productSku.Id;
                     productSkuModel.Name = productSku.Name;
-                    productSkuModel.KindId = productSku.KindId;
                     productSkuModel.SpecDes = productSku.SpecDes;
                     productSkuModel.DetailsDes = productSku.DetailsDes;
                     productSkuModel.BriefInfo = productSku.BriefInfo;

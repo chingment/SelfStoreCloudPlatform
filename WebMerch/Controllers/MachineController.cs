@@ -57,7 +57,7 @@ namespace WebMerch.Controllers.Biz
             foreach (var item in list)
             {
                 string storeName = "未绑定便利店";
-                var storeMachine = CurrentDb.StoreMachine.Where(m => m.MachineId == item.MachineId).FirstOrDefault();
+                var storeMachine = CurrentDb.StoreMachine.Where(m => m.MachineId == item.MachineId && m.Status == Enumeration.StoreMachineStatus.Bind).FirstOrDefault();
                 if (storeMachine != null)
                 {
                     var store = CurrentDb.Store.Where(m => m.Id == storeMachine.StoreId).FirstOrDefault();
@@ -99,13 +99,13 @@ namespace WebMerch.Controllers.Biz
             }
 
             var query = from u in CurrentDb.MachineStock
-                         where
-                         u.UserId == this.CurrentUserId &&
-                         u.StoreId == condition.StoreId &&
-                         u.MerchantId == condition.MerchantId &&
-                         u.MachineId == condition.MerchantId &&
-                         (name.Length == 0 || u.ProductSkuName.Contains(name))
-                         select new { u.Id, u.SlotId, u.ProductSkuName, u.Quantity, u.LockQuantity, u.SellQuantity, u.SalesPrice };
+                        where
+                        u.UserId == this.CurrentUserId &&
+                        u.StoreId == condition.StoreId &&
+                        u.MerchantId == condition.MerchantId &&
+                        u.MachineId == condition.MerchantId &&
+                        (name.Length == 0 || u.ProductSkuName.Contains(name))
+                        select new { u.Id, u.SlotId, u.ProductSkuName, u.Quantity, u.LockQuantity, u.SellQuantity, u.SalesPrice };
 
             int total = query.Count();
 

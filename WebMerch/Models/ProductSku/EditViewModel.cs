@@ -37,12 +37,21 @@ namespace WebMerch.Models.ProductSku
             }
         }
 
-        public void LoadData(int id)
+        public void LoadData(string id)
         {
 
+            var productSku = CurrentDb.ProductSku.Where(m => m.Id == id).FirstOrDefault();
+            if (productSku != null)
+            {
+                _productSku = productSku;
 
-        
+                if (!string.IsNullOrEmpty(productSku.DispalyImgUrls))
+                {
+                    _dispalyImgs = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Lumos.Entity.ImgSet>>(productSku.DispalyImgUrls);
+                }
+            }
         }
+
 
         public EditViewModel()
         {
