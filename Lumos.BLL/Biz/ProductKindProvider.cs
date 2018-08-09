@@ -104,15 +104,22 @@ namespace Lumos.BLL
                     {
                         productKind.IsDelete = true;
 
-                        //var productSkus = CurrentDb.ProductSku.Where(m => m.KindId == id).ToList();
+                        var productKindSkus = CurrentDb.ProductKindSku.Where(m => m.ProductKindId == id).ToList();
 
-                        //foreach (var productSku in productSkus)
-                        //{
-                        //    productSku.KindId = null;
-                        //    productSku.KindName = null;
-                        //    productKind.Mender = operater;
-                        //    productKind.LastUpdateTime = this.DateTime;
-                        //}
+                        foreach (var productKindSku in productKindSkus)
+                        {
+                            CurrentDb.ProductKindSku.Remove(productKindSku);
+
+                            //var productSku = CurrentDb.ProductSku.Where(m => m.Id == productKindSku.ProductSkuId).FirstOrDefault();
+
+                            //if (productSku != null)
+                            //{
+                            //    productSku.KindIds = null;
+                            //    productSku.KindNames = null;
+                            //    productKind.Mender = operater;
+                            //    productKind.LastUpdateTime = this.DateTime;
+                            //}
+                        }
 
                         CurrentDb.SaveChanges();
                     }

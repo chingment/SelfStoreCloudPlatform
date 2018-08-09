@@ -81,9 +81,15 @@ namespace WebMerch.Controllers
 
             string[] kindIds = kinds.Select(m => m.Id).ToArray();
 
+
+
             string name = condition.Name.ToSearchString();
-            var query = (from p in CurrentDb.ProductSku where 
-                                  (name.Length == 0 || p.Name.Contains(name))
+            var query = (from p in CurrentDb.ProductSku
+                         where
+(from d in CurrentDb.ProductKindSku
+ where (kindIds.Contains(d.ProductKindId) || d.ProductKindId == condition.KindId)
+ select d.ProductSkuId).Contains(p.Id)
+   && (name.Length == 0 || p.Name.Contains(name))
                          select new { p.Id, p.Name, p.CreateTime, p.KindNames, p.DispalyImgUrls, p.SalePrice, p.ShowPrice });
 
             int total = query.Count();

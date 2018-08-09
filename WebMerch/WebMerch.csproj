@@ -236,6 +236,7 @@
     <Content Include="Views\ProductKind\Add.cshtml" />
     <Content Include="Views\ProductKind\List.cshtml" />
     <Content Include="Views\ProductKind\Sort.cshtml" />
+    <Content Include="Views\ProductSku\EditBySalePrice.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

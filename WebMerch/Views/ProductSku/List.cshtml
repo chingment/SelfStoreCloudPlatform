@@ -24,7 +24,7 @@
                 l_StrRows += "<td class=\"overflow tipitem\"><div> <img src=\"" + p_row.mainImg + "\" style=\"width:50px;height:50px\"><div></td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.name + "\">" + p_row.name + "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.kindNames + "\">" + p_row.kindNames + "</td>";
-                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.salePrice + "\">" + p_row.salePrice + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.salePrice + "\"><a href=\"javascript:void(0)\" operate=\"editBySalePrice\"   class=\"a-btn a-btn-edit\"  >" + p_row.salePrice + "</a></td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.showPrice + "\">" + p_row.showPrice + "</td>";
                 l_StrRows += "<td class=\"operation\">";
 
@@ -66,6 +66,13 @@
                             });
                             return false;
                         }
+                    });
+                },
+                "editBySalePrice": function (obj) {
+                    var url = '/ProductSku/EditBySalePrice?id=' + obj.id;
+                    var title = '商品价格修改';
+                    var dialog = art.dialog.open(url, {
+                        id: "openDialog", title: title, width: '800px', height: '600px', lock: true, drag: false, cancelVal: '关闭', cancel: true
                     });
                 }
             }

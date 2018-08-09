@@ -37,6 +37,14 @@ namespace WebMerch.Controllers
             return View(model);
         }
 
+        public ViewResult EditBySalePrice(string id)
+        {
+            EditViewModel model = new EditViewModel();
+            model.LoadData(id);
+
+            return View(model);
+        }
+
         [HttpPost]
         public CustomJsonResult Add(AddViewModel model)
         {
