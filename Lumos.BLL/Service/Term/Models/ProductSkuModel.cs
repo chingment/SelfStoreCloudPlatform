@@ -19,7 +19,6 @@ namespace Lumos.BLL.Service.Term.Models
         public string SpecDes { get; set; }
         public string BriefInfo { get; set; }
         public string DetailsDes { get; set; }
-        public string KindId { get; set; }
         public int Quantity { get; set; }
         public int LockQuantity { get; set; }
         public int SellQuantity { get; set; }
