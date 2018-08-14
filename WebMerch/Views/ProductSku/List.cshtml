@@ -59,7 +59,7 @@
                         id: "openDialog", title: title, width: '800px', height: '600px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
                             this.iframe.contentWindow.submit(function (d) {
                                 if (d.result == resultType.success) {
-                                    dialog.close();
+                                    //dialog.close();
                                     listTable.loadData();
                                 }
                                 $.lumos.tips(d.message);

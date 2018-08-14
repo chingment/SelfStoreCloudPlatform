@@ -105,5 +105,43 @@ namespace WebMerch.Controllers
 
             return Json(ResultType.Success, pageEntity, "");
         }
+
+
+        [HttpPost]
+        public CustomJsonResult GetListBySalePrice(SearchCondition condition)
+        {
+            var query = (from u in CurrentDb.MachineStock
+                         where u.ProductSkuId == condition.Id
+                         select new { u.StoreId, u.ProductSkuId, u.SalesPrice }).Distinct();
+
+            int total = query.Count();
+
+            int pageIndex = condition.PageIndex;
+            int pageSize = 10;
+            query = query.OrderByDescending(r => r.SalesPrice).Skip(pageSize * (pageIndex)).Take(pageSize);
+
+
+            var list = query.ToList();
+
+            List<object> olist = new List<object>();
+            foreach (var item in list)
+            {
+                var store = CurrentDb.Store.Where(m => m.Id == item.StoreId).FirstOrDefault();
+                var productSku = CurrentDb.ProductSku.Where(m => m.Id == item.ProductSkuId).FirstOrDefault();
+                olist.Add(new
+                {
+                    ProductSkuId = productSku.Id,
+                    ProductSkuName = productSku.Name,
+                    ProductSkuImgUrl = ImgSet.GetMain(productSku.DispalyImgUrls),
+                    StoreId = store.Id,
+                    StoreName = store.Name,
+                    ProductSkuSalesPrice = item.SalesPrice.ToF2Price()
+                });
+            }
+
+            PageEntity pageEntity = new PageEntity { PageSize = pageSize, TotalRecord = total, Rows = olist };
+
+            return Json(ResultType.Success, pageEntity, "");
+        }
     }
 }

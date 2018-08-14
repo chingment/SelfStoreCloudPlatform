@@ -109,16 +109,6 @@ namespace Lumos.BLL
                         foreach (var productKindSku in productKindSkus)
                         {
                             CurrentDb.ProductKindSku.Remove(productKindSku);
-
-                            //var productSku = CurrentDb.ProductSku.Where(m => m.Id == productKindSku.ProductSkuId).FirstOrDefault();
-
-                            //if (productSku != null)
-                            //{
-                            //    productSku.KindIds = null;
-                            //    productSku.KindNames = null;
-                            //    productKind.Mender = operater;
-                            //    productKind.LastUpdateTime = this.DateTime;
-                            //}
                         }
 
                         CurrentDb.SaveChanges();
@@ -149,38 +139,6 @@ namespace Lumos.BLL
             //}
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "删除成功");
-        }
-
-        public CustomJsonResult ListAllKinds()
-        {
-            //var parentProductKinds = CurrentDb.ProductKind.Where(m => m.PId == 1).ToList();
-            //List<SuperProductKind> superProductKinds = new List<SuperProductKind>();
-            //foreach (var parentProductKind in parentProductKinds)
-            //{
-            //    SuperProductKind superProductKind = new SuperProductKind();
-            //    superProductKind.Id = "k" + parentProductKind.Id.ToString();//前端组件要求id不能以数字开头
-            //    superProductKind.Name = parentProductKind.Name;
-            //    superProductKind.IconImg = parentProductKind.IconImg;
-            //    superProductKind.MainImg = parentProductKind.MainImg;
-
-
-
-            //    var childProductKinds = CurrentDb.ProductKind.Where(m => m.PId == parentProductKind.Id).ToList();
-            //    foreach (var childProductKind in childProductKinds)
-            //    {
-            //        SubProductKind subProductKind = new SubProductKind();
-            //        subProductKind.Id = "k" + childProductKind.Id.ToString();
-            //        subProductKind.Name = childProductKind.Name;
-            //        subProductKind.IconImg = childProductKind.IconImg;
-            //        subProductKind.PId = "k" + parentProductKind.Id.ToString();
-            //        subProductKind.SuperName = parentProductKind.Name;
-
-            //        superProductKind.SubProductKinds.Add(subProductKind);
-            //    }
-            //    superProductKinds.Add(superProductKind);
-            //}
-
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "修改成功", null);
         }
 
 
