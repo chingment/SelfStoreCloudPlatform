@@ -1,4 +1,5 @@
 ﻿@{
+    ViewBag.Title = "RoleUserSel";
     Layout = "~/Views/Shared/_LayoutHomeDialog.cshtml";
 }
 
@@ -8,20 +9,23 @@
 
     $(document).ready(function () {
 
+
+        $("#txt_StoreId").val($.lumos.getUrlParamValue("id"));
+
         listTable = $("#list_table").loadDataTable({
-            url: "/Biz/MerchantMachine/GetMachineListByBinded",
+            url: "/Biz/Merchant/GetMachineListByBindable",
             pageIndex: 0,
             searchParams: $("#form1").serializeArray(),
             searchButtonId: "btn_Search",
             containerId: "form1",
             rowDataCombie: function (p_index, p_row) {
                 var l_Strlimt = "";
-                l_Strlimt += "@Html.IsInPermission("<a href=\\\"javascript:void(0)\\\" operate=\\\"bindoff\\\"  class=\\\"a-btn\\\" >解绑</a>")";
+                l_Strlimt += "@Html.IsInPermission("<a href=\\\"javascript:void(0)\\\" operate=\\\"bindon\\\"  class=\\\"a-btn\\\" >绑定</a>")";
                 var l_StrRows = "";
                 l_StrRows += "<tr>";
                 l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
                 l_StrRows += "<td class=\"overflow tipitem\" title=\"" + p_row.deviceId + "\"   >" + p_row.deviceId + "</td>";
-                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.machineName + "\"   >" + p_row.machineName + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.name + "\"   >" + p_row.name + "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.macAddress + "\">" + p_row.macAddress + "</td>";
                 l_StrRows += "<td class=\"operation\">";
                 l_StrRows += l_Strlimt;
@@ -31,45 +35,30 @@
             },
             operate:
                 {
-                    "bindoff": function (obj) {
-
+                    "bindon": function (obj) {
 
                         art.dialog.confirm(
-"确定要解绑,数据会被清除，慎重操作？",
-function () {
-    var array = new Array();
-    array.push({ name: "merchantId", value: $.lumos.getUrlParamValue("merchantId") });
-    array.push({ name: "machineId", value: obj.machineId });
+     "确定要绑定？",
+         function () {
+             var array = new Array();
+             array.push({ name: "merchantId", value: $.lumos.getUrlParamValue("merchantId") });
+             array.push({ name: "machineId", value: obj.id });
 
-    $.lumos.postJson({
-        isUseHandling: true,
-        url: "/Biz/MerchantMachine/BindOff",
-        data: array,
-        success: function (d) {
-            listTable.loadData(0);
-            $.lumos.tips(d.message);
-        }
-    });
-});
+             $.lumos.postJson({
+                 isUseHandling: true,
+                 url: "/Biz/Merchant/BindOnMachine",
+                 data: array,
+                 success: function (d) {
+                     $.lumos.parentDialog().list_machine.loadData(0);
+                     art.dialog.close();
+                 }
+             });
+         });
 
 
                     }
                 }
         });
-
-
-        $("#btn_Add").click(function () {
-
-            var url = '/Biz/MerchantMachine/ListMachineByBindable?merchantId=' + $.lumos.getUrlParamValue("merchantId");
-            var title = '绑定机器';
-            art.dialog.open(url, {
-                id: "openDialog333", title: title, width: '800px', height: '400px', lock: true, drag: false, cancelVal: '关闭', cancel: true
-            });
-
-        });
-
-
-
 
     });
 
@@ -79,7 +68,7 @@ function () {
 </script>
 
 <form id="form1" name="form1">
-    <input name="MerchantId" type="hidden" value="@Request.QueryString["merchantId"]" />
+    <input type="hidden" name="StoreId" id="txt_StoreId" />
     <div class="search-bar">
         <div class="filter">
             <span class="filter-label">设备ID：</span>
@@ -88,7 +77,6 @@ function () {
             </span>
         </div>
         <div class="filter"><input type="button" class="btn btn-search" id="btn_Search" value="查询" /> </div>
-        <div class="filter" style="float:right"><input type="button" class="btn btn-sure" id="btn_Add" value="绑定机器" style="margin-left:0px;margin-right:0px;" />  </div>
     </div>
     <div class="list">
         <table id="list_table" class="list-tb" cellpadding="0" cellspacing="0">

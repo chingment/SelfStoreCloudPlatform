@@ -36,10 +36,7 @@
                     var url = '/Biz/Merchant/Edit?id=' + obj.id;
                     var title = '修改信息';
                     art.dialog.open(url, {
-                        id: "openDialog", title: title, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
-                            this.iframe.contentWindow.$('#form1').submit();
-                            return false;
-                        }
+                        id: "openDialog", title: title, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true
                     });
                 }
             }

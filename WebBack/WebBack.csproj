@@ -156,7 +156,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\Biz\MachineController.cs" />
     <Compile Include="Controllers\Biz\MerchantController.cs" />
-    <Compile Include="Controllers\Biz\MerchantMachineController.cs" />
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="App_Start\Own\NPOIExcelHelper.cs" />
@@ -1121,9 +1120,7 @@
     <Content Include="Views\Biz\Merchant\Add.cshtml" />
     <Content Include="Views\Biz\Merchant\Edit.cshtml" />
     <Content Include="Views\Biz\Merchant\List.cshtml" />
-    <Content Include="Views\Biz\MerchantMachine\ListMerchant.cshtml" />
-    <Content Include="Views\Biz\MerchantMachine\ListMachineByBinded.cshtml" />
-    <Content Include="Views\Biz\MerchantMachine\ListMachineByBindable.cshtml" />
+    <Content Include="Views\Biz\Merchant\MachineListByBindable.cshtml" />
     <Content Include="Views\Biz\Machine\ListByBind.cshtml" />
     <Content Include="Views\Biz\Machine\Bind.cshtml" />
     <Content Include="Views\Biz\Merchant\ListBySelect.cshtml" />
