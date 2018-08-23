@@ -71,6 +71,7 @@ namespace WebBack.Controllers.Biz
 
                 string merchantId = "";
                 string merchantName = "未绑定商户";
+                bool isBind = false;
                 var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.MachineId == item.Id && m.IsBind == true).FirstOrDefault();
                 if (merchantMachine != null)
                 {
@@ -78,6 +79,7 @@ namespace WebBack.Controllers.Biz
                     if (merchant != null)
                     {
                         merchantName = merchant.Name;
+                        isBind = true;
                     }
                 }
 
@@ -89,8 +91,7 @@ namespace WebBack.Controllers.Biz
                     MerchantName = merchantName,
                     item.DeviceId,
                     item.IsUse,
-                    UseStatusName = (item.IsUse == true ? "是" : "否"),
-                    BindStatusName = (item.IsUse == true ? "已绑定" : "未绑定"),
+                    isBind,
                     item.MacAddress,
                     item.CreateTime
                 });
