@@ -16,7 +16,7 @@ namespace Lumos.BLL.Service.Term
             CustomJsonResult result = new CustomJsonResult();
             var model = new DataSetModel();
 
-            var machine = CurrentDb.MerchantMachine.Where(m => m.MerchantId == merchantId && m.MachineId == machineId && m.Status == Entity.Enumeration.MerchantMachineStatus.Bind).FirstOrDefault();
+            var machine = CurrentDb.MerchantMachine.Where(m => m.MerchantId == merchantId && m.MachineId == machineId && m.IsBind==true).FirstOrDefault();
 
 
             model.LogoImgUrl = machine.LogoImgUrl;

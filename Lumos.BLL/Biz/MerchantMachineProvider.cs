@@ -37,14 +37,14 @@ namespace Lumos.BLL
                     merchantMachine.UserId = merchant.UserId;
                     merchantMachine.MerchantId = merchantId;
                     merchantMachine.MachineId = machineId;
-                    merchantMachine.Status = Enumeration.MerchantMachineStatus.Bind;
+                    merchantMachine.IsBind = true;
                     merchantMachine.CreateTime = this.DateTime;
                     merchantMachine.Creator = operater;
                     CurrentDb.MerchantMachine.Add(merchantMachine);
                 }
                 else
                 {
-                    merchantMachine.Status = Enumeration.MerchantMachineStatus.Bind;
+                    merchantMachine.IsBind = true;
                     merchantMachine.LastUpdateTime = this.DateTime;
                     merchantMachine.Mender = operater;
                 }
@@ -69,13 +69,13 @@ namespace Lumos.BLL
             {
                 var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.MerchantId == merchantId && m.MachineId == machineId).FirstOrDefault();
 
-                if (merchantMachine.Status == Enumeration.MerchantMachineStatus.Unbind)
+                if (merchantMachine.IsBind == false)
                 {
 
                     return new CustomJsonResult(ResultType.Failure, "该设备已经被解绑");
                 }
 
-                merchantMachine.Status = Enumeration.MerchantMachineStatus.Unbind;
+                merchantMachine.IsBind = false;
                 merchantMachine.LastUpdateTime = this.DateTime;
                 merchantMachine.Mender = operater;
 

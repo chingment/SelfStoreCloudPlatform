@@ -46,7 +46,7 @@ namespace WebBack.Models.Biz.Machine
             if (machine != null)
             {
                 _machine = machine;
-                var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.MachineId == machine.Id && m.Status == Enumeration.MerchantMachineStatus.Bind).FirstOrDefault();
+                var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.MachineId == machine.Id && m.IsBind==true).FirstOrDefault();
                 if (merchantMachine != null)
                 {
                     var merchant = CurrentDb.Merchant.Where(m => m.Id == merchantMachine.MerchantId).FirstOrDefault();

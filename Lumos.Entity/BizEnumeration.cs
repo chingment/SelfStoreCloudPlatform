@@ -12,26 +12,6 @@ namespace Lumos.Entity
     public partial class Enumeration
     {
 
-        public enum MerchantMachineStatus
-        {
-            [Remark("未知")]
-            Unknow = 0,
-            [Remark("已绑定")]
-            Bind = 1,
-            [Remark("已解绑")]
-            Unbind = 2
-        }
-
-        public enum StoreMachineStatus
-        {
-            [Remark("未知")]
-            Unknow = 0,
-            [Remark("已绑定")]
-            Bind = 1,
-            [Remark("已解绑")]
-            Unbind = 2
-        }
-
         public enum StoreStatus
         {
             [Remark("未知")]

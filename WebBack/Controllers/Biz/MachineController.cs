@@ -71,7 +71,7 @@ namespace WebBack.Controllers.Biz
 
                 string merchantId = "";
                 string merchantName = "未绑定商户";
-                var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.MachineId == item.Id && m.Status == Enumeration.MerchantMachineStatus.Bind).FirstOrDefault();
+                var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.MachineId == item.Id && m.IsBind == true).FirstOrDefault();
                 if (merchantMachine != null)
                 {
                     var merchant = CurrentDb.Merchant.Where(m => m.Id == merchantMachine.MerchantId).FirstOrDefault();

@@ -107,11 +107,11 @@ namespace WebMerch.Controllers.Biz
             var query = (from u in CurrentDb.Machine
                          join p in CurrentDb.MerchantMachine on u.Id equals p.MachineId
                          where (from d in CurrentDb.StoreMachine
-                                where d.StoreId == condition.Id && d.Status == Enumeration.StoreMachineStatus.Bind
+                                where d.StoreId == condition.Id && d.IsBind == true
                                 select d.MachineId).Contains(u.Id)
                          &&
                          (name.Length == 0 || u.Name.Contains(name))
-                         && p.Status == Enumeration.MerchantMachineStatus.Bind
+                         && p.IsBind == true
                          && p.UserId == this.CurrentUserId
                          select new { u.Id, p.Name, u.DeviceId }).Distinct();
 
@@ -154,12 +154,12 @@ namespace WebMerch.Controllers.Biz
                          where
                                 !(from d2 in CurrentDb.StoreMachine
                                   where d2.UserId == this.CurrentUserId &&
-                                  d2.Status == Enumeration.StoreMachineStatus.Bind
+                                  d2.IsBind==true
                                   select d2.MachineId).Contains(u.Id)
                          &&
                          (name.Length == 0 || u.Name.Contains(name))
                          && p.UserId == this.CurrentUserId
-                         && p.Status == Enumeration.MerchantMachineStatus.Bind
+                         && p.IsBind==true
                          select new { u.Id, p.Name, u.DeviceId }).Distinct();
 
             int total = query.Count();

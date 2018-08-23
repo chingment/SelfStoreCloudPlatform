@@ -50,7 +50,7 @@ namespace Lumos.BLL
 
                 if (store.Status == Enumeration.StoreStatus.Opened)
                 {
-                    var storeMachineBindCount = CurrentDb.StoreMachine.Where(m => m.StoreId == store.Id && m.Status == Enumeration.StoreMachineStatus.Bind).Count();
+                    var storeMachineBindCount = CurrentDb.StoreMachine.Where(m => m.StoreId == store.Id && m.IsBind == true).Count();
                     if (storeMachineBindCount == 0)
                     {
                         return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "设置为正常状态，必须先在机器管理里绑定一台机器");
@@ -102,7 +102,7 @@ namespace Lumos.BLL
                         storeMachine.MerchantId = store.MerchantId;
                         storeMachine.MachineId = machineId;
                         storeMachine.StoreId = storeId;
-                        storeMachine.Status = Enumeration.StoreMachineStatus.Bind;
+                        storeMachine.IsBind = true;
                         storeMachine.CreateTime = this.DateTime;
                         storeMachine.Creator = operater;
                         CurrentDb.StoreMachine.Add(storeMachine);
@@ -110,7 +110,7 @@ namespace Lumos.BLL
                     }
                     else
                     {
-                        storeMachine.Status = Enumeration.StoreMachineStatus.Bind;
+                        storeMachine.IsBind = true;
                         storeMachine.LastUpdateTime = this.DateTime;
                         storeMachine.Mender = operater;
                         CurrentDb.SaveChanges();
@@ -134,13 +134,13 @@ namespace Lumos.BLL
                 {
                     if (item.MachineId == machineId)
                     {
-                        item.Status = Enumeration.StoreMachineStatus.Unbind;
+                        item.IsBind = false;
                         item.LastUpdateTime = this.DateTime;
                         item.Mender = operater;
                     }
                 }
 
-                var storeMachineBindCount = storeMachines.Where(m => m.Status == Enumeration.StoreMachineStatus.Bind).Count();
+                var storeMachineBindCount = storeMachines.Where(m => m.IsBind == true).Count();
                 if (storeMachineBindCount == 0)
                 {
                     var store = CurrentDb.Store.Where(m => m.Id == storeId).FirstOrDefault();

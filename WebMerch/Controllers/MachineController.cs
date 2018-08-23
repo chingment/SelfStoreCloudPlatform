@@ -42,7 +42,7 @@ namespace WebMerch.Controllers.Biz
                                  &&
                                  mp.UserId == this.CurrentUserId
                                  &&
-                                 mp.Status == Enumeration.MerchantMachineStatus.Bind
+                                 mp.IsBind == true
                          select new { mp.Id, MachineId = p.Id, mp.Name, p.DeviceId, p.MacAddress, p.IsUse, p.CreateTime });
 
             int total = query.Count();
@@ -57,7 +57,7 @@ namespace WebMerch.Controllers.Biz
             foreach (var item in list)
             {
                 string storeName = "未绑定便利店";
-                var storeMachine = CurrentDb.StoreMachine.Where(m => m.MachineId == item.MachineId && m.Status == Enumeration.StoreMachineStatus.Bind).FirstOrDefault();
+                var storeMachine = CurrentDb.StoreMachine.Where(m => m.MachineId == item.MachineId && m.IsBind == true).FirstOrDefault();
                 if (storeMachine != null)
                 {
                     var store = CurrentDb.Store.Where(m => m.Id == storeMachine.StoreId).FirstOrDefault();

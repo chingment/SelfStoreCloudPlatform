@@ -18,7 +18,7 @@ namespace Lumos.Entity
         public string MerchantId { get; set; }
         public string MachineId { get; set; }
         public string Name { get; set; }
-        public Enumeration.MerchantMachineStatus Status { get; set; }
+        public bool IsBind { get; set; }
         [MaxLength(1024)]
         public string LogoImgUrl { get; set; }
         [MaxLength(1024)]

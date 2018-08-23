@@ -31,7 +31,7 @@ namespace WebMerch.Models.Machine
                     _machine = machine;
                 }
 
-                var storeMachine = CurrentDb.StoreMachine.Where(m => m.MachineId == merchantMachine.MachineId && m.Status == Enumeration.StoreMachineStatus.Bind).FirstOrDefault();
+                var storeMachine = CurrentDb.StoreMachine.Where(m => m.MachineId == merchantMachine.MachineId && m.IsBind==true).FirstOrDefault();
                 if (storeMachine != null)
                 {
                     var store = CurrentDb.Store.Where(m => m.Id == storeMachine.StoreId).FirstOrDefault();

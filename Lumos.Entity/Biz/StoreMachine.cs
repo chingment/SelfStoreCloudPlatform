@@ -18,7 +18,7 @@ namespace Lumos.Entity
         public string MerchantId { get; set; }
         public string MachineId { get; set; }
         public string StoreId { get; set; }
-        public Enumeration.StoreMachineStatus Status { get; set; }
+        public bool IsBind { get; set; }
         public string Creator { get; set; }
         public DateTime CreateTime { get; set; }
         public string Mender { get; set; }

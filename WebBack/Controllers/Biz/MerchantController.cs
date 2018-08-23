@@ -106,7 +106,7 @@ namespace WebBack.Controllers.Biz
                         join p in CurrentDb.Machine on mp.MachineId equals p.Id
                         where
                         p.IsUse == true &&
-                        mp.Status == Enumeration.MerchantMachineStatus.Bind &&
+                        mp.IsBind == true &&
                                (deviceId.Length == 0 || p.DeviceId.Contains(deviceId))
 
                         select new { mp.Id, mp.MerchantId, mp.MachineId, MerchantName = m.Name, p.DeviceId, MachineName = p.Name, p.MacAddress });

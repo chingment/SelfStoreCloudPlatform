@@ -73,7 +73,7 @@ namespace Lumos.BLL.Service.Term
             }
 
 
-            var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.MachineId == machine.Id & m.Status == Entity.Enumeration.MerchantMachineStatus.Bind).FirstOrDefault();
+            var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.MachineId == machine.Id & m.IsBind == true).FirstOrDefault();
 
             if (merchantMachine == null)
             {
@@ -128,7 +128,7 @@ namespace Lumos.BLL.Service.Term
                     productSkuModel.DisplayImgUrls = productSku.DispalyImgUrls;
                     productSkuModel.ImgUrl = ImgSet.GetMain(productSku.DispalyImgUrls);
 
-                    productSkuModels.Add(productSku.Id,productSkuModel);
+                    productSkuModels.Add(productSku.Id, productSkuModel);
                 }
             }
 
