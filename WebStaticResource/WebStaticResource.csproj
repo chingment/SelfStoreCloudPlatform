@@ -253,6 +253,7 @@
     <Content Include="WebBack\Scripts\DatePicker\开发包\skin\whyGreen\img.gif" />
     <Content Include="WebBack\Scripts\jquery-1.8.3.js" />
     <Content Include="WebBack\Scripts\jquery-1.8.3.min.js" />
+    <Content Include="WebBack\Scripts\jquery.autocomplete.js" />
     <Content Include="WebBack\Scripts\jquery.cookie.js" />
     <Content Include="WebBack\Scripts\jquery.form.js" />
     <Content Include="WebBack\Scripts\jquery.formValidator.js" />
