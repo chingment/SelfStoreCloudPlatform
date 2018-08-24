@@ -136,7 +136,7 @@
                     }
                 }
             }).done(function (d) {
-                if (d.result == resultType.exception) {
+                if (d.result == $.lumos.resultType.exception) {
                     var messsage = d.data;
                     art.dialog.tips("").hide();
                     $.lumos.messageBox({ type: "exception", title: messsage.Title, content: messsage.Content })
@@ -171,7 +171,7 @@
                 url: _url,
                 success: function (d) {
 
-                    if (d.result == resultType.exception) {
+                    if (d.result == $.lumos.resultType.exception) {
                         var messsage = d.data;
                         $.lumos.messageBox({ type: "exception", title: messsage.Title, content: messsage.Content })
                     }
@@ -532,7 +532,7 @@
                     dataType: "json",
                     success: function (d) {
                         p_d.close();
-                        if (d.result == resultType.success) {
+                        if (d.result == $.lumos.resultType.success) {
                             var imgObject = d.data;
                             if (imgObject.OriginalPath.length > 0) {
                                 if ($(imgId).length > 0) {

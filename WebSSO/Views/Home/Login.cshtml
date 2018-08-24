@@ -131,7 +131,7 @@
                     }
                 }
             }).done(function (d) {
-                if (d.result == resultType.success) {
+                if (d.result == $.lumos.resultType.success) {
                     $(msgObj).text("");
                     window.location.href = d.data.url;
                 }

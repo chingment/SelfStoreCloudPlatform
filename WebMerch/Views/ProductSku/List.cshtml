@@ -58,7 +58,7 @@
                     var dialog = art.dialog.open(url, {
                         id: "openDialog", title: title, width: '800px', height: '600px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
                             this.iframe.contentWindow.submit(function (d) {
-                                if (d.result == resultType.success) {
+                                if (d.result == $.lumos.resultType.success) {
                                     //dialog.close();
                                     listTable.loadData();
                                 }
@@ -88,7 +88,7 @@
                     name: '确定',
                     callback: function () {
                         this.iframe.contentWindow.submit(function (d) {
-                            if (d.result == resultType.success) {
+                            if (d.result == $.lumos.resultType.success) {
                                 dialog.close();
                                 listTable.loadData();
                             }
@@ -102,21 +102,43 @@
         });
 
 
-        $("#btn_ExportExcel").click(function () {
-            var url = '/Biz/ProductSku/ExportAdd';
-            var title = '导入';
-            art.dialog.open(url, {
-                id: "openDialog", title: title, width: '400px', height: '140px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '确定', ok: function () {
-                    this.iframe.contentWindow.exportExcel();
-                    return false;
-                }
-            });
+        $('#ddl_ProductKind').chosen({
+            width: '100%',
+            search_contains: false,
+            disable_search: false,
+            display_selected_options:false,
+            max_selected_options: 1
         });
+
 
     });
 
 
+    function cnapsChange() {
+        var account_city = $('#account_city').val();
+        var bank_code = $('#bank_code').val();
 
+        var cnaps_no = $("#cnaps_no").val();
+        $('#cnaps_name_select').val('');
+        var obj = document.getElementById("cnaps_name_select");
+        obj.options.length = 0;
+        $.ajax({
+            url: ctx() + "/cnaps/cnapsBank?clscode=" + bank_code + "&citycode=" + account_city,
+            dataType: "json",
+            success: function (data) {
+                obj.options.add(new Option('', ''));
+                $.each(data.banklist, function (i, val) {
+                    obj.options.add(new Option(val.BNKNAME, val.CNAPS));
+                    if (cnaps_no == val.CNAPS) {
+                        $("#cnaps_name_select").val(cnaps_no);
+                        cnapsNameChange();
+                    }
+                });
+                $('#cnaps_name_select').trigger("chosen:updated");//重置下拉框
+                $('#cnaps_name_select').chosen();//下拉框检索框架
+            }
+        });
+    }
 
 </script>
 
@@ -126,6 +148,15 @@
         <div class="filter">
             <span class="filter-label">名称：</span>
             <span class="filter-input">
+
+                <select id="ddl_ProductKind" data-placeholder="请选择" name="ddl.ProductKind" class="chosen-select" style="width: 325px;">
+
+                    <option value="-1"></option>
+                    <option value="1">&nbsp;机器自取</option>
+                    <option value="2">&nbsp;快递专送</option>
+                    <option value="3">&nbsp;快递专送</option>
+                </select>
+
                 <input type="text" class="input-control" name="Name" style="width:120px;" />
             </span>
         </div>

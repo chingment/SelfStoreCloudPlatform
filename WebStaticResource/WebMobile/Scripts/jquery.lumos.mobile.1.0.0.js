@@ -461,7 +461,7 @@
                     $.lumos.loading.hide();
                 }
 
-                if (d.result == resultType.exception) {
+                if (d.result == $.lumos.resultType.exception) {
                     $.lumos.tips(d.message);
                 }
                 else {

@@ -95,7 +95,7 @@
 
 
             $("#tab1").tab();
-            $('.chosen-select').chosen({ search_contains: true });
+           // $('.chosen-select').chosen({ search_contains: true });
 
             $('#btn_select_staffuser').live('click', function () {
                 var dialogtitle = "选择用户";
@@ -124,6 +124,49 @@
 
             });
 
+
+            $(".open-bigimg").live('click', function () {
+                var url = $(this).attr("src");
+
+                if (typeof (url) == "undefined" || url == "") {
+                    return;
+                }
+
+                window.top.art.dialog({
+                    isPicBox: true,
+                    id: "open-bigimg",
+                    padding: 0,
+                    title: '查看图片',
+                    width: '200px',
+                    height: '300px',
+                    content: '<div style="width:800px;height:600px;overflow:scroll"> <img src="' + url + '" style="width:100%;height:100%"> </div>',
+                    lock: true
+                });
+            });
+
+            $(".open-targetimg").live('click', function () {
+                var url = $(this).attr("src");
+
+                if (typeof (url) == "undefined" || url == "") {
+                    return;
+                }
+                window.open(url);
+            });
+
+            $('.markupload-file').live('change', function () {
+                var file_name = $(this).val();
+
+                if (file_name == '')
+                    return;
+
+                var index = file_name.lastIndexOf('\\');
+                if (index > 0) {
+                    index = index + 1;
+                }
+                file_name = file_name.substring(index, file_name.length);
+
+                $(this).parent().parent().find('.file-name').text(file_name);
+            });
 
         });
 

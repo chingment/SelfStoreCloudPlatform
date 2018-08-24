@@ -64,7 +64,7 @@
                 art.dialog.open(url, {
                     id: "openDialog", title: title, width: '650px', height: '450px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '确定', ok: function () {
                         this.iframe.contentWindow.submit(function (d) {
-                            if (d.result == resultType.success) {
+                            if (d.result == $.lumos.resultType.success) {
                                 $.lumos.parentDialog().loadTreeList($.lumos.getUrlParamValue("id"));
                                 $.lumos.tips(d.message, true);
                             }
@@ -241,7 +241,7 @@
                 data: { id: id },
                 url: "/ProductKind/GetDetails",
                 success: function (d) {
-                    if (d.result == resultType.success) {
+                    if (d.result == $.lumos.resultType.success) {
                         var data = d.data.productKind;
                         $("#Model_ProductKind_Name").val(data.name);
                         $("#Model_ProductKind_Name").defaultPassed();

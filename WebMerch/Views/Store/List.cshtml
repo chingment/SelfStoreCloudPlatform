@@ -54,7 +54,7 @@
                     name: '确定',
                     callback: function () {
                         this.iframe.contentWindow.submit(function (d) {
-                            if (d.result == resultType.success) {
+                            if (d.result == $.lumos.resultType.success) {
                                 dialog.close();
                                 listTable.loadData();
                             }

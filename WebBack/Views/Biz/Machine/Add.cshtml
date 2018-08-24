@@ -25,7 +25,7 @@ function () {
         url: "/Biz/Machine/Add",
         data: postData,
         success: function (d) {
-            if (d.result == resultType.success) {
+            if (d.result == $.lumos.resultType.success) {
                 $.lumos.parentDialog().listTable.loadData();
                 $.lumos.tips(d.message, true);
             }

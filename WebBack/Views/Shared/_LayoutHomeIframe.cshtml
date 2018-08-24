@@ -94,7 +94,7 @@
                 url: "/Common/GetMessageTipCount",
                 success: function (d) {
 
-                    if (d.result == resultType.success) {
+                    if (d.result == $.lumos.resultType.success) {
                         var data = d.data;
                         $('#lbl_WaitCarClaimVerifyOrderCount').text(data.waitCarClaimVerifyOrder);
                         $('#lbl_WaitCarClaimVerifyAmonuntCount').text(data.waitCarClaimVerifyAmonunt);

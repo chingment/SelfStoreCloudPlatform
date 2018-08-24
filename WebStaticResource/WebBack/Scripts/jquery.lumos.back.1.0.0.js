@@ -1,5 +1,13 @@
 ﻿(function ($) {
     $.lumos = lumos = {
+
+        resultType:{
+            unknown: 0,
+            success: 1,
+            failure: 2,
+            exception: 3,
+        },
+
         isNullOrEmpty: function (obj) {
             if (obj == null) {
                 return true;
@@ -139,7 +147,6 @@
             }
         },
 
-        // To set it up as a global function:
         convertMoney: function (number, places, symbol, thousand, decimal) {
 
             number = number || 0;
@@ -598,7 +605,7 @@
                     handling.close();
                 }
 
-                if (d.result == resultType.exception) {
+                if (d.result == $.lumos.resultType.exception) {
                     var messsage = d.data;
                     $.lumos.messageBox({ type: messsage.type, title: messsage.title, content: messsage.content, isPopup: messsage.isPopup, errorStackTrace: messsage.errorStackTrace, isTop: messsage.isTop })
                 }
@@ -632,7 +639,7 @@
                 url: _url,
                 success: function (d) {
 
-                    if (d.result == resultType.exception) {
+                    if (d.result == $.lumos.resultType.exception) {
                         var messsage = d.data;
                         $.lumos.messageBox({ type: "exception", title: messsage.Title, content: messsage.Content, errorStackTrace: messsage.errorStackTrace })
                     }
@@ -707,8 +714,6 @@
             return file_name;
         }
     }
-
-
 
     $.fn.loadDataTable = function (opts) {
 
@@ -1192,7 +1197,6 @@
 
     }
 
-
     $.fn.initUploadImage = function (options) {
         var defaults = {
             url: "/Common/UploadImage",//调用的后台方法
@@ -1386,7 +1390,7 @@
                     file.after(file.clone().val(""));
                     file.remove();
 
-                    if (d.result == resultType.success) {
+                    if (d.result == $.lumos.resultType.success) {
 
                         var imgObject = d.data;
 
@@ -1725,59 +1729,6 @@
 })(jQuery);
 
 
-$(document).ready(function () {
-
-    $(".open-bigimg").live('click', function () {
-        var url = $(this).attr("src");
-
-        if (typeof (url) == "undefined" || url == "") {
-            return;
-        }
-
-        window.top.art.dialog({
-            isPicBox: true,
-            id: "open-bigimg",
-            padding: 0,
-            title: '查看图片',
-            width: '200px',
-            height: '300px',
-            content: '<div style="width:800px;height:600px;overflow:scroll"> <img src="' + url + '" style="width:100%;height:100%"> </div>',
-            lock: true
-        });
-    });
-
-    $(".open-targetimg").live('click', function () {
-        var url = $(this).attr("src");
-
-        if (typeof (url) == "undefined" || url == "") {
-            return;
-        }
-        window.open(url);
-    });
-
-    $('.markupload-file').live('change', function () {
-        var file_name = $(this).val();
-
-        if (file_name == '')
-            return;
-
-        var index = file_name.lastIndexOf('\\');
-        if (index > 0) {
-            index = index + 1;
-        }
-        file_name = file_name.substring(index, file_name.length);
-
-        $(this).parent().parent().find('.file-name').text(file_name);
-    });
-
-    $("#btn_close,.btn-close,.dialog-close").on("click", function () {
-        $.lumos.closeDialog();
-    });
-
-
-});
-
-
 var operateType = {
     add: "1",
     update: "2",
@@ -1790,116 +1741,4 @@ var operateType = {
     cancle: "9",
     search: "101",
     exportExcel: "102"
-}
-
-var resultType = {
-    unknown: 0,
-    success: 1,
-    failure: 2,
-    exception: 3,
-}
-
-/*
- * 数字格式转换成千分位
- * param{Object}num，num必须是字符串型，不然.00会丢失精度
- */
-function commafy(num) {
-    num = num + "";
-    num = num.replace(/[ ]/g, "");
-    if (num == "") {
-        return "";
-    }
-
-    var prefix = "";//币种符号或者负号前缀
-    if (/^\W\d+(\.\d+)?$/.test(num)) {
-        prefix = num.substring(0, 1);
-        num = num.substring(1);
-    }
-
-    if (isNaN(num)) {
-        return "";
-    }
-
-    var index = num.indexOf(".");
-    if (index == -1) {//无小数点
-        var reg = /(-?\d+)(\d{3})/;
-        while (reg.test(num)) {
-            num = num.replace(reg, "$1,$2");
-        }
-    } else {
-        var intPart = num.substring(0, index);
-        var pointPart = num.substring(index + 1, num.length);
-        var reg = /(-?\d+)(\d{3})/;
-        while (reg.test(intPart)) {
-            intPart = intPart.replace(reg, "$1,$2");
-        }
-        num = intPart + "." + pointPart;
-    }
-
-    return prefix + num;
-}
-
-
-function toCurrencyDecimal(symbol, amount) {
-    if (amount == "")
-        return "-";
-    else {
-
-        var reg = /(-?\d+)(\d{3})/;
-        while (reg.test(amount)) {
-            amount = amount.replace(reg, "$1,$2");
-        }
-
-        return "<span class='currencysymbol'>" + symbol + "</span> <span class='amount'>" + amount + "</span>";
-    }
-}
-
-
-/*
- * 去除千分位
- * param{Object}num
- */
-function delcommafy(num) {
-    if ((num + "").trim() == "") {
-        return "";
-    }
-    num = num.replace(/,/gi, '');
-    returnnum;
-}
-
-Date.prototype.format = function (format) //author: meizz 
-{
-    var o = {
-        "M+": this.getMonth() + 1, //month 
-        "d+": this.getDate(),    //day 
-        "h+": this.getHours(),   //hour 
-        "m+": this.getMinutes(), //minute 
-        "s+": this.getSeconds(), //second 
-        "q+": Math.floor((this.getMonth() + 3) / 3),  //quarter 
-        "S": this.getMilliseconds() //millisecond 
-    }
-    if (/(y+)/.test(format)) format = format.replace(RegExp.$1,
-      (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-    for (var k in o) if (new RegExp("(" + k + ")").test(format))
-        format = format.replace(RegExp.$1,
-          RegExp.$1.length == 1 ? o[k] :
-            ("00" + o[k]).substr(("" + o[k]).length));
-    return format;
-}
-
-String.prototype.toDate = function () {
-
-    if (this == "") {
-        return "";
-    }
-    else {
-        var style = 'yyyy-MM-dd';
-        var str = this.replaceAll("-", "/");
-        return new Date(str).format(style)
-
-    }
-}
-
-String.prototype.replaceAll = function (oldStr, newStr) {
-    return this.replace(new RegExp(oldStr, "gm"), newStr);
 }

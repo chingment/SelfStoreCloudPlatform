@@ -106,7 +106,6 @@ namespace WebMerch.Controllers
             return Json(ResultType.Success, pageEntity, "");
         }
 
-
         [HttpPost]
         public CustomJsonResult GetListBySalePrice(SearchCondition condition)
         {
@@ -142,6 +141,32 @@ namespace WebMerch.Controllers
             PageEntity pageEntity = new PageEntity { PageSize = pageSize, TotalRecord = total, Rows = olist };
 
             return Json(ResultType.Success, pageEntity, "");
+        }
+
+
+        [HttpPost]
+        public CustomJsonResult Search(SearchCondition condition)
+        {
+            var query = (from u in CurrentDb.ProductSku
+                         where (condition.Name == null || u.Name.Contains(condition.Name))
+                         select new { u.Id, u.Name, u.SalePrice, u.DispalyImgUrls });
+
+
+            var list = query.ToList();
+
+            List<object> olist = new List<object>();
+            foreach (var item in list)
+            {
+                olist.Add(new
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    MainImg = ImgSet.GetMain(item.DispalyImgUrls),
+                    SalePrice = item.SalePrice.ToF2Price()
+                });
+            }
+
+            return Json(ResultType.Success, olist, "");
         }
     }
 }

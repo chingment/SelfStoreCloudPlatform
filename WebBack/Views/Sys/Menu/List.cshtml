@@ -128,7 +128,7 @@
                 data: { id: treeNode.id },
                 success: function (d) {
 
-                    if (d.result == resultType.success) {
+                    if (d.result == $.lumos.resultType.success) {
                         $("#lbl_PName").text(parentName);
                         $("#txt_PName").val(parentName);
                         var menu = d.data.sysMenu;

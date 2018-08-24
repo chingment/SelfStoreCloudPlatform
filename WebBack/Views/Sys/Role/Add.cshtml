@@ -25,7 +25,7 @@ function () {
         url: "../Role/Add",
         data: l_Data,
         success: function (d) {
-            if (d.result == resultType.success) {
+            if (d.result == $.lumos.resultType.success) {
                 $.lumos.parentDialog().loadTreeList(pId);
                 $.lumos.tips(d.message, true);
             }

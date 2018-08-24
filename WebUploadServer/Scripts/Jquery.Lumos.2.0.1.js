@@ -672,7 +672,7 @@
                         dataType: "json",
                         success: function (d) {
                             p_d.close();
-                            if (d.result == resultType.success) {
+                            if (d.result == $.lumos.resultType.success) {
                                 var imgObject = d.data;
                                 if (imgObject.OriginalPath.length > 0) {
                                     if ($("#" + opts.imgId).length > 0) {
