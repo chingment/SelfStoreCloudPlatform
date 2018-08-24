@@ -35,7 +35,7 @@ function () {
         data: array,
         success: function (d) {
             if (d.result == $.lumos.resultType.success) {
-                $.lumos.parentDialog().listTable.loadData();
+                $.lumos.parentDialog.listTable.loadData();
                 $.lumos.tips(d.message, true);
             }
             else {

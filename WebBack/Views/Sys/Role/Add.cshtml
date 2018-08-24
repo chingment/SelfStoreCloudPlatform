@@ -26,7 +26,7 @@ function () {
         data: l_Data,
         success: function (d) {
             if (d.result == $.lumos.resultType.success) {
-                $.lumos.parentDialog().loadTreeList(pId);
+                $.lumos.parentDialog.loadTreeList(pId);
                 $.lumos.tips(d.message, true);
             }
             else {

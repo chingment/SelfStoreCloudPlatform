@@ -450,14 +450,12 @@
                 }
             }
 
-            window.top.tips(message);
-
+            //window.top.tips(message);
+            art.dialog.tips(message);
             return false;
         },
 
-        parentDialog: function () {
-            return art.dialog.open.origin;
-        },
+        parentDialog: art.dialog.open.origin,
 
         getUrlParamValue: function getUrlParam(name) {
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
@@ -1727,18 +1725,3 @@
     }
 
 })(jQuery);
-
-
-var operateType = {
-    add: "1",
-    update: "2",
-    del: "3",
-    save: "4",
-    submit: "5",
-    pass: "6",
-    reject: "7",
-    refuse: "8",
-    cancle: "9",
-    search: "101",
-    exportExcel: "102"
-}

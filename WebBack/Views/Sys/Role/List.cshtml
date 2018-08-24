@@ -69,7 +69,7 @@
                     id: "openDialog", title: title, width: '650px', height: '350px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '确定', ok: function () {
                         this.iframe.contentWindow.add(function (d) {
                             if (d.result == $.lumos.resultType.success) {
-                                $.lumos.parentDialog().loadTreeList(id);
+                                $.lumos.parentDialog.loadTreeList(id);
                                 $.lumos.tips(d.message, true);
                             }
                             else {

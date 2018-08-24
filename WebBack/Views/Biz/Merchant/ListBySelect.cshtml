@@ -34,7 +34,7 @@
                     art.dialog.confirm(
 '确定要选择商户【' + obj.name + '】？',
 function () {
-    $.lumos.parentDialog().getMachineDetails(obj);
+    $.lumos.parentDialog.getMachineDetails(obj);
     art.dialog.close();
 });
                 }

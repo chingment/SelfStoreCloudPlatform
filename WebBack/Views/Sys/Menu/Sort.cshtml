@@ -103,7 +103,7 @@ function () {
         url: "../Menu/EditSort",
         data: JSON.stringify(l_Data),
         success: function (d) {
-            $.lumos.parentDialog().loadTreeList();
+            $.lumos.parentDialog.loadTreeList();
             $.lumos.tips(d.message);
 
         }

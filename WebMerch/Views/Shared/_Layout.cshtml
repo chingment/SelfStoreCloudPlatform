@@ -87,15 +87,13 @@
                 $(this).addClass('selected')
             });
 
-
             $("input[childname$='child']").multiSelect();
-
 
             $(".uploadimg").initUploadImage();
 
-
             $("#tab1").tab();
-           // $('.chosen-select').chosen({ search_contains: true });
+
+            $('.chosen-select').chosen({ search_contains: true });
 
             $('#btn_select_staffuser').live('click', function () {
                 var dialogtitle = "选择用户";
@@ -110,7 +108,6 @@
 
             });
 
-
             $('#btn_select_salesmanUser').live('click', function () {
                 var dialogtitle = "选择业务人员";
 
@@ -123,7 +120,6 @@
                 });
 
             });
-
 
             $(".open-bigimg").live('click', function () {
                 var url = $(this).attr("src");

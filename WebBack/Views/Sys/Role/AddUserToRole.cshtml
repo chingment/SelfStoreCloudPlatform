@@ -47,7 +47,7 @@
                             url: "../Role/AddUserToRole",
                             data: array,
                             success: function (d) {
-                                $.lumos.parentDialog().listRoleUser.loadData('c');
+                                $.lumos.parentDialog.listRoleUser.loadData('c');
                                 $.lumos.tips(d.message, true);
                             }
                         });
