@@ -66,6 +66,7 @@
     <Compile Include="Biz\ProductSku.cs" />
     <Compile Include="Biz\Store.cs" />
     <Compile Include="Biz\StoreMachine.cs" />
+    <Compile Include="Biz\Warehouse.cs" />
     <Compile Include="ImgSet.cs" />
     <Compile Include="Sys\SysMerchatUser.cs" />
     <Compile Include="EnumerationRemarkConverter.cs" />
