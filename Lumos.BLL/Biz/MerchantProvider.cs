@@ -68,7 +68,7 @@ namespace Lumos.BLL
                 l_merchant.ContactName = merchant.ContactName;
                 l_merchant.ContactPhone = merchant.ContactPhone;
                 l_merchant.ContactAddress = merchant.ContactAddress;
-                l_merchant.LastUpdateTime = this.DateTime;
+                l_merchant.MendTime = this.DateTime;
                 l_merchant.Mender = operater;
 
                 if (!string.IsNullOrEmpty(sysMerchatUser.Password))

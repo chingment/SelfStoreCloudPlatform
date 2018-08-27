@@ -40,7 +40,7 @@ namespace Lumos.Entity
 
         public string Mender { get; set; }
 
-        public DateTime? LastUpdateTime { get; set; }
+        public DateTime? MendTime { get; set; }
 
         [MaxLength(2058)]
         public string TempAuditComments { get; set; }

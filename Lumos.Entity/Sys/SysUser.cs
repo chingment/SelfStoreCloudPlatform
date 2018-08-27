@@ -105,7 +105,7 @@ namespace Lumos.Entity
         /// <summary>
         /// 最后修改时间
         /// </summary>
-        public DateTime? LastUpdateTime { get; set; }
+        public DateTime? MendTime { get; set; }
 
         public Enumeration.UserType Type { get; set; }
 

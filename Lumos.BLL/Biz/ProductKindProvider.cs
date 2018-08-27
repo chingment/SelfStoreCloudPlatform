@@ -73,7 +73,7 @@ namespace Lumos.BLL
             l_productKind.Status = productKind.Status;
             l_productKind.Description = productKind.Description;
             l_productKind.Mender = operater;
-            l_productKind.LastUpdateTime = DateTime.Now;
+            l_productKind.MendTime = DateTime.Now;
             int depth = 0;
             GetDepth(l_productKind.PId, ref depth);
             l_productKind.Depth = depth;

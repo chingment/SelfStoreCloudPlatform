@@ -60,7 +60,7 @@ namespace Lumos.BLL
                 l_Store.Name = store.Name;
                 l_Store.Address = store.Address;
                 l_Store.Status = store.Status;
-                l_Store.LastUpdateTime = this.DateTime;
+                l_Store.MendTime = this.DateTime;
                 l_Store.Mender = operater;
                 CurrentDb.SaveChanges();
                 ts.Complete();
@@ -110,7 +110,7 @@ namespace Lumos.BLL
                     else
                     {
                         storeMachine.IsBind = true;
-                        storeMachine.LastUpdateTime = this.DateTime;
+                        storeMachine.MendTime = this.DateTime;
                         storeMachine.Mender = operater;
                         CurrentDb.SaveChanges();
                     }
@@ -134,7 +134,7 @@ namespace Lumos.BLL
                     if (item.MachineId == machineId)
                     {
                         item.IsBind = false;
-                        item.LastUpdateTime = this.DateTime;
+                        item.MendTime = this.DateTime;
                         item.Mender = operater;
                     }
                 }
@@ -145,7 +145,7 @@ namespace Lumos.BLL
                     var store = CurrentDb.Store.Where(m => m.Id == storeId).FirstOrDefault();
 
                     store.Status = Enumeration.StoreStatus.Closed;
-                    store.LastUpdateTime = this.DateTime;
+                    store.MendTime = this.DateTime;
                     store.Mender = operater;
                 }
 

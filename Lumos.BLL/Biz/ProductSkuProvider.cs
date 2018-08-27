@@ -66,7 +66,7 @@ namespace Lumos.BLL
                 l_ProductSku.BriefInfo = productSku.BriefInfo;
                 l_ProductSku.DetailsDes = productSku.DetailsDes;
                 l_ProductSku.Mender = operater;
-                l_ProductSku.LastUpdateTime = this.DateTime;
+                l_ProductSku.MendTime = this.DateTime;
 
 
                 var productKindSkus = CurrentDb.ProductKindSku.Where(m => m.ProductSkuId == productSku.Id).ToList();

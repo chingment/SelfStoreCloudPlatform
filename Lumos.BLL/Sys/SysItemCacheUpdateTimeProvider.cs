@@ -15,7 +15,7 @@ namespace Lumos.BLL
                 var sysItemCacheUpdateTime = CurrentDb.SysItemCacheUpdateTime.Where(m => m.Type == type).FirstOrDefault();
                 if (sysItemCacheUpdateTime != null)
                 {
-                    sysItemCacheUpdateTime.LastUpdateTime = this.DateTime;
+                    sysItemCacheUpdateTime.MendTime = this.DateTime;
                     CurrentDb.SaveChanges();
                 }
             }
@@ -26,7 +26,7 @@ namespace Lumos.BLL
             var sysItemCacheUpdateTime = CurrentDb.SysItemCacheUpdateTime.Where(m => m.Type == Entity.Enumeration.SysItemCacheType.User && m.ReferenceId == userId).FirstOrDefault();
             if (sysItemCacheUpdateTime != null)
             {
-                sysItemCacheUpdateTime.LastUpdateTime = this.DateTime;
+                sysItemCacheUpdateTime.MendTime = this.DateTime;
                 CurrentDb.SaveChanges();
             }
         }

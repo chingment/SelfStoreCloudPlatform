@@ -44,7 +44,7 @@ namespace Lumos.BLL
 
             l_machine.Name = machine.Name;
             l_machine.MacAddress = machine.MacAddress;
-            l_machine.LastUpdateTime = this.DateTime;
+            l_machine.MendTime = this.DateTime;
             l_machine.Mender = operater;
             CurrentDb.SaveChanges();
 

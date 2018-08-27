@@ -25,7 +25,7 @@ namespace Lumos.BLL
                 }
 
                 machine.IsUse = true;
-                machine.LastUpdateTime = this.DateTime;
+                machine.MendTime = this.DateTime;
                 machine.Mender = operater;
 
                 var merchant = CurrentDb.Merchant.Where(m => m.Id == merchantId).FirstOrDefault();
@@ -45,7 +45,7 @@ namespace Lumos.BLL
                 else
                 {
                     merchantMachine.IsBind = true;
-                    merchantMachine.LastUpdateTime = this.DateTime;
+                    merchantMachine.MendTime = this.DateTime;
                     merchantMachine.Mender = operater;
                 }
 
@@ -76,13 +76,13 @@ namespace Lumos.BLL
                 }
 
                 merchantMachine.IsBind = false;
-                merchantMachine.LastUpdateTime = this.DateTime;
+                merchantMachine.MendTime = this.DateTime;
                 merchantMachine.Mender = operater;
 
                 var machine = CurrentDb.Machine.Where(m => m.Id == machineId).FirstOrDefault();
 
                 machine.IsUse = false;
-                machine.LastUpdateTime = this.DateTime;
+                machine.MendTime = this.DateTime;
                 machine.Mender = operater;
 
                 CurrentDb.SaveChanges();
@@ -98,7 +98,7 @@ namespace Lumos.BLL
             var l_MerchantMachine = CurrentDb.MerchantMachine.Where(m => m.Id == merchantMachine.Id).FirstOrDefault();
             l_MerchantMachine.Name = merchantMachine.Name;
             l_MerchantMachine.Mender = operater;
-            l_MerchantMachine.LastUpdateTime = DateTime.Now;
+            l_MerchantMachine.MendTime = DateTime.Now;
             CurrentDb.SaveChanges();
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
         }

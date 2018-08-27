@@ -293,7 +293,7 @@ namespace Lumos.DAL.AuthorizeRelay
                         sysStaffUser.FullName = user.FullName;
                         sysStaffUser.Email = user.Email;
                         sysStaffUser.PhoneNumber = user.PhoneNumber;
-                        sysStaffUser.LastUpdateTime = DateTime.Now;
+                        sysStaffUser.MendTime = DateTime.Now;
                         sysStaffUser.Mender = operater;
                         _db.SaveChanges();
                     }
@@ -346,7 +346,7 @@ namespace Lumos.DAL.AuthorizeRelay
                 SysUser user = _db.SysUser.Find(userId);
                 user.IsDelete = true;
                 user.Mender = operater;
-                user.LastUpdateTime = DateTime.Now;
+                user.MendTime = DateTime.Now;
 
                 var userRoles = _db.SysUserRole.Where(m => m.UserId == userId).ToList();
                 foreach (var userRole in userRoles)
@@ -376,7 +376,7 @@ namespace Lumos.DAL.AuthorizeRelay
 
                 sysUser.PasswordHash = PassWordHelper.HashPassword(newpassword);
                 sysUser.Mender = operater;
-                sysUser.LastUpdateTime = DateTime.Now;
+                sysUser.MendTime = DateTime.Now;
 
                 _db.SaveChanges();
             }
@@ -431,7 +431,7 @@ namespace Lumos.DAL.AuthorizeRelay
 
             _sysRole.Name = sysRole.Name;
             _sysRole.Description = sysRole.Description;
-            _sysRole.LastUpdateTime = DateTime.Now;
+            _sysRole.MendTime = DateTime.Now;
             _sysRole.Mender = operater;
 
             AddOperateHistory(operater, Enumeration.OperateType.Update, _sysRole.Id, string.Format("修改角色{0}(ID:{1})", _sysRole.Name, _sysRole.Id));
@@ -572,7 +572,7 @@ namespace Lumos.DAL.AuthorizeRelay
             _sysMenu.Url = sysMenu.Url;
             _sysMenu.Description = sysMenu.Description;
             _sysMenu.Mender = operater;
-            _sysMenu.LastUpdateTime = DateTime.Now;
+            _sysMenu.MendTime = DateTime.Now;
 
             var sysMenuPermission = _db.SysMenuPermission.Where(r => r.MenuId == sysMenu.Id).ToList();
             foreach (var m in sysMenuPermission)

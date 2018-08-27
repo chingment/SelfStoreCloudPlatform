@@ -26,6 +26,6 @@ namespace Lumos.Entity
 
         public string Mender { get; set; }
 
-        public DateTime? LastUpdateTime { get; set; }
+        public DateTime? MendTime { get; set; }
     }
 }

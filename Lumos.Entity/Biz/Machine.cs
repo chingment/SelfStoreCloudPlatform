@@ -22,7 +22,7 @@ namespace Lumos.Entity
         public string Creator { get; set; }
         public DateTime CreateTime { get; set; }
         public string Mender { get; set; }
-        public DateTime? LastUpdateTime { get; set; }
+        public DateTime? MendTime { get; set; }
         public bool IsUse { get; set; }
 
     }
