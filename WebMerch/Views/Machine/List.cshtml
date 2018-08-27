@@ -40,20 +40,6 @@
             }
         });
 
-
-
-        $("#btn_Add").click(function () {
-            var url = '/Biz/Machine/Add';
-            var title = '登记';
-            art.dialog.open(url, {
-                id: "openDialog", title: title, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '确定', ok: function () {
-                    this.iframe.contentWindow.$('#form1').submit();
-                    return false;
-                }
-            });
-        });
-
-
     });
 
 

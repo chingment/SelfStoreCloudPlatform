@@ -9,27 +9,31 @@
 
 
         $(this).ready(function () {
-            $.formValidator.initConfig({ formID: "form_machine", onError: function (msg) { art.dialog.tips(msg); }, onSuccess: function () { return submit(); } });
-            $("#Model_Store_Name").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "名称不能为空,且不超过50个字符！" });
+            $.formValidator.initConfig({ formID: "form_machine", onError: function (msg) { art.dialog.tips(msg); } });
+            $("#Model_MerchantMachine_Name").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "名称不能为空,且不超过50个字符！" });
         });
 
-        function submit() {
-            var form = $("#form_machine");
+        function edit() {
 
-            art.dialog.confirm(
-           '确定要保存基本信息？',
-            function () {
-                var l_Data = $(form).serializeArray();
-                $.lumos.postJson({
-                    isUseHandling: true,
-                    url: "/Machine/Edit",
-                    data: l_Data,
-                    success: function (d) {
-                        $.lumos.tips(d.message);
-                        $.lumos.parentDialog.listTable.loadData();
-                    }
+            var isValid = $.formValidator.pageIsValid();
+            if (isValid) {
+                var form = $("#form_machine");
+
+                art.dialog.confirm(
+               '确定要保存基本信息？',
+                function () {
+                    var l_Data = $(form).serializeArray();
+                    $.lumos.postJson({
+                        isUseHandling: true,
+                        url: "/Machine/Edit",
+                        data: l_Data,
+                        success: function (d) {
+                            $.lumos.tips(d.message);
+                            $.lumos.parentDialog.listTable.loadData();
+                        }
+                    });
                 });
-            });
+            }
             return false;
         }
 
@@ -51,10 +55,10 @@
                     <input id="Model_MerchantMachine_Id" name="Model.MerchantMachine.Id" type="hidden" value="@Model.MerchantMachine.Id" />
                     <table class="f-tb" cellpadding="0" cellspacing="1">
                         <tr>
-                            <td class="f-tb-t" style="width:80px;" >所属便利店：</td>
+                            <td class="f-tb-t" style="width:80px;">所属便利店：</td>
                             <td class="f-tb-c">
                                 <span>
-                                  @Model.Store.Name
+                                    @Model.Store.Name
                                 </span>
                             </td>
                         </tr>
@@ -78,14 +82,14 @@
                             <td class="f-tb-t">状态：</td>
                             <td class="f-tb-c">
                                 <span>
-                               
+
                                 </span>
                             </td>
                         </tr>
                         <tr>
                             <td class="f-tb-t"></td>
                             <td class="f-tb-c">
-                                <input type="submit" name="btn_Submit" id="btn_Submit" value="保存" class="btn btn-sure" />
+                                <input type="button" value="保存" class="btn btn-sure" onclick="return edit();" />
                             </td>
                         </tr>
                     </table>
