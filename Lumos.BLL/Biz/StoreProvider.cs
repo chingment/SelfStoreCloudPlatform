@@ -99,7 +99,6 @@ namespace Lumos.BLL
                         storeMachine = new StoreMachine();
                         storeMachine.Id = GuidUtil.New();
                         storeMachine.UserId = store.UserId;
-                        storeMachine.MerchantId = store.MerchantId;
                         storeMachine.MachineId = machineId;
                         storeMachine.StoreId = storeId;
                         storeMachine.IsBind = true;

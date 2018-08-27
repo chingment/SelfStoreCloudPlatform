@@ -85,7 +85,6 @@ namespace WebMerch.Controllers.Biz
             var merchant = CurrentDb.Merchant.Where(m => m.UserId == this.CurrentUserId).FirstOrDefault();
 
             model.Store.UserId = this.CurrentUserId;
-            model.Store.MerchantId = merchant.Id;
             return BizFactory.Store.Add(this.CurrentUserId, model.Store);
         }
 

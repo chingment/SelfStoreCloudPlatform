@@ -24,7 +24,7 @@ namespace Lumos.BLL.Service.Term
                 //检查是否有可买的商品
                 var skuIds = pms.Details.Select(m => m.SkuId).ToArray();
 
-                var machineStocks = CurrentDb.MachineStock.Where(m => m.UserId == pms.UserId && m.MachineId == pms.MachineId && m.MerchantId == pms.MerchantId && skuIds.Contains(m.ProductSkuId) && m.IsOffSell == false).ToList();
+                var machineStocks = CurrentDb.MachineStock.Where(m => m.UserId == pms.UserId && m.MachineId == pms.MachineId  && skuIds.Contains(m.ProductSkuId) && m.IsOffSell == false).ToList();
 
                 if (machineStocks.Count == 0)
                 {
@@ -95,7 +95,6 @@ namespace Lumos.BLL.Service.Term
                                 var machineStockLog = new MachineStockLog();
                                 machineStockLog.Id = GuidUtil.New();
                                 machineStockLog.UserId = item3.UserId;
-                                machineStockLog.MerchantId = item3.MerchantId;
                                 machineStockLog.MachineId = item3.MachineId;
                                 machineStockLog.ProductSkuId = item3.ProductSkuId;
                                 machineStockLog.StoreId = item3.StoreId;

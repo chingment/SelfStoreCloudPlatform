@@ -1,23 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace Lumos.Entity
 {
-    [Table("StoreMachine")]
-    public class StoreMachine
+    [Table("Company")]
+    public class Company
     {
         [Key]
         public string Id { get; set; }
         public string UserId { get; set; }
-        public string MachineId { get; set; }
-        public string StoreId { get; set; }
-        public bool IsBind { get; set; }
+        [MaxLength(128)]
+        public string Name { get; set; }
         public string Creator { get; set; }
         public DateTime CreateTime { get; set; }
         public string Mender { get; set; }

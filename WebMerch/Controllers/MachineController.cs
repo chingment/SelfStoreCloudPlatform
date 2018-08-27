@@ -102,8 +102,7 @@ namespace WebMerch.Controllers.Biz
                         where
                         u.UserId == this.CurrentUserId &&
                         u.StoreId == condition.StoreId &&
-                        u.MerchantId == condition.MerchantId &&
-                        u.MachineId == condition.MerchantId &&
+                        u.MachineId == condition.MachineId &&
                         (name.Length == 0 || u.ProductSkuName.Contains(name))
                         select new { u.Id, u.SlotId, u.ProductSkuName, u.Quantity, u.LockQuantity, u.SellQuantity, u.SalesPrice };
 

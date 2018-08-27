@@ -20,7 +20,7 @@ namespace Lumos.BLL.Service.Term
             string merchantId = "d1e8ad564c0f4516b2de95655a4146c7";
             string machineId = "00000000000000000000000000000006";
             string storeId = "00000000000000000000000000000006";
-            var machineStocks = CurrentDb.MachineStock.Where(m => m.UserId == useriId && m.MerchantId == merchantId && m.MachineId == machineId).ToList();
+            var machineStocks = CurrentDb.MachineStock.Where(m => m.UserId == useriId  && m.MachineId == machineId).ToList();
 
             foreach (var item in machineStocks)
             {
@@ -37,7 +37,6 @@ namespace Lumos.BLL.Service.Term
 
                 machineStock.Id = GuidUtil.New();
                 machineStock.UserId = useriId;
-                machineStock.MerchantId = merchantId;
                 machineStock.MachineId = machineId;
                 machineStock.StoreId = storeId;
                 machineStock.SlotId = GuidUtil.New();
@@ -98,14 +97,14 @@ namespace Lumos.BLL.Service.Term
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", model);
         }
 
-        public Dictionary<string, ProductSkuModel> GetProductSkus(string operater, string userId, string merchantId, string machineId)
+        public Dictionary<string, ProductSkuModel> GetProductSkus(string operater, string userId,string machineId)
         {
 
             var productSkuModels = new Dictionary<string, ProductSkuModel>();
 
-            var machineStocks = CurrentDb.MachineStock.Where(m => m.UserId == userId && m.MerchantId == merchantId && m.MachineId == machineId && m.IsOffSell == false).ToList();
+            var machineStocks = CurrentDb.MachineStock.Where(m => m.UserId == userId  && m.MachineId == machineId && m.IsOffSell == false).ToList();
 
-            var productSkus = CurrentDb.ProductSku.Where(m => m.UserId == userId && m.MerchantId == merchantId).ToList();
+            var productSkus = CurrentDb.ProductSku.Where(m => m.UserId == userId ).ToList();
             var productSkuIds = machineStocks.Select(m => m.ProductSkuId).Distinct();
             foreach (var productSkuId in productSkuIds)
             {
@@ -136,11 +135,11 @@ namespace Lumos.BLL.Service.Term
             return productSkuModels;
         }
 
-        public List<BannerModel> GetBanners(string operater, string userId, string merchantId, string machineId)
+        public List<BannerModel> GetBanners(string operater, string userId, string machineId)
         {
             var bannerModels = new List<BannerModel>();
 
-            var banners = CurrentDb.MachineBanner.Where(m => m.MerchantId == merchantId && m.MachineId == machineId && m.Status == Entity.Enumeration.MachineBannerStatus.Normal).OrderByDescending(m => m.Priority).ToList();
+            var banners = CurrentDb.MachineBanner.Where(m => m.MachineId == machineId && m.Status == Entity.Enumeration.MachineBannerStatus.Normal).OrderByDescending(m => m.Priority).ToList();
 
             foreach (var item in banners)
             {
@@ -155,9 +154,9 @@ namespace Lumos.BLL.Service.Term
         {
             var slotProductSkuModels = new List<SlotProductSkuModel>();
 
-            var machineStocks = CurrentDb.MachineStock.Where(m => m.UserId == userId && m.MerchantId == merchantId && m.MachineId == machineId && m.IsOffSell == false).ToList();
+            var machineStocks = CurrentDb.MachineStock.Where(m => m.UserId == userId && m.MachineId == machineId && m.IsOffSell == false).ToList();
 
-            var productSkus = CurrentDb.ProductSku.Where(m => m.UserId == userId && m.MerchantId == merchantId).ToList();
+            var productSkus = CurrentDb.ProductSku.Where(m => m.UserId == userId ).ToList();
 
             foreach (var item in machineStocks)
             {

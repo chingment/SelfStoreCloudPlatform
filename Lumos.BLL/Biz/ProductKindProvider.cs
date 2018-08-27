@@ -29,7 +29,6 @@ namespace Lumos.BLL
                 var merchant = CurrentDb.Merchant.Where(m => m.UserId == productKind.UserId).FirstOrDefault();
 
                 productKind.Id = GuidUtil.New();
-                productKind.MerchantId = merchant.Id;
                 productKind.Creator = operater;
                 productKind.CreateTime = DateTime.Now;
                 int depth = 0;

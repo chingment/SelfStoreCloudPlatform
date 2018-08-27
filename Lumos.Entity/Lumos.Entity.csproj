@@ -53,6 +53,7 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="BizEnumeration.cs" />
+    <Compile Include="Biz\Company.cs" />
     <Compile Include="Biz\MachineBanner.cs" />
     <Compile Include="Biz\BizProcessesAudit.cs" />
     <Compile Include="Biz\BizProcessesAuditDetails.cs" />
