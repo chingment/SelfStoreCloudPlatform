@@ -14,7 +14,7 @@ using System.Transactions;
 using WebMerch.Models.Machine;
 using Lumos;
 
-namespace WebMerch.Controllers.Biz
+namespace WebMerch.Controllers
 {
     public class MachineController : OwnBaseController
     {

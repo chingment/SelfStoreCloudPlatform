@@ -37,7 +37,7 @@ namespace Lumos.DAL
         public IDbSet<Store> Store { get; set; }
         public IDbSet<StoreMachine> StoreMachine { get; set; }
 
-
+        public IDbSet<Warehouse> Warehouse { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

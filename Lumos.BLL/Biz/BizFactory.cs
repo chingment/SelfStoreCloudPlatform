@@ -56,5 +56,13 @@ namespace Lumos.BLL
             }
         }
 
+        public static WarehouseProvider Warehouse
+        {
+            get
+            {
+                return new WarehouseProvider();
+            }
+        }
+
     }
 }

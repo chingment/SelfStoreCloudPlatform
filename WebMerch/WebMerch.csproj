@@ -194,6 +194,9 @@
     <Compile Include="Models\Store\DetailsViewModel.cs" />
     <Compile Include="Models\Store\EditViewModel.cs" />
     <Compile Include="Models\Store\SearchCondition.cs" />
+    <Compile Include="Models\Warehouse\AddViewModel.cs" />
+    <Compile Include="Models\Warehouse\EditViewModel.cs" />
+    <Compile Include="Models\Warehouse\SearchCondition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Machine\EditViewModel.cs" />
     <Compile Include="Models\Machine\SearchCondition.cs" />
@@ -239,6 +242,12 @@
     <Content Include="Views\ProductKind\Sort.cshtml" />
     <Content Include="Views\ProductSku\EditBySalePrice.cshtml" />
     <Content Include="Views\Store\Add.cshtml" />
+    <Content Include="Views\Company\Add.cshtml" />
+    <Content Include="Views\Company\Edit.cshtml" />
+    <Content Include="Views\Company\List.cshtml" />
+    <Content Include="Views\Warehouse\Add.cshtml" />
+    <Content Include="Views\Warehouse\Edit.cshtml" />
+    <Content Include="Views\Warehouse\List.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>
@@ -252,8 +261,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Scripts\ckeditor\" />
-    <Folder Include="Views\Company\" />
-    <Folder Include="Views\Warehouse\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

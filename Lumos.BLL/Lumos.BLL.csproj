@@ -74,6 +74,7 @@
     <Compile Include="Biz\ProductKindProvider.cs" />
     <Compile Include="Biz\ProductSkuProvider.cs" />
     <Compile Include="Biz\StoreProvider.cs" />
+    <Compile Include="Biz\WarehouseProvider.cs" />
     <Compile Include="Factory..cs" />
     <Compile Include="Service\Term\GlobalService.cs" />
     <Compile Include="Service\Term\Models\Global\DataSetModel.cs" />

@@ -9,7 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using WebMerch.Models.Store;
 
-namespace WebMerch.Controllers.Biz
+namespace WebMerch.Controllers
 {
     public class StoreController : OwnBaseController
     {
@@ -82,8 +82,6 @@ namespace WebMerch.Controllers.Biz
         [HttpPost]
         public CustomJsonResult Add(AddViewModel model)
         {
-            var merchant = CurrentDb.Merchant.Where(m => m.UserId == this.CurrentUserId).FirstOrDefault();
-
             model.Store.UserId = this.CurrentUserId;
             return BizFactory.Store.Add(this.CurrentUserId, model.Store);
         }
