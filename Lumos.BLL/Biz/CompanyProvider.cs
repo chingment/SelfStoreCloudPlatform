@@ -1,4 +1,5 @@
 ﻿using Lumos.Entity;
+using Lumos.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,23 +9,23 @@ using System.Transactions;
 
 namespace Lumos.BLL
 {
-    public class WarehouseProvider : BaseProvider
+    public class CompanyProvider : BaseProvider
     {
-        public CustomJsonResult Add(string operater, Warehouse warehouse)
+        public CustomJsonResult Add(string operater, Company company)
         {
             CustomJsonResult result = new CustomJsonResult();
             using (TransactionScope ts = new TransactionScope())
             {
-                var existObject = CurrentDb.Warehouse.Where(m => m.UserId == warehouse.UserId && m.Name == warehouse.Name).FirstOrDefault();
+                var existObject = CurrentDb.Company.Where(m => m.UserId == company.UserId && m.Name == company.Name).FirstOrDefault();
                 if (existObject != null)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "名称已存在,请使用其它");
                 }
-                warehouse.Id = GuidUtil.New();
+                company.Id = GuidUtil.New();
                 //warehouse.Status = Enumeration.StoreStatus.Closed;
-                warehouse.CreateTime = this.DateTime;
-                warehouse.Creator = operater;
-                CurrentDb.Warehouse.Add(warehouse);
+                company.CreateTime = this.DateTime;
+                company.Creator = operater;
+                CurrentDb.Company.Add(company);
                 CurrentDb.SaveChanges();
 
                 ts.Complete();
@@ -34,14 +35,14 @@ namespace Lumos.BLL
             return result;
         }
 
-        public CustomJsonResult Edit(string operater, Warehouse warehouse)
+        public CustomJsonResult Edit(string operater, Company company)
         {
             CustomJsonResult result = new CustomJsonResult();
             using (TransactionScope ts = new TransactionScope())
             {
-                var l_Warehouse = CurrentDb.Warehouse.Where(m => m.Id == warehouse.Id).FirstOrDefault();
+                var l_Company = CurrentDb.Company.Where(m => m.Id == company.Id).FirstOrDefault();
 
-                var existObject = CurrentDb.Warehouse.Where(m => m.UserId == l_Warehouse.UserId && m.Id != warehouse.Id && m.Name == warehouse.Name).FirstOrDefault();
+                var existObject = CurrentDb.Company.Where(m => m.UserId == l_Company.UserId && m.Id != company.Id && m.Name == company.Name).FirstOrDefault();
                 if (existObject != null)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "名称已存在,请使用其它");
@@ -49,11 +50,11 @@ namespace Lumos.BLL
 
 
 
-                l_Warehouse.Name = warehouse.Name;
-                l_Warehouse.Address = warehouse.Address;
+                l_Company.Name = company.Name;
+                l_Company.Address = company.Address;
                 // l_Warehouse.Status = store.Status;
-                l_Warehouse.MendTime = this.DateTime;
-                l_Warehouse.Mender = operater;
+                l_Company.MendTime = this.DateTime;
+                l_Company.Mender = operater;
                 CurrentDb.SaveChanges();
                 ts.Complete();
                 result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");

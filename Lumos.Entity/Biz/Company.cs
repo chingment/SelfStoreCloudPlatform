@@ -14,8 +14,11 @@ namespace Lumos.Entity
         [Key]
         public string Id { get; set; }
         public string UserId { get; set; }
+        public Enumeration.CompanyClass Class { get; set; }
         [MaxLength(128)]
         public string Name { get; set; }
+        [MaxLength(256)]
+        public string Address { get; set; }
         public string Creator { get; set; }
         public DateTime CreateTime { get; set; }
         public string Mender { get; set; }

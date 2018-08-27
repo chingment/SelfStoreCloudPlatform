@@ -22,6 +22,14 @@ namespace Lumos.Entity
             Closed = 2
         }
 
+        public enum CompanyClass
+        {
+            [Remark("未知")]
+            Unknow = 0,
+            [Remark("供应商")]
+            Supplier = 1
+        }
+
         public enum BizProcessesAuditType
         {
             [Remark("未知")]

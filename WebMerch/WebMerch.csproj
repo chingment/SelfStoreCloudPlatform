@@ -158,7 +158,7 @@
     <Compile Include="App_Start\Own\OwnRequest.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CommonController.cs" />
-    <Compile Include="Controllers\CompanyController.cs" />
+    <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MachineController.cs" />
     <Compile Include="Controllers\ProductKindController.cs" />
@@ -194,6 +194,9 @@
     <Compile Include="Models\Store\DetailsViewModel.cs" />
     <Compile Include="Models\Store\EditViewModel.cs" />
     <Compile Include="Models\Store\SearchCondition.cs" />
+    <Compile Include="Models\Supplier\AddViewModel.cs" />
+    <Compile Include="Models\Supplier\EditViewModel.cs" />
+    <Compile Include="Models\Supplier\SearchCondition.cs" />
     <Compile Include="Models\Warehouse\AddViewModel.cs" />
     <Compile Include="Models\Warehouse\EditViewModel.cs" />
     <Compile Include="Models\Warehouse\SearchCondition.cs" />
@@ -242,9 +245,9 @@
     <Content Include="Views\ProductKind\Sort.cshtml" />
     <Content Include="Views\ProductSku\EditBySalePrice.cshtml" />
     <Content Include="Views\Store\Add.cshtml" />
-    <Content Include="Views\Company\Add.cshtml" />
-    <Content Include="Views\Company\Edit.cshtml" />
-    <Content Include="Views\Company\List.cshtml" />
+    <Content Include="Views\Supplier\Add.cshtml" />
+    <Content Include="Views\Supplier\Edit.cshtml" />
+    <Content Include="Views\Supplier\List.cshtml" />
     <Content Include="Views\Warehouse\Add.cshtml" />
     <Content Include="Views\Warehouse\Edit.cshtml" />
     <Content Include="Views\Warehouse\List.cshtml" />

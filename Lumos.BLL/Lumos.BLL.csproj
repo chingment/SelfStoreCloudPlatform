@@ -68,6 +68,7 @@
     </Compile>
     <Compile Include="BaseProvider.cs" />
     <Compile Include="Biz\BizFactory.cs" />
+    <Compile Include="Biz\CompanyProvider.cs" />
     <Compile Include="Biz\MachineProvider.cs" />
     <Compile Include="Biz\MerchantMachineProvider.cs" />
     <Compile Include="Biz\MerchantProvider.cs" />

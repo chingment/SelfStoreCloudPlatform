@@ -64,5 +64,13 @@ namespace Lumos.BLL
             }
         }
 
+        public static CompanyProvider Company
+        {
+            get
+            {
+                return new CompanyProvider();
+            }
+        }
+
     }
 }
