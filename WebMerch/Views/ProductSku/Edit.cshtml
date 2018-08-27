@@ -95,7 +95,7 @@
 
         });
 
-        function submit(fun) {
+        function edit(fun) {
 
 
             var stem = CKEDITOR.instances.Model_ProductSku_DetailsDes.getData();
@@ -115,7 +115,8 @@
                         url: "/ProductSku/Edit",
                         data: l_Data,
                         success: function (d) {
-                            fun(d);
+                            $.lumos.tips(d.message);
+                            $.lumos.parentDialog.listTable.loadData();
                         }
                     });
                 });
