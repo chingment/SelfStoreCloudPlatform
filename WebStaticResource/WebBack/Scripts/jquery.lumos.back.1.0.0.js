@@ -1,7 +1,7 @@
 ﻿(function ($) {
     $.lumos = lumos = {
 
-        resultType:{
+        resultType: {
             unknown: 0,
             success: 1,
             failure: 2,
@@ -418,11 +418,24 @@
 
         closeDialog: function (message) {
             setTimeout(function () {
+
+                // var _dialog;
                 var list = window.top.art.dialog.list;
                 for (var i in list) {
-                    list[i].close();
+                    if (window.name == "Open" + i) {
+                        list[i].close();
+                    }
+                    //console.log("sdas")
                 }
-                art.dialog.close();
+
+
+                //var list = window.top.art.dialog.list;
+                //for (var i in list) {
+                //    list[i].close();
+                //}
+                //art.dialog.close();
+
+
 
             }, 100);
 
@@ -439,11 +452,9 @@
                     setTimeout(function () {
                         var list = window.top.art.dialog.list;
                         for (var i in list) {
-                            list[i].close();
-                        }
-
-                        if (typeof art != 'undefined') {
-                            art.dialog.close();
+                            if (window.name == "Open" + i) {
+                                list[i].close();
+                            }
                         }
 
                     }, 100);
@@ -451,11 +462,14 @@
             }
 
             //window.top.tips(message);
-            art.dialog.tips(message);
+            art.dialog.tips(message,3000);
             return false;
         },
 
         parentDialog: art.dialog.open.origin,
+
+
+
 
         getUrlParamValue: function getUrlParam(name) {
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象

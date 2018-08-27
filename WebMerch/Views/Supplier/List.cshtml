@@ -37,7 +37,10 @@
                     var url = '/Supplier/Edit?id=' + obj.id;
                     var title = '设置';
                     var dialog = art.dialog.open(url, {
-                        id: "openDialog", title: title, width: '800px', height: '600px', lock: true, drag: false, cancelVal: '关闭', cancel: true
+                        id: "openDialog", title: title, width: '600px', height: '350px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
+                            this.iframe.contentWindow.edit();
+                            return false;
+                        }
                     });
                 }
             }
@@ -48,21 +51,10 @@
             var url = '/Supplier/Add';
             var title = '新建';
             var dialog = art.dialog.open(url, {
-                id: "openDialog", title: title, width: '600px', height: '350px', lock: true, drag: false, cancelVal: '关闭', cancel: true,
-                button: [{
-                    name: '确定',
-                    callback: function () {
-                        this.iframe.contentWindow.submit(function (d) {
-                            if (d.result == $.lumos.resultType.success) {
-                                dialog.close();
-                                listTable.loadData();
-                            }
-                            $.lumos.tips(d.message);
-                        });
-                        return false;
-                    },
-                    focus: true
-                }]
+                id: "openDialog", title: title, width: '600px', height: '350px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
+                    this.iframe.contentWindow.add();
+                    return false;
+                }
             });
         });
 

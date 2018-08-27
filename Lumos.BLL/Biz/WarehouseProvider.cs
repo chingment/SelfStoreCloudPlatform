@@ -51,6 +51,7 @@ namespace Lumos.BLL
 
                 l_Warehouse.Name = warehouse.Name;
                 l_Warehouse.Address = warehouse.Address;
+                l_Warehouse.Description = warehouse.Description;
                 // l_Warehouse.Status = store.Status;
                 l_Warehouse.MendTime = this.DateTime;
                 l_Warehouse.Mender = operater;

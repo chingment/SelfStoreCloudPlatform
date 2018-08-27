@@ -17,6 +17,8 @@ namespace Lumos.Entity
         [MaxLength(128)]
         public string Name { get; set; }
         public string Address { get; set; }
+        [MaxLength(512)]
+        public string Description { get; set; }
         public string Creator { get; set; }
         public DateTime CreateTime { get; set; }
         public string Mender { get; set; }

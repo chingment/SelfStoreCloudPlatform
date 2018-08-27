@@ -12,8 +12,7 @@
             $("#Model_Warehouse_Address").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 100, onError: "地址不能为空,且不超过100个字符" });
         });
 
-        function submit(fun) {
-
+        function add() {
             var form = $("#form1");
             var isValid = $.formValidator.pageIsValid();
             if (isValid) {
@@ -26,12 +25,15 @@
                         url: "/Warehouse/Add",
                         data: l_Data,
                         success: function (d) {
-                            fun(d);
+                            $.lumos.tips(d.message);
+                            if (d.result == $.lumos.resultType.success) {
+                                $.lumos.parentDialog.listTable.loadData();
+                                $.lumos.closeDialog();
+                            }
                         }
                     });
                 });
             }
-
             return false;
         }
 
@@ -62,6 +64,12 @@
                 </td>
                 <td class="f-tb-c">
                     <textarea id="Model_Warehouse_Description" name="Model.Warehouse.Description" class="ckeditor" style="width:80%;height:150px;"></textarea>
+                </td>
+            </tr>
+            <tr style="display:none">
+                <td class="f-tb-t"></td>
+                <td class="f-tb-c">
+                    <input type="button" value="保存" class="btn btn-sure" onclick="return add()" />
                 </td>
             </tr>
         </table>

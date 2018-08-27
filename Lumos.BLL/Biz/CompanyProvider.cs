@@ -52,6 +52,7 @@ namespace Lumos.BLL
 
                 l_Company.Name = company.Name;
                 l_Company.Address = company.Address;
+                l_Company.Description = company.Description;
                 // l_Warehouse.Status = store.Status;
                 l_Company.MendTime = this.DateTime;
                 l_Company.Mender = operater;
