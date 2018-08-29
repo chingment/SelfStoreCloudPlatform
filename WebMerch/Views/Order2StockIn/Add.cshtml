@@ -1,0 +1,140 @@
+﻿﻿@model WebMerch.Models.Warehouse.AddViewModel
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/_LayoutHomeDialog.cshtml";
+}
+@section scripts{
+    <style type="text/css">
+        .list-tb-skus input {
+            border-left-width: 0px;
+            border-top-width: 0px;
+            border-right-width: 0px;
+            border-bottom-color: black;
+            border-bottom-width: 0.1px;
+        }
+
+        .list-tb-skus input:focus {
+            border-width: 0px;
+            outline: none;
+            border-bottom-width: 0.1px;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            addRowSku();
+            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { art.dialog.tips(msg); } });
+            $("#Model_Warehouse_Name").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "名称不能为空,且不超过50个字符" });
+            $("#Model_Warehouse_Address").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 100, onError: "地址不能为空,且不超过100个字符" });
+
+            $('input[name=code]').live("click", function () {
+                var _this = $(this);
+                $(_this).autocomplete({
+                    serviceUrl: '/productSku/Search',
+                    paramName: 'name',
+                    containerClass: "autocomplete-skusearch",
+                    width:'500px',
+                    ajaxSettings: {
+                        type: 'post',
+                        dataType: 'json'
+                    },
+                    transformResult: function (d) {
+                        return {
+                            suggestions: $.map(d.data, function (item) {
+                                return { value: item.id, data: item.name };
+                            })
+                        };
+                    },
+                    formatResult: function (suggestion, value) {
+
+                        return "(" + suggestion.value + ")" + suggestion.data;
+                    },
+                    onSelect: function (suggestion) {
+                        $(_this).parent().parent().find('.name').text(suggestion.data);
+                        addRowSku();
+                    }
+                });
+
+            });
+
+        });
+
+        function add() {
+            var form = $("#form1");
+            var isValid = $.formValidator.pageIsValid();
+            if (isValid) {
+                art.dialog.confirm(
+               '确定要提交？',
+                function () {
+                    var l_Data = $(form).serializeArray();
+                    $.lumos.postJson({
+                        isUseHandling: true,
+                        url: "/Warehouse/Add",
+                        data: l_Data,
+                        success: function (d) {
+                            $.lumos.tips(d.message);
+                            if (d.result == $.lumos.resultType.success) {
+                                $.lumos.parentDialog.listTable.loadData();
+                                $.lumos.closeDialog();
+                            }
+                        }
+                    });
+                });
+            }
+            return false;
+        }
+
+
+        function addRowSku() {
+
+            var l_StrRows = "";
+            l_StrRows += "<tr>";
+            l_StrRows += "<td> <input type=\"text\" name=\"code\" style=\"width:100%;\" value=\"\" autocomplete=\"off\" /></td>";
+            l_StrRows += "<td > <span class=\"name\"></span> </td>";
+            l_StrRows += "<td> <input type=\"text\" name=\"a\" style=\"width:100%;\" value=\"\" autocomplete=\"off\"/></td>";
+            l_StrRows += "<td> <input type=\"text\" name=\"a\" style=\"width:100%;\" value=\"\" autocomplete=\"off\" /></td>";
+            l_StrRows += "<td></td>";
+            l_StrRows += "<td class=\"operation\">";
+            l_StrRows += "</td>";
+            l_StrRows += "</tr>";
+
+
+            $('#list_table_skus tbody').append(l_StrRows);
+        }
+
+    </script>
+}
+<div class="gbr-row">
+    <form id="form1" name="form1" method="post">
+
+        <div class="list list-skus">
+            <table id="list_table_skus" class="list-tb list-tb-skus" cellpadding="0" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th style="width:20%" class="no">
+                            编码
+                        </th>
+                        <th style="width:45%">
+                            名称
+                        </th>
+                        <th style="width:10%">
+                            数量
+                        </th>
+                        <th style="width:10%">
+                            单价
+                        </th>
+                        <th style="width:10%">
+                            合计
+                        </th>
+                        <th style="width:5%" class="operation">
+                            操作
+                        </th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+    </form>
+</div>

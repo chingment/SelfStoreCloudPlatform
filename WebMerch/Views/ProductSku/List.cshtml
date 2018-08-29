@@ -85,32 +85,41 @@
         });
 
 
+        $('input[name=code]').live("click", function () {
 
-        $('#txt_Name').autocomplete({
-            serviceUrl: '/productSku/Search',
-            paramName: 'name',
-            ajaxSettings: {
-                type: 'post',
-                dataType: 'json'
-            },
-            transformResult: function (d) {
-                return {
-                    suggestions: $.map(d.data, function (item) {
-                        return { value: item.id, data: item.name };
-                    })
-                };
-            },
-            formatResult: function (suggestion, value) {
 
-                return "(" + suggestion.value + ")" + suggestion.data;
-            },
-            //选中值后数据处理
-            onSelect: function (suggestion) {
-                alert(JSON.stringify(suggestion))
-                // beneficiaryCode = suggestion.data;
-                // beneficiary = suggestion.value;
-            }
-        });
+            //$(this).autocomplete({
+            //    serviceUrl: '/productSku/Search',
+            //    paramName: 'name',
+            //    ajaxSettings: {
+            //        type: 'post',
+            //        dataType: 'json'
+            //    },
+            //    transformResult: function (d) {
+            //        return {
+            //            suggestions: $.map(d.data, function (item) {
+            //                return { value: item.id, data: item.name };
+            //            })
+            //        };
+            //    },
+            //    formatResult: function (suggestion, value) {
+
+            //        return "(" + suggestion.value + ")" + suggestion.data;
+            //    },
+            //    //选中值后数据处理
+            //    onSelect: function (suggestion) {
+            //        alert(JSON.stringify(suggestion))
+            //        // beneficiaryCode = suggestion.data;
+            //        // beneficiary = suggestion.value;
+            //    }
+            //});
+
+
+
+        })
+
+
+
 
 
         //$("#txt_Name").autocomplete({

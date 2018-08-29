@@ -62,9 +62,11 @@
     <Compile Include="Biz\MachineStockLog.cs" />
     <Compile Include="Biz\Merchant.cs" />
     <Compile Include="Biz\MerchantMachine.cs" />
+    <Compile Include="Biz\Order2StockIn.cs" />
     <Compile Include="Biz\ProductKind.cs" />
     <Compile Include="Biz\ProductKindSku.cs" />
     <Compile Include="Biz\ProductSku.cs" />
+    <Compile Include="Biz\Order2StockInDetails.cs" />
     <Compile Include="Biz\Store.cs" />
     <Compile Include="Biz\StoreMachine.cs" />
     <Compile Include="Biz\Warehouse.cs" />
