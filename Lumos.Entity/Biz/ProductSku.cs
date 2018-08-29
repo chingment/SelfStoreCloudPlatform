@@ -21,6 +21,8 @@ namespace Lumos.Entity
         public string RecipientModeIds { get; set; }
         public string RecipientModeNames { get; set; }
         public string Name { get; set; }
+        public string BarCode { get; set; }
+        public string SimpleCode { get; set; }
         public string ImgUrl { get; set; }
         public string DispalyImgUrls { get; set; }
         public decimal ShowPrice { get; set; }

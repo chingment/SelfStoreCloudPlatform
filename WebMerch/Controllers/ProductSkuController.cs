@@ -147,14 +147,11 @@ namespace WebMerch.Controllers
         [HttpPost]
         public CustomJsonResult Search(SearchCondition condition)
         {
-            var query = (from u in CurrentDb.ProductSku
-                         where (condition.Name == null || u.Name.Contains(condition.Name))
-                         select new { u.Id, u.Name, u.SalePrice, u.DispalyImgUrls });
 
-
-            var list = query.ToList();
+            var list = BizFactory.ProductSku.Search(this.CurrentUserId, condition.Name);
 
             List<object> olist = new List<object>();
+
             foreach (var item in list)
             {
                 olist.Add(new

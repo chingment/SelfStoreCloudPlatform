@@ -25,6 +25,7 @@ namespace Lumos.Redis
             {
                 if (_redis == null)
                 {
+
                     lock (_locker)
                     {
                         if (_redis != null) return _redis;
