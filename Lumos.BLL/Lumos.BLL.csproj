@@ -88,10 +88,10 @@
     <Compile Include="Service\Term\OrderService.cs" />
     <Compile Include="Service\Term\ProductKindService.cs" />
     <Compile Include="Service\Term\ProductSkuProvider.cs" />
-    <Compile Include="Service\Term\TermServiceFactory.cs" />
     <Compile Include="Service\Term\MachineService.cs" />
     <Compile Include="Service\Term\Models\BannerModel.cs" />
     <Compile Include="Service\Term\Models\Machine\ApiConfigModel.cs" />
+    <Compile Include="Service\Term\TermServiceFactory.cs" />
     <Compile Include="SnUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sys\AuthorizeRelayProvider.cs" />

@@ -1,5 +1,4 @@
-﻿using Lumos.BLL.Service.Term;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.Term
 {
-    public class TermServiceFactory
+    public static class TermServiceFactory
     {
+        public static OrderService Order
+        {
+            get
+            {
+                return new OrderService();
+            }
+        }
+
         public static MachineService Machine
         {
             get
             {
                 return new MachineService();
-            }
-        }
-
-        public static GlobalService Global
-        {
-            get
-            {
-                return new GlobalService();
             }
         }
 
@@ -33,11 +32,11 @@ namespace Lumos.BLL.Service.Term
             }
         }
 
-        public static OrderService Order
+        public static GlobalService Global
         {
             get
             {
-                return new OrderService();
+                return new GlobalService();
             }
         }
     }
