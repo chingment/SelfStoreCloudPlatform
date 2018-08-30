@@ -14,27 +14,27 @@ namespace Lumos.BLL
     public class ProductKindProvider : BaseProvider
     {
 
-        public CustomJsonResult Add(string operater, ProductKind productKind)
+        public CustomJsonResult Add(string pOperater, ProductKind pProductKind)
         {
             CustomJsonResult result = new CustomJsonResult();
 
             using (TransactionScope ts = new TransactionScope())
             {
-                var existObject = CurrentDb.ProductKind.Where(m => m.UserId == productKind.UserId && m.Name == productKind.Name).FirstOrDefault();
-                if (existObject != null)
+                var isExistProductKind = CurrentDb.ProductKind.Where(m => m.UserId == pProductKind.UserId && m.Name == pProductKind.Name).FirstOrDefault();
+                if (isExistProductKind != null)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "名称已存在");
                 }
 
-                var merchant = CurrentDb.Merchant.Where(m => m.UserId == productKind.UserId).FirstOrDefault();
+                var lMerchant = CurrentDb.Merchant.Where(m => m.UserId == pProductKind.UserId).FirstOrDefault();
 
-                productKind.Id = GuidUtil.New();
-                productKind.Creator = operater;
-                productKind.CreateTime = DateTime.Now;
+                pProductKind.Id = GuidUtil.New();
+                pProductKind.Creator = pOperater;
+                pProductKind.CreateTime = DateTime.Now;
                 int depth = 0;
-                GetDepth(productKind.PId, ref depth);
-                productKind.Depth = depth;
-                CurrentDb.ProductKind.Add(productKind);
+                GetDepth(pProductKind.PId, ref depth);
+                pProductKind.Depth = depth;
+                CurrentDb.ProductKind.Add(pProductKind);
                 CurrentDb.SaveChanges();
                 ts.Complete();
                 result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "添加成功");
@@ -44,59 +44,59 @@ namespace Lumos.BLL
         }
 
 
-        private void GetDepth(string pId, ref int level)
+        private void GetDepth(string pPId, ref int pLevel)
         {
 
-            var l_productKind = CurrentDb.ProductKind.Where(m => m.Id == pId).FirstOrDefault();
+            var l_productKind = CurrentDb.ProductKind.Where(m => m.Id == pPId).FirstOrDefault();
             if (l_productKind != null)
             {
-                level += 1;
+                pLevel += 1;
 
-                GetDepth(l_productKind.PId, ref level);
+                GetDepth(l_productKind.PId, ref pLevel);
             }
         }
 
-        public CustomJsonResult Edit(string operater, ProductKind productKind)
+        public CustomJsonResult Edit(string pOperater, ProductKind pProductKind)
         {
-            var l_productKind = CurrentDb.ProductKind.Where(m => m.Id == productKind.Id).FirstOrDefault();
+            var lProductKind = CurrentDb.ProductKind.Where(m => m.Id == pProductKind.Id).FirstOrDefault();
 
-            var existObject = CurrentDb.ProductKind.Where(m => m.UserId == l_productKind.UserId && m.Id != productKind.Id && m.Name == productKind.Name).FirstOrDefault();
-            if (existObject != null)
+            var isExistProductKind = CurrentDb.ProductKind.Where(m => m.UserId == lProductKind.UserId && m.Id != lProductKind.Id && m.Name == lProductKind.Name).FirstOrDefault();
+            if (isExistProductKind != null)
             {
                 return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "名称已存在");
             }
 
 
-            l_productKind.Name = productKind.Name;
-            l_productKind.MainImg = productKind.MainImg;
-            l_productKind.IconImg = productKind.IconImg;
-            l_productKind.Status = productKind.Status;
-            l_productKind.Description = productKind.Description;
-            l_productKind.Mender = operater;
-            l_productKind.MendTime = DateTime.Now;
+            lProductKind.Name = pProductKind.Name;
+            lProductKind.MainImg = pProductKind.MainImg;
+            lProductKind.IconImg = pProductKind.IconImg;
+            lProductKind.Status = pProductKind.Status;
+            lProductKind.Description = pProductKind.Description;
+            lProductKind.Mender = pOperater;
+            lProductKind.MendTime = DateTime.Now;
             int depth = 0;
-            GetDepth(l_productKind.PId, ref depth);
-            l_productKind.Depth = depth;
+            GetDepth(lProductKind.PId, ref depth);
+            lProductKind.Depth = depth;
             CurrentDb.SaveChanges();
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
 
         }
 
-        public IEnumerable<ProductKind> GetProductKind(string p_id)
+        public IEnumerable<ProductKind> GetProductKind(string pPId)
         {
             var query = from c in CurrentDb.ProductKind
-                        where c.PId == p_id
+                        where c.PId == pPId
                         select c;
 
             return query.ToList().Concat(query.ToList().SelectMany(t => GetProductKind(t.Id)));
         }
 
-        public CustomJsonResult Delete(string operater, string[] ids)
+        public CustomJsonResult Delete(string pOperater, string[] pIds)
         {
-            if (ids != null)
+            if (pIds != null)
             {
-                foreach (var id in ids)
+                foreach (var id in pIds)
                 {
                     var productKind = CurrentDb.ProductKind.Where(m => m.Id == id).FirstOrDefault();
                     if (productKind != null)
@@ -118,7 +118,7 @@ namespace Lumos.BLL
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "删除成功");
         }
 
-        public CustomJsonResult RemoveProductFromKind(string operater, string kindId, string[] productIds)
+        public CustomJsonResult RemoveProductFromKind(string pOperater, string pKindId, string[] pProductIds)
         {
             //CustomJsonResult result = new CustomJsonResult();
 
@@ -141,7 +141,7 @@ namespace Lumos.BLL
         }
 
 
-        private string GetRemoveKindId(string kindIds, string[] removekindIds)
+        private string GetRemoveKindId(string pKindIds, string[] pProductKindIds)
         {
             //if (kindIds == null)
             //    return null;

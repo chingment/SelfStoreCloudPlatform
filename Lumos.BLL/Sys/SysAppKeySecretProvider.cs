@@ -9,9 +9,9 @@ namespace Lumos.BLL
 {
     public class SysAppKeySecretProvider : BaseProvider
     {
-        public string GetSecret(string key)
+        public string GetSecret(string pKey)
         {
-            var sysAppKeySecret = CurrentDb.SysAppKeySecret.Where(m => m.Key == key).FirstOrDefault();
+            var sysAppKeySecret = CurrentDb.SysAppKeySecret.Where(m => m.Key == pKey).FirstOrDefault();
             if (sysAppKeySecret == null)
                 return null;
 

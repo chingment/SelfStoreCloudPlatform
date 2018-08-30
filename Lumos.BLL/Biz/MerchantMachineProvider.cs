@@ -11,47 +11,47 @@ namespace Lumos.BLL
 {
     public class MerchantMachineProvider : BaseProvider
     {
-        public CustomJsonResult BindOn(string operater, string merchantId, string machineId)
+        public CustomJsonResult BindOn(string pOperater, string pMerchantId, string pMachineId)
         {
             CustomJsonResult result = new CustomJsonResult();
 
             using (TransactionScope ts = new TransactionScope())
             {
-                var machine = CurrentDb.Machine.Where(m => m.Id == machineId).FirstOrDefault();
+                var lMachine = CurrentDb.Machine.Where(m => m.Id == pMachineId).FirstOrDefault();
 
-                if (machine.IsUse)
+                if (lMachine.IsUse)
                 {
                     return new CustomJsonResult(ResultType.Failure, "该设备已经被绑定，未被解绑");
                 }
 
-                machine.IsUse = true;
-                machine.MendTime = this.DateTime;
-                machine.Mender = operater;
+                lMachine.IsUse = true;
+                lMachine.MendTime = this.DateTime;
+                lMachine.Mender = pOperater;
 
-                var merchant = CurrentDb.Merchant.Where(m => m.Id == merchantId).FirstOrDefault();
-                var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.MerchantId == merchantId && m.MachineId == machineId).FirstOrDefault();
-                if (merchantMachine == null)
+                var lMerchant = CurrentDb.Merchant.Where(m => m.Id == pMerchantId).FirstOrDefault();
+                var lMerchantMachine = CurrentDb.MerchantMachine.Where(m => m.MerchantId == pMerchantId && m.MachineId == pMachineId).FirstOrDefault();
+                if (lMerchantMachine == null)
                 {
-                    merchantMachine = new MerchantMachine();
-                    merchantMachine.Id = GuidUtil.New();
-                    merchantMachine.UserId = merchant.UserId;
-                    merchantMachine.MerchantId = merchantId;
-                    merchantMachine.MachineId = machineId;
-                    merchantMachine.IsBind = true;
-                    merchantMachine.CreateTime = this.DateTime;
-                    merchantMachine.Creator = operater;
-                    CurrentDb.MerchantMachine.Add(merchantMachine);
+                    lMerchantMachine = new MerchantMachine();
+                    lMerchantMachine.Id = GuidUtil.New();
+                    lMerchantMachine.UserId = lMerchant.UserId;
+                    lMerchantMachine.MerchantId = pMerchantId;
+                    lMerchantMachine.MachineId = pMachineId;
+                    lMerchantMachine.IsBind = true;
+                    lMerchantMachine.CreateTime = this.DateTime;
+                    lMerchantMachine.Creator = pOperater;
+                    CurrentDb.MerchantMachine.Add(lMerchantMachine);
                 }
                 else
                 {
-                    merchantMachine.IsBind = true;
-                    merchantMachine.MendTime = this.DateTime;
-                    merchantMachine.Mender = operater;
+                    lMerchantMachine.IsBind = true;
+                    lMerchantMachine.MendTime = this.DateTime;
+                    lMerchantMachine.Mender = pOperater;
                 }
 
-                merchantMachine.LogoImgUrl = "http://file.17fanju.com/Upload/machTmp/tmp/LogoImg.png";
-                merchantMachine.BtnBuyImgUrl = "http://file.17fanju.com/Upload/machTmp/tmp/BtnBuyImg.png";
-                merchantMachine.BtnPickImgUrl = "http://file.17fanju.com/Upload/machTmp/tmp/BtnPickImg.png";
+                lMerchantMachine.LogoImgUrl = "http://file.17fanju.com/Upload/machTmp/tmp/LogoImg.png";
+                lMerchantMachine.BtnBuyImgUrl = "http://file.17fanju.com/Upload/machTmp/tmp/BtnBuyImg.png";
+                lMerchantMachine.BtnPickImgUrl = "http://file.17fanju.com/Upload/machTmp/tmp/BtnPickImg.png";
 
                 CurrentDb.SaveChanges();
                 ts.Complete();
@@ -61,29 +61,29 @@ namespace Lumos.BLL
             return result;
         }
 
-        public CustomJsonResult BindOff(string operater, string merchantId, string machineId)
+        public CustomJsonResult BindOff(string pOperater, string pMerchantId, string pMachineId)
         {
             CustomJsonResult result = new CustomJsonResult();
 
             using (TransactionScope ts = new TransactionScope())
             {
-                var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.MerchantId == merchantId && m.MachineId == machineId).FirstOrDefault();
+                var lMerchantMachine = CurrentDb.MerchantMachine.Where(m => m.MerchantId == pMerchantId && m.MachineId == pMachineId).FirstOrDefault();
 
-                if (merchantMachine.IsBind == false)
+                if (lMerchantMachine.IsBind == false)
                 {
 
                     return new CustomJsonResult(ResultType.Failure, "该设备已经被解绑");
                 }
 
-                merchantMachine.IsBind = false;
-                merchantMachine.MendTime = this.DateTime;
-                merchantMachine.Mender = operater;
+                lMerchantMachine.IsBind = false;
+                lMerchantMachine.MendTime = this.DateTime;
+                lMerchantMachine.Mender = pOperater;
 
-                var machine = CurrentDb.Machine.Where(m => m.Id == machineId).FirstOrDefault();
+                var machine = CurrentDb.Machine.Where(m => m.Id == pMachineId).FirstOrDefault();
 
                 machine.IsUse = false;
                 machine.MendTime = this.DateTime;
-                machine.Mender = operater;
+                machine.Mender = pOperater;
 
                 CurrentDb.SaveChanges();
                 ts.Complete();
@@ -93,11 +93,11 @@ namespace Lumos.BLL
             return result;
         }
 
-        public CustomJsonResult Edit(string operater, MerchantMachine merchantMachine)
+        public CustomJsonResult Edit(string pOperater, MerchantMachine pMerchantMachine)
         {
-            var l_MerchantMachine = CurrentDb.MerchantMachine.Where(m => m.Id == merchantMachine.Id).FirstOrDefault();
-            l_MerchantMachine.Name = merchantMachine.Name;
-            l_MerchantMachine.Mender = operater;
+            var l_MerchantMachine = CurrentDb.MerchantMachine.Where(m => m.Id == pMerchantMachine.Id).FirstOrDefault();
+            l_MerchantMachine.Name = pMerchantMachine.Name;
+            l_MerchantMachine.Mender = pOperater;
             l_MerchantMachine.MendTime = DateTime.Now;
             CurrentDb.SaveChanges();
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");

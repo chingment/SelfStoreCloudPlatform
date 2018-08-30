@@ -8,11 +8,11 @@ namespace Lumos.BLL
 {
     public class SysItemCacheUpdateTimeProvider : BaseProvider
     {
-        public void Update(Entity.Enumeration.SysItemCacheType type)
+        public void Update(Entity.Enumeration.SysItemCacheType pType)
         {
             if (type != Entity.Enumeration.SysItemCacheType.User)
             {
-                var sysItemCacheUpdateTime = CurrentDb.SysItemCacheUpdateTime.Where(m => m.Type == type).FirstOrDefault();
+                var sysItemCacheUpdateTime = CurrentDb.SysItemCacheUpdateTime.Where(m => m.Type == pType).FirstOrDefault();
                 if (sysItemCacheUpdateTime != null)
                 {
                     sysItemCacheUpdateTime.MendTime = this.DateTime;
@@ -21,9 +21,9 @@ namespace Lumos.BLL
             }
         }
 
-        public void UpdateUser(string userId)
+        public void UpdateUser(string pUserId)
         {
-            var sysItemCacheUpdateTime = CurrentDb.SysItemCacheUpdateTime.Where(m => m.Type == Entity.Enumeration.SysItemCacheType.User && m.ReferenceId == userId).FirstOrDefault();
+            var sysItemCacheUpdateTime = CurrentDb.SysItemCacheUpdateTime.Where(m => m.Type == Entity.Enumeration.SysItemCacheType.User && m.ReferenceId == pUserId).FirstOrDefault();
             if (sysItemCacheUpdateTime != null)
             {
                 sysItemCacheUpdateTime.MendTime = this.DateTime;
@@ -31,9 +31,9 @@ namespace Lumos.BLL
             }
         }
 
-        public bool CanGetData(string userId, DateTime? lastUpdateTime, out DateTime? updateTime)
+        public bool CanGetData(string pUserId, DateTime? pLastUpdateTime, out DateTime? pUpdateTime)
         {
-            updateTime = this.DateTime;
+            pUpdateTime = this.DateTime;
             return true;
         }
 

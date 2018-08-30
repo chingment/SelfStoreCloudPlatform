@@ -13,7 +13,7 @@ namespace Lumos.BLL
     {
         private AuthorizeRelay _authorizeRelay = new AuthorizeRelay();
 
-        public LoginResult SignIn(string username, string password, string loginIp, Enumeration.LoginType loginType)
+        public LoginResult SignIn(string pUsername, string pPassword, string pLoginIp, Enumeration.LoginType pLoginType)
         {
             DateTime timeNow = DateTime.Now;
 
@@ -25,9 +25,9 @@ namespace Lumos.BLL
             loginHis.Country = ipInfo.Country;
             loginHis.Province = ipInfo.Province;
             loginHis.City = ipInfo.City;
-            loginHis.LoginType = loginType;
+            loginHis.LoginType = pLoginType;
             loginHis.CreateTime = this.DateTime;
-            var result = _authorizeRelay.SignIn(username, password, timeNow, loginIp);
+            var result = _authorizeRelay.SignIn(pUsername, pPassword, timeNow, pLoginIp);
 
             switch (result.ResultTip)
             {
@@ -69,94 +69,94 @@ namespace Lumos.BLL
             return result;
         }
 
-        public bool UserNameIsExists(string userName)
+        public bool UserNameIsExists(string pUserName)
         {
-            return _authorizeRelay.UserNameIsExists(userName);
+            return _authorizeRelay.UserNameIsExists(pUserName);
         }
 
-        public List<SysMenu> GetUserMenus(string userId)
+        public List<SysMenu> GetUserMenus(string pUserId)
         {
-            return _authorizeRelay.GetUserMenus(userId);
+            return _authorizeRelay.GetUserMenus(pUserId);
         }
 
-        public List<string> GetUserPermissions(string userId)
+        public List<string> GetUserPermissions(string pUserId)
         {
-            return _authorizeRelay.GetUserPermissions(userId);
+            return _authorizeRelay.GetUserPermissions(pUserId);
         }
 
-        public CustomJsonResult CreateUser<T>(string operater, T user, params string[] roleIds) where T : SysUser
+        public CustomJsonResult CreateUser<T>(string pOperater, T pUser, params string[] pRoleIds) where T : SysUser
         {
-            return _authorizeRelay.CreateUser<T>(operater, user, roleIds);
+            return _authorizeRelay.CreateUser<T>(pOperater, pUser, pRoleIds);
         }
 
-        public CustomJsonResult UpdateUser<T>(string operater, T user, params string[] roleIds) where T : SysUser
+        public CustomJsonResult UpdateUser<T>(string pOperater, T pUser, params string[] pRoleIds) where T : SysUser
         {
-            return _authorizeRelay.UpdateUser<T>(operater, user, roleIds);
+            return _authorizeRelay.UpdateUser<T>(pOperater, pUser, pRoleIds);
         }
 
-        public CustomJsonResult DeleteUser(string operater, string[] userIds)
+        public CustomJsonResult DeleteUser(string pOperater, string[] pUserIds)
         {
-            return _authorizeRelay.DeleteUser(operater, userIds);
+            return _authorizeRelay.DeleteUser(pOperater, pUserIds);
         }
 
-        public CustomJsonResult ChangePassword(string operater, string userId, string oldpassword, string newpassword)
+        public CustomJsonResult ChangePassword(string pOperater, string pUserId, string pOldpassword, string pNewpassword)
         {
-            return _authorizeRelay.ChangePassword(operater, userId, oldpassword, newpassword);
+            return _authorizeRelay.ChangePassword(pOperater, pUserId, pOldpassword, pNewpassword);
         }
 
-        public CustomJsonResult CreateRole(string operater, SysRole role)
+        public CustomJsonResult CreateRole(string pOperater, SysRole pRole)
         {
-            return _authorizeRelay.CreateRole(operater, role);
+            return _authorizeRelay.CreateRole(pOperater, pRole);
         }
 
-        public CustomJsonResult UpdateRole(string operater, SysRole role)
+        public CustomJsonResult UpdateRole(string pOperater, SysRole pRole)
         {
-            return _authorizeRelay.UpdateRole(operater, role);
+            return _authorizeRelay.UpdateRole(pOperater, pRole);
         }
 
-        public CustomJsonResult DeleteRole(string operater, string[] ids)
+        public CustomJsonResult DeleteRole(string pOperater, string[] pRoleIds)
         {
-            return _authorizeRelay.DeleteRole(operater, ids);
+            return _authorizeRelay.DeleteRole(pOperater, pRoleIds);
         }
 
-        public CustomJsonResult SaveRoleMenu(string operater, string roleId, string[] menuIds)
+        public CustomJsonResult SaveRoleMenu(string pOperater, string pRoleId, string[] pMenuIds)
         {
-            return _authorizeRelay.SaveRoleMenu(operater, roleId, menuIds);
+            return _authorizeRelay.SaveRoleMenu(pOperater, pRoleId, pMenuIds);
         }
 
-        public CustomJsonResult RemoveUserFromRole(string operater, string roleId, string[] userIds)
+        public CustomJsonResult RemoveUserFromRole(string pOperater, string pRoleId, string[] pUserIds)
         {
-            return _authorizeRelay.RemoveUserFromRole(operater, roleId, userIds);
+            return _authorizeRelay.RemoveUserFromRole(pOperater, pRoleId, pUserIds);
         }
 
-        public CustomJsonResult AddUserToRole(string operater, string roleId, string[] userIds)
+        public CustomJsonResult AddUserToRole(string pOperater, string pRoleId, string[] pUserIds)
         {
-            return _authorizeRelay.AddUserToRole(operater, roleId, userIds);
+            return _authorizeRelay.AddUserToRole(pOperater, pRoleId, pUserIds);
         }
 
-        public List<SysMenu> GetRoleMenus(string roleId)
+        public List<SysMenu> GetRoleMenus(string pRoleId)
         {
-            return _authorizeRelay.GetRoleMenus(roleId);
+            return _authorizeRelay.GetRoleMenus(pRoleId);
         }
 
-        public CustomJsonResult CreateMenu(string operater, SysMenu sysMenu, string[] perssionId)
+        public CustomJsonResult CreateMenu(string pOperater, SysMenu pSysMenu, string[] pPerssionIds)
         {
-            return _authorizeRelay.CreateMenu(operater, sysMenu, perssionId);
+            return _authorizeRelay.CreateMenu(pOperater, pSysMenu, pPerssionIds);
         }
 
-        public CustomJsonResult UpdateMenu(string operater, SysMenu sysMenu, string[] perssionIds)
+        public CustomJsonResult UpdateMenu(string pOperater, SysMenu pSysMenu, string[] pPerssionIds)
         {
-            return _authorizeRelay.UpdateMenu(operater, sysMenu, perssionIds);
+            return _authorizeRelay.UpdateMenu(pOperater, pSysMenu, pPerssionIds);
         }
 
-        public CustomJsonResult DeleteMenu(string operater, string[] ids)
+        public CustomJsonResult DeleteMenu(string pOperater, string[] pMenuIds)
         {
-            return _authorizeRelay.DeleteMenu(operater, ids);
+            return _authorizeRelay.DeleteMenu(pOperater, pMenuIds);
         }
 
-        public List<SysPermission> GetPermissionList(PermissionCode permission)
+        public List<SysPermission> GetPermissionList(PermissionCode pPermissionCode)
         {
-            return _authorizeRelay.GetPermissionList(permission);
+            return _authorizeRelay.GetPermissionList(pPermissionCode);
         }
     }
 }

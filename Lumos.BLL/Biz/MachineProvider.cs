@@ -11,20 +11,20 @@ namespace Lumos.BLL
 {
     public class MachineProvider : BaseProvider
     {
-        public CustomJsonResult Add(string operater, Machine machine)
+        public CustomJsonResult Add(string pOperater, Machine pMachine)
         {
             CustomJsonResult result = new CustomJsonResult();
 
-            var l_posMachine = CurrentDb.Machine.Where(m => m.DeviceId == machine.DeviceId).FirstOrDefault();
-            if (l_posMachine != null)
+            var lPosMachine = CurrentDb.Machine.Where(m => m.DeviceId == pMachine.DeviceId).FirstOrDefault();
+            if (lPosMachine != null)
                 return new CustomJsonResult(ResultType.Failure, "该POS机设备ID已经登记");
 
-            machine.Id = GuidUtil.New();
-            machine.CreateTime = this.DateTime;
-            machine.Creator = operater;
+            pMachine.Id = GuidUtil.New();
+            pMachine.CreateTime = this.DateTime;
+            pMachine.Creator = pOperater;
 
 
-            CurrentDb.Machine.Add(machine);
+            CurrentDb.Machine.Add(pMachine);
             CurrentDb.SaveChanges();
 
            // machine.Sn = SnUtil.Build(machine.Id);
@@ -34,18 +34,18 @@ namespace Lumos.BLL
             return new CustomJsonResult(ResultType.Success, "登记成功");
         }
 
-        public CustomJsonResult Edit(string operater, Machine machine)
+        public CustomJsonResult Edit(string pOperater, Machine pMachine)
         {
             CustomJsonResult result = new CustomJsonResult();
 
-            var l_machine = CurrentDb.Machine.Where(m => m.Id == machine.Id).FirstOrDefault();
-            if (l_machine == null)
+            var lMachine = CurrentDb.Machine.Where(m => m.Id == pMachine.Id).FirstOrDefault();
+            if (lMachine == null)
                 return new CustomJsonResult(ResultType.Failure, "不存在");
 
-            l_machine.Name = machine.Name;
-            l_machine.MacAddress = machine.MacAddress;
-            l_machine.MendTime = this.DateTime;
-            l_machine.Mender = operater;
+            lMachine.Name = pMachine.Name;
+            lMachine.MacAddress = pMachine.MacAddress;
+            lMachine.MendTime = this.DateTime;
+            lMachine.Mender = pOperater;
             CurrentDb.SaveChanges();
 
             return new CustomJsonResult(ResultType.Success, "保存成功");
