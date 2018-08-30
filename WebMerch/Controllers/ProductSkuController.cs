@@ -158,6 +158,7 @@ namespace WebMerch.Controllers
                 {
                     Id = item.Id,
                     Name = item.Name,
+                    BarCode = item.BarCode,
                     MainImg = ImgSet.GetMain(item.DispalyImgUrls),
                     SalePrice = item.SalePrice.ToF2Price()
                 });

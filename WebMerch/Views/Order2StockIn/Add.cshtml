@@ -13,7 +13,7 @@
             border-bottom-width: 0.1px;
         }
 
-       form input[type=text]:focus {
+        form input[type=text]:focus {
             border-width: 0px;
             outline: none;
             border-bottom-width: 0.1px;
@@ -42,15 +42,16 @@
                     transformResult: function (d) {
                         return {
                             suggestions: $.map(d.data, function (item) {
-                                return { value: item.id, data: item.name };
+                                return { value: item.barCode, data: item.name, barCode: item.barCode, id: item.id };
                             })
                         };
                     },
                     formatResult: function (suggestion, value) {
 
-                        return "(" + suggestion.value + ")" + suggestion.data;
+                        return "(" + suggestion.barCode + ")" + suggestion.data;
                     },
                     onSelect: function (suggestion) {
+                        $(_this).parent().parent().find('input[name=id]').val(suggestion.id);
                         $(_this).parent().parent().find('.name').text(suggestion.data);
                         addRowSku();
                     }
@@ -90,11 +91,10 @@
 
             var l_StrRows = "";
             l_StrRows += "<tr>";
-            l_StrRows += "<td> <input type=\"text\" name=\"code\" style=\"width:100%;\" value=\"\" autocomplete=\"off\" /></td>";
-            l_StrRows += "<td > <span class=\"name\"></span> </td>";
-            l_StrRows += "<td> <input type=\"text\" name=\"a\" style=\"width:100%;\" value=\"\" autocomplete=\"off\"/></td>";
-            l_StrRows += "<td> <input type=\"text\" name=\"a\" style=\"width:100%;\" value=\"\" autocomplete=\"off\" /></td>";
-            l_StrRows += "<td></td>";
+            l_StrRows += "<td><input type=\"text\" name=\"code\" style=\"width:80%;\" value=\"\" autocomplete=\"off\" /></td>";
+            l_StrRows += "<td ><input type=\"hidden\" name=\"id\" value=\"\"  /><span class=\"name\"></span> </td>";
+            l_StrRows += "<td><input type=\"text\" name=\"a\" style=\"width:80%;\" value=\"\" autocomplete=\"off\"/></td>";
+            l_StrRows += "<td><input type=\"text\" name=\"a\" style=\"width:80%;\" value=\"\" autocomplete=\"off\" /></td>";
             l_StrRows += "<td class=\"operation\">";
             l_StrRows += "</td>";
             l_StrRows += "</tr>";
@@ -134,7 +134,7 @@
                     描述：
                 </td>
                 <td class="f-tb-c" colspan="5">
-                    <input id="Model_Warehouse_Address" name="Model.Warehouse.Address" type="text"  value="" style="width:80%;"  autocomplete="off"/>
+                    <input id="Model_Warehouse_Address" name="Model.Warehouse.Address" type="text" value="" style="width:80%;" autocomplete="off" />
                 </td>
             </tr>
             <tr style="display:none">
@@ -153,16 +153,13 @@
                             编码
                         </th>
                         <th style="width:45%">
-                            名称
+                            商品
                         </th>
-                        <th style="width:10%">
-                            数量
+                        <th style="width:15%">
+                            数量（计单位/个）
                         </th>
-                        <th style="width:10%">
-                            单价
-                        </th>
-                        <th style="width:10%">
-                            合计
+                        <th style="width:15%">
+                            金额
                         </th>
                         <th style="width:5%" class="operation">
                             操作
