@@ -10,7 +10,7 @@ namespace Lumos.BLL
     {
         public void Update(Entity.Enumeration.SysItemCacheType pType)
         {
-            if (type != Entity.Enumeration.SysItemCacheType.User)
+            if (pType != Entity.Enumeration.SysItemCacheType.User)
             {
                 var sysItemCacheUpdateTime = CurrentDb.SysItemCacheUpdateTime.Where(m => m.Type == pType).FirstOrDefault();
                 if (sysItemCacheUpdateTime != null)
