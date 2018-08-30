@@ -9,13 +9,13 @@ namespace Lumos.BLL.Service.Term
 {
     public class ProductSkuProvider : BaseProvider
     {
-        public List<ProductSkuModel> GetSkus(string userId)
+        public List<ProductSkuModel> GetSkus(string pUserId)
         {
             var productSkuModels = new List<ProductSkuModel>();
 
 
 
-            var productSkus = CurrentDb.ProductSku.Where(m => m.UserId == userId ).ToList();
+            var productSkus = CurrentDb.ProductSku.Where(m => m.UserId == pUserId).ToList();
 
 
 

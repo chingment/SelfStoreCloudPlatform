@@ -11,7 +11,7 @@ namespace Lumos.BLL.Service.Term
 {
     public class OrderService : BaseProvider
     {
-        public CustomJsonResult Reserve(string operater, OrderReservePms pms)
+        public CustomJsonResult Reserve(string pOperater, OrderReservePms pms)
         {
 
             CustomJsonResult result = new CustomJsonResult();
@@ -105,7 +105,7 @@ namespace Lumos.BLL.Service.Term
                                 machineStockLog.LockQuantity = item3.LockQuantity;
                                 machineStockLog.SellQuantity = item3.SellQuantity;
                                 machineStockLog.CreateTime = this.DateTime;
-                                machineStockLog.Creator = operater;
+                                machineStockLog.Creator = pOperater;
                                 machineStockLog.RemarkByDev = string.Format("锁定库存：{0}", item2.Quantity);
                                 CurrentDb.MachineStockLog.Add(machineStockLog);
                                 CurrentDb.SaveChanges();
