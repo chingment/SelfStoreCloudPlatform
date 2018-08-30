@@ -79,6 +79,7 @@
     <Compile Include="Biz\MachineProvider.cs" />
     <Compile Include="Biz\MerchantMachineProvider.cs" />
     <Compile Include="Biz\MerchantProvider.cs" />
+    <Compile Include="Biz\Order2StockInProvider.cs" />
     <Compile Include="Biz\ProductKindProvider.cs" />
     <Compile Include="Biz\ProductSkuProvider.cs" />
     <Compile Include="Biz\StoreProvider.cs" />
