@@ -25,8 +25,9 @@
         $(document).ready(function () {
             addRowSku();
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { art.dialog.tips(msg); } });
-            $("#Model_Warehouse_Name").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "名称不能为空,且不超过50个字符" });
-            $("#Model_Warehouse_Address").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 100, onError: "地址不能为空,且不超过100个字符" });
+            $("#Model_Order2StockIn_StockInTime").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "请选择日期" });
+            $("#Model_Order2StockIn_WarehouseId").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择仓库" });
+            $("#Model_Order2StockIn_SupplierId").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择供应商" });
 
             $('input[name=code]').live("click", function () {
                 var _this = $(this);
@@ -51,9 +52,25 @@
                         return "(" + suggestion.barCode + ")" + suggestion.data;
                     },
                     onSelect: function (suggestion) {
+
+                        var ids = $(_this).parent().parent().find('input[name=id]');
+                        var isFlag = false;
+                        $(ids).each(function () {
+                            var v = $(this).val();
+                            if (v == '') {
+                                isFlag = true;
+                            }
+                        });
+
+
                         $(_this).parent().parent().find('input[name=id]').val(suggestion.id);
                         $(_this).parent().parent().find('.name').text(suggestion.data);
-                        addRowSku();
+
+                        if (isFlag) {
+                            addRowSku();
+                        }
+
+
                     }
                 });
 
@@ -64,14 +81,51 @@
         function add() {
             var form = $("#form1");
             var isValid = $.formValidator.pageIsValid();
-            if (isValid) {
+            var l_Data = $(form).serializeArray();
+            var rows = $('#list_table_skus tbody tr');
+
+            var isCheckValueFormat = true;
+            var isCheckHasSku = true;
+            $.each(rows, function (i, row) {
+
+                var id = $(row).find("input[name=id]").val();
+                if (id != "") {
+                    isCheckHasSku = false;
+
+                    var quantity = $(row).find("input[name=quantity]").val();
+                    var amount = $(row).find("input[name=amount]").val();
+
+                    if ($.lumos.isInt(quantity)) {
+                        $.lumos.tips("检查到输入数量的值不是正整数格式");
+                        isCheckValueFormat = false;
+                        return;
+                    }
+
+                    if ($.lumos.isFloat(amount)) {
+                        $.lumos.tips("检查到输入金额不是金额格式");
+                        isCheckValueFormat = false;
+                        return;
+                    }
+
+                    l_Data.push({ name: "Model.Order2StockInDetails[" + i + "].ProductSkuId", value: id });
+                    l_Data.push({ name: "Model.Order2StockInDetails[" + i + "].Quantity", value: quantity });
+                    l_Data.push({ name: "Model.Order2StockInDetails[" + i + "].Amount", value: amount });
+                }
+
+            });
+
+            if (isCheckHasSku) {
+                $.lumos.tips("至少入库一种商品");
+                return false;
+            }
+
+            if (isValid == true && isCheckValueFormat == true) {
                 art.dialog.confirm(
                '确定要提交？',
                 function () {
-                    var l_Data = $(form).serializeArray();
                     $.lumos.postJson({
                         isUseHandling: true,
-                        url: "/Warehouse/Add",
+                        url: "/Order2StockIn/Add",
                         data: l_Data,
                         success: function (d) {
                             $.lumos.tips(d.message);
@@ -93,8 +147,8 @@
             l_StrRows += "<tr>";
             l_StrRows += "<td><input type=\"text\" name=\"code\" style=\"width:80%;\" value=\"\" autocomplete=\"off\" /></td>";
             l_StrRows += "<td ><input type=\"hidden\" name=\"id\" value=\"\"  /><span class=\"name\"></span> </td>";
-            l_StrRows += "<td><input type=\"text\" name=\"a\" style=\"width:80%;\" value=\"\" autocomplete=\"off\"/></td>";
-            l_StrRows += "<td><input type=\"text\" name=\"a\" style=\"width:80%;\" value=\"\" autocomplete=\"off\" /></td>";
+            l_StrRows += "<td><input type=\"text\" name=\"quantity\" style=\"width:80%;\" value=\"\" autocomplete=\"off\"  onkeyup=\"clearNoNum2(this)\"   /></td>";
+            l_StrRows += "<td><input type=\"text\" name=\"amount\" style=\"width:80%;\" value=\"\" autocomplete=\"off\" onkeyup=\"clearNoNum(this)\" /></td>";
             l_StrRows += "<td class=\"operation\">";
             l_StrRows += "</td>";
             l_StrRows += "</tr>";
@@ -103,6 +157,22 @@
             $('#list_table_skus tbody').append(l_StrRows);
         }
 
+        function clearNoNum2(obj) {
+            obj.value = obj.value.replace(/[^1-9]/g, '');  //清除“数字”和“.”以外的字符
+            if (obj.value.indexOf(".") < 0 && obj.value != "") {//以上已经过滤，此处控制的是如果没有小数点，首位不能为类似于 01、02的金额
+                obj.value = parseFloat(obj.value);
+            }
+        }
+
+        function clearNoNum(obj) {
+            obj.value = obj.value.replace(/[^\d.]/g, "");  //清除“数字”和“.”以外的字符
+            obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的
+            obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+            obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3');//只能输入两个小数
+            if (obj.value.indexOf(".") < 0 && obj.value != "") {//以上已经过滤，此处控制的是如果没有小数点，首位不能为类似于 01、02的金额
+                obj.value = parseFloat(obj.value);
+            }
+        }
     </script>
 }
 <div class="gbr-row">
@@ -114,19 +184,19 @@
                     入库日期<span class="required-symbol">*</span>：
                 </td>
                 <td class="f-tb-c">
-                    <input id="Model_Warehouse_Name" name="Model.Warehouse.Name" type="text" value="" style="width:100px;" onclick="WdatePicker({ maxDate: '#F{\'@DateTime.Now.ToString("yyyy-MM-dd")\'}', dateFmt: 'yyyy-MM-dd' })" autocomplete="off" />
+                    <input id="Model_Order2StockIn_StockInTime" name="Model.Order2StockIn.StockInTime" type="text" value="@DateTime.Now.ToUnifiedFormatDate()" class="Wdate" style="width:100px;" onclick="WdatePicker({ maxDate: '#F{\'@DateTime.Now.ToString("yyyy-MM-dd")\'}', dateFmt: 'yyyy-MM-dd' })" autocomplete="off" />
                 </td>
                 <td class="f-tb-t">
                     仓库<span class="required-symbol">*</span>：
                 </td>
                 <td class="f-tb-c">
-                    @Html.initWarehouse("aaa")
+                    @Html.initWarehouse("Model.Order2StockIn.WarehouseId")
                 </td>
                 <td class="f-tb-t">
                     供应商<span class="required-symbol">*</span>：
                 </td>
                 <td class="f-tb-c">
-                    @Html.initCompany(Lumos.Entity.Enumeration.CompanyClass.Supplier, "aaa")
+                    @Html.initCompany(Lumos.Entity.Enumeration.CompanyClass.Supplier, "Model.Order2StockIn.SupplierId")
                 </td>
             </tr>
             <tr>
@@ -134,7 +204,7 @@
                     描述：
                 </td>
                 <td class="f-tb-c" colspan="5">
-                    <input id="Model_Warehouse_Address" name="Model.Warehouse.Address" type="text" value="" style="width:80%;" autocomplete="off" />
+                    <input id="Model_Order2StockIn_Description" name="Model.Order2StockIn.Description" type="text" value="" style="width:80%;" autocomplete="off" />
                 </td>
             </tr>
             <tr style="display:none">

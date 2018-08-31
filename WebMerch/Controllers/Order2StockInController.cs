@@ -65,5 +65,12 @@ namespace WebMerch.Controllers
 
             return Json(ResultType.Success, pageEntity, "");
         }
+
+        [HttpPost]
+        public CustomJsonResult Add(AddViewModel model)
+        {
+            model.Order2StockIn.UserId = this.CurrentUserId;
+            return BizFactory.Order2StockIn.Add(this.CurrentUserId, model.Order2StockIn, model.Order2StockInDetails);
+        }
     }
 }

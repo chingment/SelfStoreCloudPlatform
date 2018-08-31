@@ -91,6 +91,16 @@ namespace Lumos.Entity
             UnLock = 3
         }
 
+        public enum WarehouseStockLogChangeTpye
+        {
+            [Remark("未知")]
+            Unknow = 0,
+            [Remark("入库单")]
+            StockIn = 1
+        }
+
+        
+
         public enum ReceptionMode
         {
             [Remark("未知")]

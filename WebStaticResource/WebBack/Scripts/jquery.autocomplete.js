@@ -764,6 +764,9 @@
             }
 
             $.each(that.suggestions, function (i, suggestion) {
+
+                if (suggestion.value == null)
+                    return false;
                 var foundMatch = suggestion.value.toLowerCase().indexOf(value) === 0;
                 if (foundMatch) {
                     bestMatch = suggestion;

@@ -183,6 +183,7 @@
     <Compile Include="App_Start\Own\OwnStaticResource.cs" />
     <Compile Include="App_Start\Own\OwnStatisticsTrackerAttribute.cs" />
     <Compile Include="Models\MachineStock\SearchCondition.cs" />
+    <Compile Include="Models\Order2StockIn\AddViewModel.cs" />
     <Compile Include="Models\Order2StockIn\SearchCondition.cs" />
     <Compile Include="Models\OwnBaseViewModel.cs" />
     <Compile Include="Models\OwnViewModel.cs" />

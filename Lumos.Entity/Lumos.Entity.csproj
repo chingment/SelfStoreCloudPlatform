@@ -67,9 +67,12 @@
     <Compile Include="Biz\ProductKindSku.cs" />
     <Compile Include="Biz\ProductSku.cs" />
     <Compile Include="Biz\Order2StockInDetails.cs" />
+    <Compile Include="Biz\Stock.cs" />
     <Compile Include="Biz\Store.cs" />
     <Compile Include="Biz\StoreMachine.cs" />
     <Compile Include="Biz\Warehouse.cs" />
+    <Compile Include="Biz\WarehouseStock.cs" />
+    <Compile Include="Biz\WarehouseStockLog.cs" />
     <Compile Include="ImgSet.cs" />
     <Compile Include="Sys\SysMerchatUser.cs" />
     <Compile Include="EnumerationRemarkConverter.cs" />
