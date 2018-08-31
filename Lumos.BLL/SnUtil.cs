@@ -9,15 +9,15 @@ namespace Lumos.BLL
     public class SnUtil
     {
 
-        public static string Build(int id)
+        public static string Build(Entity.Enumeration.BizSnType type)
         {
+
             string prefix = "";
+            Random ran = new Random();
+            string dateTime = DateTime.Now.ToString("yyyyMMddHHmmss") + ran.Next(1000, 9999);
 
-            string dateTime = DateTime.Now.ToString("yyMMddHHmm");
 
-            string sId = id.ToString().PadLeft(10, '0');
-
-            string sn = prefix + dateTime + sId;
+            string sn = prefix + dateTime;
             return sn;
         }
     }

@@ -11,6 +11,7 @@
         var listTable;
         $(document).ready(function () {
 
+            $('#txt_SalePrice').decimalInput(2);
 
             listTable = $("#list_table").loadDataTable({
                 url: "/ProductSku/GetListBySalePrice",
@@ -19,6 +20,9 @@
                 searchButtonId: "btn_Search",
                 containerId: "form1",
                 rowDataCombie: function (p_index, p_row) {
+                    var l_Strlimt = "";
+
+                    l_Strlimt += "@Html.IsInPermission("<a href=\\\"javascript:void(0)\\\" operate=\\\"edit\\\"   class=\\\"a-btn a-btn-edit\\\"  >修改</a>")";
                     var l_StrRows = "";
                     l_StrRows += "<tr>";
                     l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
@@ -27,120 +31,64 @@
                     l_StrRows += "<td class=\"overflow\" title=\"" + p_row.productSkuName + "\">" + p_row.productSkuName + "</td>";
                     l_StrRows += "<td class=\"overflow\" title=\"" + p_row.productSkuSalesPrice + "\">" + p_row.productSkuSalesPrice + "</td>";
                     l_StrRows += "<td class=\"operation\">";
+                    l_StrRows += l_Strlimt;
                     l_StrRows += "</td>";
                     l_StrRows += "</tr>";
                     return l_StrRows;
                 },
                 operate: {
-                    "delete": function (obj) {
-
-                        $.lumos.postJson({
-                            url: "/Biz/ProductSku/Delete",
-                            data: { id: obj[0].id },
-                            success: function (d) {
-                                listTable.loadData(0);
-                                $.lumos.tips(d.message);
-                            }
-                        });
-
-                    },
                     "edit": function (obj) {
-                        var url = '/ProductSku/Edit?id=' + obj.id;
-                        var title = '商品信息修改';
-                        var dialog = art.dialog.open(url, {
-                            id: "openDialog", title: title, width: '800px', height: '600px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
-                                this.iframe.contentWindow.submit(function (d) {
-                                    if (d.result == $.lumos.resultType.success) {
-                                        //dialog.close();
-                                        listTable.loadData();
-                                    }
-                                    $.lumos.tips(d.message);
-                                });
+
+                        var form2 = document.getElementById('form2');
+
+                        $('#lbl_StoreName').text(obj.storeName)
+                        $('#lbl_ProductSkuName').text(obj.productSkuName)
+                        $('#lbl_ProductSkuSalesPrice').text(obj.productSkuSalesPrice);
+                        $('#txt_SalePrice').val(obj.productSkuSalesPrice);
+                        var dialog = art.dialog({
+                            title: '修改',
+                            content: form2,
+                            width: '500px',
+                            id: 'EF893L',
+                            lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
+
+                                art.dialog.confirm(
+        '确定要保存？',
+         function () {
+             var l_Data = $("form2").serializeArray();
+
+             var salePrice = $('#txt_SalePrice').val();
+             l_Data.push({ name: "storeId", value: obj.storeId });
+             l_Data.push({ name: "skuId", value: obj.productSkuId });
+             l_Data.push({ name: "salePrice", value: salePrice });
+
+             $.lumos.postJson({
+                 isUseHandling: true,
+                 url: "/ProductSku/EditBySalePrice",
+                 data: l_Data,
+                 success: function (d) {
+                     $.lumos.tips(d.message);
+                     if (d.result == $.lumos.resultType.success) {
+                         listTable.loadData("c");
+                         dialog.close();
+                     }
+                 }
+             });
+         });
+
+
+
                                 return false;
                             }
                         });
-                    },
-                    "editBySalePrice": function (obj) {
-                        var url = '/ProductSku/EditBySalePrice?id=' + obj.id;
-                        var title = '商品价格修改';
-                        var dialog = art.dialog.open(url, {
-                            id: "openDialog", title: title, width: '800px', height: '600px', lock: true, drag: false, cancelVal: '关闭', cancel: true
-                        });
+
+
                     }
                 }
             });
-
-
-            //var tr_body = $('#list_table tbody')
-            //var l_Data = $("#form1").serializeArray();
-            //$.lumos.postJson({
-            //    isUseHandling: true,
-            //    url: "/ProductSku/GetListBySalePrice",
-            //    data: l_Data,
-            //    success: function (d) {
-
-            //        if (d.result == $.lumos.resultType.success) {
-
-            //            if (d.data.length == 0) {
-            //                $(tr_body).append("<tr><td colspan=\"6\" class=\"emptytip\">暂没有便利店销售</td></tr>");
-            //            }
-            //            else {
-
-                            
-            //                $.each(d.data, function (p_index, p_row) {
-            //                    var l_StrRows = "";
-            //                    l_StrRows += "<tr>";
-            //                    l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
-            //                    l_StrRows += "<td class=\"overflow\" title=\"" + p_row.storeName + "\">" + p_row.storeName + "</td>";
-            //                    l_StrRows += "<td class=\"overflow tipitem\"><div> <img src=\"" + p_row.productSkuImgUrl + "\" style=\"width:50px;height:50px\"><div></td>";
-            //                    l_StrRows += "<td class=\"overflow\" title=\"" + p_row.productSkuName + "\">" + p_row.productSkuName + "</td>";
-            //                    l_StrRows += "<td class=\"overflow\" title=\"" + p_row.productSkuSalesPrice + "\">" + p_row.productSkuSalesPrice + "</td>";
-            //                    l_StrRows += "<td class=\"operation\">";
-            //                    l_StrRows += "</td>";
-            //                    l_StrRows += "</tr>";
-            //                    $(tr_body).append(l_StrRows);
-            //                });
-
-
-            //            }
-            //        }
-            //        else {
-            //            $.lumos.tips(d.message);
-            //        }
-
-            //    }
-            //});
-
         });
 
-        function submit(fun) {
 
-
-            var stem = CKEDITOR.instances.Model_ProductSku_DetailsDes.getData();
-
-            var form = $("#form1");
-            var isValid = $.formValidator.pageIsValid();
-            if (isValid) {
-
-                $("#Model_ProductSku_DetailsDes").val(stem);
-
-                art.dialog.confirm(
-               '确定要保存？',
-                function () {
-                    var l_Data = $(form).serializeArray();
-                    $.lumos.postJson({
-                        isUseHandling: true,
-                        url: "/ProductSku/Edit",
-                        data: l_Data,
-                        success: function (d) {
-                            fun(d);
-                        }
-                    });
-                });
-            }
-
-            return false;
-        }
 
     </script>
 }
@@ -156,18 +104,18 @@
                             序号
                         </th>
                         <th style="width:20%">
-                            便利店名称
+                            便利店
                         </th>
-                        <th style="width:20%">
+                        <th style="width:10%">
 
                         </th>
-                        <th style="width:20%">
-                            商品名称
+                        <th style="width:40%">
+                            商品
                         </th>
-                        <th style="width:20%">
+                        <th style="width:15%">
                             销售价
                         </th>
-                        <th style="width:15%" class="operation">
+                        <th style="width:10%" class="operation">
                             操作
                         </th>
                     </tr>
@@ -196,5 +144,42 @@
             </table>
         </div>
 
+    </form>
+
+    <form id="form2" name="form2" method="post" style="display:none;">
+        <table class="f-tb" cellpadding="0" cellspacing="1">
+            <tr>
+                <td class="f-tb-t" style="width:80px">
+                    便利店：
+                </td>
+                <td class="f-tb-c">
+                    <span id="lbl_StoreName"></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="f-tb-t">
+                    商品：
+                </td>
+                <td class="f-tb-c">
+                    <span id="lbl_ProductSkuName"></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="f-tb-t">
+                    原价格：
+                </td>
+                <td class="f-tb-c">
+                    <span id="lbl_ProductSkuSalesPrice"></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="f-tb-t">
+                    新价格：
+                </td>
+                <td class="f-tb-c">
+                    <input id="txt_SalePrice" type="text" class="input-control" value="" style="width:50px;" autocomplete="off" />
+                </td>
+            </tr>
+        </table>
     </form>
 </div>

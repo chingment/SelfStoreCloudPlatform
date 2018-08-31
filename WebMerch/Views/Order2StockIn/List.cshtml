@@ -39,10 +39,7 @@
                     var url = '/Order2StockIn/Details?id=' + obj.id;
                     var title = '查看';
                     var dialog = art.dialog.open(url, {
-                        id: "openDialog", title: title, width: '600px', height: '350px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
-                            this.iframe.contentWindow.edit();
-                            return false;
-                        }
+                        id: "openDialog", title: title, width: '800px', height: '600px', lock: true, drag: false, cancelVal: '关闭', cancel: true
                     });
                 }
             }
@@ -53,7 +50,7 @@
             var url = '/Order2StockIn/Add';
             var title = '新建';
             art.dialog.open(url, {
-                id: "openDialog", title: title, width: '800px', height: '350px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
+                id: "openDialog", title: title, width: '800px', height: '600px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
                     this.iframe.contentWindow.add();
                     return false;
                 }

@@ -1,0 +1,111 @@
+﻿﻿@model WebMerch.Models.Order2StockIn.DetailsViewModel
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/_LayoutHomeDialog.cshtml";
+}
+@section scripts{
+    <style type="text/css">
+        form input[type=text] {
+            border-left-width: 0px;
+            border-top-width: 0px;
+            border-right-width: 0px;
+            border-bottom-color: black;
+            border-bottom-width: 0.1px;
+        }
+
+        form input[type=text]:focus {
+            border-width: 0px;
+            outline: none;
+            border-bottom-width: 0.1px;
+        }
+    </style>
+
+}
+<div class="gbr-row">
+    <form id="form1" name="form1" method="post">
+
+        <table class="f-tb" cellpadding="0" cellspacing="1">
+            <tr>
+                <td class="f-tb-t">
+                    入库单号：
+                </td>
+                <td class="f-tb-c" colspan="5">
+                    @Model.Order2StockIn.Sn
+                </td>
+            </tr>
+            <tr>
+                <td class="f-tb-t" style="width:80px">
+                    入库日期：
+                </td>
+                <td class="f-tb-c">
+                    @Model.Order2StockIn.StockInTime.ToUnifiedFormatDate()
+                </td>
+                <td class="f-tb-t">
+                    仓库：
+                </td>
+                <td class="f-tb-c">
+                    @Model.Order2StockIn.WarehouseName
+                </td>
+                <td class="f-tb-t">
+                    供应商：
+                </td>
+                <td class="f-tb-c">
+                    @Model.Order2StockIn.SupplierName
+                </td>
+            </tr>
+            <tr>
+                <td class="f-tb-t">
+                    描述：
+                </td>
+                <td class="f-tb-c" colspan="5">
+                    @Model.Order2StockIn.Description
+                </td>
+            </tr>
+            <tr style="display:none">
+                <td class="f-tb-t"></td>
+                <td class="f-tb-c">
+                    <input type="button" value="保存" class="btn btn-sure" onclick="return add()" />
+                </td>
+            </tr>
+        </table>
+
+        <div class="list list-skus">
+            <table id="list_table_skus" class="list-tb list-tb-skus" cellpadding="0" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th style="width:20%" class="no">
+                            编码
+                        </th>
+                        <th style="width:45%">
+                            商品
+                        </th>
+                        <th style="width:15%">
+                            数量（计单位/个）
+                        </th>
+                        <th style="width:15%">
+                            金额
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Order2StockInDetails)
+                    {
+                        <tr>
+                            <td>@item.ProductSkuName</td>
+                            <td>@item.ProductSkuName</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.Amount</td>
+                        </tr>
+                    }
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>@Model.Order2StockIn.Quantity</td>
+                        <td>@Model.Order2StockIn.Amount</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </form>
+</div>

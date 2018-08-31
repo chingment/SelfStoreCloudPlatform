@@ -95,13 +95,13 @@
                     var quantity = $(row).find("input[name=quantity]").val();
                     var amount = $(row).find("input[name=amount]").val();
 
-                    if ($.lumos.isInt(quantity)) {
+                    if (!$.lumos.isInt(quantity)) {
                         $.lumos.tips("检查到输入数量的值不是正整数格式");
                         isCheckValueFormat = false;
                         return;
                     }
 
-                    if ($.lumos.isFloat(amount)) {
+                    if (!$.lumos.isFloat(amount)) {
                         $.lumos.tips("检查到输入金额不是金额格式");
                         isCheckValueFormat = false;
                         return;

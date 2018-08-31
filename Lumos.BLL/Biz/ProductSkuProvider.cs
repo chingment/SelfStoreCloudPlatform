@@ -103,6 +103,31 @@ namespace Lumos.BLL
             return result;
         }
 
+
+        public CustomJsonResult EditBySalePrice(string pOperater, string storeId, string productSkuId, decimal productSkuSalePrice)
+        {
+            CustomJsonResult result = new CustomJsonResult();
+
+            using (TransactionScope ts = new TransactionScope())
+            {
+                var lMachineStocks = CurrentDb.MachineStock.Where(m => m.StoreId == storeId && m.ProductSkuId == productSkuId).ToList();
+
+                foreach (var machineStock in lMachineStocks)
+                {
+                    machineStock.SalesPrice = productSkuSalePrice;
+                    machineStock.Mender = pOperater;
+                    machineStock.MendTime = this.DateTime;
+                }
+
+                CurrentDb.SaveChanges();
+                ts.Complete();
+
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
+            }
+
+            return result;
+        }
+
         public void InitSearchCache()
         {
             var tran = RedisManager.Db.CreateTransaction();

@@ -99,7 +99,7 @@ namespace Lumos.Entity
             StockIn = 1
         }
 
-        
+
 
         public enum ReceptionMode
         {
@@ -109,6 +109,14 @@ namespace Lumos.Entity
             Machine = 1,
             [Remark("快递专送")]
             Express = 2
+        }
+
+        public enum BizSnType
+        {
+            [Remark("未知")]
+            Unknow = 0,
+            [Remark("入库单号")]
+            Order2StockIn = 1
         }
     }
 }

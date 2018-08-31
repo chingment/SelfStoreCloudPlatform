@@ -184,6 +184,7 @@
     <Compile Include="App_Start\Own\OwnStatisticsTrackerAttribute.cs" />
     <Compile Include="Models\MachineStock\SearchCondition.cs" />
     <Compile Include="Models\Order2StockIn\AddViewModel.cs" />
+    <Compile Include="Models\Order2StockIn\DetailsViewModel.cs" />
     <Compile Include="Models\Order2StockIn\SearchCondition.cs" />
     <Compile Include="Models\OwnBaseViewModel.cs" />
     <Compile Include="Models\OwnViewModel.cs" />
@@ -260,6 +261,7 @@
     <Content Include="Views\Warehouse\List.cshtml" />
     <Content Include="Views\Order2StockIn\List.cshtml" />
     <Content Include="Views\Order2StockIn\Add.cshtml" />
+    <Content Include="Views\Order2StockIn\Details.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

@@ -111,6 +111,12 @@ namespace WebMerch.Controllers
         {
             var query = (from u in CurrentDb.MachineStock
                          where u.ProductSkuId == condition.Id
+
+                         &&
+                         (from d in CurrentDb.StoreMachine
+                          where d.IsBind == true
+                          select d.StoreId).Contains(u.StoreId)
+
                          select new { u.StoreId, u.ProductSkuId, u.SalesPrice }).Distinct();
 
             int total = query.Count();
@@ -143,6 +149,11 @@ namespace WebMerch.Controllers
             return Json(ResultType.Success, pageEntity, "");
         }
 
+        [HttpPost]
+        public CustomJsonResult EditBySalePrice(string storeId, string skuId, decimal salePrice)
+        {
+            return BizFactory.ProductSku.EditBySalePrice(this.CurrentUserId, storeId, skuId, salePrice);
+        }
 
         [HttpPost]
         public CustomJsonResult Search(SearchCondition condition)

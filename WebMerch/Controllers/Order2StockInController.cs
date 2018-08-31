@@ -22,6 +22,13 @@ namespace WebMerch.Controllers
             return View();
         }
 
+        public ActionResult Details(string id)
+        {
+            DetailsViewModel model = new DetailsViewModel();
+            model.LoadData(id);
+            return View(model);
+        }
+
         [HttpPost]
         public CustomJsonResult GetList(SearchCondition condition)
         {
