@@ -9,6 +9,7 @@ using System;
 using Lumos;
 using log4net;
 using System.Reflection;
+using Lumos.Redis;
 
 namespace WebSSO.Controllers
 {
@@ -23,6 +24,9 @@ namespace WebSSO.Controllers
 
             LogUtil.Info("daddsd");
             Session["WebSSOLoginVerifyCode"] = null;
+
+            RedisManager.Db.HashDelete("search_productskus_u_ca66ca85c5bf435581ecd2380554ecfe", "barcode:,name:乐事无限青柠味薯片,simplecode:LSWXQNWSP");
+
 
             LoginModel model = new LoginModel();
             model.ReturnUrl = returnUrl;

@@ -20,7 +20,7 @@ namespace Lumos.BLL
                 var lSupplier = CurrentDb.Company.Where(m => m.Id == pOrder2StockIn.SupplierId).FirstOrDefault();
 
                 pOrder2StockIn.Id = GuidUtil.New();
-                pOrder2StockIn.Sn = SnUtil.Build(Enumeration.BizSnType.Order2StockIn);
+                pOrder2StockIn.Sn = SnUtil.Build(Enumeration.BizSnType.Order2StockIn, pOrder2StockIn.UserId);
                 pOrder2StockIn.Quantity = pOrder2StockInDetails.Select(m => m.Quantity).Sum();
                 pOrder2StockIn.Amount = pOrder2StockInDetails.Select(m => m.Amount).Sum();
                 pOrder2StockIn.WarehouseName = lWarehouse.Name;

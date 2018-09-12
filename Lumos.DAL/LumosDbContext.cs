@@ -23,11 +23,12 @@ namespace Lumos.DAL
         //}
 
 
+        public IDbSet<BizSn> BizSn { get; set; }
 
         public IDbSet<Machine> Machine { get; set; }
         public IDbSet<Merchant> Merchant { get; set; }
         public IDbSet<MerchantMachine> MerchantMachine { get; set; }
-        public IDbSet<MachineBanner>  MachineBanner { get; set; }
+        public IDbSet<MachineBanner> MachineBanner { get; set; }
         public IDbSet<ProductKind> ProductKind { get; set; }
         public IDbSet<ProductKindSku> ProductKindSku { get; set; }
         public IDbSet<ProductSku> ProductSku { get; set; }

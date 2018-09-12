@@ -23,9 +23,13 @@ namespace WebMerch.Controllers
 {
     public class HomeController : OwnBaseController
     {
+
         public ViewResult Index()
         {
             BizFactory.ProductSku.InitSearchCache();
+
+           
+
             //var tran = RedisManager.Db.CreateTransaction();
 
             //var productSkus = CurrentDb.ProductSku.Where(m => m.BarCode != null).ToList();

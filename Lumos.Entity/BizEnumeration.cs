@@ -118,5 +118,15 @@ namespace Lumos.Entity
             [Remark("入库单号")]
             Order2StockIn = 1
         }
+
+        public enum BizSnOrderChannel
+        {
+            [Remark("未知")]
+            Unknow = 0,
+            [Remark("机器")]
+            Machine = 1,
+            [Remark("小程序")]
+            MicroProgram = 2
+        }
     }
 }

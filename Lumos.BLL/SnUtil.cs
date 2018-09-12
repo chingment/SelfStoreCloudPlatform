@@ -1,23 +1,70 @@
-﻿using System;
+﻿using Lumos.DAL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace Lumos.BLL
 {
     public class SnUtil
     {
 
-        public static string Build(Entity.Enumeration.BizSnType type)
+        private static readonly object lock_GetIncrNum = new object();
+
+        private static int GetIncrNum()
+        {
+
+            lock (lock_GetIncrNum)
+            {
+                try
+                {
+                    using (TransactionScope ts = new TransactionScope(TransactionScopeOption.Required))
+                    {
+                        LumosDbContext _dbContext = new LumosDbContext();
+
+                        string date = DateTime.Now.ToString("yyyy-MM-dd");
+
+                        var bizSn = _dbContext.BizSn.Where(m => m.IncrDate == date).FirstOrDefault();
+                        if (bizSn == null)
+                        {
+                            throw new Exception("业务流水号生成发生异常，错误编码：001");
+                        }
+
+                        bizSn.IncrNum += 1;
+
+                        _dbContext.SaveChanges();
+                        ts.Complete();
+
+                        return bizSn.IncrNum;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("业务流水号生成发生异常，错误编码：005");
+                }
+            }
+
+        }
+
+        public static string Build(Entity.Enumeration.BizSnType snType,string userId)
         {
 
             string prefix = "";
+
+            switch (snType)
+            {
+                case Entity.Enumeration.BizSnType.Order2StockIn:
+                    prefix = "61";
+                    break;
+            }
+
             Random ran = new Random();
-            string dateTime = DateTime.Now.ToString("yyyyMMddHHmmss") + ran.Next(1000, 9999);
+            string part1 = DateTime.Now.ToString("yyyyMMddHHmmss") + ran.Next(1000, 9999);
 
 
-            string sn = prefix + dateTime;
+            string sn = prefix + part1 + GetIncrNum();
             return sn;
         }
     }

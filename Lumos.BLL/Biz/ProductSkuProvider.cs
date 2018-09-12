@@ -103,7 +103,6 @@ namespace Lumos.BLL
             return result;
         }
 
-
         public CustomJsonResult EditBySalePrice(string pOperater, string storeId, string productSkuId, decimal productSkuSalePrice)
         {
             CustomJsonResult result = new CustomJsonResult();
