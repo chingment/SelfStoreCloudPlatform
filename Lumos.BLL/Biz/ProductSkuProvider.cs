@@ -26,7 +26,6 @@ namespace Lumos.BLL
                 pProductSku.CreateTime = this.DateTime;
 
                 CurrentDb.ProductSku.Add(pProductSku);
-                CurrentDb.SaveChanges();
 
                 string[] arr_KindIds = pProductSku.KindIds.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -39,10 +38,13 @@ namespace Lumos.BLL
                     productKindSku.Creator = pOperater;
                     productKindSku.CreateTime = this.DateTime;
                     CurrentDb.ProductKindSku.Add(productKindSku);
-                    CurrentDb.SaveChanges();
                 }
 
+                //CachUtil.Save<ProductSku>(string, ProductSku);
+                //CachUtil.GetList<ProductSku>();
+                //CachUtil.Get<ProductSku>(string);
 
+                CurrentDb.SaveChanges(true);
                 ts.Complete();
 
                 result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "新建成功");
@@ -77,7 +79,6 @@ namespace Lumos.BLL
                 foreach (var item in productKindSkus)
                 {
                     CurrentDb.ProductKindSku.Remove(item);
-                    CurrentDb.SaveChanges();
                 }
 
                 string[] arr_KindIds = pProductSku.KindIds.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
@@ -91,10 +92,9 @@ namespace Lumos.BLL
                     productKindSku.Creator = pOperater;
                     productKindSku.CreateTime = this.DateTime;
                     CurrentDb.ProductKindSku.Add(productKindSku);
-                    CurrentDb.SaveChanges();
                 }
 
-                CurrentDb.SaveChanges();
+                CurrentDb.SaveChanges(true);
                 ts.Complete();
 
                 result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");

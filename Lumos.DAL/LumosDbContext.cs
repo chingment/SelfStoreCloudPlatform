@@ -49,6 +49,78 @@ namespace Lumos.DAL
             base.OnModelCreating(modelBuilder);
         }
 
+        public int SaveChanges(bool isSaveCache)
+        {
+            //判断是用重写的savechanges方法 还是普通的savechange方法
+            //if (LogChangesDuringSave)
+            //{
+            //过滤所有修改了的实体，包括：增加 / 修改 / 删除
+            var entries = from obj in this.ChangeTracker.Entries()
+                          where obj.State != EntityState.Unchanged
+                          select obj;
+
+            foreach (var item in entries)
+            {
+                string entity_name = item.Entity.GetType().ToString();
+                string entity_key = GetKey(item.Entity);
+
+                switch (item.State)
+                {
+                    case EntityState.Added:
+                        Console.WriteLine("Adding a {0}", item.Entity.GetType());
+                        //PrintPropertyValues(item.CurrentValues, item.CurrentValues.PropertyNames);
+                        break;
+                    case EntityState.Deleted:
+                        Console.WriteLine("Adding a {0}", item.Entity.GetType());
+                        //PrintPropertyValues(item.CurrentValues, item.CurrentValues.PropertyNames);
+                        break;
+
+                    case EntityState.Modified:
+                        Console.WriteLine("Adding a {0}", item.Entity.GetType());
+                        //PrintPropertyValues(item.CurrentValues, item.CurrentValues.PropertyNames);
+                        break;
+                    default:
+                        break;
+                }
+                // }
+            }
+
+            //返回普通的savechange方法
+            return base.SaveChanges();
+        }
+
+        protected string GetKey(object model)
+        {
+
+            //取得m的Type实例
+            Type t = model.GetType();
+
+            string strResult = null;
+
+            string strColumn = "Id";
+
+            var key = model.GetType().GetProperty(strColumn).GetValue(model, null);
+            if (key != null)
+            {
+                strResult = key.ToString();
+            }
+
+            //if (key != null)
+            //{
+            //    strResult = model.GetType().GetProperty(strColumn).GetValue(model, null).ToString();//直接根据属性的名字获取其值
+            //}
+            ////取得类的属性名并获取属性值
+            foreach (System.Reflection.PropertyInfo s in t.GetProperties()) //循环遍历
+            {
+                if (s.Name == "Id")
+                {
+                    strResult = s.GetValue(model, null).ToString();
+                }
+
+            }
+
+            return strResult;
+        }
     }
 
 
