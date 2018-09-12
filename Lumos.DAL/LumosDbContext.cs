@@ -1,5 +1,6 @@
 ﻿using Lumos.DAL.AuthorizeRelay;
 using Lumos.Entity;
+using Lumos.Redis;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -12,7 +13,11 @@ using System.Threading.Tasks;
 
 namespace Lumos.DAL
 {
-
+    public class MyEntity
+    {
+        public object Entity { get; set; }
+        public EntityState State { get; set; }
+    }
     public class LumosDbContext : AuthorizeRelayDbContext
     {
 
@@ -31,8 +36,7 @@ namespace Lumos.DAL
         public IDbSet<MachineBanner> MachineBanner { get; set; }
         public IDbSet<ProductKind> ProductKind { get; set; }
         public IDbSet<ProductKindSku> ProductKindSku { get; set; }
-        public IDbSet<ProductSku> ProductSku { get; set; }
-
+        public DbSet<ProductSku> ProductSku { get; set; }
         public IDbSet<MachineStock> MachineStock { get; set; }
         public IDbSet<MachineStockLog> MachineStockLog { get; set; }
         public IDbSet<Store> Store { get; set; }
@@ -55,38 +59,59 @@ namespace Lumos.DAL
             //if (LogChangesDuringSave)
             //{
             //过滤所有修改了的实体，包括：增加 / 修改 / 删除
+
             var entries = from obj in this.ChangeTracker.Entries()
                           where obj.State != EntityState.Unchanged
                           select obj;
 
+            List<MyEntity> a1 = new List<MyEntity>();
+
             foreach (var item in entries)
             {
-                string entity_name = item.Entity.GetType().ToString();
-                string entity_key = GetKey(item.Entity);
+                var a = new MyEntity();
+                a.Entity = item.Entity;
+                a.State = item.State;
+                a1.Add(a);
+            }
 
-                switch (item.State)
+
+            int rows = base.SaveChanges();
+
+
+            if (rows > 0)
+            {
+                foreach (var item in a1)
                 {
-                    case EntityState.Added:
-                        Console.WriteLine("Adding a {0}", item.Entity.GetType());
-                        //PrintPropertyValues(item.CurrentValues, item.CurrentValues.PropertyNames);
-                        break;
-                    case EntityState.Deleted:
-                        Console.WriteLine("Adding a {0}", item.Entity.GetType());
-                        //PrintPropertyValues(item.CurrentValues, item.CurrentValues.PropertyNames);
-                        break;
+                    Type entity_type = item.Entity.GetType();
+                    string entity_name = item.Entity.GetType().ToString();
+                    string entity_key = GetKey(item.Entity);
 
-                    case EntityState.Modified:
-                        Console.WriteLine("Adding a {0}", item.Entity.GetType());
-                        //PrintPropertyValues(item.CurrentValues, item.CurrentValues.PropertyNames);
-                        break;
-                    default:
-                        break;
+                    switch (item.State)
+                    {
+                        case EntityState.Added:
+                            Console.WriteLine("Adding a {0}", item.Entity.GetType());
+                            RedisHashUtil.Set(string.Format("entity:{0}", entity_name), entity_key, item.Entity);
+                            //PrintPropertyValues(item.CurrentValues, item.CurrentValues.PropertyNames);
+                            break;
+                        case EntityState.Deleted:
+                            Console.WriteLine("Deleted a {0}", item.Entity.GetType());
+                            //PrintPropertyValues(item.CurrentValues, item.CurrentValues.PropertyNames);
+                            break;
+
+                        case EntityState.Modified:
+                            Console.WriteLine("Modified a {0}", item.Entity.GetType());
+                            RedisHashUtil.Set(string.Format("entity:{0}", entity_name), entity_key, item.Entity);
+                            //PrintPropertyValues(item.CurrentValues, item.CurrentValues.PropertyNames);
+                            break;
+                        default:
+                            break;
+                    }
+                    // }
                 }
-                // }
             }
 
             //返回普通的savechange方法
-            return base.SaveChanges();
+            return rows;
         }
 
         protected string GetKey(object model)

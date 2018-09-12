@@ -39,6 +39,8 @@ namespace WebMerch.Models.ProductSku
 
         public void LoadData(string id)
         {
+            var v = CurrentDb.ProductSku.ToListByCache();
+
 
             var productSku = CurrentDb.ProductSku.Where(m => m.Id == id).FirstOrDefault();
             if (productSku != null)
