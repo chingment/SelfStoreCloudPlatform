@@ -48,7 +48,7 @@ namespace Lumos.BLL
 
         }
 
-        public static string Build(Entity.Enumeration.BizSnType snType,string userId)
+        public static string Build(Entity.Enumeration.BizSnType snType, string userId)
         {
 
             string prefix = "";
@@ -61,10 +61,13 @@ namespace Lumos.BLL
             }
 
             Random ran = new Random();
-            string part1 = DateTime.Now.ToString("yyyyMMddHHmmss") + ran.Next(1000, 9999);
 
 
-            string sn = prefix + part1 + GetIncrNum();
+            string part0 = ran.Next(100, 999).ToString();
+            string part1 = DateTime.Now.ToString("yyyyMMddHHmmss");
+            string part2 = GetIncrNum().ToString().PadLeft(5, '0');
+
+            string sn = prefix + part2 + part1 + part0;
             return sn;
         }
     }
