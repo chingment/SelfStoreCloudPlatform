@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Lumos.BLL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Test
@@ -29,13 +31,13 @@ namespace Test
     }
 
     public sealed class Master
-   {  
-       //发生猫叫时惊醒  
-       public void Wakeup(object sender, EventArgs e)
-       {  
-           Console.WriteLine("主人惊醒了...");  
-       }  
-   }
+    {
+        //发生猫叫时惊醒  
+        public void Wakeup(object sender, EventArgs e)
+        {
+            Console.WriteLine("主人惊醒了...");
+        }
+    }
 
 
     public class A
@@ -84,10 +86,21 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            A a = new B();
+            int num = 100;
+            Thread[] th = new Thread[num];
+            for (int i = 0; i < num; i++)
+            {
+                Thread n = new Thread(DoWork);
+                th[i] = n;
+                th[i].Start();
+            }
+        }
 
-            a.Show();
-            a.Cry();
+        public static void DoWork()
+        {
+            string sn = SnUtil.Build(Lumos.Entity.Enumeration.BizSnType.Order2StockIn, "111");
+            Console.WriteLine("sn:" + sn);
         }
     }
 }
+

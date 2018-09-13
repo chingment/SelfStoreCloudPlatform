@@ -62,7 +62,7 @@ namespace Lumos.BLL
                     break;
             }
 
-            Random ran = new Random();
+            ThreadSafeRandom ran = new ThreadSafeRandom();
 
 
             string part0 = ran.Next(100, 999).ToString();
