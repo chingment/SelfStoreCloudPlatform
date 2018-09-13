@@ -515,6 +515,8 @@ table.list-tb > tbody > tr > td {
 	background-color: #fff;
 	border-top: 1px solid #e1e6eb;
 	word-break: break-word;
+	word-wrap: break-word;
+	white-space: normal;
 }
 
 table.list-tb > td.no {
