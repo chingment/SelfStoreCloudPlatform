@@ -20,17 +20,9 @@ namespace WebSSO.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            string guid = Guid.Empty.ToString().Replace("-", "");
-
-            LogUtil.Info("daddsd");
             Session["WebSSOLoginVerifyCode"] = null;
-
-            RedisManager.Db.HashDelete("search_productskus_u_ca66ca85c5bf435581ecd2380554ecfe", "barcode:,name:乐事无限青柠味薯片,simplecode:LSWXQNWSP");
-
-
             LoginModel model = new LoginModel();
             model.ReturnUrl = returnUrl;
-
             return View(model);
         }
 
@@ -98,5 +90,8 @@ namespace WebSSO.Controllers
             return Json(ResultType.Success, gotoViewModel, "登录成功");
 
         }
+
+
+
     }
 }

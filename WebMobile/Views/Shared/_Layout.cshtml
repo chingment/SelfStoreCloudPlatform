@@ -1,0 +1,195 @@
+﻿@{
+    var jsApiConfigParams = Lumos.BLL.SdkFactory.Wx.Instance().GetJsApiConfigParams(Request.Url.AbsoluteUri);
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" />
+    <meta http-equiv="Expires" CONTENT="0">
+    <meta http-equiv="Cache-Control" CONTENT="no-cache">
+    <meta http-equiv="Pragma" CONTENT="no-cache">
+    <title>@ViewBag.Title</title>
+    <script src="~/Scripts/jquery-1.8.3.min.js"></script>
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    @RenderSection("styles", required: false)
+    <style type="text/css">
+        body {
+            /*background-image: url(~/Static/Promote/promote_a999753c5fe14e26bbecad576b6a6909.jpg);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;*/
+        }
+
+        img {
+            border: 0px;
+            padding: 0px;
+            margin: 0px;
+            display: inherit;
+            width: 100%;
+        }
+
+        /*分享模态层*/
+        #modal_Invite {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            z-index: 100;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            overflow-x: hidden;
+        }
+
+        #share_container {
+            position: relative;
+            width: 100%;
+            height: 20rem;
+            top: 0;
+            z-index: 110;
+            display: none;
+            right: 0;
+        }
+
+        #fly_img {
+            position: relative;
+            top: 0;
+            width: 100%;
+            vertical-align: middle;
+            text-align: center;
+            right: 0;
+            margin-top: -12rem;
+        }
+
+        #fly_img_inner {
+            width: 300px;
+            margin: 0 auto;
+            margin-right: 0.25rem;
+        }
+
+        #fly_img_inner img {
+            width: 300px;
+            margin-right: -12rem;
+        }
+
+        #fly_info {
+            font-size: 20px;
+            text-align: center;
+            color: #fff;
+            font-weight: 900;
+            width: 200px;
+            margin: -10rem auto;
+            margin-right: 5.3rem;
+        }
+
+        #fly_info_inner {
+            margin: 0 auto;
+            width: 16rem;
+        }
+
+        #fly_info_inner i {
+            margin-left: -5px;
+            margin-right: -6px;
+        }
+    </style>
+    <script type="text/javascript">
+
+        window.onerror = function (errorMessage, scriptURI, lineNumber, columnNumber, errorObj) {
+            $.ajax({
+                type: "post",
+                url: "/Home/LogJsError",
+                dataType: "json",
+                data: { errorMessage: errorMessage, scriptURI: '@Request.Url.AbsolutePath', columnNumber: columnNumber, errorObj: errorObj.toString() },
+            }).done(function (data) {
+
+            });
+
+        }
+
+
+        function accessLog(promoteId, refereeId, accessUrl) {
+
+            $.lumos.postJson({
+                url: "/Promote/AccessLog",
+                data: { promoteId: promoteId, refereeId: refereeId, accessUrl: accessUrl },
+                success: function (d) {
+                }
+            });
+        }
+
+        function shareLog(promoteId, refereeId, shareLink, type) {
+            $.lumos.postJson({
+                url: "/Promote/ShareLog",
+                data: { promoteId: promoteId, refereeId: refereeId, shareLink: shareLink, type: type },
+                success: function (d) {
+
+                }
+            });
+        }
+
+    </script>
+</head>
+<body>
+    <div class="dialog-loading">
+        <img src="~/Content/images/loading.gif" style="width:32px;display: inline-block" />
+    </div>
+    <div class="dialog-tips">
+        <span></span>
+    </div>
+    <div class="gb">
+        @RenderBody()
+    </div>
+    <div id="modal_Invite">
+        <div id="share_container">
+            <div id="fly_img">
+                <div id="fly_img_inner">
+                    <img src="/Content/images/promote20180910/share_fly.png" />
+                </div>
+
+                <div id="fly_info">
+                    <div id="fly_info_inner">
+                        <div class="operate">
+                            戳这里
+                        </div>
+                        <div class="operate">
+                            <span>
+                                分享给朋友，邀请参加
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/Scripts/jquery.lumos.mobile.1.0.0.js?@DateTime.Now.ToString("yyyyMMddHHmmss")"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+    <script>
+        $(function () {
+
+            wx.config({
+                debug: false,
+                appId: '@jsApiConfigParams.Data.appId',
+                timestamp: '@jsApiConfigParams.Data.timestamp',
+                nonceStr: '@jsApiConfigParams.Data.nonceStr',
+                signature: '@jsApiConfigParams.Data.signature',
+                jsApiList: [
+                    'onMenuShareAppMessage',
+                    'onMenuShareTimeline',
+                    'showMenuItems',
+                    'showAllNonBaseMenuItem',
+                    'showOptionMenu',
+                    'chooseWXPay',
+                    'getLocation',
+                    'addCard',
+                    'chooseCard',
+                    'openCard'
+                ]
+            });
+
+
+        })
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

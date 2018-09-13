@@ -1,0 +1,46 @@
+﻿@model  Lumos.Mvc.MessageBoxModel
+@{
+    ViewBag.Title = "MessageBox";
+
+}
+
+@section styles{
+    <link href="~/Content/app/header-nav.css" rel="stylesheet" />
+}
+
+<div class="header">
+    <div class="nav-left">
+
+    </div>
+    <div class="nav-middle">
+        <a href="/Store/Index" target="_self">
+            <span class="searc">
+                系统错误
+            </span>
+        </a>
+    </div>
+    <div class="nav-right">
+
+    </div>
+</div>
+<div class="divide-bar block-show"></div>
+<div class="body">
+
+</div>
+@section scripts
+{
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.lumos.messageBox({
+                type: "@Model.Type",
+                isPopup: @(Model.IsPopup==true? "true":"false"),
+                title: "@Model.Title",
+                content: "@Model.Content",
+                loginPage: "@Html.Raw(Model.LoginPage)",
+                errorStackTrace: "@Html.Raw(Model.ErrorStackTrace)"
+            });
+        });
+    </script>
+
+}

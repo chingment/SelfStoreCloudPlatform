@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using log4net;
+using System.Reflection;
+
 namespace Lumos.WeiXinSdk
 {
 
@@ -16,35 +19,39 @@ namespace Lumos.WeiXinSdk
 
     public class WxApi : IWxApi
     {
-        public string serverUrl = "https://api.weixin.qq.com";
-
-
+        ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        string responseString = null;
         public WxApi()
         {
 
         }
 
-        public string GetServerUrl(string serverurl, string apiname)
+        public string ResponseString
         {
-            return serverurl + "/" + apiname;
+            get
+            {
+                return responseString;
+            }
         }
 
         public T DoGet<T>(IWxApiGetRequest<T> request) where T : WxApiBaseResult
         {
-            string realServerUrl = GetServerUrl(this.serverUrl, request.ApiName);
+            string realServerUrl = request.ApiUrl;
             WebUtils webUtils = new WebUtils();
             string body = webUtils.DoGet(realServerUrl, request.GetUrlParameters(), null);
+            log.InfoFormat("WeiXinSdk-Get->{0}", body);
             T rsp = JsonConvert.DeserializeObject<T>(body);
 
 
             return rsp;
         }
 
-
         public T DoPost<T>(IWxApiPostRequest<T> request) where T : WxApiBaseResult
         {
+            // request.GetUrlParameters()
 
-            string realServerUrl = GetServerUrl(this.serverUrl, request.ApiName);
+            string realServerUrl = request.ApiUrl;
+
             WebUtils webUtils = new WebUtils();
 
             string postData = null;
@@ -57,9 +64,10 @@ namespace Lumos.WeiXinSdk
                 postData = JsonConvert.SerializeObject(request.PostData);
             }
 
-
-            string body = webUtils.DoPost(realServerUrl, request.GetUrlParameters(), postData, null);
-            T rsp = JsonConvert.DeserializeObject<T>(body);
+            log.InfoFormat("WeiXinSdk-Post->{0}", postData);
+            responseString = webUtils.DoPost(realServerUrl, request.GetUrlParameters(), postData);
+            log.InfoFormat("WeiXinSdk-Result->{0}", responseString);
+            T rsp = JsonConvert.DeserializeObject<T>(responseString);
 
 
             return rsp;

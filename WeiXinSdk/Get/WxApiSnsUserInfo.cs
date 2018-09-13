@@ -13,11 +13,11 @@ namespace Lumos.WeiXinSdk
         private string lang { get; set; }
 
 
-        public string ApiName
+        public string ApiUrl
         {
             get
             {
-                return "sns/userinfo";
+                return "https://api.weixin.qq.com/sns/userinfo";
             }
         }
 

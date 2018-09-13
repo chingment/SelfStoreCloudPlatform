@@ -34,11 +34,11 @@ namespace Lumos.WeiXinSdk
         public object PostData { get; set; }
 
 
-        public string ApiName
+        public string ApiUrl
         {
             get
             {
-                return "cgi-bin/media/uploadnews";
+                return "https://api.weixin.qq.com/cgi-bin/media/uploadnews";
             }
         }
 

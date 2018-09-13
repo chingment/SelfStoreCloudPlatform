@@ -14,11 +14,11 @@ namespace Lumos.WeiXinSdk
         private string code { get; set; }
         private string grant_type { get; set; }
 
-        public string ApiName
+        public string ApiUrl
         {
             get
             {
-                return "sns/oauth2/access_token";
+                return "https://api.weixin.qq.com/sns/oauth2/access_token";
             }
         }
 

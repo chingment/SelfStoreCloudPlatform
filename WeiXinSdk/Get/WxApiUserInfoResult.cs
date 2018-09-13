@@ -20,5 +20,7 @@ namespace Lumos.WeiXinSdk
         public long subscribe_time { get; set; }
         public string remark { get; set; }
         public int groupid { get; set; }
+
+        public string unionid { get; set; }
     }
 }

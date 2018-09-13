@@ -63,7 +63,10 @@
     <Compile Include="Biz\MachineStockLog.cs" />
     <Compile Include="Biz\Merchant.cs" />
     <Compile Include="Biz\MerchantMachine.cs" />
+    <Compile Include="Biz\Order.cs" />
     <Compile Include="Biz\Order2StockIn.cs" />
+    <Compile Include="Biz\OrderNotifyLog.cs" />
+    <Compile Include="Biz\Pms\UnifiedOrderPms.cs" />
     <Compile Include="Biz\ProductKind.cs" />
     <Compile Include="Biz\ProductKindSku.cs" />
     <Compile Include="Biz\ProductSku.cs" />
@@ -75,6 +78,7 @@
     <Compile Include="Biz\WarehouseStock.cs" />
     <Compile Include="Biz\WarehouseStockLog.cs" />
     <Compile Include="ImgSet.cs" />
+    <Compile Include="Sys\SysClientUser.cs" />
     <Compile Include="Sys\SysMerchatUser.cs" />
     <Compile Include="EnumerationRemarkConverter.cs" />
     <Compile Include="IpInfo.cs" />
@@ -101,6 +105,9 @@
     <Compile Include="Sys\SysItemCacheUpdateTime.cs" />
     <Compile Include="Sys\SysUserLoginHistory .cs" />
     <Compile Include="Sys\SysUserRole.cs" />
+    <Compile Include="Wx\WxAutoReply.cs" />
+    <Compile Include="Wx\WxMsgPushLog.cs" />
+    <Compile Include="Wx\WxUserInfo.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

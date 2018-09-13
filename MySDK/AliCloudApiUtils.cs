@@ -146,7 +146,6 @@ namespace MySDK
                 return new CustomJsonResult(ResultType.Failure, "发送失败");
             }
 
-            return result;
         }
 
 

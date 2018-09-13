@@ -31,5 +31,7 @@ namespace Lumos.Mvc
         public bool IsTop { get; set; }
 
         public string GoToUrl { get; set; }
+
+        public string LoginPage { get; set; }
     }
 }

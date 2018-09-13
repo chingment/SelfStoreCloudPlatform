@@ -1,0 +1,90 @@
+﻿@model WebMobile.Models.Account.LoginViewModel
+@{
+
+    var returnUrl = Request.QueryString["returnUrl"] == null ? "/Home/Index" : Request.QueryString["returnUrl"].ToString();
+
+}
+
+@section styles
+{
+
+    <link href="/Content/app/account-login.css" rel="stylesheet" />
+    <style>
+        .input-contrainer {
+            width: 100%;
+        }
+
+        .verifycode-contaier {
+            width: 100%;
+        }
+    </style>
+}
+<div>
+    <div class="body-thumb">
+        <span><img src="/Content/imgs/complete-image/acount-login/icon/logo.png" width="100" height="100" /></span>
+    </div>
+    <div class="space-line-one"></div>
+    <form id="form1">
+        <input name="ReturnUrl" id="txt_ReturnUrl" type="hidden" value="@returnUrl" />
+        <div class="body-usrinfo">
+            <div class="body-mobile">
+                <div class="content-container">
+                    <div class="input-contrainer">
+                        <div>
+                            <input name="UserName" id="txt_UserName" placeholder="用户名" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="body-verifycode">
+                <div class="content-container">
+                    <div class="verifycode-contaier">
+                        <div>
+                            <input type="password" name="Password" id="txt_Password" placeholder="密码" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="body-submit">
+                <div type="submit" id="btn_submit" onclick="login();">登录</div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+
+        function login() {
+
+            var userName = $("#txt_UserName").val();
+            var passWord = $("#txt_Password").val();
+
+            if (userName.length == 0) {
+                $.lumos.tips('用户名不能为空');
+                return false;
+            }
+
+            if (passWord.length == 0) {
+                $.lumos.tips('密码不能空');
+                return false;
+            }
+
+            $.lumos.postJson({
+                url: "/Account/Login",
+                data: $('#form1').serialize(),
+                success: function (d) {
+                    if (d.result == $.lumos.resultType.success) {
+                        window.location.href = d.data.url;
+                    }
+                    else {
+                        $.lumos.tips(d.message);
+                    }
+                }
+            });
+            return false;
+        }
+
+    </script>
+}

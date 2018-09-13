@@ -8,7 +8,7 @@ namespace Lumos.WeiXinSdk
 {
     public interface IWxApiPostRequest<T> where T : WxApiBaseResult
     {
-        string ApiName { get; }
+        string ApiUrl { get; }
 
         IDictionary<string, string> GetUrlParameters();
 

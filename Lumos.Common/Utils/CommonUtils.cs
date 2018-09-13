@@ -824,6 +824,26 @@ namespace Lumos.Common
                 return false;
             }
         }
+
+        #region "获取浏览器Agent"
+        /// <summary>
+        /// 获取Ip
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
+        public static string GetBrowserInfo()
+        {
+
+            HttpContext rq = HttpContext.Current;
+
+            string info = "";
+            if (rq != null)
+            {
+                info = rq.Request.ServerVariables["HTTP_USER_AGENT"];
+            }
+            return info;
+        }
+        #endregion
     }
 
 

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -11,6 +11,7 @@
     <AssemblyName>Lumos.WeiXinSdk</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,9 +31,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net465\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -41,35 +44,89 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Biz\Post\WxApiMessageTemplateSendByStudentAttendance .cs" />
+    <Compile Include="CommonUtil.cs" />
+    <Compile Include="Get\IWxApiGetRequest.cs" />
+    <Compile Include="Get\WxApiAccessToken.cs" />
+    <Compile Include="Get\WxApiAccessTokenResult.cs" />
+    <Compile Include="Get\WxApiGetCardApiTicket.cs" />
+    <Compile Include="Get\WxApiGetCardApiTicketResult.cs" />
+    <Compile Include="Get\WxApiJsApiTicket.cs" />
+    <Compile Include="Get\WxApiJsApiTicketResult.cs" />
     <Compile Include="Get\WxApiSnsOauth2AccessToken.cs" />
     <Compile Include="Get\WxApiSnsOauth2AccessTokenResult.cs" />
     <Compile Include="Get\WxApiSnsUserInfo.cs" />
     <Compile Include="Get\WxApiSnsUserInfoResult.cs" />
-    <Compile Include="Model\Articles.cs" />
-    <Compile Include="Model\Author.cs" />
-    <Compile Include="Post\WxApiMediaUploadNewsModel.cs" />
-    <Compile Include="Post\WxApiMessageTemplateSend.cs" />
-    <Compile Include="Post\WxApiMessageTemplateSendBaseResult.cs" />
-    <Compile Include="Utils\Constants.cs" />
-    <Compile Include="Utils\FileItem.cs" />
-    <Compile Include="Post\IWxApiPostRequest.cs" />
-    <Compile Include="Post\WxApiMessageMassSend.cs" />
-    <Compile Include="Post\WxApiMessageMassSendResult.cs" />
-    <Compile Include="Utils\WebUtils.cs" />
-    <Compile Include="Get\WxApiAccessToken.cs" />
-    <Compile Include="WxApi.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Get\IWxApiGetRequest.cs" />
-    <Compile Include="Get\WxApiAccessTokenResult.cs" />
-    <Compile Include="WxApiBaseResult.cs" />
-    <Compile Include="Post\WxApiMediaUploadNews.cs" />
-    <Compile Include="Post\WxApiMediaUploadNewsResult.cs" />
+    <Compile Include="Get\WxApiUserGet.cs" />
+    <Compile Include="Get\WxApiUserGetResult.cs" />
     <Compile Include="Get\WxApiUserInfo.cs" />
     <Compile Include="Get\WxApiUserInfoResult.cs" />
+    <Compile Include="JsApiConfigParams.cs" />
+    <Compile Include="JsApiPayParams.cs" />
+    <Compile Include="MsgPush\EventMsg\BaseEventMsg.cs" />
+    <Compile Include="MsgPush\BaseMsg.cs" />
+    <Compile Include="MsgPush\EventMsg\LinkEventMsg.cs" />
+    <Compile Include="MsgPush\EventMsg\SubEventMsg.cs" />
+    <Compile Include="MsgPush\EventMsg\TextMsg.cs" />
+    <Compile Include="MsgPush\EventMsg\UnSubEventMsg.cs" />
+    <Compile Include="MsgPush\EventMsg\UserConsumeCardMsg.cs" />
+    <Compile Include="MsgPush\EventMsg\UserGetCardMsg.cs" />
+    <Compile Include="MsgPush\EventType.cs" />
+    <Compile Include="MsgPush\WxMsgFactory.cs" />
+    <Compile Include="MsgPush\MsgType.cs" />
+    <Compile Include="Post\UploadMultimediaResult.cs" />
+    <Compile Include="Post\WxApiCardCodeDecrpt.cs" />
+    <Compile Include="Post\WxApiCardCodeDecrptResult.cs" />
+    <Compile Include="Post\WxApiCardUserGetCartList.cs" />
+    <Compile Include="Post\WxApiCustomMessagePostData.cs" />
+    <Compile Include="Post\WxApiCustomMessageSend.cs" />
+    <Compile Include="Post\WxApiQrCodeCreateRequest.cs" />
+    <Compile Include="Post\WxApiQrCodeCreatePostData.cs" />
+    <Compile Include="Post\WxApiQrCodeCreateResult.cs" />
+    <Compile Include="Tenpay\Model\UnifiedOrder.cs" />
+    <Compile Include="Model\Articles.cs" />
+    <Compile Include="Model\Author.cs" />
+    <Compile Include="OAuthApi.cs" />
+    <Compile Include="Post\IWxApiPostRequest.cs" />
+    <Compile Include="Post\WxApiMediaUploadNews.cs" />
+    <Compile Include="Post\WxApiMediaUploadNewsModel.cs" />
+    <Compile Include="Post\WxApiMediaUploadNewsResult.cs" />
+    <Compile Include="Post\WxApiMessageMassSend.cs" />
+    <Compile Include="Post\WxApiMessageMassSendResult.cs" />
+    <Compile Include="Post\WxApiMessageTemplateSend.cs" />
+    <Compile Include="Post\WxApiMessageTemplateSendBaseResult.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tenpay\ITenpayPostApi.cs" />
+    <Compile Include="IWxConfig.cs" />
+    <Compile Include="Tenpay\ITenpayRequest.cs" />
+    <Compile Include="Tenpay\Post\TenpayCouponQueryInfoApi.cs" />
+    <Compile Include="Tenpay\Post\TenpayMmPayMktTransfersSendCouponApi.cs" />
+    <Compile Include="Tenpay\Post\TenpayOrderPayReFundApi.cs" />
+    <Compile Include="Tenpay\Post\TenpayOrderQueryApi.cs" />
+    <Compile Include="Tenpay\Post\TenpayOrderRefundQueryApi.cs" />
+    <Compile Include="Tenpay\Post\TenpayUnifiedOrderApi.cs" />
+    <Compile Include="Tenpay\TenpayBasePostApi.cs" />
+    <Compile Include="Tenpay\TenpayRequest.cs" />
+    <Compile Include="Tenpay\TenpayUtil.cs" />
+    <Compile Include="Utils.cs" />
+    <Compile Include="Utils\Constants.cs" />
+    <Compile Include="Utils\FileItem.cs" />
+    <Compile Include="Utils\WebUtils.cs" />
+    <Compile Include="WxApi.cs" />
+    <Compile Include="WxApiBaseResult.cs" />
+    <Compile Include="Model\WxCard.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Post\Model\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lumos\Lumos.csproj">
+      <Project>{27883666-32aa-447f-aa1f-6128b76fbee8}</Project>
+      <Name>Lumos</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

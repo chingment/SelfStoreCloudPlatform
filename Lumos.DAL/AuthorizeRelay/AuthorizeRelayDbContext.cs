@@ -54,6 +54,9 @@ namespace Lumos.DAL.AuthorizeRelay
 
         public IDbSet<SysStaffUser> SysStaffUser { get; set; }
 
+        public IDbSet<SysClientUser> SysClientUser { get; set; }
+
+
         public IDbSet<SysProvinceCity> SysProvinceCity { get; set; }
 
         public IDbSet<SysClientCode> SysClientCode { get; set; }

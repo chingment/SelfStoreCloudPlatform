@@ -23,11 +23,11 @@ namespace Lumos.WeiXinSdk
         public object PostData { get; set; }
 
 
-        public string ApiName
+        public string ApiUrl
         {
             get
             {
-                return "cgi-bin/message/template/send";
+                return string.Format("https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={0}", this.access_token);
             }
         }
 

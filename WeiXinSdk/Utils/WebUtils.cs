@@ -1,13 +1,15 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
 using System.Net.Security;
+using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Web;
-
+using Lumos.WeiXinSdk.Tenpay;
 
 namespace Lumos.WeiXinSdk
 {
@@ -19,7 +21,6 @@ namespace Lumos.WeiXinSdk
         private int _timeout = 20000;
         private int _readWriteTimeout = 60000;
         private bool _ignoreSSLCheck = true;
-
         /// <summary>
         /// 等待请求开始返回的超时时间
         /// </summary>
@@ -47,44 +48,115 @@ namespace Lumos.WeiXinSdk
             set { this._ignoreSSLCheck = value; }
         }
 
-        ///// <summary>
-        ///// 执行HTTP POST请求。
-        ///// </summary>
-        ///// <param name="url">请求地址</param>
-        ///// <param name="textParams">请求文本参数</param>
-        ///// <returns>HTTP响应</returns>
-        //public string DoPost(string url,IDictionary<string, string> urlParams, IDictionary<string, string> textParams)
-        //{
-        //    return DoPost(url, urlParams,textParams, null);
-        //}
+        public static bool CheckValidationResult(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors errors)
+        {
+            //直接确认，否则打不开    
+            return true;
+        }
 
-        ///// <summary>
-        ///// 执行HTTP POST请求。
-        ///// </summary>
-        ///// <param name="url">请求地址</param>
-        ///// <param name="textParams">请求文本参数</param>
-        ///// <param name="headerParams">请求头部参数</param>
-        ///// <returns>HTTP响应</returns>
-        //public string DoPost(string url, IDictionary<string, string> urlParams, IDictionary<string, string> textParams, IDictionary<string, string> headerParams)
-        //{
+        public string DoPost(IWxConfig config, string url, string xml, bool isUseCert = false, int timeout = 1000)
+        {
+            System.GC.Collect();//垃圾回收，回收没有正常关闭的http连接
 
-        //    if (urlParams != null && urlParams.Count > 0)
-        //    {
-        //        url = BuildRequestUrl(url, urlParams);
-        //    }
+            string result = "";//返回结果
 
-        //    HttpWebRequest req = GetWebRequest(url, "POST", headerParams);
-        //    req.ContentType = "application/x-www-form-urlencoded;charset=utf-8";
+            HttpWebRequest request = null;
+            HttpWebResponse response = null;
+            Stream reqStream = null;
 
-        //    byte[] postData = Encoding.UTF8.GetBytes(BuildQuery(textParams));
-        //    System.IO.Stream reqStream = req.GetRequestStream();
-        //    reqStream.Write(postData, 0, postData.Length);
-        //    reqStream.Close();
+            try
+            {
+                //设置最大连接数
+                ServicePointManager.DefaultConnectionLimit = 200;
+                //设置https验证方式
+                if (url.StartsWith("https", StringComparison.OrdinalIgnoreCase))
+                {
+                    ServicePointManager.ServerCertificateValidationCallback =
+                            new RemoteCertificateValidationCallback(CheckValidationResult);
+                }
 
-        //    HttpWebResponse rsp = (HttpWebResponse)req.GetResponse();
-        //    Encoding encoding = GetResponseEncoding(rsp);
-        //    return GetResponseAsString(rsp, encoding);
-        //}
+                /***************************************************************
+                * 下面设置HttpWebRequest的相关属性
+                * ************************************************************/
+                request = (HttpWebRequest)WebRequest.Create(url);
+
+                request.Method = "POST";
+                request.Timeout = timeout * 1000;
+
+                //设置代理服务器
+                //WebProxy proxy = new WebProxy();                          //定义一个网关对象
+                //proxy.Address = new Uri(WxPayConfig.PROXY_URL);              //网关服务器端口:端口
+                //request.Proxy = proxy;
+
+                //设置POST的数据类型和长度
+                request.ContentType = "text/xml";
+
+
+                LogUtil.Info(string.Format("提交URL：{0},参数：{1}", url, xml));
+
+
+                byte[] data = System.Text.Encoding.UTF8.GetBytes(xml);
+                request.ContentLength = data.Length;
+
+                //是否使用证书
+                if (isUseCert)
+                {
+                    LogUtil.Info("WxPayApi:path:" + config.SslCert_Path);
+                    X509Certificate2 cer = new X509Certificate2(config.SslCert_Path, config.SslCert_Password, X509KeyStorageFlags.PersistKeySet);
+                    request.ClientCertificates.Add(cer);
+                    LogUtil.Info("WxPayApi:PostXml used cert");
+                }
+
+                //往服务器写入数据
+                reqStream = request.GetRequestStream();
+                reqStream.Write(data, 0, data.Length);
+                reqStream.Close();
+
+                //获取服务端返回
+                response = (HttpWebResponse)request.GetResponse();
+
+                //获取服务端返回数据
+                StreamReader sr = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
+                result = sr.ReadToEnd().Trim();
+
+                LogUtil.Info(string.Format("提交URL：{0},返回结果：{1}", url, result));
+
+                sr.Close();
+            }
+            catch (System.Threading.ThreadAbortException e)
+            {
+                LogUtil.Error("HttpService:Thread - caught ThreadAbortException - resetting.");
+                LogUtil.Error(string.Format("Exception message: {0}", e.Message));
+                System.Threading.Thread.ResetAbort();
+            }
+            catch (WebException e)
+            {
+                LogUtil.Error(string.Format("HttpService:{0}", e.ToString()));
+                if (e.Status == WebExceptionStatus.ProtocolError)
+                {
+                    LogUtil.Error(string.Format("HttpService:StatusCode :{0} ", ((HttpWebResponse)e.Response).StatusCode));
+                    LogUtil.Error(string.Format("HttpService:StatusDescription : {0}", ((HttpWebResponse)e.Response).StatusDescription));
+                }
+
+            }
+            catch (Exception e)
+            {
+                LogUtil.Error(string.Format("HttpService:{0}", e.ToString()));
+            }
+            finally
+            {
+                //关闭连接和流
+                if (response != null)
+                {
+                    response.Close();
+                }
+                if (request != null)
+                {
+                    request.Abort();
+                }
+            }
+            return result;
+        }
 
 
         /// <summary>
@@ -94,7 +166,7 @@ namespace Lumos.WeiXinSdk
         /// <param name="textParams">请求文本参数</param>
         /// <param name="headerParams">请求头部参数</param>
         /// <returns>HTTP响应</returns>
-        public string DoPost(string url, IDictionary<string, string> urlParams, string postdata, IDictionary<string, string> headerParams)
+        public string DoPost(string url, IDictionary<string, string> urlParams, string postdata, IDictionary<string, string> headerParams = null)
         {
 
             if (urlParams != null && urlParams.Count > 0)
@@ -116,8 +188,23 @@ namespace Lumos.WeiXinSdk
             return GetResponseAsString(rsp, encoding);
         }
 
+        public string DoPost(string url, string postdata)
+        {
+
+            HttpWebRequest req = GetWebRequest(url, "POST", null);
+            req.ContentType = "application/x-www-form-urlencoded;charset=utf-8";
 
 
+            byte[] postData = Encoding.UTF8.GetBytes(postdata);
+            System.IO.Stream reqStream = req.GetRequestStream();
+            reqStream.Write(postData, 0, postData.Length);
+            reqStream.Close();
+
+            HttpWebResponse rsp = (HttpWebResponse)req.GetResponse();
+            Encoding encoding = GetResponseEncoding(rsp);
+            string result = GetResponseAsString(rsp, encoding);
+            return result;
+        }
 
         /// <summary>
         /// 执行HTTP GET请求。
@@ -143,72 +230,15 @@ namespace Lumos.WeiXinSdk
             {
                 url = BuildRequestUrl(url, textParams);
             }
-
+            LogUtil.Info(string.Format("请求url：{0}", url));
             HttpWebRequest req = GetWebRequest(url, "GET", headerParams);
             req.ContentType = "application/x-www-form-urlencoded;charset=utf-8";
 
             HttpWebResponse rsp = (HttpWebResponse)req.GetResponse();
             Encoding encoding = GetResponseEncoding(rsp);
-            return GetResponseAsString(rsp, encoding);
+            return GetResponseAsString(rsp, Encoding.UTF8);
         }
 
-        ///// <summary>
-        ///// 执行带文件上传的HTTP POST请求。
-        ///// </summary>
-        ///// <param name="url">请求地址</param>
-        ///// <param name="textParams">请求文本参数</param>
-        ///// <param name="fileParams">请求文件参数</param>
-        ///// <param name="headerParams">请求头部参数</param>
-        ///// <returns>HTTP响应</returns>
-        //public string DoPost(string url, IDictionary<string, string> urlParams, IDictionary<string, string> textParams, IDictionary<string, FileItem> fileParams, IDictionary<string, string> headerParams)
-        //{
-        //    // 如果没有文件参数，则走普通POST请求
-        //    if (fileParams == null || fileParams.Count == 0)
-        //    {
-        //        return DoPost(url, textParams, headerParams);
-        //    }
-
-        //    string boundary = DateTime.Now.Ticks.ToString("X"); // 随机分隔线
-
-        //    HttpWebRequest req = GetWebRequest(url, "POST", headerParams);
-        //    req.ContentType = "multipart/form-data;charset=utf-8;boundary=" + boundary;
-
-        //    System.IO.Stream reqStream = req.GetRequestStream();
-        //    byte[] itemBoundaryBytes = Encoding.UTF8.GetBytes("\r\n--" + boundary + "\r\n");
-        //    byte[] endBoundaryBytes = Encoding.UTF8.GetBytes("\r\n--" + boundary + "--\r\n");
-
-        //    // 组装文本请求参数
-        //    string textTemplate = "Content-Disposition:form-data;name=\"{0}\"\r\nContent-Type:text/plain\r\n\r\n{1}";
-        //    foreach (KeyValuePair<string, string> kv in textParams)
-        //    {
-        //        string textEntry = string.Format(textTemplate, kv.Key, kv.Value);
-        //        byte[] itemBytes = Encoding.UTF8.GetBytes(textEntry);
-        //        reqStream.Write(itemBoundaryBytes, 0, itemBoundaryBytes.Length);
-        //        reqStream.Write(itemBytes, 0, itemBytes.Length);
-        //    }
-
-        //    // 组装文件请求参数
-        //    string fileTemplate = "Content-Disposition:form-data;name=\"{0}\";filename=\"{1}\"\r\nContent-Type:{2}\r\n\r\n";
-        //    foreach (KeyValuePair<string, FileItem> kv in fileParams)
-        //    {
-        //        string key = kv.Key;
-        //        FileItem fileItem = kv.Value;
-        //        string fileEntry = string.Format(fileTemplate, key, fileItem.GetFileName(), fileItem.GetMimeType());
-        //        byte[] itemBytes = Encoding.UTF8.GetBytes(fileEntry);
-        //        reqStream.Write(itemBoundaryBytes, 0, itemBoundaryBytes.Length);
-        //        reqStream.Write(itemBytes, 0, itemBytes.Length);
-
-        //        byte[] fileBytes = fileItem.GetContent();
-        //        reqStream.Write(fileBytes, 0, fileBytes.Length);
-        //    }
-
-        //    reqStream.Write(endBoundaryBytes, 0, endBoundaryBytes.Length);
-        //    reqStream.Close();
-
-        //    HttpWebResponse rsp = (HttpWebResponse)req.GetResponse();
-        //    Encoding encoding = GetResponseEncoding(rsp);
-        //    return GetResponseAsString(rsp, encoding);
-        //}
 
         /// <summary>
         /// 执行带body体的POST请求。

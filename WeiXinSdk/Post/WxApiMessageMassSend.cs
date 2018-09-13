@@ -23,11 +23,11 @@ namespace Lumos.WeiXinSdk
         public object PostData { get; set; }
 
 
-        public string ApiName
+        public string ApiUrl
         {
             get
             {
-                return "cgi-bin/message/mass/send";
+                return "https://api.weixin.qq.com/cgi-bin/message/mass/send";
             }
         }
 

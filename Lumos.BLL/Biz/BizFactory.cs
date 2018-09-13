@@ -80,5 +80,21 @@ namespace Lumos.BLL
             }
         }
 
+        public static OrderProvider Order
+        {
+            get
+            {
+                return new OrderProvider();
+            }
+        }
+
+        public static WxUserProvider WxUser
+        {
+            get
+            {
+                return new WxUserProvider();
+            }
+        }
+
     }
 }

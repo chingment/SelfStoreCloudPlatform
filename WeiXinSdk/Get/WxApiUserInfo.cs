@@ -12,11 +12,11 @@ namespace Lumos.WeiXinSdk
 
         private string openid { get; set; }
 
-        public string ApiName
+        public string ApiUrl
         {
             get
             {
-                return "cgi-bin/user/info";
+                return "https://api.weixin.qq.com/cgi-bin/user/info";
             }
         }
 

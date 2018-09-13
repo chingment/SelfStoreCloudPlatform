@@ -9,8 +9,6 @@ namespace WebMerch.Models.ProductSku
 {
     public class SearchCondition : BaseSearchCondition
     {
-        public string Name { get; set; }
-
         public string Id { get; set; }
     }
 }

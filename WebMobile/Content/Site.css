@@ -1,0 +1,354 @@
+﻿* {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	/*font-weight: normal;*/
+	font-family: "微软雅黑";
+}
+
+* {
+	-webkit-touch-callout: none; /*系统默认菜单被禁用*/
+	-webkit-user-select: none; /*webkit浏览器*/
+	-khtml-user-select: none; /*早期浏览器*/
+	-moz-user-select: none; /*火狐*/
+	-ms-user-select: none; /*IE10*/
+	user-select: none;
+}
+
+body {
+	background: #F7F7F7;
+}
+
+input {
+	-webkit-user-select: auto; /*webkit浏览器*/
+}
+
+a {
+	-webkit-tap-highlight-color: transparent;
+	cursor: pointer;
+}
+
+a, a:active, a:visited, a:hover, a:focus {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
+}
+/*颜色*/
+.orange {
+	color: #F67C03;
+}
+
+.body-content {
+	overflow: hidden;
+}
+
+.theme {
+	background: #F18D00;
+}
+
+.theme-color {
+	color: #F18D00;
+}
+
+.loadmore {
+	text-align: center;
+	background-color: #fff;
+	height: 38px;
+	line-height: 38px;
+}
+
+.operate {
+	cursor: pointer;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.nav-numtip {
+	background: #f00;
+	border-radius: 50%;
+	width: 16px;
+	height: 16px;
+	position: absolute;
+	color: #FFF;
+	font-weight: normal;
+	text-align: center;
+	line-height: 18px;
+	font-style: normal;
+	top: -4px;
+	left: 53%;
+	display: none;
+}
+
+
+/*提示框*/
+.dialog-tips {
+	position: fixed;
+	display: none;
+	outline: none;
+	border: none;
+	color: #fff;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	font-size: 12px;
+	z-index: 550;
+	line-height: 16px;
+	overflow: hidden;
+	border-radius: 5px;
+	background: rgba(0,0,0,0.7);
+	left: 50%;
+	top: 70%;
+	-webkit-transform: translate(-50%,-50%);
+	max-width: 200px;
+	text-align: center;
+	padding: 5px 8px;
+}
+
+/*正在加载*/
+.dialog-loading {
+	position: fixed;
+	display: none;
+	outline: none;
+	border: none;
+	color: #fff;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	font-size: 12px;
+	z-index: 50;
+	line-height: 32px;
+	overflow: hidden;
+	border-radius: 5px;
+	left: 50%;
+	top: 50%;
+	-webkit-transform: translate(-50%,-50%);
+	width: 100px;
+	text-align: center;
+}
+
+
+.item-empty-tips {
+	margin-top: -5px;
+	padding: 10px 0 14px 0px;
+	text-align: center;
+	width: 100%;
+	color: #999;
+	font-size: .75rem;
+	display: none;
+}
+
+.item-empty-tips {
+	position: relative;
+}
+
+.item-empty-tips:before, .item-empty-tips:after {
+	content: '';
+	position: absolute;
+	top: 1.125rem;
+	background: #bbb;
+	width: 3rem;
+	height: 1px;
+}
+
+.item-empty-tips:before {
+	left: 27%;
+}
+
+.item-empty-tips:after {
+	right: 27%;
+}
+
+/*按钮*/
+.btn {
+	text-align: center;
+	padding: 8px;
+	background: #f18d00;
+	color: #fff;
+	font-size: 16px;
+	border: 0px;
+	height: 100%;
+	padding: 0px 35px;
+	min-height: 45px;
+	border: 0px;
+	border-radius: 0;
+	-webkit-appearance: none;
+	outline: none;
+}
+
+.a-btn {
+	display: inline-block;
+	width: 6rem;
+}
+
+.a-btn-container {
+	margin: 0px 8px;
+	background: #f18d00;
+	display: block;
+	padding: 0px 16px;
+	text-align: center;
+	color: #fff;
+	font-size: 12px;
+	height: 32px;
+	line-height: 32px;
+}
+
+/*边距，宽度，边框大小，颜色*/
+.mr8 {
+	margin-right: 8px;
+}
+
+.w100p {
+	width: 100%;
+}
+
+.bdrd5 {
+	border-radius: 5px;
+}
+
+.bdtm1 {
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+	border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+.bdm1 {
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+	border-top: 0px;
+}
+
+.bdt1 {
+	border-top: 1px solid rgba(0,0,0,0.1);
+	border-bottom: 0px;
+}
+
+.bdr1 {
+	border-right: 1px solid rgba(0,0,0,0.1);
+}
+
+/*分割*/
+.split-bar {
+	height: 18px;
+}
+
+.space-line {
+	height: 1px;
+	border: 0;
+	background: rgba(0,0,0,0.1);
+	width: 100%;
+}
+
+.divide-bar {
+	height: 45px;
+}
+
+.block-show {
+	display: block;
+}
+
+.btn-emptystock {
+	width: 120px;
+	text-align: center;
+	background: gray;
+	opacity: 0.7;
+}
+
+.gifted-tips {
+	font-size: 12px;
+	font-weight: 600;
+	color: #FF3030;
+}
+
+.el-hide {
+	display: none;
+}
+
+.go-back-top {
+	bottom: 7rem;
+	background-size: 200px 200px;
+	background-position: -85px -80px;
+	background-image: url(/Content/imgs/jd-search-sprites.png);
+	position: fixed;
+	z-index: 100;
+	right: 1.15rem;
+	width: 35px;
+	height: 35px;
+	display: none;
+}
+
+
+
+/* #### Mobile Phones Portrait #### */  
+@media screen and (max-device-width: 480px) and (orientation: portrait){  
+/* some CSS here */  
+
+.btn-com {
+		width: 80px;
+	}
+
+}  
+  
+/* #### Mobile Phones Landscape #### */  
+@media screen and (max-device-width: 640px) and (orientation: landscape){  
+/* some CSS here */  
+
+.btn-com {
+		width: 80px;
+	}
+}  
+  
+/* #### Mobile Phones Portrait or Landscape #### */  
+@media screen and (max-device-width: 640px){  
+/* some CSS here */  
+
+.btn-com {
+		width: 80px;
+	}
+
+}  
+  
+/* #### iPhone 4+ Portrait or Landscape #### */  
+@media screen and (min-device-width: 320px) and (-webkit-min-device-pixel-ratio: 2){  
+/* some CSS here */  
+
+.btn-com {
+		width: 80px;
+	}
+
+}  
+  
+/* #### iPhone 5 Portrait or Landscape #### */  
+@media (device-height: 568px) and (device-width: 320px) and (-webkit-min-device-pixel-ratio: 2){  
+/* some CSS here */  
+
+.btn-com {
+		width: 100px;
+	}
+
+}  
+  
+/* #### iPhone 6 and 6 plus Portrait or Landscape #### */  
+@media (min-device-height: 667px) and (min-device-width: 375px) and (-webkit-min-device-pixel-ratio: 3){  
+/* some CSS here */  
+
+.btn-com {
+		width: 100px;
+	}
+
+}  
+  
+/* #### Tablets Portrait or Landscape #### */  
+@media screen and (min-device-width: 768px) and (max-device-width: 1024px){  
+/* some CSS here */  
+
+.btn-com {
+		width: 100px;
+	}
+
+}  
+  
+/* #### Desktops #### */  
+@media screen and (min-width: 1024px){  
+/* some CSS here */  
+
+
+.btn-com {
+		width: 100px;
+	}
+
+} 

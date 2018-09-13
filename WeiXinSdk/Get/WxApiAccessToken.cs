@@ -15,11 +15,11 @@ namespace Lumos.WeiXinSdk
 
         private string secret { get; set; }
 
-        public string ApiName
+        public string ApiUrl
         {
             get
             {
-                return "cgi-bin/token";
+                return "https://api.weixin.qq.com/cgi-bin/token";
             }
         }
 

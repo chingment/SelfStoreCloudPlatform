@@ -80,11 +80,20 @@
     <Compile Include="Biz\MerchantMachineProvider.cs" />
     <Compile Include="Biz\MerchantProvider.cs" />
     <Compile Include="Biz\Order2StockInProvider.cs" />
+    <Compile Include="Biz\OrderCacheUtil.cs" />
+    <Compile Include="Biz\OrderProvider.cs" />
     <Compile Include="Biz\ProductKindProvider.cs" />
     <Compile Include="Biz\ProductSkuProvider.cs" />
     <Compile Include="Biz\StoreProvider.cs" />
     <Compile Include="Biz\WarehouseProvider.cs" />
+    <Compile Include="Biz\WxUserProvider.cs" />
     <Compile Include="Factory..cs" />
+    <Compile Include="Sdk\SdkFactory.cs" />
+    <Compile Include="Sdk\WxConfigByFanJu.cs" />
+    <Compile Include="Sdk\WxConfigByQyj.cs" />
+    <Compile Include="Sdk\WxConfigByTest.cs" />
+    <Compile Include="Sdk\WxSdkProvider.cs" />
+    <Compile Include="Sdk\WxUntil.cs" />
     <Compile Include="Service\Term\GlobalService.cs" />
     <Compile Include="Service\Term\Models\Global\DataSetModel.cs" />
     <Compile Include="Service\Term\Models\OrderReservePms.cs" />
@@ -137,9 +146,12 @@
       <Project>{8479fcaf-4aef-40d4-b76d-246282522fb7}</Project>
       <Name>MySDK</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WeiXinSdk\WeiXinSdk.csproj">
+      <Project>{636311a8-0485-4953-841e-35ca27eea436}</Project>
+      <Name>WeiXinSdk</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Sdk\" />
     <Folder Include="Service\App\" />
     <Folder Include="Task\" />
   </ItemGroup>
