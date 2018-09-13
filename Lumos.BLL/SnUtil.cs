@@ -42,6 +42,8 @@ namespace Lumos.BLL
                 }
                 catch (Exception ex)
                 {
+                    LogUtil.Error("业务流水号生成发生异常，错误编码：005",ex);
+
                     throw new Exception("业务流水号生成发生异常，错误编码：005");
                 }
             }

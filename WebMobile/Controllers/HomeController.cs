@@ -370,6 +370,8 @@ namespace WebMobile.Controllers
             }
             catch (Exception ex)
             {
+                LogUtil.Error("CirclePhoto生成发生异常", ex);
+
                 return null;
             }
 

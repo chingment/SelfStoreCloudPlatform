@@ -17,7 +17,7 @@ namespace Lumos.BLL.Service.Term
         {
 
             string useriId = "ca66ca85c5bf435581ecd2380554ecfe";
-            string merchantId = "d1e8ad564c0f4516b2de95655a4146c7";
+            //string merchantId = "d1e8ad564c0f4516b2de95655a4146c7";
             string machineId = "00000000000000000000000000000006";
             string storeId = "00000000000000000000000000000006";
             var machineStocks = CurrentDb.MachineStock.Where(m => m.UserId == useriId  && m.MachineId == machineId).ToList();

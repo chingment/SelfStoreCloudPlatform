@@ -64,7 +64,7 @@ namespace Lumos.Common
             }
             catch (Exception ex)
             {
-
+                LogUtil.Error("HttpPost 错误", ex);
             }
             finally
             {
@@ -274,7 +274,7 @@ namespace Lumos.Common
             //处理异常
             catch (System.Exception ex)
             {
-
+                LogUtil.Error("HttpGet 错误", ex);
             }
             //释放资源返回结果
             finally

@@ -66,7 +66,7 @@ namespace System.Web
                 selectValue = bool.Parse(HtmlAttributes["selectedvalue"].ToString());
             }
 
-            int i = 0;
+  
             string id = name.Replace(".", "_");
             sb.Append("<select name=\"" + name + "\" id=\"" + id + "\"  " + classname + ">");
 

@@ -33,7 +33,7 @@ namespace Lumos.Entity
             }
             catch (Exception ex)
             {
-
+                LogUtil.Error("解释ImgSet Json 错误", ex);
             }
 
             return imgUrl;

@@ -30,6 +30,7 @@ namespace Lumos.Common
             }
             catch (Exception ex)
             {
+                LogUtil.Error("XmlUtils.Deserialize 错误", ex);
                 return null;
             }
         }

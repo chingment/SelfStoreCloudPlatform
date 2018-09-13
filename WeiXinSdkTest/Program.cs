@@ -44,7 +44,7 @@ namespace WeiXinSdkTest
 
         public static void WxApiMediaUploadNewsTest(string access_token)
         {
-            string postData = "{\"articles\": [{\"thumb_media_id\":\"1Vi0WyupqfNSpUx22KCUYVVIPHQaa2Dnnjt65IKoLPKOIaoDwwBQZrlnal71nPC1\",\"author\":\"xxx\",\"title\":\"Happy Day\",\"content_source_url\":\"www.qq.com\",\"content\":\"content\",\"digest\":\"digest\",\"show_cover_pic\":1 } ]}";
+            //string postData = "{\"articles\": [{\"thumb_media_id\":\"1Vi0WyupqfNSpUx22KCUYVVIPHQaa2Dnnjt65IKoLPKOIaoDwwBQZrlnal71nPC1\",\"author\":\"xxx\",\"title\":\"Happy Day\",\"content_source_url\":\"www.qq.com\",\"content\":\"content\",\"digest\":\"digest\",\"show_cover_pic\":1 } ]}";
 
             WxApiMediaUploadNewsModel model = new WxApiMediaUploadNewsModel();
 

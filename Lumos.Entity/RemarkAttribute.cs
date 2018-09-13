@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lumos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -104,6 +105,8 @@ namespace System
             }
             catch (Exception ex)
             {
+                LogUtil.Error("ToEnumCnName 错误", ex);
+
                 return "";
             }
         }
