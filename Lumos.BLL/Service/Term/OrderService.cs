@@ -9,6 +9,13 @@ using System.Transactions;
 
 namespace Lumos.BLL.Service.Term
 {
+    public class SkuByUnderStock
+    {
+        public string SkuId { get; set; }
+        public int ReserveQuantity { get; set; }
+        public int SellQuantity { get; set; }
+    }
+
     public class OrderService : BaseProvider
     {
         public CustomJsonResult Reserve(string pOperater, OrderReservePms pms)
@@ -24,94 +31,78 @@ namespace Lumos.BLL.Service.Term
                 //检查是否有可买的商品
                 var skuIds = pms.Details.Select(m => m.SkuId).ToArray();
 
-                var machineStocks = CurrentDb.MachineStock.Where(m => m.UserId == pms.UserId && m.MachineId == pms.MachineId  && skuIds.Contains(m.ProductSkuId) && m.IsOffSell == false).ToList();
+                var skusByStock = CurrentDb.MachineStock.Where(m => m.UserId == pms.UserId && m.MachineId == pms.MachineId && skuIds.Contains(m.ProductSkuId)).ToList();
 
-                if (machineStocks.Count == 0)
+                if (skusByStock.Count == 0)
                 {
-                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "可预定的商品为空，请删除后，选择其它商品");
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "可预定的商品为空，请选择商品");
                 }
 
-                //检查是否有预定的商品与库存不对应
-
-                string skuNamesByEmpty = "";
-                foreach (var skuId in skuIds)
+                var skusByoffSell = skusByStock.Where(m => m.IsOffSell == true).ToList();
+                if (skusByStock.Count > 0)
                 {
-                    var machineStock = machineStocks.Where(m => m.ProductSkuId == skuId).FirstOrDefault();
-
-                    if (machineStock == null)
-                    {
-                        skuNamesByEmpty += machineStock.ProductSkuName + ",";
-                    }
-                }
-
-
-                if (!string.IsNullOrEmpty(skuNamesByEmpty))
-                {
-                    skuNamesByEmpty = skuNamesByEmpty.Substring(0, skuNamesByEmpty.Length - 1);
-
-                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "可预定的商品(" + skuNamesByEmpty + ")为空，请删除后，选择其它商品");
+                    //todo 提示已下架的商品
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "可预定的商品已经下架");
                 }
 
                 //检查是否有预定的商品数量与库存数量不对应
-                string skuNamesByQuantity = "";
+
+                var skusByUnderStock = new List<SkuByUnderStock>();
                 foreach (var item in pms.Details)
                 {
-                    var machineStock = machineStocks.Where(m => m.ProductSkuId == item.SkuId).FirstOrDefault();
-
-                    var sellQuantity = machineStocks.Where(m => m.ProductSkuId == item.SkuId).Sum(m => m.SellQuantity);
-
+                    var sellQuantity = skusByStock.Where(m => m.ProductSkuId == item.SkuId).Sum(m => m.SellQuantity);
                     if (item.Quantity > sellQuantity)
                     {
-                        skuNamesByQuantity += machineStock.ProductSkuName + "最大库存：" + sellQuantity + ",";
+                        var skuByUnderStock = new SkuByUnderStock();
+                        skuByUnderStock.SkuId = item.SkuId;
+                        skuByUnderStock.ReserveQuantity = item.Quantity;
+                        skuByUnderStock.SellQuantity = sellQuantity;
+                        skusByUnderStock.Add(skuByUnderStock);
                     }
-
                 }
 
-                if (!string.IsNullOrEmpty(skuNamesByQuantity))
+                if (skusByUnderStock.Count > 0)
                 {
-                    skuNamesByQuantity = skuNamesByQuantity.Substring(0, skuNamesByQuantity.Length - 1);
-
-                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "可预定的商品数量不足(" + skuNamesByEmpty + ")，请删减后，再支付");
+                    //todo 提示库存不足
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "可预定的商品数量不足，再支付");
                 }
 
 
                 foreach (var item in pms.Details)
                 {
-                    var l_machineStocks = machineStocks.Where(m => m.ProductSkuId == item.SkuId).ToList();
-                    var l_reserveDetails = GetReserveDetail(item, l_machineStocks);
+                    var skuByStock = skusByStock.Where(m => m.ProductSkuId == item.SkuId).ToList();
+                    var l_reserveDetails = GetReserveDetail(item, skuByStock);
 
-                    result_Data.Details.AddRange(l_reserveDetails);
-
-                    foreach (var item2 in l_reserveDetails)
-                    {
-                        foreach (var item3 in machineStocks)
-                        {
-                            if (item3.SlotId == item2.SlotId && item3.ProductSkuId == item2.SkuId)
-                            {
-                                item3.SellQuantity -= item2.Quantity;
-                                item3.LockQuantity += item2.Quantity;
+                    //foreach (var item2 in l_reserveDetails)
+                    //{
+                    //    foreach (var item3 in skusByReserve)
+                    //    {
+                    //        if (item3.SlotId == item2.SlotId && item3.ProductSkuId == item2.SkuId)
+                    //        {
+                    //            item3.SellQuantity -= item2.Quantity;
+                    //            item3.LockQuantity += item2.Quantity;
 
 
-                                var machineStockLog = new MachineStockLog();
-                                machineStockLog.Id = GuidUtil.New();
-                                machineStockLog.UserId = item3.UserId;
-                                machineStockLog.MachineId = item3.MachineId;
-                                machineStockLog.ProductSkuId = item3.ProductSkuId;
-                                machineStockLog.StoreId = item3.StoreId;
-                                machineStockLog.SlotId = item3.SlotId;
-                                machineStockLog.ChangeType = Enumeration.MachineStockLogChangeTpye.Lock;
-                                machineStockLog.ChangeQuantity = item2.Quantity;
-                                machineStockLog.Quantity = item3.Quantity;
-                                machineStockLog.LockQuantity = item3.LockQuantity;
-                                machineStockLog.SellQuantity = item3.SellQuantity;
-                                machineStockLog.CreateTime = this.DateTime;
-                                machineStockLog.Creator = pOperater;
-                                machineStockLog.RemarkByDev = string.Format("锁定库存：{0}", item2.Quantity);
-                                CurrentDb.MachineStockLog.Add(machineStockLog);
-                                CurrentDb.SaveChanges();
-                            }
-                        }
-                    }
+                    //            var machineStockLog = new MachineStockLog();
+                    //            machineStockLog.Id = GuidUtil.New();
+                    //            machineStockLog.UserId = item3.UserId;
+                    //            machineStockLog.MachineId = item3.MachineId;
+                    //            machineStockLog.ProductSkuId = item3.ProductSkuId;
+                    //            machineStockLog.StoreId = item3.StoreId;
+                    //            machineStockLog.SlotId = item3.SlotId;
+                    //            machineStockLog.ChangeType = Enumeration.MachineStockLogChangeTpye.Lock;
+                    //            machineStockLog.ChangeQuantity = item2.Quantity;
+                    //            machineStockLog.Quantity = item3.Quantity;
+                    //            machineStockLog.LockQuantity = item3.LockQuantity;
+                    //            machineStockLog.SellQuantity = item3.SellQuantity;
+                    //            machineStockLog.CreateTime = this.DateTime;
+                    //            machineStockLog.Creator = pOperater;
+                    //            machineStockLog.RemarkByDev = string.Format("锁定库存：{0}", item2.Quantity);
+                    //            CurrentDb.MachineStockLog.Add(machineStockLog);
+                    //            CurrentDb.SaveChanges();
+                    //        }
+                    //    }
+                    //}
                 }
 
                 result_Data.OrderSn = "1";
@@ -132,26 +123,26 @@ namespace Lumos.BLL.Service.Term
 
 
 
-        public List<OrderReserveResult.Detail> GetReserveDetail(OrderReservePms.Detail detail, List<MachineStock> machineStocks)
+        public List<OrderReserveResult.Detail> GetReserveDetail(OrderReservePms.Detail reserveDetail, List<MachineStock> machineStocks)
         {
 
-            List<OrderReserveResult.Detail> detailsByPer = new List<OrderReserveResult.Detail>();
+            List<OrderReserveResult.ChildDetail> childDetail = new List<OrderReserveResult.ChildDetail>();
 
             foreach (var item in machineStocks)
             {
 
                 for (var i = 0; i < item.Quantity; i++)
                 {
-                    int reservedQuantity = detailsByPer.Sum(m => m.Quantity);//已订的数量
-                    int needReserveQuantity = detail.Quantity;//需要订的数量
+                    int reservedQuantity = childDetail.Sum(m => m.Quantity);//已订的数量
+                    int needReserveQuantity = reserveDetail.Quantity;//需要订的数量
                     if (reservedQuantity != needReserveQuantity)
                     {
-                        detailsByPer.Add(new OrderReserveResult.Detail { Quantity = 1, SkuId = item.ProductSkuId, SlotId = item.SlotId });
+                        childDetail.Add(new OrderReserveResult.ChildDetail { Quantity = 1, SkuId = item.ProductSkuId, SlotId = item.SlotId });
                     }
                 }
             }
 
-            var list = (from c in detailsByPer
+            var detailsGroup = (from c in childDetail
                         group c by new
                         {
                             c.SkuId,
@@ -168,9 +159,17 @@ namespace Lumos.BLL.Service.Term
 
             List<OrderReserveResult.Detail> details = new List<OrderReserveResult.Detail>();
 
-            foreach (var item in list)
+            foreach (var item in detailsGroup)
             {
-                details.Add(new OrderReserveResult.Detail { Quantity = item.Quantity, SkuId = item.SkuId, SlotId = item.SlotId });
+                var detail = new OrderReserveResult.Detail();
+
+
+                detail.SkuId = item.SkuId;
+                detail.SlotId = item.SlotId;
+                detail.Quantity = item.Quantity;
+                detail.Details = childDetail.Where(m => m.SkuId == item.SkuId && m.SlotId == item.SlotId).ToList();
+
+                details.Add(detail);
             }
 
             return details;

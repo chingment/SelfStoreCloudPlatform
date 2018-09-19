@@ -25,6 +25,14 @@ namespace Lumos.BLL.Service.Term.Models
             public string SkuId { get; set; }
             public int Quantity { get; set; }
 
+            public List<ChildDetail> Details { get; set; }
+        }
+
+        public class ChildDetail
+        {
+            public string SlotId { get; set; }
+            public string SkuId { get; set; }
+            public int Quantity { get; set; }
         }
     }
 }

@@ -83,6 +83,7 @@
     <Compile Include="Biz\OrderCacheUtil.cs" />
     <Compile Include="Biz\OrderProvider.cs" />
     <Compile Include="Biz\ProductKindProvider.cs" />
+    <Compile Include="Biz\ProductSkuCacheUtil.cs" />
     <Compile Include="Biz\ProductSkuProvider.cs" />
     <Compile Include="Biz\StoreProvider.cs" />
     <Compile Include="Biz\WarehouseProvider.cs" />

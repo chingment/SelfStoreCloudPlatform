@@ -127,6 +127,20 @@ namespace Lumos.BLL
             return result;
         }
 
+        public ProductSku GetModel(string id)
+        {
+            var model = ProductSkuCacheUtil.GetOne(id);
+            if (model == null)
+            {
+                model = CurrentDb.ProductSku.Where(m => m.Id == id).FirstOrDefault();
+                if (model != null)
+                {
+                    ProductSkuCacheUtil.Add(model);
+                }
+            }
+
+            return model;
+        }
         public void InitSearchCache()
         {
             var tran = RedisManager.Db.CreateTransaction();

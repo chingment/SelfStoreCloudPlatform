@@ -29,7 +29,11 @@ namespace Lumos.BLL
                         var bizSn = _dbContext.BizSn.Where(m => m.IncrDate == date).FirstOrDefault();
                         if (bizSn == null)
                         {
-                            throw new Exception("业务流水号生成发生异常，错误编码：001");
+                            bizSn = new Entity.BizSn();
+                            bizSn.IncrNum = 0;
+                            bizSn.IncrDate = date;
+                            _dbContext.BizSn.Add(bizSn);
+                            _dbContext.SaveChanges();
                         }
 
                         bizSn.IncrNum += 1;
@@ -42,7 +46,7 @@ namespace Lumos.BLL
                 }
                 catch (Exception ex)
                 {
-                    LogUtil.Error("业务流水号生成发生异常，错误编码：005",ex);
+                    LogUtil.Error("业务流水号生成发生异常，错误编码：005", ex);
 
                     throw new Exception("业务流水号生成发生异常，错误编码：005");
                 }
@@ -57,8 +61,17 @@ namespace Lumos.BLL
 
             switch (snType)
             {
+                //case Entity.Enumeration.BizSnType.Order:
+                //    prefix = "61";
+                //    break;
+                //case Entity.Enumeration.BizSnType.FundTrans:
+                //    prefix = "10";
+                //    break;
+                //case Entity.Enumeration.BizSnType.Withraw:
+                //    prefix = "20";
+                //    break;
                 case Entity.Enumeration.BizSnType.Order2StockIn:
-                    prefix = "61";
+                    prefix = "30";
                     break;
             }
 

@@ -53,8 +53,27 @@
                     },
                     onSelect: function (suggestion) {
 
-                        var ids = $(_this).parent().parent().find('input[name=id]');
+                        var ids = $("#list_table_skus").find('input[name=id]');
+
+                        var isExist = false;
+                        $(ids).each(function () {
+                            var v = $(this).val();
+                            if (suggestion.id == v) {
+                                isExist = true
+                            }
+                        });
+
+                        if (isExist) {
+                            $.lumos.tips("清单中已经存在该商品");
+                            $(_this).val("");
+                            return;
+                        }
+
+                        $(_this).parent().parent().find('input[name=id]').val(suggestion.id);
+                        $(_this).parent().parent().find('.name').text(suggestion.data);
+
                         var isFlag = false;
+
                         $(ids).each(function () {
                             var v = $(this).val();
                             if (v == '') {
@@ -62,11 +81,7 @@
                             }
                         });
 
-
-                        $(_this).parent().parent().find('input[name=id]').val(suggestion.id);
-                        $(_this).parent().parent().find('.name').text(suggestion.data);
-
-                        if (isFlag) {
+                        if (!isFlag) {
                             addRowSku();
                         }
 

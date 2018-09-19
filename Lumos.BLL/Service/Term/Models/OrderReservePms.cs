@@ -16,17 +16,11 @@ namespace Lumos.BLL.Service.Term.Models
         public string UserId { get; set; }
         public string MerchantId { get; set; }
         public string MachineId { get; set; }
-
         public string PayWay { get; set; }
-
         public List<Detail> Details { get; set; }
-
         public class Detail
         {
             public string SkuId { get; set; }
-
-            public string Name { get; set; }
-
             public int Quantity { get; set; }
         }
     }

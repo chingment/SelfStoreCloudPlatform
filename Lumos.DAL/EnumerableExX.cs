@@ -36,7 +36,21 @@ namespace System
         }
 
 
+        public static TSource FirstOrDefault<TSource>(this IEnumerable<TSource> source, string id)
+        {
 
+            string tpye_name = source.GetType().ToString();
+
+            int start = tpye_name.IndexOf("[") + 1;
+
+            string entity_name = tpye_name.Substring(start, tpye_name.Length - start - 1);
+
+
+            TSource model = RedisHashUtil.Get<TSource>(string.Format("entity:{0}", entity_name), id);
+
+
+            return model;
+        }
 
     }
 }
