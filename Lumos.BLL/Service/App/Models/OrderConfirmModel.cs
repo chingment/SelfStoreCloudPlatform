@@ -8,10 +8,10 @@ namespace Lumos.BLL.Service.App
 {
     public class OrderConfirmModel
     {
-        public int UserId { get; set; }
-        public int OrderId { get; set; }
+        public string UserId { get; set; }
+        public string OrderId { get; set; }
         public List<OrderConfirmSkuModel> Skus { get; set; }
-        public List<int> CouponId { get; set; }
+        public List<string> CouponId { get; set; }
 
     }
 }

@@ -11,10 +11,10 @@ namespace Lumos.Entity
     [Table("ShippingAddress")]
     public class ShippingAddress
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        [Key]
+        public string Id { get; set; }
 
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         [MaxLength(128)]
         public string Receiver { get; set; }
@@ -31,11 +31,11 @@ namespace Lumos.Entity
 
         public bool IsDelete { get; set; }
 
-        public int Creator { get; set; }
+        public string Creator { get; set; }
 
         public DateTime CreateTime { get; set; }
 
-        public int? Mender { get; set; }
+        public string Mender { get; set; }
 
         public DateTime? LastUpdateTime { get; set; }
         

@@ -14,7 +14,7 @@ namespace Lumos.BLL.Service.App
 
     public class OrderService : BaseProvider
     {
-        public CustomJsonResult Confrim(int operater, OrderConfirmModel confirm)
+        public CustomJsonResult Confrim(string operater, OrderConfirmModel confirm)
         {
             var result = new CustomJsonResult();
 
@@ -95,7 +95,7 @@ namespace Lumos.BLL.Service.App
                 orderBlock_SelfPick.TagName = "自提商品";
                 orderBlock_SelfPick.Skus = skus_SelfPick;
                 var shippingAddressModel2 = new ShippingAddressModel();
-                shippingAddressModel2.Id = 0;
+                shippingAddressModel2.Id = null;
                 shippingAddressModel2.Receiver = "邱庆文";
                 shippingAddressModel2.PhoneNumber = "15989287032";
                 shippingAddressModel2.Area = "";

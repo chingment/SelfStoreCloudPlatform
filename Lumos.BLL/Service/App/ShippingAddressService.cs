@@ -16,12 +16,12 @@ namespace Lumos.BLL.Service.App
 
 
 
-        public CustomJsonResult Edit(int operater, ShippingAddress shippingAddress)
+        public CustomJsonResult Edit(string operater, ShippingAddress shippingAddress)
         {
             CustomJsonResult result = new CustomJsonResult();
 
 
-            if (shippingAddress.Id == 0)
+            if (string.IsNullOrEmpty(shippingAddress.Id))
             {
                 shippingAddress.CreateTime = this.DateTime;
                 shippingAddress.Creator = operater;

@@ -8,7 +8,7 @@ namespace Lumos.BLL.Service.App
 {
     public class ShippingAddressModel
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Receiver { get; set; }
         public string PhoneNumber { get; set; }
         public string Area { get; set; }

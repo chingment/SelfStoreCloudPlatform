@@ -18,7 +18,7 @@ namespace WebAppApi.Controllers
     {
 
         [HttpGet]
-        public APIResponse GetList(int userId)
+        public APIResponse GetList(string userId)
         {
             var query = (from o in CurrentDb.ShippingAddress
                          where

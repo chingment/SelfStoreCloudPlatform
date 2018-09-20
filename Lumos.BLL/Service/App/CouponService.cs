@@ -12,7 +12,7 @@ namespace Lumos.BLL.Service.App
 
     public class CouponService : BaseProvider
     {
-        public List<CouponModel> List(int operater, int userId, bool isGetHis, List<int> couponId, List<OrderConfirmSkuModel> skus)
+        public List<CouponModel> List(string operater, string userId, bool isGetHis, List<string> couponId, List<OrderConfirmSkuModel> skus)
         {
 
             List<Coupon> coupons;
