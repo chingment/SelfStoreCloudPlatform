@@ -115,8 +115,10 @@ namespace Lumos.Entity
         {
             [Remark("未知")]
             Unknow = 0,
+            [Remark("订单号")]
+            Order = 1,
             [Remark("入库单号")]
-            Order2StockIn = 1
+            Order2StockIn = 2
         }
 
         public enum BizSnOrderChannel

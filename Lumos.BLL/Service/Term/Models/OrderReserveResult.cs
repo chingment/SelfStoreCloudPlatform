@@ -21,6 +21,7 @@ namespace Lumos.BLL.Service.Term.Models
 
         public class Detail
         {
+            public string MachineId { get; set; }
             public string SlotId { get; set; }
             public string SkuId { get; set; }
             public int Quantity { get; set; }
@@ -30,6 +31,7 @@ namespace Lumos.BLL.Service.Term.Models
 
         public class ChildDetail
         {
+            public string MachineId { get; set; }
             public string SlotId { get; set; }
             public string SkuId { get; set; }
             public int Quantity { get; set; }

@@ -44,13 +44,11 @@ namespace Lumos.DAL
         public IDbSet<Warehouse> Warehouse { get; set; }
         public IDbSet<Company> Company { get; set; }
         public IDbSet<Order2StockIn> Order2StockIn { get; set; }
-
         public IDbSet<Order> Order { get; set; }
-
+        public IDbSet<OrderDetails> OrderDetails { get; set; }
+        public IDbSet<OrderDetailsChild> OrderDetailsChild { get; set; }
         public IDbSet<OrderNotifyLog> OrderNotifyLog { get; set; }
-
         public IDbSet<Order2StockInDetails> Order2StockInDetails { get; set; }
-
         public IDbSet<WarehouseStock> WarehouseStock { get; set; }
         public IDbSet<WarehouseStockLog> WarehouseStockLog { get; set; }
 

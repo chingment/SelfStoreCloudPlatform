@@ -65,6 +65,9 @@
     <Compile Include="Biz\MerchantMachine.cs" />
     <Compile Include="Biz\Order.cs" />
     <Compile Include="Biz\Order2StockIn.cs" />
+    <Compile Include="Biz\OrderDetailsChild.cs" />
+    <Compile Include="Biz\OrderDetails.cs" />
+    <Compile Include="Biz\OrderDetailsChildSon.cs" />
     <Compile Include="Biz\OrderNotifyLog.cs" />
     <Compile Include="Biz\Pms\UnifiedOrderPms.cs" />
     <Compile Include="Biz\ProductKind.cs" />

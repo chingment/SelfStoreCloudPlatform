@@ -119,38 +119,6 @@ namespace Lumos.BLL
                 order.Mender = pOperater;
 
 
-                if (order.IsPromoteProfit)
-                {
-                    //var promoteUserRelations = CurrentDb.PromoteUserRelation.Where(m => m.CUserId == order.UserId && m.PromoteId == order.PromoteId).ToList();
-                    //var promoteProfitRates = CurrentDb.PromoteProfitRate.Where(m => m.PromoteId == order.PromoteId).ToList();
-                    //foreach (var item in promoteUserRelations)
-                    //{
-                    //    var promoteProfitRate = promoteProfitRates.Where(m => m.Dept == item.Dept).FirstOrDefault();
-
-                    //    var fund = CurrentDb.Fund.Where(m => m.UserId == item.UserId).FirstOrDefault();
-
-                    //    var profit = order.ChargeAmount * (promoteProfitRate.Rate / 100);
-                    //    fund.Balance += profit;
-                    //    fund.Mender = pOperater;
-                    //    fund.MendTime = this.DateTime;
-
-                    //    var fundTrans = new FundTrans();
-                    //    fundTrans.Id = GuidUtil.New();
-                    //    fundTrans.Sn = SnUtil.Build(Enumeration.BizSnType.Order);
-                    //    fundTrans.UserId = fund.UserId;
-                    //    fundTrans.ChangeType = Enumeration.FundTransChangeType.PromoteProfit;
-                    //    fundTrans.ChangeAmount = profit;
-                    //    fundTrans.Balance = fund.Balance;
-                    //    fundTrans.CreateTime = this.DateTime;
-                    //    fundTrans.Creator = pOperater;
-                    //    fundTrans.Description = string.Format("下级支付{0}元购买优惠卷，作为上级获得收益{1}元", order.ChargeAmount, profit);
-                    //    CurrentDb.FundTrans.Add(fundTrans);
-                    //    CurrentDb.SaveChanges();
-
-                    //}
-
-       
-                }
 
                 CurrentDb.SaveChanges();
                 ts.Complete();

@@ -108,11 +108,11 @@ namespace WebTermApi.Controllers
 
             string userId = "ca66ca85c5bf435581ecd2380554ecfe";
             string merchantId = "d1e8ad564c0f4516b2de95655a4146c7";
-            string machineId = "00000000000000000000000000000006";
+            string machineId = "00000000000000000000000000000001";
 
-            model.Add("获取机器接口配置信息", MachineApiConfig("000000000000000"));
-            model.Add("获取全局数据", GlobalDataSet(userId, merchantId, machineId, DateTime.Now));
-            // model.Add("预定商品", OrderReserve(userId, merchantId, machineId));
+            //model.Add("获取机器接口配置信息", MachineApiConfig("000000000000000"));
+            //model.Add("获取全局数据", GlobalDataSet(userId, merchantId, machineId, DateTime.Now));
+            model.Add("预定商品", OrderReserve(userId, "21ae9399b1804dbc9ddd3c29e8b5c670", ""));
             return View(model);
         }
 
@@ -155,16 +155,19 @@ namespace WebTermApi.Controllers
 
         }
 
-        public string OrderReserve(string userId, string merchantId, string machineId)
+        public string OrderReserve(string userId, string storeId, string machineId)
         {
 
             OrderReservePms pms = new OrderReservePms();
             pms.UserId = userId;
-            pms.MerchantId = merchantId;
+            pms.StoreId = storeId;
             pms.MachineId = machineId;
             pms.PayWay = "";
 
-            pms.Details.Add(new OrderReservePms.Detail() { SkuId = "1", Quantity = 1 });
+            pms.Details.Add(new OrderReservePms.Detail() { SkuId = "1", Quantity = 8 });
+            pms.Details.Add(new OrderReservePms.Detail() { SkuId = "2", Quantity = 1 });
+            pms.Details.Add(new OrderReservePms.Detail() { SkuId = "3", Quantity = 1 });
+            pms.Details.Add(new OrderReservePms.Detail() { SkuId = "4", Quantity = 1 });
 
             string a1 = JsonConvert.SerializeObject(pms);
 

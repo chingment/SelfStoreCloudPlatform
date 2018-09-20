@@ -61,9 +61,9 @@ namespace Lumos.BLL
 
             switch (snType)
             {
-                //case Entity.Enumeration.BizSnType.Order:
-                //    prefix = "61";
-                //    break;
+                case Entity.Enumeration.BizSnType.Order:
+                    prefix = "61";
+                    break;
                 //case Entity.Enumeration.BizSnType.FundTrans:
                 //    prefix = "10";
                 //    break;
