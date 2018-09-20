@@ -9,8 +9,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Lumos.Entity
 {
+    [Table("OrderDetailsChildSon")]
     public class OrderDetailsChildSon
     {
+        [Key]
         public string Id { get; set; }
         public string Sn { get; set; }
         public string UserId { get; set; }
@@ -22,11 +24,12 @@ namespace Lumos.Entity
         public string OrderDetailsSn { get; set; }
         public string OrderDetailsChildId { get; set; }
         public string OrderDetailsChildSn { get; set; }
+        public string SlotId { get; set; }
         public string ProductSkuId { get; set; }
         public string ProductSkuName { get; set; }
         public string ProductSkuImgUrl { get; set; }
         public int Quantity { get; set; }
-        public decimal Price { get; set; }
+        public decimal SalesPrice { get; set; }
         public decimal OriginalAmount { get; set; }
         public decimal DiscountAmount { get; set; }
         public decimal ChargeAmount { get; set; }

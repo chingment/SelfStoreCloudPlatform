@@ -21,15 +21,57 @@ namespace Lumos.BLL.Service.Term.Models
 
         public class Detail
         {
+            public Detail()
+            {
+                this.Details = new List<DetailChild>();
+            }
+            public string MachineId { get; set; }
+            public int Quantity { get; set; }
+            public decimal OriginalAmount { get; set; }
+            public decimal DiscountAmount { get; set; }
+            public decimal ChargeAmount { get; set; }
+            public List<DetailChild> Details { get; set; }
+
+        }
+
+        public class DetailChild
+        {
+            public DetailChild()
+            {
+                this.Details = new List<DetailChildSon>();
+                this.SlotStock = new List<SlotStock>();
+            }
+            public string MachineId { get; set; }
+            public string SkuId { get; set; }
+            public string SkuName { get; set; }
+            public string SkuImgUrl { get; set; }
+            public decimal SalesPrice { get; set; }
+            public int Quantity { get; set; }
+            public decimal OriginalAmount { get; set; }
+            public decimal DiscountAmount { get; set; }
+            public decimal ChargeAmount { get; set; }
+            public List<DetailChildSon> Details { get; set; }
+
+            public List<SlotStock> SlotStock { get; set; }
+        }
+
+        public class DetailChildSon
+        {
+            public string Id { get; set; }
             public string MachineId { get; set; }
             public string SlotId { get; set; }
             public string SkuId { get; set; }
             public int Quantity { get; set; }
-
-            public List<ChildDetail> Details { get; set; }
+            public string SkuName { get; set; }
+            public string SkuImgUrl { get; set; }
+            public decimal SalesPrice { get; set; }
+            public decimal OriginalAmount { get; set; }
+            public decimal DiscountAmount { get; set; }
+            public decimal ChargeAmount { get; set; }
         }
 
-        public class ChildDetail
+
+        public class SlotStock
         {
             public string MachineId { get; set; }
             public string SlotId { get; set; }

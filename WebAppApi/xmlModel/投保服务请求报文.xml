@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProposalGenerateRequest>
+	<RequestHead>
+		<request_Type></request_Type>
+		<user></user>
+		<password></password>
+		<queryId></queryId>
+		<sourceSystemCode></sourceSystemCode>
+		<versionNo></versionNo>
+		<areaCode></areaCode>
+		<areaName></areaName>
+		<tradeTime>20151102092648</tradeTime>
+		<response_Type>01</response_Type>
+		<signData></signData>
+	</RequestHead>
+	<ProposalGenerateRequestMain>
+		<!-- 渠道信息 -->
+		<Channel>
+			<channelCode>AEC16110001</channelCode>
+			<channelName></channelName>
+			<channelComCode></channelComCode>
+			<channelComName></channelComName>
+			<channelProductCode></channelProductCode>
+			<channelOperateCode></channelOperateCode>
+			<channelTradeCode>000003</channelTradeCode>
+			<channelTradeSerialNo>20151102092648</channelTradeSerialNo>
+			<channelRelationNo></channelRelationNo>
+			<channelTradeDate>20151102</channelTradeDate>
+		</Channel>
+		<!-- 投保人信息 -->
+		<ApplicantVO>
+			<!-- 投保人名称 -->
+			<cAppNme>邢广平</cAppNme>
+			<!-- 证件类型 -->
+			<cCertfCls>120001</cCertfCls>
+			<!-- 证件号码 -->
+			<cCertfCde>622827198905054511</cCertfCde>
+			<!-- 地址/住址 -->
+			<cWorkArea>住址</cWorkArea>
+			<!-- 邮编 -->
+			<cZipCde>000000</cZipCde>
+			<!-- 移动电话 -->
+			<cMobile>13552958725</cMobile>
+			<!-- 工作单位,单位性质 -->
+			<cWorkDpt>6</cWorkDpt>
+			<!-- 反洗钱客户风险等级 -->
+			<cCustRiskRank>925105</cCustRiskRank>
+			<!-- 投保人类型 -->
+			<cAppCate>1</cAppCate>
+			<!--电子邮箱-->
+			<cEmail>11111111111</cEmail>
+		</ApplicantVO>
+		<!-- 被保险人信息-->
+		<InsuredVO>
+			<!-- 被保人名称 -->
+			<cInsuredNme>邢广平</cInsuredNme>
+			<!-- 证件类型 -->
+			<cCertfCls>120001</cCertfCls>
+			<!-- 证件号码 -->
+			<cCertfCde>622827198905054511</cCertfCde>
+			<!-- 地址/住址 -->
+			<cResidAddr>住址</cResidAddr>
+			<!-- 邮编 -->
+			<cZipCde>000000</cZipCde>
+			<!-- 移动电话 -->
+			<cMobile>13552958725</cMobile>
+			<!-- 工作单位,单位性质 -->
+			<cWorkDpt>6</cWorkDpt>
+			<!-- 反洗钱客户风险等级 -->
+			<cCustRiskRank>925105</cCustRiskRank>
+			<!-- 被保人类型 -->
+			<cResvTxt20>1</cResvTxt20>
+			<!--电子邮箱-->
+			<cEmail>000000000000</cEmail>
+		</InsuredVO>
+		<!-- 车主信息 -->
+		<VhlownerVO>
+			<!-- 车主名称 -->
+			<cOwnerNme>邢广平</cOwnerNme>
+			<!-- 车主证件类型 -->
+			<cCertfCls>120001</cCertfCls>
+			<!-- 车主证件号码 -->
+			<cCertfCde>622827198905054511</cCertfCde>
+			<!-- 车主地址 -->
+			<cResidAddr>车主地址</cResidAddr>
+			<!-- 车主邮政编码 -->
+			<cZipCde>000000</cZipCde>
+			<!-- 车主性质 -->
+			<cOwnerCls>1</cOwnerCls>
+		</VhlownerVO>
+		<!-- 交强险信息 -->
+    <PackageJQVO>
+			<!-- 申请单号 -->
+			<cAppNo>00200000803301120160000160</cAppNo>
+			<!--  产品代码 -->
+			<cProdNo>030001</cProdNo>
+			<!--平台查询码-->
+			<cQryCde>V0101APIC440016001480329934655</cQryCde>
+			<!--保单形式-->
+			<cPlyTyp>0</cPlyTyp>
+			<VhlVO>
+				<!-- 申请单号 -->
+				<cAppNo>00200000803301120160000160</cAppNo>
+				<!-- 承保验证码 -->
+				<cAppValidateNo></cAppValidateNo>
+			</VhlVO>
+		</PackageJQVO>
+    <!-- 商业险信息 -->
+		<PackageSYVO>
+			<!-- 申请单号 -->
+			<cAppNo>00200000803301120160000160</cAppNo>
+			<!--  产品代码 -->
+			<cProdNo>030001</cProdNo>
+			<!--平台查询码-->
+			<cQryCde>V0101APIC440016001480329934655</cQryCde>
+			<!--保单形式-->
+			<cPlyTyp>0</cPlyTyp>
+			<VhlVO>
+				<!-- 申请单号 -->
+				<cAppNo>00200000803301120160000160</cAppNo>
+				<!-- 承保验证码 -->
+				<cAppValidateNo></cAppValidateNo>
+			</VhlVO>
+		</PackageSYVO>
+		<!-- 配送信息 -->
+		<DeliveryVO>
+			<!--签收人-->
+			<cSignInCnm>邢广平</cSignInCnm>
+			<!--签收人电话-->
+			<cSignInTel>13552958725</cSignInTel>
+			<!--送单地址-->
+			<cSendOrderAddr>北京市</cSendOrderAddr>
+		</DeliveryVO>
+	</ProposalGenerateRequestMain>
+</ProposalGenerateRequest>

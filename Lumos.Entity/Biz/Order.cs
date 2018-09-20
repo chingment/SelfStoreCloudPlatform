@@ -20,6 +20,8 @@ namespace Lumos.Entity
         public decimal OriginalAmount { get; set; }
         public decimal DiscountAmount { get; set; }
         public decimal ChargeAmount { get; set; }
+        public int Quantity { get; set; }
+        public string CouponId { get; set; }
         public DateTime? SubmitTime { get; set; }
         public DateTime? PayTime { get; set; }
         public DateTime? CompletedTime { get; set; }

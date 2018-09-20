@@ -17,6 +17,11 @@ namespace Lumos.BLL.Service.Term.Models
         public string StoreId { get; set; }
         public string MachineId { get; set; }
         public string PayWay { get; set; }
+        public string Receiver { get; set; }
+        public string ReceiverPhone { get; set; }
+        public string ReceptionAddress { get; set; }
+
+
         public List<Detail> Details { get; set; }
         public class Detail
         {

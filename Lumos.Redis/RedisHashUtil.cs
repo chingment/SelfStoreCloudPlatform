@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lumos.Redis
 {
-    public  class RedisHashUtil
+    public class RedisHashUtil
     {
         /// 判断某个数据是否已经被缓存
         /// </summary>
@@ -51,6 +51,11 @@ namespace Lumos.Redis
         public static T Get<T>(string hashId, string key)
         {
             string value = RedisManager.Db.HashGet(hashId, key);
+
+            if (string.IsNullOrEmpty(value))
+            {
+                return default(T);
+            }
             return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(value);
         }
         /// <summary>

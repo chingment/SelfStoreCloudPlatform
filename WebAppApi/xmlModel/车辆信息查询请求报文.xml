@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="GBK"?>
+<VehicleInformationQueryRequest>
+	<RequestHead>
+		<requestType></requestType>
+		<user></user>
+		<password></password>
+		<queryId></queryId>
+		<sourceSystemCode></sourceSystemCode>
+		<versionNo></versionNo>
+		<areaCode></areaCode>
+		<areaName></areaName>
+		<tradeTime>20151102092648</tradeTime>
+		<responseType>01</responseType>
+		<signData></signData>
+	</RequestHead>
+	<VehicleInformationQueryRequestMain>
+		<Channel>
+			<channelCode>AEC16110001</channelCode>
+			<channelName></channelName>
+			<channelComCode></channelComCode>
+			<channelComName></channelComName>
+			<channelProductCode></channelProductCode>
+			<channelOperateCode></channelOperateCode>
+			<channelTradeCode>000015</channelTradeCode>
+			<channelTradeSerialNo>20151102092648</channelTradeSerialNo>
+			<channelRelationNo></channelRelationNo>
+			<channelTradeDate>20151102</channelTradeDate>
+		</Channel>
+		<CarNo>京A00036</CarNo>
+		<OwnerName>戴彬</OwnerName>
+	</VehicleInformationQueryRequestMain>
+</VehicleInformationQueryRequest>

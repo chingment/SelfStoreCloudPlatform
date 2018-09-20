@@ -36,9 +36,6 @@ namespace Lumos.BLL.Service.Term
 
                 //取货方式
                 Enumeration.ReceptionMode receptionMode = Enumeration.ReceptionMode.Unknow;
-                string receiver = null;
-                string receiverPhone = null;
-                string receptionAddress = null;
 
                 //pms.MachineId 为空表示线上商城购买，不为空在线下机器购买
                 if (string.IsNullOrEmpty(pms.MachineId))
@@ -85,131 +82,155 @@ namespace Lumos.BLL.Service.Term
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "可预定的商品数量不足，再支付");
                 }
 
+                var storeId = CurrentDb.Store.Where(m => m.Id == pms.StoreId).FirstOrDefault();
+
                 var order = new Order();
                 order.Id = GuidUtil.New();
                 order.Sn = SnUtil.Build(Enumeration.BizSnType.Order, pms.UserId);
                 order.UserId = pms.UserId;
                 order.StoreId = pms.StoreId;
-                order.OriginalAmount = 0;
-                order.DiscountAmount = 0;
-                order.ChargeAmount = 0;
+                order.Quantity = pms.Details.Sum(m => m.Quantity);
                 order.Status = Enumeration.OrderStatus.WaitPay;
                 order.SubmitTime = this.DateTime;
                 order.Creator = pOperater;
                 order.CreateTime = this.DateTime;
 
-                var reserveDetails = new List<OrderReserveResult.Detail>();
+                //var discount50;
+                var reserveDetails = GetReserveDetail(pms.Details, skusByStock);
 
-                foreach (var detail in pms.Details)
+                order.OriginalAmount = reserveDetails.Sum(m => m.OriginalAmount);
+                order.DiscountAmount = reserveDetails.Sum(m => m.DiscountAmount);
+                order.ChargeAmount = reserveDetails.Sum(m => m.ChargeAmount);
+
+                foreach (var detail in reserveDetails)
                 {
-                    var skuByStock = skusByStock.Where(m => m.ProductSkuId == detail.SkuId).ToList();
-                    var reserveDetail = GetReserveDetail(detail, skuByStock);
-                    reserveDetails.AddRange(reserveDetail);
-                }
-
-
-                string[] machineIds = reserveDetails.Select(m => m.MachineId).Distinct<string>().ToArray();
-
-                foreach (var machineId in machineIds)
-                {
-                    var l_ReserveDetail = reserveDetails.Where(m => m.MachineId == machineId).ToList();
-
                     var orderDetails = new OrderDetails();
                     orderDetails.Id = GuidUtil.New();
                     orderDetails.Sn = SnUtil.Build(Enumeration.BizSnType.Order, pms.UserId);
                     orderDetails.UserId = pms.UserId;
                     orderDetails.StoreId = pms.StoreId;
-                    orderDetails.MachineId = machineId;
+                    orderDetails.MachineId = detail.MachineId;
                     orderDetails.OrderId = order.Id;
                     orderDetails.OrderSn = order.Sn;
-                    orderDetails.OriginalAmount = 0;
-                    orderDetails.DiscountAmount = 0;
-                    orderDetails.ChargeAmount = 0;
-                    orderDetails.Quantity = l_ReserveDetail.Sum(m => m.Quantity);
-                    orderDetails.Receiver = receiver;
-                    orderDetails.ReceiverPhone = receiverPhone;
-                    orderDetails.ReceptionAddress = receptionAddress;
+                    orderDetails.OriginalAmount = detail.OriginalAmount;
+                    orderDetails.DiscountAmount = detail.DiscountAmount;
+                    orderDetails.ChargeAmount = detail.ChargeAmount;
+                    orderDetails.Quantity = detail.Quantity;
                     orderDetails.ReceptionMode = receptionMode;
                     orderDetails.SubmitTime = this.DateTime;
                     orderDetails.Creator = pOperater;
                     orderDetails.CreateTime = this.DateTime;
+
+                    //detail.MachineId为空 则为快递商品
+                    if (string.IsNullOrEmpty(detail.MachineId))
+                    {
+                        orderDetails.Receiver = pms.Receiver;
+                        orderDetails.ReceiverPhone = pms.ReceiverPhone;
+                        orderDetails.ReceptionAddress = pms.ReceptionAddress;
+                    }
+                    else
+                    {
+                        orderDetails.Receiver = null;
+                        orderDetails.ReceiverPhone = null;
+                        orderDetails.ReceptionAddress = storeId.Address;
+                    }
+
                     CurrentDb.OrderDetails.Add(orderDetails);
 
-
-                    var skuIdsByReserve = l_ReserveDetail.Select(m => m.SkuId).Distinct<string>().ToList();
-
-                    foreach (var skuId in skuIdsByReserve)
+                    foreach (var detailsChild in detail.Details)
                     {
 
                         var orderDetailsChild = new OrderDetailsChild();
                         orderDetailsChild.Id = GuidUtil.New();
+                        orderDetailsChild.Sn = SnUtil.Build(Enumeration.BizSnType.Order, pms.UserId);
                         orderDetailsChild.UserId = pms.UserId;
                         orderDetailsChild.StoreId = pms.StoreId;
-                        orderDetailsChild.MachineId = machineId;
+                        orderDetailsChild.MachineId = detailsChild.MachineId;
                         orderDetailsChild.OrderId = order.Id;
                         orderDetailsChild.OrderSn = order.Sn;
                         orderDetailsChild.OrderDetailsId = orderDetails.Id;
                         orderDetailsChild.OrderDetailsSn = orderDetails.Sn;
-                        orderDetailsChild.ProductSkuId = skuId;
-                        orderDetailsChild.SalesPrice = 0;
-                        orderDetailsChild.Quantity = l_ReserveDetail.Where(m => m.SkuId == skuId).Sum(m => m.Quantity);
-                        orderDetailsChild.OriginalAmount = 0;
-                        orderDetailsChild.DiscountAmount = 0;
-                        orderDetailsChild.ChargeAmount = 0;
+                        orderDetailsChild.ProductSkuId = detailsChild.SkuId;
+                        orderDetailsChild.ProductSkuName = detailsChild.SkuName;
+                        orderDetailsChild.ProductSkuImgUrl = detailsChild.SkuImgUrl;
+                        orderDetailsChild.SalesPrice = detailsChild.SalesPrice;
+                        orderDetailsChild.Quantity = detailsChild.Quantity;
+                        orderDetailsChild.OriginalAmount = detailsChild.OriginalAmount;
+                        orderDetailsChild.DiscountAmount = detailsChild.DiscountAmount;
+                        orderDetailsChild.ChargeAmount = detailsChild.ChargeAmount;
                         orderDetailsChild.SubmitTime = this.DateTime;
                         orderDetailsChild.Creator = pOperater;
                         orderDetailsChild.CreateTime = this.DateTime;
                         CurrentDb.OrderDetailsChild.Add(orderDetailsChild);
+
+                        foreach (var detailsChildSon in detailsChild.Details)
+                        {
+                            var orderDetailsChildSon = new OrderDetailsChildSon();
+
+                            orderDetailsChildSon.Id = detailsChildSon.Id;
+                            orderDetailsChildSon.Sn = SnUtil.Build(Enumeration.BizSnType.Order, pms.UserId);
+                            orderDetailsChildSon.UserId = pms.UserId;
+                            orderDetailsChildSon.StoreId = pms.StoreId;
+                            orderDetailsChildSon.MachineId = detailsChildSon.MachineId;
+                            orderDetailsChildSon.OrderId = order.Id;
+                            orderDetailsChildSon.OrderSn = order.Sn;
+                            orderDetailsChildSon.OrderDetailsId = orderDetails.Id;
+                            orderDetailsChildSon.OrderDetailsSn = orderDetails.Sn;
+                            orderDetailsChildSon.OrderDetailsChildId = orderDetailsChild.Id;
+                            orderDetailsChildSon.OrderDetailsChildSn = orderDetailsChild.Sn;
+                            orderDetailsChildSon.SlotId = detailsChildSon.SlotId;
+                            orderDetailsChildSon.ProductSkuId = detailsChildSon.SkuId;
+                            orderDetailsChildSon.ProductSkuName = detailsChildSon.SkuName;
+                            orderDetailsChildSon.ProductSkuImgUrl = detailsChildSon.SkuImgUrl;
+                            orderDetailsChildSon.SalesPrice = detailsChildSon.SalesPrice;
+                            orderDetailsChildSon.Quantity = detailsChildSon.Quantity;
+                            orderDetailsChildSon.OriginalAmount = detailsChildSon.OriginalAmount;
+                            orderDetailsChildSon.DiscountAmount = detailsChildSon.DiscountAmount;
+                            orderDetailsChildSon.ChargeAmount = detailsChildSon.ChargeAmount;
+                            orderDetailsChildSon.SubmitTime = this.DateTime;
+                            orderDetailsChildSon.Creator = pOperater;
+                            orderDetailsChildSon.CreateTime = this.DateTime;
+                            CurrentDb.OrderDetailsChildSon.Add(orderDetailsChildSon);
+                        }
+
+
+
+                        foreach (var slotStock in detailsChild.SlotStock)
+                        {
+                            var machineStock = skusByStock.Where(m => m.ProductSkuId == slotStock.SkuId && m.SlotId == slotStock.SlotId && m.MachineId == slotStock.MachineId).FirstOrDefault();
+
+                            machineStock.LockQuantity += slotStock.Quantity;
+                            machineStock.SellQuantity -= slotStock.Quantity;
+                            machineStock.Mender = pOperater;
+                            machineStock.MendTime = this.DateTime;
+
+
+                            var machineStockLog = new MachineStockLog();
+                            machineStockLog.Id = GuidUtil.New();
+                            machineStockLog.UserId = pms.UserId;
+                            machineStockLog.StoreId = pms.StoreId;
+                            machineStockLog.MachineId = slotStock.MachineId;
+                            machineStockLog.SlotId = slotStock.SlotId;
+                            machineStockLog.ProductSkuId = slotStock.SkuId;
+                            machineStockLog.Quantity = machineStock.Quantity;
+                            machineStockLog.LockQuantity = machineStock.LockQuantity;
+                            machineStockLog.SellQuantity = machineStock.SellQuantity;
+                            machineStockLog.ChangeType = Enumeration.MachineStockLogChangeTpye.Lock;
+                            machineStockLog.ChangeQuantity = slotStock.Quantity;
+                            machineStockLog.Creator = pOperater;
+                            machineStockLog.CreateTime = this.DateTime;
+                            machineStockLog.RemarkByDev = string.Format("预定锁定库存：{0}", slotStock.Quantity);
+                            CurrentDb.MachineStockLog.Add(machineStockLog);
+                        }
                     }
-
-
-                    foreach (var reserveDetail in l_ReserveDetail)
-                    {
-                        var machineStock = skusByStock.Where(m => m.ProductSkuId == reserveDetail.SkuId && m.SlotId == reserveDetail.SlotId && m.MachineId == reserveDetail.MachineId).FirstOrDefault();
-
-                        machineStock.LockQuantity += reserveDetail.Quantity;
-                        machineStock.SellQuantity -= reserveDetail.Quantity;
-                        machineStock.Mender = pOperater;
-                        machineStock.MendTime = this.DateTime;
-
-
-                        //var orderDetailsChild = new OrderDetailsChild();
-                        //orderDetailsChild.Id = GuidUtil.New();
-                        //orderDetailsChild.UserId = pms.UserId;
-                        //orderDetailsChild.StoreId = pms.StoreId;
-                        //orderDetailsChild.MachineId=
-
-
-                        var machineStockLog = new MachineStockLog();
-                        machineStockLog.Id = GuidUtil.New();
-                        machineStockLog.UserId = pms.UserId;
-                        machineStockLog.StoreId = pms.StoreId;
-                        machineStockLog.MachineId = reserveDetail.MachineId;
-                        machineStockLog.SlotId = reserveDetail.SlotId;
-                        machineStockLog.ProductSkuId = reserveDetail.SkuId;
-                        machineStockLog.Quantity = machineStock.Quantity;
-                        machineStockLog.LockQuantity = machineStock.LockQuantity;
-                        machineStockLog.SellQuantity = machineStock.SellQuantity;
-                        machineStockLog.ChangeType = Enumeration.MachineStockLogChangeTpye.Lock;
-                        machineStockLog.ChangeQuantity = reserveDetail.Quantity;
-                        machineStockLog.Creator = pOperater;
-                        machineStockLog.CreateTime = this.DateTime;
-                        machineStockLog.RemarkByDev = string.Format("预定锁定库存：{0}", reserveDetail.Quantity);
-                        CurrentDb.MachineStockLog.Add(machineStockLog);
-                    }
-
                 }
-
-
-
-
 
 
                 result_Data.OrderSn = "1";
                 result_Data.PayUrl = "http://www.baidu.com";
 
-                ///CurrentDb.Order.Add(order);
-                CurrentDb.SaveChanges();
+                CurrentDb.Order.Add(order);
+                CurrentDb.SaveChanges(true);
                 ts.Complete();
 
                 result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "预定成功", result_Data);
@@ -224,59 +245,237 @@ namespace Lumos.BLL.Service.Term
 
 
 
-        public List<OrderReserveResult.Detail> GetReserveDetail(OrderReservePms.Detail reserveDetail, List<MachineStock> machineStocks)
+        //public List<OrderReserveResult.Detail> GetReserveDetail(OrderReservePms.Detail reserveDetail, List<MachineStock> machineStocks)
+        //{
+
+        //    List<OrderReserveResult.ChildDetail> childDetail = new List<OrderReserveResult.ChildDetail>();
+
+        //    foreach (var item in machineStocks)
+        //    {
+
+        //        for (var i = 0; i < item.Quantity; i++)
+        //        {
+        //            int reservedQuantity = childDetail.Sum(m => m.Quantity);//已订的数量
+        //            int needReserveQuantity = reserveDetail.Quantity;//需要订的数量
+        //            if (reservedQuantity != needReserveQuantity)
+        //            {
+        //                childDetail.Add(new OrderReserveResult.ChildDetail { Id = GuidUtil.New(), MachineId = item.MachineId, Quantity = 1, SkuId = item.ProductSkuId, SlotId = item.SlotId });
+        //            }
+        //        }
+        //    }
+
+        //    var detailsGroup = (from c in childDetail
+        //                        group c by new
+        //                        {
+        //                            c.MachineId,
+        //                            c.SkuId,
+        //                            c.SlotId
+        //                        }
+        //                   into b
+        //                        select new
+        //                        {
+        //                            MachineId = b.Select(m => m.MachineId).First(),
+        //                            SkuId = b.Select(m => m.SkuId).First(),
+        //                            SlotId = b.Select(m => m.SlotId).First(),
+        //                            Quantity = b.Sum(p => p.Quantity),
+        //                        }).ToList();
+
+
+        //    List<OrderReserveResult.Detail> details = new List<OrderReserveResult.Detail>();
+
+        //    foreach (var item in detailsGroup)
+        //    {
+        //        var detail = new OrderReserveResult.Detail();
+
+        //        detail.MachineId = item.MachineId;
+        //        detail.SkuId = item.SkuId;
+        //        detail.SlotId = item.SlotId;
+        //        detail.Quantity = item.Quantity;
+        //        detail.Details = childDetail.Where(m => m.MachineId == item.MachineId && m.SkuId == item.SkuId && m.SlotId == item.SlotId).ToList();
+
+        //        details.Add(detail);
+        //    }
+
+        //    return details;
+        //}
+
+
+        public List<OrderReserveResult.Detail> GetReserveDetail(List<OrderReservePms.Detail> reserveDetails, List<MachineStock> machineStocks)
         {
+            List<OrderReserveResult.Detail> details = new List<OrderReserveResult.Detail>();
 
-            List<OrderReserveResult.ChildDetail> childDetail = new List<OrderReserveResult.ChildDetail>();
+            List<OrderReserveResult.DetailChildSon> detailChildSons = new List<OrderReserveResult.DetailChildSon>();
 
-            foreach (var item in machineStocks)
+            foreach (var reserveDetail in reserveDetails)
             {
+                var l_machineStocks = machineStocks.Where(m => m.ProductSkuId == reserveDetail.SkuId).ToList();
 
-                for (var i = 0; i < item.Quantity; i++)
+                //bool isFlag = false;
+                foreach (var item in l_machineStocks)
                 {
-                    int reservedQuantity = childDetail.Sum(m => m.Quantity);//已订的数量
-                    int needReserveQuantity = reserveDetail.Quantity;//需要订的数量
-                    if (reservedQuantity != needReserveQuantity)
+                    for (var i = 0; i < item.Quantity; i++)
                     {
-                        childDetail.Add(new OrderReserveResult.ChildDetail { MachineId = item.MachineId, Quantity = 1, SkuId = item.ProductSkuId, SlotId = item.SlotId });
+                        int reservedQuantity = detailChildSons.Where(m => m.SkuId == reserveDetail.SkuId).Sum(m => m.Quantity);//已订的数量
+                        int needReserveQuantity = reserveDetail.Quantity;//需要订的数量
+                        if (reservedQuantity != needReserveQuantity)
+                        {
+
+                            var product = BizFactory.ProductSku.GetModel(item.ProductSkuId);
+
+                            var detailChildSon = new OrderReserveResult.DetailChildSon();
+                            detailChildSon.Id = GuidUtil.New();
+                            detailChildSon.MachineId = item.MachineId;
+                            detailChildSon.SkuId = item.ProductSkuId;
+                            detailChildSon.SkuName = product.Name;
+                            detailChildSon.SkuImgUrl = product.ImgUrl;
+                            detailChildSon.SlotId = item.SlotId;
+                            detailChildSon.Quantity = 1;
+                            detailChildSon.SalesPrice = item.SalesPrice;
+                            detailChildSon.OriginalAmount = detailChildSon.Quantity * item.SalesPrice;
+
+                            detailChildSons.Add(detailChildSon);
+                        }
                     }
                 }
             }
 
-            var detailsGroup = (from c in childDetail
-                                group c by new
-                                {
-                                    c.MachineId,
-                                    c.SkuId,
-                                    c.SlotId
-                                }
-                           into b
+            var sumOriginalAmount = detailChildSons.Sum(m => m.OriginalAmount);
+            var sumDiscountAmount = 2.3m;
+            for (int i = 0; i < detailChildSons.Count; i++)
+            {
+
+                decimal scale = (detailChildSons[i].OriginalAmount / sumOriginalAmount);
+                detailChildSons[i].DiscountAmount = Decimal.Round(scale * sumDiscountAmount, 2);
+                detailChildSons[i].ChargeAmount = detailChildSons[i].OriginalAmount - detailChildSons[i].DiscountAmount;
+
+
+
+            }
+
+            var sumDiscountAmount2 = detailChildSons.Sum(m => m.DiscountAmount);
+            if (sumDiscountAmount != sumDiscountAmount2)
+            {
+                var diff = sumDiscountAmount - sumDiscountAmount2;
+
+                detailChildSons[detailChildSons.Count - 1].DiscountAmount = detailChildSons[detailChildSons.Count - 1].DiscountAmount + diff;
+                detailChildSons[detailChildSons.Count - 1].ChargeAmount = detailChildSons[detailChildSons.Count - 1].OriginalAmount - detailChildSons[detailChildSons.Count - 1].DiscountAmount;
+            }
+
+
+            var detailGroups = (from c in detailChildSons
                                 select new
                                 {
-                                    MachineId = b.Select(m => m.MachineId).First(),
-                                    SkuId = b.Select(m => m.SkuId).First(),
-                                    SlotId = b.Select(m => m.SlotId).First(),
-                                    Quantity = b.Sum(p => p.Quantity),
-                                }).ToList();
+                                    c.MachineId
+                                }).Distinct().ToList();
 
 
-            List<OrderReserveResult.Detail> details = new List<OrderReserveResult.Detail>();
 
-            foreach (var item in detailsGroup)
+            foreach (var detailGroup in detailGroups)
             {
                 var detail = new OrderReserveResult.Detail();
 
-                detail.MachineId = item.MachineId;
-                detail.SkuId = item.SkuId;
-                detail.SlotId = item.SlotId;
-                detail.Quantity = item.Quantity;
-                detail.Details = childDetail.Where(m => m.MachineId == item.MachineId && m.SkuId == item.SkuId && m.SlotId == item.SlotId).ToList();
+                detail.MachineId = detailGroup.MachineId;
+                detail.Quantity = detailChildSons.Where(m => m.MachineId == detailGroup.MachineId).Sum(m => m.Quantity);
+                detail.OriginalAmount = detailChildSons.Where(m => m.MachineId == detailGroup.MachineId).Sum(m => m.OriginalAmount);
+                detail.DiscountAmount = detailChildSons.Where(m => m.MachineId == detailGroup.MachineId).Sum(m => m.DiscountAmount);
+                detail.ChargeAmount = detailChildSons.Where(m => m.MachineId == detailGroup.MachineId).Sum(m => m.ChargeAmount);
+
+
+                var detailChildGroups = (from c in detailChildSons
+                                         where c.MachineId == detailGroup.MachineId
+                                         select new
+                                         {
+                                             c.MachineId,
+                                             c.SkuId
+                                         }).Distinct().ToList();
+
+                foreach (var detailChildGroup in detailChildGroups)
+                {
+
+                    var detailChild = new OrderReserveResult.DetailChild();
+
+                    detailChild.MachineId = detailChildGroup.MachineId;
+                    detailChild.SkuId = detailChildGroup.SkuId;
+                    detailChild.SkuName = detailChildSons.Where(m => m.MachineId == detailChildGroup.MachineId && m.SkuId == detailChildGroup.SkuId).First().SkuName;
+                    detailChild.SkuImgUrl = detailChildSons.Where(m => m.MachineId == detailChildGroup.MachineId && m.SkuId == detailChildGroup.SkuId).First().SkuImgUrl;
+                    detailChild.SalesPrice = detailChildSons.Where(m => m.MachineId == detailChildGroup.MachineId && m.SkuId == detailChildGroup.SkuId).First().SalesPrice;
+                    detailChild.Quantity = detailChildSons.Where(m => m.MachineId == detailChildGroup.MachineId && m.SkuId == detailChildGroup.SkuId).Sum(m => m.Quantity);
+                    detailChild.OriginalAmount = detailChildSons.Where(m => m.MachineId == detailChildGroup.MachineId && m.SkuId == detailChildGroup.SkuId).Sum(m => m.OriginalAmount);
+                    detailChild.DiscountAmount = detailChildSons.Where(m => m.MachineId == detailChildGroup.MachineId && m.SkuId == detailChildGroup.SkuId).Sum(m => m.DiscountAmount);
+                    detailChild.ChargeAmount = detailChildSons.Where(m => m.MachineId == detailChildGroup.MachineId && m.SkuId == detailChildGroup.SkuId).Sum(m => m.ChargeAmount);
+
+                    var detailChildSonGroups = (from c in detailChildSons
+                                                where c.MachineId == detailChildGroup.MachineId
+                                             && c.SkuId == detailChildGroup.SkuId
+                                                select new
+                                                {
+                                                    c.Id,
+                                                    c.MachineId,
+                                                    c.SkuId,
+                                                    c.SlotId,
+                                                    c.Quantity,
+                                                    c.SalesPrice,
+                                                    c.SkuImgUrl,
+                                                    c.SkuName,
+                                                    c.ChargeAmount,
+                                                    c.DiscountAmount,
+                                                    c.OriginalAmount
+                                                }).ToList();
+
+
+                    foreach (var detailChildSonGroup in detailChildSonGroups)
+                    {
+                        var detailChildSon = new OrderReserveResult.DetailChildSon();
+                        detailChildSon.Id = detailChildSonGroup.Id;
+                        detailChildSon.MachineId = detailChildSonGroup.MachineId;
+                        detailChildSon.SkuId = detailChildSonGroup.SkuId;
+                        detailChildSon.SlotId = detailChildSonGroup.SlotId;
+                        detailChildSon.Quantity = detailChildSonGroup.Quantity;
+                        detailChildSon.SkuName = detailChildSonGroup.SkuName;
+                        detailChildSon.SkuImgUrl = detailChildSonGroup.SkuImgUrl;
+                        detailChildSon.SalesPrice = detailChildSonGroup.SalesPrice;
+                        detailChildSon.OriginalAmount = detailChildSonGroup.OriginalAmount;
+                        detailChildSon.DiscountAmount = detailChildSonGroup.DiscountAmount;
+                        detailChildSon.ChargeAmount = detailChildSonGroup.ChargeAmount;
+                        detailChild.Details.Add(detailChildSon);
+                    }
+
+
+
+                    var slotStockGroups = (from c in detailChildSons
+                                           where c.MachineId == detailChildGroup.MachineId
+                                        && c.SkuId == detailChildGroup.SkuId
+                                           select new
+                                           {
+                                               c.MachineId,
+                                               c.SkuId,
+                                               c.SlotId
+                                           }).Distinct().ToList();
+
+
+                    foreach (var slotStockGroup in slotStockGroups)
+                    {
+                        var slotStock = new OrderReserveResult.SlotStock();
+                        slotStock.MachineId = slotStockGroup.MachineId;
+                        slotStock.SkuId = slotStockGroup.SkuId;
+                        slotStock.SlotId = slotStockGroup.SlotId;
+                        slotStock.Quantity = detailChildSons.Where(m => m.MachineId == slotStockGroup.MachineId && m.SkuId == slotStockGroup.SkuId && m.SlotId == slotStockGroup.SlotId).Sum(m => m.Quantity);
+                        detailChild.SlotStock.Add(slotStock);
+                    }
+
+                    detail.Details.Add(detailChild);
+
+                }
 
                 details.Add(detail);
             }
 
+
+
+
             return details;
         }
+
 
     }
 }

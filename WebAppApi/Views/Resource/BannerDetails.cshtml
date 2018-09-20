@@ -1,0 +1,27 @@
+﻿@model WebAppApi.Models.Resource.DetailsViewModelByBanner
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_AppLayout.cshtml";
+}
+
+@section styles{
+    <style type="text/css">
+        body {
+            background-color: #fff;
+        }
+    </style>
+}
+
+
+<div class="vnotice">
+    <div class="vnotice-container">
+        <div class="item-title">
+            <h3 class="item-bigtitle">@Model.SysBanner.Title</h3>
+            <p class="item-date">日期：@Model.SysBanner.CreateTime.ToUnifiedFormatDate()</p>
+        </div>
+        <div class="item-con">
+            @Html.Raw(Model.SysBanner.Content)
+        </div>
+    </div>
+</div>
+

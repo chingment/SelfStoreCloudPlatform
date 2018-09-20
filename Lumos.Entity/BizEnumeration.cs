@@ -194,5 +194,81 @@ namespace Lumos.Entity
             Cancled = 5
 
         }
+
+        public enum ChannelType
+        {
+            [Remark("未知")]
+            Unknow = 0,
+            [Remark("快递商品")]
+            Express = 1,
+            [Remark("自助商品")]
+            SelfPick = 2
+        }
+
+        public enum CouponStatus
+        {
+            [Remark("未知")]
+            Unknow = 0,
+            [Remark("待使用")]
+            WaitUse = 1,
+            [Remark("已使用")]
+            Used = 2,
+            [Remark("已过期")]
+            Expired = 3,
+            [Remark("已删除")]
+            Delete = 4,
+            [Remark("冻结")]
+            Frozen = 5
+        }
+
+        public enum CouponSourceType
+        {
+            [Remark("未知")]
+            Unknow = 0,
+            [Remark("领取")]
+            Receive = 1,
+            [Remark("派送")]
+            Give = 2
+        }
+
+        public enum CartStatus
+        {
+            [Remark("未知")]
+            Unknow = 0,
+            [Remark("等待结算")]
+            WaitSettle = 1,
+            [Remark("结算中")]
+            Settling = 2,
+            [Remark("结算完成")]
+            SettleCompleted = 3,
+            [Remark("已删除")]
+            Deleted = 4
+        }
+
+        public enum CouponType
+        {
+            [Remark("未知")]
+            Unknow = 0,
+            [Remark("满减券")]
+            FullCut = 1,
+            [Remark("立减券")]
+            UnLimitedCut = 2,
+            [Remark("折扣券")]
+            Discount = 3
+        }
+
+        public enum CartOperateType
+        {
+            [Remark("未知")]
+            Unknow = 0,
+            [Remark("选择")]
+            Selected = 1,
+            [Remark("加")]
+            Increase = 2,
+            [Remark("减")]
+            Decrease = 3,
+            [Remark("删除")]
+            Delete = 4
+        }
     }
 }

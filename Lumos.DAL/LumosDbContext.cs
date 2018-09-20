@@ -47,15 +47,20 @@ namespace Lumos.DAL
         public IDbSet<Order> Order { get; set; }
         public IDbSet<OrderDetails> OrderDetails { get; set; }
         public IDbSet<OrderDetailsChild> OrderDetailsChild { get; set; }
+        public IDbSet<OrderDetailsChildSon> OrderDetailsChildSon { get; set; }
         public IDbSet<OrderNotifyLog> OrderNotifyLog { get; set; }
         public IDbSet<Order2StockInDetails> Order2StockInDetails { get; set; }
         public IDbSet<WarehouseStock> WarehouseStock { get; set; }
         public IDbSet<WarehouseStockLog> WarehouseStockLog { get; set; }
-
-
         public IDbSet<WxAutoReply> WxAutoReply { get; set; }
         public IDbSet<WxMsgPushLog> WxMsgPushLog { get; set; }
         public IDbSet<WxUserInfo> WxUserInfo { get; set; }
+        public IDbSet<ShippingAddress> ShippingAddress { get; set; }
+        public IDbSet<Coupon> Coupon { get; set; }
+        public IDbSet<Cart> Cart { get; set; }
+
+        public IDbSet<StoreBanner> StoreBanner { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

@@ -95,6 +95,36 @@
     <Compile Include="Sdk\WxConfigByTest.cs" />
     <Compile Include="Sdk\WxSdkProvider.cs" />
     <Compile Include="Sdk\WxUntil.cs" />
+    <Compile Include="Service\App\CartService.cs" />
+    <Compile Include="Service\App\CouponService.cs" />
+    <Compile Include="Service\App\IndexService.cs" />
+    <Compile Include="Service\App\Models\BannerModel.cs" />
+    <Compile Include="Service\App\Models\CartModel.cs" />
+    <Compile Include="Service\App\Models\CartProcudtSkuListByOperateModel.cs" />
+    <Compile Include="Service\App\Models\CartProcudtSkuListModel.cs" />
+    <Compile Include="Service\App\Models\CouponModel.cs" />
+    <Compile Include="Service\App\Models\IndexModel.cs" />
+    <Compile Include="Service\App\Models\OrderConfirmCouponModel.cs" />
+    <Compile Include="Service\App\Models\OrderConfirmModel.cs" />
+    <Compile Include="Service\App\Models\OrderConfirmResultModel.cs" />
+    <Compile Include="Service\App\Models\OrderConfirmSkuModel.cs" />
+    <Compile Include="Service\App\Models\OrderConfirmSubtotalItemModel.cs" />
+    <Compile Include="Service\App\Models\PersonalModel.cs" />
+    <Compile Include="Service\App\Models\ProductChildKindModel.cs" />
+    <Compile Include="Service\App\Models\ProductParentKindModel.cs" />
+    <Compile Include="Service\App\Models\ProductSkuDetailsModel.cs" />
+    <Compile Include="Service\App\Models\ProductSkuModel.cs" />
+    <Compile Include="Service\App\Models\ShippingAddressModel.cs" />
+    <Compile Include="Service\App\Models\SpecModel.cs" />
+    <Compile Include="Service\App\Models\SpecValueModel.cs" />
+    <Compile Include="Service\App\Models\UserInfoModel.cs" />
+    <Compile Include="Service\App\OrderService.cs" />
+    <Compile Include="Service\App\AppServiceFactory.cs" />
+    <Compile Include="Service\App\PersonalService.cs" />
+    <Compile Include="Service\App\Models\ProductKindModel.cs" />
+    <Compile Include="Service\App\ProductKindService.cs" />
+    <Compile Include="Service\App\ProductSkuService.cs" />
+    <Compile Include="Service\App\ShippingAddressService.cs" />
     <Compile Include="Service\Term\GlobalService.cs" />
     <Compile Include="Service\Term\Models\Global\DataSetModel.cs" />
     <Compile Include="Service\Term\Models\OrderReservePms.cs" />
@@ -153,7 +183,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Service\App\" />
     <Folder Include="Task\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

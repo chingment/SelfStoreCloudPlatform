@@ -1,0 +1,69 @@
+﻿@model WebAppApi.Models.IdRecogModel
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_AppLayout.cshtml";
+}
+
+@section styles{
+    <style type="text/css">
+        body {
+            background-color: #fff;
+        }
+
+        .list-input-item .item-left {
+            width: 100%;
+            display: inline-flex;
+        }
+
+
+        .list-input-item .item-name {
+            width: 140px;
+            text-align: left;
+            padding-right: 5px;
+        }
+
+        .list-input-item .item-name {
+            width: 140px;
+            text-align: left;
+            padding-right: 5px;
+        }
+
+        .list-input-item .fr {
+            float: right;
+            width: 100%;
+            text-align: right;
+        }
+    </style>
+}
+<ul class="list-input" style="overflow:hidden">
+    <li class="list-input-item">
+        <div class="item-left fl">
+            <div class="item-name fl"><span>身份标识</span></div>
+            <div class="item-value fr">@Model.IdNum</div>
+        </div>
+    </li>
+    <li class="list-input-item">
+        <div class="item-left fl">
+            <div class="item-name fl"><span>公司名称</span></div>
+            <div class="item-value fr">@Model.Company</div>
+        </div>
+
+    </li>
+    <li class="list-input-item">
+        <div class="item-left fl">
+            <div class="item-name fl"><span>生产商</span></div>
+            <div class="item-value fr">@Model.Producer</div>
+        </div>
+    </li>
+    <li class="list-input-item">
+        <div class="item-left fl">
+            <div class="item-name fl"><span>生产日期</span></div>
+            <div class="item-value fr">@Model.PuctionDate</div>
+        </div>
+    </li>
+</ul>
+
+<div>
+    <img src="~/Images/baobao2.jpg" style="width:100%;" />
+</div>
+

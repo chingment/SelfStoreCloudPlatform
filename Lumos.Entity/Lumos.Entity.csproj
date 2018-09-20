@@ -54,7 +54,9 @@
     </Compile>
     <Compile Include="BizEnumeration.cs" />
     <Compile Include="Biz\BizSn.cs" />
+    <Compile Include="Biz\Cart.cs" />
     <Compile Include="Biz\Company.cs" />
+    <Compile Include="Biz\Coupon.cs" />
     <Compile Include="Biz\MachineBanner.cs" />
     <Compile Include="Biz\BizProcessesAudit.cs" />
     <Compile Include="Biz\BizProcessesAuditDetails.cs" />
@@ -74,8 +76,10 @@
     <Compile Include="Biz\ProductKindSku.cs" />
     <Compile Include="Biz\ProductSku.cs" />
     <Compile Include="Biz\Order2StockInDetails.cs" />
+    <Compile Include="Biz\ShippingAddress.cs" />
     <Compile Include="Biz\Stock.cs" />
     <Compile Include="Biz\Store.cs" />
+    <Compile Include="Biz\StoreBanner.cs" />
     <Compile Include="Biz\StoreMachine.cs" />
     <Compile Include="Biz\Warehouse.cs" />
     <Compile Include="Biz\WarehouseStock.cs" />
