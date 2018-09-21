@@ -181,5 +181,38 @@ namespace Lumos.BLL
             }
             return list;
         }
+
+        public string GetMainImg(string imgSetJson)
+        {
+            if (string.IsNullOrEmpty(imgSetJson))
+                return "";
+
+            var list = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ImgSet>>(imgSetJson);
+
+            var main = list.Where(m => m.IsMain == true).FirstOrDefault();
+            if (main != null)
+                return main.ImgUrl;
+
+            return "";
+        }
+
+        public List<ImgSet> GetDispalyImgUrls(string imgSetJson)
+        {
+            if (string.IsNullOrEmpty(imgSetJson))
+                return new List<ImgSet>();
+
+            List<ImgSet> imgs = new List<ImgSet>();
+            var list = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ImgSet>>(imgSetJson);
+
+            foreach (var m in list)
+            {
+                if (!string.IsNullOrEmpty(m.ImgUrl))
+                {
+                    imgs.Add(m);
+                }
+            }
+
+            return imgs;
+        }
     }
 }

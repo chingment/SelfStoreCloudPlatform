@@ -23,11 +23,12 @@ namespace WebAppApi.Controllers
     {
 
         [HttpGet]
-        public APIResponse GetList(int userId, int merchantId, int posMachineId, int pageIndex, int type, int categoryId, int kindId, string name)
+        public APIResponse GetList(string userId, string storeId, int pageIndex, string kindId, string name)
         {
+
             var query = (from o in CurrentDb.ProductSku
 
-                         select new { o.Id, o.Name, o.KindIds, o.KindNames, o.DispalyImgUrls, o.CreateTime }
+                         select new { o.Id, o.Name, o.KindIds, o.KindNames, o.DispalyImgUrls, o.ImgUrl, o.CreateTime, o.SalePrice }
                          );
 
             if (name != null && name.Length > 0)
@@ -45,12 +46,12 @@ namespace WebAppApi.Controllers
             //    query = query.Where(p => p.ProductCategoryId.ToString().StartsWith(categoryId.ToString()));
             //}
 
-            if (kindId != 0)
+            if (string.IsNullOrWhiteSpace(kindId))
             {
 
                 //string strkindId = BizFactory.Product.BuildProductKindIdForSearch(kindId.ToString());
 
-                //query = query.Where(p => SqlFunctions.CharIndex(strkindId, p.ProductKindIds) > 0);
+                //query = query.Where(p =>p.Id.c);
             }
 
             int pageSize = 10;
@@ -58,23 +59,26 @@ namespace WebAppApi.Controllers
             query = query.OrderByDescending(r => r.CreateTime).Skip(pageSize * (pageIndex)).Take(pageSize);
 
             var list = query.ToList();
-            List<ProductSkuModel> model = new List<ProductSkuModel>();
+
+            List<object> olist = new List<object>();
 
 
-            foreach (var m in list)
+            foreach (var item in list)
             {
-
-                var productModel = new ProductSkuModel();
-                productModel.Id = m.Id;
-                productModel.Name = m.Name;
-                model.Add(productModel);
-
+                olist.Add(new
+                {
+                    SkuId = item.Id,
+                    Name = item.Name,
+                    ImgUrl = BizFactory.ProductSku.GetMainImg(item.DispalyImgUrls),
+                    SalePrice = item.SalePrice.ToF2Price()
+                });
             }
 
-            APIResult result = new APIResult() { Result = ResultType.Success, Code = ResultCode.Success, Message = "", Data = model };
+            APIResult result = new APIResult() { Result = ResultType.Success, Code = ResultCode.Success, Message = "", Data = olist };
 
             return new APIResponse(result);
         }
+
 
 
         [HttpGet]
@@ -82,7 +86,17 @@ namespace WebAppApi.Controllers
         {
             var model = BizFactory.ProductSku.GetModel(productSkuId);
 
-            APIResult result = new APIResult() { Result = ResultType.Success, Code = ResultCode.Success, Message = "", Data = model };
+            var sku = new ProductSkuDetailsModel();
+
+            sku.Id = model.Id;
+            sku.Name = model.Name;
+            sku.SalePrice = model.SalePrice.ToF2Price();
+            sku.ShowPrice = model.ShowPrice.ToF2Price();
+            sku.DetailsDes = model.DetailsDes;
+            sku.BriefIntro = model.BriefInfo;
+            sku.DispalyImgUrls = BizFactory.ProductSku.GetDispalyImgUrls(model.DispalyImgUrls);
+
+            APIResult result = new APIResult() { Result = ResultType.Success, Code = ResultCode.Success, Message = "", Data = sku };
 
             return new APIResponse(result);
         }

@@ -30,7 +30,7 @@ namespace Lumos.BLL.Service.App
                     cartProcudtSkuModel.CartId = item.Id;
                     cartProcudtSkuModel.SkuId = skuModel.Id;
                     cartProcudtSkuModel.SkuName = skuModel.Name;
-                    cartProcudtSkuModel.SkuImgUrl = skuModel.ImgUrl;
+                    cartProcudtSkuModel.SkuImgUrl = BizFactory.ProductSku.GetMainImg(skuModel.DispalyImgUrls);
                     cartProcudtSkuModel.SalePrice = skuModel.SalePrice;
                     cartProcudtSkuModel.Quantity = item.Quantity;
                     cartProcudtSkuModel.SumPrice = item.Quantity * skuModel.SalePrice;
@@ -89,7 +89,7 @@ namespace Lumos.BLL.Service.App
 
                     foreach (var item in procudtSkus)
                     {
-                        var mod_Cart = CurrentDb.UserCart.Where(m => m.UserId == userId && m.ProductSkuId == item.SkuId && m.ChannelId == item.ChannelId && m.ChannelType == item.ChannelType && m.Status == Enumeration.CartStatus.WaitSettle).FirstOrDefault();
+                        var mod_Cart = CurrentDb.UserCart.Where(m => m.UserId == userId && m.StoreId == storeId && m.ProductSkuId == item.SkuId && m.ChannelId == item.ChannelId && m.ChannelType == item.ChannelType && m.Status == Enumeration.CartStatus.WaitSettle).FirstOrDefault();
 
                         LogUtil.Info("购物车操作：" + operate);
                         switch (operate)
@@ -114,10 +114,12 @@ namespace Lumos.BLL.Service.App
                                 if (mod_Cart == null)
                                 {
                                     mod_Cart = new UserCart();
+                                    mod_Cart.Id = GuidUtil.New();
                                     mod_Cart.UserId = userId;
+                                    mod_Cart.StoreId = storeId;
                                     mod_Cart.ProductSkuId = skuModel.Id;
                                     mod_Cart.ProductSkuName = skuModel.Name;
-                                    mod_Cart.ProductSkuImgUrl = skuModel.ImgUrl;
+                                    mod_Cart.ProductSkuImgUrl = BizFactory.ProductSku.GetMainImg(skuModel.DispalyImgUrls);
                                     mod_Cart.CreateTime = this.DateTime;
                                     mod_Cart.Creator = operater;
                                     mod_Cart.Quantity = 1;
@@ -144,7 +146,7 @@ namespace Lumos.BLL.Service.App
 
                     CurrentDb.SaveChanges();
 
-                    var cartModel = GetData(operater,userId, storeId);
+                    var cartModel = GetData(operater, userId, storeId);
 
                     ts.Complete();
 
