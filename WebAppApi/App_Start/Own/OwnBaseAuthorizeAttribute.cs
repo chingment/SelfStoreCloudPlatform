@@ -78,15 +78,17 @@ namespace WebAppApi
                 string app_version = request.Headers["version"];
                 string app_timestamp_s = request.Headers["timestamp"];
 
+                LogUtil.Info("11111111111111");
+
                 if (app_version != null)
                 {
                     LogUtil.Info("app_version:" + app_version);
                 }
 
+                LogUtil.Info("2222222222");
                 string app_data = null;
                 if (requestMethod == "POST")
                 {
-                    //var s = HttpContext.Current.Request.Form["form-data"];
                     Stream stream = HttpContext.Current.Request.InputStream;
                     stream.Seek(0, SeekOrigin.Begin);
                     app_data = new StreamReader(stream).ReadToEnd();
@@ -126,6 +128,8 @@ namespace WebAppApi
                     app_data = GetQueryData(queryData);
                 }
 
+                LogUtil.Info("333333333");
+
                 //记录请求的日志
                 MonitorApiLog monitorApiLog = new MonitorApiLog();
                 monitorApiLog.RequestTime = requestTime;
@@ -135,6 +139,8 @@ namespace WebAppApi
 
                 actionContext.ActionArguments[key] = monitorApiLog;
 
+                LogUtil.Info("444444444");
+
                 //检查必要的参数
                 if (app_key == null || app_sign == null || app_timestamp_s == null)
                 {
@@ -142,6 +148,8 @@ namespace WebAppApi
                     actionContext.Response = new APIResponse(result);
                     return;
                 }
+
+                LogUtil.Info("5555555555");
 
                 //检查key是否在数据库中存在
                 string app_secret = SysFactory.AppKeySecret.GetSecret(app_key);
@@ -153,16 +161,19 @@ namespace WebAppApi
                     return;
                 }
 
+
+                LogUtil.Info("66666666666666");
+
                 long app_timestamp = long.Parse(app_timestamp_s);
 
                 string signStr = Signature.Compute(app_key, app_secret, app_timestamp, app_data);
 
-                //Log.Info("app_key:" + app_key);
-                //Log.Info("app_secret:" + app_secret);
-                //Log.Info("app_timestamp:" + app_timestamp);
-                //Log.Info("app_data:" + app_data);
-                //Log.Info("signStr:" + signStr);
-                //Log.Info("app_sign:" + app_sign);
+                LogUtil.Info("app_key:" + app_key);
+                LogUtil.Info("app_secret:" + app_secret);
+                LogUtil.Info("app_timestamp:" + app_timestamp);
+                LogUtil.Info("app_data:" + app_data);
+                LogUtil.Info("signStr:" + signStr);
+                LogUtil.Info("app_sign:" + app_sign);
 
 
                 if (Signature.IsRequestTimeout(app_timestamp))
@@ -173,7 +184,7 @@ namespace WebAppApi
                 }
 
 
-
+                LogUtil.Info("8888888888888888");
 
                 if (signStr != app_sign)
                 {
@@ -182,6 +193,9 @@ namespace WebAppApi
                     actionContext.Response = new APIResponse(result);
                     return;
                 }
+
+
+                LogUtil.Info("99999999999999999999");
 
                 base.OnActionExecuting(actionContext);
             }

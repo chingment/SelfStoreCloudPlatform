@@ -17,8 +17,8 @@ namespace Lumos.BLL.Service.App
             var store = CurrentDb.Store.Where(m => m.Id == pStoreId).FirstOrDefault();
 
             var productKinds = CurrentDb.ProductKind.Where(m => m.UserId == store.UserId && m.Status == Entity.Enumeration.ProductKindStatus.Valid && m.IsDelete == false).ToList();
-
-            var productParentKinds = productKinds.Where(m => m.PId == GuidUtil.Empty()).ToList();
+            var top = productKinds.Where(m => m.PId == GuidUtil.Empty()).FirstOrDefault();
+            var productParentKinds = productKinds.Where(m => m.PId == top.Id).ToList();
             foreach (var item in productParentKinds)
             {
                 var productParentKindModel = new ProductParentKindModel();
