@@ -23,14 +23,12 @@ namespace WebAppApi.Controllers
         [HttpGet]
         public APIResponse DataSet(string userId, string storeId, DateTime? datetime)
         {
-
-            var model = new DataSetModel();
-
-            model.Index = AppServiceFactory.Index.GetData(userId, storeId);
-            model.ProductKind = AppServiceFactory.ProductKind.GetKinds(userId,userId);
-            model.Cart = AppServiceFactory.Cart.GetData(userId, storeId);
-            model.Personal = AppServiceFactory.Personal.GetData(userId, storeId);
-            APIResult result = new APIResult() { Result = ResultType.Success, Code = ResultCode.Success, Message = "获取成功", Data = model };
+            var resultModel = new DataSetResultModel();
+            resultModel.Index = AppServiceFactory.Index.GetData(userId, userId, storeId);
+            resultModel.ProductKind = AppServiceFactory.ProductKind.GetKinds(userId, userId, storeId);
+            resultModel.Cart = AppServiceFactory.Cart.GetData(userId, userId, storeId);
+            resultModel.Personal = AppServiceFactory.Personal.GetData(userId, userId, storeId);
+            APIResult result = new APIResult() { Result = ResultType.Success, Code = ResultCode.Success, Message = "获取成功", Data = resultModel };
             return new APIResponse(result);
         }
 

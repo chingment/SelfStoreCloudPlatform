@@ -7,7 +7,7 @@ using System.Web;
 
 namespace WebAppApi.Models.Global
 {
-    public class DataSetModel
+    public class DataSetResultModel
     {
         public IndexModel Index{ get; set; }
 

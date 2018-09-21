@@ -179,7 +179,7 @@
     <Compile Include="Models\Account\ResetPasswordModel.cs" />
     <Compile Include="Models\Cart\OperateParams.cs" />
     <Compile Include="Models\Coupon\GetListParams.cs" />
-    <Compile Include="Models\Global\DataSetModel.cs" />
+    <Compile Include="Models\Global\DataSetResultModel.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
     <Compile Include="Models\IdRecogModel.cs" />
     <Compile Include="Models\Order\CancleModel.cs" />

@@ -9,12 +9,12 @@ namespace Lumos.BLL.Service.App
 {
     public class IndexService : BaseProvider
     {
-        public IndexModel GetData(string userId,string storeId)
+        public IndexModel GetData(string pOperater,string pUserId, string pStoreId)
         {
             var model = new IndexModel();
 
 
-            var banner = CurrentDb.StoreBanner.Where(m => m.StoreId == storeId).ToList();
+            var banner = CurrentDb.StoreBanner.Where(m => m.StoreId == pStoreId).ToList();
 
             List<BannerModel> bannerModels = new List<BannerModel>();
 

@@ -1,5 +1,4 @@
-﻿using Lumos.BLL.Service.Term.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,53 +8,54 @@ namespace Lumos.BLL.Service.App
 {
     public class ProductKindService : BaseProvider
     {
-        public ProductKindModel GetKinds(string pOperater, string pUserId)
+        public ProductKindModel GetKinds(string pOperater, string pUserId, string pStoreId)
         {
-            var productKindModel = new ProductKindModel();
+            var productKindModels = new ProductKindModel();
 
-            var productKindModels = new List<ProductParentKindModel>();
+            var productParentKindModels = new List<ProductParentKindModel>();
 
-            var productKinds = CurrentDb.ProductKind.Where(m => m.UserId == pUserId && m.Status == Entity.Enumeration.ProductKindStatus.Valid && m.IsDelete == false).ToList();
-            var productSkuIds = CurrentDb.MachineStock.Where(m => m.UserId == pUserId && m.IsOffSell == false).Select(m => m.ProductSkuId).ToArray();
-            var productSkus = CurrentDb.ProductSku.Where(m => productSkuIds.Contains(m.Id)).ToList();
+            var store = CurrentDb.Store.Where(m => m.Id == pStoreId).FirstOrDefault();
 
-            if (productKinds.Count > 0)
+            var productKinds = CurrentDb.ProductKind.Where(m => m.UserId == store.UserId && m.Status == Entity.Enumeration.ProductKindStatus.Valid && m.IsDelete == false).ToList();
+
+            var productParentKinds = productKinds.Where(m => m.PId == GuidUtil.Empty()).ToList();
+            foreach (var item in productParentKinds)
             {
-                var productTopKind = productKinds.Where(m => m.PId == GuidUtil.Empty()).FirstOrDefault();
+                var productParentKindModel = new ProductParentKindModel();
+                productParentKindModel.Id = item.Id;
+                productParentKindModel.Name = item.Name;
+                productParentKindModel.ImgUrl = item.MainImg;
+                productParentKindModel.Selected = false;
+                var productChildKinds = productKinds.Where(m => m.PId == item.Id).ToList();
 
-                if (productTopKind != null)
+                foreach (var item2 in productChildKinds)
                 {
-                    var productParentKinds = productKinds.Where(m => m.PId == productTopKind.Id).ToList();
+                    var productChildKindModel = new ProductChildKindModel();
 
-                    foreach (var productParentKind in productParentKinds)
-                    {
-                        var productParentKindModel = new ProductParentKindModel();
-                        productParentKindModel.Id = productParentKind.Id;
-                        productParentKindModel.Name = productParentKind.Name;
+                    productChildKindModel.Id = item2.Id;
+                    productChildKindModel.Name = item2.Name;
+                    productChildKindModel.ImgUrl = item2.MainImg;
+                    productParentKindModel.Selected = false;
 
-                        var productChildKinds = productKinds.Where(m => m.PId == productParentKind.Id).ToList();
+                    productParentKindModel.Child.Add(productChildKindModel);
+                }
 
-                        if (productChildKinds.Count > 0)
-                        {
-                            foreach (var productChildKind in productChildKinds)
-                            {
-                                var l_productSkuIds = CurrentDb.ProductKindSku.Where(m => m.ProductKindId == productChildKind.Id).Select(m => m.ProductSkuId).ToList();
-                                if (l_productSkuIds.Count > 0)
-                                {
-                                    productParentKindModel.Childs.AddRange(l_productSkuIds);
-                                }
-                            }
-                        }
+                productParentKindModels.Add(productParentKindModel);
 
-                        productKindModels.Add(productParentKindModel);
+            }
 
-                    }
+            var selectedCount = productParentKindModels.Where(m => m.Selected == true).Count();
+            if (selectedCount == 0)
+            {
+                if (productParentKindModels.Count > 0)
+                {
+                    productParentKindModels[0].Selected = true;
                 }
             }
 
-            productKindModel.List = productKindModels;
+            productKindModels.List = productParentKindModels;
 
-            return productKindModel;
+            return productKindModels;
         }
     }
 }

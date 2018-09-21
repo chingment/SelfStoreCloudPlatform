@@ -8,11 +8,11 @@ namespace Lumos.BLL.Service.App
 {
     public class PersonalService : BaseProvider
     {
-        public PersonalModel GetData(string userId,string storeId)
+        public PersonalModel GetData(string pOperater, string pUserId, string pStoreId)
         {
             var model = new PersonalModel();
 
-            var user = CurrentDb.SysUser.Where(m => m.Id == userId).FirstOrDefault();
+            var user = CurrentDb.SysUser.Where(m => m.Id == pUserId).FirstOrDefault();
             if (user != null)
             {
                 var userInfo = new UserInfoModel();

@@ -10,14 +10,17 @@ namespace Lumos.BLL.Service.App
     {
         public ProductParentKindModel()
         {
-            this.Childs = new List<string>();
+            this.Child = new List<ProductChildKindModel>();
         }
 
         public string Id { get; set; }
 
         public string Name { get; set; }
 
-        public List<string> Childs { get; set; }
+        public string ImgUrl { get; set; }
 
+        public bool Selected { get; set; }
+
+        public List<ProductChildKindModel> Child { get; set; }
     }
 }

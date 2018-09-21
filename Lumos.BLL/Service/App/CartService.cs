@@ -11,12 +11,12 @@ namespace Lumos.BLL.Service.App
 {
     public class CartService : BaseProvider
     {
-        public CartModel GetData(string userId, string storeId)
+        public CartModel GetData(string pOperater, string pUserId, string pStoreId)
         {
             var cartModel = new CartModel();
 
 
-            var carts = CurrentDb.UserCart.Where(m => m.UserId == userId && m.Status == Enumeration.CartStatus.WaitSettle).ToList();
+            var carts = CurrentDb.UserCart.Where(m => m.UserId == pUserId && m.StoreId == pStoreId && m.Status == Enumeration.CartStatus.WaitSettle).ToList();
 
 
             var skus = new List<CartProcudtSkuListModel>();
@@ -144,7 +144,7 @@ namespace Lumos.BLL.Service.App
 
                     CurrentDb.SaveChanges();
 
-                    var cartModel = GetData(userId, storeId);
+                    var cartModel = GetData(operater,userId, storeId);
 
                     ts.Complete();
 

@@ -33,8 +33,6 @@ namespace WebAppApi.Controllers
         // private string host = "http://api.gzhaoyilian.com";
         // private string host = "https://www.ins-uplink.cn";
         //private string host = "http://120.79.233.231";
-        private string YBS_key = "ybs_test";
-        private string YBS_secret = "6ZB87cdVz222O08EKZ6yri8YrHXFBowA";
 
 
         public static string GetQueryString(Dictionary<string, string> parames)
@@ -115,12 +113,12 @@ namespace WebAppApi.Controllers
         public ActionResult Index()
         {
 
-            int userId = 1234;
-            int merchantId = 258;
-            int posMachineId = 153;
+            string userId = "00000000000000000000000000000000";
+            string storeId = "be9ae32c554d4942be4a42fa48446210";
 
-            //model.Add("获取主页数据", GetAccoutHome(userId, merchantId, posMachineId, DateTime.Parse("2018-04-09 15:14:28")));
-            //model.Add("获取全局数据", GlobalDataSet(1215, merchantId, posMachineId, DateTime.Parse("2018-04-09 15:14:28")));
+
+
+            model.Add("获取全局数据", GlobalDataSet(userId, storeId, DateTime.Parse("2018-04-09 15:14:28")));
 
             //model.Add("获取地址", GetShippingAddress(1215));
 
@@ -143,6 +141,25 @@ namespace WebAppApi.Controllers
                 str += item;
             }
             return str;
+        }
+
+        public string GlobalDataSet(string userId, string storeId, DateTime datetime)
+        {
+            Dictionary<string, string> parames = new Dictionary<string, string>();
+            parames.Add("userId", userId);
+            parames.Add("storeId", storeId.ToString());
+            parames.Add("datetime", datetime.ToUnifiedFormatDateTime());
+            string signStr = Signature.Compute(key, secret, timespan, Signature.GetQueryData(parames));
+
+            Dictionary<string, string> headers = new Dictionary<string, string>();
+            headers.Add("key", key);
+            headers.Add("timestamp", timespan.ToString());
+            headers.Add("sign", signStr);
+            HttpUtil http = new HttpUtil();
+            string result = http.HttpGet("" + host + "/api/Global/DataSet?userId=" + userId + "&storeId=" + storeId + "&datetime=" + HttpUtility.UrlEncode(datetime.ToUnifiedFormatDateTime(), UTF8Encoding.UTF8).ToUpper(), headers);
+
+            return result;
+
         }
 
     }
