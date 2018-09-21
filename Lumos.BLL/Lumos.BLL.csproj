@@ -124,7 +124,7 @@
     <Compile Include="Service\App\Models\ProductKindModel.cs" />
     <Compile Include="Service\App\ProductKindService.cs" />
     <Compile Include="Service\App\ProductSkuService.cs" />
-    <Compile Include="Service\App\ShippingAddressService.cs" />
+    <Compile Include="Service\App\UserDeliveryAddressService.cs" />
     <Compile Include="Service\Term\GlobalService.cs" />
     <Compile Include="Service\Term\Models\Global\DataSetModel.cs" />
     <Compile Include="Service\Term\Models\OrderReservePms.cs" />

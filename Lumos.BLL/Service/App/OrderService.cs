@@ -74,11 +74,11 @@ namespace Lumos.BLL.Service.App
                 orderBlock_Express.TagName = "快递商品";
                 orderBlock_Express.Skus = skus_SelfExpress;
                 var shippingAddressModel = new ShippingAddressModel();
-                var shippingAddress = CurrentDb.ShippingAddress.Where(m => m.UserId == confirm.UserId && m.IsDefault == true).FirstOrDefault();
+                var shippingAddress = CurrentDb.UserDeliveryAddress.Where(m => m.UserId == confirm.UserId && m.IsDefault == true).FirstOrDefault();
                 if (shippingAddress != null)
                 {
                     shippingAddressModel.Id = shippingAddress.Id;
-                    shippingAddressModel.Receiver = shippingAddress.Receiver;
+                    shippingAddressModel.Consignee = shippingAddress.Consignee;
                     shippingAddressModel.PhoneNumber = shippingAddress.PhoneNumber;
                     shippingAddressModel.AreaName = shippingAddress.AreaName;
                     shippingAddressModel.Address = shippingAddress.Address;
@@ -96,7 +96,7 @@ namespace Lumos.BLL.Service.App
                 orderBlock_SelfPick.Skus = skus_SelfPick;
                 var shippingAddressModel2 = new ShippingAddressModel();
                 shippingAddressModel2.Id = null;
-                shippingAddressModel2.Receiver = "邱庆文";
+                shippingAddressModel2.Consignee = "邱庆文";
                 shippingAddressModel2.PhoneNumber = "15989287032";
                 shippingAddressModel2.AreaName = "";
                 shippingAddressModel2.Address = "广州工商学院";
@@ -113,7 +113,7 @@ namespace Lumos.BLL.Service.App
 
             if (confirm.CouponId == null || confirm.CouponId.Count == 0)
             {
-                var couponsCount = CurrentDb.Coupon.Where(m => m.UserId == confirm.UserId && m.Status == Entity.Enumeration.CouponStatus.WaitUse && m.EndTime > DateTime.Now).Count();
+                var couponsCount = CurrentDb.UserCoupon.Where(m => m.UserId == confirm.UserId && m.Status == Entity.Enumeration.CouponStatus.WaitUse && m.EndTime > DateTime.Now).Count();
 
                 if (couponsCount == 0)
                 {
@@ -127,7 +127,7 @@ namespace Lumos.BLL.Service.App
             else
             {
 
-                var coupons = CurrentDb.Coupon.Where(m => m.UserId == confirm.UserId && confirm.CouponId.Contains(m.Id)).ToList();
+                var coupons = CurrentDb.UserCoupon.Where(m => m.UserId == confirm.UserId && confirm.CouponId.Contains(m.Id)).ToList();
 
                 foreach (var item in coupons)
                 {

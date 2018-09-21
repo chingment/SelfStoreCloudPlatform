@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace Lumos.Entity
 {
-    [Table("Cart")]
-    public class Cart
+    [Table("UserCart")]
+    public class UserCart
     {
         [Key]
         public string Id { get; set; }

@@ -40,11 +40,11 @@ namespace Lumos.BLL.Service.App
             }
         }
 
-        public static ShippingAddressService ShippingAddress
+        public static UserDeliveryAddressService UserDeliveryAddress
         {
             get
             {
-                return new ShippingAddressService();
+                return new UserDeliveryAddressService();
             }
         }
 

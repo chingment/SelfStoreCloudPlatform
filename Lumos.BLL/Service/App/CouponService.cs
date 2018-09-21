@@ -15,14 +15,14 @@ namespace Lumos.BLL.Service.App
         public List<CouponModel> List(string operater, string userId, bool isGetHis, List<string> couponId, List<OrderConfirmSkuModel> skus)
         {
 
-            List<Coupon> coupons;
+            List<UserCoupon> coupons;
             if (!isGetHis)
             {
-                coupons = CurrentDb.Coupon.Where(m => m.UserId == userId && m.Status == Entity.Enumeration.CouponStatus.WaitUse && m.EndTime > DateTime.Now).ToList();
+                coupons = CurrentDb.UserCoupon.Where(m => m.UserId == userId && m.Status == Entity.Enumeration.CouponStatus.WaitUse && m.EndTime > DateTime.Now).ToList();
             }
             else
             {
-                coupons = CurrentDb.Coupon.Where(m => m.UserId == userId && (m.Status == Entity.Enumeration.CouponStatus.Used || m.Status == Entity.Enumeration.CouponStatus.Expired) && m.EndTime < DateTime.Now).ToList();
+                coupons = CurrentDb.UserCoupon.Where(m => m.UserId == userId && (m.Status == Entity.Enumeration.CouponStatus.Used || m.Status == Entity.Enumeration.CouponStatus.Expired) && m.EndTime < DateTime.Now).ToList();
             }
 
             var couponsModel = new List<CouponModel>();

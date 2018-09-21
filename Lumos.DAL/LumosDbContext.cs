@@ -55,9 +55,9 @@ namespace Lumos.DAL
         public IDbSet<WxAutoReply> WxAutoReply { get; set; }
         public IDbSet<WxMsgPushLog> WxMsgPushLog { get; set; }
         public IDbSet<WxUserInfo> WxUserInfo { get; set; }
-        public IDbSet<ShippingAddress> ShippingAddress { get; set; }
-        public IDbSet<Coupon> Coupon { get; set; }
-        public IDbSet<Cart> Cart { get; set; }
+        public IDbSet<UserDeliveryAddress> UserDeliveryAddress { get; set; }
+        public IDbSet<UserCoupon> UserCoupon { get; set; }
+        public IDbSet<UserCart> UserCart { get; set; }
 
         public IDbSet<StoreBanner> StoreBanner { get; set; }
 

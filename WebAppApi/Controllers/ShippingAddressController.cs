@@ -20,11 +20,11 @@ namespace WebAppApi.Controllers
         [HttpGet]
         public APIResponse GetList(string userId)
         {
-            var query = (from o in CurrentDb.ShippingAddress
+            var query = (from o in CurrentDb.UserDeliveryAddress
                          where
                          o.UserId == userId &&
                          o.IsDelete == false
-                         select new { o.Id, o.Receiver, o.PhoneNumber, o.Address, o.AreaName, o.AreaCode, o.IsDefault, o.CreateTime }
+                         select new { o.Id, o.Consignee, o.PhoneNumber, o.Address, o.AreaName, o.AreaCode, o.IsDefault, o.CreateTime }
               );
 
 
@@ -43,7 +43,7 @@ namespace WebAppApi.Controllers
                 model.Add(new
                 {
                     m.Id,
-                    m.Receiver,
+                    m.Consignee,
                     m.PhoneNumber,
                     m.Address,
                     m.AreaName,
@@ -60,15 +60,15 @@ namespace WebAppApi.Controllers
         [HttpPost]
         public APIResponse Edit(EditModel model)
         {
-            var shippingAddress = new ShippingAddress();
-            shippingAddress.Id = model.Id;
-            shippingAddress.UserId = model.UserId;
-            shippingAddress.PhoneNumber = model.PhoneNumber;
-            shippingAddress.Receiver = model.Receiver;
-            shippingAddress.AreaName = model.AreaName;
-            shippingAddress.Address = model.Address;
-            shippingAddress.IsDefault = model.IsDefault;
-            IResult result = AppServiceFactory.ShippingAddress.Edit(model.UserId, shippingAddress);
+            var userDeliveryAddress = new UserDeliveryAddress();
+            userDeliveryAddress.Id = model.Id;
+            userDeliveryAddress.UserId = model.UserId;
+            userDeliveryAddress.PhoneNumber = model.PhoneNumber;
+            userDeliveryAddress.Consignee = model.Consignee;
+            userDeliveryAddress.AreaName = model.AreaName;
+            userDeliveryAddress.Address = model.Address;
+            userDeliveryAddress.IsDefault = model.IsDefault;
+            IResult result = AppServiceFactory.UserDeliveryAddress.Edit(model.UserId, userDeliveryAddress);
             return new APIResponse(result);
         }
     }

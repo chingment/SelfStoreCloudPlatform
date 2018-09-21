@@ -9,7 +9,7 @@ namespace WebAppApi.Models.ShippingAddress
     {
         public string Id { get; set; }
         public string UserId { get; set; }
-        public string Receiver { get; set; }
+        public string Consignee { get; set; }
         public string PhoneNumber { get; set; }
         public string AreaName { get; set; }
         public string AreaCode { get; set; }

@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace Lumos.Entity
 {
-    [Table("Coupon")]
-    public class Coupon
+    [Table("UserCoupon")]
+    public class UserCoupon
     {
         [Key]
         public string Id { get; set; }

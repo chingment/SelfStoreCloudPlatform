@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace Lumos.Entity
 {
-    [Table("ShippingAddress")]
-    public class ShippingAddress
+    [Table("UserDeliveryAddress")]
+    public class UserDeliveryAddress
     {
         [Key]
         public string Id { get; set; }
@@ -17,7 +17,7 @@ namespace Lumos.Entity
         public string UserId { get; set; }
 
         [MaxLength(128)]
-        public string Receiver { get; set; }
+        public string Consignee { get; set; }
         [MaxLength(128)]
         public string PhoneNumber { get; set; }
         [MaxLength(128)]

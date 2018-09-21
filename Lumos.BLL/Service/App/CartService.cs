@@ -16,7 +16,7 @@ namespace Lumos.BLL.Service.App
             var cartModel = new CartModel();
 
 
-            var carts = CurrentDb.Cart.Where(m => m.UserId == userId && m.Status == Enumeration.CartStatus.WaitSettle).ToList();
+            var carts = CurrentDb.UserCart.Where(m => m.UserId == userId && m.Status == Enumeration.CartStatus.WaitSettle).ToList();
 
 
             var skus = new List<CartProcudtSkuListModel>();
@@ -89,7 +89,7 @@ namespace Lumos.BLL.Service.App
 
                     foreach (var item in procudtSkus)
                     {
-                        var mod_Cart = CurrentDb.Cart.Where(m => m.UserId == userId && m.ProductSkuId == item.SkuId && m.ChannelId == item.ChannelId && m.ChannelType == item.ChannelType && m.Status == Enumeration.CartStatus.WaitSettle).FirstOrDefault();
+                        var mod_Cart = CurrentDb.UserCart.Where(m => m.UserId == userId && m.ProductSkuId == item.SkuId && m.ChannelId == item.ChannelId && m.ChannelType == item.ChannelType && m.Status == Enumeration.CartStatus.WaitSettle).FirstOrDefault();
 
                         LogUtil.Info("购物车操作：" + operate);
                         switch (operate)
@@ -113,7 +113,7 @@ namespace Lumos.BLL.Service.App
 
                                 if (mod_Cart == null)
                                 {
-                                    mod_Cart = new Cart();
+                                    mod_Cart = new UserCart();
                                     mod_Cart.UserId = userId;
                                     mod_Cart.ProductSkuId = skuModel.Id;
                                     mod_Cart.ProductSkuName = skuModel.Name;
@@ -124,7 +124,7 @@ namespace Lumos.BLL.Service.App
                                     mod_Cart.ChannelId = item.ChannelId;
                                     mod_Cart.ChannelType = item.ChannelType;
                                     mod_Cart.Status = Enumeration.CartStatus.WaitSettle;
-                                    CurrentDb.Cart.Add(mod_Cart);
+                                    CurrentDb.UserCart.Add(mod_Cart);
                                 }
                                 else
                                 {

@@ -9,14 +9,14 @@ using System.Transactions;
 
 namespace Lumos.BLL.Service.App
 {
-    public class ShippingAddressService : BaseProvider
+    public class UserDeliveryAddressService : BaseProvider
     {
 
 
 
 
 
-        public CustomJsonResult Edit(string operater, ShippingAddress shippingAddress)
+        public CustomJsonResult Edit(string operater, UserDeliveryAddress shippingAddress)
         {
             CustomJsonResult result = new CustomJsonResult();
 
@@ -25,16 +25,16 @@ namespace Lumos.BLL.Service.App
             {
                 shippingAddress.CreateTime = this.DateTime;
                 shippingAddress.Creator = operater;
-                CurrentDb.ShippingAddress.Add(shippingAddress);
+                CurrentDb.UserDeliveryAddress.Add(shippingAddress);
                 CurrentDb.SaveChanges();
 
             }
             else
             {
 
-                var l_shippingAddress = CurrentDb.ShippingAddress.Where(m => m.Id == shippingAddress.Id).FirstOrDefault();
+                var l_shippingAddress = CurrentDb.UserDeliveryAddress.Where(m => m.Id == shippingAddress.Id).FirstOrDefault();
 
-                l_shippingAddress.Receiver = shippingAddress.Receiver;
+                l_shippingAddress.Consignee = shippingAddress.Consignee;
                 l_shippingAddress.PhoneNumber = shippingAddress.PhoneNumber;
                 l_shippingAddress.AreaName = shippingAddress.AreaName;
                 l_shippingAddress.Address = shippingAddress.Address;
@@ -44,7 +44,7 @@ namespace Lumos.BLL.Service.App
 
             if (shippingAddress.IsDefault)
             {
-                var list = CurrentDb.ShippingAddress.Where(m => m.UserId == shippingAddress.UserId).ToList();
+                var list = CurrentDb.UserDeliveryAddress.Where(m => m.UserId == shippingAddress.UserId).ToList();
 
 
                 foreach (var item in list)
