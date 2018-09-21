@@ -21,7 +21,7 @@ namespace Lumos.Entity
         [MaxLength(128)]
         public string PhoneNumber { get; set; }
         [MaxLength(128)]
-        public string Area { get; set; }
+        public string AreaName { get; set; }
         [MaxLength(128)]
         public string AreaCode { get; set; }
         [MaxLength(128)]

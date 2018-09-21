@@ -36,7 +36,7 @@ namespace Lumos.BLL.Service.App
 
                 l_shippingAddress.Receiver = shippingAddress.Receiver;
                 l_shippingAddress.PhoneNumber = shippingAddress.PhoneNumber;
-                l_shippingAddress.Area = shippingAddress.Area;
+                l_shippingAddress.AreaName = shippingAddress.AreaName;
                 l_shippingAddress.Address = shippingAddress.Address;
                 l_shippingAddress.IsDefault = shippingAddress.IsDefault;
                 CurrentDb.SaveChanges();

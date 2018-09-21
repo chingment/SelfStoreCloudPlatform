@@ -68,6 +68,16 @@ namespace Lumos.Entity
             Deleted = 2
         }
 
+        public enum StoreBannerStatus
+        {
+            [Remark("未知")]
+            Unknow = 0,
+            [Remark("正常")]
+            Normal = 1,
+            [Remark("已删除")]
+            Deleted = 2
+        }
+
         public enum ProductKindStatus
         {
             [Remark("未知")]

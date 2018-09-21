@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Lumos.Entity
 {
-    [Table("StoreMachine")]
+    [Table("StoreBanner")]
     public class StoreBanner
     {
         [Key]
@@ -19,7 +19,7 @@ namespace Lumos.Entity
         [MaxLength(1024)]
         public string ImgUrl { get; set; }
         public int Priority { get; set; }
-        public Enumeration.MachineBannerStatus Status { get; set; }
+        public Enumeration.StoreBannerStatus Status { get; set; }
         public string Creator { get; set; }
         public DateTime CreateTime { get; set; }
         public string Mender { get; set; }

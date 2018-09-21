@@ -80,7 +80,7 @@ namespace Lumos.BLL.Service.App
                     shippingAddressModel.Id = shippingAddress.Id;
                     shippingAddressModel.Receiver = shippingAddress.Receiver;
                     shippingAddressModel.PhoneNumber = shippingAddress.PhoneNumber;
-                    shippingAddressModel.Area = shippingAddress.Area;
+                    shippingAddressModel.AreaName = shippingAddress.AreaName;
                     shippingAddressModel.Address = shippingAddress.Address;
                     shippingAddressModel.CanSelectElse = true;
                 }
@@ -98,7 +98,7 @@ namespace Lumos.BLL.Service.App
                 shippingAddressModel2.Id = null;
                 shippingAddressModel2.Receiver = "邱庆文";
                 shippingAddressModel2.PhoneNumber = "15989287032";
-                shippingAddressModel2.Area = "";
+                shippingAddressModel2.AreaName = "";
                 shippingAddressModel2.Address = "广州工商学院";
                 shippingAddressModel2.CanSelectElse = false;
 

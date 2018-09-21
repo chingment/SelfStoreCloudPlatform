@@ -24,7 +24,7 @@ namespace WebAppApi.Controllers
                          where
                          o.UserId == userId &&
                          o.IsDelete == false
-                         select new { o.Id, o.Receiver, o.PhoneNumber, o.Address, o.Area, o.AreaCode, o.IsDefault, o.CreateTime }
+                         select new { o.Id, o.Receiver, o.PhoneNumber, o.Address, o.AreaName, o.AreaCode, o.IsDefault, o.CreateTime }
               );
 
 
@@ -46,7 +46,7 @@ namespace WebAppApi.Controllers
                     m.Receiver,
                     m.PhoneNumber,
                     m.Address,
-                    m.Area,
+                    m.AreaName,
                     m.AreaCode,
                     m.IsDefault
                 });
@@ -65,7 +65,7 @@ namespace WebAppApi.Controllers
             shippingAddress.UserId = model.UserId;
             shippingAddress.PhoneNumber = model.PhoneNumber;
             shippingAddress.Receiver = model.Receiver;
-            shippingAddress.Area = model.Area;
+            shippingAddress.AreaName = model.AreaName;
             shippingAddress.Address = model.Address;
             shippingAddress.IsDefault = model.IsDefault;
             IResult result = AppServiceFactory.ShippingAddress.Edit(model.UserId, shippingAddress);

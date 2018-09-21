@@ -21,10 +21,6 @@ namespace Lumos.Entity
         public DateTime? StartTime { get; set; }
         public DateTime? EndTime { get; set; }
         public Enumeration.CouponStatus Status { get; set; }
-        public string Creator { get; set; }
-        public DateTime CreateTime { get; set; }
-        public string Mender { get; set; }
-        public DateTime? LastUpdateTime { get; set; }
         public Enumeration.CouponSourceType SourceType { get; set; }
         public string SourceUserId { get; set; }
         public DateTime? SourceTime { get; set; }
@@ -35,5 +31,9 @@ namespace Lumos.Entity
         public decimal Discount { get; set; }
         [MaxLength(1024)]
         public string LimitTarget { get; set; }
+        public string Creator { get; set; }
+        public DateTime CreateTime { get; set; }
+        public string Mender { get; set; }
+        public DateTime? LastUpdateTime { get; set; }
     }
 }
