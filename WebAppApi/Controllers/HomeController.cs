@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -112,6 +113,14 @@ namespace WebAppApi.Controllers
 
         public ActionResult Index()
         {
+            if (ConfigurationManager.AppSettings["custom:IsTest"] == null)
+            {
+                host = "http://localhost:16665";
+            }
+            else
+            {
+                host = "https://demo.res.17fanju.com";
+            }
 
             string userId = "00000000000000000000000000000000";
             string storeId = "be9ae32c554d4942be4a42fa48446210";

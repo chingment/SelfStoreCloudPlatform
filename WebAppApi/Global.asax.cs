@@ -1,4 +1,5 @@
 ﻿using log4net;
+using Lumos;
 using Lumos.Common;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,8 @@ namespace WebAppApi
     {
         protected void Application_Start()
         {
+            log4net.Config.XmlConfigurator.Configure();
+            LogUtil.Info("应用程序开始");
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
