@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lumos.BLL.Service.Term.Models
+namespace Lumos.BLL.Service.Term
 {
-    public class OrderReserveResult
+    public class RetOrderReserve
     {
-        public OrderReserveResult()
+        public RetOrderReserve()
         {
             this.Details = new List<Detail>();
         }

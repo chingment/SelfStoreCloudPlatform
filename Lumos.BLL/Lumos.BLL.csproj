@@ -133,8 +133,6 @@
     <Compile Include="Service\App\UserDeliveryAddressService.cs" />
     <Compile Include="Service\Term\GlobalService.cs" />
     <Compile Include="Service\Term\Models\Global\DataSetModel.cs" />
-    <Compile Include="Service\Term\Models\OrderReservePms.cs" />
-    <Compile Include="Service\Term\Models\OrderReserveResult.cs" />
     <Compile Include="Service\Term\Models\ProductChildKindModel.cs" />
     <Compile Include="Service\Term\Models\ProductParentKindModel.cs" />
     <Compile Include="Service\Term\Models\ProductSkuModel.cs" />
@@ -145,6 +143,11 @@
     <Compile Include="Service\Term\MachineService.cs" />
     <Compile Include="Service\Term\Models\BannerModel.cs" />
     <Compile Include="Service\Term\Models\Machine\ApiConfigModel.cs" />
+    <Compile Include="Service\Term\RModels\RetOrderReserve.cs" />
+    <Compile Include="Service\Term\RModels\RopOrderReserve.cs" />
+    <Compile Include="Service\Term\RModels\RupGlobalDataSet.cs" />
+    <Compile Include="Service\Term\RModels\RupMachineApiConfig.cs" />
+    <Compile Include="Service\Term\RModels\RupMachineGetSlotSkuStock.cs" />
     <Compile Include="Service\Term\TermServiceFactory.cs" />
     <Compile Include="SnUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

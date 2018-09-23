@@ -12,7 +12,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using WebTermApi.Models;
+
 
 namespace WebTermApi.Controllers
 {
@@ -20,16 +20,17 @@ namespace WebTermApi.Controllers
     public class MachineController : OwnBaseApiController
     {
         [HttpGet]
-        public APIResponse ApiConfig(string deviceId)
+        public APIResponse ApiConfig([FromUri]RupMachineApiConfig rup)
         {
-            IResult result = TermServiceFactory.Machine.ApiConfig(GuidUtil.Empty(), deviceId);
+            IResult result = TermServiceFactory.Machine.ApiConfig(GuidUtil.Empty(), rup.DeviceId);
             return new APIResponse(result);
 
         }
 
-        public APIResponse GetSlotSkuStock(string userId, string merchantId, string machineId)
+        [HttpGet]
+        public APIResponse GetSlotSkuStock([FromUri]RupMachineGetSlotSkuStock rup)
         {
-            IResult result = TermServiceFactory.Machine.GetSlotSkusStock(userId, userId, merchantId, machineId);
+            IResult result = TermServiceFactory.Machine.GetSlotSkusStock(rup.UserId, rup.UserId, rup.MerchantId, rup.MachineId);
             return new APIResponse(result);
 
         }

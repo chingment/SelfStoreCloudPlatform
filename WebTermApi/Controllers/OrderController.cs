@@ -14,16 +14,9 @@ namespace WebTermApi.Controllers
     {
 
         [HttpPost]
-        public APIResponse Reserve(OrderReservePms pms)
+        public APIResponse Reserve(RopOrderReserve rop)
         {
-            IResult result = TermServiceFactory.Order.Reserve(pms.UserId, pms);
-            return new APIResponse(result);
-
-        }
-        [HttpGet]
-        public APIResponse PayQuery(OrderReservePms pms)
-        {
-            IResult result = TermServiceFactory.Order.Reserve(GuidUtil.Empty(), pms);
+            IResult result = TermServiceFactory.Order.Reserve(rop.UserId, rop);
             return new APIResponse(result);
 
         }

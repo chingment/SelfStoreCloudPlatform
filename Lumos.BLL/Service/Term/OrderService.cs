@@ -18,7 +18,7 @@ namespace Lumos.BLL.Service.Term
 
     public class OrderService : BaseProvider
     {
-        public CustomJsonResult Reserve(string pOperater, OrderReservePms pms)
+        public CustomJsonResult Reserve(string pOperater, RopOrderReserve rop)
         {
 
             CustomJsonResult result = new CustomJsonResult();
@@ -26,10 +26,10 @@ namespace Lumos.BLL.Service.Term
 
             using (TransactionScope ts = new TransactionScope())
             {
-                OrderReserveResult result_Data = new OrderReserveResult();
+                RetOrderReserve ret = new RetOrderReserve();
 
 
-                var skuIds = pms.Details.Select(m => m.SkuId).ToArray();
+                var skuIds = rop.Details.Select(m => m.SkuId).ToArray();
 
                 //检查是否有可买的商品
                 List<MachineStock> skusByStock;
@@ -38,13 +38,13 @@ namespace Lumos.BLL.Service.Term
                 Enumeration.ReceptionMode receptionMode = Enumeration.ReceptionMode.Unknow;
 
                 //pms.MachineId 为空表示线上商城购买，不为空在线下机器购买
-                if (string.IsNullOrEmpty(pms.MachineId))
+                if (string.IsNullOrEmpty(rop.MachineId))
                 {
-                    skusByStock = CurrentDb.MachineStock.Where(m => m.UserId == pms.UserId && skuIds.Contains(m.ProductSkuId)).ToList();
+                    skusByStock = CurrentDb.MachineStock.Where(m => m.UserId == rop.UserId && skuIds.Contains(m.ProductSkuId)).ToList();
                 }
                 else
                 {
-                    skusByStock = CurrentDb.MachineStock.Where(m => m.UserId == pms.UserId && m.MachineId == pms.MachineId && skuIds.Contains(m.ProductSkuId)).ToList();
+                    skusByStock = CurrentDb.MachineStock.Where(m => m.UserId == rop.UserId && m.MachineId == rop.MachineId && skuIds.Contains(m.ProductSkuId)).ToList();
                 }
 
                 if (skusByStock.Count == 0)
@@ -63,7 +63,7 @@ namespace Lumos.BLL.Service.Term
 
                 //检查是否有预定的商品数量与库存数量不对应
                 var skusByUnderStock = new List<SkuByUnderStock>();
-                foreach (var item in pms.Details)
+                foreach (var item in rop.Details)
                 {
                     var sellQuantity = skusByStock.Where(m => m.ProductSkuId == item.SkuId).Sum(m => m.SellQuantity);
                     if (item.Quantity > sellQuantity)
@@ -82,21 +82,21 @@ namespace Lumos.BLL.Service.Term
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "可预定的商品数量不足，再支付");
                 }
 
-                var storeId = CurrentDb.Store.Where(m => m.Id == pms.StoreId).FirstOrDefault();
+                var storeId = CurrentDb.Store.Where(m => m.Id == rop.StoreId).FirstOrDefault();
 
                 var order = new Order();
                 order.Id = GuidUtil.New();
-                order.Sn = SnUtil.Build(Enumeration.BizSnType.Order, pms.UserId);
-                order.UserId = pms.UserId;
-                order.StoreId = pms.StoreId;
-                order.Quantity = pms.Details.Sum(m => m.Quantity);
+                order.Sn = SnUtil.Build(Enumeration.BizSnType.Order, rop.UserId);
+                order.UserId = rop.UserId;
+                order.StoreId = rop.StoreId;
+                order.Quantity = rop.Details.Sum(m => m.Quantity);
                 order.Status = Enumeration.OrderStatus.WaitPay;
                 order.SubmitTime = this.DateTime;
                 order.Creator = pOperater;
                 order.CreateTime = this.DateTime;
 
                 //var discount50;
-                var reserveDetails = GetReserveDetail(pms.Details, skusByStock);
+                var reserveDetails = GetReserveDetail(rop.Details, skusByStock);
 
                 order.OriginalAmount = reserveDetails.Sum(m => m.OriginalAmount);
                 order.DiscountAmount = reserveDetails.Sum(m => m.DiscountAmount);
@@ -106,9 +106,9 @@ namespace Lumos.BLL.Service.Term
                 {
                     var orderDetails = new OrderDetails();
                     orderDetails.Id = GuidUtil.New();
-                    orderDetails.Sn = SnUtil.Build(Enumeration.BizSnType.Order, pms.UserId);
-                    orderDetails.UserId = pms.UserId;
-                    orderDetails.StoreId = pms.StoreId;
+                    orderDetails.Sn = SnUtil.Build(Enumeration.BizSnType.Order, rop.UserId);
+                    orderDetails.UserId = rop.UserId;
+                    orderDetails.StoreId = rop.StoreId;
                     orderDetails.MachineId = detail.MachineId;
                     orderDetails.OrderId = order.Id;
                     orderDetails.OrderSn = order.Sn;
@@ -124,9 +124,9 @@ namespace Lumos.BLL.Service.Term
                     //detail.MachineId为空 则为快递商品
                     if (string.IsNullOrEmpty(detail.MachineId))
                     {
-                        orderDetails.Receiver = pms.Receiver;
-                        orderDetails.ReceiverPhone = pms.ReceiverPhone;
-                        orderDetails.ReceptionAddress = pms.ReceptionAddress;
+                        orderDetails.Receiver = rop.Receiver;
+                        orderDetails.ReceiverPhone = rop.ReceiverPhone;
+                        orderDetails.ReceptionAddress = rop.ReceptionAddress;
                     }
                     else
                     {
@@ -142,9 +142,9 @@ namespace Lumos.BLL.Service.Term
 
                         var orderDetailsChild = new OrderDetailsChild();
                         orderDetailsChild.Id = GuidUtil.New();
-                        orderDetailsChild.Sn = SnUtil.Build(Enumeration.BizSnType.Order, pms.UserId);
-                        orderDetailsChild.UserId = pms.UserId;
-                        orderDetailsChild.StoreId = pms.StoreId;
+                        orderDetailsChild.Sn = SnUtil.Build(Enumeration.BizSnType.Order, rop.UserId);
+                        orderDetailsChild.UserId = rop.UserId;
+                        orderDetailsChild.StoreId = rop.StoreId;
                         orderDetailsChild.MachineId = detailsChild.MachineId;
                         orderDetailsChild.OrderId = order.Id;
                         orderDetailsChild.OrderSn = order.Sn;
@@ -168,9 +168,9 @@ namespace Lumos.BLL.Service.Term
                             var orderDetailsChildSon = new OrderDetailsChildSon();
 
                             orderDetailsChildSon.Id = detailsChildSon.Id;
-                            orderDetailsChildSon.Sn = SnUtil.Build(Enumeration.BizSnType.Order, pms.UserId);
-                            orderDetailsChildSon.UserId = pms.UserId;
-                            orderDetailsChildSon.StoreId = pms.StoreId;
+                            orderDetailsChildSon.Sn = SnUtil.Build(Enumeration.BizSnType.Order, rop.UserId);
+                            orderDetailsChildSon.UserId = rop.UserId;
+                            orderDetailsChildSon.StoreId = rop.StoreId;
                             orderDetailsChildSon.MachineId = detailsChildSon.MachineId;
                             orderDetailsChildSon.OrderId = order.Id;
                             orderDetailsChildSon.OrderSn = order.Sn;
@@ -207,8 +207,8 @@ namespace Lumos.BLL.Service.Term
 
                             var machineStockLog = new MachineStockLog();
                             machineStockLog.Id = GuidUtil.New();
-                            machineStockLog.UserId = pms.UserId;
-                            machineStockLog.StoreId = pms.StoreId;
+                            machineStockLog.UserId = rop.UserId;
+                            machineStockLog.StoreId = rop.StoreId;
                             machineStockLog.MachineId = slotStock.MachineId;
                             machineStockLog.SlotId = slotStock.SlotId;
                             machineStockLog.ProductSkuId = slotStock.SkuId;
@@ -226,14 +226,14 @@ namespace Lumos.BLL.Service.Term
                 }
 
 
-                result_Data.OrderSn = "1";
-                result_Data.PayUrl = "http://www.baidu.com";
+                ret.OrderSn = "1";
+                ret.PayUrl = "http://www.baidu.com";
 
                 CurrentDb.Order.Add(order);
                 CurrentDb.SaveChanges(true);
                 ts.Complete();
 
-                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "预定成功", result_Data);
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "预定成功", ret);
 
             }
 
@@ -300,11 +300,11 @@ namespace Lumos.BLL.Service.Term
         //}
 
 
-        public List<OrderReserveResult.Detail> GetReserveDetail(List<OrderReservePms.Detail> reserveDetails, List<MachineStock> machineStocks)
+        public List<RetOrderReserve.Detail> GetReserveDetail(List<RopOrderReserve.Detail> reserveDetails, List<MachineStock> machineStocks)
         {
-            List<OrderReserveResult.Detail> details = new List<OrderReserveResult.Detail>();
+            List<RetOrderReserve.Detail> details = new List<RetOrderReserve.Detail>();
 
-            List<OrderReserveResult.DetailChildSon> detailChildSons = new List<OrderReserveResult.DetailChildSon>();
+            List<RetOrderReserve.DetailChildSon> detailChildSons = new List<RetOrderReserve.DetailChildSon>();
 
             foreach (var reserveDetail in reserveDetails)
             {
@@ -322,7 +322,7 @@ namespace Lumos.BLL.Service.Term
 
                             var product = BizFactory.ProductSku.GetModel(item.ProductSkuId);
 
-                            var detailChildSon = new OrderReserveResult.DetailChildSon();
+                            var detailChildSon = new RetOrderReserve.DetailChildSon();
                             detailChildSon.Id = GuidUtil.New();
                             detailChildSon.MachineId = item.MachineId;
                             detailChildSon.SkuId = item.ProductSkuId;
@@ -372,7 +372,7 @@ namespace Lumos.BLL.Service.Term
 
             foreach (var detailGroup in detailGroups)
             {
-                var detail = new OrderReserveResult.Detail();
+                var detail = new RetOrderReserve.Detail();
 
                 detail.MachineId = detailGroup.MachineId;
                 detail.Quantity = detailChildSons.Where(m => m.MachineId == detailGroup.MachineId).Sum(m => m.Quantity);
@@ -392,7 +392,7 @@ namespace Lumos.BLL.Service.Term
                 foreach (var detailChildGroup in detailChildGroups)
                 {
 
-                    var detailChild = new OrderReserveResult.DetailChild();
+                    var detailChild = new RetOrderReserve.DetailChild();
 
                     detailChild.MachineId = detailChildGroup.MachineId;
                     detailChild.SkuId = detailChildGroup.SkuId;
@@ -425,7 +425,7 @@ namespace Lumos.BLL.Service.Term
 
                     foreach (var detailChildSonGroup in detailChildSonGroups)
                     {
-                        var detailChildSon = new OrderReserveResult.DetailChildSon();
+                        var detailChildSon = new RetOrderReserve.DetailChildSon();
                         detailChildSon.Id = detailChildSonGroup.Id;
                         detailChildSon.MachineId = detailChildSonGroup.MachineId;
                         detailChildSon.SkuId = detailChildSonGroup.SkuId;
@@ -455,7 +455,7 @@ namespace Lumos.BLL.Service.Term
 
                     foreach (var slotStockGroup in slotStockGroups)
                     {
-                        var slotStock = new OrderReserveResult.SlotStock();
+                        var slotStock = new RetOrderReserve.SlotStock();
                         slotStock.MachineId = slotStockGroup.MachineId;
                         slotStock.SkuId = slotStockGroup.SkuId;
                         slotStock.SlotId = slotStockGroup.SlotId;

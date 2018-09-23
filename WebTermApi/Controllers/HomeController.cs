@@ -1,6 +1,7 @@
 ﻿
 using log4net;
 using Lumos.BLL;
+using Lumos.BLL.Service.Term;
 using Lumos.BLL.Service.Term.Models;
 using Lumos.Common;
 using Lumos.DAL;
@@ -158,16 +159,16 @@ namespace WebTermApi.Controllers
         public string OrderReserve(string userId, string storeId, string machineId)
         {
 
-            OrderReservePms pms = new OrderReservePms();
+            RopOrderReserve pms = new RopOrderReserve();
             pms.UserId = userId;
             pms.StoreId = storeId;
             pms.MachineId = machineId;
             pms.PayWay = "";
 
-            pms.Details.Add(new OrderReservePms.Detail() { SkuId = "1", Quantity = 8 });
-            pms.Details.Add(new OrderReservePms.Detail() { SkuId = "2", Quantity = 1 });
-            pms.Details.Add(new OrderReservePms.Detail() { SkuId = "3", Quantity = 1 });
-            pms.Details.Add(new OrderReservePms.Detail() { SkuId = "4", Quantity = 1 });
+            pms.Details.Add(new RopOrderReserve.Detail() { SkuId = "1", Quantity = 8 });
+            pms.Details.Add(new RopOrderReserve.Detail() { SkuId = "2", Quantity = 1 });
+            pms.Details.Add(new RopOrderReserve.Detail() { SkuId = "3", Quantity = 1 });
+            pms.Details.Add(new RopOrderReserve.Detail() { SkuId = "4", Quantity = 1 });
 
             string a1 = JsonConvert.SerializeObject(pms);
 

@@ -11,16 +11,15 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using WebTermApi.Models;
 namespace WebTermApi.Controllers
 {
     [BaseAuthorizeAttribute]
     public class GlobalController : OwnBaseApiController
     {
         [HttpGet]
-        public APIResponse DataSet(string userId, string merchantId, string machineId, DateTime? datetime)
+        public APIResponse DataSet([FromUri]RupGlobalDataSet rup)
         {
-            IResult result = TermServiceFactory.Global.DataSet(userId, userId, merchantId, machineId, datetime);
+            IResult result = TermServiceFactory.Global.DataSet(rup.UserId, rup.UserId, rup.MerchantId, rup.MachineId, rup.Datetime);
             return new APIResponse(result);
         }
     }
