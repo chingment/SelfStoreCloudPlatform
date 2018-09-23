@@ -159,7 +159,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductSkuController.cs" />
-    <Compile Include="Controllers\UserDeliveryAddressController.cs" />
+    <Compile Include="Controllers\DeliveryAddressController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

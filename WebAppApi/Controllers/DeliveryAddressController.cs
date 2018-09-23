@@ -13,7 +13,7 @@ using System.Web.Http;
 namespace WebAppApi.Controllers
 {
     [BaseAuthorizeAttribute]
-    public class UserDeliveryAddressController : OwnBaseApiController
+    public class DeliveryAddressController : OwnBaseApiController
     {
 
         [HttpGet]

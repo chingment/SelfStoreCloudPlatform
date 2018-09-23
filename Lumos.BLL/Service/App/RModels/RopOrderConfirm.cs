@@ -10,6 +10,7 @@ namespace Lumos.BLL.Service.App
     public class RopOrderConfirm
     {
         public string OrderId { get; set; }
+        public string StoreId { get; set; }
         public List<OrderConfirmSkuModel> Skus { get; set; }
         public List<string> CouponId { get; set; }
 

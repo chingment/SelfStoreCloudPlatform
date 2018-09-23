@@ -14,7 +14,7 @@ namespace Lumos.BLL.Service.App
 
     public class OrderService : BaseProvider
     {
-        public CustomJsonResult Confrim(string operater,string userId, RopOrderConfirm rop)
+        public CustomJsonResult Confrim(string operater, string userId, RopOrderConfirm rop)
         {
             var result = new CustomJsonResult();
 
@@ -37,7 +37,8 @@ namespace Lumos.BLL.Service.App
                     item.Name = skuModel.Name;
                     item.SalePrice = skuModel.SalePrice.ToF2Price();
                     item.SalesPriceByVip = (skuModel.SalePrice * 0.9m).ToF2Price();
-
+                    item.ChannelType = Enumeration.ChannelType.SelfPick;
+                    item.ChannelId = 1;
                     skuAmountByOriginal += (skuModel.SalePrice * item.Quantity);
                     skuAmountByMemebr += (skuModel.SalePrice * item.Quantity);
                     skuAmountByVip += (skuModel.SalePrice * 0.9m * item.Quantity);
