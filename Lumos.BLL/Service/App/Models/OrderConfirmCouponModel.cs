@@ -14,6 +14,8 @@ namespace Lumos.BLL.Service.App
         InUse = 3
     }
 
+
+
     public class OrderConfirmCouponModel
     {
 
@@ -30,4 +32,6 @@ namespace Lumos.BLL.Service.App
 
         public List<int> SelecedCouponId { get; set; }
     }
+
+
 }

@@ -110,7 +110,7 @@
     <Compile Include="Service\App\Models\ProductChildKindModel.cs" />
     <Compile Include="Service\App\Models\ProductParentKindModel.cs" />
     <Compile Include="Service\App\Models\SkuModel.cs" />
-    <Compile Include="Service\App\Models\DeliveryAddressModel.cs" />
+    <Compile Include="Service\App\Models\UserDeliveryAddressModel.cs" />
     <Compile Include="Service\App\Models\SpecModel.cs" />
     <Compile Include="Service\App\Models\SpecValueModel.cs" />
     <Compile Include="Service\App\Models\UserInfoModel.cs" />
@@ -120,6 +120,7 @@
     <Compile Include="Service\App\Models\ProductKindPageModel.cs" />
     <Compile Include="Service\App\ProductKindService.cs" />
     <Compile Include="Service\App\ProductSkuService.cs" />
+    <Compile Include="Service\App\RModels\RetOrderConfirm.cs" />
     <Compile Include="Service\App\RModels\RopOrderConfirm.cs" />
     <Compile Include="Service\App\RModels\RetGobalDataSet.cs" />
     <Compile Include="Service\App\RModels\RopCartOperate.cs" />

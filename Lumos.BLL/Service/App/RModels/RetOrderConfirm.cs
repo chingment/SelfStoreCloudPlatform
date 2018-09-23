@@ -6,23 +6,9 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.App
 {
-
-    public class OrderBlock
+    public class RetOrderConfirm
     {
-        public OrderBlock()
-        {
-            this.Skus = new List<RopOrderConfirm.SkuModel>();
-        }
-
-        public string TagName { get; set; }
-        public UserDeliveryAddressModel ShippingAddress { get; set; }
-
-        public List<RopOrderConfirm.SkuModel> Skus { get; set; }
-    }
-
-    public class OrderConfirmResultModel
-    {
-        public OrderConfirmResultModel()
+        public RetOrderConfirm()
         {
             this.SubtotalItem = new List<OrderConfirmSubtotalItemModel>();
         }
@@ -37,5 +23,6 @@ namespace Lumos.BLL.Service.App
         public string ActualAmount { get; set; }
         //原金额
         public string OriginalAmount { get; set; }
+
     }
 }

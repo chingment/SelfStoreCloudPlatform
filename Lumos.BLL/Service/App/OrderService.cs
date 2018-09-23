@@ -18,7 +18,7 @@ namespace Lumos.BLL.Service.App
         {
             var result = new CustomJsonResult();
 
-            var model = new OrderConfirmResultModel();
+            var ret = new RetOrderConfirm();
 
             var subtotalItem = new List<OrderConfirmSubtotalItemModel>();
             var skus = new List<RopOrderConfirm.SkuModel>();
@@ -107,7 +107,7 @@ namespace Lumos.BLL.Service.App
                 orderBlock.Add(orderBlock_SelfPick);
             }
 
-            model.Block = orderBlock;
+            ret.Block = orderBlock;
 
 
 
@@ -117,11 +117,11 @@ namespace Lumos.BLL.Service.App
 
                 if (couponsCount == 0)
                 {
-                    model.Coupon = new OrderConfirmCouponModel { TipMsg = "暂无可用优惠卷", TipType = TipType.NoCanUse };
+                    ret.Coupon = new OrderConfirmCouponModel { TipMsg = "暂无可用优惠卷", TipType = TipType.NoCanUse };
                 }
                 else
                 {
-                    model.Coupon = new OrderConfirmCouponModel { TipMsg = string.Format("{0}个可用", couponsCount), TipType = TipType.CanUse };
+                    ret.Coupon = new OrderConfirmCouponModel { TipMsg = string.Format("{0}个可用", couponsCount), TipType = TipType.CanUse };
                 }
             }
             else
@@ -143,7 +143,7 @@ namespace Lumos.BLL.Service.App
 
                                 //subtotalItem.Add(new OrderConfirmSubtotalItemModel { ImgUrl = "", Name = item.Name, Amount = string.Format("{0}", amount.ToF2Price()), IsDcrease = true });
 
-                                model.Coupon = new OrderConfirmCouponModel { TipMsg = string.Format("{0}", amount.ToF2Price()), TipType = TipType.InUse };
+                                ret.Coupon = new OrderConfirmCouponModel { TipMsg = string.Format("{0}", amount.ToF2Price()), TipType = TipType.InUse };
 
                             }
 
@@ -155,7 +155,7 @@ namespace Lumos.BLL.Service.App
                             skuAmountByActual = skuAmountByActual * (item.Discount / 10);
 
                             // subtotalItem.Add(new OrderConfirmSubtotalItemModel { ImgUrl = "", Name = item.Name, Amount = string.Format("{0}", amount.ToF2Price()), IsDcrease = true });
-                            model.Coupon = new OrderConfirmCouponModel { TipMsg = string.Format("{0}", amount.ToF2Price()), TipType = TipType.InUse };
+                            ret.Coupon = new OrderConfirmCouponModel { TipMsg = string.Format("{0}", amount.ToF2Price()), TipType = TipType.InUse };
                             break;
                     }
                 }
@@ -166,14 +166,14 @@ namespace Lumos.BLL.Service.App
             //subtotalItem.Add(new OrderConfirmSubtotalItemModel { ImgUrl = "", Name = "满5减3元", Amount = "-9", IsDcrease = true });
             //subtotalItem.Add(new OrderConfirmSubtotalItemModel { ImgUrl = "", Name = "优惠卷", Amount = "-10", IsDcrease = true });
 
-            model.SubtotalItem = subtotalItem;
+            ret.SubtotalItem = subtotalItem;
 
 
-            model.ActualAmount = skuAmountByActual.ToF2Price();
-            model.OriginalAmount = skuAmountByOriginal.ToF2Price();
+            ret.ActualAmount = skuAmountByActual.ToF2Price();
+            ret.OriginalAmount = skuAmountByOriginal.ToF2Price();
 
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", model);
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
 
         public CustomJsonResult<Lumos.Entity.Order> GoSettle(int operater, RopOrderConfirm model)
