@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.App
 {
-    public class OrderBlock
+    public class OrderBlockModel
     {
-        public OrderBlock()
+        public OrderBlockModel()
         {
-            this.Skus = new List<RopOrderConfirm.SkuModel>();
+            this.Skus = new List<OrderConfirmSkuModel>();
         }
 
         public string TagName { get; set; }
-        public UserDeliveryAddressModel ShippingAddress { get; set; }
+        public UserDeliveryAddressModel DeliveryAddress { get; set; }
 
-        public List<RopOrderConfirm.SkuModel> Skus { get; set; }
+        public List<OrderConfirmSkuModel> Skus { get; set; }
     }
 
     public class OrderConfirmSubtotalItemModel

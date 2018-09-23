@@ -12,7 +12,7 @@ namespace Lumos.BLL.Service.App
 
     public class CouponService : BaseProvider
     {
-        public List<CouponModel> List(string operater, string userId, RupCouponMy rup)
+        public List<UserCouponModel> My(string operater, string userId, RupCouponMy rup)
         {
 
             List<UserCoupon> coupons;
@@ -25,7 +25,7 @@ namespace Lumos.BLL.Service.App
                 coupons = CurrentDb.UserCoupon.Where(m => m.UserId == userId && (m.Status == Entity.Enumeration.CouponStatus.Used || m.Status == Entity.Enumeration.CouponStatus.Expired) && m.EndTime < DateTime.Now).ToList();
             }
 
-            var couponsModel = new List<CouponModel>();
+            var couponsModel = new List<UserCouponModel>();
 
             foreach (var item in coupons)
             {
@@ -35,7 +35,7 @@ namespace Lumos.BLL.Service.App
                     CurrentDb.SaveChanges();
                 }
 
-                var couponModel = new CouponModel();
+                var couponModel = new UserCouponModel();
 
                 couponModel.Id = item.Id;
                 couponModel.Name = item.Name;

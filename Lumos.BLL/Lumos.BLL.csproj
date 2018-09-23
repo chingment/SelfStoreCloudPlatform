@@ -101,10 +101,10 @@
     <Compile Include="Service\App\Models\BannerModel.cs" />
     <Compile Include="Service\App\Models\CartPageModel.cs" />
     <Compile Include="Service\App\Models\CartSkuModel.cs" />
-    <Compile Include="Service\App\Models\CouponModel.cs" />
+    <Compile Include="Service\App\Models\OrderConfirmSkuModel.cs" />
+    <Compile Include="Service\App\Models\UserCouponModel.cs" />
     <Compile Include="Service\App\Models\IndexPageModel.cs" />
     <Compile Include="Service\App\Models\OrderConfirmCouponModel.cs" />
-    <Compile Include="Service\App\Models\OrderConfirmResultModel.cs" />
     <Compile Include="Service\App\Models\OrderConfirmSubtotalItemModel.cs" />
     <Compile Include="Service\App\Models\PersonalPageModel.cs" />
     <Compile Include="Service\App\Models\ProductChildKindModel.cs" />

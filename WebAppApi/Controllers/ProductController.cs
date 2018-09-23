@@ -86,8 +86,8 @@ namespace WebAppApi.Controllers
 
             var sku = new SkuModel();
 
-            sku.Id = model.Id;
-            sku.Name = model.Name;
+            sku.SkuId = model.Id;
+            sku.SkuName = model.Name;
             sku.SalePrice = model.SalePrice.ToF2Price();
             sku.ShowPrice = model.ShowPrice.ToF2Price();
             sku.DetailsDes = model.DetailsDes;

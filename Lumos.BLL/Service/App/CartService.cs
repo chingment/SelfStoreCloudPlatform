@@ -31,7 +31,7 @@ namespace Lumos.BLL.Service.App
                     cartProcudtSkuModel.SkuId = skuModel.Id;
                     cartProcudtSkuModel.SkuName = skuModel.Name;
                     cartProcudtSkuModel.SkuImgUrl = BizFactory.ProductSku.GetMainImg(skuModel.DispalyImgUrls);
-                    cartProcudtSkuModel.SalePrice = skuModel.SalePrice;
+                    cartProcudtSkuModel.SalePrice = skuModel.SalePrice.ToF2Price();
                     cartProcudtSkuModel.Quantity = item.Quantity;
                     cartProcudtSkuModel.SumPrice = item.Quantity * skuModel.SalePrice;
                     cartProcudtSkuModel.Selected = item.Selected;

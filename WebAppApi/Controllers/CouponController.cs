@@ -20,7 +20,7 @@ namespace WebAppApi.Controllers
         [HttpPost]
         public APIResponse My(RupCouponMy rup)
         {
-            var model = AppServiceFactory.Coupon.List(this.CurrentUserId,this.CurrentUserId, rup);
+            var model = AppServiceFactory.Coupon.My(this.CurrentUserId,this.CurrentUserId, rup);
 
             APIResult result = new APIResult() { Result = ResultType.Success, Code = ResultCode.Success, Message = "", Data = model };
 

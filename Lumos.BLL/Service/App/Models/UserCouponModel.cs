@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.App
 {
-    public class CouponModel
+    public class UserCouponModel
     {
         public string Id { get; set; }
 

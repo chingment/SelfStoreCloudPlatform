@@ -21,7 +21,7 @@ namespace Lumos.BLL.Service.App
             var ret = new RetOrderConfirm();
 
             var subtotalItem = new List<OrderConfirmSubtotalItemModel>();
-            var skus = new List<RopOrderConfirm.SkuModel>();
+            var skus = new List<OrderConfirmSkuModel>();
 
             decimal skuAmountByActual = 0;//总价
             decimal skuAmountByOriginal = 0;//总价
@@ -35,7 +35,7 @@ namespace Lumos.BLL.Service.App
                     var skuModel = BizFactory.ProductSku.GetModel(item.SkuId);
                     item.SkuImgUrl = skuModel.ImgUrl;
                     item.SkuName = skuModel.Name;
-                    item.SalesPrice = skuModel.SalePrice.ToF2Price();
+                    item.SalePrice = skuModel.SalePrice.ToF2Price();
                     item.SalesPriceByVip = (skuModel.SalePrice * 0.9m).ToF2Price();
 
                     skuAmountByOriginal += (skuModel.SalePrice * item.Quantity);
@@ -65,12 +65,12 @@ namespace Lumos.BLL.Service.App
 
 
 
-            var orderBlock = new List<OrderBlock>();
+            var orderBlock = new List<OrderBlockModel>();
 
             var skus_SelfExpress = skus.Where(m => m.ChannelType == Enumeration.ChannelType.Express).ToList();
             if (skus_SelfExpress.Count > 0)
             {
-                var orderBlock_Express = new OrderBlock();
+                var orderBlock_Express = new OrderBlockModel();
                 orderBlock_Express.TagName = "快递商品";
                 orderBlock_Express.Skus = skus_SelfExpress;
                 var shippingAddressModel = new UserDeliveryAddressModel();
@@ -84,14 +84,14 @@ namespace Lumos.BLL.Service.App
                     shippingAddressModel.Address = shippingAddress.Address;
                     shippingAddressModel.CanSelectElse = true;
                 }
-                orderBlock_Express.ShippingAddress = shippingAddressModel;
+                orderBlock_Express.DeliveryAddress = shippingAddressModel;
                 orderBlock.Add(orderBlock_Express);
             }
 
             var skus_SelfPick = skus.Where(m => m.ChannelType == Enumeration.ChannelType.SelfPick).ToList();
             if (skus_SelfPick.Count > 0)
             {
-                var orderBlock_SelfPick = new OrderBlock();
+                var orderBlock_SelfPick = new OrderBlockModel();
                 orderBlock_SelfPick.TagName = "自提商品";
                 orderBlock_SelfPick.Skus = skus_SelfPick;
                 var shippingAddressModel2 = new UserDeliveryAddressModel();
@@ -102,7 +102,7 @@ namespace Lumos.BLL.Service.App
                 shippingAddressModel2.Address = "广州工商学院";
                 shippingAddressModel2.CanSelectElse = false;
 
-                orderBlock_SelfPick.ShippingAddress = shippingAddressModel2;
+                orderBlock_SelfPick.DeliveryAddress = shippingAddressModel2;
 
                 orderBlock.Add(orderBlock_SelfPick);
             }

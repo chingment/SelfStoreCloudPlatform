@@ -9,7 +9,7 @@ namespace Lumos.BLL.Service.App
     public class RupCouponMy
     {
         public bool IsGetHis { get; set; }
-        public List<RopOrderConfirm.SkuModel> Skus { get; set; }
+        public List<OrderConfirmSkuModel> Skus { get; set; }
         public List<string> CouponId { get; set; }
     }
 }
