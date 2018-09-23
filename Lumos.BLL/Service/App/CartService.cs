@@ -11,9 +11,9 @@ namespace Lumos.BLL.Service.App
 {
     public class CartService : BaseProvider
     {
-        public CartModel GetData(string pOperater, string pUserId, string pStoreId)
+        public CartPageModel GetPageData(string pOperater, string pUserId, string pStoreId)
         {
-            var cartModel = new CartModel();
+            var cartModel = new CartPageModel();
 
 
             var carts = CurrentDb.UserCart.Where(m => m.UserId == pUserId && m.StoreId == pStoreId && m.Status == Enumeration.CartStatus.WaitSettle).ToList();
@@ -146,7 +146,7 @@ namespace Lumos.BLL.Service.App
 
                     CurrentDb.SaveChanges();
 
-                    var cartModel = GetData(operater, userId, storeId);
+                    var cartModel = GetPageData(operater, userId, storeId);
 
                     ts.Complete();
 

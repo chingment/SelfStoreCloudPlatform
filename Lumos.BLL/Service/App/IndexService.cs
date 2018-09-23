@@ -9,10 +9,9 @@ namespace Lumos.BLL.Service.App
 {
     public class IndexService : BaseProvider
     {
-        public IndexModel GetData(string pOperater,string pUserId, string pStoreId)
+        public IndexPageModel GetPageData(string pOperater,string pUserId, string pStoreId)
         {
-            var model = new IndexModel();
-
+            var pageModel = new IndexPageModel();
 
             var banner = CurrentDb.StoreBanner.Where(m => m.StoreId == pStoreId).ToList();
 
@@ -28,10 +27,10 @@ namespace Lumos.BLL.Service.App
                 bannerModels.Add(bannerModel);
             }
 
-            model.Banner = bannerModels;
+            pageModel.Banner = bannerModels;
 
 
-            return model;
+            return pageModel;
         }
     }
 }

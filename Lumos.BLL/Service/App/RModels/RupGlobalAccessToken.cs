@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.App
 {
-    public class PersonalModel
+    public class RupGlobalAccessToken
     {
-         public UserInfoModel UserInfo { get; set; }
+
     }
 }

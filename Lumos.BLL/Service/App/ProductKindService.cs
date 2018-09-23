@@ -8,9 +8,9 @@ namespace Lumos.BLL.Service.App
 {
     public class ProductKindService : BaseProvider
     {
-        public ProductKindModel GetKinds(string pOperater, string pUserId, string pStoreId)
+        public ProductKindPageModel GetPageData(string pOperater, string pUserId, string pStoreId)
         {
-            var productKindModels = new ProductKindModel();
+            var productKindModels = new ProductKindPageModel();
 
             var productParentKindModels = new List<ProductParentKindModel>();
 

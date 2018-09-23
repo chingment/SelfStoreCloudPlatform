@@ -19,9 +19,9 @@ namespace Lumos.BLL.Service.App
         public Entity.Enumeration.ChannelType ChannelType { get; set; }
     }
 
-    public class CartModel
+    public class CartPageModel
     {
-        public CartModel()
+        public CartPageModel()
         {
             this.Block = new List<CartBlock>();
         }

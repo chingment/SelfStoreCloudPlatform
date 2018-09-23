@@ -13,53 +13,40 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using WebAppApi.Models;
-using WebAppApi.Models.Global;
+
 
 namespace WebAppApi.Controllers
 {
+
     [BaseAuthorizeAttribute]
     public class GlobalController : OwnBaseApiController
     {
         [HttpGet]
-        public APIResponse DataSet(string userId, string storeId, DateTime? datetime)
+        public APIResponse DataSet([FromUri]RupGlobalDataSet rup)
         {
-            var resultModel = new DataSetResultModel();
-            resultModel.Index = AppServiceFactory.Index.GetData(userId, userId, storeId);
-            resultModel.ProductKind = AppServiceFactory.ProductKind.GetKinds(userId, userId, storeId);
-            resultModel.Cart = AppServiceFactory.Cart.GetData(userId, userId, storeId);
-            resultModel.Personal = AppServiceFactory.Personal.GetData(userId, userId, storeId);
-            APIResult result = new APIResult() { Result = ResultType.Success, Code = ResultCode.Success, Message = "获取成功", Data = resultModel };
+            var ret = new RetGobalDataSet();
+            ret.Index = AppServiceFactory.Index.GetPageData(this.CurrentUserId, this.CurrentUserId, rup.StoreId);
+            ret.ProductKind = AppServiceFactory.ProductKind.GetPageData(this.CurrentUserId, this.CurrentUserId, rup.StoreId);
+            ret.Cart = AppServiceFactory.Cart.GetPageData(this.CurrentUserId, this.CurrentUserId, rup.StoreId);
+            ret.Personal = AppServiceFactory.Personal.GetPageData(this.CurrentUserId, this.CurrentUserId, rup.StoreId);
+            APIResult result = new APIResult() { Result = ResultType.Success, Code = ResultCode.Success, Message = "获取成功", Data = ret };
             return new APIResponse(result);
         }
 
-        [HttpPost]
-        public APIResponse UploadLogTrace(UploadLogTracePms pms)
+        [HttpGet]
+        public APIResponse AccessToken([FromUri]RupGlobalAccessToken rup)
         {
-            //Log.Info("AppVersion:" + GetAppVersion());
-
-            //log4net.ILog log = log4net.LogManager.GetLogger("AppErrorLogFileAppender");
-
-            //log.Info("UploadLogFile");
-            if (!string.IsNullOrEmpty(pms.Trace))
-            {
-                //log.Error(pms.Trace);
-            }
-
-            return ResponseResult(ResultType.Success, ResultCode.Success, "上传成功");
+            string userId = "";
+            string storeId = "";
+            //var resultModel = new DataSetResultModel();
+            //resultModel.Index = AppServiceFactory.Index.GetData(userId, userId, storeId);
+            //resultModel.ProductKind = AppServiceFactory.ProductKind.GetKinds(userId, userId, storeId);
+            //resultModel.Cart = AppServiceFactory.Cart.GetData(userId, userId, storeId);
+            //resultModel.Personal = AppServiceFactory.Personal.GetData(userId, userId, storeId);
+            //APIResult result = new APIResult() { Result = ResultType.Success, Code = ResultCode.Success, Message = "获取成功", Data = resultModel };
+            //return new APIResponse(result);
+            return null;
         }
 
-        [HttpPost]
-        public APIResponse UploadLogFile()
-        {
-            log4net.ILog log = log4net.LogManager.GetLogger("AppErrorLogFileAppender");
-
-            log.Info("UploadLogFile");
-            //if (!string.IsNullOrEmpty(pms.Trace))
-            //{
-            //    Log.Error(pms.Trace);
-            //}
-
-            return ResponseResult(ResultType.Success, ResultCode.Success, "上传成功");
-        }
     }
 }

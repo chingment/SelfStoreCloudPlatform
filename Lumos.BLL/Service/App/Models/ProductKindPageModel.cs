@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.App
 {
-    public class ProductKindModel
+    public class ProductKindPageModel
     {
         public List<ProductParentKindModel> List { get; set; }
  

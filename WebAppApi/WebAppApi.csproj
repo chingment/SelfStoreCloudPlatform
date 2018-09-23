@@ -131,6 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\Global\" />
     <Folder Include="Views\Car\" />
     <Folder Include="Views\Coupon\" />
     <Folder Include="Views\Global\" />
@@ -149,6 +150,7 @@
     <Compile Include="App_Start\Own\MonitorApiLog.cs" />
     <Compile Include="App_Start\Own\OwnBaseApiController.cs" />
     <Compile Include="App_Start\Own\OwnBaseAuthorizeAttribute.cs" />
+    <Compile Include="App_Start\Own\OwnRequest.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CartController.cs" />
@@ -165,7 +167,6 @@
     <Compile Include="Models\Account\ResetPasswordModel.cs" />
     <Compile Include="Models\Cart\OperateParams.cs" />
     <Compile Include="Models\Coupon\GetListParams.cs" />
-    <Compile Include="Models\Global\DataSetResultModel.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
     <Compile Include="Models\IdRecogModel.cs" />
     <Compile Include="Models\Order\CancleModel.cs" />
@@ -252,6 +253,14 @@
     <ProjectReference Include="..\Lumos.MVC\Lumos.Mvc.csproj">
       <Project>{ed113ad7-1b20-4b05-8961-9b701e51734c}</Project>
       <Name>Lumos.Mvc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lumos.Redis\Lumos.Redis.csproj">
+      <Project>{c165e6a0-dd43-4aa1-94b1-d4bf5420a80d}</Project>
+      <Name>Lumos.Redis</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lumos.Session\Lumos.Session.csproj">
+      <Project>{d2f78ae2-3125-44b8-8629-ec3c5bc6c46b}</Project>
+      <Name>Lumos.Session</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lumos\Lumos.csproj">
       <Project>{27883666-32aa-447f-aa1f-6128b76fbee8}</Project>

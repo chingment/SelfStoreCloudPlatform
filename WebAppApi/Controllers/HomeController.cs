@@ -29,106 +29,35 @@ namespace WebAppApi.Controllers
         private string key = "test";
         private string secret = "6ZB97cdVz211O08EKZ6yriAYrHXFBowC";
         private long timespan = (long)(DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalSeconds;
-        private string host = "http://localhost:16665";
-        //private string host = "https://demo.gzhaoyilian.com";
-        // private string host = "http://api.gzhaoyilian.com";
-        // private string host = "https://www.ins-uplink.cn";
-        //private string host = "http://120.79.233.231";
-
-
-        public static string GetQueryString(Dictionary<string, string> parames)
-        {
-            // 第一步：把字典按Key的字母顺序排序
-            IDictionary<string, string> sortedParams = new SortedDictionary<string, string>(parames);
-            IEnumerator<KeyValuePair<string, string>> dem = sortedParams.GetEnumerator();
-
-            // 第二步：把所有参数名和参数值串在一起
-            StringBuilder query = new StringBuilder("");  //签名字符串
-            StringBuilder queryStr = new StringBuilder(""); //url参数
-            if (parames == null || parames.Count == 0)
-                return "";
-
-            while (dem.MoveNext())
-            {
-                string key = dem.Current.Key;
-                string value = dem.Current.Value;
-                if (!string.IsNullOrEmpty(key))
-                {
-                    queryStr.Append("&").Append(key).Append("=").Append(value);
-                }
-            }
-
-            string s = queryStr.ToString().Substring(1, queryStr.Length - 1);
-
-            return s;
-        }
-
-
-        public static string GetQueryString2(Dictionary<string, string> parames)
-        {
-            // 第一步：把字典按Key的字母顺序排序
-            IDictionary<string, string> sortedParams = new SortedDictionary<string, string>(parames);
-            IEnumerator<KeyValuePair<string, string>> dem = sortedParams.GetEnumerator();
-
-            // 第二步：把所有参数名和参数值串在一起
-            StringBuilder query = new StringBuilder("");  //签名字符串
-            StringBuilder queryStr = new StringBuilder(""); //url参数
-            if (parames == null || parames.Count == 0)
-                return "";
-
-            while (dem.MoveNext())
-            {
-                string key = dem.Current.Key;
-                string value = dem.Current.Value;
-                if (!string.IsNullOrEmpty(key))
-                {
-                    queryStr.Append("&").Append(key).Append("=").Append(value);
-                }
-            }
-
-
-
-            string s = queryStr.ToString().Substring(1, queryStr.Length - 1);
-
-            return s;
-        }
-
-        public string BulidOpendId(string merchantCode, string key, string secret)
-        {
-
-            byte[] result = Encoding.Default.GetBytes(merchantCode + key + secret);    //tbPass为输入密码的文本框  
-            MD5 md5 = new MD5CryptoServiceProvider();
-            byte[] output = md5.ComputeHash(result);
-            string s_output = BitConverter.ToString(output).Replace("-", "");
-
-            return s_output;
-        }
-
-        private decimal GetDecimal(decimal d)
-        {
-            return Math.Round(d, 2);
-        }
+        private string host = "";
 
         Dictionary<string, string> model = new Dictionary<string, string>();
 
         public ActionResult Index()
         {
-            if (ConfigurationManager.AppSettings["custom:IsTest"] == null)
+            object isTest = ConfigurationManager.AppSettings["custom:IsTest"];
+            if (isTest == null)
             {
-                host = "http://localhost:16665";
+                isTest = "false";
             }
-            else
+
+            if (isTest.ToString() == "false")
             {
                 host = "https://demo.res.17fanju.com";
             }
+            else
+            {
+                host = "http://localhost:16665";
+            }
+
 
             string userId = "00000000000000000000000000000000";
             string storeId = "be9ae32c554d4942be4a42fa48446210";
 
 
 
-            model.Add("获取全局数据", GlobalDataSet(userId, storeId, DateTime.Parse("2018-04-09 15:14:28")));
-
+            //model.Add("获取全局数据", GlobalDataSet(userId, storeId, DateTime.Parse("2018-04-09 15:14:28")));
+            model.Add("获取全局数据", ShippingAddress(userId, storeId));
             //model.Add("获取地址", GetShippingAddress(1215));
 
             return View(model);
@@ -166,6 +95,34 @@ namespace WebAppApi.Controllers
             headers.Add("sign", signStr);
             HttpUtil http = new HttpUtil();
             string result = http.HttpGet("" + host + "/api/Global/DataSet?userId=" + userId + "&storeId=" + storeId + "&datetime=" + HttpUtility.UrlEncode(datetime.ToUnifiedFormatDateTime(), UTF8Encoding.UTF8).ToUpper(), headers);
+
+            return result;
+
+        }
+
+        public string ShippingAddress(string userId, string storeId)
+        {
+            Models.ShippingAddress.EditModel model = new Models.ShippingAddress.EditModel();
+
+            model.UserId = userId;
+            model.PhoneNumber = "15989287032";
+            model.Address = "3123";
+            model.AreaCode = "1";
+            model.AreaName = "2";
+            model.Consignee = "Sda";
+
+            string a1 = JsonConvert.SerializeObject(model);
+
+            string signStr = Signature.Compute(key, secret, timespan, a1);
+
+
+            Dictionary<string, string> headers = new Dictionary<string, string>();
+            headers.Add("key", key);
+            headers.Add("timestamp", timespan.ToString());
+            headers.Add("sign", signStr);
+            headers.Add("version", "1.3.0.7");
+            HttpUtil http = new HttpUtil();
+            string result = http.HttpPostJson("" + host + "/api/ShippingAddress/Edit?userId=1&storeId=2", a1, headers);
 
             return result;
 

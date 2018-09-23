@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.App
 {
-    public class IndexModel
+    public class IndexPageModel
     {
-        public IndexModel()
+        public IndexPageModel()
         {
 
             this.Banner = new List<BannerModel>();
