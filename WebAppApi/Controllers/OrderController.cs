@@ -8,8 +8,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using WebAppApi.Models.Order;
-using WebAppApi.Models;
 using Lumos.BLL.Service;
 using System.Web;
 using Lumos;

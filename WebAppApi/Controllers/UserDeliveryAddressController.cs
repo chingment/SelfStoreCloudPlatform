@@ -9,20 +9,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
-using WebAppApi.Models.ShippingAddress;
 
 namespace WebAppApi.Controllers
 {
     [BaseAuthorizeAttribute]
-    public class ShippingAddressController : OwnBaseApiController
+    public class UserDeliveryAddressController : OwnBaseApiController
     {
 
         [HttpGet]
-        public APIResponse GetList(string userId)
+        public APIResponse My()
         {
             var query = (from o in CurrentDb.UserDeliveryAddress
                          where
-                         o.UserId == userId &&
+                         o.UserId == this.CurrentUserId &&
                          o.IsDelete == false
                          select new { o.Id, o.Consignee, o.PhoneNumber, o.Address, o.AreaName, o.AreaCode, o.IsDefault, o.CreateTime }
               );
@@ -58,17 +57,17 @@ namespace WebAppApi.Controllers
         }
 
         [HttpPost]
-        public APIResponse Edit(EditModel model)
+        public APIResponse Edit(RopUserDeliveryAddressEdit rop)
         {
             var userDeliveryAddress = new UserDeliveryAddress();
-            userDeliveryAddress.Id = model.Id;
-            userDeliveryAddress.UserId = model.UserId;
-            userDeliveryAddress.PhoneNumber = model.PhoneNumber;
-            userDeliveryAddress.Consignee = model.Consignee;
-            userDeliveryAddress.AreaName = model.AreaName;
-            userDeliveryAddress.Address = model.Address;
-            userDeliveryAddress.IsDefault = model.IsDefault;
-            IResult result = AppServiceFactory.UserDeliveryAddress.Edit(model.UserId, userDeliveryAddress);
+            userDeliveryAddress.Id = rop.Id;
+            userDeliveryAddress.UserId = this.CurrentUserId;
+            userDeliveryAddress.PhoneNumber = rop.PhoneNumber;
+            userDeliveryAddress.Consignee = rop.Consignee;
+            userDeliveryAddress.AreaName = rop.AreaName;
+            userDeliveryAddress.Address = rop.Address;
+            userDeliveryAddress.IsDefault = rop.IsDefault;
+            IResult result = AppServiceFactory.UserDeliveryAddress.Edit(this.CurrentUserId, userDeliveryAddress);
             return new APIResponse(result);
         }
     }

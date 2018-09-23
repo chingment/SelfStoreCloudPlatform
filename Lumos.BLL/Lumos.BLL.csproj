@@ -104,14 +104,13 @@
     <Compile Include="Service\App\Models\CouponModel.cs" />
     <Compile Include="Service\App\Models\IndexPageModel.cs" />
     <Compile Include="Service\App\Models\OrderConfirmCouponModel.cs" />
-    <Compile Include="Service\App\Models\OrderConfirmModel.cs" />
     <Compile Include="Service\App\Models\OrderConfirmResultModel.cs" />
     <Compile Include="Service\App\Models\OrderConfirmSubtotalItemModel.cs" />
     <Compile Include="Service\App\Models\PersonalPageModel.cs" />
     <Compile Include="Service\App\Models\ProductChildKindModel.cs" />
     <Compile Include="Service\App\Models\ProductParentKindModel.cs" />
     <Compile Include="Service\App\Models\SkuModel.cs" />
-    <Compile Include="Service\App\Models\ShippingAddressModel.cs" />
+    <Compile Include="Service\App\Models\DeliveryAddressModel.cs" />
     <Compile Include="Service\App\Models\SpecModel.cs" />
     <Compile Include="Service\App\Models\SpecValueModel.cs" />
     <Compile Include="Service\App\Models\UserInfoModel.cs" />
@@ -124,6 +123,7 @@
     <Compile Include="Service\App\RModels\RopOrderConfirm.cs" />
     <Compile Include="Service\App\RModels\RetGobalDataSet.cs" />
     <Compile Include="Service\App\RModels\RopCartOperate.cs" />
+    <Compile Include="Service\App\RModels\RopUserDeliveryAddressEdit.cs" />
     <Compile Include="Service\App\RModels\RupCouponMy.cs" />
     <Compile Include="Service\App\RModels\RupGlobalDataSet.cs" />
     <Compile Include="Service\App\RModels\RupGlobalAccessToken.cs" />

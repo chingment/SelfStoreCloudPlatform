@@ -15,7 +15,7 @@ namespace Lumos.BLL.Service.App
         }
 
         public string TagName { get; set; }
-        public ShippingAddressModel ShippingAddress { get; set; }
+        public UserDeliveryAddressModel ShippingAddress { get; set; }
 
         public List<RopOrderConfirm.SkuModel> Skus { get; set; }
     }

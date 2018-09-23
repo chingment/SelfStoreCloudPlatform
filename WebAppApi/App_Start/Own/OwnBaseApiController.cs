@@ -9,7 +9,6 @@ using System.Web;
 using System.Web.Http;
 using Lumos.Entity;
 using Lumos;
-using WebAppApi.Models;
 
 namespace WebAppApi
 {

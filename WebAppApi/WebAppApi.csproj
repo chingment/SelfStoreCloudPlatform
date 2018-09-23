@@ -131,7 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\Global\" />
+    <Folder Include="Models\" />
     <Folder Include="Views\Car\" />
     <Folder Include="Views\Coupon\" />
     <Folder Include="Views\Global\" />
@@ -159,19 +159,10 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
-    <Compile Include="Controllers\ShippingAddressController.cs" />
+    <Compile Include="Controllers\UserDeliveryAddressController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Account\LoginModel.cs" />
-    <Compile Include="Models\Account\ResetPasswordModel.cs" />
-    <Compile Include="Models\BaseViewModel.cs" />
-    <Compile Include="Models\IdRecogModel.cs" />
-    <Compile Include="Models\Order\CancleModel.cs" />
-    <Compile Include="Models\ImageModel.cs" />
-    <Compile Include="Models\Order\PayModel.cs" />
-    <Compile Include="Models\ShippingAddress\EditModel.cs" />
-    <Compile Include="Models\UploadLogTracePms.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -18,9 +18,6 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
-using WebAppApi.Models;
-using WebAppApi.Models.Account;
-using WebAppApi.Models.Order;
 
 namespace WebAppApi.Controllers
 {
@@ -57,7 +54,7 @@ namespace WebAppApi.Controllers
 
 
             //model.Add("获取全局数据", GlobalDataSet(userId, storeId, DateTime.Parse("2018-04-09 15:14:28")));
-            model.Add("获取全局数据", ShippingAddress(userId, storeId));
+            //model.Add("获取全局数据", ShippingAddress(userId, storeId));
             //model.Add("获取地址", GetShippingAddress(1215));
 
             return View(model);
@@ -100,33 +97,33 @@ namespace WebAppApi.Controllers
 
         }
 
-        public string ShippingAddress(string userId, string storeId)
-        {
-            Models.ShippingAddress.EditModel model = new Models.ShippingAddress.EditModel();
+        //public string ShippingAddress(string userId, string storeId)
+        //{
+        //    Models.ShippingAddress.EditModel model = new Models.ShippingAddress.EditModel();
 
-            model.UserId = userId;
-            model.PhoneNumber = "15989287032";
-            model.Address = "3123";
-            model.AreaCode = "1";
-            model.AreaName = "2";
-            model.Consignee = "Sda";
+        //    model.UserId = userId;
+        //    model.PhoneNumber = "15989287032";
+        //    model.Address = "3123";
+        //    model.AreaCode = "1";
+        //    model.AreaName = "2";
+        //    model.Consignee = "Sda";
 
-            string a1 = JsonConvert.SerializeObject(model);
+        //    string a1 = JsonConvert.SerializeObject(model);
 
-            string signStr = Signature.Compute(key, secret, timespan, a1);
+        //    string signStr = Signature.Compute(key, secret, timespan, a1);
 
 
-            Dictionary<string, string> headers = new Dictionary<string, string>();
-            headers.Add("key", key);
-            headers.Add("timestamp", timespan.ToString());
-            headers.Add("sign", signStr);
-            headers.Add("version", "1.3.0.7");
-            HttpUtil http = new HttpUtil();
-            string result = http.HttpPostJson("" + host + "/api/ShippingAddress/Edit?userId=1&storeId=2", a1, headers);
+        //    Dictionary<string, string> headers = new Dictionary<string, string>();
+        //    headers.Add("key", key);
+        //    headers.Add("timestamp", timespan.ToString());
+        //    headers.Add("sign", signStr);
+        //    headers.Add("version", "1.3.0.7");
+        //    HttpUtil http = new HttpUtil();
+        //    string result = http.HttpPostJson("" + host + "/api/ShippingAddress/Edit?userId=1&storeId=2", a1, headers);
 
-            return result;
+        //    return result;
 
-        }
+        //}
 
     }
 }

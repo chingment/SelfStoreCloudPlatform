@@ -73,7 +73,7 @@ namespace Lumos.BLL.Service.App
                 var orderBlock_Express = new OrderBlock();
                 orderBlock_Express.TagName = "快递商品";
                 orderBlock_Express.Skus = skus_SelfExpress;
-                var shippingAddressModel = new ShippingAddressModel();
+                var shippingAddressModel = new UserDeliveryAddressModel();
                 var shippingAddress = CurrentDb.UserDeliveryAddress.Where(m => m.UserId == userId && m.IsDefault == true).FirstOrDefault();
                 if (shippingAddress != null)
                 {
@@ -94,7 +94,7 @@ namespace Lumos.BLL.Service.App
                 var orderBlock_SelfPick = new OrderBlock();
                 orderBlock_SelfPick.TagName = "自提商品";
                 orderBlock_SelfPick.Skus = skus_SelfPick;
-                var shippingAddressModel2 = new ShippingAddressModel();
+                var shippingAddressModel2 = new UserDeliveryAddressModel();
                 shippingAddressModel2.Id = null;
                 shippingAddressModel2.Consignee = "邱庆文";
                 shippingAddressModel2.PhoneNumber = "15989287032";
