@@ -35,19 +35,9 @@ namespace WebAppApi.Controllers
         [HttpGet]
         public APIResponse Details(RupProductSkuDetails rup)
         {
-            var model = BizFactory.ProductSku.GetModel(rup.SkuId);
+            var model = AppServiceFactory.ProductSku.Details(rup.SkuId);
 
-            var sku = new SkuModel();
-
-            sku.SkuId = model.Id;
-            sku.SkuName = model.Name;
-            sku.SalePrice = model.SalePrice.ToF2Price();
-            sku.ShowPrice = model.ShowPrice.ToF2Price();
-            sku.DetailsDes = model.DetailsDes;
-            sku.BriefIntro = model.BriefInfo;
-            sku.DispalyImgUrls = BizFactory.ProductSku.GetDispalyImgUrls(model.DispalyImgUrls);
-
-            APIResult result = new APIResult() { Result = ResultType.Success, Code = ResultCode.Success, Message = "", Data = sku };
+            APIResult result = new APIResult() { Result = ResultType.Success, Code = ResultCode.Success, Message = "", Data = model };
 
             return new APIResponse(result);
         }

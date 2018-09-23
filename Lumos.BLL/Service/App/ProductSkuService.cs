@@ -62,5 +62,22 @@ namespace Lumos.BLL.Service.App
 
 
         }
+
+        public SkuModel Details(string skuId)
+        {
+            var model = BizFactory.ProductSku.GetModel(skuId);
+
+            var sku = new SkuModel();
+
+            sku.SkuId = model.Id;
+            sku.SkuName = model.Name;
+            sku.SalePrice = model.SalePrice.ToF2Price();
+            sku.ShowPrice = model.ShowPrice.ToF2Price();
+            sku.DetailsDes = model.DetailsDes;
+            sku.BriefIntro = model.BriefInfo;
+            sku.DispalyImgUrls = BizFactory.ProductSku.GetDispalyImgUrls(model.DispalyImgUrls);
+
+            return sku;
+        }
     }
 }
