@@ -103,7 +103,7 @@ namespace Lumos.BLL.Service.App
                                 if (mod_Cart.Quantity >= 2)
                                 {
                                     mod_Cart.Quantity -= 1;
-                                    mod_Cart.LastUpdateTime = this.DateTime;
+                                    mod_Cart.MendTime = this.DateTime;
                                     mod_Cart.Mender = operater;
                                 }
                                 break;
@@ -131,14 +131,14 @@ namespace Lumos.BLL.Service.App
                                 else
                                 {
                                     mod_Cart.Quantity += 1;
-                                    mod_Cart.LastUpdateTime = this.DateTime;
+                                    mod_Cart.MendTime = this.DateTime;
                                     mod_Cart.Mender = operater;
                                 }
                                 break;
                             case Enumeration.CartOperateType.Delete:
                                 LogUtil.Info("购物车操作：删除");
                                 mod_Cart.Status = Enumeration.CartStatus.Deleted;
-                                mod_Cart.LastUpdateTime = this.DateTime;
+                                mod_Cart.MendTime = this.DateTime;
                                 mod_Cart.Mender = operater;
                                 break;
                         }
