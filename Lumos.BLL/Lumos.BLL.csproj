@@ -112,7 +112,6 @@
     <Compile Include="Service\App\Models\PersonalPageModel.cs" />
     <Compile Include="Service\App\Models\ProductChildKindModel.cs" />
     <Compile Include="Service\App\Models\ProductParentKindModel.cs" />
-    <Compile Include="Service\App\Models\SkuDetailsModel.cs" />
     <Compile Include="Service\App\Models\SkuModel.cs" />
     <Compile Include="Service\App\Models\ShippingAddressModel.cs" />
     <Compile Include="Service\App\Models\SpecModel.cs" />
