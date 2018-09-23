@@ -165,8 +165,6 @@
     </Compile>
     <Compile Include="Models\Account\LoginModel.cs" />
     <Compile Include="Models\Account\ResetPasswordModel.cs" />
-    <Compile Include="Models\Cart\OperateParams.cs" />
-    <Compile Include="Models\Coupon\GetListParams.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
     <Compile Include="Models\IdRecogModel.cs" />
     <Compile Include="Models\Order\CancleModel.cs" />

@@ -21,9 +21,9 @@ namespace WebAppApi.Controllers
     public class OrderController : OwnBaseApiController
     {
 
-        public APIResponse Confirm(OrderConfirmModel pms)
+        public APIResponse Confirm(RopOrderConfirm rop)
         {
-            IResult result = AppServiceFactory.Order.Confrim(pms.UserId, pms);
+            IResult result = AppServiceFactory.Order.Confrim(this.CurrentUserId,this.CurrentUserId, rop);
 
             return new APIResponse(result);
         }

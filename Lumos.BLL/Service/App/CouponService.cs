@@ -12,11 +12,11 @@ namespace Lumos.BLL.Service.App
 
     public class CouponService : BaseProvider
     {
-        public List<CouponModel> List(string operater, string userId, bool isGetHis, List<string> couponId, List<OrderConfirmSkuModel> skus)
+        public List<CouponModel> List(string operater, string userId, RupCouponMy rup)
         {
 
             List<UserCoupon> coupons;
-            if (!isGetHis)
+            if (!rup.IsGetHis)
             {
                 coupons = CurrentDb.UserCoupon.Where(m => m.UserId == userId && m.Status == Entity.Enumeration.CouponStatus.WaitUse && m.EndTime > DateTime.Now).ToList();
             }
@@ -57,9 +57,9 @@ namespace Lumos.BLL.Service.App
                 couponModel.ValidDate = "有效到" + item.EndTime.ToUnifiedFormatDate();
                 couponModel.Description = "全场使用";
 
-                if (couponId != null)
+                if (rup.CouponId != null)
                 {
-                    if (couponId.Contains(item.Id))
+                    if (rup.CouponId.Contains(item.Id))
                     {
                         couponModel.IsSelected = true;
                     }

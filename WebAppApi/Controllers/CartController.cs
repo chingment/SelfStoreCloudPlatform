@@ -4,7 +4,7 @@ using Lumos.BLL.Service.App;
 using Lumos.Entity;
 using Lumos.Mvc;
 using System.Web.Http;
-using WebAppApi.Models.Cart;
+
 
 namespace WebAppApi.Controllers
 {
@@ -12,9 +12,9 @@ namespace WebAppApi.Controllers
     public class CartController : OwnBaseApiController
     {
         [HttpPost]
-        public APIResponse Operate(OperateParams model)
+        public APIResponse Operate(RopCartOperate rop)
         {
-            IResult result = AppServiceFactory.Cart.Operate(model.UserId, model.Operate, model.UserId, model.StoreId, model.List);
+            IResult result = AppServiceFactory.Cart.Operate(this.CurrentUserId, this.CurrentUserId, rop);
 
             return new APIResponse(result);
 

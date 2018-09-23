@@ -11,13 +11,13 @@ namespace Lumos.BLL.Service.App
     {
         public OrderBlock()
         {
-            this.Skus = new List<OrderConfirmSkuModel>();
+            this.Skus = new List<RopOrderConfirm.SkuModel>();
         }
 
         public string TagName { get; set; }
         public ShippingAddressModel ShippingAddress { get; set; }
 
-        public List<OrderConfirmSkuModel> Skus { get; set; }
+        public List<RopOrderConfirm.SkuModel> Skus { get; set; }
     }
 
     public class OrderConfirmResultModel

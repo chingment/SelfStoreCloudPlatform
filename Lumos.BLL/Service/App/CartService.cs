@@ -77,7 +77,7 @@ namespace Lumos.BLL.Service.App
         }
 
         private static readonly object operatelock = new object();
-        public CustomJsonResult Operate(string operater, Enumeration.CartOperateType operate, string userId, string storeId, List<CartSkuByOperateModel> procudtSkus)
+        public CustomJsonResult Operate(string operater, string userId, RopCartOperate rop)
         {
             var result = new CustomJsonResult();
 
@@ -87,12 +87,12 @@ namespace Lumos.BLL.Service.App
                 using (TransactionScope ts = new TransactionScope())
                 {
 
-                    foreach (var item in procudtSkus)
+                    foreach (var item in rop.Skus)
                     {
-                        var mod_Cart = CurrentDb.UserCart.Where(m => m.UserId == userId && m.StoreId == storeId && m.ProductSkuId == item.SkuId && m.ChannelId == item.ChannelId && m.ChannelType == item.ChannelType && m.Status == Enumeration.CartStatus.WaitSettle).FirstOrDefault();
+                        var mod_Cart = CurrentDb.UserCart.Where(m => m.UserId == userId && m.StoreId == rop.StoreId && m.ProductSkuId == item.SkuId && m.ChannelId == item.ChannelId && m.ChannelType == item.ChannelType && m.Status == Enumeration.CartStatus.WaitSettle).FirstOrDefault();
 
-                        LogUtil.Info("购物车操作：" + operate);
-                        switch (operate)
+                        LogUtil.Info("购物车操作：" + rop.Operate);
+                        switch (rop.Operate)
                         {
                             case Enumeration.CartOperateType.Selected:
                                 LogUtil.Info("购物车操作：选择");
@@ -116,7 +116,7 @@ namespace Lumos.BLL.Service.App
                                     mod_Cart = new UserCart();
                                     mod_Cart.Id = GuidUtil.New();
                                     mod_Cart.UserId = userId;
-                                    mod_Cart.StoreId = storeId;
+                                    mod_Cart.StoreId = rop.StoreId;
                                     mod_Cart.ProductSkuId = skuModel.Id;
                                     mod_Cart.ProductSkuName = skuModel.Name;
                                     mod_Cart.ProductSkuImgUrl = BizFactory.ProductSku.GetMainImg(skuModel.DispalyImgUrls);
@@ -146,7 +146,7 @@ namespace Lumos.BLL.Service.App
 
                     CurrentDb.SaveChanges();
 
-                    var cartModel = GetPageData(operater, userId, storeId);
+                    var cartModel = GetPageData(operater, userId, rop.StoreId);
 
                     ts.Complete();
 

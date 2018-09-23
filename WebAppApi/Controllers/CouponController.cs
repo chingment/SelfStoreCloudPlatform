@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
-using WebAppApi.Models.Coupon;
+
 
 namespace WebAppApi.Controllers
 {
@@ -18,9 +18,9 @@ namespace WebAppApi.Controllers
     public class CouponController : OwnBaseApiController
     {
         [HttpPost]
-        public APIResponse GetList(GetListParams pms)
+        public APIResponse My(RupCouponMy rup)
         {
-            var model = AppServiceFactory.Coupon.List(pms.UserId, pms.UserId, pms.IsGetHis, pms.CouponId, pms.Skus);
+            var model = AppServiceFactory.Coupon.List(this.CurrentUserId,this.CurrentUserId, rup);
 
             APIResult result = new APIResult() { Result = ResultType.Success, Code = ResultCode.Success, Message = "", Data = model };
 

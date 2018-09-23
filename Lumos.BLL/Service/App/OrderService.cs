@@ -14,23 +14,23 @@ namespace Lumos.BLL.Service.App
 
     public class OrderService : BaseProvider
     {
-        public CustomJsonResult Confrim(string operater, OrderConfirmModel confirm)
+        public CustomJsonResult Confrim(string operater,string userId, RopOrderConfirm rop)
         {
             var result = new CustomJsonResult();
 
             var model = new OrderConfirmResultModel();
 
             var subtotalItem = new List<OrderConfirmSubtotalItemModel>();
-            var skus = new List<OrderConfirmSkuModel>();
+            var skus = new List<RopOrderConfirm.SkuModel>();
 
             decimal skuAmountByActual = 0;//总价
             decimal skuAmountByOriginal = 0;//总价
             decimal skuAmountByMemebr = 0;//普通用户总价
             decimal skuAmountByVip = 0;//会员用户总价
 
-            if (confirm.Skus != null)
+            if (rop.Skus != null)
             {
-                foreach (var item in confirm.Skus)
+                foreach (var item in rop.Skus)
                 {
                     var skuModel = BizFactory.ProductSku.GetModel(item.SkuId);
                     item.SkuImgUrl = skuModel.ImgUrl;
@@ -74,7 +74,7 @@ namespace Lumos.BLL.Service.App
                 orderBlock_Express.TagName = "快递商品";
                 orderBlock_Express.Skus = skus_SelfExpress;
                 var shippingAddressModel = new ShippingAddressModel();
-                var shippingAddress = CurrentDb.UserDeliveryAddress.Where(m => m.UserId == confirm.UserId && m.IsDefault == true).FirstOrDefault();
+                var shippingAddress = CurrentDb.UserDeliveryAddress.Where(m => m.UserId == userId && m.IsDefault == true).FirstOrDefault();
                 if (shippingAddress != null)
                 {
                     shippingAddressModel.Id = shippingAddress.Id;
@@ -111,9 +111,9 @@ namespace Lumos.BLL.Service.App
 
 
 
-            if (confirm.CouponId == null || confirm.CouponId.Count == 0)
+            if (rop.CouponId == null || rop.CouponId.Count == 0)
             {
-                var couponsCount = CurrentDb.UserCoupon.Where(m => m.UserId == confirm.UserId && m.Status == Entity.Enumeration.CouponStatus.WaitUse && m.EndTime > DateTime.Now).Count();
+                var couponsCount = CurrentDb.UserCoupon.Where(m => m.UserId == userId && m.Status == Entity.Enumeration.CouponStatus.WaitUse && m.EndTime > DateTime.Now).Count();
 
                 if (couponsCount == 0)
                 {
@@ -127,7 +127,7 @@ namespace Lumos.BLL.Service.App
             else
             {
 
-                var coupons = CurrentDb.UserCoupon.Where(m => m.UserId == confirm.UserId && confirm.CouponId.Contains(m.Id)).ToList();
+                var coupons = CurrentDb.UserCoupon.Where(m => m.UserId == userId && rop.CouponId.Contains(m.Id)).ToList();
 
                 foreach (var item in coupons)
                 {
@@ -176,7 +176,7 @@ namespace Lumos.BLL.Service.App
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", model);
         }
 
-        public CustomJsonResult<Lumos.Entity.Order> GoSettle(int operater, OrderConfirmModel model)
+        public CustomJsonResult<Lumos.Entity.Order> GoSettle(int operater, RopOrderConfirm model)
         {
             var result = new CustomJsonResult<Lumos.Entity.Order>();
 
