@@ -18,7 +18,7 @@ namespace WebAppApi.Controllers
     public class CouponController : OwnBaseApiController
     {
         [HttpPost]
-        public APIResponse My(RupCouponMy rup)
+        public APIResponse My([FromBody]RupCouponMy rup)
         {
             var model = AppServiceFactory.Coupon.My(this.CurrentUserId,this.CurrentUserId, rup);
 

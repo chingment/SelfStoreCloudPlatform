@@ -8,6 +8,11 @@ namespace Lumos.BLL.Service.App
 {
     public class UserDeliveryAddressModel
     {
+        public UserDeliveryAddressModel()
+        {
+
+        }
+
         public string Id { get; set; }
         public string Consignee { get; set; }
         public string PhoneNumber { get; set; }
@@ -15,5 +20,7 @@ namespace Lumos.BLL.Service.App
         public string AreaCode { get; set; }
         public string Address { get; set; }
         public bool CanSelectElse { get; set; }
+
+        public bool IsDefault { get; set; }
     }
 }

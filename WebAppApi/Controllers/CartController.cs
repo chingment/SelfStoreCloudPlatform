@@ -12,7 +12,7 @@ namespace WebAppApi.Controllers
     public class CartController : OwnBaseApiController
     {
         [HttpPost]
-        public APIResponse Operate(RopCartOperate rop)
+        public APIResponse Operate([FromBody]RopCartOperate rop)
         {
             IResult result = AppServiceFactory.Cart.Operate(this.CurrentUserId, this.CurrentUserId, rop);
 

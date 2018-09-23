@@ -11,6 +11,43 @@ namespace Lumos.BLL.Service.App
 {
     public class UserDeliveryAddressService : BaseProvider
     {
+
+        public List<UserDeliveryAddressModel> List(string operater, string userId)
+        {
+            var model = new List<UserDeliveryAddressModel>();
+
+            var query = (from o in CurrentDb.UserDeliveryAddress
+                         where
+                         o.UserId == userId &&
+                         o.IsDelete == false
+                         select new { o.Id, o.Consignee, o.PhoneNumber, o.Address, o.AreaName, o.AreaCode, o.IsDefault, o.CreateTime }
+              );
+
+
+            query = query.OrderByDescending(r => r.CreateTime);
+
+            var list = query.ToList();
+
+            foreach (var m in list)
+            {
+
+                model.Add(new UserDeliveryAddressModel
+                {
+                    Id = m.Id,
+                    Consignee = m.Consignee,
+                    PhoneNumber = m.PhoneNumber,
+                    Address = m.Address,
+                    AreaName = m.AreaName,
+                    AreaCode = m.AreaCode,
+                    IsDefault = m.IsDefault
+                });
+            }
+
+
+            return model;
+        }
+
+
         public CustomJsonResult Edit(string operater, string userId, RopUserDeliveryAddressEdit rop)
         {
             CustomJsonResult result = new CustomJsonResult();

@@ -10,7 +10,7 @@ namespace Lumos.BLL.Service.App
     {
         public List<SkuModel> List(string operater, string userId, RupProductSkuList rup)
         {
-            List<SkuModel> olist = new List<SkuModel>();
+            var olist = new List<SkuModel>();
 
             var query = (from o in CurrentDb.ProductSku
 

@@ -21,7 +21,7 @@ namespace WebAppApi.Controllers
     {
 
         [HttpGet]
-        public APIResponse List(RupProductSkuList rup)
+        public APIResponse List([FromUri]RupProductSkuList rup)
         {
             var model = AppServiceFactory.ProductSku.List(this.CurrentUserId, this.CurrentUserId, rup);
 
@@ -33,7 +33,7 @@ namespace WebAppApi.Controllers
 
 
         [HttpGet]
-        public APIResponse Details(RupProductSkuDetails rup)
+        public APIResponse Details([FromUri]RupProductSkuDetails rup)
         {
             var model = AppServiceFactory.ProductSku.Details(rup.SkuId);
 

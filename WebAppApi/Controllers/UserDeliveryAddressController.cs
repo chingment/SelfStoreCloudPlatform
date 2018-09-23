@@ -57,7 +57,7 @@ namespace WebAppApi.Controllers
         }
 
         [HttpPost]
-        public APIResponse Edit(RopUserDeliveryAddressEdit rop)
+        public APIResponse Edit([FromBody]RopUserDeliveryAddressEdit rop)
         {
             IResult result = AppServiceFactory.UserDeliveryAddress.Edit(this.CurrentUserId,this.CurrentUserId, rop);
             return new APIResponse(result);

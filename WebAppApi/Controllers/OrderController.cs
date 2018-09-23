@@ -18,8 +18,8 @@ namespace WebAppApi.Controllers
     [BaseAuthorizeAttribute]
     public class OrderController : OwnBaseApiController
     {
-
-        public APIResponse Confirm(RopOrderConfirm rop)
+        [HttpPost]
+        public APIResponse Confirm([FromBody]RopOrderConfirm rop)
         {
             IResult result = AppServiceFactory.Order.Confrim(this.CurrentUserId,this.CurrentUserId, rop);
 
