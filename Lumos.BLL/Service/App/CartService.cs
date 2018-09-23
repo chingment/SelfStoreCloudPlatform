@@ -19,14 +19,14 @@ namespace Lumos.BLL.Service.App
             var carts = CurrentDb.UserCart.Where(m => m.UserId == pUserId && m.StoreId == pStoreId && m.Status == Enumeration.CartStatus.WaitSettle).ToList();
 
 
-            var skus = new List<CartProcudtSkuListModel>();
+            var skus = new List<CartSkuModel>();
 
             foreach (var item in carts)
             {
                 var skuModel = BizFactory.ProductSku.GetModel(item.ProductSkuId);
                 if (skuModel != null)
                 {
-                    var cartProcudtSkuModel = new CartProcudtSkuListModel();
+                    var cartProcudtSkuModel = new CartSkuModel();
                     cartProcudtSkuModel.CartId = item.Id;
                     cartProcudtSkuModel.SkuId = skuModel.Id;
                     cartProcudtSkuModel.SkuName = skuModel.Name;
@@ -77,7 +77,7 @@ namespace Lumos.BLL.Service.App
         }
 
         private static readonly object operatelock = new object();
-        public CustomJsonResult Operate(string operater, Enumeration.CartOperateType operate, string userId, string storeId, List<CartProcudtSkuListByOperateModel> procudtSkus)
+        public CustomJsonResult Operate(string operater, Enumeration.CartOperateType operate, string userId, string storeId, List<CartSkuByOperateModel> procudtSkus)
         {
             var result = new CustomJsonResult();
 

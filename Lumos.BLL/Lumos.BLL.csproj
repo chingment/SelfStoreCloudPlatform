@@ -100,8 +100,8 @@
     <Compile Include="Service\App\IndexService.cs" />
     <Compile Include="Service\App\Models\BannerModel.cs" />
     <Compile Include="Service\App\Models\CartPageModel.cs" />
-    <Compile Include="Service\App\Models\CartProcudtSkuListByOperateModel.cs" />
-    <Compile Include="Service\App\Models\CartProcudtSkuListModel.cs" />
+    <Compile Include="Service\App\Models\CartSkuByOperateModel.cs" />
+    <Compile Include="Service\App\Models\CartSkuModel.cs" />
     <Compile Include="Service\App\Models\CouponModel.cs" />
     <Compile Include="Service\App\Models\IndexPageModel.cs" />
     <Compile Include="Service\App\Models\OrderConfirmCouponModel.cs" />
@@ -112,8 +112,8 @@
     <Compile Include="Service\App\Models\PersonalPageModel.cs" />
     <Compile Include="Service\App\Models\ProductChildKindModel.cs" />
     <Compile Include="Service\App\Models\ProductParentKindModel.cs" />
-    <Compile Include="Service\App\Models\ProductSkuDetailsModel.cs" />
-    <Compile Include="Service\App\Models\ProductSkuModel.cs" />
+    <Compile Include="Service\App\Models\SkuDetailsModel.cs" />
+    <Compile Include="Service\App\Models\SkuModel.cs" />
     <Compile Include="Service\App\Models\ShippingAddressModel.cs" />
     <Compile Include="Service\App\Models\SpecModel.cs" />
     <Compile Include="Service\App\Models\SpecValueModel.cs" />

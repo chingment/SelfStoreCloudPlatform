@@ -86,7 +86,7 @@ namespace WebAppApi.Controllers
         {
             var model = BizFactory.ProductSku.GetModel(productSkuId);
 
-            var sku = new ProductSkuDetailsModel();
+            var sku = new SkuDetailsModel();
 
             sku.Id = model.Id;
             sku.Name = model.Name;

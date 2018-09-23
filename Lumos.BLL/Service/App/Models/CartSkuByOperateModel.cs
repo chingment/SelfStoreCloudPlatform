@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.App
 {
-    public class CartProcudtSkuListByOperateModel
+    public class CartSkuByOperateModel
     {
         public string SkuId { get; set; }
         public int Quantity { get; set; }

@@ -13,6 +13,6 @@ namespace WebAppApi.Models.Cart
         public string StoreId { get; set; }
         public Lumos.Entity.Enumeration.CartOperateType Operate { get; set; }
 
-        public List<CartProcudtSkuListByOperateModel> List { get; set; }
+        public List<CartSkuByOperateModel> List { get; set; }
     }
 }

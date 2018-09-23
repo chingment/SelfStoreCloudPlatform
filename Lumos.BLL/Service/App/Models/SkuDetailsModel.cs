@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.App
 {
-    public class ProductSkuDetailsModel
+    public class SkuDetailsModel
     {
         public string Id { get; set; }
         public string Name { get; set; }
