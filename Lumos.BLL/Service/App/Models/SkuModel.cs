@@ -8,9 +8,9 @@ namespace Lumos.BLL.Service.App
 {
     public class SkuModel
     {
-        public string SkuId { get; set; }
-        public string SkuName { get; set; }
-        public string SkuImgUrl { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string ImgUrl { get; set; }
         public string SalePrice { get; set; }
         public string ShowPrice { get; set; }
         public string BriefIntro { get; set; }

@@ -28,9 +28,9 @@ namespace Lumos.BLL.Service.App
                 {
                     var cartProcudtSkuModel = new CartSkuModel();
                     cartProcudtSkuModel.CartId = item.Id;
-                    cartProcudtSkuModel.SkuId = skuModel.Id;
-                    cartProcudtSkuModel.SkuName = skuModel.Name;
-                    cartProcudtSkuModel.SkuImgUrl = BizFactory.ProductSku.GetMainImg(skuModel.DispalyImgUrls);
+                    cartProcudtSkuModel.Id = skuModel.Id;
+                    cartProcudtSkuModel.Name = skuModel.Name;
+                    cartProcudtSkuModel.ImgUrl = BizFactory.ProductSku.GetMainImg(skuModel.DispalyImgUrls);
                     cartProcudtSkuModel.SalePrice = skuModel.SalePrice.ToF2Price();
                     cartProcudtSkuModel.Quantity = item.Quantity;
                     cartProcudtSkuModel.SumPrice = item.Quantity * skuModel.SalePrice;

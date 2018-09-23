@@ -32,9 +32,9 @@ namespace Lumos.BLL.Service.App
             {
                 foreach (var item in rop.Skus)
                 {
-                    var skuModel = BizFactory.ProductSku.GetModel(item.SkuId);
-                    item.SkuImgUrl = skuModel.ImgUrl;
-                    item.SkuName = skuModel.Name;
+                    var skuModel = BizFactory.ProductSku.GetModel(item.Id);
+                    item.ImgUrl = skuModel.ImgUrl;
+                    item.Name = skuModel.Name;
                     item.SalePrice = skuModel.SalePrice.ToF2Price();
                     item.SalesPriceByVip = (skuModel.SalePrice * 0.9m).ToF2Price();
 

@@ -17,7 +17,7 @@ namespace WebAppApi
         {
             var userInfo = GetUserInfo();
             if (userInfo == null)
-                return "0";
+                return "00000000000000000000000000000000";
 
             return userInfo.UserId;
         }
@@ -38,7 +38,7 @@ namespace WebAppApi
 
             userInfo = new UserInfo();
             userInfo.Token = "1";
-            userInfo.UserId = "1000";
+            userInfo.UserId = "00000000000000000000000000000000";
             userInfo.UserName = "admin";
 
             return userInfo;

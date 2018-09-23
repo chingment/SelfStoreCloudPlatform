@@ -51,9 +51,9 @@ namespace Lumos.BLL.Service.App
             {
                 olist.Add(new SkuModel
                 {
-                    SkuId = item.Id,
-                    SkuName = item.Name,
-                    SkuImgUrl = BizFactory.ProductSku.GetMainImg(item.DispalyImgUrls),
+                    Id = item.Id,
+                    Name = item.Name,
+                    ImgUrl = BizFactory.ProductSku.GetMainImg(item.DispalyImgUrls),
                     SalePrice = item.SalePrice.ToF2Price()
                 });
             }
@@ -69,8 +69,8 @@ namespace Lumos.BLL.Service.App
 
             var sku = new SkuModel();
 
-            sku.SkuId = model.Id;
-            sku.SkuName = model.Name;
+            sku.Id = model.Id;
+            sku.Name = model.Name;
             sku.SalePrice = model.SalePrice.ToF2Price();
             sku.ShowPrice = model.ShowPrice.ToF2Price();
             sku.DetailsDes = model.DetailsDes;
