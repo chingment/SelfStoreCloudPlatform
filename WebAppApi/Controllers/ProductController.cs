@@ -21,7 +21,7 @@ namespace WebAppApi.Controllers
     {
 
         [HttpGet]
-        public APIResponse GetList(string storeId, int pageIndex, string kindId, string name)
+        public APIResponse List(string storeId, int pageIndex, string kindId, string name)
         {
 
             var query = (from o in CurrentDb.ProductSku
@@ -80,9 +80,9 @@ namespace WebAppApi.Controllers
 
 
         [HttpGet]
-        public APIResponse GetSkuDetails(string userId, string productSkuId)
+        public APIResponse Details(string userId, string skuId)
         {
-            var model = BizFactory.ProductSku.GetModel(productSkuId);
+            var model = BizFactory.ProductSku.GetModel(skuId);
 
             var sku = new SkuModel();
 

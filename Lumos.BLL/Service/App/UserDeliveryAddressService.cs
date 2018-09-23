@@ -11,11 +11,6 @@ namespace Lumos.BLL.Service.App
 {
     public class UserDeliveryAddressService : BaseProvider
     {
-
-
-
-
-
         public CustomJsonResult Edit(string operater, UserDeliveryAddress shippingAddress)
         {
             CustomJsonResult result = new CustomJsonResult();
