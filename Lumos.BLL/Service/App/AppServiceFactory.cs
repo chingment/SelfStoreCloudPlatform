@@ -16,7 +16,7 @@ namespace Lumos.BLL.Service.App
             }
         }
 
-        public static ProductSkuService Product
+        public static ProductSkuService ProductSku
         {
             get
             {

@@ -11,40 +11,48 @@ namespace Lumos.BLL.Service.App
 {
     public class UserDeliveryAddressService : BaseProvider
     {
-        public CustomJsonResult Edit(string operater, UserDeliveryAddress shippingAddress)
+        public CustomJsonResult Edit(string operater, string userId, RopUserDeliveryAddressEdit rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 
-
-            if (string.IsNullOrEmpty(shippingAddress.Id))
+            var l_userDeliveryAddress = CurrentDb.UserDeliveryAddress.Where(m => m.Id == rop.Id).FirstOrDefault();
+            if (string.IsNullOrEmpty(l_userDeliveryAddress.Id))
             {
-                shippingAddress.CreateTime = this.DateTime;
-                shippingAddress.Creator = operater;
-                CurrentDb.UserDeliveryAddress.Add(shippingAddress);
+                l_userDeliveryAddress = new UserDeliveryAddress();
+                l_userDeliveryAddress.Id = GuidUtil.New();
+                l_userDeliveryAddress.UserId = userId;
+                l_userDeliveryAddress.Consignee = rop.Consignee;
+                l_userDeliveryAddress.PhoneNumber = rop.PhoneNumber;
+                l_userDeliveryAddress.AreaName = rop.AreaName;
+                l_userDeliveryAddress.AreaCode = rop.AreaCode;
+                l_userDeliveryAddress.Address = rop.Address;
+                l_userDeliveryAddress.IsDefault = rop.IsDefault;
+                l_userDeliveryAddress.CreateTime = this.DateTime;
+                l_userDeliveryAddress.Creator = operater;
+                CurrentDb.UserDeliveryAddress.Add(l_userDeliveryAddress);
                 CurrentDb.SaveChanges();
 
             }
             else
             {
-
-                var l_shippingAddress = CurrentDb.UserDeliveryAddress.Where(m => m.Id == shippingAddress.Id).FirstOrDefault();
-
-                l_shippingAddress.Consignee = shippingAddress.Consignee;
-                l_shippingAddress.PhoneNumber = shippingAddress.PhoneNumber;
-                l_shippingAddress.AreaName = shippingAddress.AreaName;
-                l_shippingAddress.Address = shippingAddress.Address;
-                l_shippingAddress.IsDefault = shippingAddress.IsDefault;
+                l_userDeliveryAddress.Consignee = rop.Consignee;
+                l_userDeliveryAddress.PhoneNumber = rop.PhoneNumber;
+                l_userDeliveryAddress.AreaName = rop.AreaName;
+                l_userDeliveryAddress.Address = rop.Address;
+                l_userDeliveryAddress.IsDefault = rop.IsDefault;
+                l_userDeliveryAddress.MendTime = this.DateTime;
+                l_userDeliveryAddress.Creator = operater;
                 CurrentDb.SaveChanges();
             }
 
-            if (shippingAddress.IsDefault)
+            if (rop.IsDefault)
             {
-                var list = CurrentDb.UserDeliveryAddress.Where(m => m.UserId == shippingAddress.UserId).ToList();
+                var list = CurrentDb.UserDeliveryAddress.Where(m => m.UserId == userId).ToList();
 
 
                 foreach (var item in list)
                 {
-                    if (item.Id != shippingAddress.Id)
+                    if (item.Id != rop.Id)
                     {
                         item.IsDefault = false;
                         CurrentDb.SaveChanges();

@@ -59,15 +59,7 @@ namespace WebAppApi.Controllers
         [HttpPost]
         public APIResponse Edit(RopUserDeliveryAddressEdit rop)
         {
-            var userDeliveryAddress = new UserDeliveryAddress();
-            userDeliveryAddress.Id = rop.Id;
-            userDeliveryAddress.UserId = this.CurrentUserId;
-            userDeliveryAddress.PhoneNumber = rop.PhoneNumber;
-            userDeliveryAddress.Consignee = rop.Consignee;
-            userDeliveryAddress.AreaName = rop.AreaName;
-            userDeliveryAddress.Address = rop.Address;
-            userDeliveryAddress.IsDefault = rop.IsDefault;
-            IResult result = AppServiceFactory.UserDeliveryAddress.Edit(this.CurrentUserId, userDeliveryAddress);
+            IResult result = AppServiceFactory.UserDeliveryAddress.Edit(this.CurrentUserId,this.CurrentUserId, rop);
             return new APIResponse(result);
         }
     }

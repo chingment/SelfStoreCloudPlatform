@@ -128,6 +128,8 @@
     <Compile Include="Service\App\RModels\RupCouponMy.cs" />
     <Compile Include="Service\App\RModels\RupGlobalDataSet.cs" />
     <Compile Include="Service\App\RModels\RupGlobalAccessToken.cs" />
+    <Compile Include="Service\App\RModels\RupProductSkuDetails.cs" />
+    <Compile Include="Service\App\RModels\RupProductSkuList.cs" />
     <Compile Include="Service\App\UserDeliveryAddressService.cs" />
     <Compile Include="Service\Term\GlobalService.cs" />
     <Compile Include="Service\Term\Models\Global\DataSetModel.cs" />
