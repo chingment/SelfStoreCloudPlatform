@@ -23,7 +23,7 @@ namespace WebAppApi.Controllers
     {
 
         [HttpGet]
-        public APIResponse GetList(string userId, string storeId, int pageIndex, string kindId, string name)
+        public APIResponse GetList(string storeId, int pageIndex, string kindId, string name)
         {
 
             var query = (from o in CurrentDb.ProductSku

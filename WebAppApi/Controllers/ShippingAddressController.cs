@@ -57,21 +57,19 @@ namespace WebAppApi.Controllers
             return new APIResponse(result);
         }
 
-        //[HttpPost]
-        //public APIResponse Edit([FromUri] RqPmsByDataSet pms, [FromBody]EditModel model)
-        //{
-        //    //var userDeliveryAddress = new UserDeliveryAddress();
-        //    //userDeliveryAddress.Id = model.Id;
-        //    //userDeliveryAddress.UserId = model.UserId;
-        //    //userDeliveryAddress.PhoneNumber = model.PhoneNumber;
-        //    //userDeliveryAddress.Consignee = model.Consignee;
-        //    //userDeliveryAddress.AreaName = model.AreaName;
-        //    //userDeliveryAddress.Address = model.Address;
-        //    //userDeliveryAddress.IsDefault = model.IsDefault;
-        //    //IResult result = AppServiceFactory.UserDeliveryAddress.Edit(model.UserId, userDeliveryAddress);
-        //    //return new APIResponse(result);
-
-        //    return null;
-        //}
+        [HttpPost]
+        public APIResponse Edit(EditModel model)
+        {
+            var userDeliveryAddress = new UserDeliveryAddress();
+            userDeliveryAddress.Id = model.Id;
+            userDeliveryAddress.UserId = model.UserId;
+            userDeliveryAddress.PhoneNumber = model.PhoneNumber;
+            userDeliveryAddress.Consignee = model.Consignee;
+            userDeliveryAddress.AreaName = model.AreaName;
+            userDeliveryAddress.Address = model.Address;
+            userDeliveryAddress.IsDefault = model.IsDefault;
+            IResult result = AppServiceFactory.UserDeliveryAddress.Edit(model.UserId, userDeliveryAddress);
+            return new APIResponse(result);
+        }
     }
 }
