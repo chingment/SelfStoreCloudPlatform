@@ -13,7 +13,7 @@ namespace Lumos.BLL.Service.App
     {
         public CartPageModel GetPageData(string pOperater, string pUserId, string pStoreId)
         {
-            var cartModel = new CartPageModel();
+            var pageModel = new CartPageModel();
 
 
             var carts = CurrentDb.UserCart.Where(m => m.UserId == pUserId && m.StoreId == pStoreId && m.Status == Enumeration.CartStatus.WaitSettle).ToList();
@@ -63,17 +63,17 @@ namespace Lumos.BLL.Service.App
                         break;
                 }
 
-                cartModel.Block.Add(carBlock);
+                pageModel.Block.Add(carBlock);
             }
 
 
 
-            cartModel.Count = skus.Sum(m => m.Quantity);
-            cartModel.SumPrice = skus.Sum(m => m.SumPrice);
-            cartModel.SumPriceBySelected = skus.Where(m => m.Selected == true).Sum(m => m.SumPrice);
-            cartModel.CountBySelected = skus.Where(m => m.Selected == true).Count();
+            pageModel.Count = skus.Sum(m => m.Quantity);
+            pageModel.SumPrice = skus.Sum(m => m.SumPrice);
+            pageModel.SumPriceBySelected = skus.Where(m => m.Selected == true).Sum(m => m.SumPrice);
+            pageModel.CountBySelected = skus.Where(m => m.Selected == true).Count();
 
-            return cartModel;
+            return pageModel;
         }
 
         private static readonly object operatelock = new object();

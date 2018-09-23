@@ -17,6 +17,9 @@ namespace Lumos.BLL.Service.App
         public int ChannelId { get; set; }
 
         public Entity.Enumeration.ChannelType ChannelType { get; set; }
+
+
+
     }
 
     public class CartPageModel

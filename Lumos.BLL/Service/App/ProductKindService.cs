@@ -10,7 +10,7 @@ namespace Lumos.BLL.Service.App
     {
         public ProductKindPageModel GetPageData(string pOperater, string pUserId, string pStoreId)
         {
-            var productKindModels = new ProductKindPageModel();
+            var pageModel = new ProductKindPageModel();
 
             var productParentKindModels = new List<ProductParentKindModel>();
 
@@ -53,9 +53,9 @@ namespace Lumos.BLL.Service.App
                 }
             }
 
-            productKindModels.List = productParentKindModels;
+            pageModel.List = productParentKindModels;
 
-            return productKindModels;
+            return pageModel;
         }
     }
 }

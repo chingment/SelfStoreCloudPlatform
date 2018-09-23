@@ -10,7 +10,7 @@ namespace Lumos.BLL.Service.App
     {
         public PersonalPageModel GetPageData(string pOperater, string pUserId, string pStoreId)
         {
-            var model = new PersonalPageModel();
+            var pageModel = new PersonalPageModel();
 
             var user = CurrentDb.SysUser.Where(m => m.Id == pUserId).FirstOrDefault();
             if (user != null)
@@ -20,11 +20,11 @@ namespace Lumos.BLL.Service.App
                 userInfo.NickName = user.UserName;
                 userInfo.Phone = user.PhoneNumber;
                 userInfo.HeadImg = "http://thirdwx.qlogo.cn/mmopen/vi_32/6zcicmSoM5yjdWG9MoHydE6suFUGaHsKATFUPU7yU4d7PhLcsKWj51NhxA4PichkuY5uWvbEvXZWBGBpJSd48GNA/132";
-                model.UserInfo = userInfo;
+                pageModel.UserInfo = userInfo;
             }
 
 
-            return model;
+            return pageModel;
         }
     }
 }
