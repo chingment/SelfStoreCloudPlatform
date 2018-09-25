@@ -53,7 +53,7 @@ namespace Lumos.BLL.Service.App
             CustomJsonResult result = new CustomJsonResult();
 
             var l_userDeliveryAddress = CurrentDb.UserDeliveryAddress.Where(m => m.Id == rop.Id).FirstOrDefault();
-            if (string.IsNullOrEmpty(l_userDeliveryAddress.Id))
+            if (l_userDeliveryAddress == null)
             {
                 l_userDeliveryAddress = new UserDeliveryAddress();
                 l_userDeliveryAddress.Id = GuidUtil.New();
