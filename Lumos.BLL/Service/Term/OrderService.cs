@@ -236,8 +236,8 @@ namespace Lumos.BLL.Service.Term
 
                 order.PayQrCodeUrl = payQrCodeUrl;
 
-                ret.OrderSn = "1";
-                ret.PayQrCodeUrl = payQrCodeUrl;
+                ret.OrderSn = order.Sn;
+                ret.PayQrCodeUrl = order.PayQrCodeUrl;
 
                 CurrentDb.Order.Add(order);
                 CurrentDb.SaveChanges(true);
