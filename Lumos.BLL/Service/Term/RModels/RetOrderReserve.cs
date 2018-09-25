@@ -14,11 +14,8 @@ namespace Lumos.BLL.Service.Term
         }
 
         public string OrderSn { get; set; }
-        public string PayUrl { get; set; }
-
+        public string PayQrCodeUrl { get; set; }
         public List<Detail> Details { get; set; }
-
-
         public class Detail
         {
             public Detail()

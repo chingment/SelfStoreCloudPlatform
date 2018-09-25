@@ -225,9 +225,19 @@ namespace Lumos.BLL.Service.Term
                     }
                 }
 
+                order.PayExpireTime = this.DateTime.AddMinutes(5);
+
+                string payQrCodeUrl = SdkFactory.Wx.Instance().GetPayQrCodeUrl(pOperater, order.Sn, order.ChargeAmount, "", Common.CommonUtils.GetIP(), "自助商品", order.PayExpireTime.Value);
+
+                if (string.IsNullOrEmpty(payQrCodeUrl))
+                {
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "支付二维码生成失败");
+                }
+
+                order.PayQrCodeUrl = payQrCodeUrl;
 
                 ret.OrderSn = "1";
-                ret.PayUrl = "http://www.baidu.com";
+                ret.PayQrCodeUrl = payQrCodeUrl;
 
                 CurrentDb.Order.Add(order);
                 CurrentDb.SaveChanges(true);

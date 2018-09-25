@@ -37,6 +37,20 @@ namespace Lumos.WeiXinSdk.Tenpay
             return prepayId;
         }
 
+        public string GetPayQrCodeUrl(UnifiedOrder order)
+        {
+
+            TenpayUnifiedOrderApi api = new TenpayUnifiedOrderApi(_config, order);
+
+            var result = _request.DoPost(_config, api);
+
+            string prepayId = null;
+
+            result.TryGetValue("code_url", out prepayId);
+
+            return prepayId;
+        }
+
         public string OrderQuery(string out_trade_no)
         {
             TenpayOrderQueryApi api = new TenpayOrderQueryApi(_config, out_trade_no);

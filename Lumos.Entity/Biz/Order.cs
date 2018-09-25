@@ -28,11 +28,12 @@ namespace Lumos.Entity
         public DateTime? CancledTime { get; set; }
         public Enumeration.OrderStatus Status { get; set; }
         public string CancelReason { get; set; }
-        public string WxPrepayId { get; set; }
-        public DateTime? WxPrepayIdExpireTime { get; set; }
         public string Creator { get; set; }
         public DateTime CreateTime { get; set; }
         public string Mender { get; set; }
         public DateTime? MendTime { get; set; }
+        public string PayPrepayId { get; set; }
+        public DateTime? PayExpireTime { get; set; }
+        public string PayQrCodeUrl { get; set; }
     }
 }
