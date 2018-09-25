@@ -252,69 +252,11 @@ namespace Lumos.BLL.Service.Term
 
         }
 
-
-
-
-        //public List<OrderReserveResult.Detail> GetReserveDetail(OrderReservePms.Detail reserveDetail, List<MachineStock> machineStocks)
-        //{
-
-        //    List<OrderReserveResult.ChildDetail> childDetail = new List<OrderReserveResult.ChildDetail>();
-
-        //    foreach (var item in machineStocks)
-        //    {
-
-        //        for (var i = 0; i < item.Quantity; i++)
-        //        {
-        //            int reservedQuantity = childDetail.Sum(m => m.Quantity);//已订的数量
-        //            int needReserveQuantity = reserveDetail.Quantity;//需要订的数量
-        //            if (reservedQuantity != needReserveQuantity)
-        //            {
-        //                childDetail.Add(new OrderReserveResult.ChildDetail { Id = GuidUtil.New(), MachineId = item.MachineId, Quantity = 1, SkuId = item.ProductSkuId, SlotId = item.SlotId });
-        //            }
-        //        }
-        //    }
-
-        //    var detailsGroup = (from c in childDetail
-        //                        group c by new
-        //                        {
-        //                            c.MachineId,
-        //                            c.SkuId,
-        //                            c.SlotId
-        //                        }
-        //                   into b
-        //                        select new
-        //                        {
-        //                            MachineId = b.Select(m => m.MachineId).First(),
-        //                            SkuId = b.Select(m => m.SkuId).First(),
-        //                            SlotId = b.Select(m => m.SlotId).First(),
-        //                            Quantity = b.Sum(p => p.Quantity),
-        //                        }).ToList();
-
-
-        //    List<OrderReserveResult.Detail> details = new List<OrderReserveResult.Detail>();
-
-        //    foreach (var item in detailsGroup)
-        //    {
-        //        var detail = new OrderReserveResult.Detail();
-
-        //        detail.MachineId = item.MachineId;
-        //        detail.SkuId = item.SkuId;
-        //        detail.SlotId = item.SlotId;
-        //        detail.Quantity = item.Quantity;
-        //        detail.Details = childDetail.Where(m => m.MachineId == item.MachineId && m.SkuId == item.SkuId && m.SlotId == item.SlotId).ToList();
-
-        //        details.Add(detail);
-        //    }
-
-        //    return details;
-        //}
-
-
-        public List<RetOrderReserve.Detail> GetReserveDetail(List<RopOrderReserve.Detail> reserveDetails, List<MachineStock> machineStocks)
+        public List<OrderReserveDetail> GetReserveDetail(List<RopOrderReserve.Detail> reserveDetails, List<MachineStock> machineStocks)
         {
-            List<RetOrderReserve.Detail> details = new List<RetOrderReserve.Detail>();
+            List<OrderReserveDetail> details = new List<OrderReserveDetail>();
 
-            List<RetOrderReserve.DetailChildSon> detailChildSons = new List<RetOrderReserve.DetailChildSon>();
+            List<OrderReserveDetail.DetailChildSon> detailChildSons = new List<OrderReserveDetail.DetailChildSon>();
 
             foreach (var reserveDetail in reserveDetails)
             {
@@ -332,7 +274,7 @@ namespace Lumos.BLL.Service.Term
 
                             var product = BizFactory.ProductSku.GetModel(item.ProductSkuId);
 
-                            var detailChildSon = new RetOrderReserve.DetailChildSon();
+                            var detailChildSon = new OrderReserveDetail.DetailChildSon();
                             detailChildSon.Id = GuidUtil.New();
                             detailChildSon.MachineId = item.MachineId;
                             detailChildSon.SkuId = item.ProductSkuId;
@@ -378,7 +320,7 @@ namespace Lumos.BLL.Service.Term
 
             foreach (var detailGroup in detailGroups)
             {
-                var detail = new RetOrderReserve.Detail();
+                var detail = new OrderReserveDetail();
 
                 detail.MachineId = detailGroup.MachineId;
                 detail.Quantity = detailChildSons.Where(m => m.MachineId == detailGroup.MachineId).Sum(m => m.Quantity);
@@ -398,7 +340,7 @@ namespace Lumos.BLL.Service.Term
                 foreach (var detailChildGroup in detailChildGroups)
                 {
 
-                    var detailChild = new RetOrderReserve.DetailChild();
+                    var detailChild = new OrderReserveDetail.DetailChild();
 
                     detailChild.MachineId = detailChildGroup.MachineId;
                     detailChild.SkuId = detailChildGroup.SkuId;
@@ -431,7 +373,7 @@ namespace Lumos.BLL.Service.Term
 
                     foreach (var detailChildSonGroup in detailChildSonGroups)
                     {
-                        var detailChildSon = new RetOrderReserve.DetailChildSon();
+                        var detailChildSon = new OrderReserveDetail.DetailChildSon();
                         detailChildSon.Id = detailChildSonGroup.Id;
                         detailChildSon.MachineId = detailChildSonGroup.MachineId;
                         detailChildSon.SkuId = detailChildSonGroup.SkuId;
@@ -461,7 +403,7 @@ namespace Lumos.BLL.Service.Term
 
                     foreach (var slotStockGroup in slotStockGroups)
                     {
-                        var slotStock = new RetOrderReserve.SlotStock();
+                        var slotStock = new OrderReserveDetail.SlotStock();
                         slotStock.MachineId = slotStockGroup.MachineId;
                         slotStock.SkuId = slotStockGroup.SkuId;
                         slotStock.SlotId = slotStockGroup.SlotId;

@@ -10,26 +10,29 @@ namespace Lumos.BLL.Service.Term
     {
         public RetOrderReserve()
         {
-            this.Details = new List<Detail>();
+            
         }
 
         public string OrderSn { get; set; }
         public string PayQrCodeUrl { get; set; }
-        public List<Detail> Details { get; set; }
-        public class Detail
-        {
-            public Detail()
-            {
-                this.Details = new List<DetailChild>();
-            }
-            public string MachineId { get; set; }
-            public int Quantity { get; set; }
-            public decimal OriginalAmount { get; set; }
-            public decimal DiscountAmount { get; set; }
-            public decimal ChargeAmount { get; set; }
-            public List<DetailChild> Details { get; set; }
 
+    }
+
+
+
+    public class OrderReserveDetail
+    {
+        public OrderReserveDetail()
+        {
+            this.Details = new List<DetailChild>();
         }
+        public string MachineId { get; set; }
+        public int Quantity { get; set; }
+        public decimal OriginalAmount { get; set; }
+        public decimal DiscountAmount { get; set; }
+        public decimal ChargeAmount { get; set; }
+        public List<DetailChild> Details { get; set; }
+
 
         public class DetailChild
         {
@@ -67,7 +70,6 @@ namespace Lumos.BLL.Service.Term
             public decimal ChargeAmount { get; set; }
         }
 
-
         public class SlotStock
         {
             public string MachineId { get; set; }
@@ -76,4 +78,5 @@ namespace Lumos.BLL.Service.Term
             public int Quantity { get; set; }
         }
     }
+
 }
