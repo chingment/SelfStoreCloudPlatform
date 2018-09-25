@@ -1,6 +1,7 @@
 ﻿
 using log4net;
 using Lumos.BLL;
+using Lumos.BLL.Service.App;
 using Lumos.Common;
 using Lumos.DAL;
 using Lumos.Entity;
@@ -125,5 +126,34 @@ namespace WebAppApi.Controllers
 
         //}
 
+
+        //public string OrderConfirm(string userId, string storeId)
+        //{
+        //    RopOrderConfirm model = new RopOrderConfirm();
+
+        //    model.StoreId = "BE9AE32C554D4942BE4A42FA48446210";
+        //    model.Skus.Add(new OrderConfirmSkuModel {  Id})
+        //    model.PhoneNumber = "15989287032";
+        //    model.Address = "3123";
+        //    model.AreaCode = "1";
+        //    model.AreaName = "2";
+        //    model.Consignee = "Sda";
+
+        //    string a1 = JsonConvert.SerializeObject(model);
+
+        //    string signStr = Signature.Compute(key, secret, timespan, a1);
+
+
+        //    Dictionary<string, string> headers = new Dictionary<string, string>();
+        //    headers.Add("key", key);
+        //    headers.Add("timestamp", timespan.ToString());
+        //    headers.Add("sign", signStr);
+        //    headers.Add("version", "1.3.0.7");
+        //    HttpUtil http = new HttpUtil();
+        //    string result = http.HttpPostJson("" + host + "/api/ShippingAddress/Edit?userId=1&storeId=2", a1, headers);
+
+        //    return result;
+
+        //}
     }
 }

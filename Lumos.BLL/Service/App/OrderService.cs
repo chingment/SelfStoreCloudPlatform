@@ -33,17 +33,20 @@ namespace Lumos.BLL.Service.App
                 foreach (var item in rop.Skus)
                 {
                     var skuModel = BizFactory.ProductSku.GetModel(item.Id);
-                    item.ImgUrl = skuModel.ImgUrl;
-                    item.Name = skuModel.Name;
-                    item.SalePrice = skuModel.SalePrice.ToF2Price();
-                    item.SalesPriceByVip = (skuModel.SalePrice * 0.9m).ToF2Price();
-                    item.ChannelType = Enumeration.ChannelType.SelfPick;
-                    item.ChannelId = 1;
-                    skuAmountByOriginal += (skuModel.SalePrice * item.Quantity);
-                    skuAmountByMemebr += (skuModel.SalePrice * item.Quantity);
-                    skuAmountByVip += (skuModel.SalePrice * 0.9m * item.Quantity);
+                    if (skuModel != null)
+                    {
+                        item.ImgUrl = BizFactory.ProductSku.GetMainImg(skuModel.DispalyImgUrls);
+                        item.Name = skuModel.Name;
+                        item.SalePrice = skuModel.SalePrice.ToF2Price();
+                        item.SalesPriceByVip = (skuModel.SalePrice * 0.9m).ToF2Price();
+                        item.ChannelType = Enumeration.ChannelType.SelfPick;
+                        item.ChannelId = 1;
+                        skuAmountByOriginal += (skuModel.SalePrice * item.Quantity);
+                        skuAmountByMemebr += (skuModel.SalePrice * item.Quantity);
+                        skuAmountByVip += (skuModel.SalePrice * 0.9m * item.Quantity);
 
-                    skus.Add(item);
+                        skus.Add(item);
+                    }
                 }
             }
 

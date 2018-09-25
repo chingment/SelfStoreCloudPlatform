@@ -340,16 +340,12 @@ namespace Lumos.BLL.Service.Term
             }
 
             var sumOriginalAmount = detailChildSons.Sum(m => m.OriginalAmount);
-            var sumDiscountAmount = 2.3m;
+            var sumDiscountAmount = 0m;
             for (int i = 0; i < detailChildSons.Count; i++)
             {
-
                 decimal scale = (detailChildSons[i].OriginalAmount / sumOriginalAmount);
                 detailChildSons[i].DiscountAmount = Decimal.Round(scale * sumDiscountAmount, 2);
                 detailChildSons[i].ChargeAmount = detailChildSons[i].OriginalAmount - detailChildSons[i].DiscountAmount;
-
-
-
             }
 
             var sumDiscountAmount2 = detailChildSons.Sum(m => m.DiscountAmount);
