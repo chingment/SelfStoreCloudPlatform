@@ -19,37 +19,7 @@ namespace WebAppApi.Controllers
         [HttpGet]
         public APIResponse My()
         {
-            var query = (from o in CurrentDb.UserDeliveryAddress
-                         where
-                         o.UserId == this.CurrentUserId &&
-                         o.IsDelete == false
-                         select new { o.Id, o.Consignee, o.PhoneNumber, o.Address, o.AreaName, o.AreaCode, o.IsDefault, o.CreateTime }
-              );
-
-
-
-            query = query.OrderByDescending(r => r.CreateTime);
-
-            var list = query.ToList();
-
-
-            var model = new List<object>();
-
-
-            foreach (var m in list)
-            {
-
-                model.Add(new
-                {
-                    m.Id,
-                    m.Consignee,
-                    m.PhoneNumber,
-                    m.Address,
-                    m.AreaName,
-                    m.AreaCode,
-                    m.IsDefault
-                });
-            }
+            var list = AppServiceFactory.UserDeliveryAddress.My(this.CurrentUserId, this.CurrentUserId);
 
             APIResult result = new APIResult() { Result = ResultType.Success, Code = ResultCode.Success, Message = "", Data = model };
 
@@ -59,7 +29,7 @@ namespace WebAppApi.Controllers
         [HttpPost]
         public APIResponse Edit([FromBody]RopUserDeliveryAddressEdit rop)
         {
-            IResult result = AppServiceFactory.UserDeliveryAddress.Edit(this.CurrentUserId,this.CurrentUserId, rop);
+            IResult result = AppServiceFactory.UserDeliveryAddress.Edit(this.CurrentUserId, this.CurrentUserId, rop);
             return new APIResponse(result);
         }
     }

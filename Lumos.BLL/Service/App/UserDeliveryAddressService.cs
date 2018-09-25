@@ -12,7 +12,7 @@ namespace Lumos.BLL.Service.App
     public class UserDeliveryAddressService : BaseProvider
     {
 
-        public List<UserDeliveryAddressModel> List(string operater, string userId)
+        public List<UserDeliveryAddressModel> My(string operater, string userId)
         {
             var model = new List<UserDeliveryAddressModel>();
 
