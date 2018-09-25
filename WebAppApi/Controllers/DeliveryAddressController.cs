@@ -21,7 +21,7 @@ namespace WebAppApi.Controllers
         {
             var list = AppServiceFactory.UserDeliveryAddress.My(this.CurrentUserId, this.CurrentUserId);
 
-            APIResult result = new APIResult() { Result = ResultType.Success, Code = ResultCode.Success, Message = "", Data = model };
+            APIResult result = new APIResult() { Result = ResultType.Success, Code = ResultCode.Success, Message = "", Data = list };
 
             return new APIResponse(result);
         }
