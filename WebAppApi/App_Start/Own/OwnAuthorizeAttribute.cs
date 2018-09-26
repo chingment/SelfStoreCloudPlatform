@@ -18,6 +18,7 @@ using Lumos;
 using Lumos.BLL;
 using Lumos.Common;
 using System.Web.Http;
+using Newtonsoft.Json.Linq;
 
 namespace WebAppApi
 {
@@ -98,29 +99,10 @@ namespace WebAppApi
                     Stream stream = HttpContext.Current.Request.InputStream;
                     stream.Seek(0, SeekOrigin.Begin);
                     app_data = new StreamReader(stream).ReadToEnd();
+                    //JObject  s = JObject.Parse(app_data);
+                    //s.Remove("")
+                    //JObject a=Newtonsoft.Json.JsonConvert.DeserializeObject<>()
 
-                    LogUtil.Info("app_data:" + app_data);
-
-                    #region 过滤图片
-                    if (app_data.LastIndexOf(",\"ImgData\":{") > -1)
-                    {
-                        //Log.Info("去掉图片之前的数据：" + app_data);
-                        int x = app_data.LastIndexOf(",\"ImgData\":{");
-                        app_data = app_data.Substring(0, x);
-                        app_data += "}";
-                        //Log.Info("去掉图片之后的数据：" + app_data);
-
-                    }
-                    else if (app_data.LastIndexOf(",\"imgData\":{") > -1)
-                    {
-                        // Log.Info("去掉图片之前的数据：" + app_data);
-                        int x = app_data.LastIndexOf(",\"imgData\":{");
-                        app_data = app_data.Substring(0, x);
-                        app_data += "}";
-                        //Log.Info("去掉图片之后的数据：" + app_data);
-                    }
-
-                    #endregion
                 }
                 else
                 {

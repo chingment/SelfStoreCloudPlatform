@@ -165,7 +165,7 @@ namespace WebTermApi.Controllers
             pms.MachineId = machineId;
             pms.PayWay = "";
 
-            pms.Details.Add(new RopOrderReserve.Detail() { SkuId = "1", Quantity = 8 });
+            pms.Details.Add(new RopOrderReserve.Detail() { SkuId = "1", Quantity = 1 });
             pms.Details.Add(new RopOrderReserve.Detail() { SkuId = "2", Quantity = 1 });
             pms.Details.Add(new RopOrderReserve.Detail() { SkuId = "3", Quantity = 1 });
             pms.Details.Add(new RopOrderReserve.Detail() { SkuId = "4", Quantity = 1 });

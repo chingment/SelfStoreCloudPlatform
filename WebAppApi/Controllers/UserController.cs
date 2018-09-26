@@ -19,8 +19,8 @@ namespace WebAppApi.Controllers
     public class UserController : OwnBaseApiController
     {
         [AllowAnonymous]
-        [HttpGet]
-        public APIResponse Oauth2()
+        [HttpPost]
+        public APIResponse Authorize()
         {
             return null;
         }

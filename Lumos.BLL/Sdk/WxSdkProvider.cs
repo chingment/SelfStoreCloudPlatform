@@ -46,45 +46,45 @@ namespace Lumos.BLL
             }
         }
 
-        public string GetPayPrepayId(string operater, string trade_type, string openid, string orderSn, decimal orderAmount, string goods_tag, string ip, string body, DateTime? time_expire = null)
+        //public string GetPayPrepayId(string operater, string trade_type, string openid, string orderSn, decimal orderAmount, string goods_tag, string ip, string body, DateTime? time_expire = null)
+        //{
+        //    CustomJsonResult result = new CustomJsonResult();
+
+
+        //    TenpayUtil tenpayUtil = new TenpayUtil(wxConfig);
+
+        //    UnifiedOrder unifiedOrder = new UnifiedOrder();
+        //    unifiedOrder.openid = openid;
+        //    unifiedOrder.out_trade_no = orderSn;//商户订单号
+        //    unifiedOrder.spbill_create_ip = ip;//终端IP
+        //    unifiedOrder.total_fee = Convert.ToInt32(orderAmount * 100);//标价金额
+        //    unifiedOrder.body = body;//商品描述  
+        //    unifiedOrder.trade_type = trade_type;
+        //    if (time_expire != null)
+        //    {
+        //        unifiedOrder.time_expire = time_expire.Value.ToString("yyyyMMddHHmmss");
+        //    }
+
+        //    if (!string.IsNullOrEmpty(goods_tag))
+        //    {
+        //        unifiedOrder.goods_tag = goods_tag;
+        //    }
+
+        //    string prepayId = tenpayUtil.GetPrepayId(unifiedOrder);
+
+        //    //using (TransactionScope ts = new TransactionScope())
+        //    //{
+
+        //    //    result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
+        //    //}
+
+        //    return prepayId;
+        //}
+
+        public UnifiedOrderResult UnifiedOrder(string operater, string orderSn, decimal orderAmount, string goods_tag, string ip, string body, DateTime? time_expire = null)
         {
-            CustomJsonResult result = new CustomJsonResult();
 
-
-            TenpayUtil tenpayUtil = new TenpayUtil(wxConfig);
-
-            UnifiedOrder unifiedOrder = new UnifiedOrder();
-            unifiedOrder.openid = openid;
-            unifiedOrder.out_trade_no = orderSn;//商户订单号
-            unifiedOrder.spbill_create_ip = ip;//终端IP
-            unifiedOrder.total_fee = Convert.ToInt32(orderAmount * 100);//标价金额
-            unifiedOrder.body = body;//商品描述  
-            unifiedOrder.trade_type = trade_type;
-            if (time_expire != null)
-            {
-                unifiedOrder.time_expire = time_expire.Value.ToString("yyyyMMddHHmmss");
-            }
-
-            if (!string.IsNullOrEmpty(goods_tag))
-            {
-                unifiedOrder.goods_tag = goods_tag;
-            }
-
-            string prepayId = tenpayUtil.GetPrepayId(unifiedOrder);
-
-            //using (TransactionScope ts = new TransactionScope())
-            //{
-
-            //    result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
-            //}
-
-            return prepayId;
-        }
-
-        public string GetPayQrCodeUrl(string operater, string orderSn, decimal orderAmount, string goods_tag, string ip, string body, DateTime? time_expire = null)
-        {
-            CustomJsonResult result = new CustomJsonResult();
-
+            var ret = new UnifiedOrderResult();
 
             TenpayUtil tenpayUtil = new TenpayUtil(wxConfig);
 
@@ -105,15 +105,10 @@ namespace Lumos.BLL
                 unifiedOrder.goods_tag = goods_tag;
             }
 
-            string payCodeUrl = tenpayUtil.GetPayQrCodeUrl(unifiedOrder);
+            ret = tenpayUtil.UnifiedOrder(unifiedOrder);
 
-            //using (TransactionScope ts = new TransactionScope())
-            //{
+            return ret;
 
-            //    result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
-            //}
-
-            return payCodeUrl;
         }
 
 

@@ -102,6 +102,7 @@
     <Compile Include="Tenpay\ITenpayPostApi.cs" />
     <Compile Include="IWxConfig.cs" />
     <Compile Include="Tenpay\ITenpayRequest.cs" />
+    <Compile Include="Tenpay\Model\UnifiedOrderResult.cs" />
     <Compile Include="Tenpay\Post\TenpayCouponQueryInfoApi.cs" />
     <Compile Include="Tenpay\Post\TenpayMmPayMktTransfersSendCouponApi.cs" />
     <Compile Include="Tenpay\Post\TenpayOrderPayReFundApi.cs" />

@@ -145,6 +145,7 @@
     <Compile Include="Service\Term\Models\Machine\ApiConfigModel.cs" />
     <Compile Include="Service\Term\RModels\RetOrderReserve.cs" />
     <Compile Include="Service\Term\RModels\RopOrderReserve.cs" />
+    <Compile Include="Service\Term\RModels\RopUserAuthorize.cs" />
     <Compile Include="Service\Term\RModels\RupGlobalDataSet.cs" />
     <Compile Include="Service\Term\RModels\RupMachineApiConfig.cs" />
     <Compile Include="Service\Term\RModels\RupMachineGetSlotSkuStock.cs" />

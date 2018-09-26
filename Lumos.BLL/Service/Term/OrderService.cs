@@ -49,16 +49,33 @@ namespace Lumos.BLL.Service.Term
 
                 if (skusByStock.Count == 0)
                 {
-                    //todo 提示已没有可买的商品
-                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "可预定的商品为空，请选择商品");
+                    string tips = "";
+                    foreach (var item in skusByStock)
+                    {
+                        var skuModel = BizFactory.ProductSku.GetModel(item.ProductSkuId);
+
+                        tips += skuModel.Name + "、";
+                    }
+
+                    tips = tips.Substring(0, tips.Length - 1);
+
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, tips + ",可预定数量不足");
                 }
 
                 //检查是否有下架的商品
                 var skusByOffSell = skusByStock.Where(m => m.IsOffSell == true).ToList();
                 if (skusByOffSell.Count > 0)
                 {
-                    //todo 提示已下架的商品
-                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "可预定的商品已经下架");
+                    string tips = "";
+                    foreach (var item in skusByOffSell)
+                    {
+                        var skuModel = BizFactory.ProductSku.GetModel(item.ProductSkuId);
+
+                        tips += skuModel.Name + "、";
+                    }
+
+                    tips = tips.Substring(0, tips.Length - 1);
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, tips + "已经下架");
                 }
 
                 //检查是否有预定的商品数量与库存数量不对应
@@ -78,11 +95,19 @@ namespace Lumos.BLL.Service.Term
 
                 if (skusByUnderStock.Count > 0)
                 {
-                    //todo 提示库存不足
-                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "可预定的商品数量不足，再支付");
+                    string tips = "";
+                    foreach (var item in skusByUnderStock)
+                    {
+                        var skuModel = BizFactory.ProductSku.GetModel(item.SkuId);
+
+                        tips += skuModel.Name + "的最大库存为" + item.SellQuantity + ";";
+                    }
+
+                    tips = tips.Substring(0, tips.Length - 1);
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, tips);
                 }
 
-                var storeId = CurrentDb.Store.Where(m => m.Id == rop.StoreId).FirstOrDefault();
+                var store = CurrentDb.Store.Where(m => m.Id == rop.StoreId).FirstOrDefault();
 
                 var order = new Order();
                 order.Id = GuidUtil.New();
@@ -132,7 +157,7 @@ namespace Lumos.BLL.Service.Term
                     {
                         orderDetails.Receiver = null;
                         orderDetails.ReceiverPhone = null;
-                        orderDetails.ReceptionAddress = storeId.Address;
+                        orderDetails.ReceptionAddress = store.Address;
                     }
 
                     CurrentDb.OrderDetails.Add(orderDetails);
@@ -227,20 +252,22 @@ namespace Lumos.BLL.Service.Term
 
                 order.PayExpireTime = this.DateTime.AddMinutes(5);
 
-                string payQrCodeUrl = SdkFactory.Wx.Instance().GetPayQrCodeUrl(pOperater, order.Sn, order.ChargeAmount, "", Common.CommonUtils.GetIP(), "自助商品", order.PayExpireTime.Value);
+                var ret_UnifiedOrder = SdkFactory.Wx.Instance().UnifiedOrder(pOperater, order.Sn, order.ChargeAmount, "", Common.CommonUtils.GetIP(), "自助商品", order.PayExpireTime.Value);
 
-                if (string.IsNullOrEmpty(payQrCodeUrl))
+                if (string.IsNullOrEmpty(ret_UnifiedOrder.CodeUrl))
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "支付二维码生成失败");
                 }
 
-                order.PayQrCodeUrl = payQrCodeUrl;
+                order.PayPrepayId = ret_UnifiedOrder.PrepayId;
+                order.PayQrCodeUrl = ret_UnifiedOrder.CodeUrl;
+
+                CurrentDb.Order.Add(order);
+                CurrentDb.SaveChanges(true);
 
                 ret.OrderSn = order.Sn;
                 ret.PayQrCodeUrl = order.PayQrCodeUrl;
 
-                CurrentDb.Order.Add(order);
-                CurrentDb.SaveChanges(true);
                 ts.Complete();
 
                 result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "预定成功", ret);
@@ -265,7 +292,7 @@ namespace Lumos.BLL.Service.Term
                 //bool isFlag = false;
                 foreach (var item in l_machineStocks)
                 {
-                    for (var i = 0; i < item.Quantity; i++)
+                    for (var i = 0; i < item.SellQuantity; i++)
                     {
                         int reservedQuantity = detailChildSons.Where(m => m.SkuId == reserveDetail.SkuId).Sum(m => m.Quantity);//已订的数量
                         int needReserveQuantity = reserveDetail.Quantity;//需要订的数量
