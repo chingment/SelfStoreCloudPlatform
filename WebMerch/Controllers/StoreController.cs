@@ -110,7 +110,7 @@ namespace WebMerch.Controllers
                          (name.Length == 0 || u.Name.Contains(name))
                          && p.IsBind == true
                          && p.MerchantId == this.CurrentUserId
-                         select new { u.Id, p.Name, u.DeviceId }).Distinct();
+                         select new { u.Id, p.MachineName, u.DeviceId }).Distinct();
 
             int total = query.Count();
 
@@ -126,7 +126,7 @@ namespace WebMerch.Controllers
                 olist.Add(new
                 {
                     item.Id,
-                    item.Name,
+                    item.MachineName,
                     item.DeviceId
                 });
 
@@ -157,7 +157,7 @@ namespace WebMerch.Controllers
                          (name.Length == 0 || u.Name.Contains(name))
                          && p.MerchantId == this.CurrentUserId
                          && p.IsBind==true
-                         select new { u.Id, p.Name, u.DeviceId }).Distinct();
+                         select new { u.Id, p.MachineName, u.DeviceId }).Distinct();
 
             int total = query.Count();
 
@@ -173,7 +173,7 @@ namespace WebMerch.Controllers
                 olist.Add(new
                 {
                     item.Id,
-                    item.Name,
+                    item.MachineName,
                     item.DeviceId
                 });
 

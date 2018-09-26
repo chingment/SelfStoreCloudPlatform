@@ -10,21 +10,21 @@
         var list_machine;
         $(this).ready(function () {
             $.formValidator.initConfig({ formID: "form_merchant", onError: function (msg) { $.lumos.tips(msg); }, onSuccess: function () { return submit(); } });
-            $("#Model_SysMerchatUser_Password").formValidator().regexValidator({ regExp: regexEnum.password, onError: "密码由6到20个数字、英文字母或下划线组成" });
-            $("#Model_SysMerchatUser_Password").attr("disabled", true).unFormValidator(true);
-            $("#Model_Merchant_ContactName").formValidator().inputValidator({ min: 1, max: 100, onError: "联系人不能为空，且不超过100个字符" });
-            $("#Model_Merchant_ContactPhone").formValidator().inputValidator({ min: 1, max: 100, onError: "联系电话不能为空，且不超过100个字符" });
+            $("#Model_SysMerchantUser_Password").formValidator().regexValidator({ regExp: regexEnum.password, onError: "密码由6到20个数字、英文字母或下划线组成" });
+            $("#Model_SysMerchantUser_Password").attr("disabled", true).unFormValidator(true);
+            $("#Model_SysMerchantUser_ContactName").formValidator().inputValidator({ min: 1, max: 100, onError: "联系人不能为空，且不超过100个字符" });
+            $("#Model_SysMerchantUser_ContactPhone").formValidator().inputValidator({ min: 1, max: 100, onError: "联系电话不能为空，且不超过100个字符" });
 
             $("#abtn-editPwd").toggle(function () {
                 $("#lbl_Password").hide();
-                $("#Model_SysMerchatUser_Password").show();
-                $("#Model_SysMerchatUser_Password").attr("disabled", false).unFormValidator(false);
+                $("#Model_SysMerchantUser_Password").show();
+                $("#Model_SysMerchantUser_Password").attr("disabled", false).unFormValidator(false);
                 $(this).text("取消");
             }, function () {
                 $("#lbl_Password").show();
-                $("#Model_SysMerchatUser_Password").hide();
-                $("#Model_SysMerchatUser_Password").val("");
-                $("#Model_SysMerchatUser_Password").attr("disabled", true).unFormValidator(true);
+                $("#Model_SysMerchantUser_Password").hide();
+                $("#Model_SysMerchantUser_Password").val("");
+                $("#Model_SysMerchantUser_Password").attr("disabled", true).unFormValidator(true);
                 $(this).text("修改");
             });
 
@@ -128,8 +128,8 @@ function () {
         <div class="tab-content">
             <div class="subcontent">
                 <form id="form_merchant">
-                    <input name="Model.Merchant.Id" type="hidden" value="@Model.Merchant.Id" />
-                    <input name="Model.SysMerchatUser.UserName" type="hidden" value="@Model.SysMerchatUser.UserName" />
+                    <input name="Model.SysMerchantUser.Id" type="hidden" value="@Model.SysMerchantUser.Id" />
+                    <input name="Model.SysMerchantUser.UserName" type="hidden" value="@Model.SysMerchantUser.UserName" />
                     <div class="gbr-row-title clearfix">
                         <div class="pull-left">
                             <h5>账号信息</h5>
@@ -145,7 +145,7 @@ function () {
                                 账号：
                             </td>
                             <td class="f-tb-c">
-                                @Model.SysMerchatUser.UserName
+                                @Model.SysMerchantUser.UserName
                             </td>
                         </tr>
                         <tr>
@@ -174,7 +174,7 @@ function () {
                                 商户名称：
                             </td>
                             <td class="f-tb-c">
-                                @Model.Merchant.Name
+                                @Model.SysMerchantUser.MerchantName
                             </td>
                         </tr>
                         <tr>
@@ -182,7 +182,7 @@ function () {
                                 <span class="required-symbol">*</span>联系人：
                             </td>
                             <td class="f-tb-c">
-                                <input name="Model.Merchant.ContactName" class="input-control" type="text" id="Model_Merchant_ContactName" style="width: 150px;" value="@Model.Merchant.ContactName" />
+                                <input name="Model.SysMerchantUser.ContactName" class="input-control" type="text" id="Model_SysMerchantUser_ContactName" style="width: 150px;" value="@Model.SysMerchantUser.ContactName" />
                             </td>
                         </tr>
                         <tr>
@@ -190,7 +190,7 @@ function () {
                                 <span class="required-symbol">*</span>联系电话：
                             </td>
                             <td class="f-tb-c">
-                                <input name="Model.Merchant.ContactPhone" class="input-control" type="text" id="Model_Merchant_ContactPhone" style="width: 150px;" value="@Model.Merchant.ContactPhone" />
+                                <input name="Model.SysMerchantUser.ContactPhone" class="input-control" type="text" id="Model_SysMerchantUser_ContactPhone" style="width: 150px;" value="@Model.SysMerchantUser.ContactPhone" />
                             </td>
                         </tr>
                         <tr>
@@ -198,7 +198,7 @@ function () {
                                 联系地址：
                             </td>
                             <td class="f-tb-c">
-                                <input name="Model.Merchant.ContactAddress" class="input-control" type="text" id="Model_Merchant_ContactAddress" style="width: 150px;" value="@Model.Merchant.ContactAddress" />
+                                <input name="Model.SysMerchantUser.ContactAddress" class="input-control" type="text" id="Model_SysMerchantUser_ContactAddress" style="width: 150px;" value="@Model.SysMerchantUser.ContactAddress" />
                             </td>
                         </tr>
                         <tr>
@@ -214,7 +214,7 @@ function () {
             <div class="subcontent">
 
                 <form id="form_machine" name="form_machine">
-                    <input id="Id" name="Id" type="hidden" value="@Model.Merchant.Id" />
+                    <input id="Id" name="Id" type="hidden" value="@Model.SysMerchantUser.Id" />
                     <div class="search-bar">
                         <div class="filter">
                             <span class="filter-label">名称：</span>

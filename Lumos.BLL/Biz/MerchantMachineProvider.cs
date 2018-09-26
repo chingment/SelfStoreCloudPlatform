@@ -28,13 +28,11 @@ namespace Lumos.BLL
                 lMachine.MendTime = this.DateTime;
                 lMachine.Mender = pOperater;
 
-                var lMerchant = CurrentDb.MerchantConfig.Where(m => m.Id == pMerchantId).FirstOrDefault();
                 var lMerchantMachine = CurrentDb.MerchantMachine.Where(m => m.MerchantId == pMerchantId && m.MachineId == pMachineId).FirstOrDefault();
                 if (lMerchantMachine == null)
                 {
                     lMerchantMachine = new MerchantMachine();
                     lMerchantMachine.Id = GuidUtil.New();
-                    lMerchantMachine.MerchantId = lMerchant.MerchantId;
                     lMerchantMachine.MerchantId = pMerchantId;
                     lMerchantMachine.MachineId = pMachineId;
                     lMerchantMachine.IsBind = true;
@@ -96,7 +94,7 @@ namespace Lumos.BLL
         public CustomJsonResult Edit(string pOperater, MerchantMachine pMerchantMachine)
         {
             var l_MerchantMachine = CurrentDb.MerchantMachine.Where(m => m.Id == pMerchantMachine.Id).FirstOrDefault();
-            l_MerchantMachine.Name = pMerchantMachine.Name;
+            l_MerchantMachine.MachineName = pMerchantMachine.MachineName;
             l_MerchantMachine.Mender = pOperater;
             l_MerchantMachine.MendTime = DateTime.Now;
             CurrentDb.SaveChanges();

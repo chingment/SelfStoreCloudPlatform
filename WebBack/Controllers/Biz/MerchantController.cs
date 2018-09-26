@@ -49,7 +49,7 @@ namespace WebBack.Controllers.Biz
                          join u in CurrentDb.SysUser on m.Id equals u.Id
                          where
                                  (name.Length == 0 || m.MerchantName.Contains(name))
-                         select new { m.Id, u.UserName, m.MerchantName, m.ContactName, m.ContactPhone, m.CreateTime });
+                         select new { m.Id, u.UserName, m.MerchantName, m.ContactName,m.ContactAddress, m.ContactPhone, m.CreateTime });
 
             int total = query.Count();
 
@@ -69,7 +69,8 @@ namespace WebBack.Controllers.Biz
                     item.MerchantName,
                     item.ContactName,
                     item.ContactPhone,
-                    item.CreateTime
+                    item.CreateTime,
+                    item.ContactAddress
                 });
 
 
@@ -85,14 +86,14 @@ namespace WebBack.Controllers.Biz
         {
             model.SysMerchantUser.UserName = string.Format("{0}{1}", "M", model.SysMerchantUser.UserName);
 
-            return BizFactory.Merchant.Add(this.CurrentUserId, model.SysMerchantUser, model.MerchantConfig);
+            return BizFactory.Merchant.Add(this.CurrentUserId, model.SysMerchantUser);
         }
 
         [HttpPost]
 
         public CustomJsonResult Edit(EditViewModel model)
         {
-            return BizFactory.Merchant.Edit(this.CurrentUserId, model.SysMerchantUser, model.MerchantConfig);
+            return BizFactory.Merchant.Edit(this.CurrentUserId, model.SysMerchantUser);
         }
 
 

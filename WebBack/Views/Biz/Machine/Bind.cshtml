@@ -13,7 +13,7 @@
         });
 
         function edit() {
-            var merchantId = $('#Model_Merchant_Id').val();
+            var merchantId = $('#Model_SysMerchantUser_Id').val();
             if (merchantId == '') {
                 $.lumos.tips('请选择商户');
                 return;
@@ -48,13 +48,13 @@ function () {
             return false;
         }
 
-        function getMachineDetails(obj) {
+        function getMerchantDetails(obj) {
 
-            $('#Model_Merchant_Id').val(obj.id);
-            $('#lbl_Merchant_Name').text(obj.name);
-            $('#lbl_Merchant_ContactName').text(obj.contactName);
-            $('#lbl_Merchant_ContactPhone').text(obj.contactPhone);
-            $('#lbl_Merchant_ContactAddress').text(obj.contactAddress);
+            $('#Model_SysMerchantUser_Id').val(obj.id);
+            $('#lbl_SysMerchantUser_MerchantName').text(obj.merchantName);
+            $('#lbl_SysMerchantUser_ContactName').text(obj.contactName);
+            $('#lbl_SysMerchantUser_ContactPhone').text(obj.contactPhone);
+            $('#lbl_SysMerchantUser_ContactAddress').text(obj.contactAddress);
         }
 
         //-->
@@ -64,7 +64,7 @@ function () {
 <form id="form1">
 
     <input name="Model.Machine.Id" id="Model_Machine_Id" type="hidden" value="@Model.Machine.Id" />
-    <input name="Model.Merchant.Id" id="Model_Merchant_Id" type="hidden" value="@Model.Merchant.Id" />
+    <input name="Model.SysMerchantUser.Id" id="Model_SysMerchantUser_Id" type="hidden" value="@Model.SysMerchantUser.Id" />
     <div class="gbr-row-title clearfix">
         <div class="pull-left">
             <h5>机器信息</h5>
@@ -103,7 +103,7 @@ function () {
             </td>
             <td class="f-tb-c">
 
-                <span id="lbl_Merchant_Name">@Model.Merchant.Name</span>
+                <span id="lbl_SysMerchantUser_Name">@Model.SysMerchantUser.MerchantName</span>
 
 
                 @if (!Model.Machine.IsUse)
@@ -117,7 +117,7 @@ function () {
                 联系人：
             </td>
             <td class="f-tb-c">
-                <span id="lbl_Merchant_ContactName"> @Model.Merchant.ContactName</span>
+                <span id="lbl_SysMerchantUser_ContactName"> @Model.SysMerchantUser.ContactName</span>
             </td>
         </tr>
         <tr>
@@ -125,7 +125,7 @@ function () {
                 联系电话：
             </td>
             <td class="f-tb-c">
-                <span id="lbl_Merchant_ContactPhone">   @Model.Merchant.ContactPhone</span>
+                <span id="lbl_SysMerchantUser_ContactPhone">   @Model.SysMerchantUser.ContactPhone</span>
             </td>
         </tr>
         <tr>
@@ -133,7 +133,7 @@ function () {
                 联系地址：
             </td>
             <td class="f-tb-c">
-                <span id="lbl_Merchant_ContactAddress">   @Model.Merchant.ContactAddress</span>
+                <span id="lbl_SysMerchantUser_ContactAddress">   @Model.SysMerchantUser.ContactAddress</span>
             </td>
         </tr>
     </table>

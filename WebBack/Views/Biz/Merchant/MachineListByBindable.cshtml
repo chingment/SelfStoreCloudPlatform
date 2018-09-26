@@ -10,8 +10,6 @@
     $(document).ready(function () {
 
 
-        $("#txt_StoreId").val($.lumos.getUrlParamValue("id"));
-
         listTable = $("#list_table").loadDataTable({
             url: "/Biz/Merchant/GetMachineListByBindable",
             pageIndex: 0,

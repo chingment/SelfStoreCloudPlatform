@@ -43,7 +43,7 @@ namespace WebMerch.Controllers
                                  mp.MerchantId == this.CurrentUserId
                                  &&
                                  mp.IsBind == true
-                         select new { mp.Id, MachineId = p.Id, mp.Name, p.DeviceId, p.MacAddress, p.IsUse, p.CreateTime });
+                         select new { mp.Id, MachineId = p.Id, mp.MachineName, p.DeviceId, p.MacAddress, p.IsUse, p.CreateTime });
 
             int total = query.Count();
 
@@ -70,7 +70,7 @@ namespace WebMerch.Controllers
                 olist.Add(new
                 {
                     item.Id,
-                    item.Name,
+                    item.MachineName,
                     item.DeviceId,
                     storeName,
                     item.CreateTime

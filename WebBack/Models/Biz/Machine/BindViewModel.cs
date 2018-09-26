@@ -9,7 +9,7 @@ namespace WebBack.Models.Biz.Machine
     public class BindViewModel : OwnBaseViewModel
     {
         private Lumos.Entity.Machine _machine = new Lumos.Entity.Machine();
-        private Lumos.Entity.MerchantConfig _merchant = new Lumos.Entity.MerchantConfig();
+        private Lumos.Entity.SysMerchantUser _sysMerchantUser = new Lumos.Entity.SysMerchantUser();
 
         public Lumos.Entity.Machine Machine
         {
@@ -23,17 +23,18 @@ namespace WebBack.Models.Biz.Machine
             }
         }
 
-        public Lumos.Entity.MerchantConfig Merchant
+        public Lumos.Entity.SysMerchantUser SysMerchantUser
         {
             get
             {
-                return _merchant;
+                return _sysMerchantUser;
             }
             set
             {
-                _merchant = value;
+                _sysMerchantUser = value;
             }
         }
+
 
         public BindViewModel()
         {
@@ -49,10 +50,10 @@ namespace WebBack.Models.Biz.Machine
                 var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.MachineId == machine.Id && m.IsBind==true).FirstOrDefault();
                 if (merchantMachine != null)
                 {
-                    var merchant = CurrentDb.MerchantConfig.Where(m => m.Id == merchantMachine.MerchantId).FirstOrDefault();
-                    if (merchant != null)
+                    var sysMerchantUser = CurrentDb.SysMerchantUser.Where(m => m.Id == merchantMachine.MerchantId).FirstOrDefault();
+                    if (sysMerchantUser != null)
                     {
-                        _merchant = merchant;
+                        _sysMerchantUser = sysMerchantUser;
                     }
                 }
             }
