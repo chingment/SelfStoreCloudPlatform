@@ -2,6 +2,7 @@
 using System.Web;
 using System.Collections.Specialized;
 using System.Net;
+using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Web.Http.Controllers;
@@ -16,11 +17,13 @@ using System.Threading.Tasks;
 using Lumos;
 using Lumos.BLL;
 using Lumos.Common;
+using System.Web.Http;
 
 namespace WebAppApi
 {
 
-    public class BaseAuthorizeAttribute : ActionFilterAttribute
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, Inherited = true, AllowMultiple = true)]
+    public class OwnAuthorizeAttribute : ActionFilterAttribute
     {
         private readonly string key = "_MonitorApiLog_";
 
@@ -73,19 +76,22 @@ namespace WebAppApi
                 var request = ((HttpContextWrapper)actionContext.Request.Properties["MS_HttpContext"]).Request;
                 var requestMethod = request.HttpMethod;
 
+                bool skipAuthorization = actionContext.ActionDescriptor.GetCustomAttributes<AllowAnonymousAttribute>().Any();
+                if (skipAuthorization)
+                {
+                    return;
+                }
+
                 string app_key = request.Headers["key"];
                 string app_sign = request.Headers["sign"];
                 string app_version = request.Headers["version"];
                 string app_timestamp_s = request.Headers["timestamp"];
-
-                LogUtil.Info("11111111111111");
 
                 if (app_version != null)
                 {
                     LogUtil.Info("app_version:" + app_version);
                 }
 
-                LogUtil.Info("2222222222");
                 string app_data = null;
                 if (requestMethod == "POST")
                 {
@@ -128,41 +134,36 @@ namespace WebAppApi
                     app_data = GetQueryData(queryData);
                 }
 
-                LogUtil.Info("333333333");
-
                 //记录请求的日志
                 MonitorApiLog monitorApiLog = new MonitorApiLog();
                 monitorApiLog.RequestTime = requestTime;
                 monitorApiLog.RequestUrl = request.RawUrl;
                 monitorApiLog.SignatureData = new SignatureData { Key = app_key, Sign = app_sign, TimeStamp = app_timestamp_s, Data = app_data };
+
                 LogUtil.Info(string.Format("API请求:{0}", monitorApiLog.ToString()));
 
                 actionContext.ActionArguments[key] = monitorApiLog;
 
-                LogUtil.Info("444444444");
 
                 //检查必要的参数
                 if (app_key == null || app_sign == null || app_timestamp_s == null)
                 {
+                    LogUtil.Warn("API请求必要的参数为空");
                     APIResult result = new APIResult(ResultType.Failure, ResultCode.FailureSign, "缺少必要参数");
                     actionContext.Response = new APIResponse(result);
                     return;
                 }
-
-                LogUtil.Info("5555555555");
 
                 //检查key是否在数据库中存在
                 string app_secret = SysFactory.AppKeySecret.GetSecret(app_key);
 
                 if (app_secret == null)
                 {
+                    LogUtil.Warn("API请求app_key不存在");
                     APIResult result = new APIResult(ResultType.Failure, ResultCode.FailureSign, "应用程序Key,存在错误");
                     actionContext.Response = new APIResponse(result);
                     return;
                 }
-
-
-                LogUtil.Info("66666666666666");
 
                 long app_timestamp = long.Parse(app_timestamp_s);
 
@@ -175,27 +176,21 @@ namespace WebAppApi
                 LogUtil.Info("signStr:" + signStr);
                 LogUtil.Info("app_sign:" + app_sign);
 
-
                 if (Signature.IsRequestTimeout(app_timestamp))
                 {
+                    LogUtil.Warn("API请求时间戳超时");
                     APIResult result = new APIResult(ResultType.Failure, ResultCode.FailureSign, "请求已超时");
                     actionContext.Response = new APIResponse(result);
                     return;
                 }
 
-
-                LogUtil.Info("8888888888888888");
-
                 if (signStr != app_sign)
                 {
-                    LogUtil.Warn("API签名错误");
+                    LogUtil.Warn("API请求签名错误");
                     APIResult result = new APIResult(ResultType.Failure, ResultCode.FailureSign, "签名错误");
                     actionContext.Response = new APIResponse(result);
                     return;
                 }
-
-
-                LogUtil.Info("99999999999999999999");
 
                 base.OnActionExecuting(actionContext);
             }

@@ -12,7 +12,7 @@ using Lumos;
 
 namespace WebAppApi
 {
-
+    [OwnAuthorize]
     public class OwnBaseApiController : BaseApiController
     {
 

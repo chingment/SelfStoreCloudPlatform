@@ -17,7 +17,7 @@ using System.Web.Http;
 namespace WebAppApi.Controllers
 {
 
-    [BaseAuthorizeAttribute]
+    [OwnAuthorize]
     public class GlobalController : OwnBaseApiController
     {
         [HttpGet]

@@ -16,7 +16,7 @@ using System.Web.Http;
 
 namespace WebAppApi.Controllers
 {
-    [BaseAuthorizeAttribute]
+    [OwnAuthorize]
     public class ProductSkuController : OwnBaseApiController
     {
 

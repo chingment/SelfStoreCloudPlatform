@@ -11,9 +11,8 @@ namespace Lumos.BLL.Service.App
         public IndexPageModel()
         {
 
-            this.Banner = new List<BannerModel>();
         }
 
-        public List<BannerModel> Banner { get; set; }
+        public BannerModel Banner { get; set; }
     }
 }

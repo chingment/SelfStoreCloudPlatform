@@ -280,5 +280,13 @@ namespace Lumos.Entity
             [Remark("删除")]
             Delete = 4
         }
+
+        public enum StoreBannerType
+        {
+            [Remark("未知")]
+            Unknow = 0,
+            [Remark("首页Banner")]
+            IndexBanner = 1,
+        }
     }
 }

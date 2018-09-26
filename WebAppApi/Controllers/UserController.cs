@@ -13,17 +13,16 @@ using System.Web;
 using Lumos;
 using Lumos.BLL.Service.App;
 
+
 namespace WebAppApi.Controllers
 {
-    [OwnAuthorize]
-    public class OrderController : OwnBaseApiController
+    public class UserController : OwnBaseApiController
     {
-        [HttpPost]
-        public APIResponse Confirm([FromBody]RopOrderConfirm rop)
+        [AllowAnonymous]
+        [HttpGet]
+        public APIResponse Oauth2()
         {
-            IResult result = AppServiceFactory.Order.Confrim(this.CurrentUserId,this.CurrentUserId, rop);
-
-            return new APIResponse(result);
+            return null;
         }
     }
 }

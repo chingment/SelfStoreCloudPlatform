@@ -8,12 +8,24 @@ namespace Lumos.BLL.Service.App
 {
     public class BannerModel
     {
-        public string Id { get; set; }
+        public bool Autoplay { get; set; }
+        public int CurrentSwiper { get; set; }
+        public BannerModel()
+        {
+            this.Imgs = new List<ImgModel>();
+        }
 
-        public string Title { get; set; }
+        public List<ImgModel> Imgs { get; set; }
 
-        public string LinkUrl { get; set; }
+        public class ImgModel
+        {
+            public string Id { get; set; }
 
-        public string ImgUrl { get; set; }
+            public string Title { get; set; }
+
+            public string Link { get; set; }
+
+            public string Url { get; set; }
+        }
     }
 }

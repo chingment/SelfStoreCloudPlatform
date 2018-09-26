@@ -8,7 +8,7 @@ using System.Web.Http;
 
 namespace WebAppApi.Controllers
 {
-    [BaseAuthorizeAttribute]
+    [OwnAuthorize]
     public class CartController : OwnBaseApiController
     {
         [HttpPost]

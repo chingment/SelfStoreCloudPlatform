@@ -14,7 +14,7 @@ using System.Web.Http;
 namespace WebAppApi.Controllers
 {
 
-    [BaseAuthorizeAttribute]
+    [OwnAuthorize]
     public class CouponController : OwnBaseApiController
     {
         [HttpPost]

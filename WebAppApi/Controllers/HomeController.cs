@@ -57,7 +57,7 @@ namespace WebAppApi.Controllers
             //model.Add("获取全局数据", GlobalDataSet(userId, storeId, DateTime.Parse("2018-04-09 15:14:28")));
             //model.Add("获取全局数据", ShippingAddress(userId, storeId));
             //model.Add("获取地址", GetShippingAddress(1215));
-
+            model.Add("用户授权", UserOauth2(userId));
             return View(model);
         }
 
@@ -93,6 +93,23 @@ namespace WebAppApi.Controllers
             headers.Add("sign", signStr);
             HttpUtil http = new HttpUtil();
             string result = http.HttpGet("" + host + "/api/Global/DataSet?userId=" + userId + "&storeId=" + storeId + "&datetime=" + HttpUtility.UrlEncode(datetime.ToUnifiedFormatDateTime(), UTF8Encoding.UTF8).ToUpper(), headers);
+
+            return result;
+
+        }
+
+        public string UserOauth2(string userId)
+        {
+            Dictionary<string, string> parames = new Dictionary<string, string>();
+            parames.Add("userId", userId);
+            string signStr = Signature.Compute(key, secret, timespan, Signature.GetQueryData(parames));
+
+            Dictionary<string, string> headers = new Dictionary<string, string>();
+            headers.Add("key", key);
+            headers.Add("timestamp", timespan.ToString());
+            headers.Add("sign", signStr);
+            HttpUtil http = new HttpUtil();
+            string result = http.HttpGet("" + host + "/api/User/Oauth2", headers);
 
             return result;
 

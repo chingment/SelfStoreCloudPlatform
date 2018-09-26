@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Lumos.Entity
 {
+
     [Table("StoreBanner")]
     public class StoreBanner
     {
@@ -16,6 +17,7 @@ namespace Lumos.Entity
         public string UserId { get; set; }
         public string StoreId { get; set; }
         public string Title { get; set; }
+        public Enumeration.StoreBannerType Type { get; set; }
         [MaxLength(1024)]
         public string ImgUrl { get; set; }
         public int Priority { get; set; }

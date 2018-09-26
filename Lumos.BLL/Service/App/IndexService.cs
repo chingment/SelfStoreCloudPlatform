@@ -9,26 +9,27 @@ namespace Lumos.BLL.Service.App
 {
     public class IndexService : BaseProvider
     {
-        public IndexPageModel GetPageData(string pOperater,string pUserId, string pStoreId)
+        public IndexPageModel GetPageData(string pOperater, string pUserId, string pStoreId)
         {
             var pageModel = new IndexPageModel();
 
-            var banner = CurrentDb.StoreBanner.Where(m => m.StoreId == pStoreId).ToList();
+            var storeBanners = CurrentDb.StoreBanner.Where(m => m.StoreId == pStoreId && m.Type == Enumeration.StoreBannerType.IndexBanner).ToList();
 
-            List<BannerModel> bannerModels = new List<BannerModel>();
+            BannerModel bannerModel = new BannerModel();
+            bannerModel.Autoplay = true;
+            bannerModel.CurrentSwiper = 0;
 
-            foreach (var m in banner)
+            foreach (var item in storeBanners)
             {
-                var bannerModel = new BannerModel();
-                bannerModel.Id = m.Id;
-                bannerModel.Title = m.Title;
-                bannerModel.LinkUrl = "";
-                bannerModel.ImgUrl = m.ImgUrl;
-                bannerModels.Add(bannerModel);
+                var imgModel = new BannerModel.ImgModel();
+                imgModel.Id = item.Id;
+                imgModel.Title = item.Title;
+                imgModel.Link = "";
+                imgModel.Url = item.ImgUrl;
+                bannerModel.Imgs.Add(imgModel);
             }
 
-            pageModel.Banner = bannerModels;
-
+            pageModel.Banner = bannerModel;
 
             return pageModel;
         }
