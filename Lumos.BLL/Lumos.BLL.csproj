@@ -85,6 +85,7 @@
     <Compile Include="Biz\ProductKindProvider.cs" />
     <Compile Include="Biz\ProductSkuCacheUtil.cs" />
     <Compile Include="Biz\ProductSkuProvider.cs" />
+    <Compile Include="Biz\RModels\RetPayResultQuery.cs" />
     <Compile Include="Biz\StoreProvider.cs" />
     <Compile Include="Biz\WarehouseProvider.cs" />
     <Compile Include="Biz\WxUserProvider.cs" />
@@ -144,6 +145,7 @@
     <Compile Include="Service\Term\Models\BannerModel.cs" />
     <Compile Include="Service\Term\Models\Machine\ApiConfigModel.cs" />
     <Compile Include="Service\Term\RModels\RetOrderReserve.cs" />
+    <Compile Include="Service\Term\RModels\RetPayResultQuery.cs" />
     <Compile Include="Service\Term\RModels\RopOrderReserve.cs" />
     <Compile Include="Service\Term\RModels\RopUserAuthorize.cs" />
     <Compile Include="Service\Term\RModels\RupGlobalDataSet.cs" />

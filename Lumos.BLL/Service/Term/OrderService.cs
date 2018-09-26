@@ -282,15 +282,25 @@ namespace Lumos.BLL.Service.Term
 
         }
 
-        public CustomJsonResult PayResultQuery(string operater, RupPayResultQuery rup)
+        public CustomJsonResult<RetPayResultQuery> PayResultQuery(string operater, RupPayResultQuery rup)
         {
-            CustomJsonResult result = new CustomJsonResult();
+            CustomJsonResult<RetPayResultQuery> ret = new CustomJsonResult<RetPayResultQuery>();
 
 
+            var ret_Biz = BizFactory.Order.PayResultQuery(operater, rup.OrderSn);
 
-            result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功");
+            ret.Result = ret_Biz.Result;
+            ret.Code = ret_Biz.Code;
+            ret.Message = ret_Biz.Message;
 
-            return result;
+            if (ret_Biz.Data != null)
+            {
+                ret.Data = new RetPayResultQuery();
+                ret.Data.OrderSn = ret_Biz.Data.OrderSn;
+                ret.Data.Status = ret_Biz.Data.Status;
+            }
+
+            return ret;
         }
 
 

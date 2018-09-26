@@ -21,13 +21,11 @@ namespace WebTermApi.Controllers
 
         }
 
-
         [HttpPost]
-        public APIResponse PayResulyQuery(RupPayResultQuery rup)
+        public APIResponse<RetPayResultQuery> PayResulyQuery(RupPayResultQuery rup)
         {
-            IResult result = TermServiceFactory.Order.PayResultQuery(rup.UserId, rup);
-            return new APIResponse(result);
-
+            IResult<RetPayResultQuery> result = TermServiceFactory.Order.PayResultQuery(rup.UserId, rup);
+            return new APIResponse<RetPayResultQuery>(result);
         }
     }
 }

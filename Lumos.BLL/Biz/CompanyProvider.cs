@@ -16,7 +16,7 @@ namespace Lumos.BLL
             CustomJsonResult result = new CustomJsonResult();
             using (TransactionScope ts = new TransactionScope())
             {
-                var existObject = CurrentDb.Company.Where(m => m.UserId == pCompany.UserId && m.Name == pCompany.Name).FirstOrDefault();
+                var existObject = CurrentDb.Company.Where(m => m.MerchantId == pCompany.MerchantId && m.Name == pCompany.Name).FirstOrDefault();
                 if (existObject != null)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "名称已存在,请使用其它");
@@ -42,7 +42,7 @@ namespace Lumos.BLL
             {
                 var lCompany = CurrentDb.Company.Where(m => m.Id == pCompany.Id).FirstOrDefault();
 
-                var existObject = CurrentDb.Company.Where(m => m.UserId == lCompany.UserId && m.Id != pCompany.Id && m.Name == pCompany.Name).FirstOrDefault();
+                var existObject = CurrentDb.Company.Where(m => m.MerchantId == lCompany.MerchantId && m.Id != pCompany.Id && m.Name == pCompany.Name).FirstOrDefault();
                 if (existObject != null)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "名称已存在,请使用其它");

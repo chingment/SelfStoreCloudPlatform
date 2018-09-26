@@ -1,4 +1,5 @@
-﻿using Lumos.Entity;
+﻿using Lumos.BLL.Biz;
+using Lumos.Entity;
 using Lumos.Redis;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace Lumos.BLL
             lock (lock_UnifiedOrder)
             {
                 var strOrderPms = Newtonsoft.Json.JsonConvert.SerializeObject(pPayPms.OrderPms);
-          
+
             }
             return result;
         }
@@ -131,5 +132,26 @@ namespace Lumos.BLL
         }
 
 
+
+        public CustomJsonResult<RetPayResultQuery> PayResultQuery(string pOperater, string orderSn)
+        {
+            var result = new CustomJsonResult<RetPayResultQuery>();
+
+            var order = CurrentDb.Order.Where(m => m.Sn == orderSn).FirstOrDefault();
+
+            if (order == null)
+            {
+                return new CustomJsonResult<RetPayResultQuery>(ResultType.Failure, ResultCode.Failure, "找不到订单", null);
+            }
+
+            var ret = new RetPayResultQuery();
+
+            ret.OrderSn = order.Sn;
+            ret.Status = order.Status;
+
+            result = new CustomJsonResult<RetPayResultQuery>(ResultType.Success, ResultCode.Success, "获取成功", ret);
+
+            return result;
+        }
     }
 }

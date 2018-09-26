@@ -75,7 +75,7 @@ namespace WebMerch.Controllers
         [HttpPost]
         public CustomJsonResult Add(AddViewModel model)
         {
-            model.Company.UserId = this.CurrentUserId;
+            model.Company.MerchantId = this.CurrentUserId;
             model.Company.Class = Lumos.Entity.Enumeration.CompanyClass.Supplier;
             return BizFactory.Company.Add(this.CurrentUserId, model.Company);
         }
