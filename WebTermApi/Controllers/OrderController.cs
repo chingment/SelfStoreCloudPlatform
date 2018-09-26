@@ -16,7 +16,7 @@ namespace WebTermApi.Controllers
         [HttpPost]
         public APIResponse Reserve(RopOrderReserve rop)
         {
-            IResult result = TermServiceFactory.Order.Reserve(rop.UserId, rop);
+            IResult result = TermServiceFactory.Order.Reserve(rop.MerchantId, rop);
             return new APIResponse(result);
 
         }

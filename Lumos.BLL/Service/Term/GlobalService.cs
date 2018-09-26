@@ -11,7 +11,7 @@ namespace Lumos.BLL.Service.Term
 {
     public class GlobalService : BaseProvider
     {
-        public CustomJsonResult DataSet(string pOperater, string pUserId, string pMerchantId, string pMachineId, DateTime? pDatetime)
+        public CustomJsonResult DataSet(string pOperater,string pMerchantId, string pMachineId, DateTime? pDatetime)
         {
             CustomJsonResult result = new CustomJsonResult();
             var model = new DataSetModel();
@@ -24,9 +24,9 @@ namespace Lumos.BLL.Service.Term
             model.BtnPickImgUrl = machine.BtnPickImgUrl;
 
 
-            model.Banners = TermServiceFactory.Machine.GetBanners(pUserId, pUserId, pMachineId);
-            model.ProductKinds = TermServiceFactory.ProductKind.GetKinds(pUserId, pUserId, pMachineId);
-            model.ProductSkus = TermServiceFactory.Machine.GetProductSkus(pUserId, pUserId, pMachineId);
+            model.Banners = TermServiceFactory.Machine.GetBanners(pOperater, pMerchantId, pMachineId);
+            model.ProductKinds = TermServiceFactory.ProductKind.GetKinds(pOperater, pMerchantId, pMachineId);
+            model.ProductSkus = TermServiceFactory.Machine.GetProductSkus(pOperater, pMerchantId, pMachineId);
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", model);
         }

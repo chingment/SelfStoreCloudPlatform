@@ -160,7 +160,7 @@ namespace WebTermApi.Controllers
         {
 
             RopOrderReserve pms = new RopOrderReserve();
-            pms.UserId = userId;
+            pms.MerchantId = userId;
             pms.StoreId = storeId;
             pms.MachineId = machineId;
             pms.PayWay = "";

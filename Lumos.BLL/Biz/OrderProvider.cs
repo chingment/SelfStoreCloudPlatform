@@ -12,7 +12,7 @@ namespace Lumos.BLL
     public class OrderProvider : BaseProvider
     {
         private static readonly object lock_UnifiedOrder = new object();
-        public CustomJsonResult<Order> UnifiedOrder(string pOperater, string pUserId, UnifiedOrderPms pPayPms)
+        public CustomJsonResult<Order> UnifiedOrder(string pOperater, string pClientId, UnifiedOrderPms pPayPms)
         {
             CustomJsonResult<Order> result = new CustomJsonResult<Order>();
             lock (lock_UnifiedOrder)

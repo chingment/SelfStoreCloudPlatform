@@ -19,7 +19,7 @@ namespace WebTermApi.Controllers
         [HttpGet]
         public APIResponse DataSet([FromUri]RupGlobalDataSet rup)
         {
-            IResult result = TermServiceFactory.Global.DataSet(rup.UserId, rup.UserId, rup.MerchantId, rup.MachineId, rup.Datetime);
+            IResult result = TermServiceFactory.Global.DataSet(rup.MerchantId, rup.MerchantId, rup.MachineId, rup.Datetime);
             return new APIResponse(result);
         }
     }

@@ -9,13 +9,13 @@ namespace Lumos.BLL.Service.Term
 {
     public class ProductKindService : BaseProvider
     {
-        public List<ProductParentKindModel> GetKinds(string pOperater, string pUserId, string pMachineId)
+        public List<ProductParentKindModel> GetKinds(string pOperater, string pMerchantId, string pMachineId)
         {
 
             var productKindModels = new List<ProductParentKindModel>();
 
-            var productKinds = CurrentDb.ProductKind.Where(m => m.MerchantId == pUserId && m.Status == Entity.Enumeration.ProductKindStatus.Valid && m.IsDelete == false).ToList();
-            var productSkuIds = CurrentDb.MachineStock.Where(m => m.MerchantId == pUserId && m.IsOffSell == false).Select(m => m.ProductSkuId).ToArray();
+            var productKinds = CurrentDb.ProductKind.Where(m => m.MerchantId == pMerchantId && m.Status == Entity.Enumeration.ProductKindStatus.Valid && m.IsDelete == false).ToList();
+            var productSkuIds = CurrentDb.MachineStock.Where(m => m.MerchantId == pMerchantId && m.IsOffSell == false).Select(m => m.ProductSkuId).ToArray();
             var productSkus = CurrentDb.ProductSku.Where(m => productSkuIds.Contains(m.Id)).ToList();
 
             if (productKinds.Count > 0)

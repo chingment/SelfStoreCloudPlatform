@@ -9,7 +9,7 @@ namespace Lumos.BLL.Service.App
 {
     public class IndexService : BaseProvider
     {
-        public IndexPageModel GetPageData(string pOperater, string pUserId, string pStoreId)
+        public IndexPageModel GetPageData(string pOperater, string pClientId, string pStoreId)
         {
             var pageModel = new IndexPageModel();
 

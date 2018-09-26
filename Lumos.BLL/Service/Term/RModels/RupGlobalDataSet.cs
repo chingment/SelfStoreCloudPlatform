@@ -8,7 +8,6 @@ namespace Lumos.BLL.Service.Term
 {
     public class RupGlobalDataSet
     {
-        public string UserId { get; set; }
         public string MerchantId { get; set; }
         public string MachineId { get; set; }
         public DateTime? Datetime { get; set; }

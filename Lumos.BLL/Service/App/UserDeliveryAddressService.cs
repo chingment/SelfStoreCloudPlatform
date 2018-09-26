@@ -12,7 +12,7 @@ namespace Lumos.BLL.Service.App
     public class UserDeliveryAddressService : BaseProvider
     {
 
-        public List<UserDeliveryAddressModel> My(string operater, string pClientId)
+        public List<UserDeliveryAddressModel> My(string pOperater, string pClientId)
         {
             var model = new List<UserDeliveryAddressModel>();
 
@@ -48,7 +48,7 @@ namespace Lumos.BLL.Service.App
         }
 
 
-        public CustomJsonResult Edit(string operater, string pClientId, RopUserDeliveryAddressEdit rop)
+        public CustomJsonResult Edit(string pOperater, string pClientId, RopUserDeliveryAddressEdit rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 
@@ -65,7 +65,7 @@ namespace Lumos.BLL.Service.App
                 l_userDeliveryAddress.Address = rop.Address;
                 l_userDeliveryAddress.IsDefault = rop.IsDefault;
                 l_userDeliveryAddress.CreateTime = this.DateTime;
-                l_userDeliveryAddress.Creator = operater;
+                l_userDeliveryAddress.Creator = pOperater;
                 CurrentDb.ClientDeliveryAddress.Add(l_userDeliveryAddress);
                 CurrentDb.SaveChanges();
 
@@ -78,7 +78,7 @@ namespace Lumos.BLL.Service.App
                 l_userDeliveryAddress.Address = rop.Address;
                 l_userDeliveryAddress.IsDefault = rop.IsDefault;
                 l_userDeliveryAddress.MendTime = this.DateTime;
-                l_userDeliveryAddress.Creator = operater;
+                l_userDeliveryAddress.Creator = pOperater;
                 CurrentDb.SaveChanges();
             }
 

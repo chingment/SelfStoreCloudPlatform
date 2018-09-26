@@ -8,7 +8,7 @@ namespace Lumos.BLL.Service.App
 {
     public class ProductSkuService : BaseProvider
     {
-        public List<SkuModel> List(string operater, string userId, RupProductSkuList rup)
+        public List<SkuModel> List(string pOperater, string pClientId, RupProductSkuList rup)
         {
             var olist = new List<SkuModel>();
 
