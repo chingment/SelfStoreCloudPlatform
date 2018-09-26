@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace Lumos.Entity
 {
-    [Table("UserCart")]
-    public class UserCart
+    [Table("ClientCart")]
+    public class ClientCart
     {
         [Key]
         public string Id { get; set; }
-        public string UserId { get; set; }
+        public string ClientId { get; set; }
         public string StoreId { get; set; }
         public string ProductSkuId { get; set; }
         [MaxLength(128)]

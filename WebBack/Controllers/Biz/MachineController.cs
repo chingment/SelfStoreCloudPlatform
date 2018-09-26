@@ -75,10 +75,10 @@ namespace WebBack.Controllers.Biz
                 var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.MachineId == item.Id && m.IsBind == true).FirstOrDefault();
                 if (merchantMachine != null)
                 {
-                    var merchant = CurrentDb.Merchant.Where(m => m.Id == merchantMachine.MerchantId).FirstOrDefault();
+                    var merchant = CurrentDb.MerchantConfig.Where(m => m.Id == merchantMachine.MerchantId).FirstOrDefault();
                     if (merchant != null)
                     {
-                        merchantName = merchant.Name;
+                       // merchantName = merchant.Name;
                         isBind = true;
                     }
                 }

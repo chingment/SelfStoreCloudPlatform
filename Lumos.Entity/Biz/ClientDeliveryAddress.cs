@@ -8,27 +8,36 @@ using System.Threading.Tasks;
 
 namespace Lumos.Entity
 {
-    [Table("Merchant")]
-    public class Merchant
+    [Table("ClientDeliveryAddress")]
+    public class ClientDeliveryAddress
     {
         [Key]
         public string Id { get; set; }
-        public string UserId { get; set; }
+
+        public string ClientId { get; set; }
+
         [MaxLength(128)]
-        public string Name { get; set; }
+        public string Consignee { get; set; }
         [MaxLength(128)]
-        public string ContactName { get; set; }
+        public string PhoneNumber { get; set; }
         [MaxLength(128)]
-        public string ContactPhone { get; set; }
+        public string AreaName { get; set; }
         [MaxLength(128)]
-        public string ContactAddress { get; set; }
+        public string AreaCode { get; set; }
+        [MaxLength(128)]
+        public string Address { get; set; }
+      
+        public bool IsDefault { get; set; }
+
+        public bool IsDelete { get; set; }
+
         public string Creator { get; set; }
+
         public DateTime CreateTime { get; set; }
+
         public string Mender { get; set; }
+
         public DateTime? MendTime { get; set; }
-        public string ApiHost { get; set; }
-        public string ApiKey { get; set; }
-        public string ApiSecret { get; set; }
-        public int PayTimeout { get; set; }
+        
     }
 }

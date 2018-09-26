@@ -43,7 +43,7 @@ namespace Lumos.BLL
 
                             mod_UserInfo = new WxUserInfo();
                             mod_UserInfo.Id = GuidUtil.New();
-                            mod_UserInfo.UserId = sysClientUser.Id;
+                            mod_UserInfo.ClientId = sysClientUser.Id;
                             mod_UserInfo.OpenId = pWxUserInfo.OpenId;
                             mod_UserInfo.AccessToken = pWxUserInfo.AccessToken;
                             mod_UserInfo.ExpiresIn = pWxUserInfo.ExpiresIn;

@@ -54,16 +54,16 @@
     </Compile>
     <Compile Include="BizEnumeration.cs" />
     <Compile Include="Biz\BizSn.cs" />
-    <Compile Include="Biz\UserCart.cs" />
+    <Compile Include="Biz\ClientCart.cs" />
     <Compile Include="Biz\Company.cs" />
-    <Compile Include="Biz\UserCoupon.cs" />
+    <Compile Include="Biz\ClientCoupon.cs" />
     <Compile Include="Biz\MachineBanner.cs" />
     <Compile Include="Biz\BizProcessesAudit.cs" />
     <Compile Include="Biz\BizProcessesAuditDetails.cs" />
     <Compile Include="Biz\Machine.cs" />
     <Compile Include="Biz\MachineStock.cs" />
     <Compile Include="Biz\MachineStockLog.cs" />
-    <Compile Include="Biz\Merchant.cs" />
+    <Compile Include="Biz\MerchantConfig.cs" />
     <Compile Include="Biz\MerchantMachine.cs" />
     <Compile Include="Biz\Order.cs" />
     <Compile Include="Biz\Order2StockIn.cs" />
@@ -76,7 +76,7 @@
     <Compile Include="Biz\ProductKindSku.cs" />
     <Compile Include="Biz\ProductSku.cs" />
     <Compile Include="Biz\Order2StockInDetails.cs" />
-    <Compile Include="Biz\UserDeliveryAddress.cs" />
+    <Compile Include="Biz\ClientDeliveryAddress.cs" />
     <Compile Include="Biz\Stock.cs" />
     <Compile Include="Biz\Store.cs" />
     <Compile Include="Biz\StoreBanner.cs" />

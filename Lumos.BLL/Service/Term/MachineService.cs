@@ -13,47 +13,47 @@ namespace Lumos.BLL.Service.Term
     public class MachineService : BaseProvider
     {
 
-        private void test()
-        {
+        //private void test()
+        //{
 
-            string useriId = "ca66ca85c5bf435581ecd2380554ecfe";
-            //string merchantId = "d1e8ad564c0f4516b2de95655a4146c7";
-            string machineId = "00000000000000000000000000000006";
-            string storeId = "00000000000000000000000000000006";
-            var machineStocks = CurrentDb.MachineStock.Where(m => m.UserId == useriId  && m.MachineId == machineId).ToList();
+        //    string useriId = "ca66ca85c5bf435581ecd2380554ecfe";
+        //    //string merchantId = "d1e8ad564c0f4516b2de95655a4146c7";
+        //    string machineId = "00000000000000000000000000000006";
+        //    string storeId = "00000000000000000000000000000006";
+        //    var machineStocks = CurrentDb.MachineStock.Where(m => m.MerchantId == useriId  && m.MachineId == machineId).ToList();
 
-            foreach (var item in machineStocks)
-            {
-                CurrentDb.MachineStock.Remove(item);
-                CurrentDb.SaveChanges();
-            }
+        //    foreach (var item in machineStocks)
+        //    {
+        //        CurrentDb.MachineStock.Remove(item);
+        //        CurrentDb.SaveChanges();
+        //    }
 
 
-            var productSkus = CurrentDb.ProductSku.ToList();
+        //    var productSkus = CurrentDb.ProductSku.ToList();
 
-            foreach (var item in productSkus)
-            {
-                var machineStock = new MachineStock();
+        //    foreach (var item in productSkus)
+        //    {
+        //        var machineStock = new MachineStock();
 
-                machineStock.Id = GuidUtil.New();
-                machineStock.UserId = useriId;
-                machineStock.MachineId = machineId;
-                machineStock.StoreId = storeId;
-                machineStock.SlotId = GuidUtil.New();
-                machineStock.ProductSkuId = item.Id;
-                machineStock.Quantity = 2;
-                machineStock.SellQuantity = 1;
-                machineStock.LockQuantity = 1;
-                machineStock.IsOffSell = false;
-                machineStock.CreateTime = DateTime.Now;
-                machineStock.Creator = machineId;
+        //        machineStock.Id = GuidUtil.New();
+        //        machineStock.UserId = useriId;
+        //        machineStock.MachineId = machineId;
+        //        machineStock.StoreId = storeId;
+        //        machineStock.SlotId = GuidUtil.New();
+        //        machineStock.ProductSkuId = item.Id;
+        //        machineStock.Quantity = 2;
+        //        machineStock.SellQuantity = 1;
+        //        machineStock.LockQuantity = 1;
+        //        machineStock.IsOffSell = false;
+        //        machineStock.CreateTime = DateTime.Now;
+        //        machineStock.Creator = machineId;
 
-                CurrentDb.MachineStock.Add(machineStock);
-                CurrentDb.SaveChanges();
+        //        CurrentDb.MachineStock.Add(machineStock);
+        //        CurrentDb.SaveChanges();
 
-            }
+        //    }
 
-        }
+        //}
 
         public CustomJsonResult ApiConfig(string pOperater, string pDeviceId)
         {
@@ -79,14 +79,14 @@ namespace Lumos.BLL.Service.Term
                 return new CustomJsonResult(ResultType.Failure, "设备未绑定商户");
             }
 
-            var merchant = CurrentDb.Merchant.Where(m => m.Id == merchantMachine.MerchantId).FirstOrDefault();
+            var merchant = CurrentDb.MerchantConfig.Where(m => m.Id == merchantMachine.MerchantId).FirstOrDefault();
             if (merchant == null)
             {
                 return new CustomJsonResult(ResultType.Failure, "已绑定商户，却找不到商户信息");
             }
 
             var model = new ApiConfigModel();
-            model.UserId = merchant.UserId;
+            model.UserId = merchant.MerchantId;
             model.MerchantId = merchant.Id;
             model.MachineId = machine.Id;
             model.ApiHost = merchant.ApiHost;
@@ -102,9 +102,9 @@ namespace Lumos.BLL.Service.Term
 
             var productSkuModels = new Dictionary<string, ProductSkuModel>();
 
-            var machineStocks = CurrentDb.MachineStock.Where(m => m.UserId == pUserId && m.MachineId == pMachineId && m.IsOffSell == false).ToList();
+            var machineStocks = CurrentDb.MachineStock.Where(m => m.MerchantId == pUserId && m.MachineId == pMachineId && m.IsOffSell == false).ToList();
 
-            var productSkus = CurrentDb.ProductSku.Where(m => m.UserId == pUserId).ToList();
+            var productSkus = CurrentDb.ProductSku.Where(m => m.MerchantId == pUserId).ToList();
             var productSkuIds = machineStocks.Select(m => m.ProductSkuId).Distinct();
             foreach (var productSkuId in productSkuIds)
             {
@@ -154,9 +154,9 @@ namespace Lumos.BLL.Service.Term
         {
             var slotProductSkuModels = new List<SlotProductSkuModel>();
 
-            var machineStocks = CurrentDb.MachineStock.Where(m => m.UserId == pUserId && m.MachineId == pMachineId && m.IsOffSell == false).ToList();
+            var machineStocks = CurrentDb.MachineStock.Where(m => m.MerchantId == pUserId && m.MachineId == pMachineId && m.IsOffSell == false).ToList();
 
-            var productSkus = CurrentDb.ProductSku.Where(m => m.UserId == pUserId).ToList();
+            var productSkus = CurrentDb.ProductSku.Where(m => m.MerchantId == pUserId).ToList();
 
             foreach (var item in machineStocks)
             {

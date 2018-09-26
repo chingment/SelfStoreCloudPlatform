@@ -20,7 +20,7 @@ namespace Lumos.BLL
                 var lSupplier = CurrentDb.Company.Where(m => m.Id == pOrder2StockIn.SupplierId).FirstOrDefault();
 
                 pOrder2StockIn.Id = GuidUtil.New();
-                pOrder2StockIn.Sn = SnUtil.Build(Enumeration.BizSnType.Order2StockIn, pOrder2StockIn.UserId);
+                pOrder2StockIn.Sn = SnUtil.Build(Enumeration.BizSnType.Order2StockIn, pOrder2StockIn.MerchantId);
                 pOrder2StockIn.Quantity = pOrder2StockInDetails.Select(m => m.Quantity).Sum();
                 pOrder2StockIn.Amount = pOrder2StockInDetails.Select(m => m.Amount).Sum();
                 pOrder2StockIn.WarehouseName = lWarehouse.Name;
@@ -35,7 +35,7 @@ namespace Lumos.BLL
                     var productSKu = CurrentDb.ProductSku.Where(m => m.Id == item.ProductSkuId).FirstOrDefault();
 
                     item.Id = GuidUtil.New();
-                    item.UserId = pOrder2StockIn.UserId;
+                    item.MerchantId = pOrder2StockIn.MerchantId;
                     item.Order2StockInId = pOrder2StockIn.Id;
                     item.WarehouseId = pOrder2StockIn.WarehouseId;
                     item.WarehouseName = pOrder2StockIn.WarehouseName;
@@ -49,13 +49,13 @@ namespace Lumos.BLL
                     CurrentDb.SaveChanges();
 
 
-                    var warehouseStock = CurrentDb.WarehouseStock.Where(m => m.UserId == item.UserId && m.WarehouseId == item.WarehouseId && m.ProductSkuId == item.ProductSkuId).FirstOrDefault();
+                    var warehouseStock = CurrentDb.WarehouseStock.Where(m => m.MerchantId == item.MerchantId && m.WarehouseId == item.WarehouseId && m.ProductSkuId == item.ProductSkuId).FirstOrDefault();
 
                     if (warehouseStock == null)
                     {
                         warehouseStock = new WarehouseStock();
                         warehouseStock.Id = GuidUtil.New();
-                        warehouseStock.UserId = item.UserId;
+                        warehouseStock.MerchantId = item.MerchantId;
                         warehouseStock.WarehouseId = item.WarehouseId;
                         warehouseStock.WarehouseName = item.WarehouseName;
                         warehouseStock.ProductSkuId = item.ProductSkuId;
@@ -76,7 +76,7 @@ namespace Lumos.BLL
 
                     var warehouseStockLog = new WarehouseStockLog();
                     warehouseStockLog.Id = GuidUtil.New();
-                    warehouseStockLog.UserId = item.UserId;
+                    warehouseStockLog.MerchantId = item.MerchantId;
                     warehouseStockLog.WarehouseId = item.WarehouseId;
                     warehouseStockLog.WarehouseName = item.WarehouseName;
                     warehouseStockLog.ProductSkuId = item.ProductSkuId;

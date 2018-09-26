@@ -20,5 +20,14 @@ namespace WebTermApi.Controllers
             return new APIResponse(result);
 
         }
+
+
+        [HttpPost]
+        public APIResponse PayResulyQuery(RupPayResultQuery rup)
+        {
+            IResult result = TermServiceFactory.Order.PayResultQuery(rup.UserId, rup);
+            return new APIResponse(result);
+
+        }
     }
 }

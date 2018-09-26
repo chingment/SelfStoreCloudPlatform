@@ -236,9 +236,9 @@ namespace Lumos.DAL.AuthorizeRelay
                 {
                     _db.SysStaffUser.Add(pUser as SysStaffUser);
                 }
-                else if (typeof(T) == typeof(SysMerchatUser))
+                else if (typeof(T) == typeof(SysMerchantUser))
                 {
-                    _db.SysMerchatUser.Add(pUser as SysMerchatUser);
+                    _db.SysMerchantUser.Add(pUser as SysMerchantUser);
                 }
 
                 _db.SaveChanges();

@@ -45,11 +45,11 @@ namespace WebBack.Controllers.Biz
         {
 
             string name = condition.Name.ToSearchString();
-            var query = (from m in CurrentDb.Merchant
-                         join u in CurrentDb.SysUser on m.UserId equals u.Id
+            var query = (from m in CurrentDb.SysMerchantUser
+                         join u in CurrentDb.SysUser on m.Id equals u.Id
                          where
-                                 (name.Length == 0 || m.Name.Contains(name))
-                         select new { m.Id, u.UserName, m.Name, m.ContactName, m.ContactPhone, m.CreateTime });
+                                 (name.Length == 0 || m.MerchantName.Contains(name))
+                         select new { m.Id, u.UserName, m.MerchantName, m.ContactName, m.ContactPhone, m.CreateTime });
 
             int total = query.Count();
 
@@ -66,7 +66,7 @@ namespace WebBack.Controllers.Biz
                 {
                     item.Id,
                     item.UserName,
-                    item.Name,
+                    item.MerchantName,
                     item.ContactName,
                     item.ContactPhone,
                     item.CreateTime
@@ -83,16 +83,16 @@ namespace WebBack.Controllers.Biz
         [HttpPost]
         public CustomJsonResult Add(AddViewModel model)
         {
-            model.SysMerchatUser.UserName = string.Format("{0}{1}", "M", model.SysMerchatUser.UserName);
+            model.SysMerchantUser.UserName = string.Format("{0}{1}", "M", model.SysMerchantUser.UserName);
 
-            return BizFactory.Merchant.Add(this.CurrentUserId, model.SysMerchatUser, model.Merchant);
+            return BizFactory.Merchant.Add(this.CurrentUserId, model.SysMerchantUser, model.MerchantConfig);
         }
 
         [HttpPost]
 
         public CustomJsonResult Edit(EditViewModel model)
         {
-            return BizFactory.Merchant.Edit(this.CurrentUserId, model.SysMerchatUser, model.Merchant);
+            return BizFactory.Merchant.Edit(this.CurrentUserId, model.SysMerchantUser, model.MerchantConfig);
         }
 
 
@@ -102,14 +102,14 @@ namespace WebBack.Controllers.Biz
             string deviceId = condition.DeviceId.ToSearchString();
 
             var list = (from mp in CurrentDb.MerchantMachine
-                        join m in CurrentDb.Merchant on mp.MerchantId equals m.Id
+                        join m in CurrentDb.SysMerchantUser on mp.MerchantId equals m.Id
                         join p in CurrentDb.Machine on mp.MachineId equals p.Id
                         where
                         p.IsUse == true &&
                         mp.IsBind == true &&
                                (deviceId.Length == 0 || p.DeviceId.Contains(deviceId))
 
-                        select new { mp.Id, mp.MerchantId, mp.MachineId, MerchantName = m.Name, p.DeviceId, MachineName = p.Name, p.MacAddress });
+                        select new { mp.Id, mp.MerchantId, mp.MachineId, m.MerchantName, p.DeviceId, MachineName = p.Name, p.MacAddress });
 
             int total = list.Count();
 

@@ -40,11 +40,11 @@ namespace Lumos.BLL.Service.Term
                 //pms.MachineId 为空表示线上商城购买，不为空在线下机器购买
                 if (string.IsNullOrEmpty(rop.MachineId))
                 {
-                    skusByStock = CurrentDb.MachineStock.Where(m => m.UserId == rop.UserId && skuIds.Contains(m.ProductSkuId)).ToList();
+                    skusByStock = CurrentDb.MachineStock.Where(m => m.MerchantId == rop.UserId && skuIds.Contains(m.ProductSkuId)).ToList();
                 }
                 else
                 {
-                    skusByStock = CurrentDb.MachineStock.Where(m => m.UserId == rop.UserId && m.MachineId == rop.MachineId && skuIds.Contains(m.ProductSkuId)).ToList();
+                    skusByStock = CurrentDb.MachineStock.Where(m => m.MerchantId == rop.UserId && m.MachineId == rop.MachineId && skuIds.Contains(m.ProductSkuId)).ToList();
                 }
 
                 if (skusByStock.Count == 0)
@@ -112,7 +112,7 @@ namespace Lumos.BLL.Service.Term
                 var order = new Order();
                 order.Id = GuidUtil.New();
                 order.Sn = SnUtil.Build(Enumeration.BizSnType.Order, rop.UserId);
-                order.UserId = rop.UserId;
+                order.ClientId = rop.UserId;
                 order.StoreId = rop.StoreId;
                 order.Quantity = rop.Details.Sum(m => m.Quantity);
                 order.Status = Enumeration.OrderStatus.WaitPay;
@@ -132,7 +132,7 @@ namespace Lumos.BLL.Service.Term
                     var orderDetails = new OrderDetails();
                     orderDetails.Id = GuidUtil.New();
                     orderDetails.Sn = SnUtil.Build(Enumeration.BizSnType.Order, rop.UserId);
-                    orderDetails.UserId = rop.UserId;
+                    orderDetails.ClientId = rop.UserId;
                     orderDetails.StoreId = rop.StoreId;
                     orderDetails.MachineId = detail.MachineId;
                     orderDetails.OrderId = order.Id;
@@ -168,7 +168,7 @@ namespace Lumos.BLL.Service.Term
                         var orderDetailsChild = new OrderDetailsChild();
                         orderDetailsChild.Id = GuidUtil.New();
                         orderDetailsChild.Sn = SnUtil.Build(Enumeration.BizSnType.Order, rop.UserId);
-                        orderDetailsChild.UserId = rop.UserId;
+                        orderDetailsChild.ClientId = rop.UserId;
                         orderDetailsChild.StoreId = rop.StoreId;
                         orderDetailsChild.MachineId = detailsChild.MachineId;
                         orderDetailsChild.OrderId = order.Id;
@@ -194,7 +194,7 @@ namespace Lumos.BLL.Service.Term
 
                             orderDetailsChildSon.Id = detailsChildSon.Id;
                             orderDetailsChildSon.Sn = SnUtil.Build(Enumeration.BizSnType.Order, rop.UserId);
-                            orderDetailsChildSon.UserId = rop.UserId;
+                            orderDetailsChildSon.ClientId = rop.UserId;
                             orderDetailsChildSon.StoreId = rop.StoreId;
                             orderDetailsChildSon.MachineId = detailsChildSon.MachineId;
                             orderDetailsChildSon.OrderId = order.Id;
@@ -232,7 +232,7 @@ namespace Lumos.BLL.Service.Term
 
                             var machineStockLog = new MachineStockLog();
                             machineStockLog.Id = GuidUtil.New();
-                            machineStockLog.UserId = rop.UserId;
+                            machineStockLog.MerchantId = rop.UserId;
                             machineStockLog.StoreId = rop.StoreId;
                             machineStockLog.MachineId = slotStock.MachineId;
                             machineStockLog.SlotId = slotStock.SlotId;
@@ -279,7 +279,19 @@ namespace Lumos.BLL.Service.Term
 
         }
 
-        public List<OrderReserveDetail> GetReserveDetail(List<RopOrderReserve.Detail> reserveDetails, List<MachineStock> machineStocks)
+        public CustomJsonResult PayResultQuery(string operater, RupPayResultQuery rup)
+        {
+            CustomJsonResult result = new CustomJsonResult();
+
+
+
+            result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功");
+
+            return result;
+        }
+
+
+        private List<OrderReserveDetail> GetReserveDetail(List<RopOrderReserve.Detail> reserveDetails, List<MachineStock> machineStocks)
         {
             List<OrderReserveDetail> details = new List<OrderReserveDetail>();
 

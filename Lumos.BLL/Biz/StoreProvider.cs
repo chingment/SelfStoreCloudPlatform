@@ -16,7 +16,7 @@ namespace Lumos.BLL
             CustomJsonResult result = new CustomJsonResult();
             using (TransactionScope ts = new TransactionScope())
             {
-                var isExistStore = CurrentDb.Store.Where(m => m.UserId == pStore.UserId && m.Name == pStore.Name).FirstOrDefault();
+                var isExistStore = CurrentDb.Store.Where(m => m.MerchantId == pStore.MerchantId && m.Name == pStore.Name).FirstOrDefault();
                 if (isExistStore != null)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "名称已存在,请使用其它");
@@ -42,7 +42,7 @@ namespace Lumos.BLL
             {
                 var lStore = CurrentDb.Store.Where(m => m.Id == pStore.Id).FirstOrDefault();
 
-                var isExistStore = CurrentDb.Store.Where(m => m.UserId == lStore.UserId && m.Id != pStore.Id && m.Name == pStore.Name).FirstOrDefault();
+                var isExistStore = CurrentDb.Store.Where(m => m.MerchantId == lStore.MerchantId && m.Id != pStore.Id && m.Name == pStore.Name).FirstOrDefault();
                 if (isExistStore != null)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "名称已存在,请使用其它");
@@ -98,7 +98,7 @@ namespace Lumos.BLL
                     {
                         storeMachine = new StoreMachine();
                         storeMachine.Id = GuidUtil.New();
-                        storeMachine.UserId = store.UserId;
+                        storeMachine.MerchantId = store.MerchantId;
                         storeMachine.MachineId = machineId;
                         storeMachine.StoreId = pStoreId;
                         storeMachine.IsBind = true;

@@ -40,7 +40,7 @@ namespace WebMerch.Controllers
                          where
                                  (deviceId.Length == 0 || p.DeviceId.Contains(deviceId))
                                  &&
-                                 mp.UserId == this.CurrentUserId
+                                 mp.MerchantId == this.CurrentUserId
                                  &&
                                  mp.IsBind == true
                          select new { mp.Id, MachineId = p.Id, mp.Name, p.DeviceId, p.MacAddress, p.IsUse, p.CreateTime });
@@ -100,7 +100,7 @@ namespace WebMerch.Controllers
 
             var query = from u in CurrentDb.MachineStock
                         where
-                        u.UserId == this.CurrentUserId &&
+                        u.MerchantId == this.CurrentUserId &&
                         u.StoreId == condition.StoreId &&
                         u.MachineId == condition.MachineId &&
                         (name.Length == 0 || u.ProductSkuName.Contains(name))

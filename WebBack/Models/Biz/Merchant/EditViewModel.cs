@@ -7,10 +7,10 @@ namespace WebBack.Models.Biz.Merchant
 {
     public class EditViewModel : OwnBaseViewModel
     {
-        private Lumos.Entity.Merchant _merchant = new Lumos.Entity.Merchant();
-        private Lumos.Entity.SysMerchatUser _sysMerchatUser = new Lumos.Entity.SysMerchatUser();
+        private Lumos.Entity.MerchantConfig _merchant = new Lumos.Entity.MerchantConfig();
+        private Lumos.Entity.SysMerchantUser _sysMerchantUser = new Lumos.Entity.SysMerchantUser();
 
-        public Lumos.Entity.Merchant Merchant
+        public Lumos.Entity.MerchantConfig MerchantConfig
         {
             get
             {
@@ -22,15 +22,15 @@ namespace WebBack.Models.Biz.Merchant
             }
         }
 
-        public Lumos.Entity.SysMerchatUser SysMerchatUser
+        public Lumos.Entity.SysMerchantUser SysMerchantUser
         {
             get
             {
-                return _sysMerchatUser;
+                return _sysMerchantUser;
             }
             set
             {
-                _sysMerchatUser = value;
+                _sysMerchantUser = value;
             }
         }
 
@@ -41,16 +41,16 @@ namespace WebBack.Models.Biz.Merchant
 
         public EditViewModel(string id)
         {
-            var merchant = CurrentDb.Merchant.Where(m => m.Id == id).FirstOrDefault();
+            var merchant = CurrentDb.MerchantConfig.Where(m => m.Id == id).FirstOrDefault();
             if (merchant != null)
             {
                 _merchant = merchant;
 
-                var sysMerchatUser = CurrentDb.SysMerchatUser.Where(m => m.Id == merchant.UserId).FirstOrDefault();
+                var sysMerchatUser = CurrentDb.SysMerchantUser.Where(m => m.Id == merchant.MerchantId).FirstOrDefault();
 
                 if (sysMerchatUser != null)
                 {
-                    _sysMerchatUser = sysMerchatUser;
+                    _sysMerchantUser = sysMerchatUser;
                 }
 
             }

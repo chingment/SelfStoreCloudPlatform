@@ -14,7 +14,7 @@ namespace Lumos.Entity
     {
         [Key]
         public string Id { get; set; }
-        public string UserId { get; set; }
+        public string ClientId { get; set; }
         [MaxLength(128)]
         public string OpenId { get; set; }
         [MaxLength(128)]

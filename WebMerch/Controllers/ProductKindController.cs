@@ -34,7 +34,7 @@ namespace WebMerch.Controllers
             ProductKind[] arr;
             if (pId == 0)
             {
-                arr = CurrentDb.ProductKind.Where(m => m.UserId == this.CurrentUserId && m.IsDelete == false).OrderByDescending(m => m.Priority).ToArray();
+                arr = CurrentDb.ProductKind.Where(m => m.MerchantId == this.CurrentUserId && m.IsDelete == false).OrderByDescending(m => m.Priority).ToArray();
             }
             else
             {
@@ -57,7 +57,7 @@ namespace WebMerch.Controllers
         [OwnNoResubmit]
         public CustomJsonResult Add(AddViewModel model)
         {
-            model.ProductKind.UserId = this.CurrentUserId;
+            model.ProductKind.MerchantId = this.CurrentUserId;
             return BizFactory.ProductKind.Add(this.CurrentUserId, model.ProductKind);
         }
 

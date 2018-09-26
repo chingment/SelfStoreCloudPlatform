@@ -15,7 +15,8 @@ namespace Lumos.Entity
         [Key]
         public string Id { get; set; }
         public string Sn { get; set; }
-        public string UserId { get; set; }
+        public string ClientId { get; set; }
+        public string MerchantId { get; set; }
         public string StoreId { get; set; }
         public decimal OriginalAmount { get; set; }
         public decimal DiscountAmount { get; set; }

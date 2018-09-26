@@ -14,7 +14,7 @@ namespace Lumos.BLL.Service.App
 
     public class OrderService : BaseProvider
     {
-        public CustomJsonResult Confrim(string operater, string userId, RopOrderConfirm rop)
+        public CustomJsonResult Confrim(string pPperater, string pClientId, RopOrderConfirm rop)
         {
             var result = new CustomJsonResult();
 
@@ -78,7 +78,7 @@ namespace Lumos.BLL.Service.App
                 orderBlock_Express.TagName = "快递商品";
                 orderBlock_Express.Skus = skus_SelfExpress;
                 var shippingAddressModel = new UserDeliveryAddressModel();
-                var shippingAddress = CurrentDb.UserDeliveryAddress.Where(m => m.UserId == userId && m.IsDefault == true).FirstOrDefault();
+                var shippingAddress = CurrentDb.ClientDeliveryAddress.Where(m => m.ClientId == pClientId && m.IsDefault == true).FirstOrDefault();
                 if (shippingAddress != null)
                 {
                     shippingAddressModel.Id = shippingAddress.Id;
@@ -117,7 +117,7 @@ namespace Lumos.BLL.Service.App
 
             if (rop.CouponId == null || rop.CouponId.Count == 0)
             {
-                var couponsCount = CurrentDb.UserCoupon.Where(m => m.UserId == userId && m.Status == Entity.Enumeration.CouponStatus.WaitUse && m.EndTime > DateTime.Now).Count();
+                var couponsCount = CurrentDb.ClientCoupon.Where(m => m.ClientId == pClientId && m.Status == Entity.Enumeration.CouponStatus.WaitUse && m.EndTime > DateTime.Now).Count();
 
                 if (couponsCount == 0)
                 {
@@ -131,7 +131,7 @@ namespace Lumos.BLL.Service.App
             else
             {
 
-                var coupons = CurrentDb.UserCoupon.Where(m => m.UserId == userId && rop.CouponId.Contains(m.Id)).ToList();
+                var coupons = CurrentDb.ClientCoupon.Where(m => m.ClientId == pClientId && rop.CouponId.Contains(m.Id)).ToList();
 
                 foreach (var item in coupons)
                 {

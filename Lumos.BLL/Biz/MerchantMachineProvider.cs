@@ -28,13 +28,13 @@ namespace Lumos.BLL
                 lMachine.MendTime = this.DateTime;
                 lMachine.Mender = pOperater;
 
-                var lMerchant = CurrentDb.Merchant.Where(m => m.Id == pMerchantId).FirstOrDefault();
+                var lMerchant = CurrentDb.MerchantConfig.Where(m => m.Id == pMerchantId).FirstOrDefault();
                 var lMerchantMachine = CurrentDb.MerchantMachine.Where(m => m.MerchantId == pMerchantId && m.MachineId == pMachineId).FirstOrDefault();
                 if (lMerchantMachine == null)
                 {
                     lMerchantMachine = new MerchantMachine();
                     lMerchantMachine.Id = GuidUtil.New();
-                    lMerchantMachine.UserId = lMerchant.UserId;
+                    lMerchantMachine.MerchantId = lMerchant.MerchantId;
                     lMerchantMachine.MerchantId = pMerchantId;
                     lMerchantMachine.MachineId = pMachineId;
                     lMerchantMachine.IsBind = true;

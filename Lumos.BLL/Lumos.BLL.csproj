@@ -149,6 +149,7 @@
     <Compile Include="Service\Term\RModels\RupGlobalDataSet.cs" />
     <Compile Include="Service\Term\RModels\RupMachineApiConfig.cs" />
     <Compile Include="Service\Term\RModels\RupMachineGetSlotSkuStock.cs" />
+    <Compile Include="Service\Term\RModels\RupPayResultQuery.cs" />
     <Compile Include="Service\Term\TermServiceFactory.cs" />
     <Compile Include="SnUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

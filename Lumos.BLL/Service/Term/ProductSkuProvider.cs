@@ -15,7 +15,7 @@ namespace Lumos.BLL.Service.Term
 
 
 
-            var productSkus = CurrentDb.ProductSku.Where(m => m.UserId == pUserId).ToList();
+            var productSkus = CurrentDb.ProductSku.Where(m => m.MerchantId == pUserId).ToList();
 
 
 

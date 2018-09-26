@@ -71,7 +71,7 @@ namespace Lumos.BLL
                 var order = CurrentDb.Order.Where(m => m.Sn == orderSn).FirstOrDefault();
                 if (order != null)
                 {
-                    mod_OrderNotifyLog.UserId = order.UserId;
+                    mod_OrderNotifyLog.MerchantId = order.MerchantId;
                     mod_OrderNotifyLog.OrderId = order.Id;
                     mod_OrderNotifyLog.OrderSn = order.Sn;
                 }

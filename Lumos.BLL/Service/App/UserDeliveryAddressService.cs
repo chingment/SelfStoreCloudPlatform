@@ -12,13 +12,13 @@ namespace Lumos.BLL.Service.App
     public class UserDeliveryAddressService : BaseProvider
     {
 
-        public List<UserDeliveryAddressModel> My(string operater, string userId)
+        public List<UserDeliveryAddressModel> My(string operater, string pClientId)
         {
             var model = new List<UserDeliveryAddressModel>();
 
-            var query = (from o in CurrentDb.UserDeliveryAddress
+            var query = (from o in CurrentDb.ClientDeliveryAddress
                          where
-                         o.UserId == userId &&
+                         o.ClientId == pClientId &&
                          o.IsDelete == false
                          select new { o.Id, o.Consignee, o.PhoneNumber, o.Address, o.AreaName, o.AreaCode, o.IsDefault, o.CreateTime }
               );
@@ -48,16 +48,16 @@ namespace Lumos.BLL.Service.App
         }
 
 
-        public CustomJsonResult Edit(string operater, string userId, RopUserDeliveryAddressEdit rop)
+        public CustomJsonResult Edit(string operater, string pClientId, RopUserDeliveryAddressEdit rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 
-            var l_userDeliveryAddress = CurrentDb.UserDeliveryAddress.Where(m => m.Id == rop.Id).FirstOrDefault();
+            var l_userDeliveryAddress = CurrentDb.ClientDeliveryAddress.Where(m => m.Id == rop.Id).FirstOrDefault();
             if (l_userDeliveryAddress == null)
             {
-                l_userDeliveryAddress = new UserDeliveryAddress();
+                l_userDeliveryAddress = new ClientDeliveryAddress();
                 l_userDeliveryAddress.Id = GuidUtil.New();
-                l_userDeliveryAddress.UserId = userId;
+                l_userDeliveryAddress.ClientId = pClientId;
                 l_userDeliveryAddress.Consignee = rop.Consignee;
                 l_userDeliveryAddress.PhoneNumber = rop.PhoneNumber;
                 l_userDeliveryAddress.AreaName = rop.AreaName;
@@ -66,7 +66,7 @@ namespace Lumos.BLL.Service.App
                 l_userDeliveryAddress.IsDefault = rop.IsDefault;
                 l_userDeliveryAddress.CreateTime = this.DateTime;
                 l_userDeliveryAddress.Creator = operater;
-                CurrentDb.UserDeliveryAddress.Add(l_userDeliveryAddress);
+                CurrentDb.ClientDeliveryAddress.Add(l_userDeliveryAddress);
                 CurrentDb.SaveChanges();
 
             }
@@ -84,7 +84,7 @@ namespace Lumos.BLL.Service.App
 
             if (rop.IsDefault)
             {
-                var list = CurrentDb.UserDeliveryAddress.Where(m => m.UserId == userId).ToList();
+                var list = CurrentDb.ClientDeliveryAddress.Where(m => m.ClientId == pClientId).ToList();
 
 
                 foreach (var item in list)

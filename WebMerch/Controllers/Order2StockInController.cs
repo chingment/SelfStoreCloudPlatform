@@ -41,7 +41,7 @@ namespace WebMerch.Controllers
             var query = (from u in CurrentDb.Order2StockIn
                          where (sn.Length == 0 || u.Sn.Contains(sn))
                          &&
-                         u.UserId == this.CurrentUserId
+                         u.MerchantId == this.CurrentUserId
                          select new { u.Id, u.Sn, u.Amount, u.Quantity, u.StockInTime, u.CreateTime });
 
             int total = query.Count();
@@ -76,7 +76,7 @@ namespace WebMerch.Controllers
         [HttpPost]
         public CustomJsonResult Add(AddViewModel model)
         {
-            model.Order2StockIn.UserId = this.CurrentUserId;
+            model.Order2StockIn.MerchantId = this.CurrentUserId;
             return BizFactory.Order2StockIn.Add(this.CurrentUserId, model.Order2StockIn, model.Order2StockInDetails);
         }
     }

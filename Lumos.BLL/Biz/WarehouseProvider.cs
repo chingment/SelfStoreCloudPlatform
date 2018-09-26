@@ -15,7 +15,7 @@ namespace Lumos.BLL
             CustomJsonResult result = new CustomJsonResult();
             using (TransactionScope ts = new TransactionScope())
             {
-                var existObject = CurrentDb.Warehouse.Where(m => m.UserId == pWarehouse.UserId && m.Name == pWarehouse.Name).FirstOrDefault();
+                var existObject = CurrentDb.Warehouse.Where(m => m.MerchantId == pWarehouse.MerchantId && m.Name == pWarehouse.Name).FirstOrDefault();
                 if (existObject != null)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "名称已存在,请使用其它");
@@ -41,7 +41,7 @@ namespace Lumos.BLL
             {
                 var lWarehouse = CurrentDb.Warehouse.Where(m => m.Id == pWarehouse.Id).FirstOrDefault();
 
-                var isExistWarehouse = CurrentDb.Warehouse.Where(m => m.UserId == lWarehouse.UserId && m.Id != pWarehouse.Id && m.Name == pWarehouse.Name).FirstOrDefault();
+                var isExistWarehouse = CurrentDb.Warehouse.Where(m => m.MerchantId == lWarehouse.MerchantId && m.Id != pWarehouse.Id && m.Name == pWarehouse.Name).FirstOrDefault();
                 if (isExistWarehouse != null)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "名称已存在,请使用其它");

@@ -82,7 +82,7 @@ namespace WebMerch.Controllers
         [HttpPost]
         public CustomJsonResult Add(AddViewModel model)
         {
-            model.Store.UserId = this.CurrentUserId;
+            model.Store.MerchantId = this.CurrentUserId;
             return BizFactory.Store.Add(this.CurrentUserId, model.Store);
         }
 
@@ -109,7 +109,7 @@ namespace WebMerch.Controllers
                          &&
                          (name.Length == 0 || u.Name.Contains(name))
                          && p.IsBind == true
-                         && p.UserId == this.CurrentUserId
+                         && p.MerchantId == this.CurrentUserId
                          select new { u.Id, p.Name, u.DeviceId }).Distinct();
 
             int total = query.Count();
@@ -150,12 +150,12 @@ namespace WebMerch.Controllers
                          join p in CurrentDb.MerchantMachine on u.Id equals p.MachineId
                          where
                                 !(from d2 in CurrentDb.StoreMachine
-                                  where d2.UserId == this.CurrentUserId &&
+                                  where d2.MerchantId == this.CurrentUserId &&
                                   d2.IsBind==true
                                   select d2.MachineId).Contains(u.Id)
                          &&
                          (name.Length == 0 || u.Name.Contains(name))
-                         && p.UserId == this.CurrentUserId
+                         && p.MerchantId == this.CurrentUserId
                          && p.IsBind==true
                          select new { u.Id, p.Name, u.DeviceId }).Distinct();
 

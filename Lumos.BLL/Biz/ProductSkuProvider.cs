@@ -149,7 +149,7 @@ namespace Lumos.BLL
 
             foreach (var user in sysUsers)
             {
-                var productSkus = CurrentDb.ProductSku.Where(m => m.UserId == user.Id).ToList();
+                var productSkus = CurrentDb.ProductSku.Where(m => m.MerchantId == user.Id).ToList();
 
                 foreach (var sku in productSkus)
                 {

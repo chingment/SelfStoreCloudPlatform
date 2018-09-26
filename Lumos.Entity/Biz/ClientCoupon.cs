@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace Lumos.Entity
 {
-    [Table("UserCoupon")]
-    public class UserCoupon
+    [Table("ClientCoupon")]
+    public class ClientCoupon
     {
         [Key]
         public string Id { get; set; }
         [MaxLength(128)]
         public string Sn { get; set; }
-        public string UserId { get; set; }
+        public string ClientId { get; set; }
         [MaxLength(128)]
         public string Name { get; set; }
         public DateTime? StartTime { get; set; }

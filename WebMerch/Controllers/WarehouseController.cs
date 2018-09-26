@@ -74,7 +74,7 @@ namespace WebMerch.Controllers
         [HttpPost]
         public CustomJsonResult Add(AddViewModel model)
         {
-            model.Warehouse.UserId = this.CurrentUserId;
+            model.Warehouse.MerchantId = this.CurrentUserId;
             return BizFactory.Warehouse.Add(this.CurrentUserId, model.Warehouse);
         }
 

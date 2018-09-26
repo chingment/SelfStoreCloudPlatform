@@ -9,7 +9,7 @@ namespace WebBack.Models.Biz.Machine
     public class BindViewModel : OwnBaseViewModel
     {
         private Lumos.Entity.Machine _machine = new Lumos.Entity.Machine();
-        private Lumos.Entity.Merchant _merchant = new Lumos.Entity.Merchant();
+        private Lumos.Entity.MerchantConfig _merchant = new Lumos.Entity.MerchantConfig();
 
         public Lumos.Entity.Machine Machine
         {
@@ -23,7 +23,7 @@ namespace WebBack.Models.Biz.Machine
             }
         }
 
-        public Lumos.Entity.Merchant Merchant
+        public Lumos.Entity.MerchantConfig Merchant
         {
             get
             {
@@ -49,7 +49,7 @@ namespace WebBack.Models.Biz.Machine
                 var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.MachineId == machine.Id && m.IsBind==true).FirstOrDefault();
                 if (merchantMachine != null)
                 {
-                    var merchant = CurrentDb.Merchant.Where(m => m.Id == merchantMachine.MerchantId).FirstOrDefault();
+                    var merchant = CurrentDb.MerchantConfig.Where(m => m.Id == merchantMachine.MerchantId).FirstOrDefault();
                     if (merchant != null)
                     {
                         _merchant = merchant;

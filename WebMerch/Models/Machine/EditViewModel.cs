@@ -20,7 +20,7 @@ namespace WebMerch.Models.Machine
 
         public void LoadData(string id)
         {
-            var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.Id == id && m.UserId == this.Operater).FirstOrDefault();
+            var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.Id == id && m.MerchantId == this.Operater).FirstOrDefault();
             if (merchantMachine != null)
             {
                 _merchantMachine = merchantMachine;

@@ -31,7 +31,7 @@ namespace Lumos.DAL
         public IDbSet<BizSn> BizSn { get; set; }
 
         public IDbSet<Machine> Machine { get; set; }
-        public IDbSet<Merchant> Merchant { get; set; }
+        public IDbSet<MerchantConfig> MerchantConfig { get; set; }
         public IDbSet<MerchantMachine> MerchantMachine { get; set; }
         public IDbSet<MachineBanner> MachineBanner { get; set; }
         public IDbSet<ProductKind> ProductKind { get; set; }
@@ -55,9 +55,9 @@ namespace Lumos.DAL
         public IDbSet<WxAutoReply> WxAutoReply { get; set; }
         public IDbSet<WxMsgPushLog> WxMsgPushLog { get; set; }
         public IDbSet<WxUserInfo> WxUserInfo { get; set; }
-        public IDbSet<UserDeliveryAddress> UserDeliveryAddress { get; set; }
-        public IDbSet<UserCoupon> UserCoupon { get; set; }
-        public IDbSet<UserCart> UserCart { get; set; }
+        public IDbSet<ClientDeliveryAddress> ClientDeliveryAddress { get; set; }
+        public IDbSet<ClientCoupon> ClientCoupon { get; set; }
+        public IDbSet<ClientCart> ClientCart { get; set; }
 
         public IDbSet<StoreBanner> StoreBanner { get; set; }
 

@@ -12,7 +12,7 @@ namespace Lumos.BLL
 {
     public class MerchantProvider : BaseProvider
     {
-        public CustomJsonResult Add(string pOperater, SysMerchatUser pSysMerchatUser, Merchant pMerchant)
+        public CustomJsonResult Add(string pOperater, SysMerchantUser pSysMerchatUser, MerchantConfig pMerchant)
         {
             CustomJsonResult result = new CustomJsonResult();
 
@@ -33,11 +33,11 @@ namespace Lumos.BLL
                 pSysMerchatUser.Creator = pOperater;
                 pSysMerchatUser.Status = Enumeration.UserStatus.Normal;
                 pSysMerchatUser.Type = Enumeration.UserType.Merchant;
-                CurrentDb.SysMerchatUser.Add(pSysMerchatUser);
+                CurrentDb.SysMerchantUser.Add(pSysMerchatUser);
                 CurrentDb.SaveChanges();
 
                 pMerchant.Id = GuidUtil.New();
-                pMerchant.UserId = pSysMerchatUser.Id;
+                pMerchant.MerchantId = pSysMerchatUser.Id;
                 pMerchant.CreateTime = this.DateTime;
                 pMerchant.Creator = pOperater;
                 pMerchant.ApiHost = "http://api.17fanju.com";
@@ -45,7 +45,7 @@ namespace Lumos.BLL
                 pMerchant.ApiSecret = "7460e6512f1940f68c00fe1fdb2b7eb1";
                 pMerchant.PayTimeout = 120;
 
-                CurrentDb.Merchant.Add(pMerchant);
+                CurrentDb.MerchantConfig.Add(pMerchant);
                 CurrentDb.SaveChanges();
                 //merchant.Sn = SnUtil.Build(merchant.Id);
                 CurrentDb.SaveChanges();
@@ -59,21 +59,21 @@ namespace Lumos.BLL
             return result;
         }
 
-        public CustomJsonResult Edit(string pOperater, SysMerchatUser pSysMerchatUser, Merchant pMerchant)
+        public CustomJsonResult Edit(string pOperater, SysMerchantUser pSysMerchatUser, MerchantConfig pMerchant)
         {
             CustomJsonResult result = new CustomJsonResult();
             using (TransactionScope ts = new TransactionScope())
             {
-                var lMerchant = CurrentDb.Merchant.Where(m => m.Id == pMerchant.Id).FirstOrDefault();
-                lMerchant.ContactName = pMerchant.ContactName;
-                lMerchant.ContactPhone = pMerchant.ContactPhone;
-                lMerchant.ContactAddress = pMerchant.ContactAddress;
+                var lMerchant = CurrentDb.MerchantConfig.Where(m => m.Id == pMerchant.Id).FirstOrDefault();
+                //lMerchant.ContactName = pMerchant.ContactName;
+                //lMerchant.ContactPhone = pMerchant.ContactPhone;
+                //lMerchant.ContactAddress = pMerchant.ContactAddress;
                 lMerchant.MendTime = this.DateTime;
                 lMerchant.Mender = pOperater;
 
                 if (!string.IsNullOrEmpty(pSysMerchatUser.Password))
                 {
-                    var l_sysMerchatUser = CurrentDb.SysUser.Where(m => m.Id == lMerchant.UserId && m.UserName == pSysMerchatUser.UserName).FirstOrDefault();
+                    var l_sysMerchatUser = CurrentDb.SysUser.Where(m => m.Id == lMerchant.MerchantId && m.UserName == pSysMerchatUser.UserName).FirstOrDefault();
                     if (l_sysMerchatUser != null)
                     {
                         l_sysMerchatUser.PasswordHash = PassWordHelper.HashPassword(pSysMerchatUser.Password);

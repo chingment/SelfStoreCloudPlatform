@@ -8,20 +8,19 @@ using System.Threading.Tasks;
 
 namespace Lumos.Entity
 {
-    [Table("Store")]
-    public class Store
+    [Table("MerchantConfig")]
+    public class MerchantConfig
     {
         [Key]
         public string Id { get; set; }
         public string MerchantId { get; set; }
-        public Enumeration.StoreStatus Status { get; set; }
-        [MaxLength(128)]
-        public string Name { get; set; }
-        [MaxLength(128)]
-        public string Address { get; set; }
         public string Creator { get; set; }
         public DateTime CreateTime { get; set; }
         public string Mender { get; set; }
         public DateTime? MendTime { get; set; }
+        public string ApiHost { get; set; }
+        public string ApiKey { get; set; }
+        public string ApiSecret { get; set; }
+        public int PayTimeout { get; set; }
     }
 }

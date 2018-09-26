@@ -11,12 +11,12 @@ namespace Lumos.BLL.Service.App
 {
     public class CartService : BaseProvider
     {
-        public CartPageModel GetPageData(string pOperater, string pUserId, string pStoreId)
+        public CartPageModel GetPageData(string pOperater, string pClientId, string pStoreId)
         {
             var pageModel = new CartPageModel();
 
 
-            var carts = CurrentDb.UserCart.Where(m => m.UserId == pUserId && m.StoreId == pStoreId && m.Status == Enumeration.CartStatus.WaitSettle).ToList();
+            var carts = CurrentDb.ClientCart.Where(m => m.ClientId == pClientId && m.StoreId == pStoreId && m.Status == Enumeration.CartStatus.WaitSettle).ToList();
 
 
             var skus = new List<CartSkuModel>();
@@ -77,7 +77,7 @@ namespace Lumos.BLL.Service.App
         }
 
         private static readonly object operatelock = new object();
-        public CustomJsonResult Operate(string operater, string userId, RopCartOperate rop)
+        public CustomJsonResult Operate(string operater, string pClientId, RopCartOperate rop)
         {
             var result = new CustomJsonResult();
 
@@ -89,7 +89,7 @@ namespace Lumos.BLL.Service.App
 
                     foreach (var item in rop.Skus)
                     {
-                        var mod_Cart = CurrentDb.UserCart.Where(m => m.UserId == userId && m.StoreId == rop.StoreId && m.ProductSkuId == item.SkuId && m.ChannelId == item.ChannelId && m.ChannelType == item.ChannelType && m.Status == Enumeration.CartStatus.WaitSettle).FirstOrDefault();
+                        var mod_Cart = CurrentDb.ClientCart.Where(m => m.ClientId == pClientId && m.StoreId == rop.StoreId && m.ProductSkuId == item.SkuId && m.ChannelId == item.ChannelId && m.ChannelType == item.ChannelType && m.Status == Enumeration.CartStatus.WaitSettle).FirstOrDefault();
 
                         LogUtil.Info("购物车操作：" + rop.Operate);
                         switch (rop.Operate)
@@ -113,9 +113,9 @@ namespace Lumos.BLL.Service.App
 
                                 if (mod_Cart == null)
                                 {
-                                    mod_Cart = new UserCart();
+                                    mod_Cart = new ClientCart();
                                     mod_Cart.Id = GuidUtil.New();
-                                    mod_Cart.UserId = userId;
+                                    mod_Cart.ClientId = pClientId;
                                     mod_Cart.StoreId = rop.StoreId;
                                     mod_Cart.ProductSkuId = skuModel.Id;
                                     mod_Cart.ProductSkuName = skuModel.Name;
@@ -126,7 +126,7 @@ namespace Lumos.BLL.Service.App
                                     mod_Cart.ChannelId = item.ChannelId;
                                     mod_Cart.ChannelType = item.ChannelType;
                                     mod_Cart.Status = Enumeration.CartStatus.WaitSettle;
-                                    CurrentDb.UserCart.Add(mod_Cart);
+                                    CurrentDb.ClientCart.Add(mod_Cart);
                                 }
                                 else
                                 {
@@ -146,7 +146,7 @@ namespace Lumos.BLL.Service.App
 
                     CurrentDb.SaveChanges();
 
-                    var cartModel = GetPageData(operater, userId, rop.StoreId);
+                    var cartModel = GetPageData(operater, pClientId, rop.StoreId);
 
                     ts.Complete();
 

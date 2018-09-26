@@ -20,13 +20,13 @@ namespace Lumos.BLL
 
             using (TransactionScope ts = new TransactionScope())
             {
-                var isExistProductKind = CurrentDb.ProductKind.Where(m => m.UserId == pProductKind.UserId && m.Name == pProductKind.Name).FirstOrDefault();
+                var isExistProductKind = CurrentDb.ProductKind.Where(m => m.MerchantId == pProductKind.MerchantId && m.Name == pProductKind.Name).FirstOrDefault();
                 if (isExistProductKind != null)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "名称已存在");
                 }
 
-                var lMerchant = CurrentDb.Merchant.Where(m => m.UserId == pProductKind.UserId).FirstOrDefault();
+                var lMerchant = CurrentDb.MerchantConfig.Where(m => m.MerchantId == pProductKind.MerchantId).FirstOrDefault();
 
                 pProductKind.Id = GuidUtil.New();
                 pProductKind.Creator = pOperater;
@@ -60,7 +60,7 @@ namespace Lumos.BLL
         {
             var lProductKind = CurrentDb.ProductKind.Where(m => m.Id == pProductKind.Id).FirstOrDefault();
 
-            var isExistProductKind = CurrentDb.ProductKind.Where(m => m.UserId == lProductKind.UserId && m.Id != lProductKind.Id && m.Name == lProductKind.Name).FirstOrDefault();
+            var isExistProductKind = CurrentDb.ProductKind.Where(m => m.MerchantId == lProductKind.MerchantId && m.Id != lProductKind.Id && m.Name == lProductKind.Name).FirstOrDefault();
             if (isExistProductKind != null)
             {
                 return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "名称已存在");
