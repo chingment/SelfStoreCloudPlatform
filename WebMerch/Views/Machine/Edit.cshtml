@@ -10,7 +10,7 @@
 
         $(this).ready(function () {
             $.formValidator.initConfig({ formID: "form_machine", onError: function (msg) { art.dialog.tips(msg); } });
-            $("#Model_MerchantMachine_Name").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "名称不能为空,且不超过50个字符！" });
+            $("#Model_MerchantMachine_MachineName").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "名称不能为空,且不超过50个字符！" });
         });
 
         function edit() {
@@ -74,7 +74,7 @@
                             <td class="f-tb-t">机器名称：</td>
                             <td class="f-tb-c">
                                 <span>
-                                    <input id="Model_MerchantMachine_Name" name="Model.MerchantMachine.Name" type="text" class="input-control" value="@Model.MerchantMachine.Name" style="width:300px;" />
+                                    <input id="Model_MerchantMachine_MachineName" name="Model.MerchantMachine.MachineName" type="text" class="input-control" value="@Model.MerchantMachine.MachineName" style="width:300px;" />
                                 </span>
                             </td>
                         </tr>
