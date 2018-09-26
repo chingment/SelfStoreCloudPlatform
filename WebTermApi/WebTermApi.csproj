@@ -132,9 +132,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Global\" />
-    <Folder Include="Views\Machine\" />
-    <Folder Include="Views\Order\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -196,15 +193,6 @@
     <None Include="log4net.config">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="xmlModel\保单详情查询请求报文.xml" />
-    <Content Include="xmlModel\保费计算请求报文_混合.xml" />
-    <Content Include="xmlModel\承保请求报文.xml" />
-    <Content Include="xmlModel\投保服务请求报文.xml" />
-    <Content Include="xmlModel\身份证.jpg" />
-    <Content Include="xmlModel\图文识别.xml" />
-    <Content Include="xmlModel\车型查询请求报文.xml" />
-    <Content Include="xmlModel\车辆信息查询请求报文.xml" />
-    <Content Include="xmlModel\驾使证正面.jpg" />
     <None Include="Properties\PublishProfiles\api.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

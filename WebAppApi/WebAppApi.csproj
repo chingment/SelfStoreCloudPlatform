@@ -132,15 +132,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Car\" />
-    <Folder Include="Views\Coupon\" />
-    <Folder Include="Views\Global\" />
-    <Folder Include="Views\InsPrd\" />
-    <Folder Include="Views\Lllegal\" />
-    <Folder Include="Views\Pay\" />
-    <Folder Include="Views\Product\" />
-    <Folder Include="Views\ShippingAddress\" />
-    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -188,14 +179,6 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Views\Resource\BannerDetails.cshtml" />
-    <Content Include="Views\Shared\_AppLayout.cshtml" />
-    <Content Include="Views\Resource\yonggongxieyi.cshtml" />
-    <Content Include="Views\Resource\lipeixieyi.cshtml" />
-    <Content Include="Views\ExtendedApp\ComeInSoon.cshtml" />
-    <Content Include="Views\ExtendedApp\poscredit.cshtml" />
-    <Content Include="Views\Resource\PrdDetails.cshtml" />
-    <Content Include="Views\Resource\IdRecogInfo.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>
