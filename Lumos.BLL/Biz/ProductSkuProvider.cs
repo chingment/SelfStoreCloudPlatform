@@ -103,17 +103,17 @@ namespace Lumos.BLL
             return result;
         }
 
-        public CustomJsonResult EditBySalePrice(string pOperater, string storeId, string productSkuId, decimal productSkuSalePrice)
+        public CustomJsonResult EditBySalePrice(string pOperater, string pStoreId, string pProductSkuId, decimal pProductSkuSalePrice)
         {
             CustomJsonResult result = new CustomJsonResult();
 
             using (TransactionScope ts = new TransactionScope())
             {
-                var lMachineStocks = CurrentDb.MachineStock.Where(m => m.StoreId == storeId && m.ProductSkuId == productSkuId).ToList();
+                var lMachineStocks = CurrentDb.MachineStock.Where(m => m.StoreId == pStoreId && m.ProductSkuId == pProductSkuId).ToList();
 
                 foreach (var machineStock in lMachineStocks)
                 {
-                    machineStock.SalesPrice = productSkuSalePrice;
+                    machineStock.SalesPrice = pProductSkuSalePrice;
                     machineStock.Mender = pOperater;
                     machineStock.MendTime = this.DateTime;
                 }
@@ -127,12 +127,12 @@ namespace Lumos.BLL
             return result;
         }
 
-        public ProductSku GetModel(string id)
+        public ProductSku GetModel(string pId)
         {
-            var model = ProductSkuCacheUtil.GetOne(id);
+            var model = ProductSkuCacheUtil.GetOne(pId);
             if (model == null)
             {
-                model = CurrentDb.ProductSku.Where(m => m.Id == id).FirstOrDefault();
+                model = CurrentDb.ProductSku.Where(m => m.Id == pId).FirstOrDefault();
                 if (model != null)
                 {
                     ProductSkuCacheUtil.Add(model);

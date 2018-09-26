@@ -86,7 +86,6 @@ namespace Lumos.BLL.Service.Term
             }
 
             var model = new ApiConfigModel();
-            model.UserId = merchant.MerchantId;
             model.MerchantId = merchant.Id;
             model.MachineId = machine.Id;
             model.ApiHost = merchant.ApiHost;
