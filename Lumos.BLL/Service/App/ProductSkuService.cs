@@ -14,7 +14,7 @@ namespace Lumos.BLL.Service.App
 
             var query = (from o in CurrentDb.ProductSku
 
-                         select new { o.Id, o.Name, o.KindIds, o.KindNames, o.DispalyImgUrls, o.ImgUrl, o.CreateTime, o.SalePrice }
+                         select new { o.Id, o.Name, o.KindIds, o.KindNames, o.DispalyImgUrls, o.BriefInfo, o.SalePrice, o.ShowPrice, o.ImgUrl, o.CreateTime }
              );
 
             if (rup.Name != null && rup.Name.Length > 0)
@@ -54,30 +54,32 @@ namespace Lumos.BLL.Service.App
                     Id = item.Id,
                     Name = item.Name,
                     ImgUrl = BizFactory.ProductSku.GetMainImg(item.DispalyImgUrls),
-                    SalePrice = item.SalePrice.ToF2Price()
-                });
-            }
+                    SalePrice = item.SalePrice.ToF2Price(),
+                    ShowPrice = item.ShowPrice.ToF2Price(),
+                    BriefInfo = item.BriefInfo
+            });
+        }
 
             return olist;
 
 
         }
 
-        public SkuModel Details(string skuId)
-        {
-            var model = BizFactory.ProductSku.GetModel(skuId);
+    public SkuModel Details(string skuId)
+    {
+        var model = BizFactory.ProductSku.GetModel(skuId);
 
-            var sku = new SkuModel();
+        var sku = new SkuModel();
 
-            sku.Id = model.Id;
-            sku.Name = model.Name;
-            sku.SalePrice = model.SalePrice.ToF2Price();
-            sku.ShowPrice = model.ShowPrice.ToF2Price();
-            sku.DetailsDes = model.DetailsDes;
-            sku.BriefIntro = model.BriefInfo;
-            sku.DispalyImgUrls = BizFactory.ProductSku.GetDispalyImgUrls(model.DispalyImgUrls);
+        sku.Id = model.Id;
+        sku.Name = model.Name;
+        sku.SalePrice = model.SalePrice.ToF2Price();
+        sku.ShowPrice = model.ShowPrice.ToF2Price();
+        sku.DetailsDes = model.DetailsDes;
+        sku.BriefInfo = model.BriefInfo;
+        sku.DispalyImgUrls = BizFactory.ProductSku.GetDispalyImgUrls(model.DispalyImgUrls);
 
-            return sku;
-        }
+        return sku;
     }
+}
 }
