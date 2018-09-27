@@ -19,9 +19,11 @@ namespace Lumos.BLL.Service.App
 
         public class Tab
         {
+            public string BannerImgUrl { get; set; }
             public string Name { get; set; }
             public bool Selected { get; set; }
-            public List<SkuModel> list { get; set; }
+            public List<SkuModel> List { get; set; }
+            public int PageIndex { get; set; }
         }
     }
 }

@@ -32,12 +32,12 @@ namespace Lumos.BLL.Service.App
             //    query = query.Where(p => p.ProductCategoryId.ToString().StartsWith(categoryId.ToString()));
             //}
 
-            if (string.IsNullOrWhiteSpace(rup.KindId))
+
+            if (!string.IsNullOrEmpty(rup.KindId))
             {
-
-                //string strkindId = BizFactory.Product.BuildProductKindIdForSearch(kindId.ToString());
-
-                //query = query.Where(p =>p.Id.c);
+                query = query.Where(p => (from d in CurrentDb.ProductKindSku
+                                          where d.ProductKindId == rup.KindId
+                                          select d.ProductSkuId).Contains(p.Id));
             }
 
             int pageSize = 10;
