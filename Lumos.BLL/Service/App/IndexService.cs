@@ -31,6 +31,18 @@ namespace Lumos.BLL.Service.App
 
             pageModel.Banner = bannerModel;
 
+
+            var pdAreaModel = new PdAreaModel();
+
+
+            pdAreaModel.Tabs.Add(new PdAreaModel.Tab { Name = "热门推荐", Selected = true });
+            pdAreaModel.Tabs.Add(new PdAreaModel.Tab { Name = "休闲零食", Selected = false });
+            pdAreaModel.Tabs.Add(new PdAreaModel.Tab { Name = "营养食品", Selected = false });
+            pdAreaModel.Tabs.Add(new PdAreaModel.Tab { Name = "百货用品", Selected = false });
+
+
+            pageModel.PdArea = pdAreaModel;
+
             return pageModel;
         }
     }

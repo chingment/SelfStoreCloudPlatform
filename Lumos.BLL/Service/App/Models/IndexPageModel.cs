@@ -14,5 +14,7 @@ namespace Lumos.BLL.Service.App
         }
 
         public BannerModel Banner { get; set; }
+
+        public PdAreaModel PdArea { get; set; }
     }
 }

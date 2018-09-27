@@ -103,6 +103,7 @@
     <Compile Include="Service\App\Models\CartPageModel.cs" />
     <Compile Include="Service\App\Models\CartSkuModel.cs" />
     <Compile Include="Service\App\Models\OrderConfirmSkuModel.cs" />
+    <Compile Include="Service\App\Models\PdAreaModel.cs" />
     <Compile Include="Service\App\Models\UserCouponModel.cs" />
     <Compile Include="Service\App\Models\IndexPageModel.cs" />
     <Compile Include="Service\App\Models\OrderConfirmCouponModel.cs" />

@@ -27,5 +27,7 @@ namespace WebTermApi.Controllers
             IResult<RetPayResultQuery> result = TermServiceFactory.Order.PayResultQuery(rup.UserId, rup);
             return new APIResponse<RetPayResultQuery>(result);
         }
+
+
     }
 }
