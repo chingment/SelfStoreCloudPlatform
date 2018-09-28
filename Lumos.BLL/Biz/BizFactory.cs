@@ -104,5 +104,13 @@ namespace Lumos.BLL
             }
         }
 
+        public static RecipientModeProvider RecipientMode
+        {
+            get
+            {
+                return new RecipientModeProvider();
+            }
+        }
+
     }
 }

@@ -53,7 +53,7 @@ namespace Lumos.BLL.Service.App
                 {
                     Id = item.Id,
                     Name = item.Name,
-                    ImgUrl = BizFactory.ProductSku.GetMainImg(item.DispalyImgUrls),
+                    ImgUrl = Entity.ImgSet.GetMain(item.DispalyImgUrls),
                     SalePrice = item.SalePrice.ToF2Price(),
                     ShowPrice = item.ShowPrice.ToF2Price(),
                     BriefInfo = item.BriefInfo

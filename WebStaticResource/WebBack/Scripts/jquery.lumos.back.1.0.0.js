@@ -462,7 +462,7 @@
             }
 
             //window.top.tips(message);
-            art.dialog.tips(message,3000);
+            art.dialog.tips(message, 3000);
             return false;
         },
 
@@ -1736,6 +1736,49 @@
 
         return this;
 
+    }
+
+    $.fn.val2Arr = function () {
+        var v = new Array()
+        var sels = $(this).find("option:selected");
+        for (var i = 0; i < sels.length; i++) {
+            var _v = $(sels[i]).val();
+            _v = _v.replace(/&nbsp;/ig, "");
+            _v = $.trim(_v);
+            if (_v != "") {
+                v.push(_v)
+            }
+        }
+        return v;
+    }
+
+    $.fn.val2ImgArr = function () {
+
+        var v = new Array()
+        var uploadimgbox = $(this).find('.uploadimgbox')
+
+        for (var i = 0; i < uploadimgbox.length; i++) {
+            var imgUrl = $(uploadimgbox[i]).find('.imgUrl').val();
+            imgUrl = imgUrl.replace(/&nbsp;/ig, "");
+            imgUrl = $.trim(imgUrl);
+            if (imgUrl != "") {
+                var isMain = $(uploadimgbox[i]).find('.isMain').val();
+
+                if (isMain == "true") {
+                    isMain = 1;
+                }
+                else {
+                    isMain = 0;
+                }
+
+                v.push({
+                    imgUrl: imgUrl,
+                    isMain: isMain
+                })
+            }
+        }
+
+        return v;
     }
 
 })(jQuery);

@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Biz.RModels
 {
-    public class RetPayResultQuery
+    public class RetProducSkuAdd
     {
-        public string OrderSn { get; set; }
-
-        public Entity.Enumeration.OrderStatus Status { get; set; }
-
+        public string Id { get; set; }
     }
 }

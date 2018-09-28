@@ -1,5 +1,6 @@
 ﻿using Lumos;
 using Lumos.BLL;
+using Lumos.BLL.Biz.RModels;
 using Lumos.Common;
 using Lumos.Entity;
 using Lumos.Mvc;
@@ -46,19 +47,15 @@ namespace WebMerch.Controllers
         }
 
         [HttpPost]
-        public CustomJsonResult Add(AddViewModel model)
+        public CustomJsonResult Add(RopProducSkuAdd rop)
         {
-            var displayimgs = model.DispalyImgs.Where(m => m.ImgUrl != null).ToList();
-            model.ProductSku.DispalyImgUrls = Newtonsoft.Json.JsonConvert.SerializeObject(displayimgs);
-            return BizFactory.ProductSku.Add(this.CurrentUserId, model.ProductSku);
+            return BizFactory.ProductSku.Add(this.CurrentUserId, this.CurrentUserId, rop);
         }
 
         [HttpPost]
-        public CustomJsonResult Edit(EditViewModel model)
+        public CustomJsonResult Edit(RopProducSkuEdit rop)
         {
-            var displayimgs = model.DispalyImgs.Where(m => m.ImgUrl != null).ToList();
-            model.ProductSku.DispalyImgUrls = Newtonsoft.Json.JsonConvert.SerializeObject(displayimgs);
-            return BizFactory.ProductSku.Edit(this.CurrentUserId, model.ProductSku);
+            return BizFactory.ProductSku.Edit(this.CurrentUserId, this.CurrentUserId, rop);
         }
 
         [HttpPost]
@@ -74,7 +71,7 @@ namespace WebMerch.Controllers
         {
             var query = (from u in CurrentDb.ProductSku
                          where (condition.Name == null || u.Name.Contains(condition.Name))
-                         select new { u.Id, u.Name, u.CreateTime, u.KindNames, u.SalePrice, u.ShowPrice, u.DispalyImgUrls });
+                         select new { u.Id, u.Name, u.CreateTime, u.KindNames, u.SubjectNames, u.SalePrice, u.ShowPrice, u.DispalyImgUrls });
 
             int total = query.Count();
 
@@ -94,6 +91,7 @@ namespace WebMerch.Controllers
                     Name = item.Name,
                     MainImg = ImgSet.GetMain(item.DispalyImgUrls),
                     KindNames = item.KindNames,
+                    SubjectNames = item.SubjectNames,
                     SalePrice = item.SalePrice.ToF2Price(),
                     ShowPrice = item.ShowPrice.ToF2Price(),
                     CreateTime = item.CreateTime,

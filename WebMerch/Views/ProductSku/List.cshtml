@@ -24,6 +24,7 @@
                 l_StrRows += "<td class=\"overflow tipitem\"><div> <img src=\"" + p_row.mainImg + "\" style=\"width:50px;height:50px\"><div></td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.name + "\">" + p_row.name + "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.kindNames + "\">" + p_row.kindNames + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.subjectNames + "\">" + p_row.subjectNames + "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.salePrice + "\"><a href=\"javascript:void(0)\" operate=\"editBySalePrice\"   class=\"a-btn a-btn-edit\"  >" + p_row.salePrice + "</a></td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.showPrice + "\">" + p_row.showPrice + "</td>";
                 l_StrRows += "<td class=\"operation\">";
@@ -188,12 +189,15 @@
                         模块
                     </th>
                     <th style="width:15%">
+                        栏目
+                    </th>
+                    <th style="width:10%">
                         销售价
                     </th>
-                    <th style="width:15%">
+                    <th style="width:10%">
                         展示价
                     </th>
-                    <th style="width:15%" class="operation">
+                    <th style="width:10%" class="operation">
                         操作
                     </th>
                 </tr>
@@ -201,7 +205,7 @@
             <tbody></tbody>
             <tfoot>
                 <tr>
-                    <td colspan="7">
+                    <td colspan="8">
                         <div class="pull-left">
                             <span class="load-tip"></span>
                         </div>

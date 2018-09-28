@@ -9,141 +9,212 @@ using Lumos.Common;
 using Lumos.Redis;
 using NPinyin;
 using System.Text;
-
+using Lumos.BLL.Biz.RModels;
+using Lumos.Common;
 namespace Lumos.BLL
 {
 
     public class ProductSkuProvider : BaseProvider
     {
-        public CustomJsonResult Add(string pOperater, ProductSku pProductSku)
+        public CustomJsonResult Add(string pOperater, string pMerchantId, RopProducSkuAdd rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 
+
+            if (string.IsNullOrEmpty(rop.Name))
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "商品名称不能为空");
+            }
+
+            if (rop.KindIds == null || rop.KindIds.Count == 0)
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "商品模块分类不能为空");
+            }
+
+            if (rop.RecipientModeIds == null || rop.RecipientModeIds.Count == 0)
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "取货模式不能为空");
+            }
+
+            if (rop.DispalyImgUrls == null || rop.DispalyImgUrls.Count == 0)
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "商品图片不能为空");
+            }
+
             using (TransactionScope ts = new TransactionScope())
             {
-                pProductSku.Id = GuidUtil.New();
-                pProductSku.Creator = pOperater;
-                pProductSku.CreateTime = this.DateTime;
 
-                CurrentDb.ProductSku.Add(pProductSku);
+                var productSku = new ProductSku();
+                productSku.Id = GuidUtil.New();
+                productSku.MerchantId = pMerchantId;
+                productSku.Name = rop.Name;
+                productSku.BarCode = rop.BarCode;
+                Encoding gb2312 = Encoding.GetEncoding("GB2312");
+                string s = Pinyin.ConvertEncoding(productSku.Name, Encoding.UTF8, gb2312);
+                string simpleCode = Pinyin.GetInitials(s, gb2312);
+                productSku.SimpleCode = simpleCode;
+                productSku.DispalyImgUrls = rop.DispalyImgUrls.ToJsonString();
+                productSku.ImgUrl = ImgSet.GetMain(productSku.DispalyImgUrls);
+                productSku.ShowPrice = rop.ShowPrice;
+                productSku.SalePrice = rop.SalePrice;
+                productSku.DetailsDes = rop.DetailsDes;
+                productSku.SpecDes = rop.SpecDes;
+                productSku.BriefInfo = rop.BriefInfo;
+                productSku.Creator = pOperater;
+                productSku.CreateTime = this.DateTime;
 
 
-                if (!string.IsNullOrEmpty(pProductSku.KindIds))
+                var recipientModes = BizFactory.RecipientMode.GetList().Where(m => rop.RecipientModeIds.Contains(m.Id)).ToList();
+
+                productSku.RecipientModeIds = string.Join(",", recipientModes.Select(m => m.Id).ToArray());
+                productSku.RecipientModeNames = string.Join(",", recipientModes.Select(m => m.Name).ToArray());
+
+
+                var productKinds = CurrentDb.ProductKind.Where(m => rop.KindIds.Contains(m.Id)).ToList();
+
+                productSku.KindIds = string.Join(",", productKinds.Select(m => m.Id).ToArray());
+                productSku.KindNames = string.Join(",", productKinds.Select(m => m.Name).ToArray());
+
+                foreach (var productKind in productKinds)
                 {
-                    string[] arr_KindIds = pProductSku.KindIds.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-
-                    foreach (var kindId in arr_KindIds)
-                    {
-                        var productKindSku = new ProductKindSku();
-                        productKindSku.Id = GuidUtil.New();
-                        productKindSku.ProductKindId = kindId;
-                        productKindSku.ProductSkuId = pProductSku.Id;
-                        productKindSku.Creator = pOperater;
-                        productKindSku.CreateTime = this.DateTime;
-                        CurrentDb.ProductKindSku.Add(productKindSku);
-                    }
+                    var productKindSku = new ProductKindSku();
+                    productKindSku.Id = GuidUtil.New();
+                    productKindSku.ProductKindId = productKind.Id;
+                    productKindSku.ProductSkuId = productSku.Id;
+                    productKindSku.Creator = pOperater;
+                    productKindSku.CreateTime = this.DateTime;
+                    CurrentDb.ProductKindSku.Add(productKindSku);
                 }
 
 
-                if (!string.IsNullOrEmpty(pProductSku.SubjectIds))
-                {
-                    string[] arr_SubjectIds = pProductSku.SubjectIds.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                var productSubjects = CurrentDb.ProductSubject.Where(m => rop.SubjectIds.Contains(m.Id)).ToList();
 
-                    foreach (var subjectId in arr_SubjectIds)
-                    {
-                        var productSubjectSku = new ProductSubjectSku();
-                        productSubjectSku.Id = GuidUtil.New();
-                        productSubjectSku.ProductSubjectId = subjectId;
-                        productSubjectSku.ProductSkuId = pProductSku.Id;
-                        productSubjectSku.Creator = pOperater;
-                        productSubjectSku.CreateTime = this.DateTime;
-                        CurrentDb.ProductSubjectSku.Add(productSubjectSku);
-                    }
+                productSku.SubjectIds = string.Join(",", productSubjects.Select(m => m.Id).ToArray());
+                productSku.SubjectNames = string.Join(",", productSubjects.Select(m => m.Name).ToArray());
+
+                foreach (var productSubject in productSubjects)
+                {
+                    var productSubjectSku = new ProductSubjectSku();
+                    productSubjectSku.Id = GuidUtil.New();
+                    productSubjectSku.ProductSubjectId = productSubject.Id;
+                    productSubjectSku.ProductSkuId = productSku.Id;
+                    productSubjectSku.Creator = pOperater;
+                    productSubjectSku.CreateTime = this.DateTime;
+                    CurrentDb.ProductSubjectSku.Add(productSubjectSku);
                 }
 
-
-                //CachUtil.Save<ProductSku>(string, ProductSku);
-                //CachUtil.GetList<ProductSku>();
-                //CachUtil.Get<ProductSku>(string);
-
+                CurrentDb.ProductSku.Add(productSku);
                 CurrentDb.SaveChanges(true);
                 ts.Complete();
 
-                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "新建成功");
+
+                var ret = new RetProducSkuAdd();
+
+                ret.Id = productSku.Id;
+
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "新建成功", ret);
             }
 
             return result;
         }
 
-        public CustomJsonResult Edit(string pOperater, ProductSku pProductSku)
+        public CustomJsonResult Edit(string pOperater,string pMerchantId, RopProducSkuEdit rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 
+            if (string.IsNullOrEmpty(rop.Id))
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "商品Id不能为空");
+            }
+
+            if (string.IsNullOrEmpty(rop.Name))
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "商品名称不能为空");
+            }
+
+            if (rop.KindIds == null || rop.KindIds.Count == 0)
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "商品模块分类不能为空");
+            }
+
+            if (rop.RecipientModeIds == null || rop.RecipientModeIds.Count == 0)
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "取货模式不能为空");
+            }
+
+            if (rop.DispalyImgUrls == null || rop.DispalyImgUrls.Count == 0)
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "商品图片不能为空");
+            }
+
             using (TransactionScope ts = new TransactionScope())
             {
-                var lProductSku = CurrentDb.ProductSku.Where(m => m.Id == pProductSku.Id).FirstOrDefault();
+                var productSku = CurrentDb.ProductSku.Where(m => m.Id == rop.Id).FirstOrDefault();
 
-                lProductSku.Name = pProductSku.Name;
-                lProductSku.KindIds = pProductSku.KindIds;
-                lProductSku.KindNames = pProductSku.KindNames;
-                lProductSku.SubjectIds = pProductSku.SubjectIds;
-                lProductSku.SubjectNames = pProductSku.SubjectNames;
-                lProductSku.RecipientModeIds = pProductSku.RecipientModeIds;
-                lProductSku.RecipientModeNames = pProductSku.RecipientModeNames;
-                lProductSku.ShowPrice = pProductSku.ShowPrice;
-                lProductSku.SalePrice = pProductSku.SalePrice;
-                lProductSku.BriefInfo = pProductSku.BriefInfo;
-                lProductSku.DetailsDes = pProductSku.DetailsDes;
-                lProductSku.Mender = pOperater;
-                lProductSku.MendTime = this.DateTime;
+                productSku.Name = rop.Name;
 
+                Encoding gb2312 = Encoding.GetEncoding("GB2312");
+                string s = Pinyin.ConvertEncoding(productSku.Name, Encoding.UTF8, gb2312);
+                string simpleCode = Pinyin.GetInitials(s, gb2312);
+                productSku.SimpleCode = simpleCode;
+                productSku.ShowPrice = rop.ShowPrice;
+                productSku.SalePrice = rop.SalePrice;
+                productSku.BriefInfo = rop.BriefInfo;
+                productSku.DetailsDes = rop.DetailsDes;
+                productSku.Mender = pOperater;
+                productSku.MendTime = this.DateTime;
 
-                var productKindSkus = CurrentDb.ProductKindSku.Where(m => m.ProductSkuId == pProductSku.Id).ToList();
+                var recipientModes = BizFactory.RecipientMode.GetList().Where(m => rop.RecipientModeIds.Contains(m.Id)).ToList();
+
+                productSku.RecipientModeIds = string.Join(",", recipientModes.Select(m => m.Id).ToArray());
+                productSku.RecipientModeNames = string.Join(",", recipientModes.Select(m => m.Name).ToArray());
+
+                var productKindSkus = CurrentDb.ProductKindSku.Where(m => m.ProductSkuId == rop.Id).ToList();
 
                 foreach (var item in productKindSkus)
                 {
                     CurrentDb.ProductKindSku.Remove(item);
                 }
 
-                if (!string.IsNullOrEmpty(pProductSku.KindIds))
-                {
-                    string[] arr_KindIds = pProductSku.KindIds.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                var productKinds = CurrentDb.ProductKind.Where(m => rop.KindIds.Contains(m.Id)).ToList();
 
-                    foreach (var kindId in arr_KindIds)
-                    {
-                        var productKindSku = new ProductKindSku();
-                        productKindSku.Id = GuidUtil.New();
-                        productKindSku.ProductKindId = kindId;
-                        productKindSku.ProductSkuId = pProductSku.Id;
-                        productKindSku.Creator = pOperater;
-                        productKindSku.CreateTime = this.DateTime;
-                        CurrentDb.ProductKindSku.Add(productKindSku);
-                    }
+                productSku.KindIds = string.Join(",", productKinds.Select(m => m.Id).ToArray());
+                productSku.KindNames = string.Join(",", productKinds.Select(m => m.Name).ToArray());
+
+                foreach (var productKind in productKinds)
+                {
+                    var productKindSku = new ProductKindSku();
+                    productKindSku.Id = GuidUtil.New();
+                    productKindSku.ProductKindId = productKind.Id;
+                    productKindSku.ProductSkuId = productSku.Id;
+                    productKindSku.Creator = pOperater;
+                    productKindSku.CreateTime = this.DateTime;
+                    CurrentDb.ProductKindSku.Add(productKindSku);
                 }
 
-                var productSubjectSkus = CurrentDb.ProductSubjectSku.Where(m => m.ProductSkuId == pProductSku.Id).ToList();
+                var productSubjectSkus = CurrentDb.ProductSubjectSku.Where(m => m.ProductSkuId == productSku.Id).ToList();
 
                 foreach (var item in productSubjectSkus)
                 {
                     CurrentDb.ProductSubjectSku.Remove(item);
                 }
 
-                if (!string.IsNullOrEmpty(pProductSku.SubjectIds))
+
+                var productSubjects = CurrentDb.ProductSubject.Where(m => rop.SubjectIds.Contains(m.Id)).ToList();
+
+                productSku.SubjectIds = string.Join(",", productSubjects.Select(m => m.Id).ToArray());
+                productSku.SubjectNames = string.Join(",", productSubjects.Select(m => m.Name).ToArray());
+
+                foreach (var productSubject in productSubjects)
                 {
-                    string[] arr_SubjectIds = pProductSku.SubjectIds.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-
-                    foreach (var subjectId in arr_SubjectIds)
-                    {
-                        var productSubjectSku = new ProductSubjectSku();
-                        productSubjectSku.Id = GuidUtil.New();
-                        productSubjectSku.ProductSubjectId = subjectId;
-                        productSubjectSku.ProductSkuId = pProductSku.Id;
-                        productSubjectSku.Creator = pOperater;
-                        productSubjectSku.CreateTime = this.DateTime;
-                        CurrentDb.ProductSubjectSku.Add(productSubjectSku);
-                    }
+                    var productSubjectSku = new ProductSubjectSku();
+                    productSubjectSku.Id = GuidUtil.New();
+                    productSubjectSku.ProductSubjectId = productSubject.Id;
+                    productSubjectSku.ProductSkuId = productSku.Id;
+                    productSubjectSku.Creator = pOperater;
+                    productSubjectSku.CreateTime = this.DateTime;
+                    CurrentDb.ProductSubjectSku.Add(productSubjectSku);
                 }
-
 
                 CurrentDb.SaveChanges(true);
                 ts.Complete();
@@ -233,19 +304,6 @@ namespace Lumos.BLL
             return list;
         }
 
-        public string GetMainImg(string imgSetJson)
-        {
-            if (string.IsNullOrEmpty(imgSetJson))
-                return "";
-
-            var list = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ImgSet>>(imgSetJson);
-
-            var main = list.Where(m => m.IsMain == true).FirstOrDefault();
-            if (main != null)
-                return main.ImgUrl;
-
-            return "";
-        }
 
         public List<ImgSet> GetDispalyImgUrls(string imgSetJson)
         {

@@ -86,7 +86,11 @@
     <Compile Include="Biz\ProductSkuCacheUtil.cs" />
     <Compile Include="Biz\ProductSkuProvider.cs" />
     <Compile Include="Biz\ProductSubjectProvider.cs" />
+    <Compile Include="Biz\RecipientModeProvider.cs" />
     <Compile Include="Biz\RModels\RetPayResultQuery.cs" />
+    <Compile Include="Biz\RModels\RetProducSkuAdd.cs" />
+    <Compile Include="Biz\RModels\RopProducSkuAdd.cs" />
+    <Compile Include="Biz\RModels\RopProducSkuEdit.cs" />
     <Compile Include="Biz\StoreProvider.cs" />
     <Compile Include="Biz\WarehouseProvider.cs" />
     <Compile Include="Biz\WxUserProvider.cs" />
