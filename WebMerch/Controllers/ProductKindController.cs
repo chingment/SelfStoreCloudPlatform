@@ -85,18 +85,21 @@ namespace WebMerch.Controllers
 
             string name = condition.Name.ToSearchString();
             var query = (from p in CurrentDb.ProductSku
+
+                         join c in CurrentDb.ProductKindSku on p.Id equals c.ProductSkuId
+
                          where
 (from d in CurrentDb.ProductKindSku
  where (kindIds.Contains(d.ProductKindId) || d.ProductKindId == condition.KindId)
  select d.ProductSkuId).Contains(p.Id)
    && (name.Length == 0 || p.Name.Contains(name))
-                         select new { p.Id, p.Name, p.CreateTime, p.KindNames, p.DispalyImgUrls, p.SalePrice, p.ShowPrice });
+                         select new { c.ProductKindId, c.ProductSkuId, p.Name, p.CreateTime, p.KindNames, p.DispalyImgUrls, p.SalePrice, p.ShowPrice });
 
             int total = query.Count();
 
             int pageIndex = condition.PageIndex;
             int pageSize = 10;
-            query = query.OrderBy(r => r.Id).Skip(pageSize * (pageIndex)).Take(pageSize);
+            query = query.OrderBy(r => r.ProductSkuId).Skip(pageSize * (pageIndex)).Take(pageSize);
 
             var list = query.ToList();
 
@@ -105,7 +108,8 @@ namespace WebMerch.Controllers
             {
                 olist.Add(new
                 {
-                    Id = item.Id,
+                    Id = item.ProductSkuId,
+                    KindId = item.ProductKindId,
                     Name = item.Name,
                     MainImg = ImgSet.GetMain(item.DispalyImgUrls),
                     KindNames = item.KindNames,

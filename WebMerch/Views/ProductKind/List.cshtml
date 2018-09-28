@@ -143,37 +143,39 @@
                 searchButtonId: "btn_Search",
                 containerId: "form2",
                 rowDataCombie: function (p_index, p_row) {
-
+                    var l_Strlimt = "";
+                    l_Strlimt += "@Html.IsInPermission("<a href=\\\"javascript:void(0)\\\" operate=\\\"remove\\\"   class=\\\"a-btn a-btn-edit\\\"  >移除</a>")";
                     var l_StrRows = "";
                     l_StrRows += "<tr>";
                     l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
                     l_StrRows += "<td class=\"overflow \" ><div> <img src=\"" + p_row.mainImg + "\" style=\"width:50px;height:50px\"><div></td>";
                     l_StrRows += "<td class=\"overflow tipitem\" title=\"" + p_row.name + "\">" + p_row.name + "</td>";
                     l_StrRows += "<td class=\"overflow tipitem\" title=\"" + p_row.kindNames + "\">" + p_row.kindNames + "</td>";
+                    //l_StrRows += "<td class=\"operation\">";
+                    //l_StrRows += l_Strlimt;
+                    //l_StrRows += "</td>";
                     l_StrRows += "</tr>";
                     return l_StrRows;
                 },
                 operate: {
-                    "delete": function (keys) {
-                        var selObj = getSelectedNode();
-                        if (selObj == null) {
-                            return;
-                        }
-                        var array = new Array();
-                        array.push({ name: "kindId", value: selObj.id });
-                        $.each(keys, function (i, n) {
-                            array.push({ name: "productIds", value: n.id });
-                        });
+                    "remove": function (key) {
 
+                        art.dialog.confirm(
+   '确定要移除[' + key.name + ']？',
+   function () {
 
-                        $.lumos.postJson({
-                            url: "/Biz/ProductKind/RemoveProductFromKind",
-                            data: array,
-                            success: function (d) {
-                                listProduct.loadData(0);
-                                $.lumos.tips(d.message);
-                            }
-                        });
+       $.lumos.postJson({
+           url: "/Biz/ProductKind/RemoveProductFromKind",
+           data: {
+               kindId: key.kindId,
+               skuId: key.skuId
+           },
+           success: function (d) {
+               listProduct.loadData(0);
+               $.lumos.tips(d.message);
+           }
+       });
+   });
 
                     }
                 }
@@ -335,7 +337,7 @@
                     <div class="f-btn-area" style="margin-bottom:5px;">
                         <input type="button" class="btn btn-open" id="btn_add" value="新建" />
                         <input type="button" class="btn btn-delete" id="btn_delete" value="删除" />
-                        <input type="button" class="btn btn-open" id="btn_sort" value="排序" />
+                        @*<input type="button" class="btn btn-open" id="btn_sort" value="排序" />*@
                     </div>
                     <form name="form1" method="post" id="form1">
                         <input type="hidden" name="ProductKindId" id="Model_ProductKind_Id" />
@@ -454,9 +456,12 @@
                                         <th style="width:30%">
                                             名称
                                         </th>
-                                        <th style="width:40%">
+                                        <th style="width:30%">
                                             模块
                                         </th>
+                                        @*<th style="width:10%" class="operation">
+                                            操作
+                                        </th>*@
                                     </tr>
                                 </thead>
                                 <tbody></tbody>

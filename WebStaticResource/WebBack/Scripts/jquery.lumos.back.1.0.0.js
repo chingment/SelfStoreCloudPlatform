@@ -462,7 +462,7 @@
             }
 
             //window.top.tips(message);
-            art.dialog.tips(message, 3000);
+            art.dialog.tips(message);
             return false;
         },
 
