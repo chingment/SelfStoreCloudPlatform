@@ -125,6 +125,12 @@ namespace WebMerch.Controllers
             return Json(ResultType.Success, pageEntity);
         }
 
+        [HttpPost]
+        public CustomJsonResult RemoveProductSku(string kindId, string skuId)
+        {
+            return BizFactory.ProductKind.RemoveProductSku(this.CurrentUserId, kindId, skuId);
+        }
+
         //[HttpPost]
         //public CustomJsonResult Sort(int pId)
         //{

@@ -118,53 +118,32 @@ namespace Lumos.BLL
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "删除成功");
         }
 
-        public CustomJsonResult RemoveProductFromKind(string pOperater, string pKindId, string[] pProductIds)
+        public CustomJsonResult RemoveProductSku(string pOperater, string pKindId, string pSkuId)
         {
-            //CustomJsonResult result = new CustomJsonResult();
+            CustomJsonResult result = new CustomJsonResult();
 
-            //if (productIds != null)
-            //{
-            //    string str_id = kindId.ToString();
+            var productSku = CurrentDb.ProductSku.Where(m => m.Id == pSkuId).FirstOrDefault();
 
-            //    var products = CurrentDb.Product.Where(m => productIds.Contains(m.Id)).ToList();
+            var productKindSkus = CurrentDb.ProductKindSku.Where(m => m.ProductSkuId == pSkuId).ToList();
 
-            //    foreach (var product in products)
-            //    {
-            //        product.ProductKindIds = GetRemoveKindId(product.ProductKindIds, new string[1] { str_id });
+            foreach (var productKindSku in productKindSkus)
+            {
 
-            //        CurrentDb.SaveChanges();
-            //    }
+                if (productKindSku.ProductKindId == pKindId)
+                {
+                    CurrentDb.ProductKindSku.Remove(productKindSku);
+                }
+            }
 
-            //}
+            var kindIds = productKindSkus.Select(m => m.ProductKindId).ToArray();
+            var productKinds = CurrentDb.ProductKind.Where(m => kindIds.Contains(m.Id)).ToList();
+            productSku.KindIds = string.Join(",", productKinds.Select(m => m.Id).ToArray());
+            productSku.KindNames = string.Join(",", productKinds.Select(m => m.Name).ToArray());
+
+            CurrentDb.SaveChanges();
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "删除成功");
         }
 
-
-        private string GetRemoveKindId(string pKindIds, string[] pProductKindIds)
-        {
-            //if (kindIds == null)
-            //    return null;
-
-            //string[] arrKindId = kindIds.Split(',');
-
-            //ArrayList ar = new ArrayList(arrKindId);
-
-            //if (removekindIds != null)
-            //{
-            //    foreach (var id in removekindIds)
-            //    {
-            //        ar.Remove(id);
-            //    }
-            //}
-
-            //string str = string.Join(",", ar.ToArray());
-
-
-            //str = BizFactory.Product.BuildProductKindIds(str);
-
-            //return str;
-            return null;
-        }
     }
 }

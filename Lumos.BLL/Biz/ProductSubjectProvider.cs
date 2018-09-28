@@ -60,15 +60,6 @@ namespace Lumos.BLL
 
         }
 
-        //public IEnumerable<ProductKind> GetProductProductSubject(string pPId)
-        //{
-        //    var query = from c in CurrentDb.ProductKind
-        //                where c.PId == pPId
-        //                select c;
-
-        //    return query.ToList().Concat(query.ToList().SelectMany(t => GetProductKind(t.Id)));
-        //}
-
         public CustomJsonResult Delete(string pOperater, string[] pIds)
         {
             if (pIds != null)
@@ -91,6 +82,33 @@ namespace Lumos.BLL
                     }
                 }
             }
+
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "删除成功");
+        }
+
+        public CustomJsonResult RemoveProductSku(string pOperater, string pSubjectId, string pSkuId)
+        {
+            CustomJsonResult result = new CustomJsonResult();
+
+            var productSku = CurrentDb.ProductSku.Where(m => m.Id == pSkuId).FirstOrDefault();
+
+            var productSubjectSkus = CurrentDb.ProductSubjectSku.Where(m => m.ProductSkuId == pSkuId).ToList();
+
+            foreach (var productSubjectSku in productSubjectSkus)
+            {
+
+                if (productSubjectSku.ProductSubjectId == pSubjectId)
+                {
+                    CurrentDb.ProductSubjectSku.Remove(productSubjectSku);
+                }
+            }
+
+            var subjectIds = productSubjectSkus.Select(m => m.ProductSubjectId).ToArray();
+            var productSubjects = CurrentDb.ProductSubject.Where(m => subjectIds.Contains(m.Id)).ToList();
+            productSku.SubjectIds = string.Join(",", productSubjects.Select(m => m.Id).ToArray());
+            productSku.SubjectNames = string.Join(",", productSubjects.Select(m => m.Name).ToArray());
+
+            CurrentDb.SaveChanges();
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "删除成功");
         }

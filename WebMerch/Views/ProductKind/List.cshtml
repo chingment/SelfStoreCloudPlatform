@@ -151,9 +151,9 @@
                     l_StrRows += "<td class=\"overflow \" ><div> <img src=\"" + p_row.mainImg + "\" style=\"width:50px;height:50px\"><div></td>";
                     l_StrRows += "<td class=\"overflow tipitem\" title=\"" + p_row.name + "\">" + p_row.name + "</td>";
                     l_StrRows += "<td class=\"overflow tipitem\" title=\"" + p_row.kindNames + "\">" + p_row.kindNames + "</td>";
-                    //l_StrRows += "<td class=\"operation\">";
-                    //l_StrRows += l_Strlimt;
-                    //l_StrRows += "</td>";
+                    l_StrRows += "<td class=\"operation\">";
+                    l_StrRows += l_Strlimt;
+                    l_StrRows += "</td>";
                     l_StrRows += "</tr>";
                     return l_StrRows;
                 },
@@ -165,10 +165,10 @@
    function () {
 
        $.lumos.postJson({
-           url: "/Biz/ProductKind/RemoveProductFromKind",
+           url: "/ProductKind/RemoveProductSku",
            data: {
                kindId: key.kindId,
-               skuId: key.skuId
+               skuId: key.id
            },
            success: function (d) {
                listProduct.loadData(0);
@@ -459,15 +459,15 @@
                                         <th style="width:30%">
                                             模块
                                         </th>
-                                        @*<th style="width:10%" class="operation">
+                                        <th style="width:10%" class="operation">
                                             操作
-                                        </th>*@
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="4">
+                                        <td colspan="5">
                                             <div class="pull-left">
                                                 <span class="load-tip"></span>
                                             </div>
