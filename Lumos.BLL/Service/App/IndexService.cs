@@ -44,6 +44,7 @@ namespace Lumos.BLL.Service.App
 
             var pdAreaModel = new PdAreaModel();
 
+           // var productSubjects = CurrentDb.ProductSubject.Where(m => m.MerchantId == store.MerchantId).FirstOrDefault();
 
             pdAreaModel.Tabs.Add(new PdAreaModel.Tab { Name = "热门推荐", Selected = true, BannerImgUrl = "https://demo.res.17fanju.com/Images/Resource/banner0.png" });
             pdAreaModel.Tabs.Add(new PdAreaModel.Tab { Name = "休闲零食", Selected = false, BannerImgUrl = "https://demo.res.17fanju.com/Images/Resource/banner1.png" });
