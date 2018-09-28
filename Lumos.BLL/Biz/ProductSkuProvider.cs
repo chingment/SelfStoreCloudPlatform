@@ -27,18 +27,40 @@ namespace Lumos.BLL
 
                 CurrentDb.ProductSku.Add(pProductSku);
 
-                string[] arr_KindIds = pProductSku.KindIds.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
-                foreach (var kindId in arr_KindIds)
+                if (!string.IsNullOrEmpty(pProductSku.KindIds))
                 {
-                    var productKindSku = new ProductKindSku();
-                    productKindSku.Id = GuidUtil.New();
-                    productKindSku.ProductKindId = kindId;
-                    productKindSku.ProductSkuId = pProductSku.Id;
-                    productKindSku.Creator = pOperater;
-                    productKindSku.CreateTime = this.DateTime;
-                    CurrentDb.ProductKindSku.Add(productKindSku);
+                    string[] arr_KindIds = pProductSku.KindIds.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+                    foreach (var kindId in arr_KindIds)
+                    {
+                        var productKindSku = new ProductKindSku();
+                        productKindSku.Id = GuidUtil.New();
+                        productKindSku.ProductKindId = kindId;
+                        productKindSku.ProductSkuId = pProductSku.Id;
+                        productKindSku.Creator = pOperater;
+                        productKindSku.CreateTime = this.DateTime;
+                        CurrentDb.ProductKindSku.Add(productKindSku);
+                    }
                 }
+
+
+                if (!string.IsNullOrEmpty(pProductSku.SubjectIds))
+                {
+                    string[] arr_SubjectIds = pProductSku.SubjectIds.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+                    foreach (var subjectId in arr_SubjectIds)
+                    {
+                        var productSubjectSku = new ProductSubjectSku();
+                        productSubjectSku.Id = GuidUtil.New();
+                        productSubjectSku.ProductSubjectId = subjectId;
+                        productSubjectSku.ProductSkuId = pProductSku.Id;
+                        productSubjectSku.Creator = pOperater;
+                        productSubjectSku.CreateTime = this.DateTime;
+                        CurrentDb.ProductSubjectSku.Add(productSubjectSku);
+                    }
+                }
+
 
                 //CachUtil.Save<ProductSku>(string, ProductSku);
                 //CachUtil.GetList<ProductSku>();
@@ -64,6 +86,8 @@ namespace Lumos.BLL
                 lProductSku.Name = pProductSku.Name;
                 lProductSku.KindIds = pProductSku.KindIds;
                 lProductSku.KindNames = pProductSku.KindNames;
+                lProductSku.SubjectIds = pProductSku.SubjectIds;
+                lProductSku.SubjectNames = pProductSku.SubjectNames;
                 lProductSku.RecipientModeIds = pProductSku.RecipientModeIds;
                 lProductSku.RecipientModeNames = pProductSku.RecipientModeNames;
                 lProductSku.ShowPrice = pProductSku.ShowPrice;
@@ -81,18 +105,45 @@ namespace Lumos.BLL
                     CurrentDb.ProductKindSku.Remove(item);
                 }
 
-                string[] arr_KindIds = pProductSku.KindIds.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-
-                foreach (var kindId in arr_KindIds)
+                if (!string.IsNullOrEmpty(pProductSku.KindIds))
                 {
-                    var productKindSku = new ProductKindSku();
-                    productKindSku.Id = GuidUtil.New();
-                    productKindSku.ProductKindId = kindId;
-                    productKindSku.ProductSkuId = pProductSku.Id;
-                    productKindSku.Creator = pOperater;
-                    productKindSku.CreateTime = this.DateTime;
-                    CurrentDb.ProductKindSku.Add(productKindSku);
+                    string[] arr_KindIds = pProductSku.KindIds.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+                    foreach (var kindId in arr_KindIds)
+                    {
+                        var productKindSku = new ProductKindSku();
+                        productKindSku.Id = GuidUtil.New();
+                        productKindSku.ProductKindId = kindId;
+                        productKindSku.ProductSkuId = pProductSku.Id;
+                        productKindSku.Creator = pOperater;
+                        productKindSku.CreateTime = this.DateTime;
+                        CurrentDb.ProductKindSku.Add(productKindSku);
+                    }
                 }
+
+                var productSubjectSkus = CurrentDb.ProductSubjectSku.Where(m => m.ProductSkuId == pProductSku.Id).ToList();
+
+                foreach (var item in productSubjectSkus)
+                {
+                    CurrentDb.ProductSubjectSku.Remove(item);
+                }
+
+                if (!string.IsNullOrEmpty(pProductSku.SubjectIds))
+                {
+                    string[] arr_SubjectIds = pProductSku.SubjectIds.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+                    foreach (var subjectId in arr_SubjectIds)
+                    {
+                        var productSubjectSku = new ProductSubjectSku();
+                        productSubjectSku.Id = GuidUtil.New();
+                        productSubjectSku.ProductSubjectId = subjectId;
+                        productSubjectSku.ProductSkuId = pProductSku.Id;
+                        productSubjectSku.Creator = pOperater;
+                        productSubjectSku.CreateTime = this.DateTime;
+                        CurrentDb.ProductSubjectSku.Add(productSubjectSku);
+                    }
+                }
+
 
                 CurrentDb.SaveChanges(true);
                 ts.Complete();

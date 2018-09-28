@@ -12,6 +12,7 @@ namespace Lumos.BLL.Service.App
         {
 
         }
+        public StoreModel Store { get; set; }
 
         public BannerModel Banner { get; set; }
 

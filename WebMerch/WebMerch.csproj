@@ -163,6 +163,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\Order2StockInController.cs" />
+    <Compile Include="Controllers\ProductSubjectController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MachineController.cs" />
@@ -198,6 +199,10 @@
     <Compile Include="Models\ProductSku\DetailsViewModel.cs" />
     <Compile Include="Models\ProductSku\EditViewModel.cs" />
     <Compile Include="Models\ProductSku\SearchCondition.cs" />
+    <Compile Include="Models\ProductSubject\AddViewModel.cs" />
+    <Compile Include="Models\ProductSubject\DetailsViewModel.cs" />
+    <Compile Include="Models\ProductSubject\EditViewModel.cs" />
+    <Compile Include="Models\ProductSubject\ProductSearchCondition.cs" />
     <Compile Include="Models\Store\AddViewModel.cs" />
     <Compile Include="Models\Store\DetailsViewModel.cs" />
     <Compile Include="Models\Store\EditViewModel.cs" />
@@ -261,6 +266,9 @@
     <Content Include="Views\Order2StockIn\List.cshtml" />
     <Content Include="Views\Order2StockIn\Add.cshtml" />
     <Content Include="Views\Order2StockIn\Details.cshtml" />
+    <Content Include="Views\ProductSubject\Add.cshtml" />
+    <Content Include="Views\ProductSubject\List.cshtml" />
+    <Content Include="Views\ProductSubject\Sort.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

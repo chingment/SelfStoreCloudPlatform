@@ -85,6 +85,7 @@
     <Compile Include="Biz\ProductKindProvider.cs" />
     <Compile Include="Biz\ProductSkuCacheUtil.cs" />
     <Compile Include="Biz\ProductSkuProvider.cs" />
+    <Compile Include="Biz\ProductSubjectProvider.cs" />
     <Compile Include="Biz\RModels\RetPayResultQuery.cs" />
     <Compile Include="Biz\StoreProvider.cs" />
     <Compile Include="Biz\WarehouseProvider.cs" />

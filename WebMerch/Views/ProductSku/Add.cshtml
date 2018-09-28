@@ -22,6 +22,7 @@
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { art.dialog.tips(msg); } });
             $("#Model_ProductSku_Name").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "商品名称不能为空,且不超过50个字符" });
             $("#Model_ProductSku_KindIds").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择所属模块" });
+            //$("#Model_ProductSku_Subjects").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择所属模块" });
             $("#Model_ProductSku_RecipientModeIds").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择收货模式" });
             $("#Model_ProductSku_ShowPrice").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "市场价不能为空,且不超过50个字符" });
             $("#Model_ProductSku_ShowPrice").decimalInput(2);
@@ -56,6 +57,34 @@
 
                 $("#Model_ProductSku_KindIds").val(v);
                 $('#Model_ProductSku_KindNames').val(t);
+            });
+
+
+            $("#ddl_ProductSubject").live("change", function () {
+
+                var v = "";
+                var t = "";
+                var sels = $(this).find("option:selected");
+
+                for (var i = 0; i < sels.length; i++) {
+                    var _v = $(sels[i]).val();
+                    _v = _v.replace(/&nbsp;/ig, "");
+                    _v = $.trim(_v);
+                    v += _v + ",";
+
+                    var _t = $(sels[i]).text();
+                    _t = _t.replace(/&nbsp;/ig, "");
+                    _t = $.trim(_t);
+                    t += _t + ",";
+                }
+
+                if (v != "") {
+                    v = v.substring(0, v.length - 1);
+                    t = t.substring(0, t.length - 1);
+                }
+
+                $("#Model_ProductSku_SubjectIds").val(v);
+                $('#Model_ProductSku_SubjectNames').val(t);
             });
 
             $("#ddl_RecipientMode").live("change", function () {
@@ -133,7 +162,7 @@
                     <input id="Model_ProductSku_Name" name="Model.ProductSku.Name" type="text" class="input-control" value="" style="width:300px;" autocomplete="off"/>
                 </td>
 
-                <td class="f-tb-c" rowspan="5">
+                <td class="f-tb-c" rowspan="6">
                     @*<div class="cked-title">
                         <label class="frm_label" for="">
                            span class="tip" style="float:left;">建议尺寸：320 * 320</span>
@@ -235,9 +264,19 @@
                     所属模块<span class="required-symbol">*</span>：
                 </td>
                 <td class="f-tb-c">
-                    <input id="Model_ProductSku_KindNames" name="Model.ProductSku.KindNames" type="hidden" value="" />
                     <input id="Model_ProductSku_KindIds" name="Model.ProductSku.KindIds" type="hidden" value="" />
+                    <input id="Model_ProductSku_KindNames" name="Model.ProductSku.KindNames" type="hidden" value="" />
                     @Html.initProductKind("ddl.ProductKind")
+                </td>
+            </tr>
+            <tr>
+                <td class="f-tb-t">
+                    所属栏目<span class="required-symbol">*</span>：
+                </td>
+                <td class="f-tb-c">
+                    <input id="Model_ProductSku_SubjectIds" name="Model.ProductSku.SubjectIds" type="hidden" value="" />
+                    <input id="Model_ProductSku_SubjectNames" name="Model.ProductSku.SubjectNames" type="hidden" value="" />
+                    @Html.initProductSubject("ddl.ProductSubject")
                 </td>
             </tr>
             <tr>

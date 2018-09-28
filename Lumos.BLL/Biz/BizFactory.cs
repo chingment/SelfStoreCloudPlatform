@@ -40,6 +40,14 @@ namespace Lumos.BLL
             }
         }
 
+        public static ProductSubjectProvider ProductSubject
+        {
+            get
+            {
+                return new ProductSubjectProvider();
+            }
+        }
+
         public static ProductSkuProvider ProductSku
         {
             get

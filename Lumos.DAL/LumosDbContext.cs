@@ -58,9 +58,9 @@ namespace Lumos.DAL
         public IDbSet<ClientDeliveryAddress> ClientDeliveryAddress { get; set; }
         public IDbSet<ClientCoupon> ClientCoupon { get; set; }
         public IDbSet<ClientCart> ClientCart { get; set; }
-
         public IDbSet<StoreBanner> StoreBanner { get; set; }
-
+        public IDbSet<ProductSubject> ProductSubject { get; set; }
+        public IDbSet<ProductSubjectSku> ProductSubjectSku { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

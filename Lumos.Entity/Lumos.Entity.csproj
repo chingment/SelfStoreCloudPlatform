@@ -77,6 +77,8 @@
     <Compile Include="Biz\ProductSku.cs" />
     <Compile Include="Biz\Order2StockInDetails.cs" />
     <Compile Include="Biz\ClientDeliveryAddress.cs" />
+    <Compile Include="Biz\ProductSubject.cs" />
+    <Compile Include="Biz\ProductSubjectSku.cs" />
     <Compile Include="Biz\Stock.cs" />
     <Compile Include="Biz\Store.cs" />
     <Compile Include="Biz\StoreBanner.cs" />

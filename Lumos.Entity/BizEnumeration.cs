@@ -88,6 +88,15 @@ namespace Lumos.Entity
             Invalid = 2
         }
 
+        public enum ProductSubjectStatus
+        {
+            [Remark("未知")]
+            Unknow = 0,
+            [Remark("正常")]
+            Valid = 1,
+            [Remark("停用")]
+            Invalid = 2
+        }
 
         public enum MachineStockLogChangeTpye
         {

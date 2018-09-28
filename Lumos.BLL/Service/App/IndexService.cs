@@ -13,6 +13,16 @@ namespace Lumos.BLL.Service.App
         {
             var pageModel = new IndexPageModel();
 
+            var store = CurrentDb.Store.Where(m => m.Id == pStoreId).FirstOrDefault();
+
+            var storeModel = new StoreModel();
+            storeModel.Id = store.Id;
+            storeModel.Name = store.Name;
+            storeModel.Address = store.Address;
+
+
+            pageModel.Store = storeModel;
+
             var storeBanners = CurrentDb.StoreBanner.Where(m => m.StoreId == pStoreId && m.Type == Enumeration.StoreBannerType.IndexBanner).ToList();
 
             BannerModel bannerModel = new BannerModel();

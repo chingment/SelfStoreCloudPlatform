@@ -66,6 +66,33 @@
                 $('#Model_ProductSku_KindNames').val(t);
             });
 
+            $("#ddl_ProductSubject").live("change", function () {
+
+                var v = "";
+                var t = "";
+                var sels = $(this).find("option:selected");
+
+                for (var i = 0; i < sels.length; i++) {
+                    var _v = $(sels[i]).val();
+                    _v = _v.replace(/&nbsp;/ig, "");
+                    _v = $.trim(_v);
+                    v += _v + ",";
+
+                    var _t = $(sels[i]).text();
+                    _t = _t.replace(/&nbsp;/ig, "");
+                    _t = $.trim(_t);
+                    t += _t + ",";
+                }
+
+                if (v != "") {
+                    v = v.substring(0, v.length - 1);
+                    t = t.substring(0, t.length - 1);
+                }
+
+                $("#Model_ProductSku_SubjectIds").val(v);
+                $('#Model_ProductSku_SubjectNames').val(t);
+            });
+
             $("#ddl_RecipientMode").live("change", function () {
 
                 var v = "";
@@ -140,7 +167,7 @@
                     <input id="Model_ProductSku_Name" name="Model.ProductSku.Name" type="text" class="input-control" value="@Model.ProductSku.Name" style="width:300px;" />
                 </td>
 
-                <td class="f-tb-c" rowspan="5">
+                <td class="f-tb-c" rowspan="6">
                     @*<div class="cked-title">
                         <label class="frm_label" for="">
                            span class="tip" style="float:left;">建议尺寸：320 * 320</span>
@@ -245,6 +272,16 @@
                     <input id="Model_ProductSku_KindNames" name="Model.ProductSku.KindNames" type="hidden" value="@Model.ProductSku.KindNames" />
                     <input id="Model_ProductSku_KindIds" name="Model.ProductSku.KindIds" type="hidden" value="@Model.ProductSku.KindIds" />
                     @Html.initProductKind("ddl.ProductKind",Model.ProductSku.KindIds)
+                </td>
+            </tr>
+            <tr>
+                <td class="f-tb-t">
+                    所属栏目<span class="required-symbol">*</span>：
+                </td>
+                <td class="f-tb-c">
+                    <input id="Model_ProductSku_SubjectIds" name="Model.ProductSku.SubjectIds" type="hidden" value="@Model.ProductSku.SubjectIds" />
+                    <input id="Model_ProductSku_SubjectNames" name="Model.ProductSku.SubjectNames" type="hidden" value="@Model.ProductSku.SubjectNames" />
+                    @Html.initProductSubject("ddl.ProductSubject", Model.ProductSku.SubjectIds)
                 </td>
             </tr>
             <tr>

@@ -18,6 +18,8 @@ namespace Lumos.Entity
         public string MerchantId { get; set; }
         public string KindIds { get; set; }
         public string KindNames { get; set; }
+        public string SubjectIds { get; set; }
+        public string SubjectNames { get; set; }
         public string RecipientModeIds { get; set; }
         public string RecipientModeNames { get; set; }
         public string Name { get; set; }
