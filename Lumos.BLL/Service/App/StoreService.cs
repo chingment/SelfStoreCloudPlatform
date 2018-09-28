@@ -25,11 +25,9 @@ namespace Lumos.BLL.Service.App
                 double distance = 0;
                 string distanceMsg = "";
 
-                //todo  暂时不实现
                 distance = DistanceUtil.GetDistance(m.Lat, m.Lng, rup.Lat, rup.Lng);
 
                 distanceMsg = string.Format("{0}km", distance.ToString("f2"));
-
 
                 storeModels.Add(new StoreModel { Id = m.Id, Name = m.Name, Address = m.Address, DistanceMsg = distanceMsg });
             }

@@ -12,7 +12,6 @@ using System.Web.Http;
 
 namespace WebAppApi.Controllers
 {
-    [OwnAuthorize]
     public class DeliveryAddressController : OwnBaseApiController
     {
 

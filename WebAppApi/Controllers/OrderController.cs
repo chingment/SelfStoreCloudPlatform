@@ -15,7 +15,6 @@ using Lumos.BLL.Service.App;
 
 namespace WebAppApi.Controllers
 {
-    [OwnAuthorize]
     public class OrderController : OwnBaseApiController
     {
         [HttpPost]

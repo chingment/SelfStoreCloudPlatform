@@ -54,10 +54,10 @@ namespace WebAppApi.Controllers
 
 
 
-            //model.Add("获取全局数据", GlobalDataSet(userId, storeId, DateTime.Parse("2018-04-09 15:14:28")));
+            model.Add("获取全局数据", GlobalDataSet(userId, storeId, DateTime.Parse("2018-04-09 15:14:28")));
             //model.Add("获取全局数据", ShippingAddress(userId, storeId));
             //model.Add("获取地址", GetShippingAddress(1215));
-            model.Add("用户授权", UserOauth2(userId));
+            //model.Add("用户授权", UserOauth2(userId));
             return View(model);
         }
 
