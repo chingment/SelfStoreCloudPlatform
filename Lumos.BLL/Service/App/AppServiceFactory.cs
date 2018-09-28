@@ -71,5 +71,13 @@ namespace Lumos.BLL.Service.App
             }
         }
 
+        public static StoreService Store
+        {
+            get
+            {
+                return new StoreService();
+            }
+        }
+
     }
 }

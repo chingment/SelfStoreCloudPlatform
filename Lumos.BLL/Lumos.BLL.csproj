@@ -104,6 +104,7 @@
     <Compile Include="Service\App\Models\CartSkuModel.cs" />
     <Compile Include="Service\App\Models\OrderConfirmSkuModel.cs" />
     <Compile Include="Service\App\Models\PdAreaModel.cs" />
+    <Compile Include="Service\App\Models\StoreModel.cs" />
     <Compile Include="Service\App\Models\UserCouponModel.cs" />
     <Compile Include="Service\App\Models\IndexPageModel.cs" />
     <Compile Include="Service\App\Models\OrderConfirmCouponModel.cs" />
@@ -132,6 +133,8 @@
     <Compile Include="Service\App\RModels\RupGlobalAccessToken.cs" />
     <Compile Include="Service\App\RModels\RupProductSkuDetails.cs" />
     <Compile Include="Service\App\RModels\RupProductSkuList.cs" />
+    <Compile Include="Service\App\RModels\RupStoreList.cs" />
+    <Compile Include="Service\App\StoreService.cs" />
     <Compile Include="Service\App\UserDeliveryAddressService.cs" />
     <Compile Include="Service\Term\GlobalService.cs" />
     <Compile Include="Service\Term\Models\Global\DataSetModel.cs" />
