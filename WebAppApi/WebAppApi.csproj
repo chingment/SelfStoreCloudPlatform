@@ -245,6 +245,10 @@
       <Project>{8479fcaf-4aef-40d4-b76d-246282522fb7}</Project>
       <Name>MySDK</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WeiXinSdk\WeiXinSdk.csproj">
+      <Project>{636311a8-0485-4953-841e-35ca27eea436}</Project>
+      <Name>WeiXinSdk</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

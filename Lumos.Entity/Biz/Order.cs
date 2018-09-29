@@ -17,7 +17,7 @@ namespace Lumos.Entity
         public string Sn { get; set; }
         public string ClientId { get; set; }
 
-        public string ClientName { get;set; }
+        public string ClientName { get; set; }
         public string MerchantId { get; set; }
         public string StoreId { get; set; }
         public string StoreName { get; set; }
@@ -42,5 +42,8 @@ namespace Lumos.Entity
         public string PayPrepayId { get; set; }
         public DateTime? PayExpireTime { get; set; }
         public string PayQrCodeUrl { get; set; }
+        public string PickCode { get; set; }
+        public DateTime? PickCodeExpireTime { get; set; }
+
     }
 }

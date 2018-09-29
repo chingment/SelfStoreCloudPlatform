@@ -28,6 +28,15 @@ namespace Lumos.WeiXinSdk
             return oauth2_Result;
         }
 
+        public static WxApiJsCode2SessionResult GetWxApiJsCode2Session(string appId, string secret, string code)
+        {
+            WxApi api = new WxApi();
+            WxApiJsCode2Session wxApiJsCode2Session = new WxApiJsCode2Session(appId, secret, code);
+            var wxApiJsCode2Session_Result = api.DoGet(wxApiJsCode2Session);
+            return wxApiJsCode2Session_Result;
+        }
+
+
         public static WxApiSnsUserInfoResult GetUserInfo(string accessToken, string openId)
         {
             WxApi api = new WxApi();
@@ -81,7 +90,7 @@ namespace Lumos.WeiXinSdk
                 byte[] responseArray = myWebClient.UploadFile(wxurl, "POST", imageUrl);
                 string str_result = System.Text.Encoding.Default.GetString(responseArray, 0, responseArray.Length);
 
-                var result =str_result.ToJsonObject<UploadMultimediaResult>();
+                var result = str_result.ToJsonObject<UploadMultimediaResult>();
                 if (result != null)
                 {
                     mediaId = result.media_id;

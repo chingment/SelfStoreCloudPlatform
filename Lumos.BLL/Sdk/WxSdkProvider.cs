@@ -17,6 +17,39 @@ namespace Lumos.BLL
     public class WxSdkProvider : BaseProvider
     {
         private IWxConfig wxConfig = new WxConfigByTest();
+
+        private string AES_decrypt(string encryptedData, string iv, string sessionKey)
+        {
+            try
+            {
+                AesCryptoServiceProvider aes = new AesCryptoServiceProvider();
+                //设置解密器参数            
+                aes.Mode = CipherMode.CBC;
+                aes.BlockSize = 128;
+                aes.Padding = PaddingMode.PKCS7;
+                //格式化待处理字符串          
+                byte[] byte_encryptedData = Convert.FromBase64String(encryptedData);
+                byte[] byte_iv = Convert.FromBase64String(iv);
+                byte[] byte_sessionKey = Convert.FromBase64String(sessionKey);
+                aes.IV = byte_iv;
+                aes.Key = byte_sessionKey;
+                //根据设置好的数据生成解密器实例            
+                ICryptoTransform transform = aes.CreateDecryptor();
+                //解密          
+                byte[] final = transform.TransformFinalBlock(byte_encryptedData, 0, byte_encryptedData.Length);
+                //生成结果         
+                string result = Encoding.UTF8.GetString(final);
+
+
+                return result;
+            }
+            catch
+            {
+                return null;
+            }
+
+        }
+
         public WxSdkProvider Instance()
         {
             WxSdkProvider p = new WxSdkProvider();
@@ -121,6 +154,11 @@ namespace Lumos.BLL
         {
             return OAuthApi.GetWebOauth2AccessToken(wxConfig.AppId, wxConfig.AppSecret, code);
         }
+        public WxApiJsCode2SessionResult GetWxApiJsCode2Session(string appId, string appSecret, string code)
+        {
+            return OAuthApi.GetWxApiJsCode2Session(appId, appSecret, code);
+        }
+
 
         public string GetApiAccessToken()
         {
@@ -130,6 +168,24 @@ namespace Lumos.BLL
         public WxApiSnsUserInfoResult GetUserInfo(string accessToken, string openId)
         {
             return OAuthApi.GetUserInfo(accessToken, openId);
+        }
+
+        public UserInfoModelByMinProramJsCode GetUserInfoByMinProramJsCode(string appId, string appSecret, string encryptedData, string iv, string code)
+        {
+            try
+            {
+                var jsCode2Session = SdkFactory.Wx.Instance().GetWxApiJsCode2Session(appId, appSecret, code);
+
+                string strData = AES_decrypt(encryptedData, iv, jsCode2Session.session_key);
+
+                var obj = JsonConvert.DeserializeObject<UserInfoModelByMinProramJsCode>(strData);
+
+                return obj;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public string CardCodeDecrypt(string encrypt_code)

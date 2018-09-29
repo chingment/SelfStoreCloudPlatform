@@ -54,10 +54,13 @@ namespace WebAppApi.Controllers
 
 
 
-            model.Add("获取全局数据", GlobalDataSet(userId, storeId, DateTime.Parse("2018-04-09 15:14:28")));
+            //model.Add("获取全局数据", GlobalDataSet(userId, storeId, DateTime.Parse("2018-04-09 15:14:28")));
             //model.Add("获取全局数据", ShippingAddress(userId, storeId));
             //model.Add("获取地址", GetShippingAddress(1215));
-            //model.Add("用户授权", UserOauth2(userId));
+            string aa = "rnx2OLcr5wRVFkLrDuv6hypG+VNHtCr+r5DrsKIrPUrEbG4NGTH7UnirjzbZKrYkxdxYRWl/ei+6dLhNMJh+kzM8NPYwfxclqh0kzHXyuopZ/RHNcJy9qIBb0gFKLOH/p7+/QHRvAdBStDz9gmuTf3DhtpUcw1/U2OJvQtjW4B3sr095619fniJsSok+O5XESbKfgU9AsTPdGgGn6DEpfgt3zjvycN1EhPKlkx68NJoGjP9oIFvrOxW7fXjfv6+o6Q2/X4A8buLrpRVYsQ+8qfp+JYSLnZDoXkR+XBEx+sn3iETilxtDDNsEGHBlR+2MKbj51RiRmxDIAkwYvNCfD/O79X9AnIEavL129Oxib0Gb4Br6MwAvugiGpTcFnpDjC7zssH9LmetCXPUjWUPZ1fidcSHtMIBwpMwQpl7oBaGX8ftU5vs3GFz2yASGQHanoJeT1OAl/Mdu/p+Muq6+0vL2Ven8GJEMtnPpzgF2v0c=";
+            string xx = "0239gQNL1xGz651x9XOL1VaSNL19gQNK";
+            string bb = "Dz8+EgdBeZqX4EOl8r/yxQ==";
+             model.Add("用户小程序授权", LoginByMinProgram(aa, xx, bb));
             return View(model);
         }
 
@@ -98,18 +101,26 @@ namespace WebAppApi.Controllers
 
         }
 
-        public string UserOauth2(string userId)
+        public string LoginByMinProgram(string encryptedDataStr, string code, string iv)
         {
-            Dictionary<string, string> parames = new Dictionary<string, string>();
-            parames.Add("userId", userId);
-            string signStr = Signature.Compute(key, secret, timespan, Signature.GetQueryData(parames));
+            RopLoginByMinProgram model = new RopLoginByMinProgram();
+
+            model.EncryptedData = encryptedDataStr;
+            model.Code = code;
+            model.Iv = iv;
+
+            string a1 = JsonConvert.SerializeObject(model);
+
+            string signStr = Signature.Compute(key, secret, timespan, a1);
+
 
             Dictionary<string, string> headers = new Dictionary<string, string>();
             headers.Add("key", key);
             headers.Add("timestamp", timespan.ToString());
             headers.Add("sign", signStr);
+            headers.Add("version", "1.3.0.7");
             HttpUtil http = new HttpUtil();
-            string result = http.HttpGet("" + host + "/api/User/Oauth2", headers);
+            string result = http.HttpPostJson("" + host + "/api/User/LoginByMinProgram", a1, headers);
 
             return result;
 

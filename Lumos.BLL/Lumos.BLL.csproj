@@ -128,7 +128,9 @@
     <Compile Include="Service\App\Models\ProductKindPageModel.cs" />
     <Compile Include="Service\App\ProductKindService.cs" />
     <Compile Include="Service\App\ProductSkuService.cs" />
+    <Compile Include="Service\App\RModels\RetLoginByMinProgram.cs" />
     <Compile Include="Service\App\RModels\RetOrderConfirm.cs" />
+    <Compile Include="Service\App\RModels\RopLoginByMinProgram.cs" />
     <Compile Include="Service\App\RModels\RopOrderConfirm.cs" />
     <Compile Include="Service\App\RModels\RetGobalDataSet.cs" />
     <Compile Include="Service\App\RModels\RopCartOperate.cs" />

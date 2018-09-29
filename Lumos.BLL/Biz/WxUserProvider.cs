@@ -139,6 +139,7 @@ namespace Lumos.BLL
                 }
                 catch (Exception ex)
                 {
+                    mod_UserInfo = null;
                     LogUtil.Error("检查微信用户系统发生异常", ex);
                 }
             }
