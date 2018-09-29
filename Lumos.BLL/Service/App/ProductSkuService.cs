@@ -41,6 +41,13 @@ namespace Lumos.BLL.Service.App
                                           select d.ProductSkuId).Contains(p.Id));
             }
 
+            if (!string.IsNullOrEmpty(rup.SubjectId))
+            {
+                query = query.Where(p => (from d in CurrentDb.ProductSubjectSku
+                                          where d.ProductSubjectId == rup.SubjectId
+                                          select d.ProductSkuId).Contains(p.Id));
+            }
+
             int pageSize = 10;
 
             query = query.OrderByDescending(r => r.CreateTime).Skip(pageSize * (rup.PageIndex)).Take(pageSize);
