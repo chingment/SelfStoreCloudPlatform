@@ -20,12 +20,29 @@ namespace System
             {
                 rt = Newtonsoft.Json.JsonConvert.SerializeObject(obj);
             }
-            catch (Exception ex)
+            catch 
             {
 
             }
 
             return rt;
+        }
+
+        public static T ToJsonObject<T>(this Object s)
+        {
+            if (s == null)
+                return default(T);
+
+            try
+            {
+                T t = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(s.ToString());
+
+                return t;
+            }
+            catch
+            {
+                return default(T);
+            }
         }
     }
 }

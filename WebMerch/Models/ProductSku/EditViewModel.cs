@@ -50,7 +50,7 @@ namespace WebMerch.Models.ProductSku
 
                 if (!string.IsNullOrEmpty(productSku.DispalyImgUrls))
                 {
-                    _dispalyImgs = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Lumos.Entity.ImgSet>>(productSku.DispalyImgUrls);
+                    _dispalyImgs = productSku.DispalyImgUrls.ToJsonObject<List<Lumos.Entity.ImgSet>>();
                 }
             }
         }

@@ -76,6 +76,10 @@
     <Compile Include="SmsHelper.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lumos.Common\Lumos.Common.csproj">
+      <Project>{241bdf50-401f-44bf-81cd-acc2ffc3a952}</Project>
+      <Name>Lumos.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lumos.DAL\Lumos.DAL.csproj">
       <Project>{0e039414-2a2e-48b4-8db7-c4346106fa68}</Project>
       <Name>Lumos.DAL</Name>

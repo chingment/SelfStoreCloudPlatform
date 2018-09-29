@@ -18,7 +18,7 @@ namespace Lumos.BLL
             CustomJsonResult<Order> result = new CustomJsonResult<Order>();
             lock (lock_UnifiedOrder)
             {
-                var strOrderPms = Newtonsoft.Json.JsonConvert.SerializeObject(pPayPms.OrderPms);
+                var strOrderPms = pPayPms.OrderPms.ToJsonString();
 
             }
             return result;

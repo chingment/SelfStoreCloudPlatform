@@ -81,8 +81,7 @@ namespace Lumos.WeiXinSdk
                 byte[] responseArray = myWebClient.UploadFile(wxurl, "POST", imageUrl);
                 string str_result = System.Text.Encoding.Default.GetString(responseArray, 0, responseArray.Length);
 
-                var result = Newtonsoft.Json.JsonConvert.DeserializeObject<UploadMultimediaResult>(str_result);
-
+                var result =str_result.ToJsonObject<UploadMultimediaResult>();
                 if (result != null)
                 {
                     mediaId = result.media_id;

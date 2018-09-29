@@ -63,7 +63,7 @@ namespace WebBack.Controllers
                     return Content(CkEditorUpLoadCallFunction(CKEditorFuncNum, "远程上传图片发生异常"));
                 }
 
-                ImageUpload imageUpload = Newtonsoft.Json.JsonConvert.DeserializeObject<ImageUpload>(rm.Data.ToString());
+                ImageUpload imageUpload =rm.Data.ToJsonObject<ImageUpload>();
 
                 return Content(CkEditorUpLoadCallFunction(CKEditorFuncNum, "", imageUpload.OriginalPath));
             }

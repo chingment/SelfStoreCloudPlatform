@@ -124,6 +124,10 @@
     <Folder Include="Post\Model\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lumos.Common\Lumos.Common.csproj">
+      <Project>{241bdf50-401f-44bf-81cd-acc2ffc3a952}</Project>
+      <Name>Lumos.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lumos\Lumos.csproj">
       <Project>{27883666-32aa-447f-aa1f-6128b76fbee8}</Project>
       <Name>Lumos</Name>

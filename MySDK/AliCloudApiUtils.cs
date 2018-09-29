@@ -3,6 +3,7 @@ using Lumos;
 using Lumos.DAL;
 using Lumos.Entity;
 using Lumos.Mvc;
+using Lumos.Common;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -105,7 +106,7 @@ namespace MySDK
                 string r = reader.ReadToEnd();
 
 
-                AliCloudApiResult apiResult = Newtonsoft.Json.JsonConvert.DeserializeObject<AliCloudApiResult>(r);
+                AliCloudApiResult apiResult =r.ToJsonObject<AliCloudApiResult>(); ;
 
                 if (apiResult.Success)
                 {

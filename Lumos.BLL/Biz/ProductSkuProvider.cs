@@ -10,7 +10,6 @@ using Lumos.Redis;
 using NPinyin;
 using System.Text;
 using Lumos.BLL.Biz.RModels;
-using Lumos.Common;
 namespace Lumos.BLL
 {
 

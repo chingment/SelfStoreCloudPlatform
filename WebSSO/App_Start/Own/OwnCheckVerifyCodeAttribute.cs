@@ -96,7 +96,7 @@ namespace WebSSO
 
                 if (result != "System.Web.Mvc.EmptyResult")
                 {
-                    CustomJsonResult j_result = Newtonsoft.Json.JsonConvert.DeserializeObject<CustomJsonResult>(filterContext.Result.ToString());
+                    CustomJsonResult j_result = filterContext.Result.ToJsonObject<CustomJsonResult>();
 
                     if (j_result.Result == ResultType.Success)
                     {
