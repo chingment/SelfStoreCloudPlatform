@@ -16,8 +16,12 @@ namespace Lumos.Entity
         public string Id { get; set; }
         public string Sn { get; set; }
         public string ClientId { get; set; }
+
+        public string ClientName { get;set; }
         public string MerchantId { get; set; }
         public string StoreId { get; set; }
+        public string StoreName { get; set; }
+
         public decimal OriginalAmount { get; set; }
         public decimal DiscountAmount { get; set; }
         public decimal ChargeAmount { get; set; }
@@ -27,6 +31,8 @@ namespace Lumos.Entity
         public DateTime? PayTime { get; set; }
         public DateTime? CompletedTime { get; set; }
         public DateTime? CancledTime { get; set; }
+
+        public Enumeration.OrderSource Source { get; set; }
         public Enumeration.OrderStatus Status { get; set; }
         public string CancelReason { get; set; }
         public string Creator { get; set; }

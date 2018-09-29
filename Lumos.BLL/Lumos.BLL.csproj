@@ -169,6 +169,11 @@
     <Compile Include="Sys\SysFactory.cs" />
     <Compile Include="Sys\SysItemCacheUpdateTimeProvider.cs" />
     <Compile Include="Sys\SysUserProvider.cs" />
+    <Compile Include="Task\BaseProgram.cs" />
+    <Compile Include="Task\ITask.cs" />
+    <Compile Include="Task\Launcher.cs" />
+    <Compile Include="Task\Task4Factory.cs" />
+    <Compile Include="Task\Task4GlobalProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lumos.Common\Lumos.Common.csproj">
@@ -204,9 +209,7 @@
       <Name>WeiXinSdk</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Task\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

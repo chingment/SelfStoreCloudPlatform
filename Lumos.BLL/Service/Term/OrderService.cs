@@ -114,8 +114,10 @@ namespace Lumos.BLL.Service.Term
                 order.Sn = SnUtil.Build(Enumeration.BizSnType.Order, rop.MerchantId);
                 order.MerchantId = rop.MerchantId;
                 order.StoreId = rop.StoreId;
+                order.StoreName = store.Name;
                 order.Quantity = rop.Details.Sum(m => m.Quantity);
                 order.Status = Enumeration.OrderStatus.WaitPay;
+                order.Source = rop.Source;
                 order.SubmitTime = this.DateTime;
                 order.Creator = pOperater;
                 order.CreateTime = this.DateTime;
@@ -136,6 +138,7 @@ namespace Lumos.BLL.Service.Term
                     orderDetails.MerchantId = rop.MerchantId;
                     orderDetails.StoreId = rop.StoreId;
                     orderDetails.MachineId = detail.MachineId;
+                    orderDetails.ChannelId = detail.MachineId;
                     orderDetails.OrderId = order.Id;
                     orderDetails.OrderSn = order.Sn;
                     orderDetails.OriginalAmount = detail.OriginalAmount;
@@ -148,17 +151,21 @@ namespace Lumos.BLL.Service.Term
                     orderDetails.CreateTime = this.DateTime;
 
                     //detail.MachineId为空 则为快递商品
-                    if (string.IsNullOrEmpty(detail.MachineId))
+                    if (detail.MachineId == GuidUtil.Empty())
                     {
                         orderDetails.Receiver = rop.Receiver;
                         orderDetails.ReceiverPhone = rop.ReceiverPhone;
                         orderDetails.ReceptionAddress = rop.ReceptionAddress;
+                        orderDetails.ChannelType = Enumeration.ChannelType.Express;
+                        orderDetails.Id = GuidUtil.Empty();
                     }
                     else
                     {
                         orderDetails.Receiver = null;
                         orderDetails.ReceiverPhone = null;
                         orderDetails.ReceptionAddress = store.Address;
+                        orderDetails.ChannelType = Enumeration.ChannelType.SelfPick;
+                        orderDetails.ChannelId = detail.MachineId;
                     }
 
                     CurrentDb.OrderDetails.Add(orderDetails);
@@ -218,6 +225,7 @@ namespace Lumos.BLL.Service.Term
                             orderDetailsChildSon.SubmitTime = this.DateTime;
                             orderDetailsChildSon.Creator = pOperater;
                             orderDetailsChildSon.CreateTime = this.DateTime;
+                            orderDetailsChildSon.Status = Enumeration.OrderStatus.WaitPay;
                             CurrentDb.OrderDetailsChildSon.Add(orderDetailsChildSon);
                         }
 

@@ -202,15 +202,49 @@ namespace Lumos.Entity
             [Remark("未知")]
             Unknow = 0,
             [Remark("已提交")]
-            Submitted = 1,
+            Submitted = 1000,
             [Remark("待支付")]
-            WaitPay = 2,
+            WaitPay = 2000,
             [Remark("已支付")]
-            Payed = 3,
+            Payed = 3000,
             [Remark("已完成")]
-            Completed = 4,
+            Completed = 4000,
             [Remark("已失效")]
-            Cancled = 5
+            Cancled = 5000
+
+        }
+
+
+        public enum OrderDetailsChildSonStatus
+        {
+            [Remark("未知")]
+            Unknow = 0,
+            [Remark("已提交")]
+            Submitted = 1000,
+            [Remark("待支付")]
+            WaitPay = 2000,
+            [Remark("已支付")]
+            Payed = 30000,
+            [Remark("待取货")]
+            WaitPick = 3001,
+            [Remark("已取货")]
+            Picked = 3002,
+            [Remark("已完成")]
+            Completed = 4000,
+            [Remark("已失效")]
+            Cancled = 5000
+        }
+
+        public enum OrderSource
+        {
+            [Remark("未知")]
+            Unknow = 0,
+            [Remark("机器")]
+            Machine = 1,
+            [Remark("接口")]
+            Api = 2,
+            [Remark("小程序")]
+            MiniProgram = 3
 
         }
 

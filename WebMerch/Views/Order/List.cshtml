@@ -1,0 +1,165 @@
+﻿@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_LayoutHomeIframeMainList.cshtml";
+}
+
+<script type="text/javascript">
+
+    var listTable;
+
+    $(document).ready(function () {
+
+
+        listTable = $("#list_table").loadDataTable({
+            url: "/Order/List",
+            pageIndex: 0,
+            searchParams: $("#form1").serializeArray(),
+            searchButtonId: "btn_Search",
+            containerId: "form1",
+            rowDataCombie: function (p_index, p_row) {
+                var l_StrRows = "";
+                l_StrRows += "<tr>";
+                l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.sn + "\">" + p_row.sn + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.nickname + "\">";
+
+                if (p_row.clientId != "") {
+                    l_StrRows += "<a userid=" + p_row.clientId + " href=\"javascript:void(0)\" class=\"open-user-details\" >" + p_row.clientName + "</a>";
+                }
+                else {
+                    l_StrRows += p_row.clientName;
+                }
+
+                l_StrRows += " </td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.storeName + "\">" + p_row.storeName + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.source + "\">" + p_row.source + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.submitTime + "\">" + p_row.submitTime + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.chargeAmount + "\">" + p_row.chargeAmount + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.discountAmount + "\">" + p_row.discountAmount + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.originalAmount + "\">" + p_row.originalAmount + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.createTime + "\">" + p_row.createTime + "</td>";
+                l_StrRows += "<td class=\"operation\">";
+                l_StrRows += "<a href=\"javascript:void(0)\" operate=\"detail\"   class=\"a-btn a-btn-edit\"  >查看</a>";
+                l_StrRows += "</td>";
+                l_StrRows += "</tr>";
+                return l_StrRows;
+            },
+            operate: {
+                "detail": function (obj) {
+                    var url = '/Order/Details?id=' + obj.id;
+                    var title = '订单信息查看';
+                    var dialog = art.dialog.open(url, {
+                        id: "openDialog", title: title, width: '1000px', height: '600px', lock: true, drag: false, cancelVal: '关闭', cancel: true
+                    });
+                }
+            }
+        });
+
+    });
+
+
+
+
+</script>
+
+<form id="form1" name="form1">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="orderStatus" value="@Request.QueryString["status"]" />
+    <div class="search-bar">
+        <div class="filter">
+            <span class="filter-label">订单号：</span>
+            <span class="filter-input">
+                <input type="text" class="input-control" name="orderSn" style="width: 120px;" />
+            </span>
+        </div>
+        <div class="filter">
+            <span class="filter-label">店铺名称：</span>
+            <span class="filter-input">
+                <input type="text" class="input-control" name="storeName" style="width: 120px;" />
+            </span>
+        </div>
+        <div class="filter">
+            <span class="filter-label">下单用户：</span>
+            <span class="filter-input">
+                <input type="text" class="input-control" name="nickname" style="width: 120px;" />
+            </span>
+        </div>
+        <div class="filter">
+            <span class="filter-label">开始时间：</span>
+            <span class="filter-input">
+                <input type="text" class="input-control" id="startTime" name="startTime" style="width: 120px;" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minTime:'00:00:01',maxTime:'23:59:59'})" />
+            </span>
+        </div>
+        <div class="filter">
+            <span class="filter-label">结束时间：</span>
+            <span class="filter-input">
+                <input type="text" class="input-control" id="endTime" name="endTime" style="width: 120px;" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate: '#F{$dp.$D(\'startTime\')}',maxDate:'%y-%M-%ld',minTime:'00:00:01',maxTime:'23:59:59'})" />
+            </span>
+        </div>
+        <div class="filter">
+            <input type="button" class="btn btn-search" id="btn_Search" value="查询" />
+        </div>
+    </div>
+    <div class="list">
+        <table id="list_table" class="list-tb" cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <th style="width:5%" class="no">
+                        序号
+                    </th>
+                    <th style="width:15%">
+                        订单号
+                    </th>
+                    <th style="width:10%">
+                        下单用户
+                    </th>
+                    <th style="width:10%">
+                        下单方式
+                    </th>
+                    <th style="width:10%">
+                        店铺
+                    </th>
+                    <th style="width:10%">
+                        下单时间
+                    <th style="width:5%">
+                        支付金额
+                    </th>
+                    <th style="width:5%">
+                        优惠金额
+                    </th>
+                    <th style="width:10%">
+                        原金额
+                    </th>
+                    <th style="width:10%">
+                        创建时间
+                    </th>
+                    <th style="width:5%" class="operation">
+                        操作
+                    </th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="11">
+                        <div class="pull-left">
+                            <span class="load-tip"></span>
+                        </div>
+                        <div class="pull-right pagination">
+                            <div class="pagination-info">
+
+                            </div>
+                            <div class="pagination-index">
+
+                            </div>
+                            <div class="pagination-goto">
+
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</form>
+

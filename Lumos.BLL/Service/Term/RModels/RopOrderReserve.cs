@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lumos.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,8 @@ namespace Lumos.BLL.Service.Term
         {
             this.Details = new List<Detail>();
         }
+
+        public Enumeration.OrderSource Source { get; set; }
 
         public string MerchantId { get; set; }
         public string StoreId { get; set; }

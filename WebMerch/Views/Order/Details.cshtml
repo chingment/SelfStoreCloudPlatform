@@ -1,0 +1,189 @@
+﻿@model WebMerch.Models.Order.DetailsViewModel
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_LayoutHomeDialog.cshtml";
+
+}
+@section styles
+{
+    <style>
+        #form1 {
+            display: -webkit-box;
+            display: -moz-box;
+            width: 100%;
+        }
+
+        .table-container {
+            -webkit-box-flex: 1;
+            -moz-box-flex: 1;
+            padding: 0 0.5rem;
+        }
+
+        .table-sub-container {
+            display: -webkit-box;
+            display: -moz-box;
+            width: 100%;
+            padding: 0.5rem 0;
+        }
+
+        .productsku-area {
+            -webkit-box-flex: 1;
+            -moz-box-flex: 1;
+            padding: 0 0.5rem;
+        }
+
+        .f-tb1-detail .t {
+            width: 120px;
+        }
+
+        .f-tb1-detail .c {
+            width: 280px;
+        }
+
+        h4, h5 {
+            display: inline-block;
+        }
+    </style>
+
+}
+
+@section scripts{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+        });
+
+    </script>
+}
+
+@Html.AntiForgeryToken()
+<div class="gbr-row">
+    <div class="gbr-row-title clearfix">
+        <div class="pull-left">
+            <h5>基本信息</h5>
+        </div>
+        <div class="pull-right f-tb1-item-pull-right">
+            <h6></h6>
+        </div>
+    </div>
+    <table class="f-tb1-detail">
+        <tr>
+            <td class="t">订单编号：</td>
+            <td class="c">
+                <span>@Model.Order.Sn</span>
+            </td>
+            <td class="t">店铺名称：</td>
+            <td class="c">
+                <span>@Model.Order.StoreName</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="t">下单用户：</td>
+            <td class="c">
+                @if (string.IsNullOrEmpty(Model.Order.ClientId))
+                {
+                    <span>@Model.Order.ClientName</span>
+                }
+                else
+                {
+                    <span><a userid="@Model.Order.ClientId" href="javascript:void(0)" class="open-user-details">@Model.Order.ClientName</a></span>
+                }
+            </td>
+            <td class="t">下单方式：</td>
+            <td class="c">
+                <span>@Model.Order.Source.GetCnName()</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="t">支付金额：</td>
+            <td class="c">
+                <span>@Model.Order.ChargeAmount</span>
+            </td>
+            <td class="t">优惠金额：</td>
+            <td class="c">
+                <span>@Model.Order.DiscountAmount</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="t">原金额：</td>
+            <td class="c">
+                <span>@Model.Order.OriginalAmount</span>
+            </td>
+            <td class="t"></td>
+            <td class="c"></td>
+        </tr>
+        <tr>
+            <td class="t">下单时间：</td>
+            <td class="c">
+                <span>@Model.Order.SubmitTime</span>
+            </td>
+            <td class="t">状态：</td>
+            <td class="c">@Model.Order.Status.GetCnName()</td>
+        </tr>
+    </table>
+
+    @foreach (var orderDetails in Model.OrderDetails)
+    {
+        <div class="gbr-row-title clearfix">
+            <div class="pull-left">
+                <h5>@orderDetails.ChannelType.GetCnName()</h5>
+            </div>
+            <div class="pull-right f-tb1-item-pull-right">
+                <h6></h6>
+            </div>
+        </div>
+        <div class="list">
+            <table id="list_table" class="list-tb" cellpadding="0" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th style="width:5%" class="no">
+                            序号
+                        </th>
+                        <th style="width:10%">
+                            商品名称
+                        </th>
+                        <th style="width:15%">
+                            数量
+                        </th>
+                        <th style="width:15%">
+                            支付金额
+                        </th>
+                        <th style="width:10%">
+                            优惠金额
+                        </th>
+                        <th style="width:10%">
+                            原金额
+                        </th>
+                        <th style="width:10%">
+                            订单状态
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var count = 0;
+                        var orderDetailsChildSons = Model.OrderDetailsChildSon.Where(m => m.OrderDetailsId == orderDetails.Id).ToList();
+                    }
+                    @foreach (var orderDetailsChildSon in orderDetailsChildSons)
+                    {
+
+                        <tr>
+                            <td class="no">@(++count)</td>
+                            <td class="overflow" title="@orderDetailsChildSon.ProductSkuName">@orderDetailsChildSon.ProductSkuName</td>
+                            <td class="overflow" title="@orderDetailsChildSon.Quantity">@orderDetailsChildSon.Quantity</td>
+                            <td class="overflow" title="@orderDetailsChildSon.ChargeAmount">@orderDetailsChildSon.ChargeAmount</td>
+                            <td class="overflow" title="@orderDetailsChildSon.DiscountAmount">@orderDetailsChildSon.DiscountAmount</td>
+                            <td class="overflow" title="@orderDetailsChildSon.OriginalAmount">@orderDetailsChildSon.OriginalAmount</td>
+                            <td class="overflow" title="@orderDetailsChildSon.Status.GetCnName()">@orderDetailsChildSon.Status.GetCnName()</td>
+                        </tr>
+
+
+                    }
+                </tbody>
+            </table>
+        </div>
+                        }
+
+
+</div>

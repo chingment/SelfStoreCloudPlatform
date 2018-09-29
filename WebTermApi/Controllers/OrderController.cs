@@ -16,6 +16,7 @@ namespace WebTermApi.Controllers
         [HttpPost]
         public APIResponse Reserve(RopOrderReserve rop)
         {
+            rop.Source = Lumos.Entity.Enumeration.OrderSource.Machine;
             IResult result = TermServiceFactory.Order.Reserve(rop.MerchantId, rop);
             return new APIResponse(result);
 

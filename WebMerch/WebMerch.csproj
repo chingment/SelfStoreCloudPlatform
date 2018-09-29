@@ -163,6 +163,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\Order2StockInController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductSubjectController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -187,8 +188,9 @@
     <Compile Include="Models\Order2StockIn\AddViewModel.cs" />
     <Compile Include="Models\Order2StockIn\DetailsViewModel.cs" />
     <Compile Include="Models\Order2StockIn\SearchCondition.cs" />
+    <Compile Include="Models\Order\DetailsViewModel.cs" />
+    <Compile Include="Models\Order\SearchCondition.cs" />
     <Compile Include="Models\OwnBaseViewModel.cs" />
-    <Compile Include="Models\OwnViewModel.cs" />
     <Compile Include="Models\Home\ChangePasswordModel.cs" />
     <Compile Include="Models\Home\LoginModel.cs" />
     <Compile Include="Models\ProductKind\AddViewModel.cs" />
@@ -269,6 +271,8 @@
     <Content Include="Views\ProductSubject\Add.cshtml" />
     <Content Include="Views\ProductSubject\List.cshtml" />
     <Content Include="Views\ProductSubject\Sort.cshtml" />
+    <Content Include="Views\Order\Details.cshtml" />
+    <Content Include="Views\Order\List.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>
