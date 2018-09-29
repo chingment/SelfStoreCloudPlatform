@@ -40,8 +40,8 @@ namespace Lumos.Session.Redis
 
         public RedisSession()
         {
-            _sessionId = Guid.NewGuid().ToString();
-            _sessionKey = string.Format("{0}:{1}", SessionSign, _sessionId);
+            //_sessionId = Guid.NewGuid().ToString();
+            //_sessionKey = string.Format("{0}:{1}", SessionSign, _sessionId);
         }
 
         /// <summary>
@@ -54,9 +54,14 @@ namespace Lumos.Session.Redis
             return new RedisClient<T>().KGet(key);
         }
 
-        public void Set<T>(string key,T obj) where T : class, new()
+        public void Set<T>(string key, T obj) where T : class, new()
         {
             new RedisClient<T>().KSet(key, obj, new TimeSpan(0, TimeOut, 0));
+        }
+
+        public void Set<T>(string key, T obj, TimeSpan expireIn) where T : class, new()
+        {
+            new RedisClient<T>().KSet(key, obj, expireIn);
         }
 
         public void Quit(string key)

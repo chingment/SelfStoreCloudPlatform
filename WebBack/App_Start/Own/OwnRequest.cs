@@ -44,6 +44,20 @@ namespace WebBack
             return userInfo;
         }
 
+        public static string GetAccessToken()
+        {
+            var context = HttpContext.Current;
+            var request = context.Request;
+            var response = context.Response;
+
+            var token = request.Cookies[OwnRequest.SESSION_NAME];
+            if (token == null)
+                return null;
+
+            return token.Value;
+
+        }
+
         public static bool IsLogin()
         {
             if (GetUserInfo() == null)
@@ -124,33 +138,29 @@ namespace WebBack
 
         public static void Postpone()
         {
-            var userInfo = GetUserInfo();
-            if (userInfo != null)
-            {
-                SSOUtil.Postpone(userInfo.Token);
-            }
+
+            SSOUtil.Postpone(GetAccessToken());
+
 
         }
 
         public static void Quit()
         {
-            var userInfo = GetUserInfo();
-            if (userInfo != null)
-            {
-                SSOUtil.Quit(userInfo.Token);
 
-                var context = HttpContext.Current;
-                var request = context.Request;
-                var response = context.Response;
-                HttpCookie cookie_session = request.Cookies[OwnRequest.SESSION_NAME];
-                if (cookie_session != null)
-                {
-                    TimeSpan ts = new TimeSpan(-1, 0, 0, 0);
-                    cookie_session.Expires = DateTime.Now.Add(ts);
-                    response.AppendCookie(cookie_session);
-                }
-             
+            SSOUtil.Quit(GetAccessToken());
+
+            var context = HttpContext.Current;
+            var request = context.Request;
+            var response = context.Response;
+            HttpCookie cookie_session = request.Cookies[OwnRequest.SESSION_NAME];
+            if (cookie_session != null)
+            {
+                TimeSpan ts = new TimeSpan(-1, 0, 0, 0);
+                cookie_session.Expires = DateTime.Now.Add(ts);
+                response.AppendCookie(cookie_session);
             }
+
+
 
         }
     }

@@ -15,6 +15,7 @@ using Lumos.BLL.Service.App;
 using System.Security.Cryptography;
 using System.IO;
 using System.Text;
+using Lumos.Session;
 
 namespace WebAppApi.Controllers
 {
@@ -65,6 +66,9 @@ namespace WebAppApi.Controllers
             var ret = new RetLoginByMinProgram();
 
             ret.AccessToken = GuidUtil.New();
+
+
+            SSOUtil.SetUserInfo(ret.AccessToken, new UserInfo { UserId = wxUserInfo.ClientId, UserName = wxUserInfo.Nickname, WxOpenId = wxUserInfo.OpenId }, new TimeSpan(30, 0, 0, 0, 0));
 
             result = new APIResult() { Result = ResultType.Success, Code = ResultCode.Success, Message = "登录成功", Data = ret };
 

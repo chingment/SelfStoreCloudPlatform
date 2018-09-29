@@ -21,6 +21,10 @@ namespace Lumos.Session
         {
             _session.Set<T>(key, obj);
         }
+        public void Set<T>(string key, T obj, TimeSpan expireIn) where T : class, new()
+        {
+            _session.Set<T>(key, obj, expireIn);
+        }
 
         public void Postpone(string key)
         {

@@ -37,7 +37,7 @@ namespace WebAppApi
             //userInfo = SSOUtil.GetUserInfo(token.Value);
 
             userInfo = new UserInfo();
-            userInfo.Token = "1";
+            //userInfo.Token = "1";
             userInfo.UserId = "00000000000000000000000000000000";
             userInfo.UserName = "admin";
 

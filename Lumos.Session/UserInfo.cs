@@ -8,7 +8,7 @@ namespace Lumos.Session
 {
     public class UserInfo
     {
-        public string Token { get; set; }
+        //public string Token { get; set; }
 
         public string UserId { get; set; }
 

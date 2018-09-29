@@ -81,11 +81,11 @@ namespace WebSSO.Controllers
             UserInfo userInfo = new UserInfo();
             userInfo.UserId = result.User.Id;
             userInfo.UserName = result.User.UserName;
-            userInfo.Token = GuidUtil.New();
 
-            SSOUtil.SetUserInfo(userInfo);
+            string token = GuidUtil.New();
+            SSOUtil.SetUserInfo(token, userInfo);
 
-            gotoViewModel.Url = string.Format("{0}?token={1}", returnUrl, userInfo.Token);
+            gotoViewModel.Url = string.Format("{0}?token={1}", returnUrl, token);
 
             return Json(ResultType.Success, gotoViewModel, "登录成功");
 

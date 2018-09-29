@@ -24,8 +24,15 @@ namespace WebMerch
 
         public static UserInfo GetUserInfo()
         {
-            UserInfo userInfo = null;
+     
+            UserInfo userInfo = SSOUtil.GetUserInfo(GetAccessToken());
 
+            return userInfo;
+        }
+
+
+        public static string GetAccessToken()
+        {
             var context = HttpContext.Current;
             var request = context.Request;
             var response = context.Response;
@@ -34,14 +41,7 @@ namespace WebMerch
             if (token == null)
                 return null;
 
-            userInfo = SSOUtil.GetUserInfo(token.Value);
-
-            //userInfo = new UserInfo();
-            //userInfo.Token = "1";
-            //userInfo.UserId = 1000;
-            //userInfo.UserName = "admin";
-
-            return userInfo;
+            return token.Value;
         }
 
         public static bool IsLogin()
@@ -127,30 +127,28 @@ namespace WebMerch
             var userInfo = GetUserInfo();
             if (userInfo != null)
             {
-                SSOUtil.Postpone(userInfo.Token);
+                SSOUtil.Postpone(GetAccessToken());
             }
 
         }
 
         public static void Quit()
         {
-            var userInfo = GetUserInfo();
-            if (userInfo != null)
+
+            SSOUtil.Quit(GetAccessToken());
+
+            var context = HttpContext.Current;
+            var request = context.Request;
+            var response = context.Response;
+            HttpCookie cookie_session = request.Cookies[OwnRequest.SESSION_NAME];
+            if (cookie_session != null)
             {
-                SSOUtil.Quit(userInfo.Token);
-
-                var context = HttpContext.Current;
-                var request = context.Request;
-                var response = context.Response;
-                HttpCookie cookie_session = request.Cookies[OwnRequest.SESSION_NAME];
-                if (cookie_session != null)
-                {
-                    TimeSpan ts = new TimeSpan(-1, 0, 0, 0);
-                    cookie_session.Expires = DateTime.Now.Add(ts);
-                    response.AppendCookie(cookie_session);
-                }
-
+                TimeSpan ts = new TimeSpan(-1, 0, 0, 0);
+                cookie_session.Expires = DateTime.Now.Add(ts);
+                response.AppendCookie(cookie_session);
             }
+
+
 
         }
     }

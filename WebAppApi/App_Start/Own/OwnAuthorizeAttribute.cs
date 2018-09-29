@@ -19,6 +19,7 @@ using Lumos.BLL;
 using Lumos.Common;
 using System.Web.Http;
 using Newtonsoft.Json.Linq;
+using Lumos.Session;
 
 namespace WebAppApi
 {
@@ -83,95 +84,31 @@ namespace WebAppApi
                     return;
                 }
 
-                string app_key = request.Headers["key"];
-                string app_sign = request.Headers["sign"];
-                string app_version = request.Headers["version"];
-                string app_timestamp_s = request.Headers["timestamp"];
+                var accessToken = request.QueryString["accessToken"];
 
-                if (app_version != null)
+                if (string.IsNullOrEmpty(accessToken))
                 {
-                    LogUtil.Info("app_version:" + app_version);
+                    APIResult result = new APIResult(ResultType.Failure, ResultCode.FailureSign, "accessToken不能为空");
+                    actionContext.Response = new APIResponse(result);
+                    return;
+                }
+
+                var userInfo = SSOUtil.GetUserInfo(accessToken);
+
+                if (userInfo == null)
+                {
+                    APIResult result = new APIResult(ResultType.Failure, ResultCode.FailureSign, "accessToken 已经超时");
+                    actionContext.Response = new APIResponse(result);
+                    return;
                 }
 
                 string app_data = null;
+
                 if (requestMethod == "POST")
                 {
                     Stream stream = HttpContext.Current.Request.InputStream;
                     stream.Seek(0, SeekOrigin.Begin);
                     app_data = new StreamReader(stream).ReadToEnd();
-                    //JObject  s = JObject.Parse(app_data);
-                    //s.Remove("")
-                    //JObject a=Newtonsoft.Json.JsonConvert.DeserializeObject<>()
-
-                }
-                else
-                {
-                    NameValueCollection queryForm = HttpContext.Current.Request.QueryString;
-                    Dictionary<string, string> queryData = new Dictionary<string, string>();
-                    for (int f = 0; f < queryForm.Count; f++)
-                    {
-                        string querykey = queryForm.Keys[f];
-                        queryData.Add(querykey, queryForm[querykey]);
-                    }
-                    app_data = GetQueryData(queryData);
-                }
-
-                //记录请求的日志
-                MonitorApiLog monitorApiLog = new MonitorApiLog();
-                monitorApiLog.RequestTime = requestTime;
-                monitorApiLog.RequestUrl = request.RawUrl;
-                monitorApiLog.SignatureData = new SignatureData { Key = app_key, Sign = app_sign, TimeStamp = app_timestamp_s, Data = app_data };
-
-                LogUtil.Info(string.Format("API请求:{0}", monitorApiLog.ToString()));
-
-                actionContext.ActionArguments[key] = monitorApiLog;
-
-
-                //检查必要的参数
-                if (app_key == null || app_sign == null || app_timestamp_s == null)
-                {
-                    LogUtil.Warn("API请求必要的参数为空");
-                    APIResult result = new APIResult(ResultType.Failure, ResultCode.FailureSign, "缺少必要参数");
-                    actionContext.Response = new APIResponse(result);
-                    return;
-                }
-
-                //检查key是否在数据库中存在
-                string app_secret = SysFactory.AppKeySecret.GetSecret(app_key);
-
-                if (app_secret == null)
-                {
-                    LogUtil.Warn("API请求app_key不存在");
-                    APIResult result = new APIResult(ResultType.Failure, ResultCode.FailureSign, "应用程序Key,存在错误");
-                    actionContext.Response = new APIResponse(result);
-                    return;
-                }
-
-                long app_timestamp = long.Parse(app_timestamp_s);
-
-                string signStr = Signature.Compute(app_key, app_secret, app_timestamp, app_data);
-
-                LogUtil.Info("app_key:" + app_key);
-                LogUtil.Info("app_secret:" + app_secret);
-                LogUtil.Info("app_timestamp:" + app_timestamp);
-                LogUtil.Info("app_data:" + app_data);
-                LogUtil.Info("signStr:" + signStr);
-                LogUtil.Info("app_sign:" + app_sign);
-
-                if (Signature.IsRequestTimeout(app_timestamp))
-                {
-                    LogUtil.Warn("API请求时间戳超时");
-                    APIResult result = new APIResult(ResultType.Failure, ResultCode.FailureSign, "请求已超时");
-                    actionContext.Response = new APIResponse(result);
-                    return;
-                }
-
-                if (signStr != app_sign)
-                {
-                    LogUtil.Warn("API请求签名错误");
-                    APIResult result = new APIResult(ResultType.Failure, ResultCode.FailureSign, "签名错误");
-                    actionContext.Response = new APIResponse(result);
-                    return;
                 }
 
                 base.OnActionExecuting(actionContext);
