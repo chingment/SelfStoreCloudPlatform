@@ -35,9 +35,9 @@ namespace Lumos.BLL.Service.App
                     var skuModel = BizFactory.ProductSku.GetModel(item.Id);
                     if (skuModel != null)
                     {
-                        item.ImgUrl = ImgSet.GetMain(skuModel.DispalyImgUrls);
+                        item.ImgUrl = skuModel.ImgUrl;
                         item.Name = skuModel.Name;
-                        item.SalePrice = skuModel.SalePrice.ToF2Price();
+                        item.SalePrice = skuModel.SalePrice;
                         item.SalesPriceByVip = (skuModel.SalePrice * 0.9m).ToF2Price();
                         item.ChannelType = Enumeration.ChannelType.SelfPick;
                         item.ChannelId = 1;

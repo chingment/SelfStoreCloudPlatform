@@ -118,7 +118,7 @@ namespace Lumos.BLL
             return result;
         }
 
-        public CustomJsonResult Edit(string pOperater,string pMerchantId, RopProducSkuEdit rop)
+        public CustomJsonResult Edit(string pOperater, string pMerchantId, RopProducSkuEdit rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 
@@ -249,20 +249,50 @@ namespace Lumos.BLL
             return result;
         }
 
-        public ProductSku GetModel(string pId)
+
+        //public SkuModel Details(string skuId)
+        //{
+        //    var model = BizFactory.ProductSku.GetModel(skuId);
+
+        //    var sku = new SkuModel();
+
+        //    sku.Id = model.Id;
+        //    sku.Name = model.Name;
+        //    sku.SalePrice = model.SalePrice.ToF2Price();
+        //    sku.ShowPrice = model.ShowPrice.ToF2Price();
+        //    sku.DetailsDes = model.DetailsDes;
+        //    sku.BriefInfo = model.BriefInfo;
+        //    sku.DispalyImgUrls = model.DispalyImgUrls.ToJsonObject<List<ImgSet>>();
+
+        //    return sku;
+        //}
+
+        public SkuModel GetModel(string pId)
         {
-            var model = ProductSkuCacheUtil.GetOne(pId);
-            if (model == null)
+            var skuModel = new SkuModel();
+            var sku = ProductSkuCacheUtil.GetOne(pId);
+
+            if (sku == null)
             {
-                model = CurrentDb.ProductSku.Where(m => m.Id == pId).FirstOrDefault();
-                if (model != null)
+                sku = CurrentDb.ProductSku.Where(m => m.Id == pId).FirstOrDefault();
+                if (sku != null)
                 {
-                    ProductSkuCacheUtil.Add(model);
+                    ProductSkuCacheUtil.Add(sku);
                 }
             }
 
-            return model;
+            skuModel.Id = sku.Id;
+            skuModel.Name = sku.Name;
+            skuModel.SalePrice = sku.SalePrice;
+            skuModel.ShowPrice = sku.ShowPrice;
+            skuModel.BriefInfo = sku.BriefInfo;
+            skuModel.DispalyImgUrls = sku.DispalyImgUrls.ToJsonObject<List<ImgSet>>();
+            skuModel.ImgUrl = ImgSet.GetMain(sku.DispalyImgUrls);
+            skuModel.DetailsDes = sku.DetailsDes;
+
+            return skuModel;
         }
+
         public void InitSearchCache()
         {
             var tran = RedisManager.Db.CreateTransaction();
@@ -304,24 +334,5 @@ namespace Lumos.BLL
             return list;
         }
 
-
-        public List<ImgSet> GetDispalyImgUrls(string imgSetJson)
-        {
-            if (string.IsNullOrEmpty(imgSetJson))
-                return new List<ImgSet>();
-
-            List<ImgSet> imgs = new List<ImgSet>();
-            var list = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ImgSet>>(imgSetJson);
-
-            foreach (var m in list)
-            {
-                if (!string.IsNullOrEmpty(m.ImgUrl))
-                {
-                    imgs.Add(m);
-                }
-            }
-
-            return imgs;
-        }
     }
 }

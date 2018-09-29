@@ -30,8 +30,8 @@ namespace Lumos.BLL.Service.App
                     cartProcudtSkuModel.CartId = item.Id;
                     cartProcudtSkuModel.Id = skuModel.Id;
                     cartProcudtSkuModel.Name = skuModel.Name;
-                    cartProcudtSkuModel.ImgUrl = ImgSet.GetMain(skuModel.DispalyImgUrls);
-                    cartProcudtSkuModel.SalePrice = skuModel.SalePrice.ToF2Price();
+                    cartProcudtSkuModel.ImgUrl = skuModel.ImgUrl;
+                    cartProcudtSkuModel.SalePrice = skuModel.SalePrice;
                     cartProcudtSkuModel.Quantity = item.Quantity;
                     cartProcudtSkuModel.SumPrice = item.Quantity * skuModel.SalePrice;
                     cartProcudtSkuModel.Selected = item.Selected;
@@ -119,7 +119,7 @@ namespace Lumos.BLL.Service.App
                                     mod_Cart.StoreId = rop.StoreId;
                                     mod_Cart.ProductSkuId = skuModel.Id;
                                     mod_Cart.ProductSkuName = skuModel.Name;
-                                    mod_Cart.ProductSkuImgUrl = ImgSet.GetMain(skuModel.DispalyImgUrls);
+                                    mod_Cart.ProductSkuImgUrl = skuModel.ImgUrl;
                                     mod_Cart.CreateTime = this.DateTime;
                                     mod_Cart.Creator = operater;
                                     mod_Cart.Quantity = 1;

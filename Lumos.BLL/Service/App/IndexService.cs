@@ -67,18 +67,7 @@ namespace Lumos.BLL.Service.App
                     foreach (var i in list)
                     {
                         var model = BizFactory.ProductSku.GetModel(i.Id);
-
-                        var sku = new SkuModel();
-
-                        sku.Id = model.Id;
-                        sku.Name = model.Name;
-                        sku.SalePrice = model.SalePrice.ToF2Price();
-                        sku.ShowPrice = model.ShowPrice.ToF2Price();
-                        sku.DetailsDes = model.DetailsDes;
-                        sku.BriefInfo = model.BriefInfo;
-                        sku.DispalyImgUrls = BizFactory.ProductSku.GetDispalyImgUrls(model.DispalyImgUrls);
-
-                        tab.List.Add(sku);
+                        tab.List.Add(model);
                     }
                 }
 

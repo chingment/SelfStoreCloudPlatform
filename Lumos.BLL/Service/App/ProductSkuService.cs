@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lumos.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -54,32 +55,21 @@ namespace Lumos.BLL.Service.App
                     Id = item.Id,
                     Name = item.Name,
                     ImgUrl = Entity.ImgSet.GetMain(item.DispalyImgUrls),
-                    SalePrice = item.SalePrice.ToF2Price(),
-                    ShowPrice = item.ShowPrice.ToF2Price(),
+                    SalePrice = item.SalePrice,
+                    ShowPrice = item.ShowPrice,
                     BriefInfo = item.BriefInfo
-            });
-        }
+                });
+            }
 
             return olist;
 
 
         }
 
-    public SkuModel Details(string skuId)
-    {
-        var model = BizFactory.ProductSku.GetModel(skuId);
-
-        var sku = new SkuModel();
-
-        sku.Id = model.Id;
-        sku.Name = model.Name;
-        sku.SalePrice = model.SalePrice.ToF2Price();
-        sku.ShowPrice = model.ShowPrice.ToF2Price();
-        sku.DetailsDes = model.DetailsDes;
-        sku.BriefInfo = model.BriefInfo;
-        sku.DispalyImgUrls = BizFactory.ProductSku.GetDispalyImgUrls(model.DispalyImgUrls);
-
-        return sku;
+        public SkuModel Details(string skuId)
+        {
+            var skuModel = BizFactory.ProductSku.GetModel(skuId);
+            return skuModel;
+        }
     }
-}
 }
