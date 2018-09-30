@@ -14,7 +14,7 @@ namespace Lumos.BLL.Service.Term
         }
 
         public string OrderSn { get; set; }
-        public string PayQrCodeUrl { get; set; }
+        public string PayUrl { get; set; }
 
     }
 
@@ -45,7 +45,7 @@ namespace Lumos.BLL.Service.Term
             public string SkuId { get; set; }
             public string SkuName { get; set; }
             public string SkuImgUrl { get; set; }
-            public decimal SalesPrice { get; set; }
+            public decimal SalePrice { get; set; }
             public int Quantity { get; set; }
             public decimal OriginalAmount { get; set; }
             public decimal DiscountAmount { get; set; }
@@ -64,7 +64,7 @@ namespace Lumos.BLL.Service.Term
             public int Quantity { get; set; }
             public string SkuName { get; set; }
             public string SkuImgUrl { get; set; }
-            public decimal SalesPrice { get; set; }
+            public decimal SalePrice { get; set; }
             public decimal OriginalAmount { get; set; }
             public decimal DiscountAmount { get; set; }
             public decimal ChargeAmount { get; set; }

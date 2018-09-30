@@ -30,7 +30,7 @@ namespace Lumos.Entity
         public string ProductSkuName { get; set; }
         public string ProductSkuImgUrl { get; set; }
         public int Quantity { get; set; }
-        public decimal SalesPrice { get; set; }
+        public decimal SalePrice { get; set; }
         public decimal OriginalAmount { get; set; }
         public decimal DiscountAmount { get; set; }
         public decimal ChargeAmount { get; set; }

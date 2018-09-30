@@ -12,7 +12,7 @@ namespace Lumos.BLL.Service.Term.Models
         public string Id { get; set; }
         public string Name { get; set; }
         public string ImgUrl { get; set; }
-        public string SalesPrice { get; set; }
+        public string SalePrice { get; set; }
         public string ShowPirce { get; set; }
         [JsonConverter(typeof(JsonObjectConvert))]
         public string DisplayImgUrls { get; set; }

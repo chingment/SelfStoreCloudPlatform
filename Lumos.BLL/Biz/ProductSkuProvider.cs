@@ -234,7 +234,7 @@ namespace Lumos.BLL
 
                 foreach (var machineStock in lMachineStocks)
                 {
-                    machineStock.SalesPrice = pProductSkuSalePrice;
+                    machineStock.SalePrice = pProductSkuSalePrice;
                     machineStock.Mender = pOperater;
                     machineStock.MendTime = this.DateTime;
                 }

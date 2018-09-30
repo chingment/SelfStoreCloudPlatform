@@ -86,9 +86,6 @@ namespace WebTermApi
     {
         public static void Register(HttpConfiguration config)
         {
-
-            config.Filters.Add(new APIExceptionAttribute());
-
             // Web API routes
             config.MapHttpAttributeRoutes();
 
@@ -108,7 +105,7 @@ namespace WebTermApi
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             // 对 JSON 数据使用混合大小写。跟属性名同样的大小.输出
             // config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new DefaultContractResolver()
-
+            config.Filters.Add(new APIExceptionAttribute());
         }
     }
 }

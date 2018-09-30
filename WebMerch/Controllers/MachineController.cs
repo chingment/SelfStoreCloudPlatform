@@ -104,7 +104,7 @@ namespace WebMerch.Controllers
                         u.StoreId == condition.StoreId &&
                         u.MachineId == condition.MachineId &&
                         (name.Length == 0 || u.ProductSkuName.Contains(name))
-                        select new { u.Id, u.SlotId, u.ProductSkuName, u.Quantity, u.LockQuantity, u.SellQuantity, u.SalesPrice };
+                        select new { u.Id, u.SlotId, u.ProductSkuName, u.Quantity, u.LockQuantity, u.SellQuantity, u.SalePrice };
 
             int total = query.Count();
 

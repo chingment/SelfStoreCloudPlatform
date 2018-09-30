@@ -103,17 +103,18 @@ namespace WebTermApi.Controllers
             }
             else
             {
-                host = "http://demo.mobile.17fanju.com";
+                host = "http://demo.api.term.17fanju.com";
             }
 
 
-            string userId = "ca66ca85c5bf435581ecd2380554ecfe";
+            string clientId = "ca66ca85c5bf435581ecd2380554ecf1";
             string merchantId = "d1e8ad564c0f4516b2de95655a4146c7";
             string machineId = "00000000000000000000000000000001";
-
+            string storeId = "21ae9399b1804dbc9ddd3c29e8b5c670";
             //model.Add("获取机器接口配置信息", MachineApiConfig("000000000000000"));
             //model.Add("获取全局数据", GlobalDataSet(userId, merchantId, machineId, DateTime.Now));
-            model.Add("预定商品", OrderReserve(userId, "21ae9399b1804dbc9ddd3c29e8b5c670", ""));
+
+            model.Add("预定商品", OrderReserve(merchantId, storeId, machineId));
             return View(model);
         }
 
@@ -156,11 +157,11 @@ namespace WebTermApi.Controllers
 
         }
 
-        public string OrderReserve(string userId, string storeId, string machineId)
+        public string OrderReserve(string merchantId, string storeId, string machineId)
         {
 
             RopOrderReserve pms = new RopOrderReserve();
-            pms.MerchantId = userId;
+            pms.MerchantId = merchantId;
             pms.StoreId = storeId;
             pms.MachineId = machineId;
             pms.PayWay = "";

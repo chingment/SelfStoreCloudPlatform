@@ -122,7 +122,7 @@ namespace Lumos.BLL.Service.Term
                     productSkuModel.DetailsDes = productSku.DetailsDes;
                     productSkuModel.BriefInfo = productSku.BriefInfo;
                     productSkuModel.ShowPirce = productSku.ShowPrice.ToF2Price();
-                    productSkuModel.SalesPrice = productSku.SalePrice.ToF2Price();
+                    productSkuModel.SalePrice = productSku.SalePrice.ToF2Price();
                     productSkuModel.DisplayImgUrls = productSku.DispalyImgUrls;
                     productSkuModel.ImgUrl = ImgSet.GetMain(productSku.DispalyImgUrls);
 

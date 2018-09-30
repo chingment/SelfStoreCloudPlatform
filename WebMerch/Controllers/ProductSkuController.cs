@@ -115,13 +115,13 @@ namespace WebMerch.Controllers
                           where d.IsBind == true
                           select d.StoreId).Contains(u.StoreId)
 
-                         select new { u.StoreId, u.ProductSkuId, u.SalesPrice }).Distinct();
+                         select new { u.StoreId, u.ProductSkuId, u.SalePrice }).Distinct();
 
             int total = query.Count();
 
             int pageIndex = condition.PageIndex;
             int pageSize = 10;
-            query = query.OrderByDescending(r => r.SalesPrice).Skip(pageSize * (pageIndex)).Take(pageSize);
+            query = query.OrderByDescending(r => r.SalePrice).Skip(pageSize * (pageIndex)).Take(pageSize);
 
 
             var list = query.ToList();
@@ -138,7 +138,7 @@ namespace WebMerch.Controllers
                     ProductSkuImgUrl = ImgSet.GetMain(productSku.DispalyImgUrls),
                     StoreId = store.Id,
                     StoreName = store.Name,
-                    ProductSkuSalesPrice = item.SalesPrice.ToF2Price()
+                    ProductSkuSalePrice = item.SalePrice.ToF2Price()
                 });
             }
 

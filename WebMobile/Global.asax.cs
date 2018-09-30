@@ -70,22 +70,22 @@ namespace WebMobile
             }
 
 
-            List<string> listArea = new List<string>();
-            ////获取Area下目录
-            System.IO.DirectoryInfo areaViewDir = new System.IO.DirectoryInfo(appPath + "/Areas");
-            for (int i = 0; i < areaViewDir.GetDirectories().Length; i++)
-            {
-                System.IO.DirectoryInfo childrenAreaViewDir = new System.IO.DirectoryInfo(appPath + "/Areas/" + areaViewDir.GetDirectories()[i].Name + "/Controllers");
-                for (int j = 0; j < childrenAreaViewDir.GetDirectories().Length; j++)
-                {
-                    listArea.Add("~/Areas/" + areaViewDir.GetDirectories()[i].Name + "/Views/{1}/{0}.cshtml");
-                    listArea.Add("~/Areas/" + areaViewDir.GetDirectories()[i].Name + "/Views/" + childrenAreaViewDir.GetDirectories()[j].Name + "/{1}/{0}.cshtml");
-                }
-            }
+            //List<string> listArea = new List<string>();
+            //////获取Area下目录
+            //System.IO.DirectoryInfo areaViewDir = new System.IO.DirectoryInfo(appPath + "/Areas");
+            //for (int i = 0; i < areaViewDir.GetDirectories().Length; i++)
+            //{
+            //    System.IO.DirectoryInfo childrenAreaViewDir = new System.IO.DirectoryInfo(appPath + "/Areas/" + areaViewDir.GetDirectories()[i].Name + "/Controllers");
+            //    for (int j = 0; j < childrenAreaViewDir.GetDirectories().Length; j++)
+            //    {
+            //        listArea.Add("~/Areas/" + areaViewDir.GetDirectories()[i].Name + "/Views/{1}/{0}.cshtml");
+            //        listArea.Add("~/Areas/" + areaViewDir.GetDirectories()[i].Name + "/Views/" + childrenAreaViewDir.GetDirectories()[j].Name + "/{1}/{0}.cshtml");
+            //    }
+            //}
 
 
             ViewLocationFormats = list.ToArray();
-            AreaViewLocationFormats = listArea.ToArray();//区分Area路由寻址规则
+            //AreaViewLocationFormats = listArea.ToArray();//区分Area路由寻址规则
         }
         public override ViewEngineResult FindView(ControllerContext controllerContext, string viewName, string masterName, bool useCache)
         {

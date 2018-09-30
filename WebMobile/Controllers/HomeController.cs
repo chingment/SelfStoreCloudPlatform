@@ -15,8 +15,6 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Lumos;
 using Lumos.Session;
-using ZXing;
-using ZXing.QrCode;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
@@ -79,15 +77,17 @@ namespace WebMobile.Controllers
                         wxUserInfo = BizFactory.WxUser.CheckedUser(GuidUtil.New(), wxUserInfo);
                         if (wxUserInfo != null)
                         {
-                            LogUtil.Info("用户Id：" + wxUserInfo.UserId);
+                            LogUtil.Info("用户Id：" + wxUserInfo.ClientId);
 
                             UserInfo userInfo = new UserInfo();
-                            userInfo.Token = GuidUtil.New();
-                            userInfo.UserId = wxUserInfo.UserId;
+                            userInfo.UserId = wxUserInfo.ClientId;
                             userInfo.WxOpenId = oauth2_Result.openid;
                             userInfo.WxAccessToken = oauth2_Result.access_token;
-                            SSOUtil.SetUserInfo(userInfo);
-                            Response.Cookies.Add(new HttpCookie(OwnRequest.SESSION_NAME, userInfo.Token));
+
+                            string accessToken = GuidUtil.New();
+
+                            SSOUtil.SetUserInfo(accessToken, userInfo);
+                            Response.Cookies.Add(new HttpCookie(OwnRequest.SESSION_NAME, accessToken));
 
                             LogUtil.Info("returnUrl.UrlDecode 前：" + returnUrl);
                             string s_returnUrl = HttpUtility.UrlDecode(returnUrl);
@@ -264,7 +264,7 @@ namespace WebMobile.Controllers
 
                             var wxMsgPushLog = new WxMsgPushLog();
                             wxMsgPushLog.Id = GuidUtil.New();
-                            wxMsgPushLog.UserId = wxUserInfo.UserId;
+                            wxMsgPushLog.UserId = wxUserInfo.ClientId;
                             wxMsgPushLog.ToUserName = baseEventMsg.ToUserName;
                             wxMsgPushLog.FromUserName = baseEventMsg.FromUserName;
                             wxMsgPushLog.CreateTime = DateTime.Now;

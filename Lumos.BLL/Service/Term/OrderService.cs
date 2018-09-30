@@ -57,9 +57,12 @@ namespace Lumos.BLL.Service.Term
                         tips += skuModel.Name + "、";
                     }
 
-                    tips = tips.Substring(0, tips.Length - 1);
+                    if (!string.IsNullOrEmpty(tips))
+                    {
+                        tips = tips.Substring(0, tips.Length - 1) + ",";
+                    }
 
-                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, tips + ",可预定数量不足");
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, tips + "可预定数量不足");
                 }
 
                 //检查是否有下架的商品
@@ -74,8 +77,11 @@ namespace Lumos.BLL.Service.Term
                         tips += skuModel.Name + "、";
                     }
 
-                    tips = tips.Substring(0, tips.Length - 1);
-                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, tips + "已经下架");
+                    if (!string.IsNullOrEmpty(tips))
+                    {
+                        tips = tips.Substring(0, tips.Length - 1) + ",";
+                    }
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, tips + "商品已经下架");
                 }
 
                 //检查是否有预定的商品数量与库存数量不对应
@@ -103,11 +109,18 @@ namespace Lumos.BLL.Service.Term
                         tips += skuModel.Name + "的最大库存为" + item.SellQuantity + ";";
                     }
 
-                    tips = tips.Substring(0, tips.Length - 1);
-                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, tips);
+                    if (!string.IsNullOrEmpty(tips))
+                    {
+                        tips = tips.Substring(0, tips.Length - 1) + ",";
+                    }
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, tips + "库存不足");
                 }
 
                 var store = CurrentDb.Store.Where(m => m.Id == rop.StoreId).FirstOrDefault();
+                if (store == null)
+                {
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "店铺无效");
+                }
 
                 var order = new Order();
                 order.Id = GuidUtil.New();
@@ -187,7 +200,7 @@ namespace Lumos.BLL.Service.Term
                         orderDetailsChild.ProductSkuId = detailsChild.SkuId;
                         orderDetailsChild.ProductSkuName = detailsChild.SkuName;
                         orderDetailsChild.ProductSkuImgUrl = detailsChild.SkuImgUrl;
-                        orderDetailsChild.SalesPrice = detailsChild.SalesPrice;
+                        orderDetailsChild.SalePrice = detailsChild.SalePrice;
                         orderDetailsChild.Quantity = detailsChild.Quantity;
                         orderDetailsChild.OriginalAmount = detailsChild.OriginalAmount;
                         orderDetailsChild.DiscountAmount = detailsChild.DiscountAmount;
@@ -217,7 +230,7 @@ namespace Lumos.BLL.Service.Term
                             orderDetailsChildSon.ProductSkuId = detailsChildSon.SkuId;
                             orderDetailsChildSon.ProductSkuName = detailsChildSon.SkuName;
                             orderDetailsChildSon.ProductSkuImgUrl = detailsChildSon.SkuImgUrl;
-                            orderDetailsChildSon.SalesPrice = detailsChildSon.SalesPrice;
+                            orderDetailsChildSon.SalePrice = detailsChildSon.SalePrice;
                             orderDetailsChildSon.Quantity = detailsChildSon.Quantity;
                             orderDetailsChildSon.OriginalAmount = detailsChildSon.OriginalAmount;
                             orderDetailsChildSon.DiscountAmount = detailsChildSon.DiscountAmount;
@@ -277,7 +290,7 @@ namespace Lumos.BLL.Service.Term
                 CurrentDb.SaveChanges(true);
 
                 ret.OrderSn = order.Sn;
-                ret.PayQrCodeUrl = order.PayQrCodeUrl;
+                ret.PayUrl = string.Format("http://demo.mobile.17fanju.com/Order/Confirm?soure=machine&orderSn=" + order.Sn);
 
                 ts.Complete();
 
@@ -342,8 +355,8 @@ namespace Lumos.BLL.Service.Term
                             detailChildSon.SkuImgUrl = product.ImgUrl;
                             detailChildSon.SlotId = item.SlotId;
                             detailChildSon.Quantity = 1;
-                            detailChildSon.SalesPrice = item.SalesPrice;
-                            detailChildSon.OriginalAmount = detailChildSon.Quantity * item.SalesPrice;
+                            detailChildSon.SalePrice = item.SalePrice;
+                            detailChildSon.OriginalAmount = detailChildSon.Quantity * item.SalePrice;
 
                             detailChildSons.Add(detailChildSon);
                         }
@@ -355,7 +368,7 @@ namespace Lumos.BLL.Service.Term
             var sumDiscountAmount = 0m;
             for (int i = 0; i < detailChildSons.Count; i++)
             {
-                decimal scale = (detailChildSons[i].OriginalAmount / sumOriginalAmount);
+                decimal scale = (sumOriginalAmount == 0 ? 0 : (detailChildSons[i].OriginalAmount / sumOriginalAmount));
                 detailChildSons[i].DiscountAmount = Decimal.Round(scale * sumDiscountAmount, 2);
                 detailChildSons[i].ChargeAmount = detailChildSons[i].OriginalAmount - detailChildSons[i].DiscountAmount;
             }
@@ -406,7 +419,7 @@ namespace Lumos.BLL.Service.Term
                     detailChild.SkuId = detailChildGroup.SkuId;
                     detailChild.SkuName = detailChildSons.Where(m => m.MachineId == detailChildGroup.MachineId && m.SkuId == detailChildGroup.SkuId).First().SkuName;
                     detailChild.SkuImgUrl = detailChildSons.Where(m => m.MachineId == detailChildGroup.MachineId && m.SkuId == detailChildGroup.SkuId).First().SkuImgUrl;
-                    detailChild.SalesPrice = detailChildSons.Where(m => m.MachineId == detailChildGroup.MachineId && m.SkuId == detailChildGroup.SkuId).First().SalesPrice;
+                    detailChild.SalePrice = detailChildSons.Where(m => m.MachineId == detailChildGroup.MachineId && m.SkuId == detailChildGroup.SkuId).First().SalePrice;
                     detailChild.Quantity = detailChildSons.Where(m => m.MachineId == detailChildGroup.MachineId && m.SkuId == detailChildGroup.SkuId).Sum(m => m.Quantity);
                     detailChild.OriginalAmount = detailChildSons.Where(m => m.MachineId == detailChildGroup.MachineId && m.SkuId == detailChildGroup.SkuId).Sum(m => m.OriginalAmount);
                     detailChild.DiscountAmount = detailChildSons.Where(m => m.MachineId == detailChildGroup.MachineId && m.SkuId == detailChildGroup.SkuId).Sum(m => m.DiscountAmount);
@@ -422,7 +435,7 @@ namespace Lumos.BLL.Service.Term
                                                     c.SkuId,
                                                     c.SlotId,
                                                     c.Quantity,
-                                                    c.SalesPrice,
+                                                    c.SalePrice,
                                                     c.SkuImgUrl,
                                                     c.SkuName,
                                                     c.ChargeAmount,
@@ -441,7 +454,7 @@ namespace Lumos.BLL.Service.Term
                         detailChildSon.Quantity = detailChildSonGroup.Quantity;
                         detailChildSon.SkuName = detailChildSonGroup.SkuName;
                         detailChildSon.SkuImgUrl = detailChildSonGroup.SkuImgUrl;
-                        detailChildSon.SalesPrice = detailChildSonGroup.SalesPrice;
+                        detailChildSon.SalePrice = detailChildSonGroup.SalePrice;
                         detailChildSon.OriginalAmount = detailChildSonGroup.OriginalAmount;
                         detailChildSon.DiscountAmount = detailChildSonGroup.DiscountAmount;
                         detailChildSon.ChargeAmount = detailChildSonGroup.ChargeAmount;

@@ -29,7 +29,7 @@
                     l_StrRows += "<td class=\"overflow\" title=\"" + p_row.storeName + "\">" + p_row.storeName + "</td>";
                     l_StrRows += "<td class=\"overflow tipitem\"><div> <img src=\"" + p_row.productSkuImgUrl + "\" style=\"width:50px;height:50px\"><div></td>";
                     l_StrRows += "<td class=\"overflow\" title=\"" + p_row.productSkuName + "\">" + p_row.productSkuName + "</td>";
-                    l_StrRows += "<td class=\"overflow\" title=\"" + p_row.productSkuSalesPrice + "\">" + p_row.productSkuSalesPrice + "</td>";
+                    l_StrRows += "<td class=\"overflow\" title=\"" + p_row.productSkuSalePrice + "\">" + p_row.productSkuSalePrice + "</td>";
                     l_StrRows += "<td class=\"operation\">";
                     l_StrRows += l_Strlimt;
                     l_StrRows += "</td>";
@@ -43,8 +43,8 @@
 
                         $('#lbl_StoreName').text(obj.storeName)
                         $('#lbl_ProductSkuName').text(obj.productSkuName)
-                        $('#lbl_ProductSkuSalesPrice').text(obj.productSkuSalesPrice);
-                        $('#txt_SalePrice').val(obj.productSkuSalesPrice);
+                        $('#lbl_ProductSkuSalePrice').text(obj.productSkuSalePrice);
+                        $('#txt_SalePrice').val(obj.productSkuSalePrice);
                         var dialog = art.dialog({
                             title: '修改',
                             content: form2,
@@ -169,7 +169,7 @@
                     原价格：
                 </td>
                 <td class="f-tb-c">
-                    <span id="lbl_ProductSkuSalesPrice"></span>
+                    <span id="lbl_ProductSkuSalePrice"></span>
                 </td>
             </tr>
             <tr>

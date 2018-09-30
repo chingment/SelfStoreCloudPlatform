@@ -12,6 +12,6 @@ namespace Lumos.Entity
     [Table("SysClientUser")]
     public class SysClientUser : SysUser
     {
-
+        public bool IsVip { get; set; }
     }
 }
