@@ -12,7 +12,8 @@
     <meta http-equiv="Pragma" CONTENT="no-cache">
     <title>@ViewBag.Title</title>
     <script src="~/Scripts/jquery-1.8.3.min.js"></script>
-    <link href="~/Content/Site.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.tmpl.min.js"></script>
+    <link href="~/Content/Default/Base.css?@DateTime.Now.ToString("yyyyMMddHHmmss")" rel="stylesheet" />
     @RenderSection("styles", required: false)
     <script type="text/javascript">
 

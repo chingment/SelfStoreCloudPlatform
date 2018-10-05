@@ -29,31 +29,63 @@ namespace Lumos.BLL.Service.App
             decimal skuAmountByMemebr = 0;//普通用户总价
             decimal skuAmountByVip = 0;//会员用户总价
 
-            if (rop.Skus != null)
+            Store store;
+
+            if (string.IsNullOrEmpty(rop.OrderId))
             {
-                foreach (var item in rop.Skus)
+                store = CurrentDb.Store.Where(m => m.Id == rop.StoreId).FirstOrDefault();
+
+                if (rop.Skus != null)
                 {
-                    var skuModel = BizFactory.ProductSku.GetModel(item.Id);
-
-                    var machineStock = CurrentDb.MachineStock.Where(m => m.StoreId == rop.StoreId && m.ProductSkuId == item.Id).FirstOrDefault();
-
-                    if (skuModel != null)
+                    foreach (var item in rop.Skus)
                     {
-                        item.ImgUrl = skuModel.ImgUrl;
-                        item.Name = skuModel.Name;
-                        item.SalePrice = machineStock.SalePrice;
-                        item.SalePriceByVip = machineStock.SalePriceByVip;
-                        item.ChannelType = Enumeration.ChannelType.SelfPick;
-                        item.ChannelId = 1;
-                        skuAmountByOriginal += (machineStock.SalePrice * item.Quantity);
-                        skuAmountByMemebr += (machineStock.SalePrice * item.Quantity);
-                        skuAmountByVip += (machineStock.SalePriceByVip * item.Quantity);
-                        skus.Add(item);
+                        var skuModel = BizFactory.ProductSku.GetModel(item.Id);
+
+                        var machineStock = CurrentDb.MachineStock.Where(m => m.StoreId == rop.StoreId && m.ProductSkuId == item.Id).FirstOrDefault();
+
+                        if (skuModel != null)
+                        {
+                            item.ImgUrl = skuModel.ImgUrl;
+                            item.Name = skuModel.Name;
+                            item.SalePrice = machineStock.SalePrice;
+                            item.SalePriceByVip = machineStock.SalePriceByVip;
+                            item.ChannelType = Enumeration.ChannelType.SelfPick;
+                            item.ChannelId = 1;
+                            skuAmountByOriginal += (machineStock.SalePrice * item.Quantity);
+                            skuAmountByMemebr += (machineStock.SalePrice * item.Quantity);
+                            skuAmountByVip += (machineStock.SalePriceByVip * item.Quantity);
+                            skus.Add(item);
+                        }
                     }
                 }
             }
+            else
+            {
+                var orderDetailsChilds = CurrentDb.OrderDetailsChild.Where(m => m.OrderId == rop.OrderId).ToList();
 
-            var store = CurrentDb.Store.Where(m => m.Id == rop.StoreId).FirstOrDefault();
+                var storeId = orderDetailsChilds[0].StoreId;
+
+                store = CurrentDb.Store.Where(m => m.Id == storeId).FirstOrDefault();
+
+                foreach (var item in orderDetailsChilds)
+                {
+                    var orderConfirmSkuModel = new OrderConfirmSkuModel();
+                    orderConfirmSkuModel.Id = item.ProductSkuId;
+                    orderConfirmSkuModel.ImgUrl = item.ProductSkuImgUrl;
+                    orderConfirmSkuModel.Name = item.ProductSkuName;
+                    orderConfirmSkuModel.Quantity = item.Quantity;
+                    orderConfirmSkuModel.SalePrice = item.SalePrice;
+                    orderConfirmSkuModel.SalePriceByVip = item.SalePriceByVip;
+                    orderConfirmSkuModel.ChannelType = Enumeration.ChannelType.SelfPick;
+                    orderConfirmSkuModel.ChannelId = 1;
+
+                    skuAmountByOriginal += (item.SalePrice * item.Quantity);
+                    skuAmountByMemebr += (item.SalePrice * item.Quantity);
+                    skuAmountByVip += (item.SalePriceByVip * item.Quantity);
+                    skus.Add(orderConfirmSkuModel);
+                }
+            }
+
 
             var clientUser = CurrentDb.SysClientUser.Where(m => m.Id == pClientId).FirstOrDefault();
             bool isVip = false;

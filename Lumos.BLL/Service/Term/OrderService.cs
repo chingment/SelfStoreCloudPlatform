@@ -201,6 +201,7 @@ namespace Lumos.BLL.Service.Term
                         orderDetailsChild.ProductSkuName = detailsChild.SkuName;
                         orderDetailsChild.ProductSkuImgUrl = detailsChild.SkuImgUrl;
                         orderDetailsChild.SalePrice = detailsChild.SalePrice;
+                        orderDetailsChild.SalePriceByVip = detailsChild.SalePriceByVip;
                         orderDetailsChild.Quantity = detailsChild.Quantity;
                         orderDetailsChild.OriginalAmount = detailsChild.OriginalAmount;
                         orderDetailsChild.DiscountAmount = detailsChild.DiscountAmount;
@@ -231,6 +232,7 @@ namespace Lumos.BLL.Service.Term
                             orderDetailsChildSon.ProductSkuName = detailsChildSon.SkuName;
                             orderDetailsChildSon.ProductSkuImgUrl = detailsChildSon.SkuImgUrl;
                             orderDetailsChildSon.SalePrice = detailsChildSon.SalePrice;
+                            orderDetailsChildSon.SalePriceByVip = detailsChildSon.SalePriceByVip;
                             orderDetailsChildSon.Quantity = detailsChildSon.Quantity;
                             orderDetailsChildSon.OriginalAmount = detailsChildSon.OriginalAmount;
                             orderDetailsChildSon.DiscountAmount = detailsChildSon.DiscountAmount;
@@ -290,7 +292,7 @@ namespace Lumos.BLL.Service.Term
                 CurrentDb.SaveChanges(true);
 
                 ret.OrderSn = order.Sn;
-                ret.PayUrl = string.Format("http://demo.mobile.17fanju.com/Order/Confirm?soure=machine&orderSn=" + order.Sn);
+                ret.PayUrl = string.Format("http://demo.mobile.17fanju.com/Order/Confirm?soure=machine&orderId=" + order.Id);
 
                 ts.Complete();
 
@@ -356,6 +358,7 @@ namespace Lumos.BLL.Service.Term
                             detailChildSon.SlotId = item.SlotId;
                             detailChildSon.Quantity = 1;
                             detailChildSon.SalePrice = item.SalePrice;
+                            detailChildSon.SalePriceByVip = item.SalePriceByVip;
                             detailChildSon.OriginalAmount = detailChildSon.Quantity * item.SalePrice;
 
                             detailChildSons.Add(detailChildSon);
@@ -420,6 +423,7 @@ namespace Lumos.BLL.Service.Term
                     detailChild.SkuName = detailChildSons.Where(m => m.MachineId == detailChildGroup.MachineId && m.SkuId == detailChildGroup.SkuId).First().SkuName;
                     detailChild.SkuImgUrl = detailChildSons.Where(m => m.MachineId == detailChildGroup.MachineId && m.SkuId == detailChildGroup.SkuId).First().SkuImgUrl;
                     detailChild.SalePrice = detailChildSons.Where(m => m.MachineId == detailChildGroup.MachineId && m.SkuId == detailChildGroup.SkuId).First().SalePrice;
+                    detailChild.SalePriceByVip = detailChildSons.Where(m => m.MachineId == detailChildGroup.MachineId && m.SkuId == detailChildGroup.SkuId).First().SalePriceByVip;
                     detailChild.Quantity = detailChildSons.Where(m => m.MachineId == detailChildGroup.MachineId && m.SkuId == detailChildGroup.SkuId).Sum(m => m.Quantity);
                     detailChild.OriginalAmount = detailChildSons.Where(m => m.MachineId == detailChildGroup.MachineId && m.SkuId == detailChildGroup.SkuId).Sum(m => m.OriginalAmount);
                     detailChild.DiscountAmount = detailChildSons.Where(m => m.MachineId == detailChildGroup.MachineId && m.SkuId == detailChildGroup.SkuId).Sum(m => m.DiscountAmount);
@@ -436,6 +440,7 @@ namespace Lumos.BLL.Service.Term
                                                     c.SlotId,
                                                     c.Quantity,
                                                     c.SalePrice,
+                                                    c.SalePriceByVip,
                                                     c.SkuImgUrl,
                                                     c.SkuName,
                                                     c.ChargeAmount,
@@ -455,6 +460,7 @@ namespace Lumos.BLL.Service.Term
                         detailChildSon.SkuName = detailChildSonGroup.SkuName;
                         detailChildSon.SkuImgUrl = detailChildSonGroup.SkuImgUrl;
                         detailChildSon.SalePrice = detailChildSonGroup.SalePrice;
+                        detailChildSon.SalePriceByVip = detailChildSonGroup.SalePriceByVip;
                         detailChildSon.OriginalAmount = detailChildSonGroup.OriginalAmount;
                         detailChildSon.DiscountAmount = detailChildSonGroup.DiscountAmount;
                         detailChildSon.ChargeAmount = detailChildSonGroup.ChargeAmount;

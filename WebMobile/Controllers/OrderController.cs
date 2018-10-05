@@ -14,7 +14,7 @@ using System.ComponentModel.DataAnnotations;
 using Lumos;
 using WebMobile.Models.Account;
 using Lumos.Session;
-
+using Lumos.BLL.Service.App;
 
 namespace WebMobile.Controllers
 {
@@ -24,6 +24,13 @@ namespace WebMobile.Controllers
         public ActionResult Confirm()
         {
             return View();
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public CustomJsonResult Confirm(RopOrderConfirm rop)
+        {
+            return AppServiceFactory.Order.Confrim(this.CurrentUserId, this.CurrentUserId, rop);
         }
 
     }
