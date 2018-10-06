@@ -14,7 +14,7 @@
 
 
 html {
-	font-size: 129.39%;
+	font-size: 100.39%;
 }
 
 
@@ -22,329 +22,165 @@ body {
 	background: #fff;
 }
 
-input {
-	-webkit-user-select: auto; /*webkit浏览器*/
+.bold {
+	font-weight: bold;
 }
 
-a {
-	-webkit-tap-highlight-color: transparent;
-	cursor: pointer;
+.pd-com {
+	padding: 0 0.8rem;
 }
 
-a, a:active, a:visited, a:hover, a:focus {
-	color: #000;
-	text-decoration: none;
-	cursor: pointer;
-}
-/*颜色*/
-.orange {
-	color: #F67C03;
+.line-space {
+	height: .6rem;
+	background-color: #f4f4f4;
 }
 
-.body-content {
-	overflow: hidden;
-}
-
-.theme {
-	background: #F18D00;
-}
-
-.theme-color {
-	color: #F18D00;
-}
-
-.loadmore {
-	text-align: center;
-	background-color: #fff;
-	height: 38px;
-	line-height: 38px;
-}
-
-.operate {
-	cursor: pointer;
-	-webkit-tap-highlight-color: transparent;
-}
-
-.nav-numtip {
-	background: #f00;
-	border-radius: 50%;
-	width: 16px;
-	height: 16px;
-	position: absolute;
-	color: #FFF;
-	font-weight: normal;
-	text-align: center;
-	line-height: 18px;
-	font-style: normal;
-	top: -4px;
-	left: 53%;
-	display: none;
-}
-
-
-/*提示框*/
-.dialog-tips {
+.btn-bottom {
+	display: block;
 	position: fixed;
-	display: none;
-	outline: none;
-	border: none;
-	color: #fff;
-	text-transform: uppercase;
-	letter-spacing: 1px;
-	font-size: 12px;
-	z-index: 550;
-	line-height: 16px;
-	overflow: hidden;
-	border-radius: 5px;
-	background: rgba(0,0,0,0.7);
-	left: 50%;
-	top: 70%;
-	-webkit-transform: translate(-50%,-50%);
-	max-width: 200px;
-	text-align: center;
-	padding: 5px 8px;
-}
-
-/*正在加载*/
-.dialog-loading {
-	position: fixed;
-	display: none;
-	outline: none;
-	border: none;
-	color: #fff;
-	text-transform: uppercase;
-	letter-spacing: 1px;
-	font-size: 12px;
-	z-index: 50;
-	line-height: 32px;
-	overflow: hidden;
-	border-radius: 5px;
-	left: 50%;
-	top: 50%;
-	-webkit-transform: translate(-50%,-50%);
-	width: 100px;
-	text-align: center;
-}
-
-
-.item-empty-tips {
-	margin-top: -5px;
-	padding: 10px 0 14px 0px;
-	text-align: center;
+	bottom: 0;
+	right: 0;
+	z-index: 1;
 	width: 100%;
-	color: #999;
-	font-size: .75rem;
-	display: none;
-}
-
-.item-empty-tips {
-	position: relative;
-}
-
-.item-empty-tips:before, .item-empty-tips:after {
-	content: '';
-	position: absolute;
-	top: 1.125rem;
-	background: #bbb;
-	width: 3rem;
-	height: 1px;
-}
-
-.item-empty-tips:before {
-	left: 27%;
-}
-
-.item-empty-tips:after {
-	right: 27%;
-}
-
-/*按钮*/
-.btn {
+	height: 3.044rem;
+	line-height: 3.044rem;
+	border-top: 1px #dbdbdb solid;
+	overflow: hidden;
 	text-align: center;
-	padding: 8px;
-	background: #f18d00;
 	color: #fff;
-	font-size: 16px;
-	border: 0px;
-	height: 100%;
-	padding: 0px 35px;
-	min-height: 45px;
-	border: 0px;
+	font-weight: bold;
+	font-size: 0.9rem;
 	border-radius: 0;
-	-webkit-appearance: none;
-	outline: none;
-}
-
-.a-btn {
-	display: inline-block;
-	width: 6rem;
-}
-
-.a-btn-container {
-	margin: 0px 8px;
 	background: #f18d00;
-	display: block;
-	padding: 0px 16px;
-	text-align: center;
-	color: #fff;
-	font-size: 12px;
-	height: 32px;
-	line-height: 32px;
 }
 
-/*边距，宽度，边框大小，颜色*/
-.mr8 {
-	margin-right: 8px;
+/*col-its-a*/
+
+.its-a {
+	border-top: 0px solid #f6f6f6;
 }
 
-.w100p {
+.its-a .it {
+	display: flex;
+}
+
+.its-a .it-l {
+	border-bottom-width: 0;
+	width: 60px;
+	margin-right: .2rem;
+}
+
+.its-a .it-l .icon {
 	width: 100%;
+	height: 100%;
+	align-items: center;
+	display: flex;
 }
 
-.bdrd5 {
-	border-radius: 5px;
+.its-a .it-l .icon .img {
+	width: 48px;
+	height: 48px;
+	border-radius: 48px;
 }
 
-.bdtm1 {
-	border-bottom: 1px solid rgba(0,0,0,0.1);
-	border-top: 1px solid rgba(0,0,0,0.1);
+.its-a .isDefault {
+	overflow: hidden;
+	text-align: left;
+	height: 1.2rem;
+	line-height: 1.2rem;
+	font-size: 0.6rem;
+	border: 1rpx solid #f18d00;
+	color: #f18d00;
+	padding: 1px 3px;
 }
 
-.bdm1 {
-	border-bottom: 1px solid rgba(0,0,0,0.1);
-	border-top: 0px;
+.its-a .it-m {
+	border-bottom: 1px solid #f6f6f6;
+	flex: 1;
+	display: flex;
 }
 
-.bdt1 {
-	border-top: 1px solid rgba(0,0,0,0.1);
-	border-bottom: 0px;
+.its-a .it-ml {
+	flex: 1;
 }
 
-.bdr1 {
-	border-right: 1px solid rgba(0,0,0,0.1);
+.its-a .it-mr {
+	width: 100px;
+	overflow: hidden;
+	flex: none;
+	text-align: right;
+	align-items: center;
+	display: flex;
+	justify-content: flex-end;
 }
 
-/*分割*/
-.split-bar {
-	height: 18px;
+.its-a .it-r {
+	width: 20px;
+	overflow: hidden;
+	text-align: right;
+	flex: none;
+	border-bottom-width: 0;
 }
 
-.space-line {
-	height: 1px;
-	border: 0;
-	background: rgba(0,0,0,0.1);
-	width: 100%;
+.its-a .it-r .icon {
+	height: 100%;
+	align-items: center;
+	display: flex;
+	justify-content: flex-end;
 }
 
-.divide-bar {
-	height: 45px;
+.its-a .it-r .icon .img-nav-right {
+	width: 0.4rem;
+	height: 0.56rem;
 }
 
-.block-show {
+.its-a .it-r .icon .img-nav-edit {
+	width: 1.4rem;
+	height: 1.4rem;
+}
+
+.its-a .it-l .txt-h1, .its-a .it-ml .txt-h1 {
+	height: 1.8rem;
+	line-height: 2.1rem;
+	text-align: left;
 	display: block;
+	color: #333;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
+	font-size: 1rem;
 }
 
-.btn-emptystock {
-	width: 120px;
-	text-align: center;
-	background: gray;
-	opacity: 0.7;
+.its-a .it-selected .it-ml .txt-h1 {
+	color: #f18d00;
 }
 
-.gifted-tips {
-	font-size: 12px;
-	font-weight: 600;
-	color: #FF3030;
+.its-a .it-ml .txt-h2 {
+	height: 1.6rem;
+	line-height: 1.6rem;
+	display: block;
+	text-align: left;
+	font-size: 0.8rem;
+	color: #999;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
 }
 
-.el-hide {
-	display: none;
+.its-a .it-mr .txt {
+	height: 3rem;
+	line-height: 3rem;
+	text-align: right;
+	display: block;
+	font-weight: bold;
+	font-size: 0.8rem;
+	padding-right: 0.2rem;
 }
 
-.go-back-top {
-	bottom: 7rem;
-	background-size: 200px 200px;
-	background-position: -85px -80px;
-	background-image: url(/Content/imgs/jd-search-sprites.png);
-	position: fixed;
-	z-index: 100;
-	right: 1.15rem;
-	width: 35px;
-	height: 35px;
-	display: none;
-}
-
-
-
-/* #### Mobile Phones Portrait #### */
-@media screen and (max-device-width: 480px) and (orientation: portrait) {
-	/* some CSS here */
-
-	.btn-com {
-		width: 80px;
-	}
-}
-
-/* #### Mobile Phones Landscape #### */
-@media screen and (max-device-width: 640px) and (orientation: landscape) {
-	/* some CSS here */
-
-	.btn-com {
-		width: 80px;
-	}
-}
-
-/* #### Mobile Phones Portrait or Landscape #### */
-@media screen and (max-device-width: 640px) {
-	/* some CSS here */
-
-	.btn-com {
-		width: 80px;
-	}
-}
-
-/* #### iPhone 4+ Portrait or Landscape #### */
-@media screen and (min-device-width: 320px) and (-webkit-min-device-pixel-ratio: 2) {
-	/* some CSS here */
-
-	.btn-com {
-		width: 80px;
-	}
-}
-
-/* #### iPhone 5 Portrait or Landscape #### */
-@media (device-height: 568px) and (device-width: 320px) and (-webkit-min-device-pixel-ratio: 2) {
-	/* some CSS here */
-
-	.btn-com {
-		width: 100px;
-	}
-}
-
-/* #### iPhone 6 and 6 plus Portrait or Landscape #### */
-@media (min-device-height: 667px) and (min-device-width: 375px) and (-webkit-min-device-pixel-ratio: 3) {
-	/* some CSS here */
-
-	.btn-com {
-		width: 100px;
-	}
-}
-
-/* #### Tablets Portrait or Landscape #### */
-@media screen and (min-device-width: 768px) and (max-device-width: 1024px) {
-	/* some CSS here */
-
-	.btn-com {
-		width: 100px;
-	}
-}
-
-/* #### Desktops #### */
-@media screen and (min-width: 1024px) {
-	/* some CSS here */
-
-
-	.btn-com {
-		width: 100px;
-	}
+.its-a .it:last-child .it-m {
+	border-bottom-width: 0;
 }

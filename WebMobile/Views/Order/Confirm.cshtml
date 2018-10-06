@@ -15,330 +15,154 @@
             display: block;
         }
 
-        .orderconfirm {
-            margin-bottom: 88rpx;
-            padding-bottom: 88rpx;
+        .its-odcskus {
+            padding: 0 0;
         }
 
-        /*its-address*/
-
-        .col-its-addr {
-            padding: 0px 0.5rem;
-        }
-
-        .col-its-addr .it {
+        .its-odcskus .it {
             display: flex;
             flex-direction: row;
             border-bottom: 1px solid #f8f8f8;
-            padding: 5px 0px 5px 0px;
+            padding: 5px 0px;
         }
 
-        .col-its-addr .it:last-child {
-            border-bottom: 0px;
-        }
-
-        .col-its-addr .it-l {
-            width: 5rem;
-            font-size: 1rem;
-        }
-
-        .col-its-addr .it-l .iconbox {
-            align-items: center;
-            display: flex;
-        }
-
-        .col-its-addr .it-l .img {
-            /*width: 38rpx;
-            height: 38rpx;*/
-        }
-
-        .col-its-addr .it-m {
-            flex: 1;
-            line-height: 64rpx;
-            overflow: hidden;
-        }
-
-        .col-its-addr .it-r {
-            text-align: right;
-            display: flex;
-        }
-
-        .col-its-addr .it-r .iconbox {
-            align-items: center;
-            display: flex;
-        }
-
-        .col-its-addr .it-r .img-nav-right {
-            width: 0.3rem;
-            height: 0.5rem;
-            margin-left: 8px;
-        }
-
-        .col-its-addr .it-r .img-nav-edit {
-            width: 50rpx;
-            height: 50rpx;
-        }
-
-        .col-its-addr .consignee {
-            overflow: hidden;
-            font-size: 1rem;
-            height: 1.2rem;
-            line-height: 1.2rem;
-        }
-
-        .col-its-addr .isDefault {
-            overflow: hidden;
-        }
-
-        .col-its-addr .isDefault text {
-            text-align: center;
-        }
-
-        .col-its-addr .phoneNumber {
-            font-size: 1rem;
-            height: 1.2rem;
-            line-height: 1.2rem;
-        }
-
-        .col-its-addr .address {
-            height: 1.2rem;
-            font-size: 0.8rem;
-            line-height: 1.2rem;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            color: #999;
-        }
-
-        .col-its-odcskus {
-            padding: 0px 0.8rem;
-        }
-
-        .col-its-odcskus .it {
-            display: flex;
-            flex-direction: row;
-            border-bottom: 1px solid #f8f8f8;
-            padding: 5px 11px 5px 13px;
-            height: 3.2rem;
-            line-height: 3.2rem;
-        }
-
-        .col-its-odcskus .it:last-child {
+        .its-odcskus .it:last-child {
             border-bottom: 0px solid #f8f8f8;
         }
 
-        .col-its-odcskus .it-l {
+        .its-odcskus .it-l {
             display: inline-block;
             overflow: hidden;
             text-align: right;
         }
 
-        .col-its-odcskus .it-l .iconbox {
+        .its-odcskus .it-l .imgUrl {
             align-items: center;
             display: flex;
         }
 
-        .col-its-odcskus .it-l .iconbox .img {
-            width: 2.8rem;
-            height: 2.8rem;
+        .its-odcskus .it-l .imgUrl .img {
+            width: 4.4rem;
+            height: 4.4rem;
         }
 
-        .col-its-odcskus .it-m {
+        .its-odcskus .it-m {
             flex: 1;
             display: flex;
         }
 
-        .col-its-odcskus .it-ml {
+        .its-odcskus .it-ml {
             flex: 1;
-        }
-
-        .col-its-odcskus .it-mr {
-            text-align: center;
-            width: 3rem;
-        }
-
-        .col-its-odcskus .it-r {
-            text-align: center;
-        }
-
-        .col-its-odcskus .name {
+            line-height: 1.4rem;
+            align-items: center;
+            display: flex;
+            -webkit-line-clamp: 2;
             overflow: hidden;
             text-overflow: ellipsis;
-            display: -webkit-box;
             word-break: break-all;
             -webkit-box-orient: vertical;
-            -webkit-line-clamp: 1;
         }
 
-        .col-its-odcskus .quantity {
+        .its-odcskus .it-mr {
+            text-align: center;
+            width: 3rem;
+            align-items: center;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .its-odcskus .it-r {
+            text-align: center;
+            align-items: center;
+            display: flex;
+            justify-content: flex-end;
+            margin-left: 1rem;
+        }
+
+        .its-odcskus .name {
+            font-size: .9rem;
+        }
+
+        .its-odcskus .quantity {
             font-size: 0.8rem;
             color: #999;
         }
 
-        .col-its-odcskus .salePrice {
+        .its-odcskus .salePrice {
             color: #f18d00;
+            font-size: 1.2rem;
         }
 
-
-
-
-        .btnbox1-container {
-            text-align: center;
-            padding: 8px;
-            background: #fff;
-            border-top: 1px solid #E5E5E5;
-            border-bottom: 1px solid #E5E5E5;
-        }
-
-        .btnbox1-container .btn {
-            width: 48%;
-            background: #f23030;
-            display: inline-block;
-            border-radius: 2px;
-            height: 33px;
-            line-height: 33px;
-            text-align: center;
-            font-size: 15px;
-        }
-
-        .btnbox1-container .btn span {
-            color: #fff;
-        }
-
-        .btnbox1-container .btn i {
-            margin-right: 6px;
-            font-style: normal;
-        }
     </style>
 }
 
-<div style="padding:0 0.5rem">
-    <div style="height:3rem;line-height:3rem; font-size:1rem">
-        a
-    </div>
-
-    <div style="height:4rem;line-height:3rem;font-size:2rem">
-        b
-    </div>
-</div>
-
-<script id="demo" type="text/x-jquery-tmpl">
-
-    <div class="tag-address">
-        <img class="img" src="/Content/images/tag_address.png" />
-    </div>
-    <div class="ord-block orderconfirm">
-        {{each(i,item) block}}
-
-        <div class="cnt">
-            <div class="col-its-addr">
-                <div class="ct">
-                    <div class="it">
-                        <div class="it-l">
-                            <div class="consignee">
-                                <text>${item.deliveryAddress.consignee}</text>
-                            </div>
-                            {{if(item.deliveryAddress.isDefault)}}
-                            <div class="isDefault">
-                                <text class="font-main border-main">默认</text>
-                            </div>
-                            {{/if}}
-                        </div>
-                        <div class="it-m">
-                            <div class='phoneNumber'>
-                                <text>${item.deliveryAddress.phoneNumber}</text>
-                            </div>
-                            <div class='address'>
-                                <text>${item.deliveryAddress.area} ${item.deliveryAddress.address}</text>
-                            </div>
-                        </div>
-                        {{if(item.deliveryAddress.canSelectElse)}}
-                        <div class='it-r'>
-                            <div class='iconbox'>
-                                <image class="img-nav-right" src='../../images/col_nav_right.png'></image>
-                            </div>
-                        </div>
-                        {{/if}}
+<script id="tmpl_block" type="text/x-jquery-tmpl">
+    {{each(i,item) block}}
+    <div class="ct pd-com">
+        <div class="its-a">
+            <div class="it">
+                <div class="it-l" style="width:auto;">
+                    <text class="txt-h1">${item.deliveryAddress.consignee}</text>
+                    {{if(item.deliveryAddress.isDefault)}}
+                    <text class="txt-h2 isDefault">默认</text>
+                    {{/if}}
+                </div>
+                <div class="it-m">
+                    <div class="it-ml">
+                        <text class='txt-h1 bold'>${item.deliveryAddress.phoneNumber}</text>
+                        <text class='txt-h2'>${item.deliveryAddress.area} ${item.deliveryAddress.address}</text>
                     </div>
                 </div>
-            </div>
-
-            <div class="col-its-odcskus">
-                {{each(j,skusitem) item.skus}}
-                <div class="it">
-                    <div class="it-l">
-                        <div class="iconbox">
-                            <image class="img" src="${skusitem.imgUrl}"></image>
-                        </div>
-                    </div>
-                    <div class="it-m">
-                        <div class="it-ml">
-                            <text class='name'>${skusitem.name}</text>
-                        </div>
-                        <div class="it-mr">
-                            <text class='quantity'> x ${skusitem.quantity}</text>
-                        </div>
-                    </div>
-                    <div class="it-r">
-                        <text class='salePrice'> ${skusitem.salePrice}</text>
+                {{if item.deliveryAddress.canSelectElse}}
+                <div class='it-r'>
+                    <div class='icon'>
+                        <img class="img-nav-right" src='/Content/Default/images/col_nav_right.png' />
                     </div>
                 </div>
-                {{/each}}
+                {{/if}}
             </div>
         </div>
-        <view class="line-space"></view>
-        {{/each}}
+
+        <div class="its-odcskus">
+            {{each(j,skusitem) item.skus}}
+            <div class="it">
+                <div class="it-l">
+                    <div class="imgUrl">
+                        <image class="img" src="${skusitem.imgUrl}"></image>
+                    </div>
+                </div>
+                <div class="it-m">
+                    <div class="it-ml">
+                        <text class='name'>${skusitem.name}</text>
+                    </div>
+                    <div class="it-mr">
+                        <text class='quantity'> x ${skusitem.quantity}</text>
+                    </div>
+                </div>
+                <div class="it-r">
+                    <text class='salePrice'> ${skusitem.salePrice}</text>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+
     </div>
+    <div class="line-space"></div>
+    {{/each}}
 </script>
-
-@*{{each(j,skusitem) item.skus}}
-    <div class="item">
-        <div class="item-mainImg">
-            <img src="${skusitem.imgUrl}" />
-        </div>
-        <div class="item-skuname">
-            <span>${skusitem.name}</span>
-        </div>
-        <div class="item-quantity">
-            ${skusitem.quantity}
-        </div>
-        <div class="item-price">
-            ${skusitem.salePrice}
-        </div>
-    </div>
-
-    {{/each}}*@
-
-<div id="div_demo">
+<div class="tag-address">
+    <img class="img" src="/Content/default/images/tag_address.png" />
 </div>
-@*<script id="demo" type="text/x-jquery-tmpl">
-        <div style="margin-bottom:10px;">
-            <span>${ID}</span>
-            <span style="margin-left:10px;">{{= Name}}</span>
-            <span style="margin-left:10px;">${Number(Num)+1}</span>
-            <span style="margin-left:10px;">${Status}</span>
-        </div>
-    </script>*@
-@*<script type="text/javascript">
-      var users = [{ ID: 'think8848', Name: 'Joseph Chan', Num: '1', Status: 1 }, { ID: 'aCloud', Name: 'Mary Cheung', Num: '2'}];
-      $("#demo").tmpl(users).appendTo('#div_demo');
-    </script>*@
+<div id="ord-block">
 
-
-<div class="btnbox1">
-    <div class="btnbox1-container">
-        <a href="/ShippingAddress/Add" class="btn">
-            <span>
-                保存
-            </span>
-        </a>
-    </div>
 </div>
+<div class="btn-bottom ">
+    立即支付
+</div>
+
 
 <script type="text/javascript">
     $(document).ready(function () {
-
-
         $.lumos.postJson({
             url: "/Order/Confirm",
             isShowLoading: true,
@@ -346,11 +170,10 @@
             success: function (d) {
                 if (d.result == $.lumos.resultType.success) {
                     //alert(JSON.stringify(d.data))
-                    $("#demo").tmpl(d.data).appendTo('#div_demo');
+                    $("#tmpl_block").tmpl(d.data).appendTo('#ord-block');
                 }
             }
         });
-
     });
 
 </script>

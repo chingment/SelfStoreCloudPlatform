@@ -20,6 +20,30 @@ namespace Lumos.BLL.Service.App
 
             var ret = new RetOrderConfirm();
 
+            //var b1 = new OrderBlockModel();
+            //b1.DeliveryAddress = new UserDeliveryAddressModel();
+            //b1.DeliveryAddress.Consignee = "店铺名称";
+            //b1.DeliveryAddress.PhoneNumber = "暨南大学(金陵广场)7032";
+            //b1.DeliveryAddress.Address = "广东省广州市天河区苏州路";
+            //b1.DeliveryAddress.IsDefault = false;
+            //b1.DeliveryAddress.CanSelectElse = false;
+            //ret.Block.Add(b1);
+
+
+            //var b2 = new OrderBlockModel();
+            //b2.DeliveryAddress = new UserDeliveryAddressModel();
+            //b2.DeliveryAddress.Consignee = "店铺名称";
+            //b2.DeliveryAddress.PhoneNumber = "保利·中汇广场";
+            //b2.DeliveryAddress.Address = "广东省广州市黄埔区九龙镇九龙大道";
+            //b2.DeliveryAddress.IsDefault = true;
+            //b2.DeliveryAddress.CanSelectElse = true;
+            //ret.Block.Add(b2);
+
+            //return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
+
+
+
+
             var subtotalItem = new List<OrderConfirmSubtotalItemModel>();
 
             var skus = new List<OrderConfirmSkuModel>();

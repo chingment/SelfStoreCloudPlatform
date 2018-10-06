@@ -39,13 +39,15 @@ namespace WebAppApi.Controllers
                 isTest = "false";
             }
 
+            host = "https://demo.res.17fanju.com";
+
             if (isTest.ToString() == "false")
             {
                 host = "https://demo.res.17fanju.com";
             }
             else
             {
-                host = "http://localhost:16665";
+                // host = "http://localhost:16665";
             }
 
 
@@ -60,7 +62,8 @@ namespace WebAppApi.Controllers
             string aa = "rnx2OLcr5wRVFkLrDuv6hypG+VNHtCr+r5DrsKIrPUrEbG4NGTH7UnirjzbZKrYkxdxYRWl/ei+6dLhNMJh+kzM8NPYwfxclqh0kzHXyuopZ/RHNcJy9qIBb0gFKLOH/p7+/QHRvAdBStDz9gmuTf3DhtpUcw1/U2OJvQtjW4B3sr095619fniJsSok+O5XESbKfgU9AsTPdGgGn6DEpfgt3zjvycN1EhPKlkx68NJoGjP9oIFvrOxW7fXjfv6+o6Q2/X4A8buLrpRVYsQ+8qfp+JYSLnZDoXkR+XBEx+sn3iETilxtDDNsEGHBlR+2MKbj51RiRmxDIAkwYvNCfD/O79X9AnIEavL129Oxib0Gb4Br6MwAvugiGpTcFnpDjC7zssH9LmetCXPUjWUPZ1fidcSHtMIBwpMwQpl7oBaGX8ftU5vs3GFz2yASGQHanoJeT1OAl/Mdu/p+Muq6+0vL2Ven8GJEMtnPpzgF2v0c=";
             string xx = "0239gQNL1xGz651x9XOL1VaSNL19gQNK";
             string bb = "Dz8+EgdBeZqX4EOl8r/yxQ==";
-             model.Add("用户小程序授权", LoginByMinProgram(aa, xx, bb));
+            // model.Add("用户小程序授权", LoginByMinProgram(aa, xx, bb));
+            model.Add("订单确认", OrderConfirm("100e4a2715244d749a08aa88c51a5153","a1d1740312b34691b243453db81bf007"));
             return View(model);
         }
 
@@ -121,6 +124,30 @@ namespace WebAppApi.Controllers
             headers.Add("version", "1.3.0.7");
             HttpUtil http = new HttpUtil();
             string result = http.HttpPostJson("" + host + "/api/User/LoginByMinProgram", a1, headers);
+
+            return result;
+
+        }
+
+
+        public string OrderConfirm(string accessToken, string orderId)
+        {
+            RopOrderConfirm model = new RopOrderConfirm();
+
+            model.OrderId = orderId;
+
+            string a1 = JsonConvert.SerializeObject(model);
+
+            string signStr = Signature.Compute(key, secret, timespan, a1);
+
+
+            Dictionary<string, string> headers = new Dictionary<string, string>();
+            headers.Add("key", key);
+            headers.Add("timestamp", timespan.ToString());
+            headers.Add("sign", signStr);
+            headers.Add("version", "1.3.0.7");
+            HttpUtil http = new HttpUtil();
+            string result = http.HttpPostJson("" + host + "/api/Order/Confirm?accessToken=" + accessToken, a1, headers);
 
             return result;
 

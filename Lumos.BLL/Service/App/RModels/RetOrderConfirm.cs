@@ -11,6 +11,7 @@ namespace Lumos.BLL.Service.App
         public RetOrderConfirm()
         {
             this.SubtotalItem = new List<OrderConfirmSubtotalItemModel>();
+            this.Block = new List<OrderBlockModel>();
         }
 
         //选择的优惠卷
