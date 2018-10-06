@@ -39,6 +39,8 @@ namespace Lumos.Entity
         public DateTime CreateTime { get; set; }
         public string Mender { get; set; }
         public DateTime? MendTime { get; set; }
+
+        public Enumeration.OrderPayWay PayWay { get; set; }
         public string PayPrepayId { get; set; }
         public DateTime? PayExpireTime { get; set; }
         public string PayQrCodeUrl { get; set; }

@@ -248,6 +248,16 @@ namespace Lumos.Entity
 
         }
 
+        public enum OrderPayWay
+        {
+            [Remark("未知")]
+            Unknow = 0,
+            [Remark("微信")]
+            Wechat = 1,
+            [Remark("支付宝")]
+            AliPay = 2
+        }
+
         public enum ChannelType
         {
             [Remark("未知")]

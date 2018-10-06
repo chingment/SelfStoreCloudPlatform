@@ -131,8 +131,6 @@ namespace Lumos.BLL
             return result;
         }
 
-
-
         public CustomJsonResult<RetPayResultQuery> PayResultQuery(string pOperater, string orderSn)
         {
             var result = new CustomJsonResult<RetPayResultQuery>();

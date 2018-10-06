@@ -246,16 +246,47 @@ namespace Lumos.BLL.Service.App
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
 
-        public CustomJsonResult<Lumos.Entity.Order> GoSettle(int operater, RopOrderConfirm model)
+        public CustomJsonResult UnifiedOrder(string pOperater, string pClientId, RopUnifiedOrder rop)
         {
-            var result = new CustomJsonResult<Lumos.Entity.Order>();
+            var result = new CustomJsonResult();
 
-            //Lumos.Entity.Order mod_Order = null;
-            //List<Lumos.Entity.OrderChildDetails> mod_OrderChildDetails = null;
-            //List<Lumos.Entity.OrderChildProductSkuDetails> mod_OrderChildProductSkuDetails = null;
+            var order = CurrentDb.Order.Where(m => m.Id == rop.OrderId).FirstOrDefault();
+
+            if (order == null)
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "操作失败");
+            }
 
 
-            return result;
+            order.PayWay = rop.PayWay;
+            order.PayExpireTime = this.DateTime.AddMinutes(5);
+
+
+            var wxUserInfo = CurrentDb.WxUserInfo.Where(m => m.ClientId == order.ClientId).FirstOrDefault();
+
+            if (wxUserInfo == null)
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "用户数据异常");
+            }
+
+
+            var ret_UnifiedOrder = SdkFactory.Wx.Instance().UnifiedOrder(pOperater, "JSAPI", wxUserInfo.OpenId, order.Sn, 0.01m, "", Common.CommonUtils.GetIP(), "自助商品", order.PayExpireTime.Value);
+
+            if (string.IsNullOrEmpty(ret_UnifiedOrder.PrepayId))
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "支付二维码生成失败");
+            }
+
+            order.PayPrepayId = ret_UnifiedOrder.PrepayId;
+            order.PayQrCodeUrl = ret_UnifiedOrder.CodeUrl;
+
+            CurrentDb.SaveChanges();
+
+
+            var ret = SdkFactory.Wx.Instance().GetJsApiPayParams(ret_UnifiedOrder.PrepayId, order.Id, order.Sn);
+
+
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret.Data);
         }
     }
 }

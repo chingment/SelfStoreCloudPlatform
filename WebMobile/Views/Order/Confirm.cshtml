@@ -1,7 +1,7 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "支付确认";
 }
-
 
 @section styles{
     <style type="text/css">
@@ -92,7 +92,6 @@
             color: #f18d00;
             font-size: 1.2rem;
         }
-
     </style>
 }
 
@@ -156,35 +155,67 @@
 <div id="ord-block">
 
 </div>
-<div class="btn-bottom ">
+<div id="btn_UnifiedOrder" class="btn-bottom">
     立即支付
 </div>
 
-
 <script type="text/javascript">
+
+    var orderId = "@Request.QueryString["orderId"]";
     $(document).ready(function () {
+
         $.lumos.postJson({
             url: "/Order/Confirm",
             isShowLoading: true,
-            data: { source: "machine", orderId: "@Request.QueryString["orderId"]" },
+            data: { source: "machine", orderId: orderId },
             success: function (d) {
                 if (d.result == $.lumos.resultType.success) {
-                    //alert(JSON.stringify(d.data))
                     $("#tmpl_block").tmpl(d.data).appendTo('#ord-block');
                 }
             }
+        });
+
+        $("#btn_UnifiedOrder").on("click", function () {
+            var _this = $(this);
+            $(_this).attr("disabled", "disabled");
+            var payWay = "";
+            if (/MicroMessenger/.test(window.navigator.userAgent)) {
+                payWay = 1;
+            } else if (/AlipayClient/.test(window.navigator.userAgent)) {
+                payWay = 2;
+            }
+            $.lumos.postJson({
+                url: "/Order/UnifiedOrder",
+                isShowLoading: true,
+                data: { payWay: payWay, orderId: orderId },
+                success: function (d) {
+                    if (d.result == $.lumos.resultType.success) {
+                        var params = d.data;
+                        if (payWay == 1) {
+                            wx.chooseWXPay({
+                                appId: params.appId,
+                                timestamp: params.timestamp,
+                                nonceStr: params.nonceStr,
+                                package: params.package,
+                                signType: params.signType,
+                                paySign: params.paySign,
+                                success: function (res) {
+                                    $.lumos.tips('您已支付成功');
+                                },
+                                cancel: function (res) {
+                                    $.lumos.tips('您已取消支付');
+                                }
+                            });
+                        }
+                    } else {
+                        $.lumos.tips(d.message);
+                        $(_this).removeAttr("disabled");
+                    }
+                }
+            });
+
         });
     });
 
 </script>
 
-
-<script>
-    if (/MicroMessenger/.test(window.navigator.userAgent)) {
-        // alert('微信客户端');
-    } else if (/AlipayClient/.test(window.navigator.userAgent)) {
-        // alert('支付宝客户端');
-    } else {
-        // alert('其他浏览器');
-    }
-</script>

@@ -35,6 +35,50 @@ body {
 	background-color: #f4f4f4;
 }
 
+/*提示框*/
+.dialog-tips {
+	position: fixed;
+	display: none;
+	outline: none;
+	border: none;
+	color: #fff;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	font-size: 12px;
+	z-index: 550;
+	line-height: 16px;
+	overflow: hidden;
+	border-radius: 5px;
+	background: rgba(0,0,0,0.7);
+	left: 50%;
+	top: 70%;
+	-webkit-transform: translate(-50%,-50%);
+	max-width: 200px;
+	text-align: center;
+	padding: 5px 8px;
+}
+
+/*正在加载*/
+.dialog-loading {
+	position: fixed;
+	display: none;
+	outline: none;
+	border: none;
+	color: #fff;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	font-size: 12px;
+	z-index: 50;
+	line-height: 32px;
+	overflow: hidden;
+	border-radius: 5px;
+	left: 50%;
+	top: 50%;
+	-webkit-transform: translate(-50%,-50%);
+	width: 100px;
+	text-align: center;
+}
+
 .btn-bottom {
 	display: block;
 	position: fixed;

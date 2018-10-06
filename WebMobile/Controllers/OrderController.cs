@@ -20,13 +20,11 @@ namespace WebMobile.Controllers
 {
     public class OrderController : OwnBaseController
     {
-        [AllowAnonymous]
         public ActionResult Confirm()
         {
             return View();
         }
 
-        [AllowAnonymous]
         [HttpPost]
         public CustomJsonResult Confirm(RopOrderConfirm rop)
         {
@@ -34,5 +32,10 @@ namespace WebMobile.Controllers
             return AppServiceFactory.Order.Confrim(this.CurrentUserId, this.CurrentUserId, rop);
         }
 
+        [HttpPost]
+        public CustomJsonResult UnifiedOrder(RopUnifiedOrder rop)
+        {
+            return AppServiceFactory.Order.UnifiedOrder(this.CurrentUserId, this.CurrentUserId, rop);
+        }
     }
 }

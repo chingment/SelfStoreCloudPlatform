@@ -276,23 +276,23 @@ namespace Lumos.BLL.Service.Term
                     }
                 }
 
-                order.PayExpireTime = this.DateTime.AddMinutes(5);
+                //order.PayExpireTime = this.DateTime.AddMinutes(5);
 
-                var ret_UnifiedOrder = SdkFactory.Wx.Instance().UnifiedOrder(pOperater, order.Sn, order.ChargeAmount, "", Common.CommonUtils.GetIP(), "自助商品", order.PayExpireTime.Value);
+                //var ret_UnifiedOrder = SdkFactory.Wx.Instance().UnifiedOrder(pOperater, order.Sn, order.ChargeAmount, "", Common.CommonUtils.GetIP(), "自助商品", order.PayExpireTime.Value);
 
-                if (string.IsNullOrEmpty(ret_UnifiedOrder.CodeUrl))
-                {
-                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "支付二维码生成失败");
-                }
+                //if (string.IsNullOrEmpty(ret_UnifiedOrder.CodeUrl))
+                //{
+                //    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "支付二维码生成失败");
+                //}
 
-                order.PayPrepayId = ret_UnifiedOrder.PrepayId;
-                order.PayQrCodeUrl = ret_UnifiedOrder.CodeUrl;
+                //order.PayPrepayId = ret_UnifiedOrder.PrepayId;
+                //order.PayQrCodeUrl = ret_UnifiedOrder.CodeUrl;
 
                 CurrentDb.Order.Add(order);
                 CurrentDb.SaveChanges(true);
 
                 ret.OrderSn = order.Sn;
-                ret.PayUrl = string.Format("http://demo.mobile.17fanju.com/Order/Confirm?soure=machine&orderId=" + order.Id);
+                ret.PayUrl = string.Format("http://mobile.17fanju.com/Order/Confirm?soure=machine&orderId=" + order.Id);
 
                 ts.Complete();
 
@@ -325,7 +325,6 @@ namespace Lumos.BLL.Service.Term
 
             return ret;
         }
-
 
         private List<OrderReserveDetail> GetReserveDetail(List<RopOrderReserve.Detail> reserveDetails, List<MachineStock> machineStocks)
         {
@@ -502,7 +501,6 @@ namespace Lumos.BLL.Service.Term
 
             return details;
         }
-
 
     }
 }
