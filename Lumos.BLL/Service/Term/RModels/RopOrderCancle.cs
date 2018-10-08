@@ -11,5 +11,7 @@ namespace Lumos.BLL.Service.Term
         public string MerchantId { get; set; }
 
         public string OrderSn { get; set; }
+
+        public string CancelReason { get; set; }
     }
 }

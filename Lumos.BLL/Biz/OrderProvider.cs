@@ -151,5 +151,86 @@ namespace Lumos.BLL
 
             return result;
         }
+
+
+        public CustomJsonResult Cancle(string pOperater, string pOrderSn, string cancelReason)
+        {
+            var result = new CustomJsonResult();
+
+
+            using (TransactionScope ts = new TransactionScope())
+            {
+                var order = CurrentDb.Order.Where(m => m.Sn == pOrderSn).FirstOrDefault();
+
+                if (order.Status == Enumeration.OrderStatus.Cancled)
+                {
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "该订单已经取消");
+                }
+
+                order.Status = Enumeration.OrderStatus.Cancled;
+                order.Mender = GuidUtil.Empty();
+                order.MendTime = this.DateTime;
+                order.CancelReason = cancelReason;
+
+                var orderDetails = CurrentDb.OrderDetails.Where(m => m.OrderId == order.Id).ToList();
+
+                foreach (var item in orderDetails)
+                {
+                    item.Status = Enumeration.OrderStatus.Cancled;
+                    item.Mender = GuidUtil.Empty();
+                    item.MendTime = this.DateTime;
+                }
+
+
+                var orderDetailsChilds = CurrentDb.OrderDetailsChild.Where(m => m.OrderId == order.Id).ToList();
+
+                foreach (var item in orderDetailsChilds)
+                {
+                    item.Status = Enumeration.OrderStatus.Cancled;
+                    item.Mender = GuidUtil.Empty();
+                    item.MendTime = this.DateTime;
+                }
+
+                var orderDetailsChildSons = CurrentDb.OrderDetailsChildSon.Where(m => m.OrderId == order.Id).ToList();
+
+                foreach (var item in orderDetailsChildSons)
+                {
+                    item.Status = Enumeration.OrderDetailsChildSonStatus.Cancled;
+                    item.Mender = GuidUtil.Empty();
+                    item.MendTime = this.DateTime;
+
+                    var machineStock = CurrentDb.MachineStock.Where(m => m.MerchantId == order.MerchantId && m.StoreId == order.StoreId && m.ProductSkuId == item.ProductSkuId && m.SlotId == item.SlotId && m.MachineId == item.MachineId).FirstOrDefault();
+
+                    machineStock.LockQuantity -= item.Quantity;
+                    machineStock.SellQuantity += item.Quantity;
+                    machineStock.Mender = pOperater;
+                    machineStock.MendTime = this.DateTime;
+
+                    var machineStockLog = new MachineStockLog();
+                    machineStockLog.Id = GuidUtil.New();
+                    machineStockLog.MerchantId = item.MerchantId;
+                    machineStockLog.StoreId = item.StoreId;
+                    machineStockLog.MachineId = item.MachineId;
+                    machineStockLog.SlotId = item.SlotId;
+                    machineStockLog.ProductSkuId = item.ProductSkuId;
+                    machineStockLog.Quantity = machineStock.Quantity;
+                    machineStockLog.LockQuantity = machineStock.LockQuantity;
+                    machineStockLog.SellQuantity = machineStock.SellQuantity;
+                    machineStockLog.ChangeType = Enumeration.MachineStockLogChangeTpye.Lock;
+                    machineStockLog.ChangeQuantity = item.Quantity;
+                    machineStockLog.Creator = pOperater;
+                    machineStockLog.CreateTime = this.DateTime;
+                    machineStockLog.RemarkByDev = string.Format("取消订单，恢复库存：{0}", item.Quantity);
+                    CurrentDb.MachineStockLog.Add(machineStockLog);
+                }
+
+                CurrentDb.SaveChanges();
+                ts.Complete();
+            }
+
+            result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
+
+            return result;
+        }
     }
 }

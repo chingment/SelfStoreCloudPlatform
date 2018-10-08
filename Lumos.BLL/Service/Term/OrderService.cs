@@ -241,7 +241,7 @@ namespace Lumos.BLL.Service.Term
                             orderDetailsChildSon.SubmitTime = this.DateTime;
                             orderDetailsChildSon.Creator = pOperater;
                             orderDetailsChildSon.CreateTime = this.DateTime;
-                            orderDetailsChildSon.Status = Enumeration.OrderStatus.WaitPay;
+                            orderDetailsChildSon.Status = Enumeration.OrderDetailsChildSonStatus.WaitPay;
                             CurrentDb.OrderDetailsChildSon.Add(orderDetailsChildSon);
                         }
 
@@ -333,6 +333,7 @@ namespace Lumos.BLL.Service.Term
         {
             CustomJsonResult result = new CustomJsonResult();
 
+            result = BizFactory.Order.Cancle(pOperater, rop.OrderSn, rop.CancelReason);
 
             return result;
         }

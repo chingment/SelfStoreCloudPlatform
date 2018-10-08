@@ -34,7 +34,5 @@ namespace WebTermApi.Controllers
             IResult result = TermServiceFactory.Order.Cancle(rop.MerchantId, rop);
             return new APIResponse(result);
         }
-
-
     }
 }

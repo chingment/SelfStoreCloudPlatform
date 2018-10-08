@@ -71,15 +71,19 @@ namespace Lumos.BLL.Task
             CustomJsonResult result = new CustomJsonResult();
 
             #region 检查支付状态
+
             var lists = GetList();
+
             LogUtil.Info(string.Format("共有{0}条记录需要检查状态", lists.Count));
 
-            LogUtil.Info(string.Format("开始执行订单查询,时间：{0}", this.DateTime));
-            foreach (var m in lists)
+            if (lists.Count > 0)
             {
-                if (m.ExpireTime != null)
+                LogUtil.Info(string.Format("开始执行订单查询,时间：{0}", this.DateTime));
+
+                foreach (var m in lists)
                 {
-                    if (m.ExpireTime.AddMinutes(1) >= DateTime.Now)
+                    //判断是否已过期
+                    if (m.ExpireTime.AddMinutes(1) >= DateTime.Now)//未过期
                     {
                         switch (m.Type)
                         {
@@ -106,32 +110,21 @@ namespace Lumos.BLL.Task
                     }
                     else
                     {
+                        //已过期
                         switch (m.Type)
                         {
                             case TimerTaskType.CheckOrderPay:
-
-                                var chData = (Order)m.Data;
-                                var order = CurrentDb.Order.Where(q => q.Sn == chData.Sn).FirstOrDefault();
-                                if (order != null)
-                                {
-                                    order.Status = Enumeration.OrderStatus.Cancled;
-                                    order.Mender = GuidUtil.Empty();
-                                    order.MendTime = this.DateTime;
-                                    order.CancelReason = "订单支付有效时间过期";
-                                    CurrentDb.SaveChanges();
-                                    Exit(m.Id);
-                                    LogUtil.Info(string.Format("订单号：{0},已经过期,删除缓存", chData.Sn));
-                                }
+                                var chData = m.Data.ToJsonObject<Order>();
+                                BizFactory.Order.Cancle(GuidUtil.Empty(), chData.Sn, "订单支付有效时间过期");
                                 break;
                         }
                     }
                 }
+
+                LogUtil.Info(string.Format("结束执行订单查询,时间:{0}", this.DateTime));
             }
 
-
-            LogUtil.Info(string.Format("结束执行订单查询,时间:{0}", this.DateTime));
             #endregion
-
 
             return result;
         }
