@@ -1,4 +1,5 @@
 ﻿using Lumos.BLL.Service.Term.Models;
+using Lumos.BLL.Task;
 using Lumos.Entity;
 using System;
 using System.Collections.Generic;
@@ -292,7 +293,7 @@ namespace Lumos.BLL.Service.Term
                 CurrentDb.SaveChanges(true);
                 ts.Complete();
 
-                Task4GlobalTimerUtil.Enter(Task4GlobalTimerType.CheckOrderPay, order.PayExpireTime.Value, order);
+                Task4Factory.Global.Enter(TimerTaskType.CheckOrderPay, order.PayExpireTime.Value, order);
 
                 ret.OrderSn = order.Sn;
                 ret.PayUrl = string.Format("http://mobile.17fanju.com/Order/Confirm?soure=machine&orderId=" + order.Id);

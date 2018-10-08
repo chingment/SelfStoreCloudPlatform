@@ -80,7 +80,6 @@
     <Compile Include="Biz\MerchantMachineProvider.cs" />
     <Compile Include="Biz\MerchantProvider.cs" />
     <Compile Include="Biz\Order2StockInProvider.cs" />
-    <Compile Include="Biz\Task4GlobalTimerUtil.cs" />
     <Compile Include="Biz\OrderProvider.cs" />
     <Compile Include="Biz\ProductKindProvider.cs" />
     <Compile Include="Biz\ProductSkuCacheUtil.cs" />
@@ -180,7 +179,7 @@
     <Compile Include="Task\ITask.cs" />
     <Compile Include="Task\Launcher.cs" />
     <Compile Include="Task\Task4Factory.cs" />
-    <Compile Include="Task\Task4GlobalProvider.cs" />
+    <Compile Include="Task\Task4Tim2GlobalProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lumos.Common\Lumos.Common.csproj">

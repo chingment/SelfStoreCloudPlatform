@@ -20,7 +20,7 @@ namespace System
             {
                 rt = Newtonsoft.Json.JsonConvert.SerializeObject(obj);
             }
-            catch 
+            catch
             {
 
             }
@@ -35,7 +35,7 @@ namespace System
 
             try
             {
-                T t = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(s.ToString());
+                T t = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(Newtonsoft.Json.JsonConvert.SerializeObject(s));
 
                 return t;
             }
