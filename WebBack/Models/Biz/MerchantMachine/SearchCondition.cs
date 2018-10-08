@@ -11,6 +11,6 @@ namespace WebBack.Models.Biz.MerchantMachine
     {
         public string DeviceId { get; set; }
 
-        public int MerchantId { get; set; }
+        public string MerchantId { get; set; }
     }
 }

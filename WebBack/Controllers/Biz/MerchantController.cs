@@ -49,7 +49,7 @@ namespace WebBack.Controllers.Biz
                          join u in CurrentDb.SysUser on m.Id equals u.Id
                          where
                                  (name.Length == 0 || m.MerchantName.Contains(name))
-                         select new { m.Id, u.UserName, m.MerchantName, m.ContactName,m.ContactAddress, m.ContactPhone, m.CreateTime });
+                         select new { m.Id, u.UserName, m.MerchantName, m.ContactName, m.ContactAddress, m.ContactPhone, m.CreateTime });
 
             int total = query.Count();
 
@@ -106,6 +106,7 @@ namespace WebBack.Controllers.Biz
                         join m in CurrentDb.SysMerchantUser on mp.MerchantId equals m.Id
                         join p in CurrentDb.Machine on mp.MachineId equals p.Id
                         where
+                        mp.MerchantId == condition.MerchantId &&
                         p.IsUse == true &&
                         mp.IsBind == true &&
                                (deviceId.Length == 0 || p.DeviceId.Contains(deviceId))

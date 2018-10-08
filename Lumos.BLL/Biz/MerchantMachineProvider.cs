@@ -35,6 +35,7 @@ namespace Lumos.BLL
                     lMerchantMachine.Id = GuidUtil.New();
                     lMerchantMachine.MerchantId = pMerchantId;
                     lMerchantMachine.MachineId = pMachineId;
+                    lMerchantMachine.MachineName = lMachine.Name;
                     lMerchantMachine.IsBind = true;
                     lMerchantMachine.CreateTime = this.DateTime;
                     lMerchantMachine.Creator = pOperater;
