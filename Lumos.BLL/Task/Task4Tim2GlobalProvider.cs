@@ -115,7 +115,11 @@ namespace Lumos.BLL.Task
                         {
                             case TimerTaskType.CheckOrderPay:
                                 var chData = m.Data.ToJsonObject<Order>();
-                                BizFactory.Order.Cancle(GuidUtil.Empty(), chData.Sn, "订单支付有效时间过期");
+                                var rt = BizFactory.Order.Cancle(GuidUtil.Empty(), chData.Sn, "订单支付有效时间过期");
+                                if (rt.Result == ResultType.Success)
+                                {
+                                    Task4Factory.Global.Exit(m.Id);
+                                }
                                 break;
                         }
                     }
