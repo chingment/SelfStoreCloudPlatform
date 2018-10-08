@@ -83,6 +83,7 @@ namespace WebMerch.Controllers
  where d.ProductSubjectId == condition.SubjectId
  select d.ProductSkuId).Contains(p.Id)
    && (name.Length == 0 || p.Name.Contains(name))
+   && p.MerchantId == this.CurrentUserId
                          select new { p.Id, c.ProductSubjectId, p.Name, p.CreateTime, p.KindNames, p.SubjectNames, p.DispalyImgUrls, p.SalePrice, p.ShowPrice });
 
             int total = query.Count();

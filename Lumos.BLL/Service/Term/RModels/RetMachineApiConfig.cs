@@ -9,7 +9,9 @@ namespace Lumos.BLL.Service.Term
     public class RetMachineApiConfig
     {
         public string MerchantId { get; set; }
+        public string MerchantName { get; set; }
         public string StoreId { get; set; }
+        public string StoreName { get; set; }
         public string MachineId { get; set; }
         public string ApiHost { get; set; }
         public string ApiKey { get; set; }

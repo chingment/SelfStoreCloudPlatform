@@ -91,10 +91,25 @@ namespace Lumos.BLL.Service.Term
                 return new CustomJsonResult(ResultType.Failure, "设备未绑定店铺");
             }
 
+            var merchant = CurrentDb.SysMerchantUser.Where(m => m.Id == storeMachine.MerchantId).FirstOrDefault();
+
+            if (merchant == null)
+            {
+                return new CustomJsonResult(ResultType.Failure, "商户不存在");
+            }
+
+            var store = CurrentDb.Store.Where(m => m.Id == storeMachine.StoreId).FirstOrDefault();
+
+            if (store == null)
+            {
+                return new CustomJsonResult(ResultType.Failure, "店铺不存在");
+            }
 
             var ret = new RetMachineApiConfig();
             ret.MerchantId = storeMachine.MerchantId;
+            ret.MerchantName = merchant.MerchantName;
             ret.StoreId = storeMachine.StoreId;
+            ret.StoreName = store.Name;
             ret.MachineId = storeMachine.MachineId;
             ret.ApiHost = merchantConfig.ApiHost;
             ret.ApiKey = merchantConfig.ApiKey;
