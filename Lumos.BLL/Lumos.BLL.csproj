@@ -80,7 +80,7 @@
     <Compile Include="Biz\MerchantMachineProvider.cs" />
     <Compile Include="Biz\MerchantProvider.cs" />
     <Compile Include="Biz\Order2StockInProvider.cs" />
-    <Compile Include="Biz\OrderCacheUtil.cs" />
+    <Compile Include="Biz\Task4GlobalTimerUtil.cs" />
     <Compile Include="Biz\OrderProvider.cs" />
     <Compile Include="Biz\ProductKindProvider.cs" />
     <Compile Include="Biz\ProductSkuCacheUtil.cs" />

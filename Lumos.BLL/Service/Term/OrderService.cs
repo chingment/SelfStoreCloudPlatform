@@ -276,7 +276,7 @@ namespace Lumos.BLL.Service.Term
                     }
                 }
 
-                //order.PayExpireTime = this.DateTime.AddMinutes(5);
+                order.PayExpireTime = this.DateTime.AddMinutes(2);
 
                 //var ret_UnifiedOrder = SdkFactory.Wx.Instance().UnifiedOrder(pOperater, order.Sn, order.ChargeAmount, "", Common.CommonUtils.GetIP(), "自助商品", order.PayExpireTime.Value);
 
@@ -290,11 +290,13 @@ namespace Lumos.BLL.Service.Term
 
                 CurrentDb.Order.Add(order);
                 CurrentDb.SaveChanges(true);
+                ts.Complete();
+
+                Task4GlobalTimerUtil.Enter(Task4GlobalTimerType.CheckOrderPay, order.PayExpireTime.Value, order);
 
                 ret.OrderSn = order.Sn;
                 ret.PayUrl = string.Format("http://mobile.17fanju.com/Order/Confirm?soure=machine&orderId=" + order.Id);
 
-                ts.Complete();
 
                 result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "预定成功", ret);
 
