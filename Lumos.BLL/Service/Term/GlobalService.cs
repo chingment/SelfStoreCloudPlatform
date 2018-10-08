@@ -27,9 +27,9 @@ namespace Lumos.BLL.Service.Term
             ret.BtnPickImgUrl = merchantMachine.BtnPickImgUrl;
 
 
-            ret.Banners = TermServiceFactory.Machine.GetBanners(pOperater, pMerchantId, pMachineId);
-            ret.ProductKinds = TermServiceFactory.ProductKind.GetKinds(pOperater, pMerchantId, pMachineId);
-            ret.ProductSkus = TermServiceFactory.Machine.GetProductSkus(pOperater, pMerchantId, pMachineId);
+            ret.Banners = TermServiceFactory.Machine.GetBanners(pOperater, rup.MerchantId, rup.MachineId);
+            ret.ProductKinds = TermServiceFactory.ProductKind.GetKinds(pOperater, rup.MerchantId, rup.MachineId);
+            ret.ProductSkus = TermServiceFactory.Machine.GetProductSkus(pOperater, rup.MerchantId, rup.MachineId);
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
         }
