@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.Term
 {
-    public class RetPayResultQuery
+    public class RetOrderPayResultQuery
     {
         public string OrderSn { get; set; }
 

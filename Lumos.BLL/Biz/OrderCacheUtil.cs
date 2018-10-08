@@ -10,23 +10,22 @@ namespace Lumos.BLL
 {
     public static class OrderCacheUtil
     {
-        private static readonly string redis_key_order_check_pay_status = "order_check_pay_status";
+        private static readonly string redis_key_order_list_check_pay = "order_list_check_pay";
 
-
-        public static void EnterQueue4CheckPayStatus(string orderSn, Order order)
+        public static void EnterQueue4CheckPay(string orderSn, Order order)
         {
-            RedisManager.Db.HashSetAsync(redis_key_order_check_pay_status, orderSn, Newtonsoft.Json.JsonConvert.SerializeObject(order), StackExchange.Redis.When.Always);
+            RedisManager.Db.HashSetAsync(redis_key_order_list_check_pay, orderSn, Newtonsoft.Json.JsonConvert.SerializeObject(order), StackExchange.Redis.When.Always);
         }
 
-        public static void ExitQueue4CheckPayStatus(string orderSn)
+        public static void ExitQueue4CheckPay(string orderSn)
         {
-            RedisManager.Db.HashDelete(redis_key_order_check_pay_status, orderSn);
+            RedisManager.Db.HashDelete(redis_key_order_list_check_pay, orderSn);
         }
 
-        public static List<Order> GetCheckPayStatusQueue()
+        public static List<Order> GetLisy4CheckPay()
         {
             List<Order> list = new List<Order>();
-            var hs = RedisManager.Db.HashGetAll(redis_key_order_check_pay_status);
+            var hs = RedisManager.Db.HashGetAll(redis_key_order_list_check_pay);
 
             var d = (from i in hs select i).ToList();
 

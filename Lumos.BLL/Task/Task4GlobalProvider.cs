@@ -19,7 +19,7 @@ namespace Lumos.BLL.Task
             CustomJsonResult result = new CustomJsonResult();
 
             #region 检查支付状态
-            var orders = OrderCacheUtil.GetCheckPayStatusQueue();
+            var orders = OrderCacheUtil.GetLisy4CheckPay();
             LogUtil.Info(string.Format("共有{0}条待支付订单查询状态", orders.Count));
 
             LogUtil.Info(string.Format("开始执行订单查询,时间：{0}", this.DateTime));
@@ -40,7 +40,7 @@ namespace Lumos.BLL.Task
 
                         if (isPaySuccessed)
                         {
-                            OrderCacheUtil.ExitQueue4CheckPayStatus(m.Sn);
+                            OrderCacheUtil.ExitQueue4CheckPay(m.Sn);
 
                             LogUtil.Info(string.Format("订单号：{0},支付成功,删除缓存", m.Sn));
                         }
@@ -55,7 +55,7 @@ namespace Lumos.BLL.Task
                             order.MendTime = this.DateTime;
                             order.CancelReason = "订单支付有效时间过期";
                             CurrentDb.SaveChanges();
-                            OrderCacheUtil.ExitQueue4CheckPayStatus(m.Sn);
+                            OrderCacheUtil.ExitQueue4CheckPay(m.Sn);
                             LogUtil.Info(string.Format("订单号：{0},已经过期,删除缓存", m.Sn));
                         }
                     }

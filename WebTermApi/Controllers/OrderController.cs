@@ -16,17 +16,23 @@ namespace WebTermApi.Controllers
         [HttpPost]
         public APIResponse Reserve(RopOrderReserve rop)
         {
-            rop.Source = Lumos.Entity.Enumeration.OrderSource.Machine;
             IResult result = TermServiceFactory.Order.Reserve(rop.MerchantId, rop);
             return new APIResponse(result);
 
         }
 
         [HttpPost]
-        public APIResponse<RetPayResultQuery> PayResulyQuery(RupPayResultQuery rup)
+        public APIResponse<RetOrderPayResultQuery> PayResulyQuery(RupOrderPayResultQuery rup)
         {
-            IResult<RetPayResultQuery> result = TermServiceFactory.Order.PayResultQuery(rup.UserId, rup);
-            return new APIResponse<RetPayResultQuery>(result);
+            IResult<RetOrderPayResultQuery> result = TermServiceFactory.Order.PayResultQuery(rup.MerchantId, rup);
+            return new APIResponse<RetOrderPayResultQuery>(result);
+        }
+
+        [HttpPost]
+        public APIResponse Cancle(RopOrderCancle rop)
+        {
+            IResult result = TermServiceFactory.Order.Cancle(rop.MerchantId, rop);
+            return new APIResponse(result);
         }
 
 

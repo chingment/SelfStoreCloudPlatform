@@ -305,9 +305,9 @@ namespace Lumos.BLL.Service.Term
 
         }
 
-        public CustomJsonResult<RetPayResultQuery> PayResultQuery(string operater, RupPayResultQuery rup)
+        public CustomJsonResult<RetOrderPayResultQuery> PayResultQuery(string operater, RupOrderPayResultQuery rup)
         {
-            CustomJsonResult<RetPayResultQuery> ret = new CustomJsonResult<RetPayResultQuery>();
+            CustomJsonResult<RetOrderPayResultQuery> ret = new CustomJsonResult<RetOrderPayResultQuery>();
 
 
             var ret_Biz = BizFactory.Order.PayResultQuery(operater, rup.OrderSn);
@@ -318,13 +318,22 @@ namespace Lumos.BLL.Service.Term
 
             if (ret_Biz.Data != null)
             {
-                ret.Data = new RetPayResultQuery();
+                ret.Data = new RetOrderPayResultQuery();
                 ret.Data.OrderSn = ret_Biz.Data.OrderSn;
                 ret.Data.Status = ret_Biz.Data.Status;
             }
 
             return ret;
         }
+
+        public CustomJsonResult Cancle(string pOperater, RopOrderCancle rop)
+        {
+            CustomJsonResult result = new CustomJsonResult();
+
+
+            return result;
+        }
+
 
         private List<OrderReserveDetail> GetReserveDetail(List<RopOrderReserve.Detail> reserveDetails, List<MachineStock> machineStocks)
         {

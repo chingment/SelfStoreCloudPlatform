@@ -250,6 +250,13 @@ namespace Lumos.BLL.Service.App
         {
             var result = new CustomJsonResult();
 
+            var wxUserInfo = CurrentDb.WxUserInfo.Where(m => m.ClientId == pClientId).FirstOrDefault();
+
+            if (wxUserInfo == null)
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "用户数据异常");
+            }
+
             var order = CurrentDb.Order.Where(m => m.Id == rop.OrderId).FirstOrDefault();
 
             if (order == null)
@@ -257,17 +264,9 @@ namespace Lumos.BLL.Service.App
                 return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "操作失败");
             }
 
-
+            order.ClientId = wxUserInfo.ClientId;
             order.PayWay = rop.PayWay;
             order.PayExpireTime = this.DateTime.AddMinutes(5);
-
-
-            var wxUserInfo = CurrentDb.WxUserInfo.Where(m => m.ClientId == order.ClientId).FirstOrDefault();
-
-            if (wxUserInfo == null)
-            {
-                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "用户数据异常");
-            }
 
 
             var ret_UnifiedOrder = SdkFactory.Wx.Instance().UnifiedOrder(pOperater, "JSAPI", wxUserInfo.OpenId, order.Sn, 0.01m, "", Common.CommonUtils.GetIP(), "自助商品", order.PayExpireTime.Value);

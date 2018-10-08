@@ -87,6 +87,9 @@
     <Compile Include="Biz\ProductSkuProvider.cs" />
     <Compile Include="Biz\ProductSubjectProvider.cs" />
     <Compile Include="Biz\RecipientModeProvider.cs" />
+    <Compile Include="Biz\Redis\RedisMq4GlobalProvider.cs" />
+    <Compile Include="Biz\Redis\RedisMq4GlobalModel.cs" />
+    <Compile Include="Biz\Redis\RedisMqFactory.cs" />
     <Compile Include="Biz\RModels\RetPayResultQuery.cs" />
     <Compile Include="Biz\RModels\RetProducSkuAdd.cs" />
     <Compile Include="Biz\RModels\RopProducSkuAdd.cs" />
@@ -157,13 +160,14 @@
     <Compile Include="Service\Term\Models\BannerModel.cs" />
     <Compile Include="Service\Term\Models\Machine\ApiConfigModel.cs" />
     <Compile Include="Service\Term\RModels\RetOrderReserve.cs" />
-    <Compile Include="Service\Term\RModels\RetPayResultQuery.cs" />
+    <Compile Include="Service\Term\RModels\RetOrderPayResultQuery.cs" />
+    <Compile Include="Service\Term\RModels\RopOrderCancle.cs" />
     <Compile Include="Service\Term\RModels\RopOrderReserve.cs" />
     <Compile Include="Service\Term\RModels\RopUserAuthorize.cs" />
     <Compile Include="Service\Term\RModels\RupGlobalDataSet.cs" />
     <Compile Include="Service\Term\RModels\RupMachineApiConfig.cs" />
     <Compile Include="Service\Term\RModels\RupMachineGetSlotSkuStock.cs" />
-    <Compile Include="Service\Term\RModels\RupPayResultQuery.cs" />
+    <Compile Include="Service\Term\RModels\RupOrderPayResultQuery.cs" />
     <Compile Include="Service\Term\TermServiceFactory.cs" />
     <Compile Include="SnUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
