@@ -38,7 +38,7 @@ namespace WebMerch.Controllers
             }
             else
             {
-                arr = CurrentDb.ProductKind.Where(m => m.PId == "" && m.IsDelete == false).OrderByDescending(m => m.Priority).ToArray();
+                arr = CurrentDb.ProductKind.Where(m => m.MerchantId == this.CurrentUserId && m.PId == "" && m.IsDelete == false).OrderByDescending(m => m.Priority).ToArray();
             }
 
             object json = ConvertToZTreeJson(arr, "id", "pid", "name", "menu");

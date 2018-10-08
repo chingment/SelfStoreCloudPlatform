@@ -48,6 +48,7 @@ namespace WebMerch.Controllers
 
             var query = (from u in CurrentDb.Store
                          where (name.Length == 0 || u.Name.Contains(name))
+                         && u.MerchantId == this.CurrentUserId
                          select new { u.Id, u.Name, u.Address, u.Status, u.CreateTime });
 
             int total = query.Count();
@@ -151,12 +152,12 @@ namespace WebMerch.Controllers
                          where
                                 !(from d2 in CurrentDb.StoreMachine
                                   where d2.MerchantId == this.CurrentUserId &&
-                                  d2.IsBind==true
+                                  d2.IsBind == true
                                   select d2.MachineId).Contains(u.Id)
                          &&
                          (name.Length == 0 || u.Name.Contains(name))
                          && p.MerchantId == this.CurrentUserId
-                         && p.IsBind==true
+                         && p.IsBind == true
                          select new { u.Id, p.MachineName, u.DeviceId }).Distinct();
 
             int total = query.Count();

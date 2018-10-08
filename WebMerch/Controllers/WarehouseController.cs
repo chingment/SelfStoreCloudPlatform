@@ -41,6 +41,8 @@ namespace WebMerch.Controllers
 
             var query = (from u in CurrentDb.Warehouse
                          where (name.Length == 0 || u.Name.Contains(name))
+                         &&
+                         u.MerchantId==this.CurrentUserId
                          select new { u.Id, u.Name, u.Address, u.CreateTime });
 
             int total = query.Count();

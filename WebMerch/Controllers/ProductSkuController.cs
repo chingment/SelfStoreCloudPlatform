@@ -71,6 +71,8 @@ namespace WebMerch.Controllers
         {
             var query = (from u in CurrentDb.ProductSku
                          where (condition.Name == null || u.Name.Contains(condition.Name))
+                         &&
+                         u.MerchantId == this.CurrentUserId
                          select new { u.Id, u.Name, u.CreateTime, u.KindNames, u.SubjectNames, u.SalePrice, u.ShowPrice, u.DispalyImgUrls });
 
             int total = query.Count();

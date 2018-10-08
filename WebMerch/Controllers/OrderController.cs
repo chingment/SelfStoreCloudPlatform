@@ -38,6 +38,8 @@ namespace WebMerch.Controllers
                         (condition.Nickname == null || o.ClientName.Contains(condition.Nickname)) &&
                         (condition.OrderStatus == Enumeration.OrderStatus.Unknow || o.Status == condition.OrderStatus) &&
                         (condition.OrderSn == null || o.Sn.Contains(condition.OrderSn))
+                        &&
+                        o.MerchantId == this.CurrentUserId
                         select new { o.Sn, o.Id, o.ClientId, o.ClientName, o.StoreName, o.Source, o.SubmitTime, o.ChargeAmount, o.DiscountAmount, o.OriginalAmount, o.CreateTime };
 
             int total = query.GroupBy(p => p.Sn).Select(o => o.FirstOrDefault()).Count();
