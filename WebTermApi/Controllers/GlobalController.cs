@@ -13,13 +13,13 @@ using System.Net.Http;
 using System.Web.Http;
 namespace WebTermApi.Controllers
 {
-    [BaseAuthorizeAttribute]
+    [OwnAuthorize]
     public class GlobalController : OwnBaseApiController
     {
         [HttpGet]
         public APIResponse DataSet([FromUri]RupGlobalDataSet rup)
         {
-            IResult result = TermServiceFactory.Global.DataSet(rup.MerchantId, rup.MerchantId, rup.MachineId, rup.Datetime);
+            IResult result = TermServiceFactory.Global.DataSet(rup.MerchantId, rup);
             return new APIResponse(result);
         }
     }

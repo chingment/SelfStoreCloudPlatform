@@ -1,5 +1,4 @@
 ﻿using Lumos.BLL.Service.Term.Models;
-using Lumos.BLL.Service.Term.Models.Machine;
 using Lumos.Entity;
 using Lumos.Mvc;
 using System;
@@ -79,21 +78,30 @@ namespace Lumos.BLL.Service.Term
                 return new CustomJsonResult(ResultType.Failure, "设备未绑定商户");
             }
 
-            var merchant = CurrentDb.MerchantConfig.Where(m => m.Id == merchantMachine.MerchantId).FirstOrDefault();
-            if (merchant == null)
+            var merchantConfig = CurrentDb.MerchantConfig.Where(m => m.Id == merchantMachine.MerchantId).FirstOrDefault();
+            if (merchantConfig == null)
             {
                 return new CustomJsonResult(ResultType.Failure, "已绑定商户，却找不到商户信息");
             }
 
-            var model = new ApiConfigModel();
-            model.MerchantId = merchant.Id;
-            model.MachineId = machine.Id;
-            model.ApiHost = merchant.ApiHost;
-            model.ApiKey = merchant.ApiKey;
-            model.ApiSecret = merchant.ApiSecret;
-            model.PayTimeout = merchant.PayTimeout;
+            var storeMachine = CurrentDb.StoreMachine.Where(m => m.MerchantId == merchantMachine.MerchantId && m.MachineId == merchantMachine.MachineId && m.IsBind == true).FirstOrDefault();
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", model);
+            if (storeMachine == null)
+            {
+                return new CustomJsonResult(ResultType.Failure, "设备未绑定店铺");
+            }
+
+
+            var ret = new RetMachineApiConfig();
+            ret.MerchantId = storeMachine.MerchantId;
+            ret.StoreId = storeMachine.StoreId;
+            ret.MachineId = storeMachine.MachineId;
+            ret.ApiHost = merchantConfig.ApiHost;
+            ret.ApiKey = merchantConfig.ApiKey;
+            ret.ApiSecret = merchantConfig.ApiSecret;
+            ret.PayTimeout = merchantConfig.PayTimeout;
+
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
         }
 
         public Dictionary<string, ProductSkuModel> GetProductSkus(string pOperater, string pMerchantId, string pMachineId)

@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lumos.BLL.Service.Term.Models.Machine
+namespace Lumos.BLL.Service.Term
 {
-    public class ApiConfigModel
+    public class RetMachineApiConfig
     {
         public string MerchantId { get; set; }
+        public string StoreId { get; set; }
         public string MachineId { get; set; }
         public string ApiHost { get; set; }
         public string ApiKey { get; set; }

@@ -1,14 +1,15 @@
-﻿using System;
+﻿using Lumos.BLL.Service.Term.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lumos.BLL.Service.Term.Models.Global
+namespace Lumos.BLL.Service.Term
 {
-    public class DataSetModel
+    public class RetGlobalDataSet
     {
-        public DataSetModel()
+        public RetGlobalDataSet()
         {
             this.Banners = new List<BannerModel>();
             this.ProductSkus = new Dictionary<string, ProductSkuModel>();
@@ -22,6 +23,5 @@ namespace Lumos.BLL.Service.Term.Models.Global
         public Dictionary<string, ProductSkuModel> ProductSkus { get; set; }
 
         public List<ProductParentKindModel> ProductKinds { get; set; }
-
     }
 }

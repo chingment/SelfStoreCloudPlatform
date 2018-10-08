@@ -148,7 +148,6 @@
     <Compile Include="Service\App\StoreService.cs" />
     <Compile Include="Service\App\UserDeliveryAddressService.cs" />
     <Compile Include="Service\Term\GlobalService.cs" />
-    <Compile Include="Service\Term\Models\Global\DataSetModel.cs" />
     <Compile Include="Service\Term\Models\ProductChildKindModel.cs" />
     <Compile Include="Service\Term\Models\ProductParentKindModel.cs" />
     <Compile Include="Service\Term\Models\ProductSkuModel.cs" />
@@ -158,7 +157,8 @@
     <Compile Include="Service\Term\ProductSkuProvider.cs" />
     <Compile Include="Service\Term\MachineService.cs" />
     <Compile Include="Service\Term\Models\BannerModel.cs" />
-    <Compile Include="Service\Term\Models\Machine\ApiConfigModel.cs" />
+    <Compile Include="Service\Term\RModels\RetGlobalDataSet.cs" />
+    <Compile Include="Service\Term\RModels\RetMachineApiConfig.cs" />
     <Compile Include="Service\Term\RModels\RetOrderReserve.cs" />
     <Compile Include="Service\Term\RModels\RetOrderPayResultQuery.cs" />
     <Compile Include="Service\Term\RModels\RopOrderCancle.cs" />

@@ -140,7 +140,7 @@
     <Compile Include="App_Start\Own\APIResult.cs" />
     <Compile Include="App_Start\Own\APIExceptionAttribute.cs" />
     <Compile Include="App_Start\Own\OwnBaseApiController.cs" />
-    <Compile Include="App_Start\Own\OwnBaseAuthorizeAttribute.cs" />
+    <Compile Include="App_Start\Own\OwnAuthorizeAttribute.cs" />
     <Compile Include="App_Start\Own\MonitorApiLog.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />

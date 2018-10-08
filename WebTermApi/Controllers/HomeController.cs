@@ -99,7 +99,7 @@ namespace WebTermApi.Controllers
         {
             if (ConfigurationManager.AppSettings["custom:IsTest"] == null)
             {
-                host = "http://localhost:18665";
+                host = "http://demo.api.term.17fanju.com";
             }
             else
             {
@@ -107,13 +107,12 @@ namespace WebTermApi.Controllers
             }
 
 
-            string clientId = "ca66ca85c5bf435581ecd2380554ecf1";
-            string merchantId = "d1e8ad564c0f4516b2de95655a4146c7";
+            //string clientId = "ca66ca85c5bf435581ecd2380554ecf1";
+            string merchantId = "ca66ca85c5bf435581ecd2380554ecfe";
             string machineId = "00000000000000000000000000000001";
             string storeId = "21ae9399b1804dbc9ddd3c29e8b5c670";
-            //model.Add("获取机器接口配置信息", MachineApiConfig("000000000000000"));
-            //model.Add("获取全局数据", GlobalDataSet(userId, merchantId, machineId, DateTime.Now));
-
+            model.Add("获取机器接口配置信息", MachineApiConfig("00000000000000000000000000000001"));
+            model.Add("获取全局数据", GlobalDataSet(merchantId, machineId, DateTime.Now));
             model.Add("预定商品", OrderReserve(merchantId, storeId, machineId));
             return View(model);
         }
@@ -137,10 +136,9 @@ namespace WebTermApi.Controllers
 
         }
 
-        public string GlobalDataSet(string userId, string merchantId, string machineId, DateTime datetime)
+        public string GlobalDataSet(string merchantId, string machineId, DateTime datetime)
         {
             Dictionary<string, string> parames = new Dictionary<string, string>();
-            parames.Add("userId", userId.ToString());
             parames.Add("merchantId", merchantId.ToString());
             parames.Add("machineId", machineId.ToString());
             parames.Add("datetime", datetime.ToUnifiedFormatDateTime());
@@ -151,7 +149,7 @@ namespace WebTermApi.Controllers
             headers.Add("timestamp", timespan.ToString());
             headers.Add("sign", signStr);
             HttpUtil http = new HttpUtil();
-            string result = http.HttpGet("" + host + "/api/Global/DataSet?userId=" + userId + "&merchantId=" + merchantId + "&machineId=" + machineId + "&datetime=" + HttpUtility.UrlEncode(datetime.ToUnifiedFormatDateTime(), UTF8Encoding.UTF8).ToUpper(), headers);
+            string result = http.HttpGet("" + host + "/api/Global/DataSet?merchantId=" + merchantId + "&machineId=" + machineId + "&datetime=" + HttpUtility.UrlEncode(datetime.ToUnifiedFormatDateTime(), UTF8Encoding.UTF8).ToUpper(), headers);
 
             return result;
 

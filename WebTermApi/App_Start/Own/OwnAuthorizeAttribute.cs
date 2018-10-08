@@ -20,7 +20,7 @@ using Lumos.Common;
 namespace WebTermApi
 {
 
-    public class BaseAuthorizeAttribute : ActionFilterAttribute
+    public class OwnAuthorizeAttribute : ActionFilterAttribute
     {
         private readonly string key = "_MonitorApiLog_";
 

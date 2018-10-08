@@ -16,7 +16,7 @@ using System.Web.Http;
 
 namespace WebTermApi.Controllers
 {
-    [BaseAuthorizeAttribute]
+    [OwnAuthorize]
     public class MachineController : OwnBaseApiController
     {
         [HttpGet]
