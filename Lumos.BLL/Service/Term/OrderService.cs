@@ -277,7 +277,7 @@ namespace Lumos.BLL.Service.Term
                     }
                 }
 
-                order.PayExpireTime = this.DateTime.AddMinutes(2);
+                order.PayExpireTime = this.DateTime.AddSeconds(rop.PayTimeout);
 
                 //var ret_UnifiedOrder = SdkFactory.Wx.Instance().UnifiedOrder(pOperater, order.Sn, order.ChargeAmount, "", Common.CommonUtils.GetIP(), "自助商品", order.PayExpireTime.Value);
 
@@ -333,7 +333,7 @@ namespace Lumos.BLL.Service.Term
         {
             CustomJsonResult result = new CustomJsonResult();
 
-            result = BizFactory.Order.Cancle(pOperater, rop.OrderSn, rop.CancelReason);
+            result = BizFactory.Order.Cancle(pOperater, rop.OrderSn, rop.Reason);
 
             return result;
         }

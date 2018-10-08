@@ -24,6 +24,8 @@ namespace Lumos.BLL.Service.Term
         public string ReceiverPhone { get; set; }
         public string ReceptionAddress { get; set; }
 
+        public int PayTimeout { get; set; }
+
         public List<Detail> Details { get; set; }
         public class Detail
         {

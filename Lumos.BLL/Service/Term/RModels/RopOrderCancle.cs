@@ -12,6 +12,6 @@ namespace Lumos.BLL.Service.Term
 
         public string OrderSn { get; set; }
 
-        public string CancelReason { get; set; }
+        public string Reason { get; set; }
     }
 }

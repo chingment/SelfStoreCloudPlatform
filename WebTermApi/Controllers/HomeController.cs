@@ -106,6 +106,7 @@ namespace WebTermApi.Controllers
                 host = "http://demo.api.term.17fanju.com";
             }
 
+            host = "http://demo.api.term.17fanju.com";
 
             string deviceId = "000000000000000";
             string merchantId = "d1e8ad564c0f4516b2de95655a4146c7";
@@ -163,7 +164,7 @@ namespace WebTermApi.Controllers
             pms.StoreId = storeId;
             pms.MachineId = machineId;
             pms.PayWay = "";
-
+            pms.PayTimeout = 10;
             pms.Details.Add(new RopOrderReserve.Detail() { SkuId = "1", Quantity = 1 });
             pms.Details.Add(new RopOrderReserve.Detail() { SkuId = "2", Quantity = 1 });
             pms.Details.Add(new RopOrderReserve.Detail() { SkuId = "3", Quantity = 1 });
