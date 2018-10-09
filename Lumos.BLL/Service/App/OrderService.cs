@@ -85,6 +85,33 @@ namespace Lumos.BLL.Service.App
             }
             else
             {
+                var order = CurrentDb.Order.Where(m => m.Id == rop.OrderId).FirstOrDefault();
+
+                if (order == null)
+                {
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "找不到该订单");
+                }
+
+                if (order.Status == Enumeration.OrderStatus.Cancled)
+                {
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "该订单已取消");
+                }
+
+                if (order.Status == Enumeration.OrderStatus.Payed)
+                {
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "该订单已支付");
+                }
+
+                if (order.Status == Enumeration.OrderStatus.Completed)
+                {
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "该订单已完成");
+                }
+
+                if (order.Status != Enumeration.OrderStatus.WaitPay)
+                {
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "该订单不在就绪支付状态");
+                }
+
                 var orderDetailsChilds = CurrentDb.OrderDetailsChild.Where(m => m.OrderId == rop.OrderId).ToList();
 
                 var storeId = orderDetailsChilds[0].StoreId;
