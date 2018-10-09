@@ -8,8 +8,9 @@ namespace Lumos.BLL.Service.Term
 {
     public class RupMachineGetSlotSkuStock
     {
-        public string UserId { get; set; }
         public string MerchantId { get; set; }
+
+        public string StoreId { get; set; }
         public string MachineId { get; set; }
     }
 }

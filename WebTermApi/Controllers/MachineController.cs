@@ -30,7 +30,7 @@ namespace WebTermApi.Controllers
         [HttpGet]
         public APIResponse GetSlotSkuStock([FromUri]RupMachineGetSlotSkuStock rup)
         {
-            IResult result = TermServiceFactory.Machine.GetSlotSkusStock(rup.UserId, rup.UserId, rup.MerchantId, rup.MachineId);
+            IResult result = TermServiceFactory.Machine.GetSlotSkusStock(rup.MerchantId, rup.MerchantId, rup.MachineId);
             return new APIResponse(result);
 
         }

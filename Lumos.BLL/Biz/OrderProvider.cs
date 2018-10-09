@@ -164,7 +164,7 @@ namespace Lumos.BLL
 
                 if (order.Status == Enumeration.OrderStatus.Cancled)
                 {
-                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "该订单已经取消");
+                    return new CustomJsonResult(ResultType.Success, ResultCode.Success, "该订单已经取消");
                 }
 
                 order.Status = Enumeration.OrderStatus.Cancled;

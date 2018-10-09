@@ -172,13 +172,13 @@ namespace Lumos.BLL.Service.Term
             return bannerModels;
         }
 
-        public CustomJsonResult GetSlotSkusStock(string pOperater, string pUserId, string merchantId, string pMachineId)
+        public CustomJsonResult GetSlotSkusStock(string pOperater,string pMerchantId, string pMachineId)
         {
             var slotProductSkuModels = new List<SlotProductSkuModel>();
 
-            var machineStocks = CurrentDb.MachineStock.Where(m => m.MerchantId == pUserId && m.MachineId == pMachineId && m.IsOffSell == false).ToList();
+            var machineStocks = CurrentDb.MachineStock.Where(m => m.MerchantId == pMerchantId && m.MachineId == pMachineId && m.IsOffSell == false).ToList();
 
-            var productSkus = CurrentDb.ProductSku.Where(m => m.MerchantId == pUserId).ToList();
+            var productSkus = CurrentDb.ProductSku.Where(m => m.MerchantId == pMerchantId).ToList();
 
             foreach (var item in machineStocks)
             {
