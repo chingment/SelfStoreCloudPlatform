@@ -22,5 +22,8 @@ namespace Lumos.Entity
         public DateTime CreateTime { get; set; }
         public string Mender { get; set; }
         public DateTime? MendTime { get; set; }
+        public float Lat { get; set; }
+        public float Lng { get; set; }
+        public string JPushRegId { get; set; }
     }
 }

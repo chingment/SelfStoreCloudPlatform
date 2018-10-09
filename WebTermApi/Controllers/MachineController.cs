@@ -24,7 +24,6 @@ namespace WebTermApi.Controllers
         {
             IResult result = TermServiceFactory.Machine.ApiConfig(GuidUtil.Empty(), rup.DeviceId);
             return new APIResponse(result);
-
         }
 
         [HttpGet]
@@ -36,6 +35,12 @@ namespace WebTermApi.Controllers
         }
 
 
+        [HttpGet]
+        public APIResponse UpdateInfo([FromBody]RopMachineUpdateInfo rop)
+        {
+            IResult result = TermServiceFactory.Machine.UpdateInfo(GuidUtil.Empty(), rop);
+            return new APIResponse(result);
+        }
 
     }
 }

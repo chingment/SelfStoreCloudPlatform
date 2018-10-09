@@ -22,6 +22,17 @@ body {
 	background: #fff;
 }
 
+a {
+	-webkit-tap-highlight-color: transparent;
+	cursor: pointer;
+}
+
+a, a:active, a:visited, a:hover, a:focus {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
+}
+
 .bold {
 	font-weight: bold;
 }
@@ -146,6 +157,9 @@ body {
 
 .its-a .it-ml {
 	flex: 1;
+	align-items: center;
+	justify-content: flex-start;
+	display: flex;
 }
 
 .its-a .it-mr {
@@ -219,8 +233,6 @@ body {
 	height: 3rem;
 	line-height: 3rem;
 	text-align: right;
-	display: block;
-	font-weight: bold;
 	font-size: 0.8rem;
 	padding-right: 0.2rem;
 }

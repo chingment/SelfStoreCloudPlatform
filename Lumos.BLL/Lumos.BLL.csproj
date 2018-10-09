@@ -160,6 +160,7 @@
     <Compile Include="Service\Term\RModels\RetMachineApiConfig.cs" />
     <Compile Include="Service\Term\RModels\RetOrderReserve.cs" />
     <Compile Include="Service\Term\RModels\RetOrderPayResultQuery.cs" />
+    <Compile Include="Service\Term\RModels\RopMachineUpdateInfo.cs" />
     <Compile Include="Service\Term\RModels\RopOrderCancle.cs" />
     <Compile Include="Service\Term\RModels\RopOrderReserve.cs" />
     <Compile Include="Service\Term\RModels\RopUserAuthorize.cs" />

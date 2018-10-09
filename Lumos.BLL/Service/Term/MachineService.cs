@@ -172,7 +172,7 @@ namespace Lumos.BLL.Service.Term
             return bannerModels;
         }
 
-        public CustomJsonResult GetSlotSkusStock(string pOperater,string pMerchantId, string pMachineId)
+        public CustomJsonResult GetSlotSkusStock(string pOperater, string pMerchantId, string pMachineId)
         {
             var slotProductSkuModels = new List<SlotProductSkuModel>();
 
@@ -201,6 +201,37 @@ namespace Lumos.BLL.Service.Term
 
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", slotProductSkuModels);
+        }
+
+        public CustomJsonResult UpdateInfo(string pOperater, RopMachineUpdateInfo rop)
+        {
+            var result = new CustomJsonResult();
+
+            var storeMachine = CurrentDb.StoreMachine.Where(m => m.MerchantId == rop.MerchantId && m.StoreId == rop.StoreId && m.MachineId == rop.MachineId).FirstOrDefault();
+
+            if (storeMachine == null)
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "更新失败，找不到机器信息");
+            }
+
+            if (rop.Lat > 0)
+            {
+                storeMachine.Lat = rop.Lat;
+            }
+
+            if (rop.Lng > 0)
+            {
+                storeMachine.Lng = rop.Lng;
+            }
+
+            if (string.IsNullOrEmpty(rop.JPushRegId))
+            {
+                storeMachine.JPushRegId = rop.JPushRegId;
+            }
+
+            CurrentDb.SaveChanges();
+
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "更新成功");
         }
     }
 }

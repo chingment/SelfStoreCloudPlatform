@@ -550,6 +550,18 @@
                     _success(d);
                 }
             });
+        },
+        payResult: function (opts) {
+
+            opts = $.extend({
+                result: "1",
+                message: "提示",
+                remarks: "",
+                button: null
+            }, opts);
+
+            sessionStorage.setItem("payResult", JSON.stringify(opts));
+            window.location.href = "/Pay/Result";
         }
 
     }

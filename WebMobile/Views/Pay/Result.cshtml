@@ -1,0 +1,120 @@
+﻿@{
+    ViewBag.Title = "支付信息";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+
+    <style type="text/css">
+        .operate-result {
+            padding: 0 1rem;
+        }
+
+        .operate-result .imgbox {
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .operate-result .imgbox img {
+            width: 100px;
+            display: inline-block;
+        }
+
+        .operate-result .item-message {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .operate-result .item-message span {
+            font-size: 1.2rem;
+            line-height: 3rem;
+            color: #ff6c8d;
+        }
+
+        .operate-result .item-remarks {
+            margin-top: 1rem;
+        }
+
+        .operate-result .item-remarks p {
+            font-size: .9rem;
+            line-height: 1.4rem;
+        }
+
+        .operate-result .item-btn {
+            display: flex;
+            padding: 10px 0px;
+        }
+
+        .operate-result .item-btn .btnbox {
+            flex: 1;
+            text-align: center;
+        }
+
+
+        .operate-result .btn {
+            border: 1px solid #000;
+            border-radius: 18px;
+            padding: 4px 20px;
+            display: inline-block;
+            font-size: 14px;
+        }
+    </style>
+}
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var rt = JSON.parse(sessionStorage.getItem("payResult"));
+            $("#block_tmpl").tmpl(rt).appendTo('#block_area');
+        });
+    </script>
+}
+
+<script id="block_tmpl" type="text/x-jquery-tmpl">
+
+    <div class="operate-result">
+        <div class="item-result">
+            <div class="imgbox">
+                <img src="/Content/default/images/operate-result-icon-success.png" />
+            </div>
+        </div>
+        <div class="item-message">
+            <span>${message}</span>
+        </div>
+        <div class="item-btn">
+            {{each(j,btn) buttons}}
+            <div class="btnbox">
+             <a href="${btn.url}" class="btn" style="color:${btn.color}; border:1px solid  ${btn.color} ;">${btn.name}</a>
+            </div>
+            {{/each}}
+        </div>
+        <div class="item-remarks">
+            <p>${remarks}</p>
+        </div>
+
+
+        <div class="its-a">
+            {{each(j,field) fields}}
+
+            <div class="it">
+           
+                <div class="it-m">
+                    <div class="it-ml">
+                        <text class='txt'>${field.name}</text>
+                    </div>
+                    <div class="it-mr">
+                        <text class='txt'>${field.value}</text>
+                    </div>
+                </div>
+            </div>
+
+            {{/each}}
+        </div>
+
+
+    </div>
+</script>
+
+<div id="block_area">
+
+</div>
