@@ -229,6 +229,9 @@ namespace Lumos.BLL.Service.Term
                 storeMachine.JPushRegId = rop.JPushRegId;
             }
 
+            storeMachine.Mender = pOperater;
+            storeMachine.MendTime = this.DateTime;
+
             CurrentDb.SaveChanges();
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "更新成功");
