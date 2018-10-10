@@ -16,9 +16,6 @@ namespace WebAppApi
         public static string GetCurrentUserId()
         {
             var userInfo = GetUserInfo();
-            if (userInfo == null)
-                return "00000000000000000000000000000000";
-
             return userInfo.UserId;
         }
 
@@ -26,21 +23,15 @@ namespace WebAppApi
         {
             UserInfo userInfo = null;
 
-            //var context = HttpContext.Current;
-            //var request = context.Request;
-            //var response = context.Response;
+            var context = HttpContext.Current;
+            var request = context.Request;
+            var response = context.Response;
 
-            //var token = request.Cookies[OwnRequest.SESSION_NAME];
-            //if (token == null)
-            //    return null;
+            var token = request.QueryString["accessToken"];
+            if (token == null)
+                return null;
 
-            //userInfo = SSOUtil.GetUserInfo(token.Value);
-
-            userInfo = new UserInfo();
-            //userInfo.Token = "1";
-            userInfo.UserId = "00000000000000000000000000000000";
-            userInfo.UserName = "admin";
-
+            userInfo = SSOUtil.GetUserInfo(token);
             return userInfo;
         }
 
