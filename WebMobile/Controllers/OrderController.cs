@@ -25,6 +25,12 @@ namespace WebMobile.Controllers
             return View();
         }
 
+        public ActionResult PayResult()
+        {
+
+            return View();
+        }
+
         [HttpPost]
         public CustomJsonResult Confirm(RopOrderConfirm rop)
         {
@@ -36,6 +42,11 @@ namespace WebMobile.Controllers
         public CustomJsonResult UnifiedOrder(RopUnifiedOrder rop)
         {
             return AppServiceFactory.Order.UnifiedOrder(this.CurrentUserId, this.CurrentUserId, rop);
+        }
+
+        public CustomJsonResult GetResult(RupPayResult rup)
+        {
+            return AppServiceFactory.Order.PayResult(this.CurrentUserId, rup);
         }
     }
 }

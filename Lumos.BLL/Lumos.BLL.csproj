@@ -132,6 +132,7 @@
     <Compile Include="Service\App\ProductSkuService.cs" />
     <Compile Include="Service\App\RModels\RetLoginByMinProgram.cs" />
     <Compile Include="Service\App\RModels\RetOrderConfirm.cs" />
+    <Compile Include="Service\App\RModels\RetPayResult.cs" />
     <Compile Include="Service\App\RModels\RopLoginByMinProgram.cs" />
     <Compile Include="Service\App\RModels\RopOrderConfirm.cs" />
     <Compile Include="Service\App\RModels\RetGobalDataSet.cs" />
@@ -141,6 +142,7 @@
     <Compile Include="Service\App\RModels\RupCouponMy.cs" />
     <Compile Include="Service\App\RModels\RupGlobalDataSet.cs" />
     <Compile Include="Service\App\RModels\RupGlobalAccessToken.cs" />
+    <Compile Include="Service\App\RModels\RupPayResult.cs" />
     <Compile Include="Service\App\RModels\RupProductSkuDetails.cs" />
     <Compile Include="Service\App\RModels\RupProductSkuList.cs" />
     <Compile Include="Service\App\RModels\RupStoreList.cs" />

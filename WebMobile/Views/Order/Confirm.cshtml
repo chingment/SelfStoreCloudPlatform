@@ -194,7 +194,6 @@
         //    }]
         //});
 
-
         $("#btn_UnifiedOrder").on("click", function () {
             var _this = $(this);
             $(_this).attr("disabled", "disabled");
@@ -220,7 +219,12 @@
                                 signType: params.signType,
                                 paySign: params.paySign,
                                 success: function (res) {
+
+
+
                                     $.lumos.tips('您已支付成功');
+
+
                                 },
                                 cancel: function (res) {
                                     $.lumos.tips('您已取消支付');

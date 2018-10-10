@@ -157,9 +157,6 @@ a, a:active, a:visited, a:hover, a:focus {
 
 .its-a .it-ml {
 	flex: 1;
-	align-items: center;
-	justify-content: flex-start;
-	display: flex;
 }
 
 .its-a .it-mr {
@@ -222,6 +219,20 @@ a, a:active, a:visited, a:hover, a:focus {
 	text-align: left;
 	font-size: 0.8rem;
 	color: #999;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+.its-a .it-ml .txt {
+	color: #333;
+	height: 3rem;
+	line-height: 3rem;
+	text-align: left;
+	font-size: 0.8rem;
+	padding-right: 0.2rem;
 	text-overflow: ellipsis;
 	display: -webkit-box;
 	-webkit-line-clamp: 1;

@@ -119,8 +119,6 @@ namespace Lumos.BLL
                 order.MendTime = this.DateTime;
                 order.Mender = pOperater;
 
-
-
                 CurrentDb.SaveChanges();
                 ts.Complete();
 

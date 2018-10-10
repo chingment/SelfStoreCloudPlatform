@@ -1,0 +1,55 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lumos.BLL.Service.App
+{
+    public class RetPayResult
+    {
+        public ResultType Result { get; set; }
+        public string Message { get; set; }
+        public string Remarks { get; set; }
+        public List<Field> Fields { get; set; }
+        public List<Button> Buttons { get; set; }
+        public class Field
+        {
+            public string Name
+            {
+                get; set;
+            }
+
+            public string Value
+            {
+                get; set;
+            }
+        }
+
+        public class Button
+        {
+
+            public string Name
+            {
+                get; set;
+            }
+            public string Color
+            {
+                get; set;
+            }
+
+            public string Url
+            {
+                get; set;
+            }
+        }
+
+        public enum ResultType
+        {
+            Unknown = 0,
+            Success = 1,
+            Failure = 2,
+            Exception = 3
+        }
+    }
+}
