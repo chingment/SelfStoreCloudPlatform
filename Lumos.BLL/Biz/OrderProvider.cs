@@ -168,6 +168,7 @@ namespace Lumos.BLL
                 order.Status = Enumeration.OrderStatus.Cancled;
                 order.Mender = GuidUtil.Empty();
                 order.MendTime = this.DateTime;
+                order.CancledTime = this.DateTime;
                 order.CancelReason = cancelReason;
 
                 var orderDetails = CurrentDb.OrderDetails.Where(m => m.OrderId == order.Id).ToList();

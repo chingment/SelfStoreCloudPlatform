@@ -360,6 +360,7 @@ namespace Lumos.BLL.Service.App
                     ret.Fields.Add(new RetPayResult.Field() { Name = "提交时间", Value = order.SubmitTime.ToUnifiedFormatDateTime() });
                     ret.Fields.Add(new RetPayResult.Field() { Name = "订单号", Value = order.Sn });
                     ret.Fields.Add(new RetPayResult.Field() { Name = "取消时间", Value = order.CancledTime.ToUnifiedFormatDateTime() });
+                    ret.Fields.Add(new RetPayResult.Field() { Name = "取消原因", Value = order.CancelReason });
                     result = new CustomJsonResult(ResultType.Success, ResultCode.StopTask, "订单已经取消", ret);
                     break;
                 default:
