@@ -147,7 +147,7 @@ namespace Lumos.BLL.Service.Term
                 {
                     var orderDetails = new OrderDetails();
                     orderDetails.Id = GuidUtil.New();
-                    orderDetails.Sn = SnUtil.Build(Enumeration.BizSnType.Order, rop.MerchantId);
+                    orderDetails.Sn = order.Sn + reserveDetails.IndexOf(detail).ToString();
                     //orderDetails.ClientId = rop.UserId;
                     orderDetails.MerchantId = rop.MerchantId;
                     orderDetails.StoreId = rop.StoreId;
@@ -189,7 +189,7 @@ namespace Lumos.BLL.Service.Term
 
                         var orderDetailsChild = new OrderDetailsChild();
                         orderDetailsChild.Id = GuidUtil.New();
-                        orderDetailsChild.Sn = SnUtil.Build(Enumeration.BizSnType.Order, rop.MerchantId);
+                        orderDetailsChild.Sn = orderDetails.Sn + detail.Details.IndexOf(detailsChild).ToString();
                         // orderDetailsChild.ClientId = rop.UserId;
                         orderDetailsChild.MerchantId = rop.MerchantId;
                         orderDetailsChild.StoreId = rop.StoreId;
@@ -217,7 +217,7 @@ namespace Lumos.BLL.Service.Term
                             var orderDetailsChildSon = new OrderDetailsChildSon();
 
                             orderDetailsChildSon.Id = detailsChildSon.Id;
-                            orderDetailsChildSon.Sn = SnUtil.Build(Enumeration.BizSnType.Order, rop.MerchantId);
+                            orderDetailsChildSon.Sn = orderDetailsChild.Sn + detailsChild.Details.IndexOf(detailsChildSon);
                             // orderDetailsChildSon.ClientId = rop.UserId;
                             orderDetailsChildSon.MerchantId = rop.MerchantId;
                             orderDetailsChildSon.StoreId = rop.StoreId;

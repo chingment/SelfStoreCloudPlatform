@@ -20,7 +20,7 @@ namespace Lumos.BLL
             {
                 try
                 {
-                    using (TransactionScope ts = new TransactionScope(TransactionScopeOption.Required))
+                    using (TransactionScope ts = new TransactionScope(TransactionScopeOption.RequiresNew))
                     {
                         LumosDbContext _dbContext = new LumosDbContext();
 
