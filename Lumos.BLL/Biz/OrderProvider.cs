@@ -165,7 +165,7 @@ namespace Lumos.BLL
                     return new CustomJsonResult(ResultType.Success, ResultCode.Success, "该订单已经取消");
                 }
 
-                if (order.Status != Enumeration.OrderStatus.Payed || order.Status != Enumeration.OrderStatus.Completed)
+                if (order.Status != Enumeration.OrderStatus.Payed && order.Status != Enumeration.OrderStatus.Completed)
                 {
                     order.Status = Enumeration.OrderStatus.Cancled;
                     order.Mender = GuidUtil.Empty();
