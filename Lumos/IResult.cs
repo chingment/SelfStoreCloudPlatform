@@ -27,7 +27,10 @@ namespace Lumos
         FailureValidCode = 2040,
         FailureUserNameNotExists = 2050,
         Exception = 3000,
-        LllegalQueryNotEnoughScore = 4001
+        LllegalQueryNotEnoughScore = 4001,
+        StartTask = 8001,
+        ContinueTask = 8002,
+        StopTask = 8003
     }
 
 

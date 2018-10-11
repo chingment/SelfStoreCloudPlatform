@@ -8,6 +8,11 @@ namespace Lumos.BLL.Service.App
 {
     public class RetPayResult
     {
+        public RetPayResult ()
+        {
+            this.Fields = new List<Field>();
+            this.Buttons = new List<Button>();
+        }
         public ResultType Result { get; set; }
         public string Message { get; set; }
         public string Remarks { get; set; }

@@ -50,7 +50,6 @@
             text-align: center;
         }
 
-
         .operate-result .btn {
             border: 1px solid #000;
             border-radius: 18px;
@@ -58,28 +57,52 @@
             display: inline-block;
             font-size: 14px;
         }
+
+
+        .result-check .it-message {
+            text-align: center;
+            font-size: .8rem;
+            color: #333;
+        }
+
+        .redCountdownDays, .redCountdownHours, redCountdownMinutes {
+            display: none;
+        }
     </style>
 }
 
 @section scripts{
+    <script src="~/Scripts//jquery.knob.min.js"></script>
+    <script src="~/Scripts/jquery.ba-throttle-debounce.min.js"></script>
+    <script src="~/Scripts/jquery.redcountdown.js?@DateTime.Now.ToString("yyyyMMddHHmmss")"></script>
     <script type="text/javascript">
 
 
-        //var orderId = "@Request.QueryString["orderId"]";
-
-        var orderId = "2323233232";
+        var orderId = "@Request.QueryString["orderId"]";
 
         $(document).ready(function () {
 
-            $.lumos.get({
-                url: "/Order/GetPayResult?orderId=" + orderId,
-                isShowLoading: true,
-                success: function (d) {
-                    if (d.result == $.lumos.resultType.success) {
-                        $("#block_tmpl").tmpl(d.data).appendTo('#block_area');
+            $('#rC_PB').redCountdown({ preset: "flat-colors-fat", end: $.now() + 120, labels: false });
+
+            var myInterval = setInterval(function () {
+                $.lumos.get({
+                    url: "/Order/GetPayResult?orderId=" + orderId,
+                    isShowLoading: false,
+                    success: function (d) {
+                        if (d.result == $.lumos.resultType.success) {
+                            if (d.code == 8003) {
+                                clearInterval(myInterval);
+                            }
+
+                            $('#block_check').hide();
+                            if ($('#block_area').find('.operate-result').length < 1) {
+                                $("#block_tmpl").tmpl(d.data).appendTo('#block_area');
+                            }
+
+                        }
                     }
-                }
-            });
+                });
+            }, 1000);
 
             //var rt = JSON.parse(sessionStorage.getItem("payResult"));
             //$("#block_tmpl").tmpl(rt).appendTo('#block_area');
@@ -87,8 +110,14 @@
     </script>
 }
 
-<script id="block_tmpl" type="text/x-jquery-tmpl">
+<div id="block_check" class="result-check">
+    <div class="it-countdown" id="rC_PB" style="text-align:center;"></div>
+    <div class="it-message">
+        <span>正在查询支付结果，请耐心等候</span>
+    </div>
+</div>
 
+<script id="block_tmpl" type="text/x-jquery-tmpl">
     <div class="operate-result">
         <div class="item-result">
             <div class="imgbox">
@@ -101,7 +130,7 @@
         <div class="item-btn">
             {{each(j,btn) buttons}}
             <div class="btnbox">
-                <a href="${btn.url}" class="btn" style="color:${btn.color}; border:1px solid  ${btn.color} ;">${btn.name}</a>
+                <a href="${btn.url}" class="btn" style="color:${btn.color}; border:1px solid ${btn.color} ;">${btn.name}</a>
             </div>
             {{/each}}
         </div>
@@ -116,10 +145,10 @@
             <div class="it">
 
                 <div class="it-m">
-                    <div class="it-ml">
+                    <div class="it-ml w100">
                         <text class='txt'>${field.name}</text>
                     </div>
-                    <div class="it-mr">
+                    <div class="it-mr flex1">
                         <text class='txt'>${field.value}</text>
                     </div>
                 </div>

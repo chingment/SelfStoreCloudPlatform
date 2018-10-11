@@ -251,3 +251,12 @@ a, a:active, a:visited, a:hover, a:focus {
 .its-a .it:last-child .it-m {
 	border-bottom-width: 0;
 }
+
+.its-a .flex1 {
+	flex: 1;
+}
+
+.its-a .w100 {
+	flex: none;
+ width:200px;
+}

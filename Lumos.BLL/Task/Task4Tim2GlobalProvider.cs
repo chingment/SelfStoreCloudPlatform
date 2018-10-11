@@ -100,7 +100,7 @@ namespace Lumos.BLL.Task
 
                                 if (isPaySuccessed)
                                 {
-                                    Exit(m.Id);
+                                    Task4Factory.Global.Exit(m.Id);
 
                                     LogUtil.Info(string.Format("订单号：{0},支付成功,删除缓存", chData.Sn));
                                 }
