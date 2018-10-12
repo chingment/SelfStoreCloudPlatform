@@ -24,5 +24,14 @@ namespace WebAppApi.Controllers
 
             return new APIResponse(result);
         }
+
+
+        [HttpPost]
+        public APIResponse Reserve([FromBody]RopOrderReserve rop)
+        {
+            IResult result = AppServiceFactory.Order.Reserve(this.CurrentUserId, this.CurrentUserId, rop);
+            return new APIResponse(result);
+
+        }
     }
 }

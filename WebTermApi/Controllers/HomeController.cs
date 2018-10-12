@@ -156,17 +156,13 @@ namespace WebTermApi.Controllers
 
         }
 
-        public string OrderReserve(string merchantId, string storeId, string channelId)
+        public string OrderReserve(string merchantId, string storeId, string machineId)
         {
 
             RopOrderReserve pms = new RopOrderReserve();
             pms.MerchantId = merchantId;
             pms.StoreId = storeId;
-            pms.Source = Enumeration.OrderSource.Machine;
-            pms.ReserveMode = Enumeration.ReserveMode.OffLine;
-            pms.ChannelType = Enumeration.ChannelType.Machine;
-            pms.ChannelId = channelId;
-            pms.PayWay = "";
+            pms.MachineId = machineId;
             pms.PayTimeout = 10;
             pms.Details.Add(new RopOrderReserve.Detail() { SkuId = "1", Quantity = 1, ReceptionMode = Enumeration.ReceptionMode.Machine });
             pms.Details.Add(new RopOrderReserve.Detail() { SkuId = "1", Quantity = 1, ReceptionMode = Enumeration.ReceptionMode.Express });

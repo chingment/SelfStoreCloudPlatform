@@ -10,10 +10,33 @@ using System.Transactions;
 namespace Lumos.BLL.Service.App
 {
 
-
-
     public class OrderService : BaseProvider
     {
+
+        public CustomJsonResult Reserve(string pOperater, string pClientId, RopOrderReserve rop)
+        {
+            CustomJsonResult result = new CustomJsonResult();
+
+            Biz.RModels.RopOrderReserve bizRop = new Biz.RModels.RopOrderReserve();
+            bizRop.Source = Enumeration.OrderSource.Machine;
+            bizRop.StoreId = rop.StoreId;
+            bizRop.MerchantId = rop.MerchantId;
+            bizRop.PayTimeout = rop.PayTimeout;
+            bizRop.ReserveMode = Enumeration.ReserveMode.Online;
+            bizRop.ClientId = pClientId;
+
+
+            foreach (var item in rop.Details)
+            {
+                bizRop.Details.Add(new Biz.RModels.RopOrderReserve.Detail() { SkuId = item.SkuId, Quantity = item.Quantity, ReceptionMode = item.ReceptionMode });
+            }
+
+            result = BizFactory.Order.Reserve(pOperater, bizRop);
+
+            return result;
+
+        }
+
         public CustomJsonResult Confrim(string pPperater, string pClientId, RopOrderConfirm rop)
         {
             var result = new CustomJsonResult();
@@ -271,7 +294,6 @@ namespace Lumos.BLL.Service.App
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret.Data);
         }
-
 
         public CustomJsonResult PayResult(string pOperater, RupPayResult rup)
         {

@@ -89,8 +89,10 @@
     <Compile Include="Biz\Redis\RedisMq4GlobalProvider.cs" />
     <Compile Include="Biz\Redis\RedisMq4GlobalModel.cs" />
     <Compile Include="Biz\Redis\RedisMqFactory.cs" />
+    <Compile Include="Biz\RModels\RetOrderReserve.cs" />
     <Compile Include="Biz\RModels\RetPayResultQuery.cs" />
     <Compile Include="Biz\RModels\RetProducSkuAdd.cs" />
+    <Compile Include="Biz\RModels\RopOrderReserve.cs" />
     <Compile Include="Biz\RModels\RopProducSkuAdd.cs" />
     <Compile Include="Biz\RModels\RopProducSkuEdit.cs" />
     <Compile Include="Biz\StoreProvider.cs" />
@@ -137,6 +139,7 @@
     <Compile Include="Service\App\RModels\RopOrderConfirm.cs" />
     <Compile Include="Service\App\RModels\RetGobalDataSet.cs" />
     <Compile Include="Service\App\RModels\RopCartOperate.cs" />
+    <Compile Include="Service\App\RModels\RopOrderReserve.cs" />
     <Compile Include="Service\App\RModels\RopUnifiedOrder.cs" />
     <Compile Include="Service\App\RModels\RopUserDeliveryAddressEdit.cs" />
     <Compile Include="Service\App\RModels\RupCouponMy.cs" />
