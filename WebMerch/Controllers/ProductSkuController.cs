@@ -109,7 +109,7 @@ namespace WebMerch.Controllers
         [HttpPost]
         public CustomJsonResult GetListBySalePrice(SearchCondition condition)
         {
-            var query = (from u in CurrentDb.MachineStock
+            var query = (from u in CurrentDb.StoreSellStock
                          where u.ProductSkuId == condition.Id
 
                          &&

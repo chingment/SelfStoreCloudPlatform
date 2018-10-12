@@ -37,8 +37,8 @@ namespace Lumos.DAL
         public IDbSet<ProductKind> ProductKind { get; set; }
         public IDbSet<ProductKindSku> ProductKindSku { get; set; }
         public DbSet<ProductSku> ProductSku { get; set; }
-        public IDbSet<MachineStock> MachineStock { get; set; }
-        public IDbSet<MachineStockLog> MachineStockLog { get; set; }
+        public IDbSet<StoreSellStock> StoreSellStock { get; set; }
+        public IDbSet<StoreSellStockLog> StoreSellStockLog { get; set; }
         public IDbSet<Store> Store { get; set; }
         public IDbSet<StoreMachine> StoreMachine { get; set; }
         public IDbSet<Warehouse> Warehouse { get; set; }

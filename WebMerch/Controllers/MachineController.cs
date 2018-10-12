@@ -98,11 +98,11 @@ namespace WebMerch.Controllers
                 name = condition.Name.ToSearchString();
             }
 
-            var query = from u in CurrentDb.MachineStock
+            var query = from u in CurrentDb.StoreSellStock
                         where
                         u.MerchantId == this.CurrentUserId &&
                         u.StoreId == condition.StoreId &&
-                        u.MachineId == condition.MachineId &&
+                        u.ChannelId == condition.MachineId &&
                         (name.Length == 0 || u.ProductSkuName.Contains(name))
                         select new { u.Id, u.SlotId, u.ProductSkuName, u.Quantity, u.LockQuantity, u.SellQuantity, u.SalePrice };
 

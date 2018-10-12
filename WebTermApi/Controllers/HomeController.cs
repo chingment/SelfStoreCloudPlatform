@@ -112,8 +112,8 @@ namespace WebTermApi.Controllers
             string merchantId = "d1e8ad564c0f4516b2de95655a4146c7";
             string machineId = "00000000000000000000000000000006";
             string storeId = "516d47426402446ea8daa4ee255b2717";
-            model.Add("获取机器接口配置信息", MachineApiConfig(deviceId));
-            model.Add("获取全局数据", GlobalDataSet(merchantId, machineId, DateTime.Now));
+            //model.Add("获取机器接口配置信息", MachineApiConfig(deviceId));
+            //model.Add("获取全局数据", GlobalDataSet(merchantId, machineId, DateTime.Now));
             model.Add("预定商品", OrderReserve(merchantId, storeId, machineId));
             return View(model);
         }
@@ -156,19 +156,22 @@ namespace WebTermApi.Controllers
 
         }
 
-        public string OrderReserve(string merchantId, string storeId, string machineId)
+        public string OrderReserve(string merchantId, string storeId, string channelId)
         {
 
             RopOrderReserve pms = new RopOrderReserve();
             pms.MerchantId = merchantId;
             pms.StoreId = storeId;
-            pms.MachineId = machineId;
+            pms.Source = Enumeration.OrderSource.Machine;
+            pms.ReserveMode = Enumeration.ReserveMode.OffLine;
+            pms.ChannelType = Enumeration.ChannelType.Machine;
+            pms.ChannelId = channelId;
             pms.PayWay = "";
             pms.PayTimeout = 10;
-            pms.Details.Add(new RopOrderReserve.Detail() { SkuId = "1", Quantity = 1 });
-            pms.Details.Add(new RopOrderReserve.Detail() { SkuId = "2", Quantity = 1 });
-            pms.Details.Add(new RopOrderReserve.Detail() { SkuId = "3", Quantity = 1 });
-            pms.Details.Add(new RopOrderReserve.Detail() { SkuId = "4", Quantity = 1 });
+            pms.Details.Add(new RopOrderReserve.Detail() { SkuId = "1", Quantity = 1, ReceptionMode = Enumeration.ReceptionMode.Machine });
+            pms.Details.Add(new RopOrderReserve.Detail() { SkuId = "1", Quantity = 1, ReceptionMode = Enumeration.ReceptionMode.Express });
+            pms.Details.Add(new RopOrderReserve.Detail() { SkuId = "3", Quantity = 1, ReceptionMode = Enumeration.ReceptionMode.Machine });
+            pms.Details.Add(new RopOrderReserve.Detail() { SkuId = "4", Quantity = 1, ReceptionMode = Enumeration.ReceptionMode.Machine });
 
             string a1 = JsonConvert.SerializeObject(pms);
 

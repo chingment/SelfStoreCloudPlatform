@@ -14,9 +14,7 @@ namespace Lumos.BLL.Service.App
 
         public List<CartSkuModel> Skus { get; set; }
 
-        public int ChannelId { get; set; }
-
-        public Entity.Enumeration.ChannelType ChannelType { get; set; }
+        public Entity.Enumeration.ReceptionMode ReceptionMode { get; set; }
 
 
 

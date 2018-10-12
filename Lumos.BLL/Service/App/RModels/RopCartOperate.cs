@@ -18,8 +18,7 @@ namespace Lumos.BLL.Service.App
             public string SkuId { get; set; }
             public int Quantity { get; set; }
             public bool Selected { get; set; }
-            public int ChannelId { get; set; }
-            public Entity.Enumeration.ChannelType ChannelType { get; set; }
+            public Entity.Enumeration.ReceptionMode ReceptionMode { get; set; }
         }
     }
 }

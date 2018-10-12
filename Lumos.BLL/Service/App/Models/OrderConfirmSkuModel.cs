@@ -12,7 +12,6 @@ namespace Lumos.BLL.Service.App
         public string CartId { get; set; }
         public int Quantity { get; set; }
         public decimal SalePriceByVip { get; set; }
-        public int ChannelId { get; set; }
-        public Enumeration.ChannelType ChannelType { get; set; }
+        public Enumeration.ReceptionMode ReceptionMode { get; set; }
     }
 }

@@ -262,11 +262,22 @@ namespace Lumos.Entity
         {
             [Remark("未知")]
             Unknow = 0,
-            [Remark("快递商品")]
-            Express = 1,
             [Remark("自助商品")]
-            SelfPick = 2
+            Machine = 1,
+            [Remark("快递商品")]
+            Express = 2
         }
+
+        public enum ReserveMode
+        {
+            [Remark("未知")]
+            Unknow = 0,
+            [Remark("线下")]
+            OffLine = 1,
+            [Remark("线上")]
+            Online = 2
+        }
+
 
         public enum CouponStatus
         {

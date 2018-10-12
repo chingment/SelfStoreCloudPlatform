@@ -35,30 +35,28 @@ namespace Lumos.BLL.Service.App
                     cartProcudtSkuModel.Quantity = item.Quantity;
                     cartProcudtSkuModel.SumPrice = item.Quantity * skuModel.SalePrice;
                     cartProcudtSkuModel.Selected = item.Selected;
-                    cartProcudtSkuModel.ChannelId = item.ChannelId;
-                    cartProcudtSkuModel.ChannelType = item.ChannelType;
+                    cartProcudtSkuModel.ReceptionMode = item.ReceptionMode;
                     skus.Add(cartProcudtSkuModel);
                 }
             }
 
 
-            var channels = (from c in carts select new { c.ChannelId, c.ChannelType }).Distinct();
+            var receptionModes = (from c in carts select new { c.ReceptionMode }).Distinct();
 
 
-            foreach (var item in channels)
+            foreach (var item in receptionModes)
             {
 
                 var carBlock = new CartBlock();
-                carBlock.ChannelId = item.ChannelId;
-                carBlock.ChannelType = item.ChannelType;
-                carBlock.Skus = skus.Where(m => m.ChannelId == item.ChannelId && m.ChannelType == item.ChannelType).ToList();
+                carBlock.ReceptionMode = item.ReceptionMode;
+                carBlock.Skus = skus.Where(m => m.ReceptionMode==item.ReceptionMode).ToList();
 
-                switch (item.ChannelType)
+                switch (item.ReceptionMode)
                 {
-                    case Enumeration.ChannelType.SelfPick:
+                    case Enumeration.ReceptionMode.Machine:
                         carBlock.TagName = "自提商品";
                         break;
-                    case Enumeration.ChannelType.Express:
+                    case Enumeration.ReceptionMode.Express:
                         carBlock.TagName = "快递商品";
                         break;
                 }
@@ -89,7 +87,7 @@ namespace Lumos.BLL.Service.App
 
                     foreach (var item in rop.Skus)
                     {
-                        var mod_Cart = CurrentDb.ClientCart.Where(m => m.ClientId == pClientId && m.StoreId == rop.StoreId && m.ProductSkuId == item.SkuId && m.ChannelId == item.ChannelId && m.ChannelType == item.ChannelType && m.Status == Enumeration.CartStatus.WaitSettle).FirstOrDefault();
+                        var mod_Cart = CurrentDb.ClientCart.Where(m => m.ClientId == pClientId && m.StoreId == rop.StoreId && m.ProductSkuId == item.SkuId && m.ReceptionMode == item.ReceptionMode && m.Status == Enumeration.CartStatus.WaitSettle).FirstOrDefault();
 
                         LogUtil.Info("购物车操作：" + rop.Operate);
                         switch (rop.Operate)
@@ -123,8 +121,7 @@ namespace Lumos.BLL.Service.App
                                     mod_Cart.CreateTime = this.DateTime;
                                     mod_Cart.Creator = operater;
                                     mod_Cart.Quantity = 1;
-                                    mod_Cart.ChannelId = item.ChannelId;
-                                    mod_Cart.ChannelType = item.ChannelType;
+                                    mod_Cart.ReceptionMode = item.ReceptionMode;
                                     mod_Cart.Status = Enumeration.CartStatus.WaitSettle;
                                     CurrentDb.ClientCart.Add(mod_Cart);
                                 }

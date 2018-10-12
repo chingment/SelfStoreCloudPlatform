@@ -124,7 +124,7 @@ namespace Lumos.BLL.Service.Term
 
             var productSkuModels = new Dictionary<string, ProductSkuModel>();
 
-            var machineStocks = CurrentDb.MachineStock.Where(m => m.MerchantId == pMerchantId && m.MachineId == pMachineId && m.IsOffSell == false).ToList();
+            var machineStocks = CurrentDb.StoreSellStock.Where(m => m.MerchantId == pMerchantId && m.ChannelId == pMachineId && m.IsOffSell == false).ToList();
 
             var productSkus = CurrentDb.ProductSku.Where(m => m.MerchantId == pMerchantId).ToList();
             var productSkuIds = machineStocks.Select(m => m.ProductSkuId).Distinct();
@@ -176,7 +176,7 @@ namespace Lumos.BLL.Service.Term
         {
             var slotProductSkuModels = new List<SlotProductSkuModel>();
 
-            var machineStocks = CurrentDb.MachineStock.Where(m => m.MerchantId == pMerchantId && m.MachineId == pMachineId && m.IsOffSell == false).ToList();
+            var machineStocks = CurrentDb.StoreSellStock.Where(m => m.MerchantId == pMerchantId && m.ChannelId == pMachineId && m.IsOffSell == false).ToList();
 
             var productSkus = CurrentDb.ProductSku.Where(m => m.MerchantId == pMerchantId).ToList();
 

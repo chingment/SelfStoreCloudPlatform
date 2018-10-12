@@ -28,7 +28,6 @@ namespace Lumos.Entity
         public DateTime? MendTime { get; set; }
         public bool Selected { get; set; }
         public Enumeration.CartStatus Status { get; set; }
-        public int ChannelId { get; set; }
-        public Enumeration.ChannelType ChannelType { get; set; }
+        public Enumeration.ReceptionMode ReceptionMode { get; set; }
     }
 }

@@ -13,7 +13,6 @@ namespace Lumos.BLL.Service.App
         public int Quantity { get; set; }
         public bool Selected { get; set; }
         public decimal SumPrice { get; set; }
-        public int ChannelId { get; set; }
-        public Enumeration.ChannelType ChannelType { get; set; }
+        public Enumeration.ReceptionMode ReceptionMode { get; set; }
     }
 }

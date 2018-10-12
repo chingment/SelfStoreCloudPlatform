@@ -15,6 +15,7 @@ namespace Lumos.BLL.Service.Term
         public string SkuId { get; set; }
         public int ReserveQuantity { get; set; }
         public int SellQuantity { get; set; }
+        public Enumeration.ReceptionMode ReceptionMode { get; set; }
     }
 
     public class OrderService : BaseProvider
@@ -24,6 +25,18 @@ namespace Lumos.BLL.Service.Term
 
             CustomJsonResult result = new CustomJsonResult();
 
+            if (rop.ReserveMode == Enumeration.ReserveMode.Unknow)
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "未知预定方式");
+            }
+
+            if (rop.ReserveMode == Enumeration.ReserveMode.OffLine)
+            {
+                if (string.IsNullOrEmpty(rop.ChannelId))
+                {
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "机器ID不能为空");
+                }
+            }
 
             using (TransactionScope ts = new TransactionScope())
             {
@@ -33,19 +46,14 @@ namespace Lumos.BLL.Service.Term
                 var skuIds = rop.Details.Select(m => m.SkuId).ToArray();
 
                 //检查是否有可买的商品
-                List<MachineStock> skusByStock;
+                List<StoreSellStock> skusByStock;
 
-                //取货方式
-                Enumeration.ReceptionMode receptionMode = Enumeration.ReceptionMode.Unknow;
-
-                //pms.MachineId 为空表示线上商城购买，不为空在线下机器购买
-                if (string.IsNullOrEmpty(rop.MachineId))
+                if (rop.ReserveMode == Enumeration.ReserveMode.OffLine)
                 {
-                    skusByStock = CurrentDb.MachineStock.Where(m => m.MerchantId == rop.MerchantId && skuIds.Contains(m.ProductSkuId)).ToList();
+                    skusByStock = CurrentDb.StoreSellStock.Where(m => m.StoreId == rop.StoreId && m.MerchantId == rop.MerchantId && m.ChannelType == Enumeration.ChannelType.Machine && m.ChannelId == rop.ChannelId && skuIds.Contains(m.ProductSkuId)).ToList();
                 }
-                else
-                {
-                    skusByStock = CurrentDb.MachineStock.Where(m => m.MerchantId == rop.MerchantId && m.MachineId == rop.MachineId && skuIds.Contains(m.ProductSkuId)).ToList();
+                else {
+                    skusByStock = CurrentDb.StoreSellStock.Where(m => m.StoreId == rop.StoreId && m.MerchantId == rop.MerchantId && skuIds.Contains(m.ProductSkuId)).ToList();
                 }
 
                 if (skusByStock.Count == 0)
@@ -89,13 +97,31 @@ namespace Lumos.BLL.Service.Term
                 var skusByUnderStock = new List<SkuByUnderStock>();
                 foreach (var item in rop.Details)
                 {
-                    var sellQuantity = skusByStock.Where(m => m.ProductSkuId == item.SkuId).Sum(m => m.SellQuantity);
+                    var sellQuantity = 0;
+
+                    if (rop.ReserveMode == Enumeration.ReserveMode.OffLine)
+                    {
+                        sellQuantity = skusByStock.Where(m => m.ProductSkuId == item.SkuId && m.ChannelType == Enumeration.ChannelType.Machine && m.ChannelId == rop.ChannelId).Sum(m => m.SellQuantity);
+                    }
+                    else
+                    {
+                        if (item.ReceptionMode == Enumeration.ReceptionMode.Machine)
+                        {
+                            sellQuantity = skusByStock.Where(m => m.ProductSkuId == item.SkuId && m.ChannelType == Enumeration.ChannelType.Machine).Sum(m => m.SellQuantity);
+                        }
+                        else if (item.ReceptionMode == Enumeration.ReceptionMode.Express)
+                        {
+                            sellQuantity = skusByStock.Where(m => m.ProductSkuId == item.SkuId && m.ChannelType == Enumeration.ChannelType.Express).Sum(m => m.SellQuantity);
+                        }
+                    }
+
                     if (item.Quantity > sellQuantity)
                     {
                         var skuByUnderStock = new SkuByUnderStock();
                         skuByUnderStock.SkuId = item.SkuId;
                         skuByUnderStock.ReserveQuantity = item.Quantity;
                         skuByUnderStock.SellQuantity = sellQuantity;
+                        skuByUnderStock.ReceptionMode = item.ReceptionMode;
                         skusByUnderStock.Add(skuByUnderStock);
                     }
                 }
@@ -107,7 +133,7 @@ namespace Lumos.BLL.Service.Term
                     {
                         var skuModel = BizFactory.ProductSku.GetModel(item.SkuId);
 
-                        tips += skuModel.Name + "的最大库存为" + item.SellQuantity + ";";
+                        tips += "[" + item.ReceptionMode.GetCnName() + "]" + skuModel.Name + "的最大库存为" + item.SellQuantity + ";";
                     }
 
                     if (!string.IsNullOrEmpty(tips))
@@ -151,21 +177,21 @@ namespace Lumos.BLL.Service.Term
                     //orderDetails.ClientId = rop.UserId;
                     orderDetails.MerchantId = rop.MerchantId;
                     orderDetails.StoreId = rop.StoreId;
-                    orderDetails.MachineId = detail.MachineId;
-                    orderDetails.ChannelId = detail.MachineId;
+                    orderDetails.ChannelType = detail.ChannelType;
+                    orderDetails.ChannelId = detail.ChannelId;
                     orderDetails.OrderId = order.Id;
                     orderDetails.OrderSn = order.Sn;
                     orderDetails.OriginalAmount = detail.OriginalAmount;
                     orderDetails.DiscountAmount = detail.DiscountAmount;
                     orderDetails.ChargeAmount = detail.ChargeAmount;
                     orderDetails.Quantity = detail.Quantity;
-                    orderDetails.ReceptionMode = receptionMode;
+                    orderDetails.ReceptionMode = detail.ReceptionMode;
                     orderDetails.SubmitTime = this.DateTime;
                     orderDetails.Creator = pOperater;
                     orderDetails.CreateTime = this.DateTime;
 
                     //detail.MachineId为空 则为快递商品
-                    if (detail.MachineId == GuidUtil.Empty())
+                    if (detail.ChannelId == GuidUtil.Empty())
                     {
                         orderDetails.Receiver = rop.Receiver;
                         orderDetails.ReceiverPhone = rop.ReceiverPhone;
@@ -178,8 +204,8 @@ namespace Lumos.BLL.Service.Term
                         orderDetails.Receiver = null;
                         orderDetails.ReceiverPhone = null;
                         orderDetails.ReceptionAddress = store.Address;
-                        orderDetails.ChannelType = Enumeration.ChannelType.SelfPick;
-                        orderDetails.ChannelId = detail.MachineId;
+                        orderDetails.ChannelType = Enumeration.ChannelType.Machine;
+                        orderDetails.ChannelId = detail.ChannelId;
                     }
 
                     CurrentDb.OrderDetails.Add(orderDetails);
@@ -193,7 +219,9 @@ namespace Lumos.BLL.Service.Term
                         // orderDetailsChild.ClientId = rop.UserId;
                         orderDetailsChild.MerchantId = rop.MerchantId;
                         orderDetailsChild.StoreId = rop.StoreId;
-                        orderDetailsChild.MachineId = detailsChild.MachineId;
+                        orderDetailsChild.ChannelType = detailsChild.ChannelType;
+                        orderDetailsChild.ChannelId = detailsChild.ChannelId;
+                        orderDetailsChild.ReceptionMode = detail.ReceptionMode;
                         orderDetailsChild.OrderId = order.Id;
                         orderDetailsChild.OrderSn = order.Sn;
                         orderDetailsChild.OrderDetailsId = orderDetails.Id;
@@ -208,6 +236,7 @@ namespace Lumos.BLL.Service.Term
                         orderDetailsChild.DiscountAmount = detailsChild.DiscountAmount;
                         orderDetailsChild.ChargeAmount = detailsChild.ChargeAmount;
                         orderDetailsChild.SubmitTime = this.DateTime;
+                        orderDetailsChild.Status = Enumeration.OrderStatus.Submitted;
                         orderDetailsChild.Creator = pOperater;
                         orderDetailsChild.CreateTime = this.DateTime;
                         CurrentDb.OrderDetailsChild.Add(orderDetailsChild);
@@ -221,7 +250,9 @@ namespace Lumos.BLL.Service.Term
                             // orderDetailsChildSon.ClientId = rop.UserId;
                             orderDetailsChildSon.MerchantId = rop.MerchantId;
                             orderDetailsChildSon.StoreId = rop.StoreId;
-                            orderDetailsChildSon.MachineId = detailsChildSon.MachineId;
+                            orderDetailsChildSon.ChannelType = detailsChildSon.ChannelType;
+                            orderDetailsChildSon.ChannelId = detailsChildSon.ChannelId;
+                            orderDetailsChildSon.ReceptionMode = detail.ReceptionMode;
                             orderDetailsChildSon.OrderId = order.Id;
                             orderDetailsChildSon.OrderSn = order.Sn;
                             orderDetailsChildSon.OrderDetailsId = orderDetails.Id;
@@ -249,7 +280,7 @@ namespace Lumos.BLL.Service.Term
 
                         foreach (var slotStock in detailsChild.SlotStock)
                         {
-                            var machineStock = skusByStock.Where(m => m.ProductSkuId == slotStock.SkuId && m.SlotId == slotStock.SlotId && m.MachineId == slotStock.MachineId).FirstOrDefault();
+                            var machineStock = skusByStock.Where(m => m.ProductSkuId == slotStock.SkuId && m.SlotId == slotStock.SlotId && m.ChannelId == slotStock.ChannelId).FirstOrDefault();
 
                             machineStock.LockQuantity += slotStock.Quantity;
                             machineStock.SellQuantity -= slotStock.Quantity;
@@ -257,22 +288,23 @@ namespace Lumos.BLL.Service.Term
                             machineStock.MendTime = this.DateTime;
 
 
-                            var machineStockLog = new MachineStockLog();
-                            machineStockLog.Id = GuidUtil.New();
-                            machineStockLog.MerchantId = rop.MerchantId;
-                            machineStockLog.StoreId = rop.StoreId;
-                            machineStockLog.MachineId = slotStock.MachineId;
-                            machineStockLog.SlotId = slotStock.SlotId;
-                            machineStockLog.ProductSkuId = slotStock.SkuId;
-                            machineStockLog.Quantity = machineStock.Quantity;
-                            machineStockLog.LockQuantity = machineStock.LockQuantity;
-                            machineStockLog.SellQuantity = machineStock.SellQuantity;
-                            machineStockLog.ChangeType = Enumeration.MachineStockLogChangeTpye.Lock;
-                            machineStockLog.ChangeQuantity = slotStock.Quantity;
-                            machineStockLog.Creator = pOperater;
-                            machineStockLog.CreateTime = this.DateTime;
-                            machineStockLog.RemarkByDev = string.Format("预定锁定库存：{0}", slotStock.Quantity);
-                            CurrentDb.MachineStockLog.Add(machineStockLog);
+                            var storeSellStockLog = new StoreSellStockLog();
+                            storeSellStockLog.Id = GuidUtil.New();
+                            storeSellStockLog.MerchantId = rop.MerchantId;
+                            storeSellStockLog.StoreId = rop.StoreId;
+                            storeSellStockLog.ChannelType = slotStock.ChannelType;
+                            storeSellStockLog.ChannelId = slotStock.ChannelId;
+                            storeSellStockLog.SlotId = slotStock.SlotId;
+                            storeSellStockLog.ProductSkuId = slotStock.SkuId;
+                            storeSellStockLog.Quantity = machineStock.Quantity;
+                            storeSellStockLog.LockQuantity = machineStock.LockQuantity;
+                            storeSellStockLog.SellQuantity = machineStock.SellQuantity;
+                            storeSellStockLog.ChangeType = Enumeration.MachineStockLogChangeTpye.Lock;
+                            storeSellStockLog.ChangeQuantity = slotStock.Quantity;
+                            storeSellStockLog.Creator = pOperater;
+                            storeSellStockLog.CreateTime = this.DateTime;
+                            storeSellStockLog.RemarkByDev = string.Format("预定锁定库存：{0}", slotStock.Quantity);
+                            CurrentDb.StoreSellStockLog.Add(storeSellStockLog);
                         }
                     }
                 }
@@ -339,41 +371,49 @@ namespace Lumos.BLL.Service.Term
         }
 
 
-        private List<OrderReserveDetail> GetReserveDetail(List<RopOrderReserve.Detail> reserveDetails, List<MachineStock> machineStocks)
+        private List<OrderReserveDetail> GetReserveDetail(List<RopOrderReserve.Detail> reserveDetails, List<StoreSellStock> storeSellStocks)
         {
             List<OrderReserveDetail> details = new List<OrderReserveDetail>();
 
             List<OrderReserveDetail.DetailChildSon> detailChildSons = new List<OrderReserveDetail.DetailChildSon>();
 
-            foreach (var reserveDetail in reserveDetails)
+            var receptionModes = reserveDetails.Select(m => m.ReceptionMode).Distinct().ToArray();
+
+            foreach (var receptionMode in receptionModes)
             {
-                var l_machineStocks = machineStocks.Where(m => m.ProductSkuId == reserveDetail.SkuId).ToList();
+                var l_reserveDetails = reserveDetails.Where(m => m.ReceptionMode == receptionMode).ToList();
 
-                //bool isFlag = false;
-                foreach (var item in l_machineStocks)
+                foreach (var reserveDetail in l_reserveDetails)
                 {
-                    for (var i = 0; i < item.SellQuantity; i++)
+                    Entity.Enumeration.ChannelType channelType = receptionMode == Enumeration.ReceptionMode.Express ? Enumeration.ChannelType.Express : Enumeration.ChannelType.Machine;
+                    var l_storeSellStocks = storeSellStocks.Where(m => m.ProductSkuId == reserveDetail.SkuId && m.ChannelType == channelType).ToList();
+
+                    foreach (var item in l_storeSellStocks)
                     {
-                        int reservedQuantity = detailChildSons.Where(m => m.SkuId == reserveDetail.SkuId).Sum(m => m.Quantity);//已订的数量
-                        int needReserveQuantity = reserveDetail.Quantity;//需要订的数量
-                        if (reservedQuantity != needReserveQuantity)
+                        for (var i = 0; i < item.SellQuantity; i++)
                         {
+                            int reservedQuantity = detailChildSons.Where(m => m.SkuId == reserveDetail.SkuId && m.ChannelType == channelType).Sum(m => m.Quantity);//已订的数量
+                            int needReserveQuantity = reserveDetail.Quantity;//需要订的数量
+                            if (reservedQuantity != needReserveQuantity)
+                            {
 
-                            var product = BizFactory.ProductSku.GetModel(item.ProductSkuId);
+                                var product = BizFactory.ProductSku.GetModel(item.ProductSkuId);
 
-                            var detailChildSon = new OrderReserveDetail.DetailChildSon();
-                            detailChildSon.Id = GuidUtil.New();
-                            detailChildSon.MachineId = item.MachineId;
-                            detailChildSon.SkuId = item.ProductSkuId;
-                            detailChildSon.SkuName = product.Name;
-                            detailChildSon.SkuImgUrl = product.ImgUrl;
-                            detailChildSon.SlotId = item.SlotId;
-                            detailChildSon.Quantity = 1;
-                            detailChildSon.SalePrice = item.SalePrice;
-                            detailChildSon.SalePriceByVip = item.SalePriceByVip;
-                            detailChildSon.OriginalAmount = detailChildSon.Quantity * item.SalePrice;
-
-                            detailChildSons.Add(detailChildSon);
+                                var detailChildSon = new OrderReserveDetail.DetailChildSon();
+                                detailChildSon.Id = GuidUtil.New();
+                                detailChildSon.ChannelId = item.ChannelId;
+                                detailChildSon.ChannelType = item.ChannelType;
+                                detailChildSon.ReceptionMode = receptionMode;
+                                detailChildSon.SkuId = item.ProductSkuId;
+                                detailChildSon.SkuName = product.Name;
+                                detailChildSon.SkuImgUrl = product.ImgUrl;
+                                detailChildSon.SlotId = item.SlotId;
+                                detailChildSon.Quantity = 1;
+                                detailChildSon.SalePrice = item.SalePrice;
+                                detailChildSon.SalePriceByVip = item.SalePriceByVip;
+                                detailChildSon.OriginalAmount = detailChildSon.Quantity * item.SalePrice;
+                                detailChildSons.Add(detailChildSon);
+                            }
                         }
                     }
                 }
@@ -401,7 +441,9 @@ namespace Lumos.BLL.Service.Term
             var detailGroups = (from c in detailChildSons
                                 select new
                                 {
-                                    c.MachineId
+                                    c.ReceptionMode,
+                                    c.ChannelType,
+                                    c.ChannelId
                                 }).Distinct().ToList();
 
 
@@ -409,19 +451,21 @@ namespace Lumos.BLL.Service.Term
             foreach (var detailGroup in detailGroups)
             {
                 var detail = new OrderReserveDetail();
-
-                detail.MachineId = detailGroup.MachineId;
-                detail.Quantity = detailChildSons.Where(m => m.MachineId == detailGroup.MachineId).Sum(m => m.Quantity);
-                detail.OriginalAmount = detailChildSons.Where(m => m.MachineId == detailGroup.MachineId).Sum(m => m.OriginalAmount);
-                detail.DiscountAmount = detailChildSons.Where(m => m.MachineId == detailGroup.MachineId).Sum(m => m.DiscountAmount);
-                detail.ChargeAmount = detailChildSons.Where(m => m.MachineId == detailGroup.MachineId).Sum(m => m.ChargeAmount);
+                detail.ReceptionMode = detailGroup.ReceptionMode;
+                detail.ChannelType = detailGroup.ChannelType;
+                detail.ChannelId = detailGroup.ChannelId;
+                detail.Quantity = detailChildSons.Where(m => m.ChannelId == detailGroup.ChannelId).Sum(m => m.Quantity);
+                detail.OriginalAmount = detailChildSons.Where(m => m.ChannelId == detailGroup.ChannelId).Sum(m => m.OriginalAmount);
+                detail.DiscountAmount = detailChildSons.Where(m => m.ChannelId == detailGroup.ChannelId).Sum(m => m.DiscountAmount);
+                detail.ChargeAmount = detailChildSons.Where(m => m.ChannelId == detailGroup.ChannelId).Sum(m => m.ChargeAmount);
 
 
                 var detailChildGroups = (from c in detailChildSons
-                                         where c.MachineId == detailGroup.MachineId
+                                         where c.ChannelId == detailGroup.ChannelId
                                          select new
                                          {
-                                             c.MachineId,
+                                             c.ChannelType,
+                                             c.ChannelId,
                                              c.SkuId
                                          }).Distinct().ToList();
 
@@ -429,25 +473,27 @@ namespace Lumos.BLL.Service.Term
                 {
 
                     var detailChild = new OrderReserveDetail.DetailChild();
-
-                    detailChild.MachineId = detailChildGroup.MachineId;
+                    detailChild.ChannelType = detailChildGroup.ChannelType;
+                    detailChild.ChannelId = detailChildGroup.ChannelId;
                     detailChild.SkuId = detailChildGroup.SkuId;
-                    detailChild.SkuName = detailChildSons.Where(m => m.MachineId == detailChildGroup.MachineId && m.SkuId == detailChildGroup.SkuId).First().SkuName;
-                    detailChild.SkuImgUrl = detailChildSons.Where(m => m.MachineId == detailChildGroup.MachineId && m.SkuId == detailChildGroup.SkuId).First().SkuImgUrl;
-                    detailChild.SalePrice = detailChildSons.Where(m => m.MachineId == detailChildGroup.MachineId && m.SkuId == detailChildGroup.SkuId).First().SalePrice;
-                    detailChild.SalePriceByVip = detailChildSons.Where(m => m.MachineId == detailChildGroup.MachineId && m.SkuId == detailChildGroup.SkuId).First().SalePriceByVip;
-                    detailChild.Quantity = detailChildSons.Where(m => m.MachineId == detailChildGroup.MachineId && m.SkuId == detailChildGroup.SkuId).Sum(m => m.Quantity);
-                    detailChild.OriginalAmount = detailChildSons.Where(m => m.MachineId == detailChildGroup.MachineId && m.SkuId == detailChildGroup.SkuId).Sum(m => m.OriginalAmount);
-                    detailChild.DiscountAmount = detailChildSons.Where(m => m.MachineId == detailChildGroup.MachineId && m.SkuId == detailChildGroup.SkuId).Sum(m => m.DiscountAmount);
-                    detailChild.ChargeAmount = detailChildSons.Where(m => m.MachineId == detailChildGroup.MachineId && m.SkuId == detailChildGroup.SkuId).Sum(m => m.ChargeAmount);
+                    detailChild.SkuName = detailChildSons.Where(m => m.ChannelId == detailChildGroup.ChannelId && m.SkuId == detailChildGroup.SkuId).First().SkuName;
+                    detailChild.SkuImgUrl = detailChildSons.Where(m => m.ChannelId == detailChildGroup.ChannelId && m.SkuId == detailChildGroup.SkuId).First().SkuImgUrl;
+                    detailChild.SalePrice = detailChildSons.Where(m => m.ChannelId == detailChildGroup.ChannelId && m.SkuId == detailChildGroup.SkuId).First().SalePrice;
+                    detailChild.SalePriceByVip = detailChildSons.Where(m => m.ChannelId == detailChildGroup.ChannelId && m.SkuId == detailChildGroup.SkuId).First().SalePriceByVip;
+                    detailChild.Quantity = detailChildSons.Where(m => m.ChannelId == detailChildGroup.ChannelId && m.SkuId == detailChildGroup.SkuId).Sum(m => m.Quantity);
+                    detailChild.OriginalAmount = detailChildSons.Where(m => m.ChannelId == detailChildGroup.ChannelId && m.SkuId == detailChildGroup.SkuId).Sum(m => m.OriginalAmount);
+                    detailChild.DiscountAmount = detailChildSons.Where(m => m.ChannelId == detailChildGroup.ChannelId && m.SkuId == detailChildGroup.SkuId).Sum(m => m.DiscountAmount);
+                    detailChild.ChargeAmount = detailChildSons.Where(m => m.ChannelId == detailChildGroup.ChannelId && m.SkuId == detailChildGroup.SkuId).Sum(m => m.ChargeAmount);
 
                     var detailChildSonGroups = (from c in detailChildSons
-                                                where c.MachineId == detailChildGroup.MachineId
+                                                where c.ChannelId == detailChildGroup.ChannelId
                                              && c.SkuId == detailChildGroup.SkuId
                                                 select new
                                                 {
                                                     c.Id,
-                                                    c.MachineId,
+                                                    c.ReceptionMode,
+                                                    c.ChannelType,
+                                                    c.ChannelId,
                                                     c.SkuId,
                                                     c.SlotId,
                                                     c.Quantity,
@@ -465,7 +511,9 @@ namespace Lumos.BLL.Service.Term
                     {
                         var detailChildSon = new OrderReserveDetail.DetailChildSon();
                         detailChildSon.Id = detailChildSonGroup.Id;
-                        detailChildSon.MachineId = detailChildSonGroup.MachineId;
+                        detailChildSon.ChannelType = detailChildSonGroup.ChannelType;
+                        detailChildSon.ChannelId = detailChildSonGroup.ChannelId;
+                        detailChildSon.ReceptionMode = detailChildSonGroup.ReceptionMode;
                         detailChildSon.SkuId = detailChildSonGroup.SkuId;
                         detailChildSon.SlotId = detailChildSonGroup.SlotId;
                         detailChildSon.Quantity = detailChildSonGroup.Quantity;
@@ -482,11 +530,12 @@ namespace Lumos.BLL.Service.Term
 
 
                     var slotStockGroups = (from c in detailChildSons
-                                           where c.MachineId == detailChildGroup.MachineId
+                                           where c.ChannelId == detailChildGroup.ChannelId
                                         && c.SkuId == detailChildGroup.SkuId
                                            select new
                                            {
-                                               c.MachineId,
+                                               c.ChannelType,
+                                               c.ChannelId,
                                                c.SkuId,
                                                c.SlotId
                                            }).Distinct().ToList();
@@ -495,10 +544,11 @@ namespace Lumos.BLL.Service.Term
                     foreach (var slotStockGroup in slotStockGroups)
                     {
                         var slotStock = new OrderReserveDetail.SlotStock();
-                        slotStock.MachineId = slotStockGroup.MachineId;
+                        slotStock.ChannelType = slotStockGroup.ChannelType;
+                        slotStock.ChannelId = slotStockGroup.ChannelId;
                         slotStock.SkuId = slotStockGroup.SkuId;
                         slotStock.SlotId = slotStockGroup.SlotId;
-                        slotStock.Quantity = detailChildSons.Where(m => m.MachineId == slotStockGroup.MachineId && m.SkuId == slotStockGroup.SkuId && m.SlotId == slotStockGroup.SlotId).Sum(m => m.Quantity);
+                        slotStock.Quantity = detailChildSons.Where(m => m.ChannelType == slotStockGroup.ChannelType && m.ChannelId == slotStockGroup.ChannelId && m.SkuId == slotStockGroup.SkuId && m.SlotId == slotStockGroup.SlotId).Sum(m => m.Quantity);
                         detailChild.SlotStock.Add(slotStock);
                     }
 

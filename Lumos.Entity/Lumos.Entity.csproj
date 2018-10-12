@@ -61,8 +61,8 @@
     <Compile Include="Biz\BizProcessesAudit.cs" />
     <Compile Include="Biz\BizProcessesAuditDetails.cs" />
     <Compile Include="Biz\Machine.cs" />
-    <Compile Include="Biz\MachineStock.cs" />
-    <Compile Include="Biz\MachineStockLog.cs" />
+    <Compile Include="Biz\StoreSellStock.cs" />
+    <Compile Include="Biz\StoreSellStockLog.cs" />
     <Compile Include="Biz\MerchantConfig.cs" />
     <Compile Include="Biz\MerchantMachine.cs" />
     <Compile Include="Biz\Order.cs" />

@@ -210,29 +210,30 @@ namespace Lumos.BLL
                         item.Mender = GuidUtil.Empty();
                         item.MendTime = this.DateTime;
 
-                        var machineStock = CurrentDb.MachineStock.Where(m => m.MerchantId == order.MerchantId && m.StoreId == order.StoreId && m.ProductSkuId == item.ProductSkuId && m.SlotId == item.SlotId && m.MachineId == item.MachineId).FirstOrDefault();
+                        var machineStock = CurrentDb.StoreSellStock.Where(m => m.MerchantId == order.MerchantId && m.StoreId == order.StoreId && m.ProductSkuId == item.ProductSkuId && m.SlotId == item.SlotId && m.ChannelId == item.ChannelId && m.ChannelType == item.ChannelType).FirstOrDefault();
 
                         machineStock.LockQuantity -= item.Quantity;
                         machineStock.SellQuantity += item.Quantity;
                         machineStock.Mender = pOperater;
                         machineStock.MendTime = this.DateTime;
 
-                        var machineStockLog = new MachineStockLog();
-                        machineStockLog.Id = GuidUtil.New();
-                        machineStockLog.MerchantId = item.MerchantId;
-                        machineStockLog.StoreId = item.StoreId;
-                        machineStockLog.MachineId = item.MachineId;
-                        machineStockLog.SlotId = item.SlotId;
-                        machineStockLog.ProductSkuId = item.ProductSkuId;
-                        machineStockLog.Quantity = machineStock.Quantity;
-                        machineStockLog.LockQuantity = machineStock.LockQuantity;
-                        machineStockLog.SellQuantity = machineStock.SellQuantity;
-                        machineStockLog.ChangeType = Enumeration.MachineStockLogChangeTpye.Lock;
-                        machineStockLog.ChangeQuantity = item.Quantity;
-                        machineStockLog.Creator = pOperater;
-                        machineStockLog.CreateTime = this.DateTime;
-                        machineStockLog.RemarkByDev = string.Format("取消订单，恢复库存：{0}", item.Quantity);
-                        CurrentDb.MachineStockLog.Add(machineStockLog);
+                        var storeSellStockLog = new StoreSellStockLog();
+                        storeSellStockLog.Id = GuidUtil.New();
+                        storeSellStockLog.MerchantId = item.MerchantId;
+                        storeSellStockLog.StoreId = item.StoreId;
+                        storeSellStockLog.ChannelType = item.ChannelType;
+                        storeSellStockLog.ChannelId = item.ChannelId;
+                        storeSellStockLog.SlotId = item.SlotId;
+                        storeSellStockLog.ProductSkuId = item.ProductSkuId;
+                        storeSellStockLog.Quantity = machineStock.Quantity;
+                        storeSellStockLog.LockQuantity = machineStock.LockQuantity;
+                        storeSellStockLog.SellQuantity = machineStock.SellQuantity;
+                        storeSellStockLog.ChangeType = Enumeration.MachineStockLogChangeTpye.Lock;
+                        storeSellStockLog.ChangeQuantity = item.Quantity;
+                        storeSellStockLog.Creator = pOperater;
+                        storeSellStockLog.CreateTime = this.DateTime;
+                        storeSellStockLog.RemarkByDev = string.Format("取消订单，恢复库存：{0}", item.Quantity);
+                        CurrentDb.StoreSellStockLog.Add(storeSellStockLog);
                     }
 
                     CurrentDb.SaveChanges();

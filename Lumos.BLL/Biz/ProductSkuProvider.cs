@@ -230,7 +230,7 @@ namespace Lumos.BLL
 
             using (TransactionScope ts = new TransactionScope())
             {
-                var lMachineStocks = CurrentDb.MachineStock.Where(m => m.StoreId == pStoreId && m.ProductSkuId == pProductSkuId).ToList();
+                var lMachineStocks = CurrentDb.StoreSellStock.Where(m => m.StoreId == pStoreId && m.ProductSkuId == pProductSkuId).ToList();
 
                 foreach (var machineStock in lMachineStocks)
                 {

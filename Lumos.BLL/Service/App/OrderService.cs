@@ -17,35 +17,8 @@ namespace Lumos.BLL.Service.App
         public CustomJsonResult Confrim(string pPperater, string pClientId, RopOrderConfirm rop)
         {
             var result = new CustomJsonResult();
-
             var ret = new RetOrderConfirm();
-
-            //var b1 = new OrderBlockModel();
-            //b1.DeliveryAddress = new UserDeliveryAddressModel();
-            //b1.DeliveryAddress.Consignee = "店铺名称";
-            //b1.DeliveryAddress.PhoneNumber = "暨南大学(金陵广场)7032";
-            //b1.DeliveryAddress.Address = "广东省广州市天河区苏州路";
-            //b1.DeliveryAddress.IsDefault = false;
-            //b1.DeliveryAddress.CanSelectElse = false;
-            //ret.Block.Add(b1);
-
-
-            //var b2 = new OrderBlockModel();
-            //b2.DeliveryAddress = new UserDeliveryAddressModel();
-            //b2.DeliveryAddress.Consignee = "店铺名称";
-            //b2.DeliveryAddress.PhoneNumber = "保利·中汇广场";
-            //b2.DeliveryAddress.Address = "广东省广州市黄埔区九龙镇九龙大道";
-            //b2.DeliveryAddress.IsDefault = true;
-            //b2.DeliveryAddress.CanSelectElse = true;
-            //ret.Block.Add(b2);
-
-            //return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
-
-
-
-
             var subtotalItem = new List<OrderConfirmSubtotalItemModel>();
-
             var skus = new List<OrderConfirmSkuModel>();
 
             decimal skuAmountByActual = 0;//实际总价
@@ -65,7 +38,7 @@ namespace Lumos.BLL.Service.App
                     {
                         var skuModel = BizFactory.ProductSku.GetModel(item.Id);
 
-                        var machineStock = CurrentDb.MachineStock.Where(m => m.StoreId == rop.StoreId && m.ProductSkuId == item.Id).FirstOrDefault();
+                        var machineStock = CurrentDb.StoreSellStock.Where(m => m.StoreId == rop.StoreId && m.ProductSkuId == item.Id).FirstOrDefault();
 
                         if (skuModel != null)
                         {
@@ -73,11 +46,11 @@ namespace Lumos.BLL.Service.App
                             item.Name = skuModel.Name;
                             item.SalePrice = machineStock.SalePrice;
                             item.SalePriceByVip = machineStock.SalePriceByVip;
-                            item.ChannelType = Enumeration.ChannelType.SelfPick;
-                            item.ChannelId = 1;
+
                             skuAmountByOriginal += (machineStock.SalePrice * item.Quantity);
                             skuAmountByMemebr += (machineStock.SalePrice * item.Quantity);
                             skuAmountByVip += (machineStock.SalePriceByVip * item.Quantity);
+
                             skus.Add(item);
                         }
                     }
@@ -113,9 +86,7 @@ namespace Lumos.BLL.Service.App
                     orderConfirmSkuModel.Quantity = item.Quantity;
                     orderConfirmSkuModel.SalePrice = item.SalePrice;
                     orderConfirmSkuModel.SalePriceByVip = item.SalePriceByVip;
-                    orderConfirmSkuModel.ChannelType = Enumeration.ChannelType.SelfPick;
-                    orderConfirmSkuModel.ChannelId = 1;
-
+                    orderConfirmSkuModel.ReceptionMode = item.ReceptionMode;
                     skuAmountByOriginal += (item.SalePrice * item.Quantity);
                     skuAmountByMemebr += (item.SalePrice * item.Quantity);
                     skuAmountByVip += (item.SalePriceByVip * item.Quantity);
@@ -149,7 +120,7 @@ namespace Lumos.BLL.Service.App
 
             var orderBlock = new List<OrderBlockModel>();
 
-            var skus_SelfExpress = skus.Where(m => m.ChannelType == Enumeration.ChannelType.Express).ToList();
+            var skus_SelfExpress = skus.Where(m => m.ReceptionMode == Enumeration.ReceptionMode.Express).ToList();
             if (skus_SelfExpress.Count > 0)
             {
                 var orderBlock_Express = new OrderBlockModel();
@@ -170,7 +141,7 @@ namespace Lumos.BLL.Service.App
                 orderBlock.Add(orderBlock_Express);
             }
 
-            var skus_SelfPick = skus.Where(m => m.ChannelType == Enumeration.ChannelType.SelfPick).ToList();
+            var skus_SelfPick = skus.Where(m => m.ReceptionMode == Enumeration.ReceptionMode.Machine).ToList();
             if (skus_SelfPick.Count > 0)
             {
                 var orderBlock_SelfPick = new OrderBlockModel();

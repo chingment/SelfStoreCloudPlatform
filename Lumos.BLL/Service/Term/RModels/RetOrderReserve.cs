@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lumos.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace Lumos.BLL.Service.Term
     {
         public RetOrderReserve()
         {
-            
+
         }
 
         public string OrderSn { get; set; }
@@ -26,7 +27,11 @@ namespace Lumos.BLL.Service.Term
         {
             this.Details = new List<DetailChild>();
         }
-        public string MachineId { get; set; }
+        public Enumeration.ChannelType ChannelType { get; set; }
+        public string ChannelId { get; set; }
+
+        public Enumeration.ReceptionMode ReceptionMode { get; set; }
+
         public int Quantity { get; set; }
         public decimal OriginalAmount { get; set; }
         public decimal DiscountAmount { get; set; }
@@ -41,7 +46,8 @@ namespace Lumos.BLL.Service.Term
                 this.Details = new List<DetailChildSon>();
                 this.SlotStock = new List<SlotStock>();
             }
-            public string MachineId { get; set; }
+            public Enumeration.ChannelType ChannelType { get; set; }
+            public string ChannelId { get; set; }
             public string SkuId { get; set; }
             public string SkuName { get; set; }
             public string SkuImgUrl { get; set; }
@@ -60,7 +66,9 @@ namespace Lumos.BLL.Service.Term
         public class DetailChildSon
         {
             public string Id { get; set; }
-            public string MachineId { get; set; }
+            public Enumeration.ChannelType ChannelType { get; set; }
+            public string ChannelId { get; set; }
+            public Enumeration.ReceptionMode ReceptionMode { get; set; }
             public string SlotId { get; set; }
             public string SkuId { get; set; }
             public int Quantity { get; set; }
@@ -75,7 +83,8 @@ namespace Lumos.BLL.Service.Term
 
         public class SlotStock
         {
-            public string MachineId { get; set; }
+            public Enumeration.ChannelType ChannelType { get; set; }
+            public string ChannelId { get; set; }
             public string SlotId { get; set; }
             public string SkuId { get; set; }
             public int Quantity { get; set; }
