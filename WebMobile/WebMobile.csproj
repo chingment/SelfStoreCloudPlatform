@@ -166,6 +166,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MachineController.cs" />
+    <Compile Include="Controllers\OperateController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -233,7 +234,7 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Order\Confirm.cshtml" />
     <Content Include="Views\Machine\AuthorizeLogin.cshtml" />
-    <Content Include="Views\Order\PayResult.cshtml" />
+    <Content Include="Views\Operate\Result.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

@@ -177,7 +177,7 @@
                     $("#tmpl_block").tmpl(d.data).appendTo('#ord-block');
                 }
                 else {
-                    window.location.href = "/Order/PayResult?orderId=" + orderId
+                    window.location.href = "/Operate/Result?id=" + orderId + "&type=1";
                 }
             }
         });
@@ -207,7 +207,7 @@
                                 signType: params.signType,
                                 paySign: params.paySign,
                                 success: function (res) {
-                                    window.location.href = "/Order/PayResult?orderId=" + orderId
+                                    window.location.href = "/Operate/Result?id=" + orderId + "&type=1";
                                 },
                                 cancel: function (res) {
                                     $.lumos.tips('您已取消支付');

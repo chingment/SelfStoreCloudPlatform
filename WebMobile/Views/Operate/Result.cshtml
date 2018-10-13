@@ -78,15 +78,15 @@
     <script type="text/javascript">
 
 
-        var orderId = "@Request.QueryString["orderId"]";
-
+        var id = "@Request.QueryString["id"]";
+        var type = "@Request.QueryString["type"]";
         $(document).ready(function () {
 
             $('#rC_PB').redCountdown({ preset: "flat-colors-fat", end: $.now() + 120, labels: false });
 
             var myInterval = setInterval(function () {
                 $.lumos.get({
-                    url: "/Order/GetPayResult?orderId=" + orderId,
+                    url: "/Operate/PayResult?id=" + id + "&type=" + type,
                     isShowLoading: false,
                     success: function (d) {
                         if (d.result == $.lumos.resultType.success) {

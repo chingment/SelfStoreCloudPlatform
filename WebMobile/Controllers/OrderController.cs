@@ -44,9 +44,5 @@ namespace WebMobile.Controllers
             return AppServiceFactory.Order.UnifiedOrder(this.CurrentUserId, this.CurrentUserId, rop);
         }
 
-        public CustomJsonResult GetPayResult(RupPayResult rup)
-        {
-            return AppServiceFactory.Order.PayResult(this.CurrentUserId, rup);
-        }
     }
 }

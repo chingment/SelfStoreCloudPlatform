@@ -79,5 +79,13 @@ namespace Lumos.BLL.Service.App
             }
         }
 
+        public static OperateService Operate
+        {
+            get
+            {
+                return new OperateService();
+            }
+        }
+
     }
 }
