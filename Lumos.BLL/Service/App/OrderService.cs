@@ -25,7 +25,6 @@ namespace Lumos.BLL.Service.App
             bizRop.ReserveMode = Enumeration.ReserveMode.Online;
             bizRop.ClientId = pClientId;
 
-
             foreach (var item in rop.Details)
             {
                 bizRop.Details.Add(new Biz.RModels.RopOrderReserve.Detail() { SkuId = item.SkuId, Quantity = item.Quantity, ReceptionMode = item.ReceptionMode });
