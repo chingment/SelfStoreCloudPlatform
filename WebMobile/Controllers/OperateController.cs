@@ -26,9 +26,9 @@ namespace WebMobile.Controllers
             return View();
         }
 
-        public CustomJsonResult GetResult(RupOperateResult rup)
+        public CustomJsonResult GetResult(RupOperateGetResult rup)
         {
-            return AppServiceFactory.Operate.Result(this.CurrentUserId, rup);
+            return AppServiceFactory.Operate.GetResult(this.CurrentUserId, this.CurrentUserId, rup);
         }
     }
 }

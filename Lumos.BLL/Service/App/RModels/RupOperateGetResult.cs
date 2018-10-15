@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.App
 {
-    public enum RupOperateResultType
+    public enum RupOperateGetResultType
     {
         [Remark("未知")]
         Unknow = 0,
@@ -14,10 +14,10 @@ namespace Lumos.BLL.Service.App
         Pay = 1
     }
 
-    public class RupOperateResult
+    public class RupOperateGetResult
     {
         public string Id { get; set; }
 
-        public RupOperateResultType Type { get; set; }
+        public RupOperateGetResultType Type { get; set; }
     }
 }

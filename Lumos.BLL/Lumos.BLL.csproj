@@ -146,7 +146,7 @@
     <Compile Include="Service\App\RModels\RupCouponMy.cs" />
     <Compile Include="Service\App\RModels\RupGlobalDataSet.cs" />
     <Compile Include="Service\App\RModels\RupGlobalAccessToken.cs" />
-    <Compile Include="Service\App\RModels\RupOperateResult.cs" />
+    <Compile Include="Service\App\RModels\RupOperateGetResult.cs" />
     <Compile Include="Service\App\RModels\RupProductSkuDetails.cs" />
     <Compile Include="Service\App\RModels\RupProductSkuList.cs" />
     <Compile Include="Service\App\RModels\RupStoreList.cs" />

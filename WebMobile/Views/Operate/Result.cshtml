@@ -20,32 +20,32 @@
             display: inline-block;
         }
 
-        .operate-result .item-message {
+        .operate-result .it-message {
             text-align: center;
             margin-top: 1rem;
         }
 
-        .operate-result .item-message span {
+        .operate-result .it-message span {
             font-size: 1.2rem;
             line-height: 3rem;
             color: #ff6c8d;
         }
 
-        .operate-result .item-remarks {
+        .operate-result .it-remarks {
             margin-top: 1rem;
         }
 
-        .operate-result .item-remarks p {
+        .operate-result .it-remarks p {
             font-size: .9rem;
             line-height: 1.4rem;
         }
 
-        .operate-result .item-btn {
+        .operate-result .it-btns {
             display: flex;
             padding: 10px 0px;
         }
 
-        .operate-result .item-btn .btnbox {
+        .operate-result .it-btns .btnbox {
             flex: 1;
             text-align: center;
         }
@@ -59,7 +59,7 @@
         }
 
 
-        .result-check .it-message {
+        .operate-check .it-message {
             text-align: center;
             font-size: .8rem;
             color: #333;
@@ -86,7 +86,7 @@
 
             var myInterval = setInterval(function () {
                 $.lumos.get({
-                    url: "/Operate/PayResult?id=" + id + "&type=" + type,
+                    url: "/Operate/GetResult?id=" + id + "&type=" + type,
                     isShowLoading: false,
                     success: function (d) {
                         if (d.result == $.lumos.resultType.success) {
@@ -94,9 +94,9 @@
                                 clearInterval(myInterval);
                             }
 
-                            $('#block_check').hide();
+                            $('#operate_check').hide();
                             if ($('#block_area').find('.operate-result').length < 1) {
-                                $("#block_tmpl").tmpl(d.data).appendTo('#block_area');
+                                $("#block_result_tmpl").tmpl(d.data).appendTo('#block_area');
                             }
 
                         }
@@ -110,31 +110,26 @@
     </script>
 }
 
-<div id="block_check" class="result-check">
-    <div class="it-countdown" id="rC_PB" style="text-align:center;"></div>
-    <div class="it-message">
-        <span>正在查询订单信息，请耐心等候</span>
-    </div>
-</div>
 
-<script id="block_tmpl" type="text/x-jquery-tmpl">
-    <div class="operate-result">
-        <div class="item-result">
+
+<script id="block_result_tmpl" type="text/x-jquery-tmpl">
+    <div id="operate_result" class="operate-result">
+        <div class="it-result">
             <div class="imgbox">
                 <img src="/Content/default/images/operate-result-icon-success.png" />
             </div>
         </div>
-        <div class="item-message">
+        <div class="it-message">
             <span>${message}</span>
         </div>
-        <div class="item-btn">
+        <div class="it-btns">
             {{each(j,btn) buttons}}
             <div class="btnbox">
                 <a href="${btn.url}" class="btn" style="color:${btn.color}; border:1px solid ${btn.color} ;">${btn.name}</a>
             </div>
             {{/each}}
         </div>
-        <div class="item-remarks">
+        <div class="it-remarks">
             <p>${remarks}</p>
         </div>
 
@@ -156,11 +151,14 @@
 
             {{/each}}
         </div>
-
-
     </div>
 </script>
 
 <div id="block_area">
-
+    <div id="operate_check" class="operate-check">
+        <div class="it-countdown" id="rC_PB" style="text-align:center;"></div>
+        <div class="it-message">
+            <span>正在查询订单信息，请耐心等候</span>
+        </div>
+    </div>
 </div>

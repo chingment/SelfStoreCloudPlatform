@@ -132,6 +132,7 @@ namespace Lumos.WeiXinSdk
         {
             SortedDictionary<string, object> m_values = new SortedDictionary<string, object>();
             XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.XmlResolver = null;
             xmlDoc.LoadXml(xml);
             XmlNode xmlNode = xmlDoc.FirstChild;//获取到根节点<xml>
             XmlNodeList nodes = xmlNode.ChildNodes;

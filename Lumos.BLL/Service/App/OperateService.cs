@@ -9,13 +9,13 @@ namespace Lumos.BLL.Service.App
 {
     public class OperateService : BaseProvider
     {
-        public CustomJsonResult Result(string pOperater, RupOperateResult rup)
+        public CustomJsonResult GetResult(string pOperater, string pClient, RupOperateGetResult rup)
         {
             var result = new CustomJsonResult();
 
             switch (rup.Type)
             {
-                case RupOperateResultType.Pay:
+                case RupOperateGetResultType.Pay:
                     result = PayResult(pOperater, rup);
                     break;
             }
@@ -24,14 +24,14 @@ namespace Lumos.BLL.Service.App
         }
 
 
-        private CustomJsonResult PayResult(string pOperater, RupOperateResult rup)
+        private CustomJsonResult PayResult(string pOperater, RupOperateGetResult rup)
         {
             var result = new CustomJsonResult();
 
 
             switch (rup.Type)
             {
-                case RupOperateResultType.Pay:
+                case RupOperateGetResultType.Pay:
 
                     break;
             }
