@@ -22,8 +22,6 @@ namespace WebTermApi
 
     public class OwnApiAuthorizeAttribute : ActionFilterAttribute
     {
-        private readonly string key = "_MonitorApiLog_";
-
         private DateTime GetDateTimeTolerance(long timestamp)
         {
             DateTime dt = DateTime.Parse(DateTime.Now.ToString("1970-01-01 00:00:00")).AddSeconds(timestamp);
@@ -34,7 +32,6 @@ namespace WebTermApi
             }
             return dt;
         }
-
 
         public static string GetQueryData(Dictionary<string, string> parames)
         {
@@ -67,8 +64,8 @@ namespace WebTermApi
         {
             try
             {
+                ApiMonitorLog.OnActionExecuting(actionContext);
 
-                LogUtil.Info("调用API接口");
                 DateTime requestTime = DateTime.Now;
                 var request = ((HttpContextWrapper)actionContext.Request.Properties["MS_HttpContext"]).Request;
                 var requestMethod = request.HttpMethod;
@@ -86,7 +83,6 @@ namespace WebTermApi
                 string app_data = null;
                 if (requestMethod == "POST")
                 {
-                    //var s = HttpContext.Current.Request.Form["form-data"];
                     Stream stream = HttpContext.Current.Request.InputStream;
                     stream.Seek(0, SeekOrigin.Begin);
                     app_data = new StreamReader(stream).ReadToEnd();
@@ -126,7 +122,6 @@ namespace WebTermApi
                     app_data = GetQueryData(queryData);
                 }
 
-
                 //检查必要的参数
                 if (app_key == null || app_sign == null || app_timestamp_s == null)
                 {
@@ -156,16 +151,12 @@ namespace WebTermApi
                 //Log.Info("signStr:" + signStr);
                 //Log.Info("app_sign:" + app_sign);
 
-
                 if (Signature.IsRequestTimeout(app_timestamp))
                 {
                     OwnApiHttpResult result = new OwnApiHttpResult(ResultType.Failure, ResultCode.FailureSign, "请求已超时");
                     actionContext.Response = new OwnApiHttpResponse(result);
                     return;
                 }
-
-
-
 
                 if (signStr != app_sign)
                 {
@@ -182,12 +173,10 @@ namespace WebTermApi
                 LogUtil.Error(string.Format("API错误:{0}", ex.Message), ex);
                 OwnApiHttpResult result = new OwnApiHttpResult(ResultType.Exception, ResultCode.Exception, "内部错误");
                 actionContext.Response = new OwnApiHttpResponse(result);
-
                 return;
             }
 
         }
-
 
         public override void OnActionExecuted(HttpActionExecutedContext actionContext)
         {

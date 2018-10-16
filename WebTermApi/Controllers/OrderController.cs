@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace WebTermApi.Controllers
 {
+    [OwnApiAuthorize]
     public class OrderController : OwnApiBaseController
     {
 

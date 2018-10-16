@@ -73,7 +73,7 @@ namespace Lumos.Common
 
             //将字符串中字符按升序排序
             var sortStr = string.Concat(sb.ToString().OrderBy(c => c));
-            LogUtil.Info("签名排序后数据:" + sortStr);
+            //LogUtil.Info("签名排序后数据:" + sortStr);
             return sortStr;
         }
 

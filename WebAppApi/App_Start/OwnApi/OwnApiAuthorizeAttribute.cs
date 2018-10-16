@@ -74,7 +74,6 @@ namespace WebAppApi
             {
                 ApiMonitorLog.OnActionExecuting(actionContext);
 
-                LogUtil.Info("调用API接口");
                 DateTime requestTime = DateTime.Now;
                 var request = ((HttpContextWrapper)actionContext.Request.Properties["MS_HttpContext"]).Request;
                 var requestMethod = request.HttpMethod;
@@ -103,15 +102,6 @@ namespace WebAppApi
                     return;
                 }
 
-                string app_data = null;
-
-                if (requestMethod == "POST")
-                {
-                    Stream stream = HttpContext.Current.Request.InputStream;
-                    stream.Seek(0, SeekOrigin.Begin);
-                    app_data = new StreamReader(stream).ReadToEnd();
-                }
-
                 base.OnActionExecuting(actionContext);
             }
             catch (Exception ex)
@@ -122,7 +112,6 @@ namespace WebAppApi
 
                 return;
             }
-
         }
 
         public override void OnActionExecuted(HttpActionExecutedContext actionContext)
