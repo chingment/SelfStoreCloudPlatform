@@ -81,6 +81,7 @@ namespace WebTermApi
                 }
 
                 string app_data = null;
+
                 if (requestMethod == "POST")
                 {
                     Stream stream = HttpContext.Current.Request.InputStream;

@@ -27,47 +27,6 @@ namespace WebAppApi
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, Inherited = true, AllowMultiple = true)]
     public class OwnApiAuthorizeAttribute : ActionFilterAttribute
     {
-        private readonly string key = "_MonitorApiLog_";
-
-        private DateTime GetDateTimeTolerance(long timestamp)
-        {
-            DateTime dt = DateTime.Parse(DateTime.Now.ToString("1970-01-01 00:00:00")).AddSeconds(timestamp);
-            var ts = DateTime.Now - dt;
-            if (System.Math.Abs(ts.TotalMinutes) > 5)
-            {
-                dt = DateTime.Now;
-            }
-            return dt;
-        }
-
-
-        public static string GetQueryData(Dictionary<string, string> parames)
-        {
-            // 第一步：把字典按Key的字母顺序排序
-            IDictionary<string, string> sortedParams = new SortedDictionary<string, string>(parames);
-            IEnumerator<KeyValuePair<string, string>> dem = sortedParams.GetEnumerator();
-
-            // 第二步：把所有参数名和参数值串在一起
-            StringBuilder query = new StringBuilder("");  //签名字符串
-            StringBuilder queryStr = new StringBuilder(""); //url参数
-            if (parames == null || parames.Count == 0)
-                return "";
-
-            while (dem.MoveNext())
-            {
-                string key = dem.Current.Key;
-                string value = HttpUtility.UrlEncode(dem.Current.Value, UTF8Encoding.UTF8).ToUpper();
-                if (!string.IsNullOrEmpty(key))
-                {
-                    queryStr.Append("&").Append(key).Append("=").Append(value);
-                }
-            }
-
-            string s = queryStr.ToString().Substring(1, queryStr.Length - 1);
-
-            return s;
-        }
-
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
             try
