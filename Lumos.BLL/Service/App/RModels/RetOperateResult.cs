@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.App
 {
-    public class RetPayResult
+    public class RetOperateResult
     {
-        public RetPayResult ()
+        public RetOperateResult()
         {
             this.Fields = new List<Field>();
             this.Buttons = new List<Button>();
@@ -16,6 +16,7 @@ namespace Lumos.BLL.Service.App
         public ResultType Result { get; set; }
         public string Message { get; set; }
         public string Remarks { get; set; }
+        public bool IsComplete { get; set; }
         public List<Field> Fields { get; set; }
         public List<Button> Buttons { get; set; }
         public class Field
@@ -30,7 +31,6 @@ namespace Lumos.BLL.Service.App
                 get; set;
             }
         }
-
         public class Button
         {
 
@@ -48,7 +48,6 @@ namespace Lumos.BLL.Service.App
                 get; set;
             }
         }
-
         public enum ResultType
         {
             Unknown = 0,

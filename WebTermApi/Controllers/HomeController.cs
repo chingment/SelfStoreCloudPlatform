@@ -106,7 +106,7 @@ namespace WebTermApi.Controllers
                 host = "http://demo.api.term.17fanju.com";
             }
 
-            //host = "http://demo.api.term.17fanju.com";
+            host = "http://demo.api.term.17fanju.com";
 
             string deviceId = "000000000000000";
             string merchantId = "d1e8ad564c0f4516b2de95655a4146c7";

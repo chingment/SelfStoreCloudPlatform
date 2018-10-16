@@ -185,7 +185,11 @@
     <Content Include="bb.js" />
     <Content Include="Content\default\images\col_nav_right.png" />
     <Content Include="Content\default\images\loading.gif" />
-    <Content Include="Content\default\images\operate-result-icon-success.png" />
+    <Content Include="Content\default\images\operate_result_ic_.png" />
+    <Content Include="Content\default\images\operate_result_ic_0.png" />
+    <Content Include="Content\default\images\operate_result_ic_1.png" />
+    <Content Include="Content\default\images\operate_result_ic_2.png" />
+    <Content Include="Content\default\images\operate_result_ic_3.png" />
     <Content Include="Content\default\images\promote20180910\bg.jpg" />
     <Content Include="Content\default\images\promote20180910\btn_personal.png" />
     <Content Include="Content\default\images\promote20180910\btn_buy.png" />

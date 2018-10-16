@@ -12,11 +12,12 @@
 
         .operate-result .imgbox {
             text-align: center;
-            margin-top: 4rem;
+            margin-top: 2rem;
         }
 
-        .operate-result .imgbox img {
+        .operate-result .imgbox .img {
             width: 100px;
+            height:100px;
             display: inline-block;
         }
 
@@ -25,7 +26,7 @@
             margin-top: 1rem;
         }
 
-        .operate-result .it-message span {
+        .operate-result .it-message .txt {
             font-size: 1.2rem;
             line-height: 3rem;
             color: #ff6c8d;
@@ -35,7 +36,7 @@
             margin-top: 1rem;
         }
 
-        .operate-result .it-remarks p {
+        .operate-result .it-remarks .txt {
             font-size: .9rem;
             line-height: 1.4rem;
         }
@@ -90,15 +91,10 @@
                     isShowLoading: false,
                     success: function (d) {
                         if (d.result == $.lumos.resultType.success) {
-                            if (d.code == 8003) {
+                            if (d.data.isComplete) {
                                 clearInterval(myInterval);
                             }
-
-                            $('#operate_check').hide();
-                            if ($('#block_area').find('.operate-result').length < 1) {
-                                $("#block_result_tmpl").tmpl(d.data).appendTo('#block_area');
-                            }
-
+                            $("#block_result_tmpl").tmpl(d.data).appendTo('#block_area');
                         }
                     }
                 });
@@ -113,14 +109,22 @@
 
 
 <script id="block_result_tmpl" type="text/x-jquery-tmpl">
+    {{if isComplete}}
+    <div id="operate_check" class="operate-check">
+        <div class="it-countdown" id="rC_PB" style="text-align:center;"></div>
+        <div class="it-message">
+            <span>正在查询订单信息，请耐心等候</span>
+        </div>
+    </div>
+    {{else}}
     <div id="operate_result" class="operate-result">
         <div class="it-result">
             <div class="imgbox">
-                <img src="/Content/default/images/operate-result-icon-success.png" />
+                <img class="img" src="/Content/default/images/operate_result_ic_${result}.png" />
             </div>
         </div>
         <div class="it-message">
-            <span>${message}</span>
+            <span class="txt">${message}</span>
         </div>
         <div class="it-btns">
             {{each(j,btn) buttons}}
@@ -130,7 +134,7 @@
             {{/each}}
         </div>
         <div class="it-remarks">
-            <p>${remarks}</p>
+            <p class="txt">${remarks}</p>
         </div>
 
 
@@ -152,13 +156,9 @@
             {{/each}}
         </div>
     </div>
+    {{/if}}
 </script>
 
 <div id="block_area">
-    <div id="operate_check" class="operate-check">
-        <div class="it-countdown" id="rC_PB" style="text-align:center;"></div>
-        <div class="it-message">
-            <span>正在查询订单信息，请耐心等候</span>
-        </div>
-    </div>
+
 </div>
