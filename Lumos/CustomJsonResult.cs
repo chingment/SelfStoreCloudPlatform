@@ -177,10 +177,11 @@ namespace Lumos
         {
             StringBuilder json = new StringBuilder();
             json.Append("{");
-
             try
             {
                 json.Append("\"result\": " + (int)this._result + ",");
+                json.Append("\"code\": \"" + ((int)this._code).ToString() + "\",");
+                json.Append("\"message\":" + JsonConvert.SerializeObject(this._message) + "");
 
                 if (this._data != null)
                 {
@@ -188,7 +189,7 @@ namespace Lumos
                     {
                         if (!string.IsNullOrWhiteSpace(this._data.ToString()))
                         {
-                            json.Append("\"data\":" + this._data + ",");
+                            json.Append(",\"data\":" + this._data + "");
                         }
                     }
                     else
@@ -209,24 +210,15 @@ namespace Lumos
                         });
                         this.JsonSerializerSettings.Converters = this.JsonConverter;
                         this.JsonSerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                        json.Append("\"data\":" + JsonConvert.SerializeObject(this._data, Formatting.None, this.JsonSerializerSettings) + ",");
+                        json.Append(",\"data\":" + JsonConvert.SerializeObject(this._data, Formatting.None, this.JsonSerializerSettings) + "");
                     }
                 }
-
-                if (this._code != ResultCode.Unknown)
-                {
-                    json.Append("\"code\": \"" + ((int)this._code).ToString() + "\",");
-                }
-
-
-                json.Append("\"message\":" + JsonConvert.SerializeObject(this._message) + "");
-
 
             }
             catch (Exception ex)
             {
-
                 json.Append("\"result\": " + (int)ResultType.Exception + ",");
+                json.Append("\"code\": " + (int)ResultCode.Exception + ",");
                 json.Append("\"message\":\"" + string.Format("CustomJsonResult转换发生异常:{0}", ex.Message) + "\"");
                 //转换失败记录日志
             }

@@ -44,6 +44,7 @@ namespace Lumos.BLL
             {
                 RetOrderReserve ret = new RetOrderReserve();
 
+                int a = int.Parse("sdsfsdf");
 
                 var skuIds = rop.Details.Select(m => m.SkuId).ToArray();
 
