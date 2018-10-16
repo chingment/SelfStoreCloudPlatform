@@ -11,7 +11,7 @@ namespace WebAppApi
 {
 
 
-    public class APIExceptionAttribute : ExceptionFilterAttribute, IExceptionFilter
+    public class OwnApiExceptionAttribute : ExceptionFilterAttribute, IExceptionFilter
     {
         private static ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public override void OnException(HttpActionExecutedContext actionExecutedContext)
@@ -20,8 +20,8 @@ namespace WebAppApi
             LogicalThreadContext.Properties["trackid"] = Guid.NewGuid().ToString();
             log.Error("API调用出现异常", ex);
 
-            APIResult result = new APIResult(ResultType.Exception, ResultCode.Exception, "程序发生异常");
-            actionExecutedContext.Response = new APIResponse(result);
+            OwnApiHttpResult result = new OwnApiHttpResult(ResultType.Exception, ResultCode.Exception, "程序发生异常");
+            actionExecutedContext.Response = new OwnApiHttpResponse(result);
 
             base.OnException(actionExecutedContext);
 

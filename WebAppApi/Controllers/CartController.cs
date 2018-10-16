@@ -9,14 +9,14 @@ using System.Web.Http;
 namespace WebAppApi.Controllers
 {
 
-    public class CartController : OwnBaseApiController
+    public class CartController : OwnApiBaseController
     {
         [HttpPost]
-        public APIResponse Operate([FromBody]RopCartOperate rop)
+        public OwnApiHttpResponse Operate([FromBody]RopCartOperate rop)
         {
             IResult result = AppServiceFactory.Cart.Operate(this.CurrentUserId, this.CurrentUserId, rop);
 
-            return new APIResponse(result);
+            return new OwnApiHttpResponse(result);
 
         }
     }

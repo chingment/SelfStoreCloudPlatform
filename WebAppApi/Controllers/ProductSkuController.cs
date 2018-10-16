@@ -16,29 +16,29 @@ using System.Web.Http;
 
 namespace WebAppApi.Controllers
 {
-    public class ProductSkuController : OwnBaseApiController
+    public class ProductSkuController : OwnApiBaseController
     {
 
         [HttpGet]
-        public APIResponse List([FromUri]RupProductSkuList rup)
+        public OwnApiHttpResponse List([FromUri]RupProductSkuList rup)
         {
             var model = AppServiceFactory.ProductSku.List(this.CurrentUserId, this.CurrentUserId, rup);
 
-            APIResult result = new APIResult() { Result = ResultType.Success, Code = ResultCode.Success, Message = "", Data = model };
+            OwnApiHttpResult result = new OwnApiHttpResult() { Result = ResultType.Success, Code = ResultCode.Success, Message = "", Data = model };
 
-            return new APIResponse(result);
+            return new OwnApiHttpResponse(result);
 
         }
 
 
         [HttpGet]
-        public APIResponse Details([FromUri]RupProductSkuDetails rup)
+        public OwnApiHttpResponse Details([FromUri]RupProductSkuDetails rup)
         {
             var model = AppServiceFactory.ProductSku.Details(rup.SkuId);
 
-            APIResult result = new APIResult() { Result = ResultType.Success, Code = ResultCode.Success, Message = "", Data = model };
+            OwnApiHttpResult result = new OwnApiHttpResult() { Result = ResultType.Success, Code = ResultCode.Success, Message = "", Data = model };
 
-            return new APIResponse(result);
+            return new OwnApiHttpResponse(result);
         }
 
     }

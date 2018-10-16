@@ -8,7 +8,7 @@ using System.Web;
 
 namespace WebAppApi
 {
-    public static class OwnRequest
+    public static class OwnApiRequest
     {
         public const string SESSION_NAME = "SessionName";
 

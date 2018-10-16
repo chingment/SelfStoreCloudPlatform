@@ -64,7 +64,7 @@
   <ItemGroup>
     <Compile Include="ApiMonitorLog.cs" />
     <Compile Include="BaseApiController.cs" />
-    <Compile Include="BaseApiStatisticsTrackerAttribute.cs.cs" />
+    <Compile Include="BaseApiStatisticsTrackerAttribute.cs" />
     <Compile Include="BaseController.cs" />
     <Compile Include="BaseSearchCondition.cs" />
     <Compile Include="BaseViewModel.cs" />

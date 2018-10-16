@@ -25,7 +25,7 @@ namespace WebAppApi
 {
 
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, Inherited = true, AllowMultiple = true)]
-    public class OwnAuthorizeAttribute : ActionFilterAttribute
+    public class OwnApiAuthorizeAttribute : ActionFilterAttribute
     {
         private readonly string key = "_MonitorApiLog_";
 
@@ -72,6 +72,7 @@ namespace WebAppApi
         {
             try
             {
+                ApiMonitorLog.OnActionExecuting(actionContext);
 
                 LogUtil.Info("调用API接口");
                 DateTime requestTime = DateTime.Now;
@@ -88,8 +89,8 @@ namespace WebAppApi
 
                 if (string.IsNullOrEmpty(accessToken))
                 {
-                    APIResult result = new APIResult(ResultType.Failure, ResultCode.FailureSign, "accessToken不能为空");
-                    actionContext.Response = new APIResponse(result);
+                    OwnApiHttpResult result = new OwnApiHttpResult(ResultType.Failure, ResultCode.FailureSign, "accessToken不能为空");
+                    actionContext.Response = new OwnApiHttpResponse(result);
                     return;
                 }
 
@@ -97,8 +98,8 @@ namespace WebAppApi
 
                 if (userInfo == null)
                 {
-                    APIResult result = new APIResult(ResultType.Failure, ResultCode.FailureSign, "accessToken 已经超时");
-                    actionContext.Response = new APIResponse(result);
+                    OwnApiHttpResult result = new OwnApiHttpResult(ResultType.Failure, ResultCode.FailureSign, "accessToken 已经超时");
+                    actionContext.Response = new OwnApiHttpResponse(result);
                     return;
                 }
 
@@ -116,34 +117,17 @@ namespace WebAppApi
             catch (Exception ex)
             {
                 LogUtil.Error(string.Format("API错误:{0}", ex.Message), ex);
-                APIResult result = new APIResult(ResultType.Exception, ResultCode.Exception, "内部错误");
-                actionContext.Response = new APIResponse(result);
+                OwnApiHttpResult result = new OwnApiHttpResult(ResultType.Exception, ResultCode.Exception, "内部错误");
+                actionContext.Response = new OwnApiHttpResponse(result);
 
                 return;
             }
 
         }
 
-
-        private async Task<string> GetResponseContentAsync(HttpActionExecutedContext actionContext, DateTime responseTime)
-        {
-
-            string content = await actionContext.Response.Content.ReadAsStringAsync();
-            MonitorApiLog monitorApiLog = actionContext.ActionContext.ActionArguments[key] as MonitorApiLog;
-            monitorApiLog.ResponseTime = responseTime;
-            monitorApiLog.ResponseData = content;//form表单提交的数据
-            LogUtil.Info(string.Format("API响应:{0}", monitorApiLog.ToString()));
-            return content;
-        }
-
-
         public override void OnActionExecuted(HttpActionExecutedContext actionContext)
         {
-            base.OnActionExecuted(actionContext);
-
-            DateTime responseTime = DateTime.Now;
-            var content = GetResponseContentAsync(actionContext, responseTime);
-
+            ApiMonitorLog.OnActionExecuted(actionContext);
         }
     }
 }

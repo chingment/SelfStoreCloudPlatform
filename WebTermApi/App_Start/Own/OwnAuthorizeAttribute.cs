@@ -197,25 +197,9 @@ namespace WebTermApi
         }
 
 
-        private async Task<string> GetResponseContentAsync(HttpActionExecutedContext actionContext, DateTime responseTime)
-        {
-
-            string content = await actionContext.Response.Content.ReadAsStringAsync();
-            MonitorApiLog monitorApiLog = actionContext.ActionContext.ActionArguments[key] as MonitorApiLog;
-            monitorApiLog.ResponseTime = responseTime;
-            monitorApiLog.ResponseData = content;//form表单提交的数据
-            LogUtil.Info(string.Format("API响应:{0}", monitorApiLog.ToString()));
-            return content;
-        }
-
-
         public override void OnActionExecuted(HttpActionExecutedContext actionContext)
         {
-            base.OnActionExecuted(actionContext);
-
-            DateTime responseTime = DateTime.Now;
-            var content = GetResponseContentAsync(actionContext, responseTime);
-
+            ApiMonitorLog.OnActionExecuted(actionContext);
         }
     }
 }

@@ -15,22 +15,22 @@ using Lumos.BLL.Service.App;
 
 namespace WebAppApi.Controllers
 {
-    public class OrderController : OwnBaseApiController
+    public class OrderController : OwnApiBaseController
     {
         [HttpPost]
-        public APIResponse Confirm([FromBody]RopOrderConfirm rop)
+        public OwnApiHttpResponse Confirm([FromBody]RopOrderConfirm rop)
         {
             IResult result = AppServiceFactory.Order.Confrim(this.CurrentUserId,this.CurrentUserId, rop);
 
-            return new APIResponse(result);
+            return new OwnApiHttpResponse(result);
         }
 
 
         [HttpPost]
-        public APIResponse Reserve([FromBody]RopOrderReserve rop)
+        public OwnApiHttpResponse Reserve([FromBody]RopOrderReserve rop)
         {
             IResult result = AppServiceFactory.Order.Reserve(this.CurrentUserId, this.CurrentUserId, rop);
-            return new APIResponse(result);
+            return new OwnApiHttpResponse(result);
 
         }
 

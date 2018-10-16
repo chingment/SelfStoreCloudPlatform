@@ -16,14 +16,14 @@ using Lumos.BLL.Service.App;
 
 namespace WebAppApi.Controllers
 {
-    public class OperateController : OwnBaseApiController
+    public class OperateController : OwnApiBaseController
     {
         [HttpGet]
-        public APIResponse GetResult([FromUri]RupOperateGetResult rup)
+        public OwnApiHttpResponse GetResult([FromUri]RupOperateGetResult rup)
         {
             IResult result = AppServiceFactory.Operate.GetResult(this.CurrentUserId, this.CurrentUserId, rup);
 
-            return new APIResponse(result);
+            return new OwnApiHttpResponse(result);
         }
     }
 }

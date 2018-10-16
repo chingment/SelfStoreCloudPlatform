@@ -9,16 +9,16 @@ using System.Web.Http;
 
 namespace WebAppApi.Controllers
 {
-    public class StoreController : OwnBaseApiController
+    public class StoreController : OwnApiBaseController
     {
         [HttpGet]
-        public APIResponse List([FromUri]RupStoreList rup)
+        public OwnApiHttpResponse List([FromUri]RupStoreList rup)
         {
             var model = AppServiceFactory.Store.List(this.CurrentUserId, this.CurrentUserId, rup);
 
-            APIResult result = new APIResult() { Result = ResultType.Success, Code = ResultCode.Success, Message = "", Data = model };
+            OwnApiHttpResult result = new OwnApiHttpResult() { Result = ResultType.Success, Code = ResultCode.Success, Message = "", Data = model };
 
-            return new APIResponse(result);
+            return new OwnApiHttpResponse(result);
 
         }
     }

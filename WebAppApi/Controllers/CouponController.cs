@@ -14,16 +14,16 @@ using System.Web.Http;
 namespace WebAppApi.Controllers
 {
 
-    public class CouponController : OwnBaseApiController
+    public class CouponController : OwnApiBaseController
     {
         [HttpPost]
-        public APIResponse My([FromBody]RupCouponMy rup)
+        public OwnApiHttpResponse My([FromBody]RupCouponMy rup)
         {
             var model = AppServiceFactory.Coupon.My(this.CurrentUserId,this.CurrentUserId, rup);
 
-            APIResult result = new APIResult() { Result = ResultType.Success, Code = ResultCode.Success, Message = "", Data = model };
+            OwnApiHttpResult result = new OwnApiHttpResult() { Result = ResultType.Success, Code = ResultCode.Success, Message = "", Data = model };
 
-            return new APIResponse(result);
+            return new OwnApiHttpResponse(result);
         }
     }
 }

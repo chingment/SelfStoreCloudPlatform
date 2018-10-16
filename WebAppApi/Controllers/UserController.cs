@@ -19,29 +19,29 @@ using Lumos.Session;
 
 namespace WebAppApi.Controllers
 {
-    public class UserController : OwnBaseApiController
+    public class UserController : OwnApiBaseController
     {
 
 
 
         [AllowAnonymous]
         [HttpPost]
-        public APIResponse Authorize()
+        public OwnApiHttpResponse Authorize()
         {
             return null;
         }
 
         [AllowAnonymous]
         [HttpPost]
-        public APIResponse LoginByMinProgram(RopLoginByMinProgram rop)
+        public OwnApiHttpResponse LoginByMinProgram(RopLoginByMinProgram rop)
         {
-            APIResult result;
+            OwnApiHttpResult result;
             var userInfo = SdkFactory.Wx.Instance().GetUserInfoByMinProramJsCode("wxb01e0e16d57bd762", "4acf13ebe601a5b13029bd74bed3de1a", rop.EncryptedData, rop.Iv, rop.Code);
 
             if (userInfo == null)
             {
-                result = new APIResult() { Result = ResultType.Failure, Code = ResultCode.Failure, Message = "获取用户信息失败" };
-                return new APIResponse(result);
+                result = new OwnApiHttpResult() { Result = ResultType.Failure, Code = ResultCode.Failure, Message = "获取用户信息失败" };
+                return new OwnApiHttpResponse(result);
             }
 
             WxUserInfo wxUserInfo = new WxUserInfo();
@@ -59,8 +59,8 @@ namespace WebAppApi.Controllers
 
             if (wxUserInfo == null)
             {
-                result = new APIResult() { Result = ResultType.Failure, Code = ResultCode.Failure, Message = "保存用户失败" };
-                return new APIResponse(result);
+                result = new OwnApiHttpResult() { Result = ResultType.Failure, Code = ResultCode.Failure, Message = "保存用户失败" };
+                return new OwnApiHttpResponse(result);
             }
 
             var ret = new RetLoginByMinProgram();
@@ -70,9 +70,9 @@ namespace WebAppApi.Controllers
 
             SSOUtil.SetUserInfo(ret.AccessToken, new UserInfo { UserId = wxUserInfo.ClientId, UserName = wxUserInfo.Nickname, WxOpenId = wxUserInfo.OpenId }, new TimeSpan(30, 0, 0, 0, 0));
 
-            result = new APIResult() { Result = ResultType.Success, Code = ResultCode.Success, Message = "登录成功", Data = ret };
+            result = new OwnApiHttpResult() { Result = ResultType.Success, Code = ResultCode.Success, Message = "登录成功", Data = ret };
 
-            return new APIResponse(result);
+            return new OwnApiHttpResponse(result);
 
         }
 

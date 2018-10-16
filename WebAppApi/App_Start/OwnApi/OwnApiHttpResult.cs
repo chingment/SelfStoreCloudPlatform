@@ -11,19 +11,19 @@ using System.Web;
 namespace WebAppApi
 {
 
-    public class APIResult : IResult
+    public class OwnApiHttpResult : IResult
     {
         private ResultType _result = ResultType.Unknown;
         private ResultCode _code = ResultCode.Unknown;
         private string _message = "";
         private object _data = null;
 
-        public APIResult()
+        public OwnApiHttpResult()
         {
 
         }
 
-        public APIResult(ResultType result, ResultCode code, string message, object data = null)
+        public OwnApiHttpResult(ResultType result, ResultCode code, string message, object data = null)
         {
             _result = result;
             _code = code;
