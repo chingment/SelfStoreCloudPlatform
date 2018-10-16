@@ -138,6 +138,7 @@
     <Compile Include="App_Start\Own\APIResponse.cs" />
     <Compile Include="App_Start\Own\APIResult.cs" />
     <Compile Include="App_Start\Own\APIExceptionAttribute.cs" />
+    <Compile Include="App_Start\Own\APIStatisticsTrackerAttribute.cs.cs" />
     <Compile Include="App_Start\Own\OwnBaseApiController.cs" />
     <Compile Include="App_Start\Own\OwnAuthorizeAttribute.cs" />
     <Compile Include="App_Start\Own\MonitorApiLog.cs" />
