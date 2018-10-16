@@ -15,9 +15,7 @@ namespace WebTermApi
 
     public class OwnBaseApiController : BaseApiController
     {
-
         private APIResult _result = new APIResult();
-        private LumosDbContext _currentDb;
 
         public APIResult Result
         {
@@ -31,20 +29,9 @@ namespace WebTermApi
             }
         }
 
-        public LumosDbContext CurrentDb
-        {
-            get
-            {
-                return _currentDb;
-            }
-        }
-
-
         public OwnBaseApiController()
         {
             LogUtil.SetTrackId();
-            _currentDb = new LumosDbContext();
-            _result = new APIResult { Result = ResultType.Unknown, Code = ResultCode.Unknown, Message = "未知" };
         }
 
         public APIResponse ResponseResult(APIResult result)
@@ -58,6 +45,7 @@ namespace WebTermApi
             _result.Code = resultCode;
             _result.Message = message;
             _result.Data = data;
+
             return new APIResponse(_result);
         }
 

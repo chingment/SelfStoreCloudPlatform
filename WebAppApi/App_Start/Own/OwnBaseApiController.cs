@@ -15,9 +15,7 @@ namespace WebAppApi
     [OwnAuthorize]
     public class OwnBaseApiController : BaseApiController
     {
-
         private APIResult _result = new APIResult();
-        private LumosDbContext _currentDb;
 
         public APIResult Result
         {
@@ -31,20 +29,9 @@ namespace WebAppApi
             }
         }
 
-        public LumosDbContext CurrentDb
-        {
-            get
-            {
-                return _currentDb;
-            }
-        }
-
-
         public OwnBaseApiController()
         {
             LogUtil.SetTrackId();
-            _currentDb = new LumosDbContext();
-            _result = new APIResult { Result = ResultType.Unknown, Code = ResultCode.Unknown, Message = "未知" };
         }
 
         public APIResponse ResponseResult(APIResult result)
