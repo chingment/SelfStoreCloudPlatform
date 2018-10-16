@@ -16,30 +16,30 @@ using System.Web.Http;
 
 namespace WebTermApi.Controllers
 {
-    [OwnAuthorize]
-    public class MachineController : OwnBaseApiController
+    [OwnApiAuthorize]
+    public class MachineController : OwnApiBaseController
     {
         [HttpGet]
-        public APIResponse ApiConfig([FromUri]RupMachineApiConfig rup)
+        public OwnApiHttpResponse ApiConfig([FromUri]RupMachineApiConfig rup)
         {
             IResult result = TermServiceFactory.Machine.ApiConfig(GuidUtil.Empty(), rup.DeviceId);
-            return new APIResponse(result);
+            return new OwnApiHttpResponse(result);
         }
 
         [HttpGet]
-        public APIResponse GetSlotSkuStock([FromUri]RupMachineGetSlotSkuStock rup)
+        public OwnApiHttpResponse GetSlotSkuStock([FromUri]RupMachineGetSlotSkuStock rup)
         {
             IResult result = TermServiceFactory.Machine.GetSlotSkusStock(rup.MerchantId, rup.MerchantId, rup.MachineId);
-            return new APIResponse(result);
+            return new OwnApiHttpResponse(result);
 
         }
 
 
         [HttpGet]
-        public APIResponse UpdateInfo([FromBody]RopMachineUpdateInfo rop)
+        public OwnApiHttpResponse UpdateInfo([FromBody]RopMachineUpdateInfo rop)
         {
             IResult result = TermServiceFactory.Machine.UpdateInfo(GuidUtil.Empty(), rop);
-            return new APIResponse(result);
+            return new OwnApiHttpResponse(result);
         }
 
     }

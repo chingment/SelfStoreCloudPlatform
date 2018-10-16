@@ -7,7 +7,7 @@ using System.Web.Http.Filters;
 
 namespace WebTermApi
 {
-    public class APIStatisticsTrackerAttribute : BaseApiStatisticsTrackerAttribute
+    public class OwnApiStatisticsTrackerAttribute : BaseApiStatisticsTrackerAttribute
     {
 
     }

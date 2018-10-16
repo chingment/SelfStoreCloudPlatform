@@ -13,14 +13,14 @@ using System.Net.Http;
 using System.Web.Http;
 namespace WebTermApi.Controllers
 {
-    [OwnAuthorize]
-    public class GlobalController : OwnBaseApiController
+    [OwnApiAuthorize]
+    public class GlobalController : OwnApiBaseController
     {
         [HttpGet]
-        public APIResponse DataSet([FromUri]RupGlobalDataSet rup)
+        public OwnApiHttpResponse DataSet([FromUri]RupGlobalDataSet rup)
         {
             IResult result = TermServiceFactory.Global.DataSet(rup.MerchantId, rup);
-            return new APIResponse(result);
+            return new OwnApiHttpResponse(result);
         }
     }
 }

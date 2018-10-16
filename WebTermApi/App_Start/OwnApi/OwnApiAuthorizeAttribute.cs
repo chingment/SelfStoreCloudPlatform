@@ -20,7 +20,7 @@ using Lumos.Common;
 namespace WebTermApi
 {
 
-    public class OwnAuthorizeAttribute : ActionFilterAttribute
+    public class OwnApiAuthorizeAttribute : ActionFilterAttribute
     {
         private readonly string key = "_MonitorApiLog_";
 
@@ -126,20 +126,12 @@ namespace WebTermApi
                     app_data = GetQueryData(queryData);
                 }
 
-                //记录请求的日志
-                MonitorApiLog monitorApiLog = new MonitorApiLog();
-                monitorApiLog.RequestTime = requestTime;
-                monitorApiLog.RequestUrl = request.RawUrl;
-                monitorApiLog.SignatureData = new SignatureData { Key = app_key, Sign = app_sign, TimeStamp = app_timestamp_s, Data = app_data };
-                LogUtil.Info(string.Format("API请求:{0}", monitorApiLog.ToString()));
-
-                actionContext.ActionArguments[key] = monitorApiLog;
 
                 //检查必要的参数
                 if (app_key == null || app_sign == null || app_timestamp_s == null)
                 {
-                    APIResult result = new APIResult(ResultType.Failure, ResultCode.FailureSign, "缺少必要参数");
-                    actionContext.Response = new APIResponse(result);
+                    OwnApiHttpResult result = new OwnApiHttpResult(ResultType.Failure, ResultCode.FailureSign, "缺少必要参数");
+                    actionContext.Response = new OwnApiHttpResponse(result);
                     return;
                 }
 
@@ -148,8 +140,8 @@ namespace WebTermApi
 
                 if (app_secret == null)
                 {
-                    APIResult result = new APIResult(ResultType.Failure, ResultCode.FailureSign, "应用程序Key,存在错误");
-                    actionContext.Response = new APIResponse(result);
+                    OwnApiHttpResult result = new OwnApiHttpResult(ResultType.Failure, ResultCode.FailureSign, "应用程序Key,存在错误");
+                    actionContext.Response = new OwnApiHttpResponse(result);
                     return;
                 }
 
@@ -167,8 +159,8 @@ namespace WebTermApi
 
                 if (Signature.IsRequestTimeout(app_timestamp))
                 {
-                    APIResult result = new APIResult(ResultType.Failure, ResultCode.FailureSign, "请求已超时");
-                    actionContext.Response = new APIResponse(result);
+                    OwnApiHttpResult result = new OwnApiHttpResult(ResultType.Failure, ResultCode.FailureSign, "请求已超时");
+                    actionContext.Response = new OwnApiHttpResponse(result);
                     return;
                 }
 
@@ -178,8 +170,8 @@ namespace WebTermApi
                 if (signStr != app_sign)
                 {
                     LogUtil.Warn("API签名错误");
-                    APIResult result = new APIResult(ResultType.Failure, ResultCode.FailureSign, "签名错误");
-                    actionContext.Response = new APIResponse(result);
+                    OwnApiHttpResult result = new OwnApiHttpResult(ResultType.Failure, ResultCode.FailureSign, "签名错误");
+                    actionContext.Response = new OwnApiHttpResponse(result);
                     return;
                 }
 
@@ -188,8 +180,8 @@ namespace WebTermApi
             catch (Exception ex)
             {
                 LogUtil.Error(string.Format("API错误:{0}", ex.Message), ex);
-                APIResult result = new APIResult(ResultType.Exception, ResultCode.Exception, "内部错误");
-                actionContext.Response = new APIResponse(result);
+                OwnApiHttpResult result = new OwnApiHttpResult(ResultType.Exception, ResultCode.Exception, "内部错误");
+                actionContext.Response = new OwnApiHttpResponse(result);
 
                 return;
             }

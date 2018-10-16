@@ -9,18 +9,18 @@ using System.Web;
 
 namespace WebTermApi
 {
-    public class APIResponse : HttpResponseMessage
+    public class OwnApiHttpResponse : HttpResponseMessage
     {
-        public APIResponse(IResult apiResult)
+        public OwnApiHttpResponse(IResult apiResult)
         {
             StringContent content=new StringContent(apiResult.ToString(), Encoding.GetEncoding("UTF-8"), "application/json");
             this.Content=content;
         }
     }
 
-    public class APIResponse<T> : HttpResponseMessage
+    public class OwnApiHttpResponse<T> : HttpResponseMessage
     {
-        public APIResponse(IResult<T> apiResult)
+        public OwnApiHttpResponse(IResult<T> apiResult)
         {
             StringContent content = new StringContent(apiResult.ToString(), Encoding.GetEncoding("UTF-8"), "application/json");
             this.Content = content;

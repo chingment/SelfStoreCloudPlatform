@@ -10,29 +10,29 @@ using System.Web.Mvc;
 
 namespace WebTermApi.Controllers
 {
-    public class OrderController : OwnBaseApiController
+    public class OrderController : OwnApiBaseController
     {
 
         [HttpPost]
-        public APIResponse Reserve(RopOrderReserve rop)
+        public OwnApiHttpResponse Reserve(RopOrderReserve rop)
         {
             IResult result = TermServiceFactory.Order.Reserve(rop.MerchantId, rop);
-            return new APIResponse(result);
+            return new OwnApiHttpResponse(result);
 
         }
 
         [HttpPost]
-        public APIResponse<RetOrderPayResultQuery> PayResulyQuery(RupOrderPayResultQuery rup)
+        public OwnApiHttpResponse<RetOrderPayResultQuery> PayResulyQuery(RupOrderPayResultQuery rup)
         {
             IResult<RetOrderPayResultQuery> result = TermServiceFactory.Order.PayResultQuery(rup.MerchantId, rup);
-            return new APIResponse<RetOrderPayResultQuery>(result);
+            return new OwnApiHttpResponse<RetOrderPayResultQuery>(result);
         }
 
         [HttpPost]
-        public APIResponse Cancle(RopOrderCancle rop)
+        public OwnApiHttpResponse Cancle(RopOrderCancle rop)
         {
             IResult result = TermServiceFactory.Order.Cancle(rop.MerchantId, rop);
-            return new APIResponse(result);
+            return new OwnApiHttpResponse(result);
         }
     }
 }

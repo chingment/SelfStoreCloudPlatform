@@ -13,11 +13,11 @@ using Lumos;
 namespace WebTermApi
 {
 
-    public class OwnBaseApiController : BaseApiController
+    public class OwnApiBaseController : BaseApiController
     {
-        private APIResult _result = new APIResult();
+        private OwnApiHttpResult _result = new OwnApiHttpResult();
 
-        public APIResult Result
+        public OwnApiHttpResult Result
         {
             get
             {
@@ -29,24 +29,24 @@ namespace WebTermApi
             }
         }
 
-        public OwnBaseApiController()
+        public OwnApiBaseController()
         {
             LogUtil.SetTrackId();
         }
 
-        public APIResponse ResponseResult(APIResult result)
+        public OwnApiHttpResponse ResponseResult(OwnApiHttpResult result)
         {
-            return new APIResponse(result);
+            return new OwnApiHttpResponse(result);
         }
 
-        public APIResponse ResponseResult(ResultType resultType, ResultCode resultCode, string message = null, object data = null)
+        public OwnApiHttpResponse ResponseResult(ResultType resultType, ResultCode resultCode, string message = null, object data = null)
         {
             _result.Result = resultType;
             _result.Code = resultCode;
             _result.Message = message;
             _result.Data = data;
 
-            return new APIResponse(_result);
+            return new OwnApiHttpResponse(_result);
         }
 
     }

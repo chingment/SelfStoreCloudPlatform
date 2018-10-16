@@ -135,13 +135,12 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\Own\APIResponse.cs" />
-    <Compile Include="App_Start\Own\APIResult.cs" />
-    <Compile Include="App_Start\Own\APIExceptionAttribute.cs" />
-    <Compile Include="App_Start\Own\APIStatisticsTrackerAttribute.cs.cs" />
-    <Compile Include="App_Start\Own\OwnBaseApiController.cs" />
-    <Compile Include="App_Start\Own\OwnAuthorizeAttribute.cs" />
-    <Compile Include="App_Start\Own\MonitorApiLog.cs" />
+    <Compile Include="App_Start\OwnApi\OwnApiHttpResponse.cs" />
+    <Compile Include="App_Start\OwnApi\OwnApiHttpResult.cs" />
+    <Compile Include="App_Start\OwnApi\OwnApiExceptionAttribute.cs" />
+    <Compile Include="App_Start\OwnApi\OwnApiStatisticsTrackerAttribute.cs.cs" />
+    <Compile Include="App_Start\OwnApi\OwnApiBaseController.cs" />
+    <Compile Include="App_Start\OwnApi\OwnApiAuthorizeAttribute.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
