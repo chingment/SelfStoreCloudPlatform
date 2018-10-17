@@ -32,7 +32,16 @@ namespace WebTermApi.Controllers
             HttpContextBase context = (HttpContextBase)Request.Properties["MS_HttpContext"];//获取传统context
             HttpRequestBase request = context.Request;//定义传统request对象 
 
-            string c = request.Files[0].FileName;
+            if (request.Files != null)
+            {
+                for (int i = 0; i < request.Files.Count; i++)
+                {
+                    string c = request.Files[i].FileName;
+
+                    LogUtil.Info("file name:" + c);
+                }
+            }
+
             //string result = "";
             //if (FileContent != null)
             //{
