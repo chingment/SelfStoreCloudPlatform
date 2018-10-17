@@ -24,7 +24,7 @@ namespace Lumos.BLL.Service.Term
         {
             public string SkuId { get; set; }
             public int Quantity { get; set; }
-            public Enumeration.ReceptionMode ReceptionMode { get; set; }
+            //public Enumeration.ReceptionMode ReceptionMode { get; set; }
         }
     }
 }

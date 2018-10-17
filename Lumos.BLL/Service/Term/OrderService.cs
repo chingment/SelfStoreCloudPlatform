@@ -27,7 +27,7 @@ namespace Lumos.BLL.Service.Term
 
             foreach (var item in rop.Details)
             {
-                bizRop.Details.Add(new Biz.RModels.RopOrderReserve.Detail() { SkuId = item.SkuId, Quantity = item.Quantity, ReceptionMode = item.ReceptionMode });
+                bizRop.Details.Add(new Biz.RModels.RopOrderReserve.Detail() { SkuId = item.SkuId, Quantity = item.Quantity, ReceptionMode = Enumeration.ReceptionMode.Machine });
             }
 
             result = BizFactory.Order.Reserve(pOperater, bizRop);
