@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -48,7 +49,18 @@ namespace Lumos.Mvc
             sb.Append("IP: " + Common.CommonUtils.GetIP() + Environment.NewLine);
             sb.Append("Method: " + myRequest.HttpMethod + Environment.NewLine);
             sb.Append("ContentType: " + myRequest.ContentType + Environment.NewLine);
-            if (myRequest.ContentType == "application/json")
+
+            NameValueCollection headers = myRequest.Headers;
+
+            if (headers["key"] != null)
+            {
+                sb.Append("header.key: " + headers["key"] + Environment.NewLine);
+                sb.Append("header.sign: " + headers["sign"] + Environment.NewLine);
+                sb.Append("header.version: " + headers["version"] + Environment.NewLine);
+                sb.Append("header.timestamp: " + headers["timestamp"] + Environment.NewLine);
+            }
+
+            if (myRequest.ContentType.IndexOf("application/json") > -1)
             {
                 sb.Append("PostData: " + GetPostData(myRequest.InputStream) + Environment.NewLine);
             }
