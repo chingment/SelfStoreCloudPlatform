@@ -115,6 +115,12 @@ namespace WebTermApi.Controllers
             //model.Add("获取机器接口配置信息", MachineApiConfig(deviceId));
             //model.Add("获取全局数据", GlobalDataSet(merchantId, machineId, DateTime.Now));
             model.Add("预定商品", OrderReserve(merchantId, storeId, machineId));
+
+
+            HttpUtil http = new HttpUtil();
+
+            http.HttpUploadFile(host+ "/Api/Global/PostFile", "d:\\a.txt");
+
             return View(model);
         }
 

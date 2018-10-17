@@ -16,6 +16,8 @@ using System.Threading.Tasks;
 using Lumos;
 using Lumos.BLL;
 using Lumos.Common;
+using System.Web.Http;
+using System.Linq;
 
 namespace WebTermApi
 {
@@ -65,6 +67,12 @@ namespace WebTermApi
             try
             {
                 ApiMonitorLog.OnActionExecuting(actionContext);
+
+                bool skipAuthorization = actionContext.ActionDescriptor.GetCustomAttributes<AllowAnonymousAttribute>().Any();
+                if (skipAuthorization)
+                {
+                    return;
+                }
 
                 DateTime requestTime = DateTime.Now;
                 var request = ((HttpContextWrapper)actionContext.Request.Properties["MS_HttpContext"]).Request;
