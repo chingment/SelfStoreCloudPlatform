@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -36,32 +37,33 @@ namespace Lumos.Mvc
 
         public static void OnActionExecuting(HttpActionContext filterContext)
         {
-            var sb = new StringBuilder();
-            var request = ((HttpContextWrapper)filterContext.Request.Properties["MS_HttpContext"]).Request;
-            sb.Append("Method: " + request.HttpMethod + Environment.NewLine);
-            sb.Append("Url: " + request.RawUrl + Environment.NewLine);
-            sb.Append("PostData: " + GetPostData(request.InputStream) + Environment.NewLine);
-
-            LogUtil.Info(sb.ToString());
+            Task tk = LogAsync(filterContext.Request);
         }
 
-
-        private static async Task<string> LogAsync(HttpActionExecutedContext actionContext)
+        private static async Task LogAsync(HttpRequestMessage request, HttpResponseMessage response = null)
         {
-            string content = await actionContext.Response.Content.ReadAsStringAsync();
             var sb = new StringBuilder();
-            var request = ((HttpContextWrapper)actionContext.Request.Properties["MS_HttpContext"]).Request;
-            //sb.Append("Method: " + request.HttpMethod + Environment.NewLine);
-            //sb.Append("Url: " + request.RawUrl + Environment.NewLine);
-            //sb.Append("PostData: " + GetPostData(request.InputStream) + Environment.NewLine);
-            sb.Append("Response: " + content + Environment.NewLine);
+            var myRequest = ((HttpContextWrapper)request.Properties["MS_HttpContext"]).Request;
+            sb.Append("Url: " + myRequest.RawUrl + Environment.NewLine);
+            sb.Append("IP: " + Common.CommonUtils.GetIP() + Environment.NewLine);
+            sb.Append("Method: " + myRequest.HttpMethod + Environment.NewLine);
+            sb.Append("ContentType: " + myRequest.ContentType + Environment.NewLine);
+            if (myRequest.ContentType == "application/json")
+            {
+                sb.Append("PostData: " + GetPostData(myRequest.InputStream) + Environment.NewLine);
+            }
+            if (response != null)
+            {
+                string content = await response.Content.ReadAsStringAsync();
+                sb.Append("Response: " + content + Environment.NewLine);
+            }
+
             LogUtil.Info(sb.ToString());
-            return content;
         }
 
         public static void OnActionExecuted(HttpActionExecutedContext actionContext)
         {
-            var content = LogAsync(actionContext);
+            Task tk = LogAsync(actionContext.Request, actionContext.Response);
         }
     }
 }

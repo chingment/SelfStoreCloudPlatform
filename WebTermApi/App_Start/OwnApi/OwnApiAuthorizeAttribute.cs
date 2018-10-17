@@ -83,10 +83,6 @@ namespace WebTermApi
                 string app_version = request.Headers["version"];
                 string app_timestamp_s = request.Headers["timestamp"];
 
-                if (app_version != null)
-                {
-                    LogUtil.Info("app_version:" + app_version);
-                }
 
                 string app_data = null;
 
@@ -95,8 +91,6 @@ namespace WebTermApi
                     Stream stream = HttpContext.Current.Request.InputStream;
                     stream.Seek(0, SeekOrigin.Begin);
                     app_data = new StreamReader(stream).ReadToEnd();
-
-                    LogUtil.Info("app_data:" + app_data);
 
                     #region 过滤图片
                     if (app_data.LastIndexOf(",\"ImgData\":{") > -1)
@@ -152,13 +146,6 @@ namespace WebTermApi
                 long app_timestamp = long.Parse(app_timestamp_s);
 
                 string signStr = Signature.Compute(app_key, app_secret, app_timestamp, app_data);
-
-                //Log.Info("app_key:" + app_key);
-                //Log.Info("app_secret:" + app_secret);
-                //Log.Info("app_timestamp:" + app_timestamp);
-                //Log.Info("app_data:" + app_data);
-                //Log.Info("signStr:" + signStr);
-                //Log.Info("app_sign:" + app_sign);
 
                 if (Signature.IsRequestTimeout(app_timestamp))
                 {
