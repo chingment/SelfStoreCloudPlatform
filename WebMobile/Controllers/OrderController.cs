@@ -39,9 +39,9 @@ namespace WebMobile.Controllers
         }
 
         [HttpPost]
-        public CustomJsonResult UnifiedOrder(RopUnifiedOrder rop)
+        public CustomJsonResult GetJsApiPaymentPms(RopOrderGetJsApiPaymentPms rop)
         {
-            return AppServiceFactory.Order.UnifiedOrder(this.CurrentUserId, this.CurrentUserId, rop);
+            return AppServiceFactory.Order.GetJsApiPaymentPms(this.CurrentUserId, this.CurrentUserId, rop);
         }
 
     }

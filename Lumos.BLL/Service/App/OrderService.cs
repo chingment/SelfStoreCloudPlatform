@@ -252,7 +252,7 @@ namespace Lumos.BLL.Service.App
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
 
-        public CustomJsonResult UnifiedOrder(string pOperater, string pClientId, RopUnifiedOrder rop)
+        public CustomJsonResult GetJsApiPaymentPms(string pOperater, string pClientId, RopOrderGetJsApiPaymentPms rop)
         {
             var result = new CustomJsonResult();
 

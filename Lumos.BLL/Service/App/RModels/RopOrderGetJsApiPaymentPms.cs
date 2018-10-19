@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.App
 {
-    public class RopUnifiedOrder
+    public class RopOrderGetJsApiPaymentPms
     {
         public string OrderId { get; set; }
 

@@ -81,10 +81,8 @@ namespace Lumos.BLL.Service.App
 
             lock (operatelock)
             {
-
                 using (TransactionScope ts = new TransactionScope())
                 {
-
                     foreach (var item in rop.Skus)
                     {
                         var store = CurrentDb.Store.Where(m => m.Id == rop.StoreId).FirstOrDefault();

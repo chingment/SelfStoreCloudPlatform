@@ -192,7 +192,7 @@
                 payWay = 2;
             }
             $.lumos.postJson({
-                url: "/Order/UnifiedOrder",
+                url: "/Order/GetJsApiPaymentPms",
                 isShowLoading: true,
                 data: { payWay: payWay, orderId: orderId },
                 success: function (d) {
