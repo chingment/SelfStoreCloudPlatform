@@ -90,13 +90,14 @@ namespace WebSSO
         {
             if (filterContext.Result != null)
             {
+           
                 string result = filterContext.Result.ToString();
 
                 LogUtil.Info(result);
 
                 if (result != "System.Web.Mvc.EmptyResult")
                 {
-                    CustomJsonResult j_result = filterContext.Result.ToJsonObject<CustomJsonResult>();
+                    CustomJsonResult j_result = result.ToJsonObject<CustomJsonResult>();
 
                     if (j_result.Result == ResultType.Success)
                     {
