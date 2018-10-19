@@ -87,56 +87,59 @@ namespace Lumos.BLL.Service.App
 
                     foreach (var item in rop.Skus)
                     {
-                        var mod_Cart = CurrentDb.ClientCart.Where(m => m.ClientId == pClientId && m.StoreId == rop.StoreId && m.ProductSkuId == item.SkuId && m.ReceptionMode == item.ReceptionMode && m.Status == Enumeration.CartStatus.WaitSettle).FirstOrDefault();
+                        var store = CurrentDb.Store.Where(m => m.Id == rop.StoreId).FirstOrDefault();
+
+                        var clientCart = CurrentDb.ClientCart.Where(m => m.ClientId == pClientId && m.StoreId == rop.StoreId && m.ProductSkuId == item.SkuId && m.ReceptionMode == item.ReceptionMode && m.Status == Enumeration.CartStatus.WaitSettle).FirstOrDefault();
 
                         LogUtil.Info("购物车操作：" + rop.Operate);
                         switch (rop.Operate)
                         {
                             case Enumeration.CartOperateType.Selected:
                                 LogUtil.Info("购物车操作：选择");
-                                mod_Cart.Selected = item.Selected;
+                                clientCart.Selected = item.Selected;
                                 break;
                             case Enumeration.CartOperateType.Decrease:
                                 LogUtil.Info("购物车操作：减少");
-                                if (mod_Cart.Quantity >= 2)
+                                if (clientCart.Quantity >= 2)
                                 {
-                                    mod_Cart.Quantity -= 1;
-                                    mod_Cart.MendTime = this.DateTime;
-                                    mod_Cart.Mender = operater;
+                                    clientCart.Quantity -= 1;
+                                    clientCart.MendTime = this.DateTime;
+                                    clientCart.Mender = operater;
                                 }
                                 break;
                             case Enumeration.CartOperateType.Increase:
                                 LogUtil.Info("购物车操作：增加");
                                 var skuModel = BizFactory.ProductSku.GetModel(item.SkuId);
 
-                                if (mod_Cart == null)
+                                if (clientCart == null)
                                 {
-                                    mod_Cart = new ClientCart();
-                                    mod_Cart.Id = GuidUtil.New();
-                                    mod_Cart.ClientId = pClientId;
-                                    mod_Cart.StoreId = rop.StoreId;
-                                    mod_Cart.ProductSkuId = skuModel.Id;
-                                    mod_Cart.ProductSkuName = skuModel.Name;
-                                    mod_Cart.ProductSkuImgUrl = skuModel.ImgUrl;
-                                    mod_Cart.CreateTime = this.DateTime;
-                                    mod_Cart.Creator = operater;
-                                    mod_Cart.Quantity = 1;
-                                    mod_Cart.ReceptionMode = item.ReceptionMode;
-                                    mod_Cart.Status = Enumeration.CartStatus.WaitSettle;
-                                    CurrentDb.ClientCart.Add(mod_Cart);
+                                    clientCart = new ClientCart();
+                                    clientCart.Id = GuidUtil.New();
+                                    clientCart.ClientId = pClientId;
+                                    clientCart.MerchantId = store.MerchantId;
+                                    clientCart.StoreId = rop.StoreId;
+                                    clientCart.ProductSkuId = skuModel.Id;
+                                    clientCart.ProductSkuName = skuModel.Name;
+                                    clientCart.ProductSkuImgUrl = skuModel.ImgUrl;
+                                    clientCart.CreateTime = this.DateTime;
+                                    clientCart.Creator = operater;
+                                    clientCart.Quantity = 1;
+                                    clientCart.ReceptionMode = item.ReceptionMode;
+                                    clientCart.Status = Enumeration.CartStatus.WaitSettle;
+                                    CurrentDb.ClientCart.Add(clientCart);
                                 }
                                 else
                                 {
-                                    mod_Cart.Quantity += 1;
-                                    mod_Cart.MendTime = this.DateTime;
-                                    mod_Cart.Mender = operater;
+                                    clientCart.Quantity += 1;
+                                    clientCart.MendTime = this.DateTime;
+                                    clientCart.Mender = operater;
                                 }
                                 break;
                             case Enumeration.CartOperateType.Delete:
                                 LogUtil.Info("购物车操作：删除");
-                                mod_Cart.Status = Enumeration.CartStatus.Deleted;
-                                mod_Cart.MendTime = this.DateTime;
-                                mod_Cart.Mender = operater;
+                                clientCart.Status = Enumeration.CartStatus.Deleted;
+                                clientCart.MendTime = this.DateTime;
+                                clientCart.Mender = operater;
                                 break;
                         }
                     }
