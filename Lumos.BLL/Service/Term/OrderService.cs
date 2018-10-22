@@ -29,7 +29,17 @@ namespace Lumos.BLL.Service.Term
                 bizRop.Skus.Add(new Biz.RModels.RopOrderReserve.Sku() { Id = item.Id, Quantity = item.Quantity, ReceptionMode = Enumeration.ReceptionMode.Machine });
             }
 
-            result = BizFactory.Order.Reserve(pOperater, bizRop);
+            var bizResult = BizFactory.Order.Reserve(pOperater, bizRop);
+
+            if (result.Result == ResultType.Success)
+            {
+                RetOrderReserve ret = new RetOrderReserve();
+                ret.OrderSn = bizResult.Data.OrderSn;
+                ret.PayUrl = string.Format("http://mobile.17fanju.com/Order/Confirm?soure=machine&orderId=" + bizResult.Data.OrderId);
+
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "预定成功", ret);
+            }
+
 
             return result;
 

@@ -23,20 +23,20 @@ namespace Lumos.BLL
     public class OrderProvider : BaseProvider
     {
 
-        public CustomJsonResult Reserve(string pOperater, RopOrderReserve rop)
+        public CustomJsonResult<RetOrderReserve> Reserve(string pOperater, RopOrderReserve rop)
         {
-            CustomJsonResult result = new CustomJsonResult();
+            CustomJsonResult<RetOrderReserve> result = new CustomJsonResult<RetOrderReserve>();
 
             if (rop.ReserveMode == Enumeration.ReserveMode.Unknow)
             {
-                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "未知预定方式");
+                return new CustomJsonResult<RetOrderReserve>(ResultType.Failure, ResultCode.Failure, "未知预定方式", null);
             }
 
             if (rop.ReserveMode == Enumeration.ReserveMode.OffLine)
             {
                 if (string.IsNullOrEmpty(rop.ChannelId))
                 {
-                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "机器ID不能为空");
+                    return new CustomJsonResult<RetOrderReserve>(ResultType.Failure, ResultCode.Failure, "机器ID不能为空", null);
                 }
             }
 
@@ -44,7 +44,6 @@ namespace Lumos.BLL
             {
                 RetOrderReserve ret = new RetOrderReserve();
 
- 
 
                 var skuIds = rop.Skus.Select(m => m.Id).ToArray();
 
@@ -53,10 +52,10 @@ namespace Lumos.BLL
 
                 if (rop.ReserveMode == Enumeration.ReserveMode.OffLine)
                 {
-                    skusByStock = CurrentDb.StoreSellStock.Where(m => m.StoreId == rop.StoreId  && m.ChannelType == Enumeration.ChannelType.Machine && m.ChannelId == rop.ChannelId && skuIds.Contains(m.ProductSkuId)).ToList();
+                    skusByStock = CurrentDb.StoreSellStock.Where(m => m.StoreId == rop.StoreId && m.ChannelType == Enumeration.ChannelType.Machine && m.ChannelId == rop.ChannelId && skuIds.Contains(m.ProductSkuId)).ToList();
                 }
                 else {
-                    skusByStock = CurrentDb.StoreSellStock.Where(m => m.StoreId == rop.StoreId  && skuIds.Contains(m.ProductSkuId)).ToList();
+                    skusByStock = CurrentDb.StoreSellStock.Where(m => m.StoreId == rop.StoreId && skuIds.Contains(m.ProductSkuId)).ToList();
                 }
 
                 if (skusByStock.Count == 0)
@@ -74,7 +73,7 @@ namespace Lumos.BLL
                         tips = tips.Substring(0, tips.Length - 1) + ",";
                     }
 
-                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, tips + "可预定数量不足");
+                    return new CustomJsonResult<RetOrderReserve>(ResultType.Failure, ResultCode.Failure, tips + "可预定数量不足", null);
                 }
 
                 //检查是否有下架的商品
@@ -93,7 +92,7 @@ namespace Lumos.BLL
                     {
                         tips = tips.Substring(0, tips.Length - 1) + ",";
                     }
-                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, tips + "商品已经下架");
+                    return new CustomJsonResult<RetOrderReserve>(ResultType.Failure, ResultCode.Failure, tips + "商品已经下架", null);
                 }
 
                 //检查是否有预定的商品数量与库存数量不对应
@@ -143,13 +142,13 @@ namespace Lumos.BLL
                     {
                         tips = tips.Substring(0, tips.Length - 1) + ",";
                     }
-                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, tips + "库存不足");
+                    return new CustomJsonResult<RetOrderReserve>(ResultType.Failure, ResultCode.Failure, tips + "库存不足", null);
                 }
 
                 var store = CurrentDb.Store.Where(m => m.Id == rop.StoreId).FirstOrDefault();
                 if (store == null)
                 {
-                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "店铺无效");
+                    return new CustomJsonResult<RetOrderReserve>(ResultType.Failure, ResultCode.Failure, "店铺无效", null);
                 }
 
                 var order = new Order();
@@ -165,6 +164,29 @@ namespace Lumos.BLL
                 order.SubmitTime = this.DateTime;
                 order.Creator = pOperater;
                 order.CreateTime = this.DateTime;
+
+
+                #region 更改购物车标识
+                
+                if (!string.IsNullOrEmpty(rop.ClientId))
+                {
+                    var cartsIds = rop.Skus.Select(m => m.CartId).Distinct().ToArray();
+                    if (cartsIds != null)
+                    {
+                        var clientCarts = CurrentDb.ClientCart.Where(m => cartsIds.Contains(m.Id) && m.ClientId == rop.ClientId).ToList();
+                        if (clientCarts != null)
+                        {
+                            foreach (var cart in clientCarts)
+                            {
+                                cart.Status = Enumeration.CartStatus.WaitSettle;
+                                cart.Mender = pOperater;
+                                cart.MendTime = this.DateTime;
+                                CurrentDb.SaveChanges();
+                            }
+                        }
+                    }
+                }
+                #endregion 
 
                 //var discount50;
                 var reserveDetails = GetReserveDetail(rop.Skus, skusByStock);
@@ -331,10 +353,10 @@ namespace Lumos.BLL
 
                 Task4Factory.Global.Enter(TimerTaskType.CheckOrderPay, order.PayExpireTime.Value, order);
 
+                ret.OrderId = order.Id;
                 ret.OrderSn = order.Sn;
-                ret.PayUrl = string.Format("http://mobile.17fanju.com/Order/Confirm?soure=machine&orderId=" + order.Id);
 
-                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "预定成功", ret);
+                result = new CustomJsonResult<RetOrderReserve>(ResultType.Success, ResultCode.Success, "预定成功", ret);
 
             }
 

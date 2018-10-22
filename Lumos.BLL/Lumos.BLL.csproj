@@ -136,6 +136,7 @@
     <Compile Include="Service\App\RModels\RetLoginByMinProgram.cs" />
     <Compile Include="Service\App\RModels\RetOrderConfirm.cs" />
     <Compile Include="Service\App\RModels\RetOperateResult.cs" />
+    <Compile Include="Service\App\RModels\RetOrderReserve.cs" />
     <Compile Include="Service\App\RModels\RopLoginByMinProgram.cs" />
     <Compile Include="Service\App\RModels\RopOrderConfirm.cs" />
     <Compile Include="Service\App\RModels\RetGobalDataSet.cs" />

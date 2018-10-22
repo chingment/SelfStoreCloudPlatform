@@ -17,10 +17,8 @@ namespace Lumos.BLL.Biz.RModels
         {
 
         }
-
+        public string OrderId { get; set; }
         public string OrderSn { get; set; }
-        public string PayUrl { get; set; }
-
     }
 
 

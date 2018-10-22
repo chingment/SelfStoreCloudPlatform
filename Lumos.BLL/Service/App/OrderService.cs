@@ -29,7 +29,17 @@ namespace Lumos.BLL.Service.App
                 bizRop.Skus.Add(new Biz.RModels.RopOrderReserve.Sku() { Id = item.Id, Quantity = item.Quantity, ReceptionMode = item.ReceptionMode });
             }
 
-            result = BizFactory.Order.Reserve(pOperater, bizRop);
+            var bizResult = BizFactory.Order.Reserve(pOperater, bizRop);
+
+            if (bizResult.Result == ResultType.Success)
+            {
+                RetOrderReserve ret = new RetOrderReserve();
+
+                ret.OrderId = bizResult.Data.OrderId;
+                ret.OrderSn = bizResult.Data.OrderSn;
+
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "预定成功", ret);
+            }
 
             return result;
 

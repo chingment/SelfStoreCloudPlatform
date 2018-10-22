@@ -31,11 +31,7 @@ namespace WebAppApi.Controllers
         {
             IResult result = AppServiceFactory.Order.Reserve(this.CurrentUserId, this.CurrentUserId, rop);
             return new OwnApiHttpResponse(result);
-
         }
-
-
-
 
 
     }

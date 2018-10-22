@@ -27,6 +27,7 @@ namespace Lumos.BLL.Biz.RModels
         public List<Sku> Skus { get; set; }
         public class Sku
         {
+            public string CartId { get; set; }
             public string Id { get; set; }
             public int Quantity { get; set; }
             public Enumeration.ReceptionMode ReceptionMode { get; set; }
