@@ -19,5 +19,12 @@ namespace WebAppApi.Controllers
             return new OwnApiHttpResponse(result);
 
         }
+
+        public OwnApiHttpResponse GetPageData([FromUri]RupCartPageData rup)
+        {
+            var data = AppServiceFactory.Cart.GetPageData(this.CurrentUserId, this.CurrentUserId, rup.StoreId);
+
+            return ResponseResult(ResultType.Success, ResultCode.Success, "", data);
+        }
     }
 }

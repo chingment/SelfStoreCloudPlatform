@@ -34,10 +34,8 @@ namespace Lumos.BLL.Service.App
             if (bizResult.Result == ResultType.Success)
             {
                 RetOrderReserve ret = new RetOrderReserve();
-
                 ret.OrderId = bizResult.Data.OrderId;
                 ret.OrderSn = bizResult.Data.OrderSn;
-
                 result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "预定成功", ret);
             }
             else

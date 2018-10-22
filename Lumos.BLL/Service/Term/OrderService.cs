@@ -39,6 +39,10 @@ namespace Lumos.BLL.Service.Term
 
                 result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "预定成功", ret);
             }
+            else
+            {
+                result = new CustomJsonResult(ResultType.Failure, ResultCode.Failure, bizResult.Message);
+            }
 
 
             return result;
