@@ -9,13 +9,13 @@ namespace Lumos.BLL.Service.App
 {
     public class RopOrderReserve
     {
-        public string MerchantId { get; set; }
         public string StoreId { get; set; }
         public int PayTimeout { get; set; }
-        public List<Detail> Details { get; set; }
-        public class Detail
+        public List<Sku> Skus { get; set; }
+        public class Sku
         {
-            public string SkuId { get; set; }
+            public string Id { get; set; }
+            public string CartId { get; set; }
             public int Quantity { get; set; }
             public Enumeration.ReceptionMode ReceptionMode { get; set; }
         }

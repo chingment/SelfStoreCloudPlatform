@@ -13,16 +13,16 @@ namespace Lumos.BLL.Service.Term
     {
         public RopOrderReserve()
         {
-            this.Details = new List<Detail>();
+            this.Skus = new List<Sku>();
         }
         public string MerchantId { get; set; }
         public string StoreId { get; set; }
         public string MachineId { get; set; }
         public int PayTimeout { get; set; }
-        public List<Detail> Details { get; set; }
-        public class Detail
+        public List<Sku> Skus { get; set; }
+        public class Sku
         {
-            public string SkuId { get; set; }
+            public string Id { get; set; }
             public int Quantity { get; set; }
             //public Enumeration.ReceptionMode ReceptionMode { get; set; }
         }

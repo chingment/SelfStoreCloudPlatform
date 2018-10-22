@@ -20,14 +20,13 @@ namespace Lumos.BLL.Service.Term
             Biz.RModels.RopOrderReserve bizRop = new Biz.RModels.RopOrderReserve();
             bizRop.Source = Enumeration.OrderSource.Machine;
             bizRop.StoreId = rop.StoreId;
-            bizRop.MerchantId = rop.MerchantId;
             bizRop.PayTimeout = rop.PayTimeout;
             bizRop.ReserveMode = Enumeration.ReserveMode.OffLine;
             bizRop.ChannelId = rop.MachineId;
 
-            foreach (var item in rop.Details)
+            foreach (var item in rop.Skus)
             {
-                bizRop.Details.Add(new Biz.RModels.RopOrderReserve.Detail() { SkuId = item.SkuId, Quantity = item.Quantity, ReceptionMode = Enumeration.ReceptionMode.Machine });
+                bizRop.Skus.Add(new Biz.RModels.RopOrderReserve.Sku() { Id = item.Id, Quantity = item.Quantity, ReceptionMode = Enumeration.ReceptionMode.Machine });
             }
 
             result = BizFactory.Order.Reserve(pOperater, bizRop);

@@ -170,10 +170,10 @@ namespace WebTermApi.Controllers
             pms.StoreId = storeId;
             pms.MachineId = machineId;
             pms.PayTimeout = 10;
-            pms.Details.Add(new RopOrderReserve.Detail() { SkuId = "1", Quantity = 1 });
-            pms.Details.Add(new RopOrderReserve.Detail() { SkuId = "1", Quantity = 1 });
-            pms.Details.Add(new RopOrderReserve.Detail() { SkuId = "3", Quantity = 1 });
-            pms.Details.Add(new RopOrderReserve.Detail() { SkuId = "4", Quantity = 1 });
+            pms.Skus.Add(new RopOrderReserve.Sku() { Id = "1", Quantity = 1 });
+            pms.Skus.Add(new RopOrderReserve.Sku() { Id = "1", Quantity = 1 });
+            pms.Skus.Add(new RopOrderReserve.Sku() { Id = "3", Quantity = 1 });
+            pms.Skus.Add(new RopOrderReserve.Sku() { Id = "4", Quantity = 1 });
 
             string a1 = JsonConvert.SerializeObject(pms);
 

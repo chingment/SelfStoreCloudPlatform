@@ -46,17 +46,17 @@ namespace Lumos.BLL
 
  
 
-                var skuIds = rop.Details.Select(m => m.SkuId).ToArray();
+                var skuIds = rop.Skus.Select(m => m.Id).ToArray();
 
                 //检查是否有可买的商品
                 List<StoreSellStock> skusByStock;
 
                 if (rop.ReserveMode == Enumeration.ReserveMode.OffLine)
                 {
-                    skusByStock = CurrentDb.StoreSellStock.Where(m => m.StoreId == rop.StoreId && m.MerchantId == rop.MerchantId && m.ChannelType == Enumeration.ChannelType.Machine && m.ChannelId == rop.ChannelId && skuIds.Contains(m.ProductSkuId)).ToList();
+                    skusByStock = CurrentDb.StoreSellStock.Where(m => m.StoreId == rop.StoreId  && m.ChannelType == Enumeration.ChannelType.Machine && m.ChannelId == rop.ChannelId && skuIds.Contains(m.ProductSkuId)).ToList();
                 }
                 else {
-                    skusByStock = CurrentDb.StoreSellStock.Where(m => m.StoreId == rop.StoreId && m.MerchantId == rop.MerchantId && skuIds.Contains(m.ProductSkuId)).ToList();
+                    skusByStock = CurrentDb.StoreSellStock.Where(m => m.StoreId == rop.StoreId  && skuIds.Contains(m.ProductSkuId)).ToList();
                 }
 
                 if (skusByStock.Count == 0)
@@ -98,30 +98,30 @@ namespace Lumos.BLL
 
                 //检查是否有预定的商品数量与库存数量不对应
                 var skusByUnderStock = new List<SkuByUnderStock>();
-                foreach (var item in rop.Details)
+                foreach (var item in rop.Skus)
                 {
                     var sellQuantity = 0;
 
                     if (rop.ReserveMode == Enumeration.ReserveMode.OffLine)
                     {
-                        sellQuantity = skusByStock.Where(m => m.ProductSkuId == item.SkuId && m.ChannelType == Enumeration.ChannelType.Machine && m.ChannelId == rop.ChannelId).Sum(m => m.SellQuantity);
+                        sellQuantity = skusByStock.Where(m => m.ProductSkuId == item.Id && m.ChannelType == Enumeration.ChannelType.Machine && m.ChannelId == rop.ChannelId).Sum(m => m.SellQuantity);
                     }
                     else
                     {
                         if (item.ReceptionMode == Enumeration.ReceptionMode.Machine)
                         {
-                            sellQuantity = skusByStock.Where(m => m.ProductSkuId == item.SkuId && m.ChannelType == Enumeration.ChannelType.Machine).Sum(m => m.SellQuantity);
+                            sellQuantity = skusByStock.Where(m => m.ProductSkuId == item.Id && m.ChannelType == Enumeration.ChannelType.Machine).Sum(m => m.SellQuantity);
                         }
                         else if (item.ReceptionMode == Enumeration.ReceptionMode.Express)
                         {
-                            sellQuantity = skusByStock.Where(m => m.ProductSkuId == item.SkuId && m.ChannelType == Enumeration.ChannelType.Express).Sum(m => m.SellQuantity);
+                            sellQuantity = skusByStock.Where(m => m.ProductSkuId == item.Id && m.ChannelType == Enumeration.ChannelType.Express).Sum(m => m.SellQuantity);
                         }
                     }
 
                     if (item.Quantity > sellQuantity)
                     {
                         var skuByUnderStock = new SkuByUnderStock();
-                        skuByUnderStock.SkuId = item.SkuId;
+                        skuByUnderStock.SkuId = item.Id;
                         skuByUnderStock.ReserveQuantity = item.Quantity;
                         skuByUnderStock.SellQuantity = sellQuantity;
                         skuByUnderStock.ReceptionMode = item.ReceptionMode;
@@ -154,12 +154,12 @@ namespace Lumos.BLL
 
                 var order = new Order();
                 order.Id = GuidUtil.New();
-                order.Sn = SnUtil.Build(Enumeration.BizSnType.Order, rop.MerchantId);
-                order.MerchantId = rop.MerchantId;
+                order.Sn = SnUtil.Build(Enumeration.BizSnType.Order, store.MerchantId);
+                order.MerchantId = store.MerchantId;
                 order.StoreId = rop.StoreId;
                 order.StoreName = store.Name;
                 order.ClientId = rop.ClientId;
-                order.Quantity = rop.Details.Sum(m => m.Quantity);
+                order.Quantity = rop.Skus.Sum(m => m.Quantity);
                 order.Status = Enumeration.OrderStatus.WaitPay;
                 order.Source = rop.Source;
                 order.SubmitTime = this.DateTime;
@@ -167,7 +167,7 @@ namespace Lumos.BLL
                 order.CreateTime = this.DateTime;
 
                 //var discount50;
-                var reserveDetails = GetReserveDetail(rop.Details, skusByStock);
+                var reserveDetails = GetReserveDetail(rop.Skus, skusByStock);
 
                 order.OriginalAmount = reserveDetails.Sum(m => m.OriginalAmount);
                 order.DiscountAmount = reserveDetails.Sum(m => m.DiscountAmount);
@@ -179,7 +179,7 @@ namespace Lumos.BLL
                     orderDetails.Id = GuidUtil.New();
                     orderDetails.Sn = order.Sn + reserveDetails.IndexOf(detail).ToString();
                     orderDetails.ClientId = rop.ClientId;
-                    orderDetails.MerchantId = rop.MerchantId;
+                    orderDetails.MerchantId = store.MerchantId;
                     orderDetails.StoreId = rop.StoreId;
                     orderDetails.ChannelType = detail.ChannelType;
                     orderDetails.ChannelId = detail.ChannelId;
@@ -221,7 +221,7 @@ namespace Lumos.BLL
                         orderDetailsChild.Id = GuidUtil.New();
                         orderDetailsChild.Sn = orderDetails.Sn + detail.Details.IndexOf(detailsChild).ToString();
                         orderDetailsChild.ClientId = rop.ClientId;
-                        orderDetailsChild.MerchantId = rop.MerchantId;
+                        orderDetailsChild.MerchantId = store.MerchantId;
                         orderDetailsChild.StoreId = rop.StoreId;
                         orderDetailsChild.ChannelType = detailsChild.ChannelType;
                         orderDetailsChild.ChannelId = detailsChild.ChannelId;
@@ -252,7 +252,7 @@ namespace Lumos.BLL
                             orderDetailsChildSon.Id = detailsChildSon.Id;
                             orderDetailsChildSon.Sn = orderDetailsChild.Sn + detailsChild.Details.IndexOf(detailsChildSon);
                             orderDetailsChildSon.ClientId = rop.ClientId;
-                            orderDetailsChildSon.MerchantId = rop.MerchantId;
+                            orderDetailsChildSon.MerchantId = store.MerchantId;
                             orderDetailsChildSon.StoreId = rop.StoreId;
                             orderDetailsChildSon.ChannelType = detailsChildSon.ChannelType;
                             orderDetailsChildSon.ChannelId = detailsChildSon.ChannelId;
@@ -294,7 +294,7 @@ namespace Lumos.BLL
 
                             var storeSellStockLog = new StoreSellStockLog();
                             storeSellStockLog.Id = GuidUtil.New();
-                            storeSellStockLog.MerchantId = rop.MerchantId;
+                            storeSellStockLog.MerchantId = store.MerchantId;
                             storeSellStockLog.StoreId = rop.StoreId;
                             storeSellStockLog.ChannelType = slotStock.ChannelType;
                             storeSellStockLog.ChannelId = slotStock.ChannelId;
@@ -342,7 +342,7 @@ namespace Lumos.BLL
 
         }
 
-        private List<OrderReserveDetail> GetReserveDetail(List<RopOrderReserve.Detail> reserveDetails, List<StoreSellStock> storeSellStocks)
+        private List<OrderReserveDetail> GetReserveDetail(List<RopOrderReserve.Sku> reserveDetails, List<StoreSellStock> storeSellStocks)
         {
             List<OrderReserveDetail> details = new List<OrderReserveDetail>();
 
@@ -357,13 +357,13 @@ namespace Lumos.BLL
                 foreach (var reserveDetail in l_reserveDetails)
                 {
                     Entity.Enumeration.ChannelType channelType = receptionMode == Enumeration.ReceptionMode.Express ? Enumeration.ChannelType.Express : Enumeration.ChannelType.Machine;
-                    var l_storeSellStocks = storeSellStocks.Where(m => m.ProductSkuId == reserveDetail.SkuId && m.ChannelType == channelType).ToList();
+                    var l_storeSellStocks = storeSellStocks.Where(m => m.ProductSkuId == reserveDetail.Id && m.ChannelType == channelType).ToList();
 
                     foreach (var item in l_storeSellStocks)
                     {
                         for (var i = 0; i < item.SellQuantity; i++)
                         {
-                            int reservedQuantity = detailChildSons.Where(m => m.SkuId == reserveDetail.SkuId && m.ChannelType == channelType).Sum(m => m.Quantity);//已订的数量
+                            int reservedQuantity = detailChildSons.Where(m => m.SkuId == reserveDetail.Id && m.ChannelType == channelType).Sum(m => m.Quantity);//已订的数量
                             int needReserveQuantity = reserveDetail.Quantity;//需要订的数量
                             if (reservedQuantity != needReserveQuantity)
                             {
