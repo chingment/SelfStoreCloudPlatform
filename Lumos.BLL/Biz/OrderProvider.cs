@@ -167,18 +167,22 @@ namespace Lumos.BLL
 
 
                 #region 更改购物车标识
-                
+                LogUtil.Info("ClientId:" + rop.ClientId);
+
                 if (!string.IsNullOrEmpty(rop.ClientId))
                 {
                     var cartsIds = rop.Skus.Select(m => m.CartId).Distinct().ToArray();
                     if (cartsIds != null)
                     {
+                        LogUtil.Info("cartsIds:"+Newtonsoft.Json.JsonConvert.SerializeObject(cartsIds));
                         var clientCarts = CurrentDb.ClientCart.Where(m => cartsIds.Contains(m.Id) && m.ClientId == rop.ClientId).ToList();
                         if (clientCarts != null)
                         {
+                            LogUtil.Info("clientCarts.length" + clientCarts.Count);
+
                             foreach (var cart in clientCarts)
                             {
-                                cart.Status = Enumeration.CartStatus.WaitSettle;
+                                cart.Status = Enumeration.CartStatus.Settling;
                                 cart.Mender = pOperater;
                                 cart.MendTime = this.DateTime;
                                 CurrentDb.SaveChanges();

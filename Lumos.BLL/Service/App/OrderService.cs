@@ -26,7 +26,7 @@ namespace Lumos.BLL.Service.App
 
             foreach (var item in rop.Skus)
             {
-                bizRop.Skus.Add(new Biz.RModels.RopOrderReserve.Sku() { Id = item.Id, Quantity = item.Quantity, ReceptionMode = item.ReceptionMode });
+                bizRop.Skus.Add(new Biz.RModels.RopOrderReserve.Sku() { CartId = item.CartId, Id = item.Id, Quantity = item.Quantity, ReceptionMode = item.ReceptionMode });
             }
 
             var bizResult = BizFactory.Order.Reserve(pOperater, bizRop);
@@ -40,6 +40,11 @@ namespace Lumos.BLL.Service.App
 
                 result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "预定成功", ret);
             }
+            else
+            {
+                result = new CustomJsonResult(ResultType.Failure, ResultCode.Failure, bizResult.Message);
+            }
+
 
             return result;
 
@@ -258,6 +263,7 @@ namespace Lumos.BLL.Service.App
 
             ret.OriginalAmount = skuAmountByOriginal.ToF2Price();
 
+            ret.OrderId = rop.OrderId;
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
 

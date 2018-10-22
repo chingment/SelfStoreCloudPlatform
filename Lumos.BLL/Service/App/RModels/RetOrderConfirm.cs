@@ -25,5 +25,7 @@ namespace Lumos.BLL.Service.App
         //原金额
         public string OriginalAmount { get; set; }
 
+        public string OrderId { get; set; }
+
     }
 }
