@@ -552,11 +552,12 @@
             });
         },
 
-        get: function (opts) {
+        getJson: function (opts) {
 
             opts = $.extend({
                 isShowLoading: false,
                 url: '',
+                urlParams: null,
                 async: true,
                 timeout: 0,
                 beforeSend: function (XMLHttpRequest) {
