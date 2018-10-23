@@ -273,14 +273,14 @@ namespace Lumos.BLL.Service.App
 
             if (wxUserInfo == null)
             {
-                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "用户数据异常");
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "找不到该用户数据");
             }
 
             var order = CurrentDb.Order.Where(m => m.Id == rop.OrderId).FirstOrDefault();
 
             if (order == null)
             {
-                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "操作失败");
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "找不到该订单数据");
             }
 
             order.ClientId = wxUserInfo.ClientId;
