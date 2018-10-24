@@ -114,7 +114,7 @@ namespace Lumos.BLL
         //    return prepayId;
         //}
 
-        public UnifiedOrderResult UnifiedOrder(string operater,string tradeType,string openId, string orderSn, decimal orderAmount, string goods_tag, string ip, string body, DateTime? time_expire = null)
+        public UnifiedOrderResult UnifiedOrder(string operater, string tradeType,string openId, string orderSn, decimal orderAmount, string goods_tag, string ip, string body, DateTime? time_expire = null)
         {
 
             var ret = new UnifiedOrderResult();

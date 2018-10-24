@@ -195,7 +195,7 @@
             $.lumos.postJson({
                 url: "/Order/GetJsApiPaymentPms",
                 isShowLoading: true,
-                data: { payWay: payWay, orderId: orderId },
+                data: { payWay: payWay, orderId: orderId, caller: 1 },
                 success: function (d) {
                     if (d.result == $.lumos.resultType.success) {
                         var params = d.data;

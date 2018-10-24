@@ -143,7 +143,7 @@
     <Compile Include="Service\App\RModels\RetGobalDataSet.cs" />
     <Compile Include="Service\App\RModels\RopCartOperate.cs" />
     <Compile Include="Service\App\RModels\RopOrderReserve.cs" />
-    <Compile Include="Service\App\RModels\RopOrderGetJsApiPaymentPms.cs" />
+    <Compile Include="Service\App\RModels\RupOrderGetJsApiPaymentPms.cs" />
     <Compile Include="Service\App\RModels\RopUserDeliveryAddressEdit.cs" />
     <Compile Include="Service\App\RModels\RupCouponMy.cs" />
     <Compile Include="Service\App\RModels\RupGlobalDataSet.cs" />

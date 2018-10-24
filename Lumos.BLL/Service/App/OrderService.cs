@@ -1,5 +1,6 @@
 ﻿using Lumos.Entity;
 using Lumos.Mvc;
+using Lumos.WeiXinSdk;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -265,7 +266,7 @@ namespace Lumos.BLL.Service.App
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
 
-        public CustomJsonResult GetJsApiPaymentPms(string pOperater, string pClientId, RopOrderGetJsApiPaymentPms rop)
+        public CustomJsonResult GetJsApiPaymentPms(string pOperater, string pClientId, RupOrderGetJsApiPaymentPms rup)
         {
             var result = new CustomJsonResult();
 
@@ -276,7 +277,7 @@ namespace Lumos.BLL.Service.App
                 return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "找不到该用户数据");
             }
 
-            var order = CurrentDb.Order.Where(m => m.Id == rop.OrderId).FirstOrDefault();
+            var order = CurrentDb.Order.Where(m => m.Id == rup.OrderId).FirstOrDefault();
 
             if (order == null)
             {
@@ -284,8 +285,24 @@ namespace Lumos.BLL.Service.App
             }
 
             order.ClientId = wxUserInfo.ClientId;
-            order.PayWay = rop.PayWay;
             order.PayExpireTime = this.DateTime.AddMinutes(5);
+
+            switch (rup.PayWay)
+            {
+                case PayWay.AliPay:
+                    order.PayWay = Enumeration.OrderPayWay.AliPay;
+                    break;
+                case PayWay.Wechat:
+                    order.PayWay = Enumeration.OrderPayWay.Wechat;
+                    switch (rup.Caller)
+                    {
+                        case Caller.NativeWebMoblie://公众号网站
+                            break;
+                        case Caller.NativeMiniProgram://小程序
+                            break;
+                    }
+                    break;
+            }
 
 
             var ret_UnifiedOrder = SdkFactory.Wx.Instance().UnifiedOrder(pOperater, "JSAPI", wxUserInfo.OpenId, order.Sn, 0.01m, "", Common.CommonUtils.GetIP(), "自助商品", order.PayExpireTime.Value);
@@ -303,8 +320,11 @@ namespace Lumos.BLL.Service.App
 
             var ret = SdkFactory.Wx.Instance().GetJsApiPayParams(ret_UnifiedOrder.PrepayId, order.Id, order.Sn);
 
+            JsApiPayParams parms = new JsApiPayParams("wxb01e0e16d57bd762", "37b016a9569e4f519702696e1274d63a", ret_UnifiedOrder.PrepayId, order.Id, order.Sn);
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret.Data);
+            //return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret.Data);
+
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", parms);
         }
 
     }
