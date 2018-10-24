@@ -32,7 +32,7 @@ namespace Lumos.BLL.Service.Term
 
             var bizResult = BizFactory.Order.Reserve(pOperater, bizRop);
 
-            if (result.Result == ResultType.Success)
+            if (bizResult.Result == ResultType.Success)
             {
                 RetOrderReserve ret = new RetOrderReserve();
                 ret.OrderSn = bizResult.Data.OrderSn;

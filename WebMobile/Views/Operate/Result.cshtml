@@ -17,7 +17,7 @@
 
         .operate-result .imgbox .img {
             width: 100px;
-            height:100px;
+            height: 100px;
             display: inline-block;
         }
 
@@ -90,9 +90,10 @@
                     success: function (d) {
                         if (d.result == $.lumos.resultType.success) {
                             if (d.data.isComplete) {
+                                $('#operate_check').hide();
+                                $('#operate_result').html($("#operate_result_tmpl").tmpl(d.data));
                                 clearInterval(myInterval);
                             }
-                            $("#block_result_tmpl").tmpl(d.data).appendTo('#block_area');
                         }
                     }
                 });
@@ -101,16 +102,8 @@
     </script>
 }
 
-<script id="block_result_tmpl" type="text/x-jquery-tmpl">
-    {{if isComplete}}
-    <div id="operate_check" class="operate-check">
-        <div class="it-countdown" id="rC_PB" style="text-align:center;"></div>
-        <div class="it-message">
-            <span>正在查询订单信息，请耐心等候</span>
-        </div>
-    </div>
-    {{else}}
-    <div id="operate_result" class="operate-result">
+
+<script id="operate_result_tmpl" type="text/x-jquery-tmpl">
         <div class="it-result">
             <div class="imgbox">
                 <img class="img" src="/Content/default/images/operate_result_ic_${result}.png" />
@@ -129,8 +122,6 @@
         <div class="it-remarks">
             <p class="txt">${remarks}</p>
         </div>
-
-
         <div class="its-a">
             {{each(j,field) fields}}
 
@@ -148,10 +139,18 @@
 
             {{/each}}
         </div>
-    </div>
-    {{/if}}
 </script>
 
 <div id="block_area">
 
+    <div id="operate_check" class="operate-check">
+        <div class="it-countdown" id="rC_PB" style="text-align:center;"></div>
+        <div class="it-message">
+            <span>正在查询订单信息，请耐心等候</span>
+        </div>
+    </div>
+    <div id="operate_result" class="operate-result">
+
+
+    </div>
 </div>
