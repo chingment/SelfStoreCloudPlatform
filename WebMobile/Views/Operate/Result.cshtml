@@ -77,8 +77,6 @@
     <script src="~/Scripts/jquery.ba-throttle-debounce.min.js"></script>
     <script src="~/Scripts/jquery.redcountdown.js?@DateTime.Now.ToString("yyyyMMddHHmmss")"></script>
     <script type="text/javascript">
-
-
         var id = "@Request.QueryString["id"]";
         var type = "@Request.QueryString["type"]";
         $(document).ready(function () {
@@ -99,14 +97,9 @@
                     }
                 });
             }, 1000);
-
-            //var rt = JSON.parse(sessionStorage.getItem("payResult"));
-            //$("#block_tmpl").tmpl(rt).appendTo('#block_area');
         });
     </script>
 }
-
-
 
 <script id="block_result_tmpl" type="text/x-jquery-tmpl">
     {{if isComplete}}

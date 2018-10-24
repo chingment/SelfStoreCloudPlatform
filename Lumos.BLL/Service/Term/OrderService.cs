@@ -23,6 +23,7 @@ namespace Lumos.BLL.Service.Term
             bizRop.PayTimeout = rop.PayTimeout;
             bizRop.ReserveMode = Enumeration.ReserveMode.OffLine;
             bizRop.ChannelId = rop.MachineId;
+            bizRop.ChannelType = Enumeration.ChannelType.Machine;
 
             foreach (var item in rop.Skus)
             {

@@ -20,7 +20,6 @@ namespace WebMobile.Controllers
 {
     public class OperateController : OwnBaseController
     {
-        // GET: Operate
         public ActionResult Result()
         {
             return View();
