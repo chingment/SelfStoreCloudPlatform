@@ -13,7 +13,6 @@ namespace Lumos.WeiXinSdk
         public string openId { get; set; }
         public string nickName { get; set; }
         public string gender { get; set; }
-
         public string language { get; set; }
         public string city { get; set; }
         public string province { get; set; }

@@ -34,8 +34,6 @@ namespace WebAppApi.Controllers
         [HttpGet]
         public OwnApiHttpResponse AccessToken([FromUri]RupGlobalAccessToken rup)
         {
-            string userId = "";
-            string storeId = "";
             //var resultModel = new DataSetResultModel();
             //resultModel.Index = AppServiceFactory.Index.GetData(userId, userId, storeId);
             //resultModel.ProductKind = AppServiceFactory.ProductKind.GetKinds(userId, userId, storeId);

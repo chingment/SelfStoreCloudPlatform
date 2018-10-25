@@ -294,37 +294,46 @@ namespace Lumos.BLL.Service.App
                     break;
                 case PayWay.Wechat:
                     order.PayWay = Enumeration.OrderPayWay.Wechat;
+
+                    string caller = "";
                     switch (rup.Caller)
                     {
                         case Caller.NativeWebMoblie://公众号网站
+                            caller = "NativeWebMoblie";
                             break;
                         case Caller.NativeMiniProgram://小程序
+                            caller = "NativeMiniProgram";
                             break;
                     }
+
+                    var ret_UnifiedOrder = SdkFactory.Wx.Instance().UnifiedOrderByJSAPI(caller, wxUserInfo.OpenId, order.Sn, 0.01m, "", Common.CommonUtils.GetIP(), "自助商品", order.PayExpireTime.Value);
+
+                    if (string.IsNullOrEmpty(ret_UnifiedOrder.PrepayId))
+                    {
+                        return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "支付二维码生成失败");
+                    }
+
+                    order.PayPrepayId = ret_UnifiedOrder.PrepayId;
+                    order.PayQrCodeUrl = ret_UnifiedOrder.CodeUrl;
+                    CurrentDb.SaveChanges();
+
+                    var pms = SdkFactory.Wx.Instance().GetJsApiPayParams(caller, order.Id, order.Sn, ret_UnifiedOrder.PrepayId);
+
+                    result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", pms);
                     break;
             }
 
 
-            var ret_UnifiedOrder = SdkFactory.Wx.Instance().UnifiedOrder(pOperater, "JSAPI", wxUserInfo.OpenId, order.Sn, 0.01m, "", Common.CommonUtils.GetIP(), "自助商品", order.PayExpireTime.Value);
-
-            if (string.IsNullOrEmpty(ret_UnifiedOrder.PrepayId))
-            {
-                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "支付二维码生成失败");
-            }
-
-            order.PayPrepayId = ret_UnifiedOrder.PrepayId;
-            order.PayQrCodeUrl = ret_UnifiedOrder.CodeUrl;
-
-            CurrentDb.SaveChanges();
 
 
-            var ret = SdkFactory.Wx.Instance().GetJsApiPayParams(ret_UnifiedOrder.PrepayId, order.Id, order.Sn);
 
-            JsApiPayParams parms = new JsApiPayParams("wxb01e0e16d57bd762", "37b016a9569e4f519702696e1274d63a", ret_UnifiedOrder.PrepayId, order.Id, order.Sn);
+
+
+            //JsApiPayParams parms = new JsApiPayParams("wxb01e0e16d57bd762", "37b016a9569e4f519702696e1274d63a", ret_UnifiedOrder.PrepayId, order.Id, order.Sn);
 
             //return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret.Data);
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", parms);
+            return result;
         }
 
     }

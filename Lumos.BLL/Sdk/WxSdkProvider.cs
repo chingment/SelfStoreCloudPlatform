@@ -114,7 +114,7 @@ namespace Lumos.BLL
         //    return prepayId;
         //}
 
-        public UnifiedOrderResult UnifiedOrder(string operater, string tradeType,string openId, string orderSn, decimal orderAmount, string goods_tag, string ip, string body, DateTime? time_expire = null)
+        public UnifiedOrderResult UnifiedOrderByJSAPI(string caller, string openId, string orderSn, decimal orderAmount, string goods_tag, string ip, string body, DateTime? time_expire = null)
         {
 
             var ret = new UnifiedOrderResult();
@@ -127,7 +127,7 @@ namespace Lumos.BLL
             unifiedOrder.spbill_create_ip = "192.168.1.1";//终端IP
             unifiedOrder.total_fee = Convert.ToInt32(orderAmount * 100);//标价金额
             unifiedOrder.body = body;//商品描述  
-            unifiedOrder.trade_type = tradeType;
+            unifiedOrder.trade_type = "JSAPI";
             if (time_expire != null)
             {
                 unifiedOrder.time_expire = time_expire.Value.ToString("yyyyMMddHHmmss");
@@ -177,7 +177,7 @@ namespace Lumos.BLL
                 var jsCode2Session = SdkFactory.Wx.Instance().GetWxApiJsCode2Session(appId, appSecret, code);
 
                 string strData = AES_decrypt(encryptedData, iv, jsCode2Session.session_key);
-
+                LogUtil.Info("UserInfo:" + strData);
                 var obj = JsonConvert.DeserializeObject<UserInfoModelByMinProramJsCode>(strData);
 
                 return obj;
@@ -207,12 +207,11 @@ namespace Lumos.BLL
             return new CustomJsonResult<JsApiConfigParams>(ResultType.Success, ResultCode.Success, "", parms);
         }
 
-        public CustomJsonResult GetJsApiPayParams(string prepayId, string orderId, string orderSn)
+        public JsApiPayParams GetJsApiPayParams(string caller, string orderId, string orderSn, string prepayId)
         {
-            CustomJsonResult result = new CustomJsonResult();
             JsApiPayParams parms = new JsApiPayParams(wxConfig.AppId, wxConfig.Key, prepayId, orderId, orderSn);
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "", parms);
+            return parms;
         }
 
         public string GetNotifyEventUrlToken()
