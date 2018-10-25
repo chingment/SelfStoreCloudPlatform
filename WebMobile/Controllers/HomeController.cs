@@ -46,7 +46,7 @@ namespace WebMobile.Controllers
 
                 if (string.IsNullOrEmpty(code))
                 {
-                    var url = SdkFactory.Wx.Instance().GetAuthorizeUrl(returnUrl);
+                    var url = SdkFactory.Wx.Instance().GetWebAuthorizeUrl(returnUrl);
 
                     LogUtil.Info("待跳转路径2：" + url);
 

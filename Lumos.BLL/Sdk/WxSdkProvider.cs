@@ -145,7 +145,7 @@ namespace Lumos.BLL
         }
 
 
-        public string GetAuthorizeUrl(string returnUrl)
+        public string GetWebAuthorizeUrl(string returnUrl)
         {
             return OAuthApi.GetAuthorizeUrl(wxConfig.AppId, string.Format(wxConfig.Oauth2RedirectUrl, returnUrl));
         }
@@ -170,10 +170,13 @@ namespace Lumos.BLL
             return OAuthApi.GetUserInfo(accessToken, openId);
         }
 
-        public UserInfoModelByMinProramJsCode GetUserInfoByMinProramJsCode(string appId, string appSecret, string encryptedData, string iv, string code)
+        public UserInfoModelByMinProramJsCode GetUserInfoByMinProramJsCode(string caller, string encryptedData, string iv, string code)
         {
             try
             {
+                string appId = "wxb01e0e16d57bd762";
+                string appSecret = "4acf13ebe601a5b13029bd74bed3de1a";
+  
                 var jsCode2Session = SdkFactory.Wx.Instance().GetWxApiJsCode2Session(appId, appSecret, code);
 
                 string strData = AES_decrypt(encryptedData, iv, jsCode2Session.session_key);
@@ -225,13 +228,10 @@ namespace Lumos.BLL
             return cardApiTicket;
         }
 
-
         public string UploadMultimediaImage(string imageUrl)
         {
             return OAuthApi.UploadMultimediaImage(this.GetApiAccessToken(), imageUrl);
         }
-
-
 
         public string OrderQuery(string orderSn)
         {
