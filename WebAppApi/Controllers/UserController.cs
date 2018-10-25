@@ -35,6 +35,7 @@ namespace WebAppApi.Controllers
         [HttpPost]
         public OwnApiHttpResponse LoginByMinProgram(RopLoginByMinProgram rop)
         {
+         
             //"wxb01e0e16d57bd762", "4acf13ebe601a5b13029bd74bed3de1a"
             OwnApiHttpResult result;
             var userInfo = SdkFactory.Wx.Instance().GetUserInfoByMinProramJsCode("NativeMiniProgram", rop.EncryptedData, rop.Iv, rop.Code);

@@ -79,41 +79,6 @@ namespace Lumos.BLL
             }
         }
 
-        //public string GetPayPrepayId(string operater, string trade_type, string openid, string orderSn, decimal orderAmount, string goods_tag, string ip, string body, DateTime? time_expire = null)
-        //{
-        //    CustomJsonResult result = new CustomJsonResult();
-
-
-        //    TenpayUtil tenpayUtil = new TenpayUtil(wxConfig);
-
-        //    UnifiedOrder unifiedOrder = new UnifiedOrder();
-        //    unifiedOrder.openid = openid;
-        //    unifiedOrder.out_trade_no = orderSn;//商户订单号
-        //    unifiedOrder.spbill_create_ip = ip;//终端IP
-        //    unifiedOrder.total_fee = Convert.ToInt32(orderAmount * 100);//标价金额
-        //    unifiedOrder.body = body;//商品描述  
-        //    unifiedOrder.trade_type = trade_type;
-        //    if (time_expire != null)
-        //    {
-        //        unifiedOrder.time_expire = time_expire.Value.ToString("yyyyMMddHHmmss");
-        //    }
-
-        //    if (!string.IsNullOrEmpty(goods_tag))
-        //    {
-        //        unifiedOrder.goods_tag = goods_tag;
-        //    }
-
-        //    string prepayId = tenpayUtil.GetPrepayId(unifiedOrder);
-
-        //    //using (TransactionScope ts = new TransactionScope())
-        //    //{
-
-        //    //    result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
-        //    //}
-
-        //    return prepayId;
-        //}
-
         public UnifiedOrderResult UnifiedOrderByJSAPI(string caller, string openId, string orderSn, decimal orderAmount, string goods_tag, string ip, string body, DateTime? time_expire = null)
         {
 
@@ -143,8 +108,6 @@ namespace Lumos.BLL
             return ret;
 
         }
-
-
         public string GetWebAuthorizeUrl(string returnUrl)
         {
             return OAuthApi.GetAuthorizeUrl(wxConfig.AppId, string.Format(wxConfig.Oauth2RedirectUrl, returnUrl));
@@ -154,11 +117,6 @@ namespace Lumos.BLL
         {
             return OAuthApi.GetWebOauth2AccessToken(wxConfig.AppId, wxConfig.AppSecret, code);
         }
-        public WxApiJsCode2SessionResult GetWxApiJsCode2Session(string appId, string appSecret, string code)
-        {
-            return OAuthApi.GetWxApiJsCode2Session(appId, appSecret, code);
-        }
-
 
         public string GetApiAccessToken()
         {
@@ -176,8 +134,8 @@ namespace Lumos.BLL
             {
                 string appId = "wxb01e0e16d57bd762";
                 string appSecret = "4acf13ebe601a5b13029bd74bed3de1a";
-  
-                var jsCode2Session = SdkFactory.Wx.Instance().GetWxApiJsCode2Session(appId, appSecret, code);
+
+                var jsCode2Session = OAuthApi.GetWxApiJsCode2Session(appId, appSecret, code);
 
                 string strData = AES_decrypt(encryptedData, iv, jsCode2Session.session_key);
                 LogUtil.Info("UserInfo:" + strData);
@@ -302,9 +260,6 @@ namespace Lumos.BLL
             }
 
         }
-
-
-
 
         //public string OrderPayReFund(string comCode, string orderSn, string orderReFundSn, decimal totalFee, decimal refundFee, string refundDesc)
         //{
