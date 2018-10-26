@@ -59,7 +59,7 @@ namespace WebMerch.Models.ProductSku
         public AddViewModel()
         {
             string id = GuidUtil.Empty();
-            var kind = CurrentDb.ProductKind.Where(m => m.Id != id && m.MerchantId == this.Operater && m.IsDelete == false).ToList();
+            var kind = CurrentDb.ProductKind.Where(m => m.Id != id && m.MerchantId == this.CurrentUserId && m.IsDelete == false).ToList();
 
             if (kind != null)
             {

@@ -8,7 +8,7 @@ namespace Lumos.Web.Mvc
 
     public abstract class BaseViewModel
     {
-        public virtual string Operater { get; set; }
+        public virtual string CurrentUserId { get; set; }
 
         public bool IsHasOperater { get; set; }
 

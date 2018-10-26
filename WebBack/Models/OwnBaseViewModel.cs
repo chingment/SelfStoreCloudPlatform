@@ -27,7 +27,7 @@ namespace WebBack.Models
             _currentDb = new LumosDbContext();
         }
 
-        public override string Operater
+        public override string CurrentUserId
         {
             get
             {
