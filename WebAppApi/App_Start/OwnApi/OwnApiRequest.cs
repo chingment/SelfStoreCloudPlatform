@@ -11,6 +11,10 @@ namespace WebAppApi
         public static string GetCurrentUserId()
         {
             var userInfo = GetUserInfo();
+            if (userInfo == null)
+                return null;
+
+
             return userInfo.UserId;
         }
 

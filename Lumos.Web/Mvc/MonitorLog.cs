@@ -54,10 +54,9 @@ namespace Lumos.Web.Mvc
             sb.Append("UserAgent: " + request.UserAgent + Environment.NewLine);
 
             NameValueCollection headers = request.Headers;
-            if (headers["CurrentUserId"] != null)
-            {
-                sb.Append("Header.CurrentUserId: " + headers["CurrentUserId"] + Environment.NewLine);
-            }
+
+            sb.Append("Header.CurrentUserId: " + headers["CurrentUserId"] + Environment.NewLine);
+
 
             if (request.HttpMethod == "POST")
             {

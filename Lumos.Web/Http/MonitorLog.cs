@@ -50,10 +50,9 @@ namespace Lumos.Web.Http
 
             NameValueCollection headers = myRequest.Headers;
 
-            if (headers["CurrentUserId"] != null)
-            {
-                sb.Append("Header.CurrentUserId: " + headers["CurrentUserId"] + Environment.NewLine);
-            }
+
+            sb.Append("Header.CurrentUserId: " + headers["CurrentUserId"] + Environment.NewLine);
+
 
             if (headers["key"] != null)
             {
