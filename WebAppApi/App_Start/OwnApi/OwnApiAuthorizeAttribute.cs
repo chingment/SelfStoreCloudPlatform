@@ -18,13 +18,14 @@ namespace WebAppApi
         {
             try
             {
-                actionContext.Request.Headers.Add("CurrentUserId", OwnApiRequest.GetCurrentUserId());
-
-                MonitorLog.OnActionExecuting(actionContext);
-
                 DateTime requestTime = DateTime.Now;
                 var request = ((HttpContextWrapper)actionContext.Request.Properties["MS_HttpContext"]).Request;
                 var requestMethod = request.HttpMethod;
+
+                request.Headers.Add("CurrentUserId", OwnApiRequest.GetCurrentUserId());
+
+                MonitorLog.OnActionExecuting(actionContext);
+
 
                 bool skipAuthorization = actionContext.ActionDescriptor.GetCustomAttributes<AllowAnonymousAttribute>().Any();
                 if (skipAuthorization)

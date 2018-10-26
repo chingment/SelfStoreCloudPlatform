@@ -60,7 +60,11 @@ namespace WebTermApi
         {
             try
             {
-                actionContext.Request.Headers.Add("CurrentUserId", "");
+                DateTime requestTime = DateTime.Now;
+                var request = ((HttpContextWrapper)actionContext.Request.Properties["MS_HttpContext"]).Request;
+                var requestMethod = request.HttpMethod;
+
+                request.Headers.Add("CurrentUserId", "");
 
                 MonitorLog.OnActionExecuting(actionContext);
 
@@ -70,9 +74,7 @@ namespace WebTermApi
                     return;
                 }
 
-                DateTime requestTime = DateTime.Now;
-                var request = ((HttpContextWrapper)actionContext.Request.Properties["MS_HttpContext"]).Request;
-                var requestMethod = request.HttpMethod;
+
 
                 string app_key = request.Headers["key"];
                 string app_sign = request.Headers["sign"];

@@ -1,4 +1,5 @@
-﻿using Lumos.Session;
+﻿using Lumos;
+using Lumos.Session;
 using System.Web;
 
 namespace WebAppApi
@@ -31,6 +32,9 @@ namespace WebAppApi
                 return null;
 
             userInfo = SSOUtil.GetUserInfo(token);
+
+            LogUtil.Info("CurrentUserId：" + userInfo.UserId);
+
             return userInfo;
         }
 
