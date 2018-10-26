@@ -1,12 +1,9 @@
 ﻿using Lumos;
 using Lumos.BLL;
 using Lumos.Entity;
-using Lumos.Web.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity.SqlServer;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using WebMerch.Models.ProductSubject;
 

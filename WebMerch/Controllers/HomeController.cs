@@ -1,23 +1,8 @@
-﻿using Lumos.Common;
-using Lumos.DAL.AuthorizeRelay;
-using Lumos.Entity;
-using log4net;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using WebMerch.Models.Home;
-using Lumos.Web.Mvc;
-using System;
-using System.Reflection;
-using System.Diagnostics;
-using System.Collections.Generic;
 using Lumos.BLL;
-using System.Security.Cryptography;
-using System.Text;
-using MySDK;
-using System.Linq;
-using System.Data.Entity.Core.Objects;
 using Lumos;
-using Lumos.Redis;
-using StackExchange.Redis;
+
 
 namespace WebMerch.Controllers
 {

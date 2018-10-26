@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Transactions;
-using Newtonsoft.Json;
-using Lumos.Common;
 using Lumos.Redis;
 using NPinyin;
 using System.Text;

@@ -1,7 +1,6 @@
 ﻿using Lumos.BLL.Biz.RModels;
 using Lumos.BLL.Task;
 using Lumos.Entity;
-using Lumos.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;

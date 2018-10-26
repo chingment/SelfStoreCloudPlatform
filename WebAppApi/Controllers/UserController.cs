@@ -1,19 +1,9 @@
 ﻿using Lumos.BLL;
 using Lumos.Entity;
-using Lumos.Common;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using Lumos.BLL.Service;
-using System.Web;
 using Lumos;
 using Lumos.BLL.Service.App;
-using System.Security.Cryptography;
-using System.IO;
-using System.Text;
 using Lumos.Session;
 
 namespace WebAppApi.Controllers

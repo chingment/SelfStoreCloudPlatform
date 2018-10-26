@@ -1,15 +1,5 @@
 ﻿using Lumos;
-using Lumos.BLL;
-using Lumos.BLL.Service;
-using Lumos.BLL.Service.App;
-using Lumos.DAL;
-using Lumos.DAL.AuthorizeRelay;
-using Lumos.Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+using Lumos.BLL.Service.App;;
 using System.Web.Http;
 
 

@@ -1,10 +1,7 @@
 ﻿using log4net;
 using Lumos;
 using System;
-using System.Net;
-using System.Net.Http;
 using System.Reflection;
-using System.Text;
 using System.Web.Http.Filters;
 
 namespace WebAppApi

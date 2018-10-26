@@ -1,21 +1,10 @@
 ﻿
-using log4net;
-using Lumos.BLL;
 using Lumos.BLL.Service.Term;
-using Lumos.BLL.Service.Term.Models;
 using Lumos.Common;
-using Lumos.DAL;
-using Lumos.Entity;
 using Newtonsoft.Json;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;

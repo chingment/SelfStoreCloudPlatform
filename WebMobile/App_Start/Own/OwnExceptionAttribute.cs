@@ -1,11 +1,9 @@
 ﻿using log4net;
 using Lumos;
 using Lumos.Common;
-using Lumos.Web.Mvc;
 using Lumos.Web;
 using System;
 using System.Reflection;
-using System.Web;
 using System.Web.Mvc;
 
 namespace WebMobile
