@@ -5,7 +5,7 @@ using Lumos;
 namespace WebTermApi
 {
 
-    public class OwnApiBaseController : BaseApiController
+    public class OwnApiBaseController : BaseController
     {
         private OwnApiHttpResult _result = new OwnApiHttpResult();
 

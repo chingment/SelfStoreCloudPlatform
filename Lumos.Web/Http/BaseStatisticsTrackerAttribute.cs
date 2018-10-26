@@ -3,7 +3,7 @@ using System.Web.Http.Filters;
 
 namespace Lumos.Web.Http
 {
-    public class BaseApiStatisticsTrackerAttribute : ActionFilterAttribute
+    public class BaseStatisticsTrackerAttribute : ActionFilterAttribute
     {
         public virtual string CurrentUserId { get; set; }
 

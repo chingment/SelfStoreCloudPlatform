@@ -2,7 +2,7 @@
 
 namespace WebTermApi
 {
-    public class OwnApiStatisticsTrackerAttribute : BaseApiStatisticsTrackerAttribute
+    public class OwnApiStatisticsTrackerAttribute : BaseStatisticsTrackerAttribute
     {
 
     }

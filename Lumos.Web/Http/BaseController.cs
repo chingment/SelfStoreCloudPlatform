@@ -3,7 +3,7 @@ using System.Web.Http;
 
 namespace Lumos.Web.Http
 {
-    public abstract class BaseApiController : ApiController
+    public abstract class BaseController : ApiController
     {
         #region JsonResult 扩展
 

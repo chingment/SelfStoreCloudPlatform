@@ -4,7 +4,7 @@ using Lumos;
 namespace WebAppApi
 {
     [OwnApiAuthorize]
-    public class OwnApiBaseController : BaseApiController
+    public class OwnApiBaseController : BaseController
     {
         private OwnApiHttpResult _result = new OwnApiHttpResult();
 

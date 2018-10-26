@@ -63,8 +63,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Http\MonitorLog.cs" />
-    <Compile Include="Http\BaseApiController.cs" />
-    <Compile Include="Http\BaseApiStatisticsTrackerAttribute.cs" />
+    <Compile Include="Http\BaseController.cs" />
+    <Compile Include="Http\BaseStatisticsTrackerAttribute.cs" />
     <Compile Include="Mvc\BaseController.cs" />
     <Compile Include="Mvc\BaseSearchCondition.cs" />
     <Compile Include="Mvc\BaseViewModel.cs" />
