@@ -138,7 +138,6 @@
     <Compile Include="App_Start\OwnApi\OwnApiHttpResponse.cs" />
     <Compile Include="App_Start\OwnApi\OwnApiHttpResult.cs" />
     <Compile Include="App_Start\OwnApi\OwnApiExceptionAttribute.cs" />
-    <Compile Include="App_Start\OwnApi\OwnApiStatisticsTrackerAttribute.cs.cs" />
     <Compile Include="App_Start\OwnApi\OwnApiBaseController.cs" />
     <Compile Include="App_Start\OwnApi\OwnApiAuthorizeAttribute.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />

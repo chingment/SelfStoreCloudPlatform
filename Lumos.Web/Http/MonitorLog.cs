@@ -34,29 +34,33 @@ namespace Lumos.Web.Http
             return s;
         }
 
-        public static void OnActionExecuting(string userId, HttpActionContext filterContext)
+        public static void OnActionExecuting(HttpActionContext filterContext)
         {
-            Task tk = LogAsync(userId,filterContext.Request);
+            Task tk = LogAsync(filterContext.Request);
         }
 
-        private static async Task LogAsync(string userId, HttpRequestMessage request, HttpResponseMessage response = null)
+        private static async Task LogAsync(HttpRequestMessage request, HttpResponseMessage response = null)
         {
             var sb = new StringBuilder();
             var myRequest = ((HttpContextWrapper)request.Properties["MS_HttpContext"]).Request;
             sb.Append("Url: " + myRequest.RawUrl + Environment.NewLine);
             sb.Append("IP: " + Common.CommonUtils.GetIP() + Environment.NewLine);
-            sb.Append("UserId: " + userId + Environment.NewLine);
             sb.Append("Method: " + myRequest.HttpMethod + Environment.NewLine);
             sb.Append("ContentType: " + myRequest.ContentType + Environment.NewLine);
 
             NameValueCollection headers = myRequest.Headers;
 
+            if (headers["CurrentUserId"] != null)
+            {
+                sb.Append("Header.CurrentUserId: " + headers["CurrentUserId"] + Environment.NewLine);
+            }
+
             if (headers["key"] != null)
             {
-                sb.Append("header.key: " + headers["key"] + Environment.NewLine);
-                sb.Append("header.sign: " + headers["sign"] + Environment.NewLine);
-                sb.Append("header.version: " + headers["version"] + Environment.NewLine);
-                sb.Append("header.timestamp: " + headers["timestamp"] + Environment.NewLine);
+                sb.Append("Header.key: " + headers["key"] + Environment.NewLine);
+                sb.Append("Header.sign: " + headers["sign"] + Environment.NewLine);
+                sb.Append("Header.version: " + headers["version"] + Environment.NewLine);
+                sb.Append("Header.timestamp: " + headers["timestamp"] + Environment.NewLine);
             }
 
             if (myRequest.ContentType.IndexOf("application/json") > -1)
@@ -72,9 +76,9 @@ namespace Lumos.Web.Http
             LogUtil.Info(sb.ToString());
         }
 
-        public static void OnActionExecuted(string userId, HttpActionExecutedContext actionContext)
+        public static void OnActionExecuted(HttpActionExecutedContext actionContext)
         {
-            Task tk = LogAsync(userId,actionContext.Request, actionContext.Response);
+            Task tk = LogAsync(actionContext.Request, actionContext.Response);
         }
     }
 }

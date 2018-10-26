@@ -34,36 +34,30 @@ namespace Lumos.Web.Mvc
             return s;
         }
 
-        public static void OnActionExecuting(string userId, ActionExecutingContext filterContext)
+        public static void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            Log(userId, filterContext.RequestContext.HttpContext.Request);
+            Log(filterContext.RequestContext.HttpContext.Request);
 
         }
         public static void OnActionExecuted(ActionExecutedContext filterContext)
         {
-
-        }
-        public static void OnResultExecuting(ResultExecutingContext filterContext)
-        {
-
-        }
-        public static void OnResultExecuted(string userId, ResultExecutedContext filterContext)
-        {
-
-            Log(userId, filterContext.RequestContext.HttpContext.Request, filterContext.Result);
+            Log(filterContext.RequestContext.HttpContext.Request, filterContext.Result);
         }
 
-        private static void Log(string userId, HttpRequestBase request, ActionResult result = null)
+        private static void Log(HttpRequestBase request, ActionResult result = null)
         {
             var sb = new StringBuilder();
             sb.Append("Url: " + request.RawUrl + Environment.NewLine);
             sb.Append("IP: " + Common.CommonUtils.GetIP() + Environment.NewLine);
-            sb.Append("UserId: " + userId + Environment.NewLine);
             sb.Append("Method: " + request.HttpMethod + Environment.NewLine);
             sb.Append("ContentType: " + request.ContentType + Environment.NewLine);
             sb.Append("UserAgent: " + request.UserAgent + Environment.NewLine);
 
             NameValueCollection headers = request.Headers;
+            if (headers["CurrentUserId"] != null)
+            {
+                sb.Append("Header.CurrentUserId: " + headers["CurrentUserId"] + Environment.NewLine);
+            }
 
             if (request.HttpMethod == "POST")
             {
@@ -77,6 +71,15 @@ namespace Lumos.Web.Mvc
 
             LogUtil.Info(sb.ToString());
         }
+
+        //public static void OnResultExecuting(ResultExecutingContext filterContext)
+        //{
+
+        //}
+        //public static void OnResultExecuted(string userId, ResultExecutedContext filterContext)
+        //{
+
+        //}
     }
 
 }

@@ -7,14 +7,15 @@ namespace Lumos.Web.Http
     {
         public virtual string CurrentUserId { get; set; }
 
-        public override void OnActionExecuted(HttpActionExecutedContext actionContext)
-        {
-            MonitorLog.OnActionExecuted(this.CurrentUserId,actionContext);
-        }
-       
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
-            MonitorLog.OnActionExecuting(this.CurrentUserId,actionContext);
+            actionContext.Request.Headers.Add("CurrentUserId", this.CurrentUserId);
+            MonitorLog.OnActionExecuting(actionContext);
+        }
+
+        public override void OnActionExecuted(HttpActionExecutedContext actionContext)
+        {
+            MonitorLog.OnActionExecuted(actionContext);
         }
     }
 }

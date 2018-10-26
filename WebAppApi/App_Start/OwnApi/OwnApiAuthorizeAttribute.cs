@@ -14,20 +14,13 @@ namespace WebAppApi
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, Inherited = true, AllowMultiple = true)]
     public class OwnApiAuthorizeAttribute : ActionFilterAttribute
     {
-
-        public string CurrentUserId
-        {
-            get
-            {
-                return OwnApiRequest.GetCurrentUserId();
-            }
-        }
-
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
             try
             {
-                MonitorLog.OnActionExecuting(this.CurrentUserId, actionContext);
+                actionContext.Request.Headers.Add("CurrentUserId", OwnApiRequest.GetCurrentUserId());
+
+                MonitorLog.OnActionExecuting(actionContext);
 
                 DateTime requestTime = DateTime.Now;
                 var request = ((HttpContextWrapper)actionContext.Request.Properties["MS_HttpContext"]).Request;
@@ -71,7 +64,7 @@ namespace WebAppApi
 
         public override void OnActionExecuted(HttpActionExecutedContext actionContext)
         {
-            MonitorLog.OnActionExecuted(this.CurrentUserId, actionContext);
+            MonitorLog.OnActionExecuted(actionContext);
         }
     }
 }
