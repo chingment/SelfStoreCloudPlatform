@@ -60,7 +60,7 @@ namespace WebTermApi
         {
             try
             {
-                MonitorLog.OnActionExecuting(actionContext);
+                MonitorLog.OnActionExecuting("",actionContext);
 
                 bool skipAuthorization = actionContext.ActionDescriptor.GetCustomAttributes<AllowAnonymousAttribute>().Any();
                 if (skipAuthorization)
@@ -170,7 +170,7 @@ namespace WebTermApi
 
         public override void OnActionExecuted(HttpActionExecutedContext actionContext)
         {
-            MonitorLog.OnActionExecuted(actionContext);
+            MonitorLog.OnActionExecuted("",actionContext);
         }
     }
 }

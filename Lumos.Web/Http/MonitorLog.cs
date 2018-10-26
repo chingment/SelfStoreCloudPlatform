@@ -34,17 +34,18 @@ namespace Lumos.Web.Http
             return s;
         }
 
-        public static void OnActionExecuting(HttpActionContext filterContext)
+        public static void OnActionExecuting(string userId, HttpActionContext filterContext)
         {
-            Task tk = LogAsync(filterContext.Request);
+            Task tk = LogAsync(userId,filterContext.Request);
         }
 
-        private static async Task LogAsync(HttpRequestMessage request, HttpResponseMessage response = null)
+        private static async Task LogAsync(string userId, HttpRequestMessage request, HttpResponseMessage response = null)
         {
             var sb = new StringBuilder();
             var myRequest = ((HttpContextWrapper)request.Properties["MS_HttpContext"]).Request;
             sb.Append("Url: " + myRequest.RawUrl + Environment.NewLine);
             sb.Append("IP: " + Common.CommonUtils.GetIP() + Environment.NewLine);
+            sb.Append("UserId: " + userId + Environment.NewLine);
             sb.Append("Method: " + myRequest.HttpMethod + Environment.NewLine);
             sb.Append("ContentType: " + myRequest.ContentType + Environment.NewLine);
 
@@ -71,9 +72,9 @@ namespace Lumos.Web.Http
             LogUtil.Info(sb.ToString());
         }
 
-        public static void OnActionExecuted(HttpActionExecutedContext actionContext)
+        public static void OnActionExecuted(string userId, HttpActionExecutedContext actionContext)
         {
-            Task tk = LogAsync(actionContext.Request, actionContext.Response);
+            Task tk = LogAsync(userId,actionContext.Request, actionContext.Response);
         }
     }
 }

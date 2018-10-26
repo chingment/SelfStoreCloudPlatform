@@ -5,14 +5,16 @@ namespace Lumos.Web.Http
 {
     public class BaseApiStatisticsTrackerAttribute : ActionFilterAttribute
     {
+        public virtual string CurrentUserId { get; set; }
+
         public override void OnActionExecuted(HttpActionExecutedContext actionContext)
         {
-            MonitorLog.OnActionExecuted(actionContext);
+            MonitorLog.OnActionExecuted(this.CurrentUserId,actionContext);
         }
        
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
-            MonitorLog.OnActionExecuting(actionContext);
+            MonitorLog.OnActionExecuting(this.CurrentUserId,actionContext);
         }
     }
 }

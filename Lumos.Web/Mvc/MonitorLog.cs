@@ -34,9 +34,9 @@ namespace Lumos.Web.Mvc
             return s;
         }
 
-        public static void OnActionExecuting(ActionExecutingContext filterContext)
+        public static void OnActionExecuting(string userId, ActionExecutingContext filterContext)
         {
-            Log(filterContext.RequestContext.HttpContext.Request);
+            Log(userId, filterContext.RequestContext.HttpContext.Request);
 
         }
         public static void OnActionExecuted(ActionExecutedContext filterContext)
@@ -47,19 +47,21 @@ namespace Lumos.Web.Mvc
         {
 
         }
-        public static void OnResultExecuted(ResultExecutedContext filterContext)
+        public static void OnResultExecuted(string userId, ResultExecutedContext filterContext)
         {
 
-            Log(filterContext.RequestContext.HttpContext.Request, filterContext.Result);
+            Log(userId, filterContext.RequestContext.HttpContext.Request, filterContext.Result);
         }
 
-        private static void Log(HttpRequestBase request, ActionResult result = null)
+        private static void Log(string userId, HttpRequestBase request, ActionResult result = null)
         {
             var sb = new StringBuilder();
             sb.Append("Url: " + request.RawUrl + Environment.NewLine);
             sb.Append("IP: " + Common.CommonUtils.GetIP() + Environment.NewLine);
+            sb.Append("UserId: " + userId + Environment.NewLine);
             sb.Append("Method: " + request.HttpMethod + Environment.NewLine);
             sb.Append("ContentType: " + request.ContentType + Environment.NewLine);
+            sb.Append("UserAgent: " + request.UserAgent + Environment.NewLine);
 
             NameValueCollection headers = request.Headers;
 
