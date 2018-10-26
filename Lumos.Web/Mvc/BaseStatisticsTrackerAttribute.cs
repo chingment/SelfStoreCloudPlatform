@@ -16,7 +16,7 @@ namespace Lumos.Web.Mvc
         }
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            filterContext.HttpContext.Request.Headers.Add("CurrentUserId", this.CurrentUserId);
+            filterContext.HttpContext.Request.Headers.Add("CurrentUserId", this.CurrentUserId ?? "");
 
             MonitorLog.OnActionExecuting(filterContext);
         }

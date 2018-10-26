@@ -22,7 +22,7 @@ namespace WebAppApi
                 var request = ((HttpContextWrapper)actionContext.Request.Properties["MS_HttpContext"]).Request;
                 var requestMethod = request.HttpMethod;
 
-                request.Headers.Add("CurrentUserId", OwnApiRequest.GetCurrentUserId());
+                request.Headers.Add("CurrentUserId", OwnApiRequest.GetCurrentUserId() ?? "");
 
                 MonitorLog.OnActionExecuting(actionContext);
 
