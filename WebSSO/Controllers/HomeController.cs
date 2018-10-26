@@ -1,6 +1,6 @@
 ﻿using Lumos.Common;
 using Lumos.Entity;
-using Lumos.Mvc;
+using Lumos.Web.Mvc;
 using Lumos.BLL;
 using WebSSO.Models.Home;
 using System.Web.Mvc;
@@ -10,6 +10,7 @@ using Lumos;
 using log4net;
 using System.Reflection;
 using Lumos.Redis;
+using Lumos.Web;
 
 namespace WebSSO.Controllers
 {

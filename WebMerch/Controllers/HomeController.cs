@@ -4,7 +4,7 @@ using Lumos.Entity;
 using log4net;
 using System.Web.Mvc;
 using WebMerch.Models.Home;
-using Lumos.Mvc;
+using Lumos.Web.Mvc;
 using System;
 using System.Reflection;
 using System.Diagnostics;

@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using System.Collections.Generic;
-using Lumos.Mvc;
+using Lumos.Web.Http;
 using System.Globalization;
 using log4net;
 using System.IO;
@@ -31,7 +31,7 @@ namespace WebAppApi
         {
             try
             {
-                ApiMonitorLog.OnActionExecuting(actionContext);
+                MonitorLog.OnActionExecuting(actionContext);
 
                 DateTime requestTime = DateTime.Now;
                 var request = ((HttpContextWrapper)actionContext.Request.Properties["MS_HttpContext"]).Request;
@@ -75,7 +75,7 @@ namespace WebAppApi
 
         public override void OnActionExecuted(HttpActionExecutedContext actionContext)
         {
-            ApiMonitorLog.OnActionExecuted(actionContext);
+            MonitorLog.OnActionExecuted(actionContext);
         }
     }
 }

@@ -10,9 +10,9 @@ using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 
-namespace Lumos.Mvc
+namespace Lumos.Web.Http
 {
-    public static class ApiMonitorLog
+    public static class MonitorLog
     {
 
         public static string GetPostData(Stream inputStream)

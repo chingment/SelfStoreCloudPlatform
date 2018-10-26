@@ -1,5 +1,4 @@
 ﻿using Lumos.Entity;
-using Lumos.Mvc;
 using Lumos.Redis;
 using System;
 using System.Collections.Generic;

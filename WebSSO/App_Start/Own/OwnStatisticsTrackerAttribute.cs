@@ -11,7 +11,7 @@ using log4net;
 using Lumos.Common;
 using System.Globalization;
 using Lumos;
-using Lumos.Mvc;
+using Lumos.Web.Mvc;
 
 namespace WebSSO
 {

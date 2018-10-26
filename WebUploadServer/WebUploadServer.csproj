@@ -312,9 +312,9 @@
       <Project>{241bdf50-401f-44bf-81cd-acc2ffc3a952}</Project>
       <Name>Lumos.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Lumos.MVC\Lumos.Mvc.csproj">
+    <ProjectReference Include="..\Lumos.Web\Lumos.Web.csproj">
       <Project>{ed113ad7-1b20-4b05-8961-9b701e51734c}</Project>
-      <Name>Lumos.Mvc</Name>
+      <Name>Lumos.Web</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lumos\Lumos.csproj">
       <Project>{27883666-32aa-447f-aa1f-6128b76fbee8}</Project>

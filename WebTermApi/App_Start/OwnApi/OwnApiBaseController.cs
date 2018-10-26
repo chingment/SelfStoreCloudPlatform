@@ -1,7 +1,7 @@
 ﻿using log4net;
 using Lumos.Common;
 using Lumos.DAL;
-using Lumos.Mvc;
+using Lumos.Web.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Lumos.Common;
 using Lumos.Entity;
-using Lumos.Mvc;
+using Lumos.Web.Mvc;
 using Lumos.BLL;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;

@@ -2,7 +2,6 @@
 using Lumos.BLL.Service;
 using Lumos.BLL.Service.App;
 using Lumos.Entity;
-using Lumos.Mvc;
 using System.Web.Http;
 
 

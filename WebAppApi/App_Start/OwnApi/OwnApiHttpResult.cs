@@ -1,5 +1,4 @@
 ﻿using Lumos;
-using Lumos.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;

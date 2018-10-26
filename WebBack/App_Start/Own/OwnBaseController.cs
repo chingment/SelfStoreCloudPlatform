@@ -16,7 +16,7 @@ using Lumos.DAL.AuthorizeRelay;
 using Lumos.Entity;
 using System.IO;
 using Newtonsoft.Json.Converters;
-using Lumos.Mvc;
+using Lumos.Web.Mvc;
 
 namespace WebBack
 {

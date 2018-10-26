@@ -1,6 +1,5 @@
 ﻿using Lumos.DAL.AuthorizeRelay;
 using Lumos.Entity;
-using Lumos.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;

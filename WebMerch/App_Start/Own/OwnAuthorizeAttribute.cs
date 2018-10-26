@@ -10,7 +10,8 @@ using System.Reflection;
 using log4net;
 using Lumos.Common;
 using System.Globalization;
-using Lumos.Mvc;
+using Lumos.Web.Mvc;
+using Lumos.Web;
 
 namespace WebMerch
 {

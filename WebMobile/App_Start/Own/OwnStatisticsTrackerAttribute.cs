@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using Lumos;
 using System.Reflection;
-using Lumos.Mvc;
+using Lumos.Web.Mvc;
 
 namespace WebMobile
 {

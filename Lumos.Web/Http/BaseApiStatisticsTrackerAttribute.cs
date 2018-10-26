@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 
-namespace Lumos.Mvc
+namespace Lumos.Web.Http
 {
     public class BaseApiStatisticsTrackerAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuted(HttpActionExecutedContext actionContext)
         {
-            ApiMonitorLog.OnActionExecuted(actionContext);
+            MonitorLog.OnActionExecuted(actionContext);
         }
        
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
-            ApiMonitorLog.OnActionExecuting(actionContext);
+            MonitorLog.OnActionExecuting(actionContext);
         }
     }
 }

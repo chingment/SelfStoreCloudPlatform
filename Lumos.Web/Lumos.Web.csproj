@@ -7,8 +7,8 @@
     <ProjectGuid>{ED113AD7-1B20-4B05-8961-9B701E51734C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Lumos.Mvc</RootNamespace>
-    <AssemblyName>Lumos.Mvc</AssemblyName>
+    <RootNamespace>Lumos.Web</RootNamespace>
+    <AssemblyName>Lumos.Web</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -62,17 +62,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiMonitorLog.cs" />
-    <Compile Include="BaseApiController.cs" />
-    <Compile Include="BaseApiStatisticsTrackerAttribute.cs" />
-    <Compile Include="BaseController.cs" />
-    <Compile Include="BaseSearchCondition.cs" />
-    <Compile Include="BaseViewModel.cs" />
+    <Compile Include="Http\MonitorLog.cs" />
+    <Compile Include="Http\BaseApiController.cs" />
+    <Compile Include="Http\BaseApiStatisticsTrackerAttribute.cs" />
+    <Compile Include="Mvc\BaseController.cs" />
+    <Compile Include="Mvc\BaseSearchCondition.cs" />
+    <Compile Include="Mvc\BaseViewModel.cs" />
     <Compile Include="GoToViewModel.cs" />
     <Compile Include="HmlExtension.cs" />
     <Compile Include="MessageBoxModel.cs" />
     <Compile Include="MvcExtensions.cs" />
-    <Compile Include="BaseStatisticsTrackerAttribute.cs" />
+    <Compile Include="Mvc\BaseStatisticsTrackerAttribute.cs" />
+    <Compile Include="Mvc\MonitorLog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -97,6 +98,7 @@
       <Name>Lumos</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

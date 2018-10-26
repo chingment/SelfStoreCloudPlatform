@@ -11,7 +11,7 @@ using Lumos.Common;
 using System.Globalization;
 using Lumos;
 
-namespace Lumos.Mvc
+namespace Lumos.Web.Mvc
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
     public class BaseStatisticsTrackerAttribute : ActionFilterAttribute

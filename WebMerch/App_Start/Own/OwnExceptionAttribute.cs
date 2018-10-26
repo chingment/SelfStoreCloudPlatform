@@ -7,8 +7,9 @@ using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using WebMerch.Models;
-using Lumos.Mvc;
+using Lumos.Web.Mvc;
 using Lumos;
+using Lumos.Web;
 
 namespace WebMerch
 {

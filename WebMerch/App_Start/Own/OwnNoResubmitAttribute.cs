@@ -1,6 +1,6 @@
 ﻿using Lumos;
 using Lumos.Common;
-using Lumos.Mvc;
+using Lumos.Web.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

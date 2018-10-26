@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using System.Collections.Generic;
-using Lumos.Mvc;
+using Lumos.Web.Http;
 using System.Globalization;
 using log4net;
 using System.IO;
@@ -66,7 +66,7 @@ namespace WebTermApi
         {
             try
             {
-                ApiMonitorLog.OnActionExecuting(actionContext);
+                MonitorLog.OnActionExecuting(actionContext);
 
                 bool skipAuthorization = actionContext.ActionDescriptor.GetCustomAttributes<AllowAnonymousAttribute>().Any();
                 if (skipAuthorization)
@@ -176,7 +176,7 @@ namespace WebTermApi
 
         public override void OnActionExecuted(HttpActionExecutedContext actionContext)
         {
-            ApiMonitorLog.OnActionExecuted(actionContext);
+            MonitorLog.OnActionExecuted(actionContext);
         }
     }
 }

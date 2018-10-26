@@ -73,10 +73,6 @@
       <Project>{c19704c7-7d89-42e8-9f15-d8c1a1a0c525}</Project>
       <Name>Lumos.Entity</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Lumos.MVC\Lumos.Mvc.csproj">
-      <Project>{ed113ad7-1b20-4b05-8961-9b701e51734c}</Project>
-      <Name>Lumos.Mvc</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Lumos.Redis\Lumos.Redis.csproj">
       <Project>{c165e6a0-dd43-4aa1-94b1-d4bf5420a80d}</Project>
       <Name>Lumos.Redis</Name>

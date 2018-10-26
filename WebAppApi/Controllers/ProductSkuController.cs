@@ -5,7 +5,6 @@ using Lumos.BLL.Service.App;
 using Lumos.DAL;
 using Lumos.DAL.AuthorizeRelay;
 using Lumos.Entity;
-using Lumos.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.SqlServer;

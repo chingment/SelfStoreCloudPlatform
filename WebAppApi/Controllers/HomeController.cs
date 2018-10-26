@@ -5,7 +5,6 @@ using Lumos.BLL.Service.App;
 using Lumos.Common;
 using Lumos.DAL;
 using Lumos.Entity;
-using Lumos.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections;

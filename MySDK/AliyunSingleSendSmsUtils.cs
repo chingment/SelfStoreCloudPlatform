@@ -5,7 +5,7 @@ using Aliyun.Acs.Dysmsapi.Model.V20170525;
 using Lumos;
 using Lumos.DAL;
 using Lumos.Entity;
-using Lumos.Mvc;
+using Lumos.Web.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;

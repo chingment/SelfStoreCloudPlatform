@@ -6,7 +6,7 @@ using Lumos.Entity;
 using Lumos.DAL.AuthorizeRelay;
 using Lumos.Common;
 using WebBack.Models.Sys.StaffUser;
-using Lumos.Mvc;
+using Lumos.Web.Mvc;
 using Lumos.DAL;
 using Lumos.BLL;
 using Lumos;

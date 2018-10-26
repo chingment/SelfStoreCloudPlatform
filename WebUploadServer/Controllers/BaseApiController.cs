@@ -10,7 +10,6 @@ using System.Text;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
-using Lumos.Mvc;
 
 namespace WebUploadImageServer.Controllers
 {

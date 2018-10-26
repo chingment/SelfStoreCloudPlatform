@@ -11,7 +11,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Lumos.Entity;
-using Lumos.Mvc;
+using Lumos.Web.Mvc;
 using log4net;
 using System.Text;
 using Lumos;

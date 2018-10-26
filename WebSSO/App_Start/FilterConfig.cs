@@ -1,4 +1,4 @@
-﻿using Lumos.Mvc;
+﻿using Lumos.Web.Mvc;
 using System.Web;
 using System.Web.Mvc;
 using WebSSO.Controllers;

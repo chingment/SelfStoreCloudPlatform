@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
-using Lumos.Mvc;
 using Newtonsoft.Json;
 
 namespace Lumos.BLL
