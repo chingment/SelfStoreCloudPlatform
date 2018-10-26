@@ -1,14 +1,8 @@
-﻿using Lumos.DAL;
-using Lumos.Entity;
+﻿using Lumos.Entity;
 using Lumos.Redis;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity.SqlServer;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using System.Transactions;
 
 namespace Lumos.BLL.Task
 {

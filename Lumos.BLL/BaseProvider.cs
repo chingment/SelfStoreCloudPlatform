@@ -1,11 +1,7 @@
-﻿using log4net;
-using Lumos.DAL;
+﻿using Lumos.DAL;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Lumos.BLL
 {

@@ -1,15 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using System.Runtime.Remoting.Messaging;
 using Lumos.Entity;
 using System.Reflection;
-using System.Security.Cryptography;
 using System.Transactions;
 
 namespace Lumos.DAL.AuthorizeRelay
