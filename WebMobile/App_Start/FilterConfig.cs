@@ -11,7 +11,7 @@ namespace WebMobile
             filters.Add(new HandleErrorAttribute());
 
             //监控引用
-            filters.Add(new OwnStatisticsTrackerAttribute());
+            //filters.Add(new OwnStatisticsTrackerAttribute());
         }
     }
 }

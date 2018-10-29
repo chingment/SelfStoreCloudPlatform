@@ -13,6 +13,28 @@ namespace Lumos.Web.Mvc
     /// </summary>
     public static class MonitorLog
     {
+        //private static string GetPostData(Stream inputStream)
+        //{
+        //    string s = "";
+
+        //    if (inputStream == null)
+        //        return s;
+
+        //    try
+        //    {
+        //        Stream stream = inputStream;
+        //        stream.Seek(0, SeekOrigin.Begin);
+        //        s = new StreamReader(stream).ReadToEnd();
+        //    }
+        //    catch
+        //    {
+        //        s = "";
+        //    }
+
+        //    return s;
+        //}
+
+
         private static string GetPostData(Stream inputStream)
         {
             string s = "";

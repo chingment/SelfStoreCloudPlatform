@@ -17,6 +17,7 @@ using Lumos;
 using Lumos.Session;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 
 namespace WebMobile.Controllers
 {
@@ -120,11 +121,9 @@ namespace WebMobile.Controllers
         [AllowAnonymous]
         public ContentResult PayResult()
         {
-            Int32 intLen = Convert.ToInt32(Request.InputStream.Length);
-            byte[] b = new byte[intLen];
-            Request.InputStream.Read(b, 0, intLen);
-
-            string xml = System.Text.Encoding.UTF8.GetString(b);
+            Stream stream = Request.InputStream;
+            stream.Seek(0, SeekOrigin.Begin);
+            string xml = new StreamReader(stream).ReadToEnd();
 
             if (string.IsNullOrEmpty(xml))
             {
@@ -181,10 +180,9 @@ namespace WebMobile.Controllers
 
             if (Request.HttpMethod == "POST")
             {
-                Int32 intLen = Convert.ToInt32(Request.InputStream.Length);
-                byte[] b = new byte[intLen];
-                Request.InputStream.Read(b, 0, intLen);
-                string xml = System.Text.Encoding.UTF8.GetString(b);
+                Stream stream = Request.InputStream;
+                stream.Seek(0, SeekOrigin.Begin);
+                string xml = new StreamReader(stream).ReadToEnd();
 
                 LogUtil.Info("接收事件推送内容:" + xml);
 
