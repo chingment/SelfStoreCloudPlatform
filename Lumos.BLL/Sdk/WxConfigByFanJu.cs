@@ -19,7 +19,6 @@ namespace Lumos.BLL
     //    private string _oauth2RedirectUrl = "http://mobile.17fanju.com/Home/Oauth2?returnUrl={0}";
     //    private string _notifyEventUrlToken = "f06d280ddf1e49378ab338fc3124cf40";
 
-
     //    public WxConfigByFanJu()
     //    {
     //        //_appId = System.Configuration.ConfigurationManager.AppSettings["custom:WxAppId"];
