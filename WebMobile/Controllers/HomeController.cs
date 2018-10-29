@@ -31,7 +31,7 @@ namespace WebMobile.Controllers
         //获取JsApiConfig配置参数
         public CustomJsonResult<JsApiConfigParams> GetJsApiConfigParams(string url)
         {
-            return SdkFactory.Wx.GetJsApiConfigParams(this.CurrentAppInfo,url);
+            return SdkFactory.Wx.GetJsApiConfigParams(this.CurrentAppInfo, url);
         }
 
         [AllowAnonymous]
@@ -48,15 +48,13 @@ namespace WebMobile.Controllers
                 var appInfo = this.CurrentAppInfo;
                 if (string.IsNullOrEmpty(code))
                 {
-                    var url = SdkFactory.Wx.GetWebAuthorizeUrl(appInfo,returnUrl);
-
+                    var url = SdkFactory.Wx.GetWebAuthorizeUrl(appInfo, returnUrl);
                     LogUtil.Info("待跳转路径2：" + url);
-
                     return Redirect(url);
                 }
                 else
                 {
-                    var oauth2_Result = SdkFactory.Wx.GetWebOauth2AccessToken(appInfo,code);
+                    var oauth2_Result = SdkFactory.Wx.GetWebOauth2AccessToken(appInfo, code);
                     if (oauth2_Result.errcode == null)
                     {
                         LogUtil.Info("用户OpenId:" + oauth2_Result.openid);
@@ -133,14 +131,25 @@ namespace WebMobile.Controllers
 
             LogUtil.Info("接收支付结果:" + xml);
 
-            if (!SdkFactory.Wx.CheckPayNotifySign(this.CurrentAppInfo, xml))
+            var dic2 = Lumos.WeiXinSdk.CommonUtil.ToDictionary(xml);
+            if (!dic2.ContainsKey("appid"))
+            {
+                LogUtil.Warn("查找不到appid");
+                return Content("");
+            }
+
+            string appId = dic2["appid"].ToString();
+
+            var appInfo = SysFactory.AppInfo.Get(appId);
+
+            if (!SdkFactory.Wx.CheckPayNotifySign(appInfo, xml))
             {
                 LogUtil.Warn("支付通知结果签名验证失败");
                 return Content("");
             }
 
             string orderSn = "";
-            var dic2 = Lumos.WeiXinSdk.CommonUtil.ToDictionary(xml);
+
             if (dic2.ContainsKey("out_trade_no") && dic2.ContainsKey("result_code"))
             {
                 orderSn = dic2["out_trade_no"].ToString();
@@ -181,7 +190,6 @@ namespace WebMobile.Controllers
 
             if (Request.HttpMethod == "POST")
             {
-                var appInfo = this.CurrentAppInfo;
 
                 Stream stream = Request.InputStream;
                 stream.Seek(0, SeekOrigin.Begin);
@@ -195,7 +203,9 @@ namespace WebMobile.Controllers
                 LogUtil.Info("baseEventMsg内容:" + baseEventMsg);
                 if (baseEventMsg != null)
                 {
-                    var userInfo_Result = SdkFactory.Wx.GetUserInfoByApiToken(appInfo,baseEventMsg.FromUserName);
+                    var appId = Request.QueryString["appId"];
+                    var appInfo = SysFactory.AppInfo.Get(appId);
+                    var userInfo_Result = SdkFactory.Wx.GetUserInfoByApiToken(appInfo, baseEventMsg.FromUserName);
 
                     if (userInfo_Result.openid != null)
                     {
@@ -337,7 +347,6 @@ namespace WebMobile.Controllers
                 return false;
             }
         }
-
 
         public static Bitmap CirclePhoto(string urlPath, int size)
         {

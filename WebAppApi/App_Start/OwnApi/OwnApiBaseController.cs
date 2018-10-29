@@ -57,13 +57,10 @@ namespace WebAppApi
             {
                 var context = HttpContext.Current;
                 var request = context.Request;
-                var appId = request.Params["AppId"];
+                var appId = request.Params["appId"];
                 if (appId == null)
                     return null;
-                var app = SysFactory.AppInfo.Get(appId);
-                var appInfo = new AppInfoConfig();
-                appInfo.AppId = app.AppId;
-                appInfo.AppSecret = app.AppSecret;
+                var appInfo = SysFactory.AppInfo.Get(appId);
                 return appInfo;
             }
         }

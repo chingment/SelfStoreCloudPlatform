@@ -41,11 +41,11 @@ namespace Lumos.WeiXinSdk.Tenpay
             SortedDictionary<string, object> sParams = new SortedDictionary<string, object>();
 
             sParams.Add("appid", config.AppId);//公众账号ID
-            sParams.Add("mch_id", config.MchId);//商户号
+            sParams.Add("mch_id", config.AppWxPayMchId);//商户号
             sParams.Add("nonce_str", CommonUtil.GetNonceStr());//随机字符串
             sParams.Add("out_refund_no", out_refund_no);//微信订单号
 
-            string sign = MakeSign(sParams, config.Key);
+            string sign = MakeSign(sParams, config.AppWxPayKey);
             sParams.Add("sign", sign);//签名
 
             _postData = GetXml(sParams);

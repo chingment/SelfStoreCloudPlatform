@@ -5,6 +5,8 @@ using System;
 using System.Web.Mvc;
 using Lumos.WeiXinSdk;
 using Lumos.Entity;
+using System.Configuration;
+using Lumos.BLL;
 
 namespace WebMobile
 {
@@ -114,12 +116,20 @@ namespace WebMobile
         {
             get
             {
-                var appInfo = new SysAppInfo();
-                appInfo.AppId = "wxb01e0e16d57bd762";
-                appInfo.AppSecret = "";
-                return null;
+                var appId = ConfigurationManager.AppSettings["custom:WxAppId"];
+                var appInfo = SysFactory.AppInfo.Get(appId);
+                return appInfo;
             }
         }
+
+        //public string AppId
+        //{
+        //    get
+        //    {
+        //        var appId = ConfigurationManager.AppSettings["custom:WxAppId"];
+        //        return appId;
+        //    }
+        //}
     }
 
 }

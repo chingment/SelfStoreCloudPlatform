@@ -33,6 +33,9 @@ namespace WebAppApi
 
             userInfo = SSOUtil.GetUserInfo(token);
 
+            if (userInfo == null)
+                return null;
+
             LogUtil.Info("CurrentUserId：" + userInfo.UserId);
 
             return userInfo;

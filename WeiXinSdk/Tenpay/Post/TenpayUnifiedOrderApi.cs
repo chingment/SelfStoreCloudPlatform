@@ -35,9 +35,9 @@ namespace Lumos.WeiXinSdk.Tenpay
             SortedDictionary<string, object> sParams = new SortedDictionary<string, object>();
 
             sParams.Add("appid", config.AppId);//公众账号ID
-            sParams.Add("mch_id", config.MchId);//商户号
+            sParams.Add("mch_id", config.AppWxPayMchId);//商户号
             sParams.Add("nonce_str", CommonUtil.GetNonceStr());//随机字符串
-            sParams.Add("notify_url", config.Notify_Url);//通知地址
+            sParams.Add("notify_url", config.AppWxPayResultNotifyUrl);//通知地址
             sParams.Add("trade_type", order.trade_type);//交易类型
             sParams.Add("spbill_create_ip", order.spbill_create_ip);//终端IP
             sParams.Add("out_trade_no", order.out_trade_no);//商户订单号
@@ -69,7 +69,7 @@ namespace Lumos.WeiXinSdk.Tenpay
             //sParams.Add("limit_pay", "");//指定支付方式
             //sParams.Add("openid", "openid");//用户标识
             //sParams.Add("scene_info", "");//场景信息
-            string sign = MakeSign(sParams, config.Key);
+            string sign = MakeSign(sParams, config.AppWxPayKey);
             sParams.Add("sign", sign);//签名
 
 

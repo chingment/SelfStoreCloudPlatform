@@ -117,10 +117,10 @@ namespace Lumos.BLL
         }
         public string GetWebAuthorizeUrl(AppInfoConfig config, string returnUrl)
         {
-            return OAuthApi.GetAuthorizeUrl(config.AppId, string.Format(config.Oauth2RedirectUrl, returnUrl));
+            return OAuthApi.GetAuthorizeUrl(config.AppId, config.AppWxOauth2RedirectUrl + "?returnUrl=" + returnUrl);
         }
 
-        public WxApiSnsOauth2AccessTokenResult GetWebOauth2AccessToken(AppInfoConfig config,string code)
+        public WxApiSnsOauth2AccessTokenResult GetWebOauth2AccessToken(AppInfoConfig config, string code)
         {
             return OAuthApi.GetWebOauth2AccessToken(config.AppId, config.AppSecret, code);
         }
@@ -202,7 +202,7 @@ namespace Lumos.BLL
             return OAuthApi.GetUserInfoByApiToken(this.GetApiAccessToken(config), openId);
         }
 
-        public CustomJsonResult<JsApiConfigParams> GetJsApiConfigParams(AppInfoConfig config,string url)
+        public CustomJsonResult<JsApiConfigParams> GetJsApiConfigParams(AppInfoConfig config, string url)
         {
             string jsApiTicket = GetJsApiTicket(config);
 
@@ -213,14 +213,14 @@ namespace Lumos.BLL
 
         public JsApiPayParams GetJsApiPayParams(AppInfoConfig config, string orderId, string orderSn, string prepayId)
         {
-            JsApiPayParams parms = new JsApiPayParams(config.AppId, config.Key, prepayId, orderId, orderSn);
+            JsApiPayParams parms = new JsApiPayParams(config.AppId, config.AppWxPayKey, prepayId, orderId, orderSn);
 
             return parms;
         }
 
         public string GetNotifyEventUrlToken(AppInfoConfig config)
         {
-            return config.NotifyEventUrlToken;
+            return config.AppWxNotifyEventUrlToken;
         }
 
         public string GetCardApiTicket(AppInfoConfig config)
@@ -262,12 +262,12 @@ namespace Lumos.BLL
 
         }
 
-        public string UploadMultimediaImage(AppInfoConfig config,string imageUrl)
+        public string UploadMultimediaImage(AppInfoConfig config, string imageUrl)
         {
             return OAuthApi.UploadMultimediaImage(this.GetApiAccessToken(config), imageUrl);
         }
 
-        public string OrderQuery(AppInfoConfig config,string orderSn)
+        public string OrderQuery(AppInfoConfig config, string orderSn)
         {
             CustomJsonResult result = new CustomJsonResult();
             TenpayUtil tenpayUtil = new TenpayUtil(config);
@@ -276,7 +276,7 @@ namespace Lumos.BLL
             return xml;
         }
 
-        public bool CheckPayNotifySign(AppInfoConfig config,string xml)
+        public bool CheckPayNotifySign(AppInfoConfig config, string xml)
         {
 
             var dic1 = WeiXinSdk.CommonUtil.ToDictionary(xml);
@@ -314,7 +314,7 @@ namespace Lumos.BLL
 
 
             //在string后加入API KEY
-            buff += "&key=" + config.Key;
+            buff += "&key=" + config.AppWxPayKey;
             //MD5加密
             var md5 = MD5.Create();
             var bs = md5.ComputeHash(Encoding.UTF8.GetBytes(buff));

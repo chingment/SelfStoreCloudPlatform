@@ -41,12 +41,12 @@ namespace Lumos.WeiXinSdk.Tenpay
 
             sParams.Add("appid", config.AppId);
             sParams.Add("coupon_stock_id", coupon_stock_id);
-            sParams.Add("mch_id", config.MchId);
+            sParams.Add("mch_id", config.AppWxPayMchId);
             sParams.Add("nonce_str", CommonUtil.GetNonceStr());
             sParams.Add("openid", openid);
             sParams.Add("openid_count", 1);
             sParams.Add("partner_trade_no", partner_trade_no);
-            string sign = MakeSign(sParams, config.Key);
+            string sign = MakeSign(sParams, config.AppWxPayKey);
             sParams.Add("sign", sign);
 
              _postData = GetXml(sParams);

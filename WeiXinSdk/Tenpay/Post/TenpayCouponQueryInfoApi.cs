@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lumos.WeiXinSdk.Tenpay
 {
-   public class TenpayCouponQueryInfoApi : TenpayBasePostApi, ITenpayPostApi
+    public class TenpayCouponQueryInfoApi : TenpayBasePostApi, ITenpayPostApi
     {
         private string _postData;
 
@@ -35,17 +35,17 @@ namespace Lumos.WeiXinSdk.Tenpay
         /// </summary>
         /// <param name="config"></param>
         /// <param name="out_trade_no">商户内部的订单号</param>
-        public TenpayCouponQueryInfoApi(AppInfoConfig config,string coupon_id, string coupon_stock_id, string openid)
+        public TenpayCouponQueryInfoApi(AppInfoConfig config, string coupon_id, string coupon_stock_id, string openid)
         {
             SortedDictionary<string, object> sParams = new SortedDictionary<string, object>();
 
             sParams.Add("appid", config.AppId);
             sParams.Add("coupon_id", coupon_id);
-            sParams.Add("mch_id", config.MchId);
+            sParams.Add("mch_id", config.AppWxPayMchId);
             sParams.Add("nonce_str", CommonUtil.GetNonceStr());
             sParams.Add("openid", openid);
             sParams.Add("stock_id", coupon_stock_id);
-            string sign = MakeSign(sParams, config.Key);
+            string sign = MakeSign(sParams, config.AppWxPayKey);
             sParams.Add("sign", sign);
 
             _postData = GetXml(sParams);
