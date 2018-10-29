@@ -33,7 +33,7 @@ namespace Lumos.WeiXinSdk.Tenpay
             return serverurl + "/" + apiname;
         }
 
-        public SortedDictionary<string, string> DoPost(IWxConfig config, ITenpayPostApi request,bool isUserCert=false)
+        public SortedDictionary<string, string> DoPost(AppInfoConfig config, ITenpayPostApi request,bool isUserCert=false)
         {
             string realServerUrl = GetServerUrl(this.serverUrl, request.ApiName);
 

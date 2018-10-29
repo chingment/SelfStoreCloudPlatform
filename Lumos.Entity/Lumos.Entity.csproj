@@ -97,7 +97,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RemarkAttribute.cs" />
     <Compile Include="SysEnumeration.cs" />
-    <Compile Include="Sys\SysAppKeySecret.cs" />
+    <Compile Include="Sys\SysAppInfo.cs" />
     <Compile Include="Sys\SysClientCode.cs" />
     <Compile Include="Sys\SysMenuPermission.cs" />
     <Compile Include="Sys\SysOperateHistory.cs" />

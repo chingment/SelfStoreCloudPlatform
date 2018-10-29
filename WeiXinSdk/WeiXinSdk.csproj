@@ -103,7 +103,7 @@
     <Compile Include="Post\WxApiMessageTemplateSendBaseResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tenpay\ITenpayPostApi.cs" />
-    <Compile Include="IWxConfig.cs" />
+    <Compile Include="AppInfoConfig.cs" />
     <Compile Include="Tenpay\ITenpayRequest.cs" />
     <Compile Include="Tenpay\Model\UnifiedOrderResult.cs" />
     <Compile Include="Tenpay\Post\TenpayCouponQueryInfoApi.cs" />

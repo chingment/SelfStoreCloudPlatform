@@ -104,7 +104,6 @@
     <Compile Include="Sdk\WxConfigByQyj.cs" />
     <Compile Include="Sdk\WxConfigByTest.cs" />
     <Compile Include="Sdk\WxSdkProvider.cs" />
-    <Compile Include="Sdk\WxUntil.cs" />
     <Compile Include="Service\App\CartService.cs" />
     <Compile Include="Service\App\CouponService.cs" />
     <Compile Include="Service\App\IndexService.cs" />

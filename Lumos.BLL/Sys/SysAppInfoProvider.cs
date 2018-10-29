@@ -11,11 +11,20 @@ namespace Lumos.BLL
     {
         public string GetSecret(string pAppId)
         {
-            var sysAppKeySecret = CurrentDb.SysAppInfo.Where(m => m.AppId == pAppId).FirstOrDefault();
-            if (sysAppKeySecret == null)
+            var appInfo = CurrentDb.SysAppInfo.Where(m => m.AppId == pAppId).FirstOrDefault();
+            if (appInfo == null)
                 return null;
 
-            return sysAppKeySecret.AppSecret;
+            return appInfo.AppSecret;
+        }
+
+        public SysAppInfo Get(string pAppId)
+        {
+            var appInfo = CurrentDb.SysAppInfo.Where(m => m.AppId == pAppId).FirstOrDefault();
+            if (appInfo == null)
+                return null;
+
+            return appInfo;
         }
     }
 }

@@ -31,7 +31,7 @@ namespace WebMobile.Controllers
         //获取JsApiConfig配置参数
         public CustomJsonResult<JsApiConfigParams> GetJsApiConfigParams(string url)
         {
-            return SdkFactory.Wx.Instance().GetJsApiConfigParams(url);
+            return SdkFactory.Wx.GetJsApiConfigParams(this.CurrentAppInfo,url);
         }
 
         [AllowAnonymous]
@@ -45,9 +45,10 @@ namespace WebMobile.Controllers
 
                 LogUtil.Info("returnUrl=>" + (returnUrl == null ? "" : returnUrl.ToString()));
 
+                var appInfo = this.CurrentAppInfo;
                 if (string.IsNullOrEmpty(code))
                 {
-                    var url = SdkFactory.Wx.Instance().GetWebAuthorizeUrl(returnUrl);
+                    var url = SdkFactory.Wx.GetWebAuthorizeUrl(appInfo,returnUrl);
 
                     LogUtil.Info("待跳转路径2：" + url);
 
@@ -55,13 +56,13 @@ namespace WebMobile.Controllers
                 }
                 else
                 {
-                    var oauth2_Result = SdkFactory.Wx.Instance().GetWebOauth2AccessToken(code);
+                    var oauth2_Result = SdkFactory.Wx.GetWebOauth2AccessToken(appInfo,code);
                     if (oauth2_Result.errcode == null)
                     {
                         LogUtil.Info("用户OpenId:" + oauth2_Result.openid);
                         LogUtil.Info("用户AccessToken:" + oauth2_Result.access_token);
 
-                        var snsUserInfo_Result = SdkFactory.Wx.Instance().GetUserInfo(oauth2_Result.access_token, oauth2_Result.openid);
+                        var snsUserInfo_Result = SdkFactory.Wx.GetUserInfo(oauth2_Result.access_token, oauth2_Result.openid);
                         WxUserInfo wxUserInfo = new WxUserInfo();
                         wxUserInfo.AccessToken = oauth2_Result.access_token;
                         wxUserInfo.OpenId = oauth2_Result.openid;
@@ -132,7 +133,7 @@ namespace WebMobile.Controllers
 
             LogUtil.Info("接收支付结果:" + xml);
 
-            if (!SdkFactory.Wx.Instance().CheckPayNotifySign(xml))
+            if (!SdkFactory.Wx.CheckPayNotifySign(this.CurrentAppInfo, xml))
             {
                 LogUtil.Warn("支付通知结果签名验证失败");
                 return Content("");
@@ -180,6 +181,8 @@ namespace WebMobile.Controllers
 
             if (Request.HttpMethod == "POST")
             {
+                var appInfo = this.CurrentAppInfo;
+
                 Stream stream = Request.InputStream;
                 stream.Seek(0, SeekOrigin.Begin);
                 string xml = new StreamReader(stream).ReadToEnd();
@@ -192,7 +195,7 @@ namespace WebMobile.Controllers
                 LogUtil.Info("baseEventMsg内容:" + baseEventMsg);
                 if (baseEventMsg != null)
                 {
-                    var userInfo_Result = SdkFactory.Wx.Instance().GetUserInfoByApiToken(baseEventMsg.FromUserName);
+                    var userInfo_Result = SdkFactory.Wx.GetUserInfoByApiToken(appInfo,baseEventMsg.FromUserName);
 
                     if (userInfo_Result.openid != null)
                     {
@@ -320,7 +323,7 @@ namespace WebMobile.Controllers
             string signature = Request.QueryString["signature"].ToString();
             string timestamp = Request.QueryString["timestamp"].ToString();
             string nonce = Request.QueryString["nonce"].ToString();
-            string[] ArrTmp = { SdkFactory.Wx.Instance().GetNotifyEventUrlToken(), timestamp, nonce };
+            string[] ArrTmp = { SdkFactory.Wx.GetNotifyEventUrlToken(this.CurrentAppInfo), timestamp, nonce };
             Array.Sort(ArrTmp);
             string tmpStr = string.Join("", ArrTmp);
             tmpStr = FormsAuthentication.HashPasswordForStoringInConfigFile(tmpStr, "SHA1");

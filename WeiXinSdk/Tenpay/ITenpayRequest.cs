@@ -8,7 +8,7 @@ namespace Lumos.WeiXinSdk.Tenpay
 {
     public interface ITenpayRequest
     {
-        SortedDictionary<string, string> DoPost(IWxConfig config, ITenpayPostApi obj, bool isUserCert = false);
+        SortedDictionary<string, string> DoPost(AppInfoConfig config, ITenpayPostApi obj, bool isUserCert = false);
 
         string ReturnContent { get; }
 

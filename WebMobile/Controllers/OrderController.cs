@@ -27,7 +27,7 @@ namespace WebMobile.Controllers
         [HttpPost]
         public CustomJsonResult GetJsApiPaymentPms(RupOrderGetJsApiPaymentPms rop)
         {
-            return AppServiceFactory.Order.GetJsApiPaymentPms(this.CurrentUserId, this.CurrentUserId, rop);
+            return AppServiceFactory.Order.GetJsApiPaymentPms(this.CurrentUserId, this.CurrentUserId, this.CurrentAppInfo, rop);
         }
 
     }

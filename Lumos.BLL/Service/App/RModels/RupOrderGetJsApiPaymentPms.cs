@@ -27,6 +27,5 @@ namespace Lumos.BLL.Service.App
 
         public PayWay PayWay { get; set; }
 
-        public Caller Caller { get; set; }
     }
 }

@@ -265,7 +265,7 @@ namespace Lumos.BLL.Service.App
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
 
-        public CustomJsonResult GetJsApiPaymentPms(string pOperater, string pClientId, RupOrderGetJsApiPaymentPms rup)
+        public CustomJsonResult GetJsApiPaymentPms(string pOperater, string pClientId, AppInfoConfig appInfo, RupOrderGetJsApiPaymentPms rup)
         {
             var result = new CustomJsonResult();
 
@@ -294,18 +294,8 @@ namespace Lumos.BLL.Service.App
                 case PayWay.Wechat:
                     order.PayWay = Enumeration.OrderPayWay.Wechat;
 
-                    string caller = "";
-                    switch (rup.Caller)
-                    {
-                        case Caller.NativeWebMoblie://公众号网站
-                            caller = "NativeWebMoblie";
-                            break;
-                        case Caller.NativeMiniProgram://小程序
-                            caller = "NativeMiniProgram";
-                            break;
-                    }
 
-                    var ret_UnifiedOrder = SdkFactory.Wx.Instance().UnifiedOrderByJSAPI(caller, wxUserInfo.OpenId, order.Sn, 0.01m, "", Common.CommonUtils.GetIP(), "自助商品", order.PayExpireTime.Value);
+                    var ret_UnifiedOrder = SdkFactory.Wx.UnifiedOrderByJSAPI(appInfo, wxUserInfo.OpenId, order.Sn, 0.01m, "", Common.CommonUtils.GetIP(), "自助商品", order.PayExpireTime.Value);
 
                     if (string.IsNullOrEmpty(ret_UnifiedOrder.PrepayId))
                     {
@@ -316,7 +306,7 @@ namespace Lumos.BLL.Service.App
                     order.PayQrCodeUrl = ret_UnifiedOrder.CodeUrl;
                     CurrentDb.SaveChanges();
 
-                    var pms = SdkFactory.Wx.Instance().GetJsApiPayParams(caller, order.Id, order.Sn, ret_UnifiedOrder.PrepayId);
+                    var pms = SdkFactory.Wx.GetJsApiPayParams(appInfo, order.Id, order.Sn, ret_UnifiedOrder.PrepayId);
 
                     result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", pms);
                     break;

@@ -15,8 +15,6 @@ namespace Lumos.BLL
 {
     public class WxSdkProvider : BaseProvider
     {
-        private IWxConfig wxConfig = new WxConfigByTest();
-
         private string AES_decrypt(string encryptedData, string iv, string sessionKey)
         {
             try
@@ -49,41 +47,51 @@ namespace Lumos.BLL
 
         }
 
-        public WxSdkProvider Instance()
+        public string GetJsApiTicket(AppInfoConfig config)
         {
-            WxSdkProvider p = new WxSdkProvider();
-            p.Config = new WxConfigByFanJu();
-            //switch (merchantId)
-            //{
-            //    case 1:
-            //        p.Config = new WxConfigByFanJu();
-            //        break;
-            //    case 2:
-            //        p.Config = new WxConfigByFuLi();
-            //        break;
-            //}
 
-            return p;
+            string key = string.Format("Wx_AppId_{0}_JsApiTicket", config.AppId);
+
+            var redis = new RedisClient<string>();
+            var jsApiTicket = redis.KGetString(key);
+
+            if (jsApiTicket == null)
+            {
+                WxApi c = new WxApi();
+
+                string access_token = GetApiAccessToken(config);
+
+                var wxApiJsApiTicket = new WxApiJsApiTicket(access_token);
+
+                var wxApiJsApiTicketResult = c.DoGet(wxApiJsApiTicket);
+                if (string.IsNullOrEmpty(wxApiJsApiTicketResult.ticket))
+                {
+                    LogUtil.Info(string.Format("获取微信JsApiTicket，key：{0}，已过期，Api重新获取失败", key));
+                }
+                else
+                {
+                    LogUtil.Info(string.Format("获取微信JsApiTicket，key：{0}，value：{1}，已过期，重新获取成功", key, wxApiJsApiTicketResult.ticket));
+
+                    jsApiTicket = wxApiJsApiTicketResult.ticket;
+
+                    redis.KSet(key, jsApiTicket, new TimeSpan(0, 30, 0));
+                }
+            }
+            else
+            {
+                LogUtil.Info(string.Format("获取微信JsApiTicket，key：{0}，value：{1}", key, jsApiTicket));
+            }
+
+            return jsApiTicket;
+
         }
 
-        public IWxConfig Config
-        {
-            get
-            {
-                return wxConfig;
-            }
-            set
-            {
-                wxConfig = value;
-            }
-        }
-
-        public UnifiedOrderResult UnifiedOrderByJSAPI(string caller, string openId, string orderSn, decimal orderAmount, string goods_tag, string ip, string body, DateTime? time_expire = null)
+        public UnifiedOrderResult UnifiedOrderByJSAPI(AppInfoConfig config, string openId, string orderSn, decimal orderAmount, string goods_tag, string ip, string body, DateTime? time_expire = null)
         {
 
             var ret = new UnifiedOrderResult();
 
-            TenpayUtil tenpayUtil = new TenpayUtil(wxConfig);
+            TenpayUtil tenpayUtil = new TenpayUtil(config);
 
             UnifiedOrder unifiedOrder = new UnifiedOrder();
             unifiedOrder.openid = openId;
@@ -107,19 +115,59 @@ namespace Lumos.BLL
             return ret;
 
         }
-        public string GetWebAuthorizeUrl(string returnUrl)
+        public string GetWebAuthorizeUrl(AppInfoConfig config, string returnUrl)
         {
-            return OAuthApi.GetAuthorizeUrl(wxConfig.AppId, string.Format(wxConfig.Oauth2RedirectUrl, returnUrl));
+            return OAuthApi.GetAuthorizeUrl(config.AppId, string.Format(config.Oauth2RedirectUrl, returnUrl));
         }
 
-        public WxApiSnsOauth2AccessTokenResult GetWebOauth2AccessToken(string code)
+        public WxApiSnsOauth2AccessTokenResult GetWebOauth2AccessToken(AppInfoConfig config,string code)
         {
-            return OAuthApi.GetWebOauth2AccessToken(wxConfig.AppId, wxConfig.AppSecret, code);
+            return OAuthApi.GetWebOauth2AccessToken(config.AppId, config.AppSecret, code);
         }
 
-        public string GetApiAccessToken()
+        public string GetApiAccessToken(AppInfoConfig config)
         {
-            return WxUntil.GetInstance().GetAccessToken(wxConfig.AppId, wxConfig.AppSecret);
+            string wxAccessToken = System.Configuration.ConfigurationManager.AppSettings["custom:WxTestAccessToken"];
+            if (wxAccessToken != null)
+            {
+                return wxAccessToken;
+            }
+
+            string key = string.Format("Wx_AppId_{0}_AccessToken", config.AppId);
+
+            var redis = new RedisClient<string>();
+            var accessToken = redis.KGetString(key);
+
+            if (accessToken == null)
+            {
+                LogUtil.Info(string.Format("获取微信AccessToken，key：{0}，已过期，重新获取", key));
+
+                WxApi c = new WxApi();
+
+                WxApiAccessToken apiAccessToken = new WxApiAccessToken("client_credential", config.AppId, config.AppSecret);
+
+                var apiAccessTokenResult = c.DoGet(apiAccessToken);
+
+                if (string.IsNullOrEmpty(apiAccessTokenResult.access_token))
+                {
+                    LogUtil.Info(string.Format("获取微信AccessToken，key：{0}，已过期，Api重新获取失败", key));
+                }
+                else
+                {
+                    LogUtil.Info(string.Format("获取微信AccessToken，key：{0}，value：{1}，已过期，重新获取成功", key, apiAccessTokenResult.access_token));
+
+                    accessToken = apiAccessTokenResult.access_token;
+
+                    redis.KSet(key, accessToken, new TimeSpan(0, 30, 0));
+                }
+
+            }
+            else
+            {
+                LogUtil.Info(string.Format("获取微信AccessToken，key：{0}，value：{1}", key, accessToken));
+            }
+
+            return accessToken;
         }
 
         public WxApiSnsUserInfoResult GetUserInfo(string accessToken, string openId)
@@ -127,15 +175,11 @@ namespace Lumos.BLL
             return OAuthApi.GetUserInfo(accessToken, openId);
         }
 
-        public UserInfoModelByMinProramJsCode GetUserInfoByMinProramJsCode(string caller, string encryptedData, string iv, string code)
+        public UserInfoModelByMinProramJsCode GetUserInfoByMinProramJsCode(AppInfoConfig config, string encryptedData, string iv, string code)
         {
             try
             {
-                string appId = "wxb01e0e16d57bd762";
-                string appSecret = "4acf13ebe601a5b13029bd74bed3de1a";
-
-                var jsCode2Session = OAuthApi.GetWxApiJsCode2Session(appId, appSecret, code);
-
+                var jsCode2Session = OAuthApi.GetWxApiJsCode2Session(config.AppId, config.AppSecret, code);
                 string strData = AES_decrypt(encryptedData, iv, jsCode2Session.session_key);
                 LogUtil.Info("UserInfo:" + strData);
                 var obj = JsonConvert.DeserializeObject<UserInfoModelByMinProramJsCode>(strData);
@@ -148,58 +192,91 @@ namespace Lumos.BLL
             }
         }
 
-        public string CardCodeDecrypt(string encrypt_code)
+        public string CardCodeDecrypt(AppInfoConfig config, string encrypt_code)
         {
-            return OAuthApi.CardCodeDecrypt(this.GetApiAccessToken(), encrypt_code);
+            return OAuthApi.CardCodeDecrypt(this.GetApiAccessToken(config), encrypt_code);
         }
 
-        public WxApiUserInfoResult GetUserInfoByApiToken(string openId)
+        public WxApiUserInfoResult GetUserInfoByApiToken(AppInfoConfig config, string openId)
         {
-            return OAuthApi.GetUserInfoByApiToken(this.GetApiAccessToken(), openId);
+            return OAuthApi.GetUserInfoByApiToken(this.GetApiAccessToken(config), openId);
         }
 
-        public CustomJsonResult<JsApiConfigParams> GetJsApiConfigParams(string url)
+        public CustomJsonResult<JsApiConfigParams> GetJsApiConfigParams(AppInfoConfig config,string url)
         {
-            string jsApiTicket = WxUntil.GetInstance().GetJsApiTicket(wxConfig.AppId, wxConfig.AppSecret);
+            string jsApiTicket = GetJsApiTicket(config);
 
-            JsApiConfigParams parms = new JsApiConfigParams(wxConfig.AppId, url, jsApiTicket);
+            JsApiConfigParams parms = new JsApiConfigParams(config.AppId, url, jsApiTicket);
 
             return new CustomJsonResult<JsApiConfigParams>(ResultType.Success, ResultCode.Success, "", parms);
         }
 
-        public JsApiPayParams GetJsApiPayParams(string caller, string orderId, string orderSn, string prepayId)
+        public JsApiPayParams GetJsApiPayParams(AppInfoConfig config, string orderId, string orderSn, string prepayId)
         {
-            JsApiPayParams parms = new JsApiPayParams(wxConfig.AppId, wxConfig.Key, prepayId, orderId, orderSn);
+            JsApiPayParams parms = new JsApiPayParams(config.AppId, config.Key, prepayId, orderId, orderSn);
 
             return parms;
         }
 
-        public string GetNotifyEventUrlToken()
+        public string GetNotifyEventUrlToken(AppInfoConfig config)
         {
-            return wxConfig.NotifyEventUrlToken;
+            return config.NotifyEventUrlToken;
         }
 
-        public string GetCardApiTicket()
+        public string GetCardApiTicket(AppInfoConfig config)
         {
-            string cardApiTicket = WxUntil.GetInstance().GetCardApiTicket(wxConfig.AppId, wxConfig.AppSecret);
-            return cardApiTicket;
+
+            string key = string.Format("Wx_AppId_{0}_CardApiTicket", config.AppId);
+
+            var redis = new RedisClient<string>();
+            var jsApiTicket = redis.KGetString(key);
+
+            if (jsApiTicket == null)
+            {
+                WxApi c = new WxApi();
+
+                string access_token = GetApiAccessToken(config);
+
+                var wxApiGetCardApiTicket = new WxApiGetCardApiTicket(access_token);
+
+                var wxApiGetCardApiTicketResult = c.DoGet(wxApiGetCardApiTicket);
+                if (string.IsNullOrEmpty(wxApiGetCardApiTicketResult.ticket))
+                {
+                    LogUtil.Info(string.Format("获取微信JsApiTicket，key：{0}，已过期，Api重新获取失败", key));
+                }
+                else
+                {
+                    LogUtil.Info(string.Format("获取微信JsApiTicket，key：{0}，value：{1}，已过期，重新获取成功", key, wxApiGetCardApiTicketResult.ticket));
+
+                    jsApiTicket = wxApiGetCardApiTicketResult.ticket;
+
+                    redis.KSet(key, jsApiTicket, new TimeSpan(0, 30, 0));
+                }
+            }
+            else
+            {
+                LogUtil.Info(string.Format("获取微信JsApiTicket，key：{0}，value：{1}", key, jsApiTicket));
+            }
+
+            return jsApiTicket;
+
         }
 
-        public string UploadMultimediaImage(string imageUrl)
+        public string UploadMultimediaImage(AppInfoConfig config,string imageUrl)
         {
-            return OAuthApi.UploadMultimediaImage(this.GetApiAccessToken(), imageUrl);
+            return OAuthApi.UploadMultimediaImage(this.GetApiAccessToken(config), imageUrl);
         }
 
-        public string OrderQuery(string orderSn)
+        public string OrderQuery(AppInfoConfig config,string orderSn)
         {
             CustomJsonResult result = new CustomJsonResult();
-            TenpayUtil tenpayUtil = new TenpayUtil(wxConfig);
+            TenpayUtil tenpayUtil = new TenpayUtil(config);
             string xml = tenpayUtil.OrderQuery(orderSn);
 
             return xml;
         }
 
-        public bool CheckPayNotifySign(string xml)
+        public bool CheckPayNotifySign(AppInfoConfig config,string xml)
         {
 
             var dic1 = WeiXinSdk.CommonUtil.ToDictionary(xml);
@@ -237,7 +314,7 @@ namespace Lumos.BLL
 
 
             //在string后加入API KEY
-            buff += "&key=" + wxConfig.Key;
+            buff += "&key=" + config.Key;
             //MD5加密
             var md5 = MD5.Create();
             var bs = md5.ComputeHash(Encoding.UTF8.GetBytes(buff));

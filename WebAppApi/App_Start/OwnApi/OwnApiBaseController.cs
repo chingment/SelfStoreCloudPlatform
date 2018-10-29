@@ -1,5 +1,9 @@
 ﻿using Lumos.Web.Http;
 using Lumos;
+using Lumos.Entity;
+using Lumos.WeiXinSdk;
+using Lumos.BLL;
+using System.Web;
 
 namespace WebAppApi
 {
@@ -44,6 +48,23 @@ namespace WebAppApi
             get
             {
                 return OwnApiRequest.GetCurrentUserId();
+            }
+        }
+
+        public AppInfoConfig CurrentAppInfo
+        {
+            get
+            {
+                var context = HttpContext.Current;
+                var request = context.Request;
+                var appId = request.Params["AppId"];
+                if (appId == null)
+                    return null;
+                var app = SysFactory.AppInfo.Get(appId);
+                var appInfo = new AppInfoConfig();
+                appInfo.AppId = app.AppId;
+                appInfo.AppSecret = app.AppSecret;
+                return appInfo;
             }
         }
     }

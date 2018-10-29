@@ -3,6 +3,8 @@ using Lumos.Web.Mvc;
 using Lumos.Web;
 using System;
 using System.Web.Mvc;
+using Lumos.WeiXinSdk;
+using Lumos.Entity;
 
 namespace WebMobile
 {
@@ -105,6 +107,17 @@ namespace WebMobile
 
                     LogUtil.Info("用户Id:" + this.CurrentUserId);
                 }
+            }
+        }
+
+        public AppInfoConfig CurrentAppInfo
+        {
+            get
+            {
+                var appInfo = new SysAppInfo();
+                appInfo.AppId = "wxb01e0e16d57bd762";
+                appInfo.AppSecret = "";
+                return null;
             }
         }
     }

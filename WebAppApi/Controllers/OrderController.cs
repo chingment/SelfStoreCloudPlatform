@@ -2,6 +2,7 @@
 using System.Web.Http;
 using Lumos;
 using Lumos.BLL.Service.App;
+using Lumos.WeiXinSdk;
 
 namespace WebAppApi.Controllers
 {
@@ -10,7 +11,7 @@ namespace WebAppApi.Controllers
         [HttpPost]
         public OwnApiHttpResponse Confirm([FromBody]RopOrderConfirm rop)
         {
-            IResult result = AppServiceFactory.Order.Confrim(this.CurrentUserId,this.CurrentUserId, rop);
+            IResult result = AppServiceFactory.Order.Confrim(this.CurrentUserId, this.CurrentUserId, rop);
 
             return new OwnApiHttpResponse(result);
         }
@@ -27,7 +28,7 @@ namespace WebAppApi.Controllers
         [HttpGet]
         public OwnApiHttpResponse GetJsApiPaymentPms([FromUri]RupOrderGetJsApiPaymentPms rop)
         {
-            IResult result = AppServiceFactory.Order.GetJsApiPaymentPms(this.CurrentUserId, this.CurrentUserId, rop);
+            IResult result = AppServiceFactory.Order.GetJsApiPaymentPms(this.CurrentUserId, this.CurrentUserId, this.CurrentAppInfo, rop);
             return new OwnApiHttpResponse(result);
         }
     }
