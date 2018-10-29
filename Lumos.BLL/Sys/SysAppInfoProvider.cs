@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL
 {
-    public class SysAppKeySecretProvider : BaseProvider
+    public class SysAppInfoProvider : BaseProvider
     {
-        public string GetSecret(string pKey)
+        public string GetSecret(string pAppId)
         {
-            var sysAppKeySecret = CurrentDb.SysAppKeySecret.Where(m => m.Key == pKey).FirstOrDefault();
+            var sysAppKeySecret = CurrentDb.SysAppInfo.Where(m => m.AppId == pAppId).FirstOrDefault();
             if (sysAppKeySecret == null)
                 return null;
 
-            return sysAppKeySecret.Secret;
+            return sysAppKeySecret.AppSecret;
         }
     }
 }

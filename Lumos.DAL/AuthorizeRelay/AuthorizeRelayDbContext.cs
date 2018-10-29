@@ -59,7 +59,7 @@ namespace Lumos.DAL.AuthorizeRelay
         public IDbSet<SysOperateHistory> SysOperateHistory { get; set; }
         public IDbSet<SysPageAccessRecord> SysPageAccessRecord { get; set; }
 
-        public IDbSet<SysAppKeySecret> SysAppKeySecret { get; set; }
+        public IDbSet<SysAppInfo> SysAppInfo { get; set; }
 
         public IDbSet<SysSmsSendHistory> SysSmsSendHistory { get; set; }
 

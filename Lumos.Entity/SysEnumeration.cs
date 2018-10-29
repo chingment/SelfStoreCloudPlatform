@@ -39,19 +39,14 @@ namespace Lumos.Entity
             Cancle = 3
         }
 
-        public enum AppKeySecretStatus
+        public enum AppType
         {
             Unknow = 0,
-            Normal = 1,
-            Disable = 2
+            NativeApp = 1,
+            PublicNumber = 2,
+            MinProgram = 3
         }
 
-        public enum ClientAccountType
-        {
-            Unknow = 0,
-            MasterAccount = 1,
-            SubAccount = 2
-        }
 
         public enum UserStatus
         {

@@ -4,20 +4,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Lumos.Entity
 {
-    [Table("SysAppKeySecret")]
-    public class SysAppKeySecret
+    [Table("SysAppInfo")]
+    public class SysAppInfo
     {
         [Key]
         public string Id { get; set; }
 
+        public Enumeration.AppType AppType { get; set; }
         [MaxLength(128)]
-        public string Key { get; set; }
-
+        public string AppMchId { get; set; }
         [MaxLength(128)]
-        public string Secret { get; set; }
-
-        public Enumeration.AppKeySecretStatus Status { get; set; }
-
+        public string AppMchName { get; set; }
+        public string AppId { get; set; }
+        public string AppSecret { get; set; }
         public string Creator { get; set; }
 
         public DateTime CreateTime { get; set; }

@@ -8,11 +8,11 @@ namespace Lumos.BLL
 {
     public class SysFactory : BaseFactory
     {
-        public static SysAppKeySecretProvider AppKeySecret
+        public static SysAppInfoProvider AppInfo
         {
             get
             {
-                return new SysAppKeySecretProvider();
+                return new SysAppInfoProvider();
             }
         }
 

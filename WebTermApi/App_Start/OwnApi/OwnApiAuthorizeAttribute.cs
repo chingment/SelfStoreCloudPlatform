@@ -132,7 +132,7 @@ namespace WebTermApi
                 }
 
                 //检查key是否在数据库中存在
-                string app_secret = SysFactory.AppKeySecret.GetSecret(app_key);
+                string app_secret = SysFactory.AppInfo.GetSecret(app_key);
 
                 if (app_secret == null)
                 {
