@@ -46,6 +46,7 @@ namespace WebMobile.Controllers
 
                 LogUtil.Info("returnUrl=>" + (returnUrl == null ? "" : returnUrl.ToString()));
 
+
                 var appInfo = this.CurrentAppInfo;
                 if (string.IsNullOrEmpty(code))
                 {
