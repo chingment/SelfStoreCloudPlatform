@@ -1,7 +1,4 @@
-﻿@{
-    var jsApiConfigParams = Lumos.BLL.SdkFactory.Wx.Instance().GetJsApiConfigParams(Request.Url.AbsoluteUri);
-}
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
@@ -44,27 +41,36 @@
     <script>
         $(function () {
 
-            wx.config({
-                debug: false,
-                appId: '@jsApiConfigParams.Data.appId',
-                timestamp: '@jsApiConfigParams.Data.timestamp',
-                nonceStr: '@jsApiConfigParams.Data.nonceStr',
-                signature: '@jsApiConfigParams.Data.signature',
-                jsApiList: [
-                    'onMenuShareAppMessage',
-                    'onMenuShareTimeline',
-                    'showMenuItems',
-                    'showAllNonBaseMenuItem',
-                    'showOptionMenu',
-                    'chooseWXPay',
-                    'getLocation',
-                    'addCard',
-                    'chooseCard',
-                    'openCard'
-                ]
+            $.lumos.getJson({
+                url: "/Home/GetJsApiConfigParams",
+                isShowLoading: false,
+                success: function (d) {
+                    if (d.result == $.lumos.resultType.success) {
+
+                        var jsApiConfigParams = d.data;
+
+                        wx.config({
+                            debug: false,
+                            appId: jsApiConfigParams.appId,
+                            timestamp: jsApiConfigParams.timestamp,
+                            nonceStr: jsApiConfigParams.nonceStr,
+                            signature: jsApiConfigParams.signature,
+                            jsApiList: [
+                                'onMenuShareAppMessage',
+                                'onMenuShareTimeline',
+                                'showMenuItems',
+                                'showAllNonBaseMenuItem',
+                                'showOptionMenu',
+                                'chooseWXPay',
+                                'getLocation',
+                                'addCard',
+                                'chooseCard',
+                                'openCard'
+                            ]
+                        });
+                    }
+                }
             });
-
-
         })
     </script>
     @RenderSection("scripts", required: false)
