@@ -191,6 +191,7 @@
     <Content Include="Content\default\images\operate_result_ic_1.png" />
     <Content Include="Content\default\images\operate_result_ic_2.png" />
     <Content Include="Content\default\images\operate_result_ic_3.png" />
+    <Content Include="Content\default\images\operate_result_ic_4.png" />
     <Content Include="Content\default\images\tag_address.png" />
     <Content Include="Content\default\base.css" />
     <Content Include="favicon.ico" />

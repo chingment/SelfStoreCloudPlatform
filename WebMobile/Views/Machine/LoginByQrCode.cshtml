@@ -8,7 +8,7 @@
 }
 
 
-<script id="operate_result_tmpl" type="text/x-jquery-tmpl">
+<script id="tmpl_operate_result" type="text/x-jquery-tmpl">
     <div class="it-result">
         <div class="imgbox">
             <img class="img" src="/Content/default/images/operate_result_ic_${result}.png" />
@@ -16,16 +16,6 @@
     </div>
     <div class="it-message">
         <span class="txt">${message}</span>
-    </div>
-    <div class="it-btns">
-        {{each(j,btn) buttons}}
-        <div class="btnbox">
-            <a href="${btn.url}" class="btn" style="color:${btn.color}; border:1px solid ${btn.color} ;">${btn.name}</a>
-        </div>
-        {{/each}}
-    </div>
-    <div class="it-remarks">
-        <p class="txt">${remarks}</p>
     </div>
     <div class="its-a">
         {{each(j,field) fields}}
@@ -44,54 +34,53 @@
 
         {{/each}}
     </div>
-</script>
-
-<script id="tmpl_page" type="text/x-jquery-tmpl">
-
-
-    <div id="btn_Login" class="btn-bottom">
-        登录
+    <div class="it-btns">
+        {{each(j,btn) buttons}}
+        <div class="btnbox">
+            <a href="${btn.url}" class="btn" style="color:${btn.color}; border:1px solid ${btn.color} ;">${btn.name}</a>
+        </div>
+        {{/each}}
     </div>
-
 </script>
+
 @section scripts{
     <script type="text/javascript">
 
-    var merchantId = $.lumos.getUrlParamValue("merchantId");
-    var storeId = $.lumos.getUrlParamValue("storeId");
-    var machineId = $.lumos.getUrlParamValue("machineId");
+        var merchantId = $.lumos.getUrlParamValue("merchantId");
+        var storeId = $.lumos.getUrlParamValue("storeId");
+        var machineId = $.lumos.getUrlParamValue("machineId");
 
-    $(document).ready(function () {
+        $(document).ready(function () {
 
-       // alert(merchantId + "," + storeId + "," + machineId)
-        $.lumos.getJson({
-            url: "/Machine/GetLoginConfirmInfo",
-            isShowLoading: true,
-            urlParams: { merchantId: merchantId, storeId: storeId, machineId: machineId },
-            success: function (d) {
-                if (d.result == $.lumos.resultType.success) {
-                    $("#tmpl_page").tmpl(d.data).appendTo('body');
-                }
-            }
-        });
-
-        $("#btn_Login").on("click", function () {
-            $.lumos.postJson({
-                url: "/Machine/LoginByQrCode",
+            $.lumos.getJson({
+                url: "/Machine/GetLoginConfirmInfo",
                 isShowLoading: true,
-                data: { token: $.lumos.getUrlParamValue("token"), merchantId: merchantId, storeId: storeId, machineId: machineId },
+                urlParams: { merchantId: merchantId, storeId: storeId, machineId: machineId },
                 success: function (d) {
-
-                    $.lumos.tips(d.message);
-
+                    alert(JSON.stringify(d))
                     if (d.result == $.lumos.resultType.success) {
-                        $('#tmpl_operate_result').tmpl(d.data).appendTo('body');
+                        $("#tmpl_operate_result").tmpl(d.data).appendTo('body');
                     }
                 }
             });
 
+            $("#btn_Login").on("click", function () {
+                $.lumos.postJson({
+                    url: "/Machine/LoginByQrCode",
+                    isShowLoading: true,
+                    data: { token: $.lumos.getUrlParamValue("token"), merchantId: merchantId, storeId: storeId, machineId: machineId },
+                    success: function (d) {
+
+                        $.lumos.tips(d.message);
+
+                        if (d.result == $.lumos.resultType.success) {
+                            $('#tmpl_operate_result').tmpl(d.data).appendTo('body');
+                        }
+                    }
+                });
+
+            });
         });
-    });
 
     </script>
 }
