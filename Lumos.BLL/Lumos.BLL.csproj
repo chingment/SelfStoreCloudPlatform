@@ -96,6 +96,7 @@
     <Compile Include="Biz\RModels\RopOrderReserve.cs" />
     <Compile Include="Biz\RModels\RopProducSkuAdd.cs" />
     <Compile Include="Biz\RModels\RopProducSkuEdit.cs" />
+    <Compile Include="Biz\RModels\RupMachineLoginResultQuery.cs" />
     <Compile Include="Biz\StoreProvider.cs" />
     <Compile Include="Biz\WarehouseProvider.cs" />
     <Compile Include="Biz\WxUserProvider.cs" />

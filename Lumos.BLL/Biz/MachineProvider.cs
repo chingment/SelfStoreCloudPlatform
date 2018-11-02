@@ -28,7 +28,7 @@ namespace Lumos.BLL
             CurrentDb.Machine.Add(pMachine);
             CurrentDb.SaveChanges();
 
-           // machine.Sn = SnUtil.Build(machine.Id);
+            // machine.Sn = SnUtil.Build(machine.Id);
             CurrentDb.SaveChanges();
 
 
@@ -52,6 +52,21 @@ namespace Lumos.BLL
             return new CustomJsonResult(ResultType.Success, "保存成功");
         }
 
+
+        public CustomJsonResult LoginResultQuery(string pOperater, RupMachineLoginResultQuery rup)
+        {
+            var key = string.Format("machineLoginResult:{0}", rup.Token);
+
+            var redis = new RedisClient<string>();
+            var token = redis.KGetString(key);
+
+            if (token == null)
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "登录失败");
+
+
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "登录成功");
+        }
+
         public CustomJsonResult LoginByQrCode(string pOperater, RopMachineLoginByQrCode rop)
         {
             var key = string.Format("machineLoginResult:{0}", rop.Token);
@@ -61,11 +76,11 @@ namespace Lumos.BLL
 
             if (!isFlag)
             {
-                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "");
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "登录失败");
             }
 
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "");
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "登录成功");
         }
 
     }

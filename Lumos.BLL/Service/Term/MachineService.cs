@@ -240,16 +240,16 @@ namespace Lumos.BLL.Service.Term
 
         public CustomJsonResult LoginResultQuery(string pOperater, RupMachineLoginResultQuery rup)
         {
-            var key = string.Format("machineLoginResult:{0}", rup.Token);
 
-            var redis = new RedisClient<string>();
-            var token = redis.KGetString(key);
+            CustomJsonResult result = new CustomJsonResult();
 
-            if (token == null)
-                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "");
+            Biz.RModels.RupMachineLoginResultQuery bizRup = new Biz.RModels.RupMachineLoginResultQuery();
 
+            bizRup.Token = rup.Token;
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "");
+            result = BizFactory.Machine.LoginResultQuery(pOperater, bizRup);
+
+            return result;
         }
 
     }
