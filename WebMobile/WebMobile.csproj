@@ -185,29 +185,12 @@
     <Content Include="bb.js" />
     <Content Include="Content\default\images\col_nav_right.png" />
     <Content Include="Content\default\images\loading.gif" />
+    <Content Include="Content\default\images\login-logo.png" />
     <Content Include="Content\default\images\operate_result_ic_.png" />
     <Content Include="Content\default\images\operate_result_ic_0.png" />
     <Content Include="Content\default\images\operate_result_ic_1.png" />
     <Content Include="Content\default\images\operate_result_ic_2.png" />
     <Content Include="Content\default\images\operate_result_ic_3.png" />
-    <Content Include="Content\default\images\promote20180910\bg.jpg" />
-    <Content Include="Content\default\images\promote20180910\btn_personal.png" />
-    <Content Include="Content\default\images\promote20180910\btn_buy.png" />
-    <Content Include="Content\default\images\promote20180910\btn_invite.png" />
-    <Content Include="Content\default\images\promote20180910\bg_01.jpg" />
-    <Content Include="Content\default\images\promote20180910\bg_02.jpg" />
-    <Content Include="Content\default\images\promote20180910\bg_03.jpg" />
-    <Content Include="Content\default\images\promote20180910\bg_04.jpg" />
-    <Content Include="Content\default\images\promote20180910\bg_suc_01.jpg" />
-    <Content Include="Content\default\images\promote20180910\bg_suc_02.jpg" />
-    <Content Include="Content\default\images\promote20180910\bg_suc_03.jpg" />
-    <Content Include="Content\default\images\promote20180910\bg_suc_04.jpg" />
-    <Content Include="Content\default\images\promote20180910\btn_opencoupon.png" />
-    <Content Include="Content\default\images\promote20180910\btn_getcoupon.png" />
-    <Content Include="Content\default\images\promote20180910\popd_close.png" />
-    <Content Include="Content\default\images\promote20180910\share_fly.png" />
-    <Content Include="Content\default\images\promote20180910\share_icon.png" />
-    <Content Include="Content\default\images\promote20180910\btn_submit.png" />
     <Content Include="Content\default\images\tag_address.png" />
     <Content Include="Content\default\base.css" />
     <Content Include="favicon.ico" />
@@ -223,11 +206,6 @@
     <Content Include="Scripts\jquery.lumos.mobile.1.0.0.js" />
     <Content Include="Scripts\jquery.redcountdown.js" />
     <Content Include="Scripts\jquery.tmpl.min.js" />
-    <Content Include="Static\Promote\promote_a999753c5fe14e26bbecad576b6a6909.jpg" />
-    <Content Include="Static\Promote\promote_bg_1.jpg" />
-    <Content Include="Static\Promote\user\50eccc439fda47138145defd71fb36c5.jpg" />
-    <Content Include="Static\Promote\user\5aa8efc4c15647929c9428c96ca2654f.jpg" />
-    <Content Include="Static\Promote\user\e60e18c5e0b342aeb31e986c6b9ddc56.jpg" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\MessageBox.cshtml" />
@@ -249,9 +227,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -304,9 +280,6 @@
     <Content Include="Views\web.config">
       <SubType>Designer</SubType>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -29,7 +29,6 @@ namespace WebMobile.Controllers
         public CustomJsonResult Login(LoginViewModel model)
         {
 
-
             GoToViewModel gotoViewModel = new GoToViewModel();
 
             var result = SysFactory.AuthorizeRelay.SignIn(model.UserName, model.Password, CommonUtils.GetIP(), Enumeration.LoginType.Website);

@@ -1,81 +1,55 @@
-﻿@model WebMobile.Models.Account.LoginViewModel
-@{
-
-    var returnUrl = Request.QueryString["returnUrl"] == null ? "/Home/Index" : Request.QueryString["returnUrl"].ToString();
-
-}
-
-@section styles
-{
-
-    <link href="/Content/app/account-login.css" rel="stylesheet" />
-    <style>
-        .input-contrainer {
-            width: 100%;
-        }
-
-        .verifycode-contaier {
-            width: 100%;
-        }
-    </style>
-}
-<div>
-
-    <div class="body-thumb">
-        <span><img src="/Content/imgs/complete-image/acount-login/icon/logo.png" width="100" height="100" /></span>
+﻿
+<div class="login-logo">
+    <div class="ct">
+        <img class="img" src="/Content/default/images/login-logo.png" />
     </div>
-    <div class="space-line-one"></div>
-    <form id="form1">
-        <input name="ReturnUrl" id="txt_ReturnUrl" type="hidden" value="@returnUrl" />
-        <div class="body-usrinfo">
-            <div class="body-mobile">
-                <div class="content-container">
-                    <div class="input-contrainer">
-                        <div>
-                            <input type="text" name="UserName" id="txt_UserName" placeholder="用户名" />
-                            <input type="password" name="Password" id="txt_Password" placeholder="密码" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="body-verifycode">
-                <div class="content-container">
-                    <div class="verifycode-contaier">
-                        <div>
-                         
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="body-submit">
-                <div type="submit" id="btn_submit" onclick="login();">登录</div>
-            </div>
-        </div>
-    </form>
 </div>
+
+<div class="login-input">
+    <div class="ct">
+        <div class="it">
+            <input type="text" class="input" name="UserName" id="txt_UserName" placeholder="用户名" />
+        </div>
+        <div class="it">
+            <input type="password" class="input" name="Password" id="txt_Password" placeholder="密码" />
+        </div>
+    </div>
+</div>
+
+<div class="login-btn">
+    <div class="ct">
+        <div type="button" class="btn operate" id="btn_submit">登录</div>
+    </div>
+</div>
+
+
 
 @section scripts{
     <script type="text/javascript">
 
-        function login() {
 
+        $(document).ready(function () {
+
+            $('#btn_submit').on("click", function () {
+                login();
+            });
+
+        });
+
+        function login() {
             var userName = $("#txt_UserName").val();
             var passWord = $("#txt_Password").val();
-
             if (userName.length == 0) {
                 $.lumos.tips('用户名不能为空');
                 return false;
             }
-
             if (passWord.length == 0) {
                 $.lumos.tips('密码不能空');
                 return false;
             }
-
             $.lumos.postJson({
                 url: "/Account/Login",
-                data: $('#form1').serialize(),
+                data: { userName: userName, passWord: passWord, returnUrl: $.lumos.getUrlParamValue("returnUrl") },
                 success: function (d) {
                     if (d.result == $.lumos.resultType.success) {
                         window.location.href = d.data.url;

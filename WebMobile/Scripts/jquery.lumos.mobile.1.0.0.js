@@ -461,6 +461,7 @@
             opts = $.extend({
                 isShowLoading: false,
                 url: '',
+                urlParams: null,
                 data: null,
                 async: true,
                 timeout: 0,
@@ -478,14 +479,29 @@
             }, opts || {});
 
             var _url = opts.url;
+            var _urlParams = opts.urlParams;
 
             if (_url == '') {
 
                 return;
             }
 
+            var paramStr = "";
+            if (_url.indexOf('?') > 0) {
+                paramStr = _url.substring(_url.indexOf('?') + 1, _url.length);
+            }
 
+            if (_urlParams != null) {
 
+                if (paramStr != "") {
+                    _url += '&';
+                }
+                for (var p in _urlParams) {
+                    _url += p + '=' + encodeURIComponent(_urlParams[p]) + '&';
+                }
+
+                _url = _url.substring(0, _url.length - 1)
+            }
 
             var _data = opts.data;
             var _async = opts.async;
@@ -494,22 +510,7 @@
             var _beforeSend = opts.beforeSend;
             var _complete = opts.complete;
             var _isShowLoading = opts.isShowLoading
-
-            //var postStr = "";
-            //var obj = {};
-            //if (_data != null) {
-            //    if (typeof (_data.length) != 'undefined') {
-            //        $.each(_data, function (i, v) {
-            //            obj[v.name] = v.value;
-            //        })
-
-            //        postStr = JSON.stringify(obj);
-            //    }
-            //    else {
-            //        postStr = JSON.stringify(_data);
-            //    }
-            //}
-
+            var postStr = JSON.stringify(_data);
             //获取防伪标记
             var token = $('[name=__RequestVerificationToken]').val();
             var headers = {};
@@ -520,12 +521,13 @@
             var handling;
 
             $.ajax({
-                type: "Post",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 async: _async,
                 headers: headers,
                 timeout: _timeout,
-                data: _data,
+                data: postStr,
                 url: _url,
                 beforeSend: function (XMLHttpRequest) {
                     if (_isShowLoading) {
@@ -579,11 +581,29 @@
             }, opts || {});
 
             var _url = opts.url;
+            var _urlParams = opts.urlParams;
 
             if (_url == '') {
-
                 return;
             }
+
+            var paramStr = "";
+            if (_url.indexOf('?') > 0) {
+                paramStr = _url.substring(_url.indexOf('?') + 1, _url.length);
+            }
+
+            if (_urlParams != null) {
+
+                if (paramStr != "") {
+                    _url += '&';
+                }
+                for (var p in _urlParams) {
+                    _url += p + '=' + encodeURIComponent(_urlParams[p]) + '&';
+                }
+
+                _url = _url.substring(0, _url.length - 1)
+            }
+
             var _async = opts.async;
             var _timeout = opts.timeout;
             var _success = opts.success;
@@ -601,7 +621,7 @@
             var handling;
 
             $.ajax({
-                type: "Get",
+                type: "GET",
                 dataType: "json",
                 async: _async,
                 headers: headers,
