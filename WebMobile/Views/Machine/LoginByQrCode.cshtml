@@ -1,0 +1,38 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "授权登录机器";
+}
+
+@section styles{
+
+}
+
+
+
+<div id="btn_Login" class="btn-bottom">
+    登录
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("#btn_Login").on("click", function () {
+            $.lumos.postJson({
+                url: "/Machine/LoginByQrCode",
+                isShowLoading: true,
+                data: { token: $.lumos.getUrlParamValue("token"), merchantId: $.lumos.getUrlParamValue("merchantId"), storeId: $.lumos.getUrlParamValue("storeId"), machineId: $.lumos.getUrlParamValue("machineId") },
+                success: function (d) {
+
+                    $.lumos.tips(d.message);
+
+                    if (d.result == $.lumos.resultType.success) {
+
+                    }
+                }
+            });
+
+        });
+    });
+
+</script>

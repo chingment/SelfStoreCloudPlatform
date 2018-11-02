@@ -24,10 +24,17 @@ namespace WebTermApi.Controllers
         }
 
 
-        [HttpGet]
+        [HttpPost]
         public OwnApiHttpResponse UpdateInfo([FromBody]RopMachineUpdateInfo rop)
         {
             IResult result = TermServiceFactory.Machine.UpdateInfo(GuidUtil.Empty(), rop);
+            return new OwnApiHttpResponse(result);
+        }
+
+        [HttpGet]
+        public OwnApiHttpResponse LoginResultQuery([FromUri]RupMachineLoginResultQuery rup)
+        {
+            IResult result = TermServiceFactory.Machine.LoginResultQuery(GuidUtil.Empty(), rup);
             return new OwnApiHttpResponse(result);
         }
 

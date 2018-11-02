@@ -1,4 +1,6 @@
-﻿using Lumos.Entity;
+﻿using Lumos.BLL.Biz.RModels;
+using Lumos.Entity;
+using Lumos.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,6 +50,22 @@ namespace Lumos.BLL
             CurrentDb.SaveChanges();
 
             return new CustomJsonResult(ResultType.Success, "保存成功");
+        }
+
+        public CustomJsonResult LoginByQrCode(string pOperater, RopMachineLoginByQrCode rop)
+        {
+            var key = string.Format("machineLoginResult:{0}", rop.Token);
+
+            var redis = new RedisClient<string>();
+            var isFlag = redis.KSet(key, "tue", new TimeSpan(0, 0, 10));
+
+            if (!isFlag)
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "");
+            }
+
+
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "");
         }
 
     }

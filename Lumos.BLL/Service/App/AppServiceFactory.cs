@@ -87,5 +87,13 @@ namespace Lumos.BLL.Service.App
             }
         }
 
+        public static MachineService Machine
+        {
+            get
+            {
+                return new MachineService();
+            }
+        }
+
     }
 }

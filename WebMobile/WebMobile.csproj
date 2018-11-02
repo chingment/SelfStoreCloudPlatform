@@ -237,7 +237,7 @@
     <Content Include="Views\Home\Oauth2.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Order\Confirm.cshtml" />
-    <Content Include="Views\Machine\AuthorizeLogin.cshtml" />
+    <Content Include="Views\Machine\LoginByQrCode.cshtml" />
     <Content Include="Views\Operate\Result.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
@@ -322,7 +322,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>12059</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

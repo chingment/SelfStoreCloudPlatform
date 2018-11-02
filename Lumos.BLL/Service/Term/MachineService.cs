@@ -1,5 +1,6 @@
 ﻿using Lumos.BLL.Service.Term.Models;
 using Lumos.Entity;
+using Lumos.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -235,5 +236,21 @@ namespace Lumos.BLL.Service.Term
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "更新成功");
         }
+
+
+        public CustomJsonResult LoginResultQuery(string pOperater, RupMachineLoginResultQuery rup)
+        {
+            var key = string.Format("machineLoginResult:{0}", rup.Token);
+
+            var redis = new RedisClient<string>();
+            var token = redis.KGetString(key);
+
+            if (token == null)
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "");
+
+
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "");
+        }
+
     }
 }
