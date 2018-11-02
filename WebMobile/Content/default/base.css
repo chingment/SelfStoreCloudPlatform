@@ -112,7 +112,7 @@ a, a:active, a:visited, a:hover, a:focus {
 .btn {
 	border: 0;
 	background: rgb(241,141,0);
-	border-radius: 5px;
+	border-radius: 12px;
 	width: 100%;
 	padding: 0.5em 0;
 	font-size: 18px;
@@ -319,12 +319,16 @@ a, a:active, a:visited, a:hover, a:focus {
 	text-align: center;
 }
 
-.operate-result .btn {
+.operate-result .it-btns .btn {
 	border: 1px solid #000;
 	border-radius: 18px;
 	padding: 4px 20px;
 	display: inline-block;
 	font-size: 14px;
+}
+
+.operate-result .it-btns-v .btnbox {
+	margin-top: .8rem;
 }
 
 

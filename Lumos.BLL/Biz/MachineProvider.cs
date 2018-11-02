@@ -59,7 +59,7 @@ namespace Lumos.BLL
 
             var redis = new RedisClient<string>();
             var token = redis.KGetString(key);
-   
+
             if (token == null)
                 return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "登录失败");
 
@@ -69,19 +69,29 @@ namespace Lumos.BLL
 
         public CustomJsonResult LoginByQrCode(string pOperater, RopMachineLoginByQrCode rop)
         {
-            var key = string.Format("machineLoginResult:{0}", rop.Token.ToLower());
 
+            var ret = new RetOperateResult();
+
+            var key = string.Format("machineLoginResult:{0}", rop.Token.ToLower());
             var redis = new RedisClient<string>();
             var isFlag = redis.KSet(key, "true", new TimeSpan(0, 1, 0));
-
             if (!isFlag)
             {
-                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "登录失败");
+                ret.Result = RetOperateResult.ResultType.Success;
+                ret.Remarks = "";
+                ret.Message = "登录失败";
+                ret.IsComplete = true;
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "登录失败", ret);
             }
-
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "登录成功");
+            else
+            {
+                ret.Result = RetOperateResult.ResultType.Success;
+                ret.Remarks = "";
+                ret.Message = "登录成功";
+                ret.IsComplete = true;
+                return new CustomJsonResult(ResultType.Success, ResultCode.Success, "登录成功", ret);
+            }
         }
-
     }
 
 }

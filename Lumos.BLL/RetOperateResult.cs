@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lumos.BLL.Service.App
+namespace Lumos.BLL
 {
     public class RetOperateResult
     {
@@ -46,6 +46,11 @@ namespace Lumos.BLL.Service.App
             public string Url
             {
                 get; set;
+            }
+
+            public string Operate
+            {
+                get;set;
             }
         }
         public enum ResultType

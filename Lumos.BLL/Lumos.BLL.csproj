@@ -101,6 +101,8 @@
     <Compile Include="Biz\WarehouseProvider.cs" />
     <Compile Include="Biz\WxUserProvider.cs" />
     <Compile Include="Factory..cs" />
+    <Compile Include="RetOperateResult.cs" />
+    <Compile Include="RupOperateGetResult.cs" />
     <Compile Include="Sdk\SdkFactory.cs" />
     <Compile Include="Sdk\WxConfigByFanJu.cs" />
     <Compile Include="Sdk\WxConfigByQyj.cs" />
@@ -137,7 +139,6 @@
     <Compile Include="Service\App\ProductSkuService.cs" />
     <Compile Include="Service\App\RModels\RetLoginByMinProgram.cs" />
     <Compile Include="Service\App\RModels\RetOrderConfirm.cs" />
-    <Compile Include="Service\App\RModels\RetOperateResult.cs" />
     <Compile Include="Service\App\RModels\RetOrderReserve.cs" />
     <Compile Include="Service\App\RModels\RopMachineLoginByQrCode.cs" />
     <Compile Include="Service\App\RModels\RupCartPageData.cs" />
@@ -152,7 +153,6 @@
     <Compile Include="Service\App\RModels\RupCouponMy.cs" />
     <Compile Include="Service\App\RModels\RupGlobalDataSet.cs" />
     <Compile Include="Service\App\RModels\RupGlobalAccessToken.cs" />
-    <Compile Include="Service\App\RModels\RupOperateGetResult.cs" />
     <Compile Include="Service\App\RModels\RupProductSkuDetails.cs" />
     <Compile Include="Service\App\RModels\RupProductSkuList.cs" />
     <Compile Include="Service\App\RModels\RupStoreList.cs" />

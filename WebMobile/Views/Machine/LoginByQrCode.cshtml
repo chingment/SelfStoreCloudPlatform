@@ -7,8 +7,8 @@
 
 }
 
-
 <script id="tmpl_operate_result" type="text/x-jquery-tmpl">
+
     <div class="it-result">
         <div class="imgbox">
             <img class="img" src="/Content/default/images/operate_result_ic_${result}.png" />
@@ -34,14 +34,19 @@
 
         {{/each}}
     </div>
-    <div class="it-btns">
+    <div class="it-btns-v">
         {{each(j,btn) buttons}}
         <div class="btnbox">
-            <a href="${btn.url}" class="btn" style="color:${btn.color}; border:1px solid ${btn.color} ;">${btn.name}</a>
+            <div class="btn operate" operate="${btn.operate}">${btn.name}</div>
         </div>
         {{/each}}
     </div>
+
 </script>
+
+<div id="operate_result" class="operate-result">
+
+</div>
 
 @section scripts{
     <script type="text/javascript">
@@ -57,25 +62,19 @@
                 isShowLoading: true,
                 urlParams: { merchantId: merchantId, storeId: storeId, machineId: machineId },
                 success: function (d) {
-                    alert(JSON.stringify(d))
                     if (d.result == $.lumos.resultType.success) {
-                        $("#tmpl_operate_result").tmpl(d.data).appendTo('body');
+                        $('#operate_result').html($("#tmpl_operate_result").tmpl(d.data));
                     }
                 }
             });
 
-            $("#btn_Login").on("click", function () {
+            $("*[operate=login]").live("click", function () {
                 $.lumos.postJson({
                     url: "/Machine/LoginByQrCode",
                     isShowLoading: true,
                     data: { token: $.lumos.getUrlParamValue("token"), merchantId: merchantId, storeId: storeId, machineId: machineId },
                     success: function (d) {
-
-                        $.lumos.tips(d.message);
-
-                        if (d.result == $.lumos.resultType.success) {
-                            $('#tmpl_operate_result').tmpl(d.data).appendTo('body');
-                        }
+                        $('#operate_result').html($("#tmpl_operate_result").tmpl(d.data));
                     }
                 });
 

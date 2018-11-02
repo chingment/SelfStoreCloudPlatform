@@ -42,7 +42,7 @@ namespace Lumos.BLL.Service.App
                 ret.Message = "商户不存在";
                 ret.IsComplete = true;
 
-                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "", ret);
+                return new CustomJsonResult(ResultType.Success, ResultCode.Success, "", ret);
             }
 
             var store = CurrentDb.Store.Where(m => m.Id == rup.StoreId).FirstOrDefault();
@@ -54,7 +54,7 @@ namespace Lumos.BLL.Service.App
                 ret.Message = "店铺不存在";
                 ret.IsComplete = true;
 
-                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "", ret);
+                return new CustomJsonResult(ResultType.Success, ResultCode.Success, "", ret);
             }
 
             var machine = CurrentDb.MerchantMachine.Where(m => m.MerchantId == rup.MerchantId && m.MachineId == rup.MachineId && m.IsBind == true).FirstOrDefault();
@@ -66,7 +66,7 @@ namespace Lumos.BLL.Service.App
                 ret.Message = "机器不存在";
                 ret.IsComplete = true;
 
-                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "", ret);
+                return new CustomJsonResult(ResultType.Success, ResultCode.Success, "", ret);
             }
 
             ret.Result = RetOperateResult.ResultType.Tips;
@@ -74,8 +74,7 @@ namespace Lumos.BLL.Service.App
             ret.Message = "您确定要登录机器吗？";
             ret.IsComplete = true;
 
-            ret.Buttons.Add(new RetOperateResult.Button() { Name = "登录", Color = "red", Url = "" });
-            ret.Buttons.Add(new RetOperateResult.Button() { Name = "取消", Color = "green", Url = "" });
+            ret.Buttons.Add(new RetOperateResult.Button() { Name = "登录", Color = "red", Url = "", Operate = "login" });
 
             ret.Fields.Add(new RetOperateResult.Field() { Name = "商户", Value = merchant.MerchantName });
             ret.Fields.Add(new RetOperateResult.Field() { Name = "店铺", Value = store.Name });
