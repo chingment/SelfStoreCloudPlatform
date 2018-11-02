@@ -22,6 +22,7 @@ a {
 	-webkit-tap-highlight-color: transparent;
 	cursor: pointer;
 }
+
 a, a:active, a:visited, a:hover, a:focus {
 	color: #000;
 	text-decoration: none;
@@ -337,33 +338,34 @@ a, a:active, a:visited, a:hover, a:focus {
 	display: none;
 }
 
+.login {
+	padding: 0 3rem;
+}
 
-.login-logo {
+.login .it-logo {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin-top: 10em;
+	margin-top: 7em;
 	margin-bottom: 5em;
 }
 
-.login-logo .img {
+.login .it-logo .img {
 	width: 10em;
 }
 
-.login-input .it{
+.login .it-input {
+	margin-bottom: 2em;
+}
+
+.login .it-input > .it {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	border-bottom: 1px solid #f8f8f8;
 }
 
-
-
-/*.login-input .it {
-	border-bottom: 1px solid #ccc;
-	width: 80%;
-}*/
-
-/*.login-input .input {
+.login .it-input .input {
 	border: 0;
 	height: 2.5em;
 	font-size: 15px;
@@ -372,9 +374,5 @@ a, a:active, a:visited, a:hover, a:focus {
 	outline: none;
 	display: inline-block;
 	color: #262626;
+	width: 100%;
 }
-
-
-.login-input .input, .login-btn .btn {
-	width: 80%;
-}*/
