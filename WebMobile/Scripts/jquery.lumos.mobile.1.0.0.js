@@ -495,20 +495,20 @@
             var _complete = opts.complete;
             var _isShowLoading = opts.isShowLoading
 
-            var postStr = "";
-            var obj = {};
-            if (_data != null) {
-                if (typeof (_data.length) != 'undefined') {
-                    $.each(_data, function (i, v) {
-                        obj[v.name] = v.value;
-                    })
+            //var postStr = "";
+            //var obj = {};
+            //if (_data != null) {
+            //    if (typeof (_data.length) != 'undefined') {
+            //        $.each(_data, function (i, v) {
+            //            obj[v.name] = v.value;
+            //        })
 
-                    postStr = JSON.stringify(obj);
-                }
-                else {
-                    postStr = JSON.stringify(_data);
-                }
-            }
+            //        postStr = JSON.stringify(obj);
+            //    }
+            //    else {
+            //        postStr = JSON.stringify(_data);
+            //    }
+            //}
 
             //获取防伪标记
             var token = $('[name=__RequestVerificationToken]').val();
