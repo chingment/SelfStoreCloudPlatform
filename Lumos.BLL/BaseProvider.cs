@@ -12,7 +12,6 @@ namespace Lumos.BLL
 
         public BaseProvider()
         {
-            _CurrentDb = new LumosDbContext();
             _dateNow = DateTime.Now;
         }
 
@@ -20,6 +19,11 @@ namespace Lumos.BLL
         {
             get
             {
+                if (_CurrentDb == null)
+                {
+                    _CurrentDb = new LumosDbContext();
+                }
+
                 return _CurrentDb;
             }
         }

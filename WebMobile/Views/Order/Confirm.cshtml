@@ -158,8 +158,8 @@
 <div id="btn_UnifiedOrder" class="btn-bottom" disabled="disabled">
     立即支付
 </div>
-
-<script type="text/javascript">
+@section scripts{
+    <script type="text/javascript">
 
     var orderId = $.lumos.getUrlParamValue("orderId");
     $(document).ready(function () {
@@ -225,4 +225,5 @@
         });
     });
 
-</script>
+    </script>
+}

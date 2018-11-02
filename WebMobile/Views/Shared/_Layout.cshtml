@@ -42,8 +42,8 @@
         $(function () {
 
             $.lumos.getJson({
-                url: "/Home/GetJsApiConfigParams?ss",
-                urlParams: { url: decodeURI(window.location.href) },
+                url: "/Home/GetJsApiConfigParams",
+                urlParams: { url: decodeURI(window.location.href), merchantId: "1", storeId: "2", "machineId": "3" },
                 isShowLoading: false,
                 success: function (d) {
                     if (d.result == $.lumos.resultType.success) {

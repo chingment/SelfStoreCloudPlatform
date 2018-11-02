@@ -7,6 +7,7 @@ using Lumos;
 using WebMobile.Models.Account;
 using Lumos.Session;
 using Lumos.Web;
+using Newtonsoft.Json;
 
 namespace WebMobile.Controllers
 {
@@ -58,13 +59,12 @@ namespace WebMobile.Controllers
 
             string accessToken = GuidUtil.New();
 
-            SSOUtil.SetUserInfo(accessToken,userInfo);
+            SSOUtil.SetUserInfo(accessToken, userInfo);
 
 
             Response.Cookies.Add(new HttpCookie(OwnRequest.SESSION_NAME, accessToken));
 
-
-            gotoViewModel.Url = model.ReturnUrl;
+            gotoViewModel.Url = (model.ReturnUrl == null ? OwnWebSettingUtils.GetHomePage() : model.ReturnUrl);
 
             return Json(ResultType.Success, gotoViewModel, "登录成功");
 

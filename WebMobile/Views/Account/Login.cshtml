@@ -1,5 +1,7 @@
-﻿
-
+﻿@{
+    ViewBag.Title = "登录";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 <div class="login">
     <div class="it-logo">
         <img class="img" src="/Content/default/images/login-logo.png" />
@@ -17,11 +19,8 @@
     </div>
 </div>
 
-
-
 @section scripts{
     <script type="text/javascript">
-
 
         $(document).ready(function () {
 
@@ -44,6 +43,8 @@
             }
             $.lumos.postJson({
                 url: "/Account/Login",
+                isShowLoading: true,
+
                 data: { userName: userName, passWord: passWord, returnUrl: $.lumos.getUrlParamValue("returnUrl") },
                 success: function (d) {
                     if (d.result == $.lumos.resultType.success) {

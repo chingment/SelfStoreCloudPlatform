@@ -1,5 +1,8 @@
 ﻿using Lumos;
 using Lumos.BLL.Service.App;
+
+using System;
+using System.Web;
 using System.Web.Mvc;
 
 namespace WebMobile.Controllers
@@ -11,12 +14,11 @@ namespace WebMobile.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         [HttpGet]
-        public CustomJsonResult GetInfoByLoginBefore(string merchantId,string storeId,string machineId)
+        public CustomJsonResult GetLoginConfirmInfo(RupMachineGetLoginConfirmInfo rup)
         {
-            //return AppServiceFactory.Machine.LoginByQrCode(this.CurrentUserId, this.CurrentUserId, rop);
-
-            return null;
+            return AppServiceFactory.Machine.GetLoginConfirmInfo(this.CurrentUserId, this.CurrentUserId, rup);
         }
 
         [HttpPost]

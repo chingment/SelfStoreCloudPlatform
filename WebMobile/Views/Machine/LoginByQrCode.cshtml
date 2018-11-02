@@ -54,8 +54,8 @@
     </div>
 
 </script>
-
-<script type="text/javascript">
+@section scripts{
+    <script type="text/javascript">
 
     var merchantId = $.lumos.getUrlParamValue("merchantId");
     var storeId = $.lumos.getUrlParamValue("storeId");
@@ -63,10 +63,11 @@
 
     $(document).ready(function () {
 
+       // alert(merchantId + "," + storeId + "," + machineId)
         $.lumos.getJson({
-            url: "/Machine/GetInfoByLoginBefore",
+            url: "/Machine/GetLoginConfirmInfo",
             isShowLoading: true,
-            data: { merchantId: merchantId, storeId: storeId, machineId: machineId },
+            urlParams: { merchantId: merchantId, storeId: storeId, machineId: machineId },
             success: function (d) {
                 if (d.result == $.lumos.resultType.success) {
                     $("#tmpl_page").tmpl(d.data).appendTo('body');
@@ -92,4 +93,5 @@
         });
     });
 
-</script>
+    </script>
+}

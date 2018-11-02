@@ -53,7 +53,8 @@ namespace Lumos.BLL.Service.App
             Unknown = 0,
             Success = 1,
             Failure = 2,
-            Exception = 3
+            Exception = 3,
+            Tips = 4
         }
     }
 }

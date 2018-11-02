@@ -1,6 +1,6 @@
 ﻿(function ($) {
     $.lumos = lumos = {
-        getUrlParamValue: function getUrlParam(name) {
+        getUrlParamValue: function (name) {
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
             var r = window.location.search.substr(1).match(reg);  //匹配目标参数
             if (r != null) return unescape(r[2]); return null; //返回参数值
@@ -594,15 +594,21 @@
 
             if (_urlParams != null) {
 
-                if (paramStr != "") {
+                if (paramStr == "") {
+                    _url += '?';
+                }
+                else {
                     _url += '&';
                 }
+
                 for (var p in _urlParams) {
                     _url += p + '=' + encodeURIComponent(_urlParams[p]) + '&';
                 }
 
                 _url = _url.substring(0, _url.length - 1)
             }
+
+      
 
             var _async = opts.async;
             var _timeout = opts.timeout;
