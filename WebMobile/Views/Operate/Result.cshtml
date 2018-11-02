@@ -9,8 +9,8 @@
     <script src="~/Scripts/jquery.ba-throttle-debounce.min.js"></script>
     <script src="~/Scripts/jquery.redcountdown.js?@DateTime.Now.ToString("yyyyMMddHHmmss")"></script>
     <script type="text/javascript">
-        var id = "@Request.QueryString["id"]";
-        var type = "@Request.QueryString["type"]";
+        var id = $.lumos.getUrlParamValue("id");
+        var type = $.lumos.getUrlParamValue("type");
         $(document).ready(function () {
 
             $('#rC_PB').redCountdown({ preset: "flat-colors-fat", end: $.now() + 120, labels: false });
