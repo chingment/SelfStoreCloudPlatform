@@ -14,7 +14,9 @@ namespace WebMobile.Controllers
         [HttpGet]
         public CustomJsonResult GetInfoByLoginBefore(string merchantId,string storeId,string machineId)
         {
-            return AppServiceFactory.Machine.LoginByQrCode(this.CurrentUserId, this.CurrentUserId, rop);
+            //return AppServiceFactory.Machine.LoginByQrCode(this.CurrentUserId, this.CurrentUserId, rop);
+
+            return null;
         }
 
         [HttpPost]

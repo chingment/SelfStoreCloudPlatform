@@ -30,7 +30,7 @@ namespace Lumos.BLL.Service.App
         public CustomJsonResult GetInfoByLoginBefore(string pOperater, string pClientId, RopMachineLoginByQrCode rop)
         {
 
-
+            return null;
         }
     }
 }
