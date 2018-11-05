@@ -18,6 +18,7 @@ using Lumos.Session;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
+using Lumos.BLL.Biz.RModels;
 
 namespace WebMobile.Controllers
 {
@@ -63,26 +64,28 @@ namespace WebMobile.Controllers
                         LogUtil.Info("用户AccessToken:" + oauth2_Result.access_token);
 
                         var snsUserInfo_Result = SdkFactory.Wx.GetUserInfo(oauth2_Result.access_token, oauth2_Result.openid);
-                        WxUserInfo wxUserInfo = new WxUserInfo();
-                        wxUserInfo.AccessToken = oauth2_Result.access_token;
-                        wxUserInfo.OpenId = oauth2_Result.openid;
-                        wxUserInfo.ExpiresIn = DateTime.Now.AddSeconds(oauth2_Result.expires_in);
-                        wxUserInfo.Nickname = snsUserInfo_Result.nickname;
-                        wxUserInfo.Sex = snsUserInfo_Result.sex;
-                        wxUserInfo.Province = snsUserInfo_Result.province;
-                        wxUserInfo.City = snsUserInfo_Result.city;
-                        wxUserInfo.Country = snsUserInfo_Result.country;
-                        wxUserInfo.HeadImgUrl = snsUserInfo_Result.headimgurl;
-                        wxUserInfo.UnionId = snsUserInfo_Result.unionid;
 
 
-                        wxUserInfo = BizFactory.WxUser.CheckedUser(GuidUtil.New(), wxUserInfo);
-                        if (wxUserInfo != null)
+                        RopWxUserCheckedUser ropWxUserCheckedUser = new RopWxUserCheckedUser();
+                        ropWxUserCheckedUser.AccessToken = oauth2_Result.access_token;
+                        ropWxUserCheckedUser.OpenId = oauth2_Result.openid;
+                        ropWxUserCheckedUser.ExpiresIn = DateTime.Now.AddSeconds(oauth2_Result.expires_in);
+                        ropWxUserCheckedUser.Nickname = snsUserInfo_Result.nickname;
+                        ropWxUserCheckedUser.Sex = snsUserInfo_Result.sex;
+                        ropWxUserCheckedUser.Province = snsUserInfo_Result.province;
+                        ropWxUserCheckedUser.City = snsUserInfo_Result.city;
+                        ropWxUserCheckedUser.Country = snsUserInfo_Result.country;
+                        ropWxUserCheckedUser.HeadImgUrl = snsUserInfo_Result.headimgurl;
+                        ropWxUserCheckedUser.UnionId = snsUserInfo_Result.unionid;
+
+
+                        var retWxUserCheckedUser = BizFactory.WxUser.CheckedUser(GuidUtil.New(), ropWxUserCheckedUser);
+                        if (retWxUserCheckedUser != null)
                         {
-                            LogUtil.Info("用户Id：" + wxUserInfo.ClientId);
+                            LogUtil.Info("用户Id：" + retWxUserCheckedUser.ClientId);
 
                             UserInfo userInfo = new UserInfo();
-                            userInfo.UserId = wxUserInfo.ClientId;
+                            userInfo.UserId = retWxUserCheckedUser.ClientId;
                             userInfo.WxOpenId = oauth2_Result.openid;
                             userInfo.WxAccessToken = oauth2_Result.access_token;
 
@@ -213,20 +216,20 @@ namespace WebMobile.Controllers
                     {
                         LogUtil.Info("userInfo_Result:" + JsonConvert.SerializeObject(userInfo_Result));
 
-                        var wxUserInfo = new WxUserInfo();
+                        var ropWxUserCheckedUser = new RopWxUserCheckedUser();
 
-                        wxUserInfo.OpenId = userInfo_Result.openid;
-                        wxUserInfo.Nickname = userInfo_Result.nickname;
-                        wxUserInfo.Sex = userInfo_Result.sex.ToString();
-                        wxUserInfo.Province = userInfo_Result.province;
-                        wxUserInfo.City = userInfo_Result.city;
-                        wxUserInfo.Country = userInfo_Result.country;
-                        wxUserInfo.HeadImgUrl = userInfo_Result.headimgurl;
-                        wxUserInfo.UnionId = userInfo_Result.unionid;
+                        ropWxUserCheckedUser.OpenId = userInfo_Result.openid;
+                        ropWxUserCheckedUser.Nickname = userInfo_Result.nickname;
+                        ropWxUserCheckedUser.Sex = userInfo_Result.sex.ToString();
+                        ropWxUserCheckedUser.Province = userInfo_Result.province;
+                        ropWxUserCheckedUser.City = userInfo_Result.city;
+                        ropWxUserCheckedUser.Country = userInfo_Result.country;
+                        ropWxUserCheckedUser.HeadImgUrl = userInfo_Result.headimgurl;
+                        ropWxUserCheckedUser.UnionId = userInfo_Result.unionid;
 
-                        wxUserInfo = BizFactory.WxUser.CheckedUser(GuidUtil.New(), wxUserInfo);
+                        var retWxUserCheckedUser = BizFactory.WxUser.CheckedUser(GuidUtil.New(), ropWxUserCheckedUser);
 
-                        if (wxUserInfo != null)
+                        if (retWxUserCheckedUser != null)
                         {
                             var wxAutoReply = new WxAutoReply();
                             switch (baseEventMsg.MsgType)
@@ -277,7 +280,7 @@ namespace WebMobile.Controllers
 
                             var wxMsgPushLog = new WxMsgPushLog();
                             wxMsgPushLog.Id = GuidUtil.New();
-                            wxMsgPushLog.UserId = wxUserInfo.ClientId;
+                            wxMsgPushLog.UserId = retWxUserCheckedUser.ClientId;
                             wxMsgPushLog.ToUserName = baseEventMsg.ToUserName;
                             wxMsgPushLog.FromUserName = baseEventMsg.FromUserName;
                             wxMsgPushLog.CreateTime = DateTime.Now;

@@ -1,4 +1,5 @@
-﻿using Lumos.DAL;
+﻿using Lumos.BLL.Biz.RModels;
+using Lumos.DAL;
 using Lumos.Entity;
 using Newtonsoft.Json;
 using System;
@@ -10,22 +11,24 @@ using System.Transactions;
 
 namespace Lumos.BLL
 {
+
+
     public class WxUserProvider : BaseProvider
     {
         private static readonly object goSettlelock = new object();
 
-        public WxUserInfo CheckedUser(string pOperater, WxUserInfo pWxUserInfo)
+        public RetWxUserCheckedUser CheckedUser(string pOperater, RopWxUserCheckedUser rop)
         {
-            WxUserInfo mod_UserInfo = null;
-            LogUtil.Info(string.Format("开始检测用户信息：{0}", JsonConvert.SerializeObject(pWxUserInfo)));
+            RetWxUserCheckedUser ret = null;
+            LogUtil.Info(string.Format("开始检测用户信息：{0}", JsonConvert.SerializeObject(rop)));
             lock (goSettlelock)
             {
                 try
                 {
                     using (TransactionScope ts = new TransactionScope())
                     {
-                        mod_UserInfo = CurrentDb.WxUserInfo.Where(m => m.OpenId == pWxUserInfo.OpenId).FirstOrDefault();
-                        if (mod_UserInfo == null)
+                        var wxUserInfo = CurrentDb.WxUserInfo.Where(m => m.OpenId == rop.OpenId).FirstOrDefault();
+                        if (wxUserInfo == null)
                         {
                             var sysClientUser = new SysClientUser();
                             sysClientUser.Id = GuidUtil.New();
@@ -37,113 +40,127 @@ namespace Lumos.BLL
                             sysClientUser.Creator = pOperater;
                             sysClientUser.Type = Enumeration.UserType.Client;
                             sysClientUser.Status = Enumeration.UserStatus.Normal;
-                            CurrentDb.SysClientUser.Add(sysClientUser);
-                            CurrentDb.SaveChanges();
 
-                            mod_UserInfo = new WxUserInfo();
-                            mod_UserInfo.Id = GuidUtil.New();
-                            mod_UserInfo.ClientId = sysClientUser.Id;
-                            mod_UserInfo.OpenId = pWxUserInfo.OpenId;
-                            mod_UserInfo.AccessToken = pWxUserInfo.AccessToken;
-                            mod_UserInfo.ExpiresIn = pWxUserInfo.ExpiresIn;
-                            if (pWxUserInfo.Nickname != null)
-                            {
-                                mod_UserInfo.Nickname = pWxUserInfo.Nickname;
-                            }
-                            if (pWxUserInfo.Sex != null)
-                            {
-                                mod_UserInfo.Sex = pWxUserInfo.Sex;
-                            }
 
-                            if (pWxUserInfo.Province != null)
+                            wxUserInfo = new WxUserInfo();
+                            wxUserInfo.Id = GuidUtil.New();
+                            wxUserInfo.ClientId = sysClientUser.Id;
+                            wxUserInfo.OpenId = rop.OpenId;
+                            wxUserInfo.AccessToken = rop.AccessToken;
+                            wxUserInfo.ExpiresIn = rop.ExpiresIn;
+
+                            if (rop.Nickname != null)
                             {
-                                mod_UserInfo.Province = pWxUserInfo.Province;
+                                sysClientUser.Nickname = rop.Nickname;
+                            }
+                            if (rop.Sex != null)
+                            {
+                                sysClientUser.Sex = rop.Sex;
                             }
 
-                            if (pWxUserInfo.City != null)
+                            if (rop.Province != null)
                             {
-                                mod_UserInfo.City = pWxUserInfo.City;
+                                sysClientUser.Province = rop.Province;
                             }
 
-                            if (pWxUserInfo.Country != null)
+                            if (rop.City != null)
                             {
-                                mod_UserInfo.Country = pWxUserInfo.Country;
+                                sysClientUser.City = rop.City;
                             }
 
-                            if (pWxUserInfo.HeadImgUrl != null)
+                            if (rop.Country != null)
                             {
-                                mod_UserInfo.HeadImgUrl = pWxUserInfo.HeadImgUrl;
+                                sysClientUser.Country = rop.Country;
                             }
 
-                            if (pWxUserInfo.UnionId != null)
+                            if (rop.HeadImgUrl != null)
                             {
-                                mod_UserInfo.UnionId = pWxUserInfo.UnionId;
+                                sysClientUser.HeadImgUrl = rop.Country;
                             }
-                            mod_UserInfo.CreateTime = this.DateTime;
-                            mod_UserInfo.Creator = pOperater;
-                            CurrentDb.WxUserInfo.Add(mod_UserInfo);
+
+                            if (rop.UnionId != null)
+                            {
+                                wxUserInfo.UnionId = rop.UnionId;
+                            }
+                            wxUserInfo.CreateTime = this.DateTime;
+                            wxUserInfo.Creator = pOperater;
+                            CurrentDb.WxUserInfo.Add(wxUserInfo);
                             CurrentDb.SaveChanges();
 
                         }
                         else
                         {
-                            mod_UserInfo.AccessToken = pWxUserInfo.AccessToken;
-                            mod_UserInfo.ExpiresIn = pWxUserInfo.ExpiresIn;
+                            var sysClientUser = CurrentDb.SysClientUser.Where(m => m.Id == wxUserInfo.ClientId).FirstOrDefault();
 
-                            if (pWxUserInfo.Nickname != null)
-                            {
-                                mod_UserInfo.Nickname = pWxUserInfo.Nickname;
-                            }
-                            if (pWxUserInfo.Sex != null)
-                            {
-                                mod_UserInfo.Sex = pWxUserInfo.Sex;
-                            }
+                            wxUserInfo.AccessToken = rop.AccessToken;
+                            wxUserInfo.ExpiresIn = rop.ExpiresIn;
 
-                            if (pWxUserInfo.Province != null)
+                            if (rop.Nickname != null)
                             {
-                                mod_UserInfo.Province = pWxUserInfo.Province;
+                                sysClientUser.Nickname = rop.Nickname;
+                            }
+                            if (rop.Sex != null)
+                            {
+                                sysClientUser.Sex = rop.Sex;
                             }
 
-                            if (pWxUserInfo.City != null)
+                            if (rop.Province != null)
                             {
-                                mod_UserInfo.City = pWxUserInfo.City;
+                                sysClientUser.Province = rop.Province;
                             }
 
-                            if (pWxUserInfo.Country != null)
+                            if (rop.City != null)
                             {
-                                mod_UserInfo.Country = pWxUserInfo.Country;
+                                sysClientUser.City = rop.City;
                             }
 
-                            if (pWxUserInfo.HeadImgUrl != null)
+                            if (rop.Country != null)
                             {
-                                mod_UserInfo.HeadImgUrl = pWxUserInfo.HeadImgUrl;
+                                sysClientUser.Country = rop.Country;
                             }
 
-                            if (pWxUserInfo.UnionId != null)
+                            if (rop.HeadImgUrl != null)
                             {
-                                mod_UserInfo.UnionId = pWxUserInfo.UnionId;
+                                sysClientUser.HeadImgUrl = rop.HeadImgUrl;
                             }
-                            mod_UserInfo.MendTime = this.DateTime;
-                            mod_UserInfo.Mender = pOperater;
+
+                            if (rop.UnionId != null)
+                            {
+                                wxUserInfo.UnionId = rop.UnionId;
+                            }
+                            wxUserInfo.MendTime = this.DateTime;
+                            wxUserInfo.Mender = pOperater;
                         }
 
-
-
                         CurrentDb.SaveChanges();
-
                         ts.Complete();
 
+                        ret = new RetWxUserCheckedUser();
+                        ret.OpenId = rop.OpenId;
+                        ret.UnionId = rop.UnionId;
+                        ret.AccessToken = rop.AccessToken;
+                        ret.ExpiresIn = rop.ExpiresIn;
+                        ret.PhoneNumber = rop.PhoneNumber;
+                        ret.HeadImgUrl = rop.HeadImgUrl;
+                        ret.Nickname = rop.Nickname;
+                        ret.Sex = rop.Sex;
+                        ret.Province = rop.Province;
+                        ret.City = rop.City;
+                        ret.Country = rop.Country;
+                        ret.ClientId = wxUserInfo.ClientId;
+
+
                     }
-                    LogUtil.Info(string.Format("结束检测用户信息：{0}", pWxUserInfo.OpenId));
+                    LogUtil.Info(string.Format("结束检测用户信息：{0}", rop.OpenId));
                 }
                 catch (Exception ex)
                 {
-                    mod_UserInfo = null;
+                    ret = null;
                     LogUtil.Error("检查微信用户系统发生异常", ex);
                 }
             }
 
-            return mod_UserInfo;
+            return ret;
         }
     }
 }

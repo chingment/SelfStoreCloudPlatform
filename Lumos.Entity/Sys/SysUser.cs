@@ -10,97 +10,41 @@ namespace Lumos.Entity
     {
         [Key]
         public string Id { get; set; }
-
-        public SysUser() { }
-
-        public SysUser(string name) : this() { UserName = name; }
-
-        /// <summary>
-        /// 用户帐号
-        /// </summary>
         [MaxLength(128)]
         public string UserName { get; set; }
-
-        /// <summary>
-        /// 姓名
-        /// </summary>
         [MaxLength(128)]
         public string FullName { get; set; }
-
-        /// <summary>
-        /// 用户密码
-        /// </summary>
         [MaxLength(68)]
         [Required]
         public string PasswordHash { get; set; }
-
-        /// <summary>
-        ///  安全钥匙
-        /// </summary>
         [MaxLength(36)]
         [Required]
         public string SecurityStamp { get; set; }
-
-        /// <summary>
-        /// 手机号码
-        /// </summary>
         [MaxLength(20)]
         public string PhoneNumber { get; set; }
-
         [MaxLength(128)]
-
         public string Email { get; set; }
-
-        /// <summary>
-        /// 用户头像图片
-        /// </summary>
         [MaxLength(256)]
-        public string HeadImg { get; set; }
-
-        /// <summary>
-        /// 创建人
-        /// </summary>
+        public string HeadImgUrl { get; set; }
+        public string Nickname { get; set; }
+        [MaxLength(128)]
+        public string Sex { get; set; }
+        [MaxLength(128)]
+        public string Province { get; set; }
+        [MaxLength(128)]
+        public string City { get; set; }
+        [MaxLength(128)]
+        public string Country { get; set; }
         public DateTime RegisterTime { get; set; }
-
-        /// <summary>
-        /// 最后登录时间
-        /// </summary>
         public DateTime? LastLoginTime { get; set; }
-
-        /// <summary>
-        /// 最后登录IP
-        /// </summary>
         [MaxLength(50)]
         public string LastLoginIp { get; set; }
-
-        /// <summary>
-        /// 是否删除
-        /// </summary>
         public bool IsDelete { get; set; }
-
-
         public Enumeration.UserStatus Status { get; set; }
-
-        /// <summary>
-        /// 创建人
-        /// </summary>
         public string Creator { get; set; }
-
-        /// <summary>
-        /// 创建时间
-        /// </summary>
         public DateTime CreateTime { get; set; }
-
-        /// <summary>
-        /// 修改人
-        /// </summary>
         public string Mender { get; set; }
-
-        /// <summary>
-        /// 最后修改时间
-        /// </summary>
         public DateTime? MendTime { get; set; }
-
         public Enumeration.UserType Type { get; set; }
 
         [NotMapped]

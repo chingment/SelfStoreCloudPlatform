@@ -29,6 +29,7 @@ namespace Lumos.DAL
         public IDbSet<MerchantConfig> MerchantConfig { get; set; }
         public IDbSet<MerchantMachine> MerchantMachine { get; set; }
         public IDbSet<MachineBanner> MachineBanner { get; set; }
+        public IDbSet<MerchantReplenishStaff> MerchantReplenishStaff { get; set; }
         public IDbSet<ProductKind> ProductKind { get; set; }
         public IDbSet<ProductKindSku> ProductKindSku { get; set; }
         public DbSet<ProductSku> ProductSku { get; set; }

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Lumos.Entity
 {
+    [Table("MerchantReplenishStaff")]
     public class MerchantReplenishStaff
     {
         [Key]
@@ -12,7 +13,8 @@ namespace Lumos.Entity
         public string MerchantId { get; set; }
 
         public string UserId { get; set; }
+        public string Creator { get; set; }
+        public DateTime CreateTime { get; set; }
 
-        public string WxUserId { get; set; }
     }
 }

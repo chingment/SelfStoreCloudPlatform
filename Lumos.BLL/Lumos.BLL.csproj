@@ -92,10 +92,12 @@
     <Compile Include="Biz\RModels\RetOrderReserve.cs" />
     <Compile Include="Biz\RModels\RetPayResultQuery.cs" />
     <Compile Include="Biz\RModels\RetProducSkuAdd.cs" />
+    <Compile Include="Biz\RModels\RetWxUserCheckedUser.cs" />
     <Compile Include="Biz\RModels\RopMachineLoginByQrCode.cs" />
     <Compile Include="Biz\RModels\RopOrderReserve.cs" />
     <Compile Include="Biz\RModels\RopProducSkuAdd.cs" />
     <Compile Include="Biz\RModels\RopProducSkuEdit.cs" />
+    <Compile Include="Biz\RModels\RopWxUserCheckedUser.cs" />
     <Compile Include="Biz\RModels\RupMachineLoginResultQuery.cs" />
     <Compile Include="Biz\StoreProvider.cs" />
     <Compile Include="Biz\WarehouseProvider.cs" />

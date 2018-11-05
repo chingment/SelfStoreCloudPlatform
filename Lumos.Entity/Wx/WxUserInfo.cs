@@ -14,18 +14,6 @@ namespace Lumos.Entity
         [MaxLength(128)]
         public string OpenId { get; set; }
         [MaxLength(128)]
-        public string Nickname { get; set; }
-        [MaxLength(128)]
-        public string Sex { get; set; }
-        [MaxLength(128)]
-        public string Province { get; set; }
-        [MaxLength(128)]
-        public string City { get; set; }
-        [MaxLength(128)]
-        public string Country { get; set; }
-        [MaxLength(256)]
-        public string HeadImgUrl { get; set; }
-        [MaxLength(128)]
         public string UnionId { get; set; }
         [MaxLength(128)]
         public string AccessToken { get; set; }
