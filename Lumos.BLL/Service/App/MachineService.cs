@@ -63,7 +63,7 @@ namespace Lumos.BLL.Service.App
             {
                 ret.Result = RetOperateResult.ResultType.Failure;
                 ret.Remarks = "";
-                ret.Message = "您没有权限登录该机器，请联系您的管理员授权";
+                ret.Message = "机器不存在";
                 ret.IsComplete = true;
 
                 return new CustomJsonResult(ResultType.Success, ResultCode.Success, "", ret);
@@ -75,7 +75,7 @@ namespace Lumos.BLL.Service.App
             {
                 ret.Result = RetOperateResult.ResultType.Failure;
                 ret.Remarks = "";
-                ret.Message = "机器不存在";
+                ret.Message = "您没有权限登录该机器，请联系您的管理员授权";
                 ret.IsComplete = true;
 
                 return new CustomJsonResult(ResultType.Success, ResultCode.Success, "", ret);
