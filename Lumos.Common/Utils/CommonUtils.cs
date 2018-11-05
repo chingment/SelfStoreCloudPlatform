@@ -765,6 +765,14 @@ namespace Lumos.Common
             return bankAccount.Length > 3 ? bankAccount.Substring(bankAccount.Length - 4) : bankAccount;
         }
 
+        public static string GetPhoneNumberTail(string phoneNumber)
+        {
+            if (string.IsNullOrEmpty(phoneNumber))
+                return null;
+
+            return phoneNumber.Length > 3 ? phoneNumber.Substring(phoneNumber.Length - 4) : phoneNumber;
+        }
+
         public static string GetBankLogo(string bankName)
         {
             string url = "http://112.74.179.185:8085/upload/BankLogo";

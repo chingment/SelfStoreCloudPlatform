@@ -16,11 +16,6 @@ namespace WebMobile.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-
-            //string a = "/Promote/Coupon?promoteId=a999753c5fe14e26bbecad576b6a6909&amp;refereeId=00000000000000000000000000000000";
-
-            //string c = HttpUtility.HtmlDecode(a);
-
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -69,6 +64,8 @@ namespace WebMobile.Controllers
             return Json(ResultType.Success, gotoViewModel, "登录成功");
 
         }
+
+
 
     }
 }

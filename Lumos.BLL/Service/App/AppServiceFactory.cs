@@ -95,5 +95,13 @@ namespace Lumos.BLL.Service.App
             }
         }
 
+        public static ReplenishStaffService ReplenishStaff
+        {
+            get
+            {
+                return new ReplenishStaffService();
+            }
+        }
+
     }
 }

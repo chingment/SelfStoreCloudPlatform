@@ -33,6 +33,10 @@ a, a:active, a:visited, a:hover, a:focus {
 	font-weight: bold;
 }
 
+.hid {
+	display: none;
+}
+
 .pd-com {
 	padding: 0 0.8rem;
 }
@@ -358,22 +362,35 @@ a, a:active, a:visited, a:hover, a:focus {
 	width: 10em;
 }
 
-.login .it-input {
+.its-input {
 	margin-bottom: 2em;
 }
 
-.login .it-input > .it {
+.its-input > .it {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	border-bottom: 1px solid #f8f8f8;
+	padding: .5em 0;
 }
 
-.login .it-input .input {
+.its-input .it-l {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.its-input .it-m {
+	flex: 1;
+}
+
+.its-input .it-r {
+}
+
+.its-input .it-m .input {
 	border: 0;
 	height: 2.5em;
 	font-size: 15px;
-	margin-top: 0.5em;
 	background: #fff;
 	outline: none;
 	display: inline-block;

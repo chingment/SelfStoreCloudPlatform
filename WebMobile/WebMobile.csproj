@@ -168,6 +168,7 @@
     <Compile Include="Controllers\MachineController.cs" />
     <Compile Include="Controllers\OperateController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Controllers\ReplenishStaffController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -184,6 +185,8 @@
   <ItemGroup>
     <Content Include="bb.js" />
     <Content Include="Content\default\images\col_nav_right.png" />
+    <Content Include="Content\default\images\ic_pass.png" />
+    <Content Include="Content\default\images\ic_phone.png" />
     <Content Include="Content\default\images\loading.gif" />
     <Content Include="Content\default\images\login-logo.png" />
     <Content Include="Content\default\images\operate_result_ic_.png" />
@@ -218,6 +221,7 @@
     <Content Include="Views\Order\Confirm.cshtml" />
     <Content Include="Views\Machine\LoginByQrCode.cshtml" />
     <Content Include="Views\Operate\Result.cshtml" />
+    <Content Include="Views\ReplenishStaff\BindMobile.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

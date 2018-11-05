@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using Lumos.Web.Mvc;
+using Lumos.DAL;
 
 namespace WebBack
 {
@@ -18,6 +19,21 @@ namespace WebBack
             get
             {
                 return OwnRequest.GetCurrentUserId();
+            }
+        }
+
+        private LumosDbContext _currentDb;
+
+        public LumosDbContext CurrentDb
+        {
+            get
+            {
+                if (_currentDb == null)
+                {
+                    _currentDb = new LumosDbContext();
+                }
+
+                return _currentDb;
             }
         }
     }

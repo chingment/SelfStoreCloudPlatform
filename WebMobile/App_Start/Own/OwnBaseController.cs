@@ -7,6 +7,7 @@ using Lumos.WeiXinSdk;
 using Lumos.Entity;
 using System.Configuration;
 using Lumos.BLL;
+using Lumos.DAL;
 
 namespace WebMobile
 {
@@ -119,6 +120,21 @@ namespace WebMobile
                 var appId = ConfigurationManager.AppSettings["custom:WxAppId"];
                 var appInfo = SysFactory.AppInfo.Get(appId);
                 return appInfo;
+            }
+        }
+
+        private LumosDbContext _currentDb;
+
+        public LumosDbContext CurrentDb
+        {
+            get
+            {
+                if (_currentDb == null)
+                {
+                    _currentDb = new LumosDbContext();
+                }
+
+                return _currentDb;
             }
         }
 

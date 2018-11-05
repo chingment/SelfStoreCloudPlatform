@@ -23,7 +23,10 @@ namespace Lumos
         FailureNoData = 2030,
         FailureValidCode = 2040,
         FailureUserNameNotExists = 2050,
-        Exception = 3000
+        Exception = 3000,
+        AlreadyExist = 4001,
+        HasBind = 4002,
+        NoBind = 4003
     }
 
 

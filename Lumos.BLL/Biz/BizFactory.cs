@@ -112,5 +112,13 @@ namespace Lumos.BLL
             }
         }
 
+        public static SmsProvider Sms
+        {
+            get
+            {
+                return new SmsProvider();
+            }
+        }
+
     }
 }

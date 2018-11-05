@@ -190,19 +190,10 @@ namespace Lumos.Web.Mvc
             LogUtil.SetTrackId();
         }
 
-        private LumosDbContext _currentDb;
-
-        public LumosDbContext CurrentDb
-        {
-            get
-            {
-                return _currentDb;
-            }
-        }
 
         public BaseController()
         {
-            _currentDb = new LumosDbContext();
+
         }
     }
 }

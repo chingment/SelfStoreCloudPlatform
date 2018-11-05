@@ -21,7 +21,7 @@ namespace MySDK
             String product = "Dysmsapi";//短信API产品名称
             String domain = "dysmsapi.aliyuncs.com";//短信API产品域名
             CustomJsonResult result = new CustomJsonResult();
-            IClientProfile profile = DefaultProfile.GetProfile("cn-hangzhou", "LTAI1kaGcK7uE9Hf", "95x0VXSdph8lMvjLRvsv8sscCpTvWL");
+            IClientProfile profile = DefaultProfile.GetProfile("cn-hangzhou", "LTAIBXXcSKEgAxxH", "XgZJ029tZR4upF6Qrbxq6YXywPsTIP");
 
             DefaultProfile.AddEndpoint("cn-hangzhou", "cn-hangzhou", product, domain);
             IAcsClient acsClient = new DefaultAcsClient(profile);
@@ -30,6 +30,7 @@ namespace MySDK
             LumosDbContext currentDb = new LumosDbContext();
 
             SysSmsSendHistory sendHistory = new SysSmsSendHistory();
+            sendHistory.Id = GuidUtil.New();
             token = Guid.NewGuid().ToString();
             sendHistory.Token = token;
             sendHistory.ApiName = "AliyunSingleSendSmsUtils";
