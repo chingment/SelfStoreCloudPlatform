@@ -171,7 +171,7 @@
     <Compile Include="Controllers\ProductKindController.cs" />
     <Compile Include="Controllers\ProductSkuController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
-    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\ReplenishStaffController.cs" />
     <Compile Include="Controllers\WarehouseController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -275,7 +275,8 @@
     <Content Include="Views\ProductSubject\Sort.cshtml" />
     <Content Include="Views\Order\Details.cshtml" />
     <Content Include="Views\Order\List.cshtml" />
-    <Content Include="Views\User\ListByReplenishStaff.cshtml" />
+    <Content Include="Views\ReplenishStaff\List.cshtml" />
+    <Content Include="Views\ReplenishStaff\Add.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>
