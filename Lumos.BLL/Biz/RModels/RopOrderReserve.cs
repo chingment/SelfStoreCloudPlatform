@@ -13,6 +13,7 @@ namespace Lumos.BLL.Biz.RModels
         {
             this.Skus = new List<Sku>();
         }
+
         public string StoreId { get; set; }
         public string ClientId { get; set; }
         public Enumeration.OrderSource Source { get; set; }

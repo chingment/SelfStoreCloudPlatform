@@ -15,7 +15,9 @@ namespace Lumos.BLL.Service.Term
         {
             this.Skus = new List<Sku>();
         }
+
         public string MerchantId { get; set; }
+
         public string StoreId { get; set; }
         public string MachineId { get; set; }
         public int PayTimeout { get; set; }

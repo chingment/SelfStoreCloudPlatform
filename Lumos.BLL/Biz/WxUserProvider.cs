@@ -40,7 +40,8 @@ namespace Lumos.BLL
                             sysClientUser.Creator = pOperater;
                             sysClientUser.Type = Enumeration.UserType.Client;
                             sysClientUser.Status = Enumeration.UserStatus.Normal;
-
+                            CurrentDb.SysClientUser.Add(sysClientUser);
+                            CurrentDb.SaveChanges();
 
                             wxUserInfo = new WxUserInfo();
                             wxUserInfo.Id = GuidUtil.New();
@@ -75,7 +76,7 @@ namespace Lumos.BLL
 
                             if (rop.HeadImgUrl != null)
                             {
-                                sysClientUser.HeadImgUrl = rop.Country;
+                                sysClientUser.HeadImgUrl = rop.HeadImgUrl;
                             }
 
                             if (rop.UnionId != null)

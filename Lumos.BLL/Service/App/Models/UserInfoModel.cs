@@ -12,9 +12,9 @@ namespace Lumos.BLL.Service.App
 
         public string NickName { get; set; }
 
-        public string Phone { get; set; }
+        public string PhoneNumber { get; set; }
 
-        public string HeadImg { get; set; }
+        public string HeadImgUrl { get; set; }
 
         public bool IsVip { get; set; }
     }

@@ -84,12 +84,18 @@ namespace Lumos.BLL.Task
 
                                 var chData = m.Data.ToJsonObject<Order>();
                                 LogUtil.Info(string.Format("查询订单号：{0}", chData.Sn));
-                                string xml = SdkFactory.Wx.OrderQuery(null,chData.Sn);
 
-                                LogUtil.Info(string.Format("订单号：{0},结果文件:{1}", chData.Sn, xml));
+
 
                                 bool isPaySuccessed = false;
-                                BizFactory.Order.PayResultNotify(GuidUtil.Empty(), Entity.Enumeration.OrderNotifyLogNotifyFrom.OrderQuery, xml, chData.Sn, out isPaySuccessed);
+
+                                if (!string.IsNullOrEmpty(chData.AppId))
+                                {
+                                    var appInfo = SysFactory.AppInfo.Get(chData.AppId);
+                                    string xml = SdkFactory.Wx.OrderQuery(appInfo, chData.Sn);
+                                    LogUtil.Info(string.Format("订单号：{0},结果文件:{1}", chData.Sn, xml));
+                                    BizFactory.Order.PayResultNotify(GuidUtil.Empty(), Entity.Enumeration.OrderNotifyLogNotifyFrom.OrderQuery, xml, chData.Sn, out isPaySuccessed);
+                                }
 
                                 if (isPaySuccessed)
                                 {

@@ -1,4 +1,5 @@
-﻿using Lumos.Entity;
+﻿using Lumos.BLL.Task;
+using Lumos.Entity;
 using Lumos.WeiXinSdk;
 using System;
 using System.Collections.Generic;
@@ -283,6 +284,7 @@ namespace Lumos.BLL.Service.App
                 return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "找不到该订单数据");
             }
 
+            order.AppId = appInfo.AppId;
             order.ClientId = wxUserInfo.ClientId;
             order.PayExpireTime = this.DateTime.AddMinutes(5);
 
@@ -301,10 +303,11 @@ namespace Lumos.BLL.Service.App
                     {
                         return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "支付二维码生成失败");
                     }
-
                     order.PayPrepayId = ret_UnifiedOrder.PrepayId;
                     order.PayQrCodeUrl = ret_UnifiedOrder.CodeUrl;
                     CurrentDb.SaveChanges();
+
+                    Task4Factory.Global.Enter(TimerTaskType.CheckOrderPay, order.PayExpireTime.Value, order);
 
                     var pms = SdkFactory.Wx.GetJsApiPayParams(appInfo, order.Id, order.Sn, ret_UnifiedOrder.PrepayId);
 

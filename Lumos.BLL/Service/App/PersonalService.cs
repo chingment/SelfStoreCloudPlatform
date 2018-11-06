@@ -12,14 +12,15 @@ namespace Lumos.BLL.Service.App
         {
             var pageModel = new PersonalPageModel();
 
-            var user = CurrentDb.SysUser.Where(m => m.Id == pClientId).FirstOrDefault();
+            var user = CurrentDb.SysClientUser.Where(m => m.Id == pClientId).FirstOrDefault();
             if (user != null)
             {
                 var userInfo = new UserInfoModel();
                 userInfo.UserId = user.Id;
-                userInfo.NickName = user.UserName;
-                userInfo.Phone = user.PhoneNumber;
-                userInfo.HeadImg = "http://thirdwx.qlogo.cn/mmopen/vi_32/6zcicmSoM5yjdWG9MoHydE6suFUGaHsKATFUPU7yU4d7PhLcsKWj51NhxA4PichkuY5uWvbEvXZWBGBpJSd48GNA/132";
+                userInfo.NickName = user.Nickname;
+                userInfo.PhoneNumber = user.PhoneNumber;
+                userInfo.HeadImgUrl = user.HeadImgUrl;
+                userInfo.IsVip = user.IsVip;
                 pageModel.UserInfo = userInfo;
             }
 
