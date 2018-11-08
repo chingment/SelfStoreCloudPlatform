@@ -1,94 +1,102 @@
-﻿@model WebBack.Models.Sys.StaffUser.EditViewModel
-@{
+﻿@{
     ViewBag.Title = "修改用户信息";
     Layout = "~/Views/Shared/_LayoutHomeDialog.cshtml";
 }
 
 @section scripts{
     <script type="text/javascript">
-        <!--
-        //配置树形
-        var setting = {
-            view: {
-                selectedMulti: false
-            },
-            check: {
-                enable: true,
-                chkboxType: { "Y": "s", "N": "s" }
-            },
-            data: {
-                simpleData: {
-                    enable: true
-                }
-            }
-        };
-        var zTree;
-        function loadTreeList() {
-            var id = $.lumos.getUrlParamValue("id");
 
-            $.lumos.postJson({
-                url: "../StaffUser/GetUserRoleTree",
-                data: { userId: id },
-                success: function (d) {
-                    var zNodes = d.data;
-                    zTree=$.fn.zTree.init($("#treeul"), setting, zNodes);
-                }
-            });
-
-        }
+        var userId = $.lumos.getUrlParamValue("userId");
+        var tree_Roles;
         $(this).ready(function () {
-            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { }, onSuccess: function () { return update(); } });
-
-
-            $("#Model_SysStaffUser_FullName").formValidator({ onShow: "&nbsp;", onFocus: "不超过50个字", onCorrect: "&nbsp;" }).inputValidator({ min: 1, max: 50, empty: { leftEmpty: false, emptyError: "不能有空格" }, onError: "不超过50个字符" }).defaultPassed();
-            $("#Model_SysStaffUser_Email").formValidator({ onShow: "&nbsp;", onFocus: "邮箱格式且不超过100个字符", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 100, onError: "邮箱格式且不超过100个字符" }).regexValidator({ regExp: regexEnum.email, onError: "邮箱格式且不超过100个字符" });
-            $("#Model_SysStaffUser_PhoneNumber").formValidator({ onShow: "&nbsp;", onFocus: "手机号码格式", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).regexValidator({ regExp: regexEnum.mobile, onError: "手机号码格式" });
-
-
-
-            loadTreeList();
+            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { } });
+            $("#txt_FullName").formValidator({ onShow: "&nbsp;", onFocus: "不超过50个字", onCorrect: "&nbsp;" }).inputValidator({ min: 1, max: 50, empty: { leftEmpty: false, emptyError: "不能有空格" }, onError: "不超过50个字符" }).defaultPassed();
+            $("#txt_Email").formValidator({ onShow: "&nbsp;", onFocus: "邮箱格式且不超过100个字符", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 100, onError: "邮箱格式且不超过100个字符" }).regexValidator({ regExp: regexEnum.email, onError: "邮箱格式且不超过100个字符" });
+            $("#txt_PhoneNumber").formValidator({ onShow: "&nbsp;", onFocus: "手机号码格式", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).regexValidator({ regExp: regexEnum.mobile, onError: "手机号码格式" });
 
             $("#abtn-editPwd").toggle(function () {
                 $("#lbl_Password").hide();
-                $("#Model_SysStaffUser_Password").show();
+                $("#txt_Password").show();
                 $(this).text("取消");
             }, function () {
                 $("#lbl_Password").show();
-                $("#Model_SysStaffUser_Password").hide();
-                $("#Model_SysStaffUser_Password").val("");
+                $("#txt_Password").hide();
+                $("#txt_Password").val("");
                 $(this).text("修改");
             }
             );
+
+            initData();
+
         });
 
-        function update() {
+        function initData() {
+            $.lumos.getJson({
+                url: "/Sys/StaffUser/GetInitDataByEditView",
+                urlParams: { userId: userId },
+                isUseHandling: true,
+                success: function (d) {
+                    if (d.result == $.lumos.resultType.success) {
+                        var data = d.data;
 
-            art.dialog.confirm(
-'确定要保存？',
-function () {
-    var postData = $("#form1").serializeArray();
+                        $('#lbl_UserName').text(data.userName);
+                        $("#txt_FullName").val(data.fullName);
+                        $("#txt_Email").val(data.email);
+                        $("#txt_PhoneNumber").val(data.phoneNumber);
 
-    var nodes = zTree.getCheckedNodes(true);
+                        var roles = data.roles;
 
-    $.each(nodes, function (i, n) {
-        postData.push({ name: "Model.UserRoleIds", value: n.id });
-    });
-
-
-    $.lumos.postJson({
-        url: "../StaffUser/Edit",
-        data: postData,
-        success: function (d) {
-            if (d.result == $.lumos.resultType.success) {
-                $.lumos.parentDialog.listTable.loadData();
-                $.lumos.tips(d.message, true);
-            }
-            else {
-                $.lumos.tips(d.message);
-            }
+                        tree_Roles = $.fn.zTree.init($("#tree_Roles"), {
+                            view: {
+                                selectedMulti: false
+                            },
+                            check: {
+                                enable: true,
+                                chkboxType: { "Y": "s", "N": "s" }
+                            },
+                            data: {
+                                simpleData: {
+                                    enable: true
+                                }
+                            }
+                        }, roles);
+                    }
+                }
+            });
         }
-    });
-});
+
+        function edit() {
+            var isValid = $.formValidator.pageIsValid();
+            if (isValid) {
+                art.dialog.confirm('确定要保存？', function () {
+
+                    var tree_RolesByChecked = tree_Roles.getCheckedNodes(true);
+                    var roleIds = [];
+                    $.each(tree_RolesByChecked, function (i, n) {
+                        roleIds.push(n.id);
+                    });
+
+                    var userName = $("#txt_UserName").val();
+                    var password = $("#txt_Password").val();
+                    var fullName = $("#txt_FullName").val();
+                    var email = $("#txt_Email").val();
+                    var phoneNumber = $("#txt_PhoneNumber").val();
+
+                    $.lumos.postJson({
+                        url: "/Sys/StaffUser/Edit",
+                        data: { userId: userId, userName: userName, password: password, fullName: fullName, email: email, phoneNumber: phoneNumber, roleIds: roleIds },
+                        success: function (d) {
+                            if (d.result == $.lumos.resultType.success) {
+                                $.lumos.parentDialog.listTable.loadData();
+                                $.lumos.tips(d.message);
+                            }
+                            else {
+                                $.lumos.tips(d.message);
+                            }
+                        }
+                    });
+                });
+            }
             return false;
         }
 
@@ -97,14 +105,14 @@ function () {
 }
 <div class="gbr-row">
     <form id="form1" name="form1" method="post">
-        <input name="Model.SysStaffUser.Id" type="hidden" value="@Model.SysStaffUser.Id" />
+
         <table class="f-tb" cellpadding="0" cellspacing="1">
             <tr>
                 <td class="f-tb-t">
                     用户名：
                 </td>
                 <td class="f-tb-c">
-                    <label id="lbl_UserName">@Model.SysStaffUser.UserName</label>
+                    <label id="lbl_UserName"></label>
                 </td>
             </tr>
             <tr>
@@ -114,9 +122,9 @@ function () {
                 <td class="f-tb-c">
                     <label id="lbl_Password">******</label>
 
-                    <input name="Model.SysStaffUser.Password" class="input-control" autocomplete="off" type="password" id="Model_SysStaffUser_Password" style="width: 150px;display:none;" />
+                    <input id="txt_Password" class="input-control" autocomplete="off" type="password" style="width: 150px;display:none;" />
                     <a class="a-btn" id="abtn-editPwd" href="javascript:void(0)">修改</a>
-                    <span id="Model_SysStaffUser_PasswordTip"></span>
+                    <span id="txt_PasswordTip"></span>
                 </td>
             </tr>
             <tr>
@@ -124,8 +132,8 @@ function () {
                     姓名：
                 </td>
                 <td class="f-tb-c">
-                    <input name="Model.SysStaffUser.FullName" class="input-control" type="text" id="Model_SysStaffUser_FullName" value="@Model.SysStaffUser.FullName" style="width: 150px;" />
-                    <span id="Model_SysStaffUser_FullNameTip"></span>
+                    <input name="txt_FullName" class="input-control" type="text" id="txt_FullName" value="" style="width: 150px;" autocomplete="off" />
+                    <span id="txt_FullNameTip"></span>
                 </td>
             </tr>
             <tr>
@@ -133,8 +141,8 @@ function () {
                     E-mail：
                 </td>
                 <td class="f-tb-c">
-                    <input name="Model.SysStaffUser.Email" class="input-control" type="text" id="Model_SysStaffUser_Email" value="@Model.SysStaffUser.Email" style="width: 150px;" />
-                    <span id="Model_SysStaffUser_EmailTip"></span>
+                    <input id="txt_Email" class="input-control" type="text" value="" style="width: 150px;" autocomplete="off" />
+                    <span id="txt_EmailTip"></span>
                 </td>
             </tr>
             <tr>
@@ -142,8 +150,8 @@ function () {
                     手机：
                 </td>
                 <td class="f-tb-c">
-                    <input name="Model.SysStaffUser.PhoneNumber" class="input-control" type="text" id="Model_SysStaffUser_PhoneNumber" value="@Model.SysStaffUser.PhoneNumber" style="width: 150px;" />
-                    <span id="Model_SysStaffUser_PhoneNumberTip"></span>
+                    <input id="txt_PhoneNumber" class="input-control" type="text" value="" style="width: 150px;" autocomplete="off" />
+                    <span id="txt_PhoneNumberTip"></span>
                 </td>
             </tr>
             <tr>
@@ -151,7 +159,7 @@ function () {
                     角色：
                 </td>
                 <td class="f-tb-c">
-                    <ul id="treeul" class="ztree"></ul>
+                    <ul id="tree_Roles" class="ztree"></ul>
                 </td>
             </tr>
             <tr style="display:none">

@@ -4,80 +4,83 @@
 }
 @section scripts{
     <script type="text/javascript">
-        <!--
-        //配置树形
-        var setting = {
-            view: {
-                selectedMulti: false
-            },
-            check: {
-                enable: true,
-                chkboxType : { "Y" : "s", "N" : "s" }
-            },
-            data: {
-                simpleData: {
-                    enable: true
-                }
-            }
-        };
 
-        function loadTreeList() {
-            $.lumos.postJson({
-                url: "../StaffUser/GetUserRoleTree",
-                data: $("#form1").serializeArray(),
+        var tree_Roles;
+        $(this).ready(function () {
+
+            $.formValidator.initConfig({ formID: "form1" });
+            $("#txt_UserName").formValidator({ onShow: "&nbsp;", onFocus: "由3到20个数字、英文字母或下划线组成", onCorrect: "&nbsp;" }).regexValidator({ min: 3, max: 20, regExp: "^[0-9a-zA-Z_]{3,20}$", onError: "由3到20个数字、英文字母或下划线组成" });
+            $("#txt_Password").formValidator({ onShow: "&nbsp;", onFocus: "由6到20个数字、英文字母或下划线组成", onCorrect: "&nbsp;" }).regexValidator({ regExp: regexEnum.password, onError: "由6到20个数字、英文字母或下划线组成" });
+            $("#txt_FullName").formValidator({ onShow: "&nbsp;", onFocus: "不超过50个字符", onCorrect: "&nbsp;" }).inputValidator({ min: 1, max: 50, empty: { leftEmpty: false, emptyError: "不能有空格" }, onError: "不超过50个字符" });
+            $("#txt_Email").formValidator({ onShow: "&nbsp;", onFocus: "邮箱格式且不超过100个字符", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 100, onError: "邮箱格式且不超过100个字符" }).regexValidator({ regExp: regexEnum.email, onError: "邮箱格式且不超过100个字符" });
+            $("#txt_PhoneNumber").formValidator({ onShow: "&nbsp;", onFocus: "手机号码格式", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).regexValidator({ regExp: regexEnum.mobile, onError: "手机号码格式" });
+
+            initData();
+        });
+
+        function initData() {
+            $.lumos.getJson({
+                url: "/Sys/StaffUser/GetInitDataByAddView",
+                isUseHandling: true,
                 success: function (d) {
-                    var zNodes = d.data;
-                    zTree=$.fn.zTree.init($("#treeul"), setting, zNodes);
+                    if (d.result == $.lumos.resultType.success) {
+                        var roles = d.data.roles;
+                        tree_Roles = $.fn.zTree.init($("#tree_Roles"), {
+                            view: {
+                                selectedMulti: false
+                            },
+                            check: {
+                                enable: true,
+                                chkboxType: { "Y": "s", "N": "s" }
+                            },
+                            data: {
+                                simpleData: {
+                                    enable: true
+                                }
+                            }
+                        }, roles);
+                    }
                 }
             });
         }
 
-        var zTree;
-        $(this).ready(function () {
-            $.formValidator.initConfig({ formID: "form1", onSuccess: function () { return add(); } });
-            $("#Model_SysStaffUser_UserName").formValidator({ onShow: "&nbsp;", onFocus: "由3到20个数字、英文字母或下划线组成", onCorrect: "&nbsp;" }).regexValidator({ min: 3, max: 20, regExp: "^[0-9a-zA-Z_]{3,20}$", onError: "由3到20个数字、英文字母或下划线组成" });
-            $("#Model_SysStaffUser_Password").formValidator({ onShow: "&nbsp;", onFocus: "由6到20个数字、英文字母或下划线组成", onCorrect: "&nbsp;" }).regexValidator({ regExp: regexEnum.password, onError: "由6到20个数字、英文字母或下划线组成" });
-            $("#Model_SysStaffUser_FullName").formValidator({ onShow: "&nbsp;", onFocus: "不超过50个字符", onCorrect: "&nbsp;" }).inputValidator({ min: 1, max: 50, empty: { leftEmpty: false, emptyError: "不能有空格" }, onError: "不超过50个字符" });
-            $("#Model_SysStaffUser_Email").formValidator({ onShow: "&nbsp;", onFocus: "邮箱格式且不超过100个字符", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 100, onError: "邮箱格式且不超过100个字符" }).regexValidator({ regExp: regexEnum.email, onError: "邮箱格式且不超过100个字符" });
-            $("#Model_SysStaffUser_PhoneNumber").formValidator({ onShow: "&nbsp;", onFocus: "手机号码格式", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).regexValidator({ regExp: regexEnum.mobile, onError: "手机号码格式" });
-
-            loadTreeList();
-
-
-        });
-
         function add() {
-            art.dialog.confirm(
-'确定要新建？',
-function () {
-    var postData = $("#form1").serializeArray();
 
-    var nodes = zTree.getCheckedNodes(true);
+            var isValid = $.formValidator.pageIsValid();
+            if (isValid) {
+                art.dialog.confirm('确定要新建？', function (e) {
+                    var tree_RolesByChecked = tree_Roles.getCheckedNodes(true);
+                    var roleIds = [];
+                    $.each(tree_RolesByChecked, function (i, n) {
+                        roleIds.push(n.id);
+                    });
 
-    $.each(nodes, function (i, n) {
-        postData.push({ name: "Model.UserRoleIds", value: n.id });
-    });
 
-    $.lumos.postJson({
-        url: "../StaffUser/Add",
-        data: postData,
-        success: function (d) {
+                    var userName = $("#txt_UserName").val();
+                    var password = $("#txt_Password").val();
+                    var fullName = $("#txt_FullName").val();
+                    var email = $("#txt_Email").val();
+                    var phoneNumber = $("#txt_PhoneNumber").val();
 
-            if (d.result == $.lumos.resultType.success) {
-                $.lumos.parentDialog.listTable.loadData();
-                $.lumos.tips(d.message,true);
+                    $.lumos.postJson({
+                        url: "/Sys/StaffUser/Add",
+                        data: { userName: userName, password: password, fullName: fullName, email: email, phoneNumber: phoneNumber, roleIds: roleIds },
+                        success: function (d) {
+                            if (d.result == $.lumos.resultType.success) {
+                                $.lumos.parentDialog.listTable.loadData();
+                                $.lumos.tips(d.message, true);
+                            }
+                            else {
+                                $.lumos.tips(d.message);
+                            }
+                        }
+                    });
+                });
             }
-            else {
-                $.lumos.tips(d.message);
-            }
-
-        }
-    });
-});
             return false;
         }
 
-        //-->
+
     </script>
 }
 
@@ -86,13 +89,13 @@ function () {
     <form id="form1" name="form1" method="post">
         <table class="f-tb" cellpadding="0" cellspacing="1">
             <tr>
-                <td class="f-tb-t" >
+                <td class="f-tb-t">
                     用户名：
                 </td>
                 <td class="f-tb-c">
                     Up
-                    <input name="Model.SysStaffUser.UserName" class="input-control" autocomplete="off" type="text" id="Model_SysStaffUser_UserName" style="width: 128px;" clear="on" />
-                    <span id="Model_SysStaffUser_UserNameTip"></span>
+                    <input id="txt_UserName" class="input-control" autocomplete="off" type="text" style="width: 128px;" clear="on" />
+                    <span id="txt_UserNameTip"></span>
                 </td>
             </tr>
             <tr>
@@ -100,8 +103,8 @@ function () {
                     密码：
                 </td>
                 <td class="f-tb-c">
-                    <input name="Model.SysStaffUser.Password" class="input-control" autocomplete="off" type="password" id="Model_SysStaffUser_Password" style="width: 150px;" />
-                    <span id="Model_SysStaffUser_PasswordTip"></span>
+                    <input id="txt_Password" class="input-control" autocomplete="off" type="password" style="width: 150px;"  />
+                    <span id="txt_PasswordTip"></span>
                 </td>
             </tr>
             <tr>
@@ -109,8 +112,8 @@ function () {
                     姓名：
                 </td>
                 <td class="f-tb-c">
-                    <input name="Model.SysStaffUser.FullName" class="input-control" type="text" id="Model_SysStaffUser_FullName" style="width: 150px;" />
-                    <span id="Model_SysStaffUser_FullNameTip"></span>
+                    <input id="txt_FullName" class="input-control" type="text" style="width: 150px;" autocomplete="off" />
+                    <span id="txt_FullNameTip"></span>
                 </td>
             </tr>
             <tr>
@@ -118,8 +121,8 @@ function () {
                     E-mail：
                 </td>
                 <td class="f-tb-c">
-                    <input name="Model.SysStaffUser.Email" class="input-control" type="text" id="Model_SysStaffUser_Email" style="width: 150px;" />
-                    <span id="Model_SysStaffUser_EmailTip"></span>
+                    <input id="txt_Email" class="input-control" type="text" style="width: 150px;" autocomplete="off" />
+                    <span id="txt_EmailTip"></span>
                 </td>
             </tr>
             <tr>
@@ -127,8 +130,8 @@ function () {
                     手机：
                 </td>
                 <td class="f-tb-c">
-                    <input name="Model.SysStaffUser.PhoneNumber" class="input-control" type="text" id="Model_SysStaffUser_PhoneNumber" style="width: 150px;" />
-                    <span id="Model_SysStaffUser_PhoneNumberTip"></span>
+                    <input id="txt_PhoneNumber" class="input-control" type="text" style="width: 150px;" autocomplete="off" />
+                    <span id="txt_PhoneNumberTip"></span>
                 </td>
             </tr>
             <tr>
@@ -136,7 +139,7 @@ function () {
                     角色：
                 </td>
                 <td class="f-tb-c">
-                    <ul id="treeul" class="ztree"></ul>
+                    <ul id="tree_Roles" class="ztree"></ul>
                 </td>
             </tr>
             <tr style="display:none">

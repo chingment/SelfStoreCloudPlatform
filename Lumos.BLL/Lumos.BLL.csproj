@@ -189,9 +189,15 @@
     <Compile Include="Service\Term\RModels\RupMachineLoginResultQuery.cs" />
     <Compile Include="Service\Term\RModels\RupOrderPayResultQuery.cs" />
     <Compile Include="Service\Term\TermServiceFactory.cs" />
+    <Compile Include="Service\WebBack\RModels\RetSysStaffUserGetInitDataByAddView.cs" />
+    <Compile Include="Service\WebBack\RModels\RetSysStaffUserGetInitDataByEditView.cs" />
+    <Compile Include="Service\WebBack\RModels\RopSysStaffUserEdit.cs" />
+    <Compile Include="Service\WebBack\SysStaffUserService.cs" />
+    <Compile Include="Service\WebBack\WebBackServiceFactory.cs" />
     <Compile Include="SnUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sys\AuthorizeRelayProvider.cs" />
+    <Compile Include="Service\WebBack\RModels\RopSysStaffUserAdd.cs" />
     <Compile Include="Sys\SysAppInfoProvider.cs" />
     <Compile Include="Sys\SysFactory.cs" />
     <Compile Include="Sys\SysItemCacheUpdateTimeProvider.cs" />

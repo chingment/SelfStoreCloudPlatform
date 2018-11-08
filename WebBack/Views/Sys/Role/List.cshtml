@@ -19,6 +19,7 @@
         var zTree;
         var listRoleUser
         var tab;
+
         $(this).ready(function () {
 
             tab = $("#tab1").tab({
@@ -57,11 +58,6 @@
 
             $("#btn_add").click(function () {
 
-                //var selObj = getSelectedNode();
-                //if (selObj == null) {
-                //    return;
-                //}
-                //   var url = '../Role/Add?type=add&id=' + selObj.id + '&pName=' + escape(selObj.name);
                 var id = 1;
                 var url = '/Sys/Role/Add?type=add&id=' + id + '&pName=';
                 var title = '新建';
@@ -331,8 +327,6 @@ function () {
             });
 
         }
-
-        //-->
     </script>
 }
 

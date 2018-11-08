@@ -200,8 +200,6 @@
     <Compile Include="Models\Sys\Role\EditViewModel.cs" />
     <Compile Include="Models\Sys\Role\RoleUserSearchCondition.cs" />
     <Compile Include="Models\Sys\SmsSend\SearchCondition.cs" />
-    <Compile Include="Models\Sys\StaffUser\AddViewModel.cs" />
-    <Compile Include="Models\Sys\StaffUser\EditViewModel.cs" />
     <Compile Include="Models\Sys\StaffUser\SearchCondition.cs" />
     <Compile Include="Models\Sys\User\DetailsViewModel.cs" />
     <Compile Include="Models\Sys\User\SearchCondition.cs" />

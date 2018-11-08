@@ -35,14 +35,15 @@
             },
             operate: {
                 "delete": function (obj) {
-                    var array = new Array();
+
+                    var userIds = [];
                     $.each(obj, function (i, n) {
-                        array.push({ name: "userIds", value: n.id });
+                        userIds.push(n.id);
                     });
 
                     $.lumos.postJson({
-                        url: "../StaffUser/Delete",
-                        data: array,
+                        url: "/Sys/StaffUser/Delete",
+                        data: { userIds: userIds },
                         success: function (d) {
                             listTable.loadData(0);
                             $.lumos.tips(d.message);
@@ -50,12 +51,11 @@
                     });
                 },
                 "edit": function (obj) {
-                    var url = '../StaffUser/Edit?id=' + obj.id;
-                    
+                    var url = '/Sys/StaffUser/Edit?userId=' + obj.id;
                     var title = '修改用户';
                     art.dialog.open(url, {
                         id: "openDialog", title: title, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
-                            this.iframe.contentWindow.$('#form1').submit();
+                            this.iframe.contentWindow.edit();
                             return false;
                         }
                     });
@@ -66,11 +66,11 @@
 
 
         $("#btn_Add").click(function () {
-            var url = '../StaffUser/Add';
+            var url = '/Sys/StaffUser/Add';
             var title = '新建';
             art.dialog.open(url, {
                 id: "openDialog", title: title, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '确定', ok: function () {
-                    this.iframe.contentWindow.$('#form1').submit();
+                    this.iframe.contentWindow.add();
                     return false;
                 }
             });
@@ -102,8 +102,9 @@
         <div class="filter"><input type="button" class="btn btn-search" id="btn_Search" value="查询" /> </div>
 
         <div class="filter" style="float:right">
-        <input type="button" class="btn btn-add" id="btn_Add" value="新建" />
-        <input type="button" class="btn btn-sure" id="btn_Add" value="删除" multiple="true" operate="delete" style="margin-left:0px;margin-right:0px;" />  </div>
+            <input type="button" class="btn btn-add" id="btn_Add" value="新建" />
+            <input type="button" class="btn btn-sure" id="btn_Add" value="删除" multiple="true" operate="delete" style="margin-left:0px;margin-right:0px;" />
+        </div>
     </div>
     <div class="list">
         <table id="list_table" class="list-tb" cellpadding="0" cellspacing="0">

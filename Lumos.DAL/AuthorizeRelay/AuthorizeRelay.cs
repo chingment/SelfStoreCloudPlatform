@@ -279,10 +279,11 @@ namespace Lumos.DAL.AuthorizeRelay
 
                     if (sysStaffUser != null)
                     {
-                        if (!string.IsNullOrEmpty(pUser.Password))
+                        if (!string.IsNullOrEmpty(pUser.PasswordHash))
                         {
-                            sysStaffUser.PasswordHash = PassWordHelper.HashPassword(pUser.Password);
+                            sysStaffUser.PasswordHash = pUser.PasswordHash;
                         }
+
                         sysStaffUser.FullName = pUser.FullName;
                         sysStaffUser.Email = pUser.Email;
                         sysStaffUser.PhoneNumber = pUser.PhoneNumber;

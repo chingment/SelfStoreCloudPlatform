@@ -47,8 +47,5 @@ namespace Lumos.Entity
         public DateTime? MendTime { get; set; }
         public Enumeration.UserType Type { get; set; }
 
-        [NotMapped]
-        public string Password { get; set; }
-
     }
 }

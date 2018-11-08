@@ -58,7 +58,6 @@
             $.lumos.postJson({
                 url: "/Account/Login",
                 isShowLoading: true,
-
                 data: { userName: userName, passWord: passWord, returnUrl: $.lumos.getUrlParamValue("returnUrl") },
                 success: function (d) {
                     if (d.result == $.lumos.resultType.success) {

@@ -10,6 +10,7 @@ using Lumos.Web.Mvc;
 using Lumos.DAL;
 using Lumos.BLL;
 using Lumos;
+using Lumos.BLL.Service.WebBack;
 
 namespace WebBack.Controllers.Sys
 {
@@ -31,14 +32,12 @@ namespace WebBack.Controllers.Sys
 
         public ViewResult Add()
         {
-            AddViewModel model = new AddViewModel();
             return View();
         }
 
-        public ViewResult Edit(string id)
+        public ViewResult Edit()
         {
-            EditViewModel model = new EditViewModel(id);
-            return View(model);
+            return View();
         }
         #endregion
 
@@ -82,50 +81,32 @@ namespace WebBack.Controllers.Sys
         }
 
 
-        public CustomJsonResult GetUserRoleTree(string userId)
+        public CustomJsonResult GetInitDataByAddView()
         {
-            var isCheckedIds = CurrentDb.SysUserRole.Where(x => x.UserId == userId).Select(x => x.RoleId);
-            object json = ConvertToZTreeJson2(CurrentDb.SysRole.ToArray(), "id", "pid", "name", "role", isCheckedIds.ToArray());
+            return WebBackServiceFactory.SysStaffUser.GetInitDataByAddView(this.CurrentUserId);
+        }
 
-            return Json(ResultType.Success, json);
+        public CustomJsonResult GetInitDataByEditView(string userId)
+        {
+            return WebBackServiceFactory.SysStaffUser.GetInitDataByEditView(this.CurrentUserId, userId);
         }
 
         [HttpPost]
-        public CustomJsonResult Add(AddViewModel model)
+        public CustomJsonResult Add(RopSysStaffUserAdd rop)
         {
-
-            var user = new SysStaffUser();
-            user.Id = GuidUtil.New();
-            user.UserName = string.Format("Up{0}", model.SysStaffUser.UserName);
-            user.FullName = model.SysStaffUser.FullName;
-            user.PasswordHash = PassWordHelper.HashPassword(model.SysStaffUser.Password);
-            user.Email = model.SysStaffUser.Email;
-            user.PhoneNumber = model.SysStaffUser.PhoneNumber;
-            user.Type = Enumeration.UserType.Staff;
-            user.IsDelete = false;
-            user.Status = Enumeration.UserStatus.Normal;
-            string[] userRoleIds = model.UserRoleIds;
-
-            return SysFactory.AuthorizeRelay.CreateUser<SysStaffUser>(this.CurrentUserId, user, userRoleIds);
+            return WebBackServiceFactory.SysStaffUser.Add(this.CurrentUserId, rop);
         }
 
         [HttpPost]
-        public CustomJsonResult Edit(EditViewModel model)
+        public CustomJsonResult Edit(RopSysStaffUserEdit rop)
         {
-            var user = new SysStaffUser();
-            user.Id = model.SysStaffUser.Id;
-            user.Password = model.SysStaffUser.Password;
-            user.FullName = model.SysStaffUser.FullName;
-            user.Email = model.SysStaffUser.Email;
-            user.PhoneNumber = model.SysStaffUser.PhoneNumber;
-            string[] userRoleIds = model.UserRoleIds;
-            return SysFactory.AuthorizeRelay.UpdateUser<SysStaffUser>(this.CurrentUserId, user, userRoleIds);
+            return WebBackServiceFactory.SysStaffUser.Edit(this.CurrentUserId, rop);
         }
 
         [HttpPost]
         public CustomJsonResult Delete(string[] userIds)
         {
-            return SysFactory.AuthorizeRelay.DeleteUser(this.CurrentUserId, userIds);
+            return WebBackServiceFactory.SysStaffUser.Edit(this.CurrentUserId, userIds);
         }
 
     }

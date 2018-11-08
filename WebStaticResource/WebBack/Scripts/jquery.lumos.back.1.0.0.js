@@ -468,9 +468,6 @@
 
         parentDialog: art.dialog.open.origin,
 
-
-
-
         getUrlParamValue: function getUrlParam(name) {
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
             var r = window.location.search.substr(1).match(reg);  //匹配目标参数
@@ -534,6 +531,8 @@
                 }
             }
 
+
+
             //判断__RequestVerificationToken是否存在
             //var tokeName = "__RequestVerificationToken";
             //var token = $("input[name=" + tokeName + "]");
@@ -592,12 +591,12 @@
 
 
             $.ajax({
-                type: "Post",
+                type: "POST",
                 dataType: "json",
+                contentType: 'application/json;charset=utf-8',
                 async: _async,
                 headers: headers,
                 timeout: _timeout,
-                contentType: 'application/json;charset=utf-8',
                 data: postStr,
                 url: _url,
                 beforeSend: function (XMLHttpRequest) {
@@ -620,6 +619,110 @@
                 if (d.result == $.lumos.resultType.exception) {
                     var messsage = d.data;
                     $.lumos.messageBox({ type: messsage.type, title: messsage.title, content: messsage.content, isPopup: messsage.isPopup, errorStackTrace: messsage.errorStackTrace, isTop: messsage.isTop })
+                }
+                else {
+                    _success(d);
+                }
+            });
+        },
+
+        getJson: function (opts) {
+
+            opts = $.extend({
+                isUseHandling: false,
+                url: '',
+                urlParams: null,
+                async: true,
+                timeout: 0,
+                beforeSend: function (XMLHttpRequest) {
+                },
+                complete: function (XMLHttpRequest, status) {
+                    if (status == 'timeout') {
+
+                    }
+                    else if (status == 'error') {
+
+                    }
+                },
+                success: function () { }
+            }, opts || {});
+
+            var _url = opts.url;
+            var _urlParams = opts.urlParams;
+
+            if (_url == '') {
+                return;
+            }
+
+            var paramStr = "";
+            if (_url.indexOf('?') > 0) {
+                paramStr = _url.substring(_url.indexOf('?') + 1, _url.length);
+            }
+
+            if (_urlParams != null) {
+
+                if (paramStr == "") {
+                    _url += '?';
+                }
+                else {
+                    _url += '&';
+                }
+
+                for (var p in _urlParams) {
+                    _url += p + '=' + encodeURIComponent(_urlParams[p]) + '&';
+                }
+
+                _url = _url.substring(0, _url.length - 1)
+            }
+
+
+
+            var _async = opts.async;
+            var _timeout = opts.timeout;
+            var _success = opts.success;
+            var _beforeSend = opts.beforeSend;
+            var _complete = opts.complete;
+            var _isUseHandling = opts.isUseHandling
+
+            //获取防伪标记
+            var token = $('[name=__RequestVerificationToken]').val();
+            var headers = {};
+            //防伪标记放入headers
+            //也可以将防伪标记放入data
+            headers["__RequestVerificationToken"] = token;
+
+            var handling;
+          
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                async: _async,
+                headers: headers,
+                timeout: _timeout,
+                url: _url,
+                beforeSend: function (XMLHttpRequest) {
+                    if (_isUseHandling) {
+                        handling = artDialog.loading2("正在加载");
+                    }
+                    else {
+                        _beforeSend(XMLHttpRequest);
+                    }
+                },
+                complete: function (XMLHttpRequest, status) {
+                    _complete(XMLHttpRequest, status);
+                }
+            }).done(function (d) {
+
+                if (_isUseHandling) {
+                    handling.close();
+                }
+
+                if (d.result == $.lumos.resultType.exception) {
+                    $.lumos.tips(d.message);
+                }
+                else if (d.result == $.lumos.resultType.nologin) {
+                    var data = d.data;
+                    window.location = data.loginPage;
                 }
                 else {
                     _success(d);

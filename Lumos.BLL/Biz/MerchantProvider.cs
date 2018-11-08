@@ -25,7 +25,7 @@ namespace Lumos.BLL
                     return new CustomJsonResult(ResultType.Failure, "账号已经存在");
                 }
                 pSysMerchatUser.Id = GuidUtil.New();
-                pSysMerchatUser.PasswordHash = PassWordHelper.HashPassword(pSysMerchatUser.Password);
+                //pSysMerchatUser.PasswordHash = PassWordHelper.HashPassword(pSysMerchatUser.Password);
                 pSysMerchatUser.SecurityStamp = Guid.NewGuid().ToString();
                 pSysMerchatUser.RegisterTime = this.DateTime;
                 pSysMerchatUser.CreateTime = this.DateTime;
@@ -67,10 +67,10 @@ namespace Lumos.BLL
                 lSysMerchantUser.MendTime = this.DateTime;
                 lSysMerchantUser.Mender = pOperater;
 
-                if (!string.IsNullOrEmpty(pSysMerchatUser.Password))
-                {
-                    lSysMerchantUser.PasswordHash = PassWordHelper.HashPassword(pSysMerchatUser.Password);
-                }
+                //if (!string.IsNullOrEmpty(pSysMerchatUser.Password))
+                //{
+                //    lSysMerchantUser.PasswordHash = PassWordHelper.HashPassword(pSysMerchatUser.Password);
+                //}
 
                 CurrentDb.SaveChanges();
                 ts.Complete();
