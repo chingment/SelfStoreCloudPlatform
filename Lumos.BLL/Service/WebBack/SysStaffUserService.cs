@@ -26,13 +26,13 @@ namespace Lumos.BLL.Service.WebBack
             if (staffUser != null)
             {
                 var isCheckedIds = CurrentDb.SysUserRole.Where(x => x.UserId == userId).Select(x => x.RoleId);
-              
+
                 ret.Roles = ConvertToZTreeJson2(CurrentDb.SysRole.ToArray(), "id", "pid", "name", "role", isCheckedIds.ToArray());
 
-                ret.UserName = staffUser.UserName;
-                ret.FullName = staffUser.FullName;
-                ret.Email = staffUser.Email;
-                ret.PhoneNumber = staffUser.PhoneNumber;
+                ret.UserName = staffUser.UserName ?? ""; ;
+                ret.FullName = staffUser.FullName ?? ""; ;
+                ret.Email = staffUser.Email ?? ""; ;
+                ret.PhoneNumber = staffUser.PhoneNumber ?? ""; ;
             }
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);

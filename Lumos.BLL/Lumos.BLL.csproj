@@ -191,8 +191,10 @@
     <Compile Include="Service\Term\TermServiceFactory.cs" />
     <Compile Include="Service\WebBack\RModels\RetSysStaffUserGetInitDataByAddView.cs" />
     <Compile Include="Service\WebBack\RModels\RetSysStaffUserGetInitDataByEditView.cs" />
+    <Compile Include="Service\WebBack\RModels\RetSysUserGetInitDataByDetailsView.cs" />
     <Compile Include="Service\WebBack\RModels\RopSysStaffUserEdit.cs" />
     <Compile Include="Service\WebBack\SysStaffUserService.cs" />
+    <Compile Include="Service\WebBack\SysUserService.cs" />
     <Compile Include="Service\WebBack\WebBackServiceFactory.cs" />
     <Compile Include="SnUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

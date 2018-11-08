@@ -8,6 +8,7 @@ using Lumos.Common;
 using WebBack.Models.Sys.User;
 using Lumos.Web.Mvc;
 using Lumos;
+using Lumos.BLL.Service.WebBack;
 
 namespace WebBack.Controllers.Sys
 {
@@ -23,10 +24,9 @@ namespace WebBack.Controllers.Sys
         }
 
 
-        public ViewResult Details(string id)
+        public ViewResult Details()
         {
-            DetailsViewModel model =new DetailsViewModel(id);
-            return View(model);
+            return View();
         }
         #endregion
 
@@ -51,6 +51,11 @@ namespace WebBack.Controllers.Sys
             return Json(ResultType.Success, pageEntity, "");
         }
 
+
+        public CustomJsonResult GetInitDataByDetailsView(string userId)
+        {
+            return WebBackServiceFactory.SysUser.GetInitDataByDetailsView(this.CurrentUserId, userId);
+        }
 
         #endregion
 
