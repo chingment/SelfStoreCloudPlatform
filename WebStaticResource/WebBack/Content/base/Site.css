@@ -83,6 +83,12 @@ body {
 	content: '\00a0\00a0\00a0\00a0';
 }
 
+.help-tips {
+	color: #999;
+	height: 32px;
+	line-height: 32px;
+}
+
 .icon_navmenu_level1_common {
 	/*background-image: url(images/icon_navmenu_level1_common.png);*/
 	display: inline-block;
@@ -416,6 +422,7 @@ body {
 
 .search-bar {
 	padding: 5px 0px;
+	display: flex;
 }
 
 .search-bar .filter {
