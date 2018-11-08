@@ -1,59 +1,94 @@
-﻿@model WebBack.Models.Sys.Menu.AddViewModel
-@{
-    ViewBag.Title = "Add";
+﻿@{
+    ViewBag.Title = "";
     Layout = "~/Views/Shared/_LayoutHomeDialog.cshtml";
 }
 @section scripts{
     <script type="text/javascript">
+
+        var pMenuId = $.lumos.getUrlParamValue("pMenuId");
+        var pMenuName = $.lumos.getUrlParamValue("pMenuName");
+
         $(this).ready(function () {
+            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { } });
+            $("#txt_Name").formValidator({ onShow: "&nbsp;", onFocus: "不能为空,且不超过20个字符", onCorrect: "&nbsp;" }).inputValidator({ min: 1, max: 20, empty: { leftEmpty: false, emptyError: "不能为空" }, onError: "不能为空,且不超过20个字符" });
+            $("#txt_Url").formValidator({ onShow: "&nbsp;", onFocus: "不超过200个字符", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 200, onError: "不超过200个字符" });
+            $("#txt_Description").formValidator({ onShow: "&nbsp;", onFocus: "不超过500个字符", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 500, onError: "不超过500个字符" });
 
-            var id = $.lumos.getUrlParamValue("id");
-            var pName = $.lumos.getUrlParamValue("pName");
-            $("#lbl_PName").text(pName);
-
-            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { }, onSuccess: function () { return add(); } });
-            $("#Model_SysMenu_Name").formValidator({ onShow: "&nbsp;", onFocus: "不能为空,且不超过20个字符", onCorrect: "&nbsp;" }).inputValidator({ min: 1, max: 20, empty: { leftEmpty: false, emptyError: "不能为空" }, onError: "不能为空,且不超过20个字符" });
-            $("#Model_SysMenu_Url").formValidator({ onShow: "&nbsp;", onFocus: "不超过200个字符", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 200, onError: "不超过200个字符" });
-            $("#Model_SysMenu_Description").formValidator({ onShow: "&nbsp;", onFocus: "不超过500个字符", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 500, onError: "不超过500个字符" });
+            initData();
         });
+
+        function initData() {
+
+            $('#lbl_PMenuName').text(pMenuName);
+
+            $.lumos.getJson({
+                url: "/Sys/Menu/GetInitDataByAddView",
+                isUseHandling: true,
+                success: function (d) {
+                    if (d.result == $.lumos.resultType.success) {
+
+                        var data = d.data;
+                        var perHtml = '';
+                        $.each(data.permissions, function (i, n) {
+                            perHtml += '<span style="width:180px;float:left">';
+                            perHtml += '<input id="cb_Permission_' + i + '" type="checkbox"  name="permissionId" value="' + n.id + '" />';
+                            perHtml += '<label for="cb_Permission_' + i + '">' + n.name + '</label>';
+                            perHtml += '</span>';
+                        });
+
+                        $('#list_Permission').html(perHtml)
+                    }
+                }
+            });
+        }
 
         function add() {
 
-            art.dialog.confirm(
-     '确定要新建？',
-     function () {
-         var l_Data = $("#form1").serializeArray();
-         l_Data.push({ name: "Model.SysMenu.PId", value: $.lumos.getUrlParamValue("id") });
-         $.lumos.postJson({
-             url: "../Menu/Add",
-             data: l_Data,
-             success: function (d) {
-                 if (d.result == $.lumos.resultType.success) {
-                     $.lumos.parentDialog.loadTreeList($.lumos.getUrlParamValue("id"));
-                     $.lumos.tips(d.message,true);
-                 }
-                 else {
-                     $.lumos.tips(d.message);
-                 }
-             }
-         });
+            art.dialog.confirm('确定要新建？', function () {
 
-     });
+                var isValid = $.formValidator.pageIsValid();
+                if (isValid) {
+                    var name = $("#txt_Name").val();
+                    var url = $("#txt_Url").val();
+                    var description = $("#txt_Description").val();
+
+                    var permissionIds = [];
+                    $('input:checkbox[name=permissionId]:checked').each(function (k) {
+                        var val = $(this).val();
+                        permissionIds.push(val)
+                    })
+
+
+                    $.lumos.postJson({
+                        url: "/Sys/Menu/Add",
+                        isUseHandling: true,
+                        data: { pMenuId: pMenuId, name: name, url: url, description: description, permissionIds: permissionIds },
+                        success: function (d) {
+                            if (d.result == $.lumos.resultType.success) {
+                                $.lumos.parentDialog.loadMenus(pMenuId);
+                                $.lumos.tips(d.message, true);
+                            }
+                            else {
+                                $.lumos.tips(d.message);
+                            }
+                        }
+                    });
+                }
+
+            });
 
             return false;
         }
     </script>
 }
 <form name="form1" method="post" action="#" id="form1">
-    @AntiForgery.GetHtml()
-    @Html.GenerateUniqueSubmitIdentifier()
     <table class="f-tb" cellpadding="0" cellspacing="1">
         <tr>
             <td class="f-tb-t">
                 上级名称：
             </td>
             <td class="f-tb-c">
-                <label id="lbl_PName"></label>
+                <label id="lbl_PMenuName"></label>
             </td>
         </tr>
         <tr>
@@ -61,8 +96,8 @@
                 名称：
             </td>
             <td class="f-tb-c">
-                <input name="Model.SysMenu.Name" type="text" autocomplete="off" id="Model_SysMenu_Name" style="width:250px;" class="input-control" />
-                <span id="Model_SysMenu_NameTip"></span>
+                <input type="text" autocomplete="off" id="txt_Name" style="width:250px;" class="input-control" />
+                <span id="txt_NameTip"></span>
             </td>
         </tr>
         <tr class="tr_url">
@@ -70,9 +105,8 @@
                 网页路径：
             </td>
             <td class="f-tb-c">
-                <input name="Model.SysMenu.Url" type="text" autocomplete="off" id="Model_SysMenu_Url" class="input-control"
-                       style="width: 350px;" />
-                <span id="Model_SysMenu_UrlTip"></span>
+                <input type="text" autocomplete="off" id="txt_Url" class="input-control" style="width: 350px;" />
+                <span id="txt_UrlTip"></span>
             </td>
         </tr>
         <tr>
@@ -80,22 +114,24 @@
                 权限：
             </td>
             <td class="f-tb-c">
+                <div id="list_Permission">
 
-                @for (int i = 0; i < Model.SysPermission.Count; i++)
-                {
-                    if (Model.SysPermission[i].Id != "1")
+                </div>
+                @*@for (int i = 0; i < Model.SysPermission.Count; i++)
                     {
-                        <span style="width:180px;float:left">
-                            <input id="cb_Permission_@i" type="checkbox" name="Model.SysMenu.Permission" value="@Model.SysPermission[i].Id" />
-                            <label for="cb_Permission_@i">@Model.SysPermission[i].Name</label>
-                        </span>
-                    }
+                        if (Model.SysPermission[i].Id != "1")
+                        {
+                            <span style="width:180px;float:left">
+                                <input id="cb_Permission_@i" type="checkbox" name="Model.SysMenu.Permission" value="@Model.SysPermission[i].Id" />
+                                <label for="cb_Permission_@i">@Model.SysPermission[i].Name</label>
+                            </span>
+                        }
 
-                    if (i % 3 == 0 && i != 0)
-                    {
-                        <br />
-                    }
-                }
+                        if (i % 3 == 0 && i != 0)
+                        {
+                            <br />
+                        }
+                    }*@
 
             </td>
         </tr>
@@ -104,8 +140,8 @@
                 备注：
             </td>
             <td class="f-tb-c">
-                <textarea name="Model.SysMenu.Description" rows="5" cols="46" id="Model_SysMenu_Description" class="input-control"></textarea>
-                <span id="Model_SysMenu_DescriptionTip"></span>
+                <textarea rows="5" cols="46" id="txt_Description" class="input-control"></textarea>
+                <span id="txt_DescriptionTip"></span>
             </td>
         </tr>
         <tr style="display:none">

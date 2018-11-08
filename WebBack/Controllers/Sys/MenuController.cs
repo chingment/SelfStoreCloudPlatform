@@ -1,5 +1,6 @@
 ﻿using Lumos;
 using Lumos.BLL;
+using Lumos.BLL.Service.WebBack;
 using Lumos.Common;
 using Lumos.DAL.AuthorizeRelay;
 using Lumos.Entity;
@@ -25,8 +26,7 @@ namespace WebBack.Controllers.Sys
 
         public ActionResult Add()
         {
-            AddViewModel mode = new AddViewModel();
-            return View(mode);
+            return View();
         }
 
         public ActionResult Sort()
@@ -34,6 +34,10 @@ namespace WebBack.Controllers.Sys
             return View();
         }
 
+        public CustomJsonResult GetInitDataByAddView()
+        {
+            return WebBackServiceFactory.SysMenu.GetInitDataByAddView(this.CurrentUserId);
+        }
 
 
         public CustomJsonResult GetDetails(string id)
@@ -42,16 +46,16 @@ namespace WebBack.Controllers.Sys
             return Json(ResultType.Success, model, "");
         }
 
-        public CustomJsonResult GetTree(string pId)
+        public CustomJsonResult GetMenus(string pMenuId)
         {
             SysMenu[] arr;
-            if (pId == "0")
+            if (pMenuId == "0")
             {
                 arr = CurrentDb.SysMenu.OrderByDescending(m => m.Priority).ToArray();
             }
             else
             {
-                arr = CurrentDb.SysMenu.Where(m => m.PId == pId).OrderByDescending(m => m.Priority).ToArray();
+                arr = CurrentDb.SysMenu.Where(m => m.PId == pMenuId).OrderByDescending(m => m.Priority).ToArray();
             }
 
             object json = ConvertToZTreeJson(arr, "id", "pid", "name", "menu");
@@ -61,28 +65,22 @@ namespace WebBack.Controllers.Sys
 
         [HttpPost]
         [OwnNoResubmit]
-        public CustomJsonResult Add(AddViewModel model)
+        public CustomJsonResult Add(RopSysMenuAdd rop)
         {
-            return SysFactory.AuthorizeRelay.CreateMenu(this.CurrentUserId, model.SysMenu, model.SysMenu.Permission);
+            return WebBackServiceFactory.SysMenu.Add(this.CurrentUserId, rop);
         }
 
         [HttpPost]
-        public CustomJsonResult Edit(EditViewModel model)
+        public CustomJsonResult Edit(RopSysMenuEdit rop)
         {
-            var menu = new SysMenu();
-            menu.Id = model.SysMenu.Id;
-            menu.Name = model.SysMenu.Name;
-            menu.Url = model.SysMenu.Url;
-            menu.Description = model.SysMenu.Description;
-
-            return SysFactory.AuthorizeRelay.UpdateMenu(this.CurrentUserId, model.SysMenu, model.SysMenu.Permission);
+            return WebBackServiceFactory.SysMenu.Edit(this.CurrentUserId, rop);
 
         }
 
         [HttpPost]
-        public CustomJsonResult Delete(string[] ids)
+        public CustomJsonResult Delete(string[] menuIds)
         {
-            return SysFactory.AuthorizeRelay.DeleteMenu(this.CurrentUserId, ids);
+            return WebBackServiceFactory.SysMenu.Delete(this.CurrentUserId, menuIds);
         }
 
         [HttpPost]

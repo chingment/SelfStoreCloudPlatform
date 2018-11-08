@@ -189,13 +189,17 @@
     <Compile Include="Service\Term\RModels\RupMachineLoginResultQuery.cs" />
     <Compile Include="Service\Term\RModels\RupOrderPayResultQuery.cs" />
     <Compile Include="Service\Term\TermServiceFactory.cs" />
+    <Compile Include="Service\WebBack\RModels\RetSysMenuGetInitDataByAddView.cs" />
     <Compile Include="Service\WebBack\RModels\RetSysRoleGetDetails.cs" />
     <Compile Include="Service\WebBack\RModels\RetSysStaffUserGetInitDataByAddView.cs" />
     <Compile Include="Service\WebBack\RModels\RetSysStaffUserGetInitDataByEditView.cs" />
     <Compile Include="Service\WebBack\RModels\RetSysUserGetInitDataByDetailsView.cs" />
+    <Compile Include="Service\WebBack\RModels\RopSysMenuAdd.cs" />
+    <Compile Include="Service\WebBack\RModels\RopSysMenuEdit.cs" />
     <Compile Include="Service\WebBack\RModels\RopSysRoleAdd.cs" />
     <Compile Include="Service\WebBack\RModels\RopSysRoleEdit.cs" />
     <Compile Include="Service\WebBack\RModels\RopSysStaffUserEdit.cs" />
+    <Compile Include="Service\WebBack\SysMenuService.cs" />
     <Compile Include="Service\WebBack\SysRoleService.cs" />
     <Compile Include="Service\WebBack\SysStaffUserService.cs" />
     <Compile Include="Service\WebBack\SysUserService.cs" />

@@ -191,7 +191,6 @@
     <Compile Include="Models\Home\LoginModel.cs" />
     <Compile Include="Models\Home\TaskByHandleSearchCondition.cs" />
     <Compile Include="Models\Sys\LogView\ListModel.cs" />
-    <Compile Include="Models\Sys\Menu\AddViewModel.cs" />
     <Compile Include="Models\Sys\Menu\DetailsViewModel.cs" />
     <Compile Include="Models\Sys\Menu\EditViewModel.cs" />
     <Compile Include="Models\Sys\Menu\ListViewModel.cs" />

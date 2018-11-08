@@ -13,6 +13,12 @@
         var cur_RoleId;
         $(this).ready(function () {
 
+         
+
+            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { art.dialog.tips(msg); } });
+            $("#txt_Name").formValidator({ onShow: "&nbsp;", onFocus: "", onCorrect: "&nbsp;" }).inputValidator({ min: 1, max: 20, empty: { leftEmpty: false, emptyError: "名称不能为空" }, onError: "名称不能超过20个字符" });
+            $("#txt_Description").formValidator({ onShow: "&nbsp;", onFocus: "", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 500, onError: "备注不能超过500个字符" });
+
             tab_Main = $("#tab_Main").tab({
                 click: function (index) {
                     var selObj = getSelectedNode();
@@ -33,10 +39,6 @@
                     return true;
                 }
             });
-
-            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { art.dialog.tips(msg); } });
-            $("#txt_Name").formValidator({ onShow: "&nbsp;", onFocus: "", onCorrect: "&nbsp;" }).inputValidator({ min: 1, max: 20, empty: { leftEmpty: false, emptyError: "名称不能为空" }, onError: "名称不能超过20个字符" });
-            $("#txt_Description").formValidator({ onShow: "&nbsp;", onFocus: "", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 500, onError: "备注不能超过500个字符" });
 
             $("#btn_add").click(function () {
                 var url = '/Sys/Role/Add';
