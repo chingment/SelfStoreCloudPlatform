@@ -23,5 +23,13 @@ namespace Lumos.BLL.Service.WebBack
                 return new SysUserService();
             }
         }
+
+        public static SysRoleService SysRole
+        {
+            get
+            {
+                return new SysRoleService();
+            }
+        }
     }
 }

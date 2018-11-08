@@ -1,19 +1,19 @@
 ﻿@{
-    ViewBag.Title = "RoleUserSel";
+    ViewBag.Title = "";
     Layout = "~/Views/Shared/_LayoutHomeDialog.cshtml";
 }
 
 <script type="text/javascript">
 
     var listTable;
-
+    var roleId = $.lumos.getUrlParamValue("roleId");
     $(document).ready(function () {
 
 
-        $("#txt_RoleId").val($.lumos.getUrlParamValue("id"));
+        $("#txt_RoleId").val(roleId);
 
         listTable = $("#list_table").loadDataTable({
-            url: "../Role/GetNotBindUsers",
+            url: "/Sys/Role/GetNotBindUsers",
             pageIndex: 0,
             searchParams: $("#form1").serializeArray(),
             searchButtonId: "btn_Search",
@@ -37,17 +37,16 @@
             operate:
                 {
                     "select": function (keys) {
-                        var array = new Array();
-                        array.push({ name: "roleId", value: $.lumos.getUrlParamValue("id") });
+                        var userIds = [];
                         $.each(keys, function (i, n) {
-                            array.push({ name: "userIds", value: n.id });
+                            userIds.push(n.id);
                         });
 
                         $.lumos.postJson({
-                            url: "../Role/AddUserToRole",
-                            data: array,
+                            url: "/Sys/Role/AddUserToRole",
+                            data: { roleId: roleId, userIds: userIds },
                             success: function (d) {
-                                $.lumos.parentDialog.listRoleUser.loadData('c');
+                                $.lumos.parentDialog.list_RoleUsers.loadData('c');
                                 $.lumos.tips(d.message, true);
                             }
                         });

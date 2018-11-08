@@ -195,9 +195,6 @@
     <Compile Include="Models\Sys\Menu\DetailsViewModel.cs" />
     <Compile Include="Models\Sys\Menu\EditViewModel.cs" />
     <Compile Include="Models\Sys\Menu\ListViewModel.cs" />
-    <Compile Include="Models\Sys\Role\AddViewModel.cs" />
-    <Compile Include="Models\Sys\Role\DetailsViewModel.cs" />
-    <Compile Include="Models\Sys\Role\EditViewModel.cs" />
     <Compile Include="Models\Sys\Role\RoleUserSearchCondition.cs" />
     <Compile Include="Models\Sys\SmsSend\SearchCondition.cs" />
     <Compile Include="Models\Sys\StaffUser\SearchCondition.cs" />

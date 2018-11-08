@@ -65,6 +65,7 @@
                     $.lumos.postJson({
                         url: "/Sys/StaffUser/Add",
                         data: { userName: userName, password: password, fullName: fullName, email: email, phoneNumber: phoneNumber, roleIds: roleIds },
+                        isUseHandling: true,
                         success: function (d) {
                             if (d.result == $.lumos.resultType.success) {
                                 $.lumos.parentDialog.listTable.loadData();

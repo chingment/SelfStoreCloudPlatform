@@ -402,7 +402,7 @@ namespace Lumos.DAL.AuthorizeRelay
             {
                 return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "该用户名已经存在");
             }
-
+            pRole.Id = GuidUtil.New();
             pRole.PId = "0";
             pRole.CreateTime = DateTime.Now;
             pRole.Creator = pOperater;

@@ -84,6 +84,7 @@
 
                     $.lumos.postJson({
                         url: "/Sys/StaffUser/Edit",
+                        isUseHandling: true,
                         data: { userId: userId, userName: userName, password: password, fullName: fullName, email: email, phoneNumber: phoneNumber, roleIds: roleIds },
                         success: function (d) {
                             if (d.result == $.lumos.resultType.success) {
