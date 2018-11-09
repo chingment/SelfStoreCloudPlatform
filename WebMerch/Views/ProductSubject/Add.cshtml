@@ -30,7 +30,7 @@
                         data: { name: name, mainImg: mainImg, iconImg: iconImg, description: description },
                         success: function (d) {
                             if (d.result == $.lumos.resultType.success) {
-                                $.lumos.parentDialog.loadTreeList();
+                                $.lumos.parentDialog.loadSubjects();
                                 $.lumos.tips(d.message, true);
                             }
                             else {

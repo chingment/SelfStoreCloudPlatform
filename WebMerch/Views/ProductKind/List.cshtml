@@ -27,10 +27,7 @@
                             getDetails();
                             break;
                         case 1:
-                            listProduct.loadData();
-                            break;
-                        case 2:
-                            loadRoleMenuTreeList()
+                            list_ProductSkus.loadData();
                             break;
                     }
 
@@ -84,7 +81,7 @@
                                  data: { kindIds: kindIds },
                                  success: function (d) {
                                      art.dialog.tips(d.message);
-                                     loadTreeList();
+                                     loadKinds();
                                  }
                              });
 
@@ -118,7 +115,7 @@
 
             });
 
-            listProduct = $("#list_table_product").loadDataTable({
+            list_ProductSkus = $("#list_table_product").loadDataTable({
                 url: "/ProductKind/GetProductSkuList",
                 pageIndex: 0,
                 searchParams: $("#form2").serializeArray(),
@@ -151,8 +148,8 @@
                                     skuId: key.id
                                 },
                                 success: function (d) {
-                                    listProduct.loadData(0);
                                     $.lumos.tips(d.message);
+                                    list_ProductSkus.loadData(0);
                                 }
                             });
                         });
@@ -194,8 +191,9 @@
                         $("#txt_Description").defaultPassed();
                         $("#txt_MainImg").val(data.mainImg);
                         $("#txt_IconImg").val(data.iconImg);
-                        //$("#txt_Status").find("option[value='" + data.status + "']").attr("selected", true);
 
+                        $("#sel_Status").find("option[value='" + data.status + "']").attr("selected", true);
+                        $("#sel_Status").trigger("chosen:updated");
                         $("#img_MainImg").attr("src", data.mainImg);
                         $("#img_IconImg").attr("src", data.iconImg);
                     }
@@ -269,11 +267,13 @@
                     var id = selObj.id;
 
                     var name = $('#txt_Name').val();
+                    var mainImg = $("#txt_MainImg").val();
+                    var iconImg = $("#txt_IconImg").val();
                     var description = $("#txt_Description").val();
-
+                    var status = $("#sel_Status").val();
                     $.lumos.postJson({
                         url: "/ProductKind/Edit",
-                        data: { kindId: cur_KindId, name: name, description: description },
+                        data: { kindId: cur_KindId, name: name, mainImg: mainImg, iconImg: iconImg, description: description, status: status },
                         isUseHandling: true,
                         success: function (d) {
                             $.lumos.tips(d.message);
@@ -306,96 +306,94 @@
                 </ul>
             </div>
             <div class="tab-content">
-                <div class="subcontent">
+                <div class="subcontent" style="display:block">
                     <div class="f-btn-area" style="margin-bottom:5px;">
                         <input type="button" class="btn btn-open" id="btn_add" value="新建" />
                         <input type="button" class="btn btn-delete" id="btn_delete" value="删除" />
                     </div>
-                    <form name="form1" method="post" id="form1">
-                        <input type="hidden" name="ProductKindId" id="Model_ProductKind_Id" />
-                        <table class="f-tb" cellpadding="0" cellspacing="1">
-                            <tr>
-                                <td class="f-tb-t" style="width:80px">
-                                    <span class="required-symbol">*</span>上级名称：
-                                </td>
-                                <td class="f-tb-c">
-                                    <label id="lbl_PName">/</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="f-tb-t" style="width:50px">
-                                    <span class="required-symbol">*</span>名称：
-                                </td>
-                                <td class="f-tb-c">
-                                    <input type="text" autocomplete="off" value="" id="txt_Name" style="width: 250px;" class="input-control" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="f-tb-t">
-                                    图片：
-                                </td>
-                                <td class="f-tb-c">
+                    <table class="f-tb" cellpadding="0" cellspacing="1">
+                        <tr>
+                            <td class="f-tb-t" style="width:80px">
+                                <span class="required-symbol">*</span>上级名称：
+                            </td>
+                            <td class="f-tb-c">
+                                <label id="lbl_PName">/</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="f-tb-t" style="width:50px">
+                                <span class="required-symbol">*</span>名称：
+                            </td>
+                            <td class="f-tb-c">
+                                <input type="text" autocomplete="off" value="" id="txt_Name" style="width: 250px;" class="input-control" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="f-tb-t">
+                                图片：
+                            </td>
+                            <td class="f-tb-c">
 
-                                    <table class="f-tb1-detail" style="text-align:center;width:auto">
-                                        <tr style="vertical-align:top">
-                                            <td>
-                                                <div>
-                                                    <span class="uploadimgbox" upload="true">
-                                                        <span class="uploadimg" inputname="txt_MainImg" path="productkind">
-                                                            <img id="img_MainImg" src="~/Static/default1.jpg" />
-                                                            <span class="uploadimg-click" style="">上传</span>
-                                                            <input id="txt_MainImg" value="" name="txt_MainImg" type="hidden" />
-                                                        </span>
-                                                        <span class="uploadimg-view" style="">预览</span>
+                                <table class="f-tb1-detail" style="text-align:center;width:auto">
+                                    <tr style="vertical-align:top">
+                                        <td>
+                                            <div>
+                                                <span class="uploadimgbox" upload="true">
+                                                    <span class="uploadimg" inputname="txt_MainImg" path="productkind">
+                                                        <img id="img_MainImg" src="~/Static/default1.jpg" />
+                                                        <span class="uploadimg-click" style="">上传</span>
+                                                        <input id="txt_MainImg" value="" name="txt_MainImg" type="hidden" />
                                                     </span>
-                                                </div>
-                                                <div>
-                                                    <span><span class="required-symbol">*</span>封面</span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div>
-                                                    <span class="uploadimgbox" upload="true">
-                                                        <span class="uploadimg" inputname="txt_IconImg" path="productkind">
-                                                            <img id="img_IconImg" src="~/Static/default1.jpg" />
-                                                            <span class="uploadimg-click" style="">上传</span>
-                                                            <input id="txt_IconImg" value="" name="txt_IconImg" type="hidden" />
-                                                        </span>
-                                                        <span class="uploadimg-view" style="">预览</span>
+                                                    <span class="uploadimg-view" style="">预览</span>
+                                                </span>
+                                            </div>
+                                            <div>
+                                                <span><span class="required-symbol">*</span>封面</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <span class="uploadimgbox" upload="true">
+                                                    <span class="uploadimg" inputname="txt_IconImg" path="productkind">
+                                                        <img id="img_IconImg" src="~/Static/default1.jpg" />
+                                                        <span class="uploadimg-click" style="">上传</span>
+                                                        <input id="txt_IconImg" value="" name="txt_IconImg" type="hidden" />
                                                     </span>
-                                                </div>
-                                                <div>
-                                                    <span><span class="required-symbol">*</span>小图标</span>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="f-tb-t" style="width:50px;">
-                                    <span class="required-symbol">*</span>状态：
-                                </td>
-                                <td class="f-tb-c">
-                                    @(Html.initEnumeration<Lumos.Entity.Enumeration.ProductKindStatus>(Lumos.Entity.Enumeration.InputType.Select, "sel.Status", new { @class = "select-control", defaulttext = "请选择", hidevalue = new Lumos.Entity.Enumeration.ProductKindStatus[] { Lumos.Entity.Enumeration.ProductKindStatus.Unknow } }))
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="f-tb-t">
-                                    备注：
-                                </td>
-                                <td class="f-tb-c">
-                                    <textarea name="Model.ProductKind.Description" rows="5" cols="42" id="Model_ProductKind_Description" class="input-control"></textarea>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="f-tb-t"></td>
-                                <td class="f-tb-c">
-                                    <input type="button" onclick="eidt()" name="btn_Save" value="保存" id="btn_Save" class="btn btn-sure" />
-                                </td>
-                            </tr>
-                        </table>
-                    </form>
+                                                    <span class="uploadimg-view" style="">预览</span>
+                                                </span>
+                                            </div>
+                                            <div>
+                                                <span><span class="required-symbol">*</span>小图标</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="f-tb-t" style="width:50px;">
+                                <span class="required-symbol">*</span>状态：
+                            </td>
+                            <td class="f-tb-c">
+                                @(Html.initEnumeration<Lumos.Entity.Enumeration.ProductKindStatus>(Lumos.Entity.Enumeration.InputType.Select, "sel.Status", new { @class = "select-control", defaulttext = "请选择", hidevalue = new Lumos.Entity.Enumeration.ProductKindStatus[] { Lumos.Entity.Enumeration.ProductKindStatus.Unknow } }))
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="f-tb-t">
+                                备注：
+                            </td>
+                            <td class="f-tb-c">
+                                <textarea name="Model.ProductKind.Description" rows="5" cols="42" id="Model_ProductKind_Description" class="input-control"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="f-tb-t"></td>
+                            <td class="f-tb-c">
+                                <input type="button" onclick="eidt()" name="btn_Save" value="保存" id="btn_Save" class="btn btn-sure" />
+                            </td>
+                        </tr>
+                    </table>
+
                 </div>
                 <div class="subcontent">
                     <form id="form2" name="form2">
