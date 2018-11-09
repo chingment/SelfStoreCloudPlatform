@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lumos.BLL.Service.WebBack
+namespace Lumos.BLL.Sys
 {
-    public class SysRoleService : BaseProvider
+    public class SysRoleProvider : BaseProvider
     {
         public CustomJsonResult Add(string pOperater, RopSysRoleAdd rop)
         {

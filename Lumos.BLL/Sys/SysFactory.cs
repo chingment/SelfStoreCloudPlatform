@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lumos.BLL.Sys;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,30 @@ namespace Lumos.BLL
             get
             {
                 return new SysUserProvider();
+            }
+        }
+
+        public static SysStaffUserProvider SysStaffUser
+        {
+            get
+            {
+                return new SysStaffUserProvider();
+            }
+        }
+
+        public static SysRoleProvider SysRole
+        {
+            get
+            {
+                return new SysRoleProvider();
+            }
+        }
+
+        public static SysMenuProvider SysMenu
+        {
+            get
+            {
+                return new SysMenuProvider();
             }
         }
 

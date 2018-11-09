@@ -1,6 +1,6 @@
 ﻿using Lumos;
 using Lumos.BLL;
-using Lumos.BLL.Service.WebBack;
+using Lumos.BLL.Sys;
 using Lumos.Common;
 using Lumos.DAL.AuthorizeRelay;
 using Lumos.Entity;
@@ -45,7 +45,7 @@ namespace WebBack.Controllers.Sys
 
         public CustomJsonResult GetDetails(string roleId)
         {
-            return WebBackServiceFactory.SysRole.GetDetails(this.CurrentUserId, roleId);
+            return SysFactory.SysRole.GetDetails(this.CurrentUserId, roleId);
         }
 
         public CustomJsonResult GetRoleMenus(string roleId)
@@ -137,34 +137,34 @@ namespace WebBack.Controllers.Sys
         [HttpPost]
         public CustomJsonResult AddUserToRole(string roleId, string[] userIds)
         {
-            return WebBackServiceFactory.SysRole.AddUserToRole(this.CurrentUserId, roleId, userIds);
+            return SysFactory.SysRole.AddUserToRole(this.CurrentUserId, roleId, userIds);
         }
 
         [HttpPost]
         public CustomJsonResult RemoveUserFromRole(string roleId, string[] userIds)
         {
-            return WebBackServiceFactory.SysRole.RemoveUserFromRole(this.CurrentUserId, roleId, userIds);
+            return SysFactory.SysRole.RemoveUserFromRole(this.CurrentUserId, roleId, userIds);
         }
 
 
         [HttpPost]
         public CustomJsonResult SaveRoleMenu(string roleId, string[] menuIds)
         {
-            return WebBackServiceFactory.SysRole.SaveRoleMenu(this.CurrentUserId, roleId, menuIds);
+            return SysFactory.SysRole.SaveRoleMenu(this.CurrentUserId, roleId, menuIds);
         }
 
 
         [HttpPost]
         public CustomJsonResult Add(RopSysRoleAdd rop)
         {
-            return WebBackServiceFactory.SysRole.Add(this.CurrentUserId, rop);
+            return SysFactory.SysRole.Add(this.CurrentUserId, rop);
         }
 
 
         [HttpPost]
         public CustomJsonResult Edit(RopSysRoleEdit rop)
         {
-            return WebBackServiceFactory.SysRole.Edit(this.CurrentUserId, rop);
+            return SysFactory.SysRole.Edit(this.CurrentUserId, rop);
         }
 
 

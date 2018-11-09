@@ -4,14 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lumos.BLL.Service.WebBack
+namespace Lumos.BLL.Sys
 {
-    public class RetSysRoleGetDetails
+    public class RopSysRoleEdit
     {
         public string RoleId { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
 
-        public string[] MenuIds { get; set; }
+        public string Description { get; set; }
     }
 }

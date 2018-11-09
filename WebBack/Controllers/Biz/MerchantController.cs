@@ -9,7 +9,6 @@ using Lumos.Common;
 using Lumos.BLL;
 using WebBack.Models.Biz.Merchant;
 using Lumos;
-using Lumos.BLL.Service.WebBack;
 using Lumos.BLL.Biz;
 
 namespace WebBack.Controllers.Biz

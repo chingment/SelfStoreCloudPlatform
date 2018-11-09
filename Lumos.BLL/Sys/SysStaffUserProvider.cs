@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lumos.BLL.Service.WebBack
+namespace Lumos.BLL.Sys
 {
-    public class SysStaffUserService : BaseProvider
+    public class SysStaffUserProvider : BaseProvider
     {
 
         public CustomJsonResult GetDetails(string pOperater, string userId)

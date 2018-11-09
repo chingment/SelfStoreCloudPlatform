@@ -4,12 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lumos.BLL.Service.WebBack
+namespace Lumos.BLL.Sys
 {
-    public class RopSysRoleAdd
+    public class RopSysMenuEdit
     {
         public string Name { get; set; }
-
+        public string Url { get; set; }
         public string Description { get; set; }
+        public string MenuId { get; set; }
+
+        public string[] PermissionIds { get; set; }
     }
 }

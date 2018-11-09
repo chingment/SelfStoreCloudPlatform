@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lumos.BLL.Service.WebBack
+namespace Lumos.BLL.Sys
 {
-    public class RopSysRoleEdit
+    public class RopSysRoleAdd
     {
-        public string RoleId { get; set; }
         public string Name { get; set; }
 
         public string Description { get; set; }

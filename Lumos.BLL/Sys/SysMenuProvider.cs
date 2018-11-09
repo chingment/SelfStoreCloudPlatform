@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lumos.BLL.Service.WebBack
+namespace Lumos.BLL.Sys
 {
-    public class SysMenuService : BaseProvider
+    public class SysMenuProvider : BaseProvider
     {
         public CustomJsonResult GetPermissions(string pOperater)
         {
