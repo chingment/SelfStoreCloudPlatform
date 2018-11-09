@@ -608,7 +608,14 @@
                     }
                 },
                 complete: function (XMLHttpRequest, status) {
-                    _complete(XMLHttpRequest, status);
+                    if (XMLHttpRequest.status == 200) {
+                        _complete(XMLHttpRequest, status);
+                    }
+                    else {
+                        if (_isUseHandling) {
+                            handling.close();
+                        }
+                    }
                 }
             }).done(function (d) {
 
@@ -692,7 +699,7 @@
             headers["__RequestVerificationToken"] = token;
 
             var handling;
-          
+
             $.ajax({
                 type: "GET",
                 dataType: "json",
@@ -709,7 +716,14 @@
                     }
                 },
                 complete: function (XMLHttpRequest, status) {
-                    _complete(XMLHttpRequest, status);
+                    if (XMLHttpRequest.status == 200) {
+                        _complete(XMLHttpRequest, status);
+                    }
+                    else {
+                        if (_isUseHandling) {
+                            handling.close();
+                        }
+                    }
                 }
             }).done(function (d) {
 

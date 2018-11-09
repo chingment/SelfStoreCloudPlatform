@@ -45,6 +45,11 @@ namespace Lumos.BLL.Service.WebBack
             ret.Name = role.Name;
             ret.Description = role.Description;
 
+            var roleMenus = SysFactory.AuthorizeRelay.GetRoleMenus(roleId);
+            var menuIds = (from p in roleMenus select p.Id).ToArray();
+
+            ret.MenuIds = menuIds;
+
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
         }
 

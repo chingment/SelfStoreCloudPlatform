@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.WebBack
 {
-    public class RetSysMenuGetInitDataByAddView
+    public class RetSysMenuGetPermissions
     {
         public List<SysPermission> Permissions { get; set; }
     }

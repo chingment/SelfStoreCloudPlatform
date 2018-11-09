@@ -37,9 +37,9 @@
             }
         }
 
-
+        var pMenuId = $.lumos.getUrlParamValue("pMenuId");
         $(this).ready(function () {
-                loadTreeList();
+            loadMenus();
         });
 
 
@@ -69,53 +69,30 @@ function () {
         var id = $(this).attr("id");
         var priority = $(this).val();
 
-       //var l_Data1 = [];
-       //l_Data1.push({ name: "id", value: id });
-       //l_Data1.push({ name: "priority", value: priority });
-
-       //l_Data.push(l_Data1);
         l_Data.push({
-            Id: id,
-            Priority: priority
+            menuId: id,
+            priority: priority
         })
     });
 
-
-    //var lstmodel = new Array();
-    //lstmodel.push({ UserName: '李军', Age: 32, Birthday: '1983/11/21' });
-    //lstmodel.push({ UserName: '王军', Age: 42, Birthday: '1973/11/21' });
-    //lstmodel.push({ UserName: '刘军', Age: 52, Birthday: '1963/11/21' });
-
-    //alert(JSON.stringify(l_Data));
-    //$.ajax({
-    //    url: '../Menu/EditSort',
-    //    type: 'POST',
-    //    data: JSON.stringify(l_Data),
-    //    contentType: 'application/json;charset=utf-8', //上传后直接是List，不需要反序列化
-    //    async: false,
-    //    datatype: 'json',
-    //    cache: false
-    //})
-
-
-
     $.lumos.postJson({
-        url: "../Menu/EditSort",
-        data: JSON.stringify(l_Data),
+        url: "/Sys/Menu/EditSort",
+        isUseHandling: true,
+        data: { dics: l_Data },
         success: function (d) {
-            $.lumos.parentDialog.loadTreeList();
+            $.lumos.parentDialog.loadMenus();
             $.lumos.tips(d.message);
-
         }
     });
 });
             return false;
         }
 
-        function loadTreeList() {
+        function loadMenus() {
 
-            $.lumos.postJson({
-                url: "../Menu/GetTree?pId=" + $.lumos.getUrlParamValue("id"),
+            $.lumos.getJson({
+                url: "/Sys/Menu/GetAll",
+                urlParams:{pMenuId:pMenuId},
                 success: function (d) {
                     var obj = eval(d.data);
                      $.fn.zTree.init($("#treemenu"), setting, obj);

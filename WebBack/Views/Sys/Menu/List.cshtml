@@ -11,10 +11,10 @@
         var tab_Main;
         $(this).ready(function () {
 
-            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { }, onSuccess: function () { return update(); } });
-            $("#Model_SysMenu_Name").formValidator({ onShow: "&nbsp;", onFocus: "不超过20个字符", onCorrect: "&nbsp;", empty: false, onEmpty: "不能为空" }).inputValidator({ min: 1, max: 20, empty: { leftEmpty: false, emptyError: "不能为空" }, onError: "不超过20个字符" });
-            $("#Model_SysMenu_Url").formValidator({ onShow: "&nbsp;", onFocus: "不超过200个字符", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 200, onError: "不超过200个字符" });
-            $("#Model_SysMenu_Description").formValidator({ onShow: "&nbsp;", onFocus: "不超过500个字符", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 500, onError: "不超过500个字符" });
+            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { } });
+            $("#txt_Name").formValidator({ onShow: "&nbsp;", onFocus: "不超过20个字符", onCorrect: "&nbsp;", empty: false, onEmpty: "不能为空" }).inputValidator({ min: 1, max: 20, empty: { leftEmpty: false, emptyError: "不能为空" }, onError: "不超过20个字符" });
+            $("#txy_Url").formValidator({ onShow: "&nbsp;", onFocus: "不超过200个字符", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 200, onError: "不超过200个字符" });
+            $("#txt_Description").formValidator({ onShow: "&nbsp;", onFocus: "不超过500个字符", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 500, onError: "不超过500个字符" });
 
             tab_Main = $("#tab_Main").tab();
 
@@ -34,6 +34,11 @@
                 });
             });
 
+            $("#btn_edit").click(function () {
+                edit();
+                return false;
+            })
+
             $("#btn_delete").click(function () {
 
                 var selObj = getSelectedNode();
@@ -46,7 +51,7 @@
                     function () {
                         var id = selObj.id;
                         var menuIds = [];
-                        var nodes = zTree.getSelectedNodeFollowChildren();
+                        var nodes = tree_Menus.getSelectedNodeFollowChildren();
                         $.each(nodes, function (i, n) {
                             menuIds.push(n.id);
                         });
@@ -90,25 +95,8 @@
         });
 
         function initData() {
-            $.lumos.getJson({
-                url: "/Sys/Menu/GetInitDataByEditView",
-                isUseHandling: true,
-                success: function (d) {
-                    if (d.result == $.lumos.resultType.success) {
-                        var data = d.data;
-                        var perHtml = '';
-                        $.each(data.permissions, function (i, n) {
-                            perHtml += '<span style="width:180px;float:left">';
-                            perHtml += '<input id="cb_Permission_' + i + '" type="checkbox"  name="permissionId" value="' + n.id + '" />';
-                            perHtml += '<label for="cb_Permission_' + i + '">' + n.name + '</label>';
-                            perHtml += '</span>';
-                        });
-                        $('#list_Permission').html(perHtml)
-                    }
-                }
-            });
-
             loadMenus();
+            loadPermissions();
         }
 
         function getChildNodeGrade(treeNode) {
@@ -120,7 +108,7 @@
         }
 
         function getSelectedNode() {
-            var selObj = zTree.getSelectedNodes();
+            var selObj = tree_Menus.getSelectedNodes();
             if ($.lumos.isNullOrEmpty(selObj)) {
                 $.lumos.tips("请在左边树形结构选中节点信息");
                 return null;
@@ -150,9 +138,12 @@
                     $.lumos.postJson({
                         url: "/Sys/Menu/Edit",
                         data: { menuId: menuId, name: name, url: url, description: description, permissionIds: permissionIds },
+                        isUseHandling: true,
                         success: function (d) {
                             $.lumos.tips(d.message);
-                            loadMenus(id);
+                            if (d.result == $.lumos.resultType.success) {
+                                loadMenus(id);
+                            }
                         }
                     });
                 });
@@ -164,8 +155,9 @@
 
         function loadMenus(id) {
 
-            $.lumos.postJson({
-                url: "/Sys/Menu/GetMenus?pMenuId=0",
+            $.lumos.getJson({
+                url: "/Sys/Menu/GetAll",
+                urlParams: { pMenuId: "0" },
                 success: function (d) {
 
                     var obj = d.data;
@@ -184,8 +176,6 @@
                         },
                         callback: {
                             onClick: function treeNodeOnClick(event, treeId, treeNode, clickFlag) {
-
-                                $("#txt_Name").defaultPassed();
 
                                 var parentName = "/";
                                 if (treeNode.getParentNode() != null) {
@@ -206,29 +196,28 @@
                                     $("#btn_add").show();
                                 }
 
-                                $.lumos.postJson({
+                                $.lumos.getJson({
                                     url: "/Sys/Menu/GetDetails",
-                                    data: { menuId: treeNode.id },
+                                    urlParams: { menuId: treeNode.id },
                                     success: function (d) {
 
-                                        //if (d.result == $.lumos.resultType.success) {
-                                        //    $("#lbl_PName").text(parentName);
-                                        //    var menu = d.data.sysMenu;
-                                        //    $("#txt_Name").val(menu.name);
-                                        //    $("#txt_Name").defaultPassed();
-                                        //    $("#txt_Url").val(menu.url);
-                                        //    $("#txt_Description").val(menu.description);
-                                        //    $("#txt_Description").defaultPassed();
+                                        if (d.result == $.lumos.resultType.success) {
+                                            $("#lbl_PName").text(parentName);
+                                            var data = d.data;
+                                            $("#txt_Name").val(data.name);
+                                            $("#txt_Name").defaultPassed();
+                                            $("#txt_Url").val(data.url);
+                                            $("#txt_Description").val(data.description);
+                                            $("#txt_Description").defaultPassed();
 
-                                        //    $("input[name='Model.SysMenu.Permission']").attr("checked", false);
+                                            $("input[name='permissionId']").attr("checked", false);
 
-                                        //    var menuPermission = d.data.sysMenuPermission
-                                        //    for (var i = 0; i < menuPermission.length; i++) {
+                                            var permissionIds = data.permissionIds;
+                                            for (var i = 0; i < permissionIds.length; i++) {
+                                                $("input[name='permissionId'][value='" + permissionIds[i] + "']").attr("checked", true);
+                                            }
 
-                                        //        $("input[name='Model.SysMenu.Permission'][value='" + menuPermission[i].permissionId + "']").attr("checked", true);
-                                        //    }
-
-                                        //}
+                                        }
                                     }
                                 });
 
@@ -252,6 +241,27 @@
             });
         }
 
+        function loadPermissions() {
+            $.lumos.getJson({
+                url: "/Sys/Menu/GetPermissions",
+                isUseHandling: true,
+                success: function (d) {
+                    if (d.result == $.lumos.resultType.success) {
+
+                        var data = d.data;
+                        var perHtml = '';
+                        $.each(data.permissions, function (i, n) {
+                            perHtml += '<span style="width:180px;float:left">';
+                            perHtml += '<input id="cb_Permission_' + i + '" type="checkbox"  name="permissionId" value="' + n.id + '" />';
+                            perHtml += '<label for="cb_Permission_' + i + '">' + n.name + '</label>';
+                            perHtml += '</span>';
+                        });
+
+                        $('#list_Permission').html(perHtml)
+                    }
+                }
+            });
+        }
     </script>
 }
 
@@ -291,8 +301,8 @@
                                     名称：
                                 </td>
                                 <td class="f-tb-c">
-                                    <input name="Model.SysMenu.Name" type="text" autocomplete="off" id="Model_SysMenu_Name" style="width: 250px;" class="input-control" />
-                                    <span id="Model_SysMenu_NameTip"></span>
+                                    <input type="text" autocomplete="off" id="txt_Name" style="width: 250px;" class="input-control" />
+                                    <span id="txt_NameTip"></span>
                                 </td>
                             </tr>
                             <tr class="tr_url">
@@ -300,8 +310,7 @@
                                     网页路径：
                                 </td>
                                 <td class="f-tb-c">
-                                    <input name="Model.SysMenu.Url" type="text" autocomplete="off" id="Model_SysMenu_Url"
-                                           class="input-control" style="width: 350px;" />
+                                    <input type="text" autocomplete="off" id="txt_Url" class="input-control" style="width: 350px;" />
                                     <span id="txt_UrlTip"></span>
                                 </td>
                             </tr>
@@ -309,15 +318,17 @@
                                 <td class="f-tb-t">
                                     权限：
                                 </td>
-                                <td class="f-tb-c"></td>
+                                <td class="f-tb-c">
+                                    <div id="list_Permission"></div>
+                                </td>
                             </tr>
                             <tr>
                                 <td class="f-tb-t">
                                     备注：
                                 </td>
                                 <td class="f-tb-c">
-                                    <textarea name="Model.SysMenu.Description" rows="5" cols="46" id="Model_SysMenu_Description" class="input-control"></textarea>
-                                    <span id="Model_SysMenu_DescriptionTip"></span>
+                                    <textarea rows="5" cols="46" id="txt_Description" class="input-control"></textarea>
+                                    <span id="txt_DescriptionTip"></span>
                                 </td>
                             </tr>
                             <tr>
@@ -325,7 +336,7 @@
                                     &nbsp;
                                 </td>
                                 <td class="f-tb-c">
-                                    <input type="submit" name="btn_Save" value="保存" id="btn_Save" class="btn btn-sure" />
+                                    <input type="button" value="保存" id="btn_edit" class="btn btn-sure" />
                                 </td>
                             </tr>
                         </table>

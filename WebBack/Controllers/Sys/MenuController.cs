@@ -34,19 +34,18 @@ namespace WebBack.Controllers.Sys
             return View();
         }
 
-        public CustomJsonResult GetInitDataByAddView()
+        public CustomJsonResult GetPermissions()
         {
-            return WebBackServiceFactory.SysMenu.GetInitDataByAddView(this.CurrentUserId);
+            return WebBackServiceFactory.SysMenu.GetPermissions(this.CurrentUserId);
         }
 
 
-        public CustomJsonResult GetDetails(string id)
+        public CustomJsonResult GetDetails(string menuId)
         {
-            DetailsViewModel model = new DetailsViewModel(id);
-            return Json(ResultType.Success, model, "");
+            return WebBackServiceFactory.SysMenu.GetDetails(this.CurrentUserId, menuId);
         }
 
-        public CustomJsonResult GetMenus(string pMenuId)
+        public CustomJsonResult GetAll(string pMenuId)
         {
             SysMenu[] arr;
             if (pMenuId == "0")
@@ -84,26 +83,9 @@ namespace WebBack.Controllers.Sys
         }
 
         [HttpPost]
-        public CustomJsonResult EditSort(List<SysMenu> sysMenu)
+        public CustomJsonResult EditSort(RopSysMenuEditSort rop)
         {
-
-            //for (int i = 0; i < Request.Form.Count; i++)
-            //{
-            //    string name = Request.Form.AllKeys[i].ToString();
-            //    if (name.IndexOf("menuId") > -1)
-            //    {
-            //        string id = name.Split('_')[1].Trim();
-            //        int priority = int.Parse(Request.Form[i].Trim());
-            //        SysMenu model = CurrentDb.SysMenu.Where(m => m.Id == id).FirstOrDefault();
-            //        if (model != null)
-            //        {
-            //            model.Priority = priority;
-            //            CurrentDb.SaveChanges();
-            //        }
-            //    }
-            //}
-            return Json(ResultType.Success, "保存成功");
-
+            return WebBackServiceFactory.SysMenu.EditSort(this.CurrentUserId, rop);
         }
 
     }

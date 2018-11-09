@@ -8,12 +8,12 @@
 
         var tab_Main;
         var tree_Roles;
-        var tree_RoleMenus;
+        var tree_Menus;
         var list_RoleUsers;
         var cur_RoleId;
         $(this).ready(function () {
 
-         
+
 
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { art.dialog.tips(msg); } });
             $("#txt_Name").formValidator({ onShow: "&nbsp;", onFocus: "", onCorrect: "&nbsp;" }).inputValidator({ min: 1, max: 20, empty: { leftEmpty: false, emptyError: "名称不能为空" }, onError: "名称不能超过20个字符" });
@@ -33,7 +33,7 @@
                             list_RoleUsers.loadData();
                             break;
                         case 2:
-                            loadRoleMenus()
+                            getDetails();
                             break;
                     }
                     return true;
@@ -100,13 +100,14 @@
 
                 art.dialog.confirm('确定要保存？', function () {
 
-                    var nodes = tree_RoleMenus.getCheckedNodes(true);
+                    var nodes = tree_Menus.getCheckedNodes(true);
                     var menuIds = [];
                     for (var key in nodes) {
                         menuIds.push(nodes[key].id);
                     }
                     $.lumos.postJson({
                         url: "/Sys/Role/SaveRoleMenu",
+                        isUseHandling: true,
                         data: { roleId: cur_RoleId, menuIds: menuIds },
                         success: function (d) {
                             $.lumos.tips(d.message);
@@ -169,11 +170,12 @@
 
         function initData() {
             loadRoles();
+            loadMenus();
         }
 
         function loadRoles() {
-            $.lumos.postJson({
-                url: "/Sys/Role/GetRoles",
+            $.lumos.getJson({
+                url: "/Sys/Role/GetAll",
                 success: function (d) {
                     if (d.result == $.lumos.resultType.success) {
                         var data = d.data;
@@ -199,6 +201,8 @@
                                     else {
                                         $(".a-btn-del").hide();
                                     }
+
+
                                     tab_Main.click();
                                 }
                             }
@@ -211,14 +215,14 @@
             });
         }
 
-        function loadRoleMenus() {
-            $.lumos.postJson({
-                url: "/Sys/Role/GetRoleMenus",
-                data: { roleId: cur_RoleId },
+        function loadMenus() {
+            $.lumos.getJson({
+                url: "/Sys/Menu/GetAll",
+                urlParams: { pMenuId: "0" },
                 success: function (d) {
 
                     var zNodes = d.data;
-                    tree_RoleMenus = $.fn.zTree.init($("#tree_RoleMenus"), {
+                    tree_Menus = $.fn.zTree.init($("#tree_Menus"), {
                         view: {
                             selectedMulti: false
                         },
@@ -242,6 +246,7 @@
         }
 
         function getDetails() {
+        
             $.lumos.getJson({
                 url: "/Sys/Role/GetDetails",
                 urlParams: { roleId: cur_RoleId },
@@ -251,6 +256,17 @@
                         var data = d.data;
                         $("#txt_Name").val(data.name);
                         $("#txt_Description").val(data.description);
+
+
+                        var checkedNodes = tree_Menus.getCheckedNodes();
+                        for (var k = 0; k < checkedNodes.length; k++) {
+                            tree_Menus.checkNode(checkedNodes[k]);
+                        }
+
+                        $.each(data.menuIds, function (i, n) {
+                            var node = tree_Menus.getNodeByParam("id", n);
+                            tree_Menus.checkNode(node);
+                        });
                     }
                     else {
                         $.lumos.tips(d.message);
@@ -412,7 +428,7 @@
                 </div>
                 <div class="subcontent">
                     <form id="form3" name="form3">
-                        <ul id="tree_RoleMenus" class="ztree"></ul>
+                        <ul id="tree_Menus" class="ztree"></ul>
                         <div class="f-btn-area" style="margin-bottom:5px; text-align:center">
                             <input type="button" class="btn btn-sure" id="btn_save_rolemenu" value="保存" style="margin-right:5px;" />
                         </div>

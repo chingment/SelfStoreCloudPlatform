@@ -36,12 +36,6 @@ namespace WebBack.Controllers.Sys
         #endregion
 
         #region 方法
-        public CustomJsonResult GetRoles()
-        {
-            object obj = Newtonsoft.Json.JsonConvert.DeserializeObject(ConvertToZTreeJson2(CurrentDb.SysRole.ToArray(), "id", "pid", "name", "role"));
-            return Json(ResultType.Success, obj);
-        }
-
 
         public CustomJsonResult GetAll()
         {

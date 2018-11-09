@@ -21,8 +21,12 @@
 
             $('#lbl_PMenuName').text(pMenuName);
 
+            loadPermissions();
+        }
+
+        function loadPermissions() {
             $.lumos.getJson({
-                url: "/Sys/Menu/GetInitDataByAddView",
+                url: "/Sys/Menu/GetPermissions",
                 isUseHandling: true,
                 success: function (d) {
                     if (d.result == $.lumos.resultType.success) {
@@ -79,6 +83,7 @@
 
             return false;
         }
+
     </script>
 }
 <form name="form1" method="post" action="#" id="form1">
