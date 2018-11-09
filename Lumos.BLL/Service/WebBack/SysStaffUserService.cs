@@ -10,29 +10,20 @@ namespace Lumos.BLL.Service.WebBack
 {
     public class SysStaffUserService : BaseProvider
     {
-        public CustomJsonResult GetInitDataByAddView(string pOperater)
+
+        public CustomJsonResult GetDetails(string pOperater, string userId)
         {
-            var ret = new RetSysStaffUserGetInitDataByAddView();
-
-            ret.Roles = ConvertToZTreeJson2(CurrentDb.SysRole.ToArray(), "id", "pid", "name", "role");
-
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
-        }
-
-        public CustomJsonResult GetInitDataByEditView(string pOperater, string userId)
-        {
-            var ret = new RetSysStaffUserGetInitDataByEditView();
+            var ret = new RetSysStaffUserGetDetails();
             var staffUser = CurrentDb.SysStaffUser.Where(m => m.Id == userId).FirstOrDefault();
             if (staffUser != null)
             {
-                var isCheckedIds = CurrentDb.SysUserRole.Where(x => x.UserId == userId).Select(x => x.RoleId);
-
-                ret.Roles = ConvertToZTreeJson2(CurrentDb.SysRole.ToArray(), "id", "pid", "name", "role", isCheckedIds.ToArray());
+                var roleIds = CurrentDb.SysUserRole.Where(x => x.UserId == userId).Select(x => x.RoleId).ToArray();
 
                 ret.UserName = staffUser.UserName ?? ""; ;
                 ret.FullName = staffUser.FullName ?? ""; ;
                 ret.Email = staffUser.Email ?? ""; ;
-                ret.PhoneNumber = staffUser.PhoneNumber ?? ""; ;
+                ret.PhoneNumber = staffUser.PhoneNumber ?? "";
+                ret.RoleIds = roleIds;
             }
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);

@@ -19,12 +19,19 @@
         });
 
         function initData() {
+
+            loadRoles();
+        }
+
+
+        function loadRoles() {
+
             $.lumos.getJson({
-                url: "/Sys/StaffUser/GetInitDataByAddView",
+                url: "/Sys/Role/GetAll",
                 isUseHandling: true,
                 success: function (d) {
                     if (d.result == $.lumos.resultType.success) {
-                        var roles = d.data.roles;
+                        var roles = d.data;
                         tree_Roles = $.fn.zTree.init($("#tree_Roles"), {
                             view: {
                                 selectedMulti: false
@@ -104,7 +111,7 @@
                     密码：
                 </td>
                 <td class="f-tb-c">
-                    <input id="txt_Password" class="input-control" autocomplete="off" type="password" style="width: 150px;"  />
+                    <input id="txt_Password" class="input-control" autocomplete="off" type="password" style="width: 150px;" />
                     <span id="txt_PasswordTip"></span>
                 </td>
             </tr>

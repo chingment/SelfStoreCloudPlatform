@@ -257,7 +257,7 @@ namespace Lumos.DAL.AuthorizeRelay
 
                 AddOperateHistory(pOperater, Enumeration.OperateType.New, pUser.Id, string.Format("新建用户{0}(ID:{1})", pUser.UserName, pUser.Id));
 
-                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "添加成功");
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "新建成功");
 
                 _db.SaveChanges();
                 ts.Complete();
@@ -316,9 +316,9 @@ namespace Lumos.DAL.AuthorizeRelay
                 }
 
 
-                AddOperateHistory(pOperater, Enumeration.OperateType.Update, pUser.Id, string.Format("修改用户{0}(ID:{1})", pUser.UserName, pUser.Id));
+                AddOperateHistory(pOperater, Enumeration.OperateType.Update, pUser.Id, string.Format("保存用户信息{0}(ID:{1})", pUser.UserName, pUser.Id));
 
-                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "修改成功");
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
 
                 _db.SaveChanges();
                 ts.Complete();

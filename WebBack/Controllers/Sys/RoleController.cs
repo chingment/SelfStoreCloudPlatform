@@ -42,6 +42,13 @@ namespace WebBack.Controllers.Sys
             return Json(ResultType.Success, obj);
         }
 
+
+        public CustomJsonResult GetAll()
+        {
+            object obj = Newtonsoft.Json.JsonConvert.DeserializeObject(ConvertToZTreeJson2(CurrentDb.SysRole.ToArray(), "id", "pid", "name", "role"));
+            return Json(ResultType.Success, obj);
+        }
+
         public CustomJsonResult GetDetails(string roleId)
         {
             return WebBackServiceFactory.SysRole.GetDetails(this.CurrentUserId, roleId);

@@ -81,14 +81,10 @@ namespace WebBack.Controllers.Sys
         }
 
 
-        public CustomJsonResult GetInitDataByAddView()
-        {
-            return WebBackServiceFactory.SysStaffUser.GetInitDataByAddView(this.CurrentUserId);
-        }
 
-        public CustomJsonResult GetInitDataByEditView(string userId)
+        public CustomJsonResult GetDetails(string userId)
         {
-            return WebBackServiceFactory.SysStaffUser.GetInitDataByEditView(this.CurrentUserId, userId);
+            return WebBackServiceFactory.SysStaffUser.GetDetails(this.CurrentUserId, userId);
         }
 
         [HttpPost]

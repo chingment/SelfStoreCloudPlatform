@@ -52,9 +52,9 @@ namespace WebBack.Controllers.Sys
         }
 
 
-        public CustomJsonResult GetInitDataByDetailsView(string userId)
+        public CustomJsonResult GetDetails(string userId)
         {
-            return WebBackServiceFactory.SysUser.GetInitDataByDetailsView(this.CurrentUserId, userId);
+            return WebBackServiceFactory.SysUser.GetDetails(this.CurrentUserId, userId);
         }
 
         #endregion

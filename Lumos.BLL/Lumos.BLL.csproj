@@ -191,9 +191,8 @@
     <Compile Include="Service\Term\TermServiceFactory.cs" />
     <Compile Include="Service\WebBack\RModels\RetSysMenuGetInitDataByAddView.cs" />
     <Compile Include="Service\WebBack\RModels\RetSysRoleGetDetails.cs" />
-    <Compile Include="Service\WebBack\RModels\RetSysStaffUserGetInitDataByAddView.cs" />
-    <Compile Include="Service\WebBack\RModels\RetSysStaffUserGetInitDataByEditView.cs" />
-    <Compile Include="Service\WebBack\RModels\RetSysUserGetInitDataByDetailsView.cs" />
+    <Compile Include="Service\WebBack\RModels\RetSysStaffUserGetDetails.cs" />
+    <Compile Include="Service\WebBack\RModels\RetSysUserGetDetails.cs" />
     <Compile Include="Service\WebBack\RModels\RopSysMenuAdd.cs" />
     <Compile Include="Service\WebBack\RModels\RopSysMenuEdit.cs" />
     <Compile Include="Service\WebBack\RModels\RopSysRoleAdd.cs" />

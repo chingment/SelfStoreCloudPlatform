@@ -31,21 +31,17 @@
         });
 
         function initData() {
+            loadRoles();
+            getDetails();
+        }
+
+        function loadRoles() {
             $.lumos.getJson({
-                url: "/Sys/StaffUser/GetInitDataByEditView",
-                urlParams: { userId: userId },
+                url: "/Sys/Role/GetAll",
                 isUseHandling: true,
                 success: function (d) {
                     if (d.result == $.lumos.resultType.success) {
-                        var data = d.data;
-
-                        $('#lbl_UserName').text(data.userName);
-                        $("#txt_FullName").val(data.fullName);
-                        $("#txt_Email").val(data.email);
-                        $("#txt_PhoneNumber").val(data.phoneNumber);
-
-                        var roles = data.roles;
-
+                        var roles = d.data;
                         tree_Roles = $.fn.zTree.init($("#tree_Roles"), {
                             view: {
                                 selectedMulti: false
@@ -60,6 +56,31 @@
                                 }
                             }
                         }, roles);
+                    }
+                }
+            });
+        }
+
+        function getDetails() {
+
+            $.lumos.getJson({
+                url: "/Sys/StaffUser/GetDetails",
+                urlParams: { userId: userId },
+                isUseHandling: true,
+                success: function (d) {
+                    if (d.result == $.lumos.resultType.success) {
+                        var data = d.data;
+
+                        $('#lbl_UserName').text(data.userName);
+                        $("#txt_FullName").val(data.fullName);
+                        $("#txt_Email").val(data.email);
+                        $("#txt_PhoneNumber").val(data.phoneNumber);
+
+                        $.each(data.roleIds, function (i, n) {
+                            var node = tree_Roles.getNodeByParam("id", n);
+                            tree_Roles.checkNode(node);
+                        });
+
                     }
                 }
             });

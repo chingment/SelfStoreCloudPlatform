@@ -8,9 +8,9 @@ namespace Lumos.BLL.Service.WebBack
 {
     public class SysUserService : BaseProvider
     {
-        public CustomJsonResult GetInitDataByDetailsView(string pOperater, string userId)
+        public CustomJsonResult GetDetails(string pOperater, string userId)
         {
-            var ret = new RetSysUserGetInitDataByDetailsView();
+            var ret = new RetSysUserGetDetails();
             var sysUser = CurrentDb.SysUser.Where(m => m.Id == userId).FirstOrDefault();
             if (sysUser != null)
             {
