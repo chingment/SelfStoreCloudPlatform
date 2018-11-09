@@ -33,11 +33,11 @@
             },
             operate: {
                 "edit": function (obj) {
-                    var url = '/Biz/Machine/Edit?id=' + obj.id;
+                    var url = '/Biz/Machine/Edit?machineId=' + obj.id;
                     var title = '修改信息';
                     art.dialog.open(url, {
                         id: "openDialog", title: title, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
-                            this.iframe.contentWindow.$('#form1').submit();
+                            this.iframe.contentWindow.edit();
                             return false;
                         }
                     });
@@ -52,7 +52,7 @@
             var title = '登记';
             art.dialog.open(url, {
                 id: "openDialog", title: title, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '确定', ok: function () {
-                    this.iframe.contentWindow.$('#form1').submit();
+                    this.iframe.contentWindow.add();
                     return false;
                 }
             });

@@ -1,70 +1,93 @@
-﻿@model WebBack.Models.Biz.Machine.BindViewModel
-@{
-    ViewBag.Title = "Edit";
+﻿@{
+    ViewBag.Title = "";
     Layout = "~/Views/Shared/_LayoutHomeDialog.cshtml";
 }
 
 @section scripts{
     <script type="text/javascript">
 
-
+        var machineId = $.lumos.getUrlParamValue("machineId");
+        var merchantId;
+        var isUse = false;
         $(this).ready(function () {
-            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); }, onSuccess: function () { return edit(); } });
+            initData();
         });
 
-        function edit() {
-            var merchantId = $('#Model_SysMerchantUser_Id').val();
-            if (merchantId == '') {
+        function initData() {
+            getDetails();
+        }
+
+        function bind() {
+
+            if ($.lumos.isNullOrEmpty(merchantId)) {
                 $.lumos.tips('请选择商户');
                 return;
             }
 
-            var len = $('#btn_select_mrchUser').length;
-            var opName = len > 0 ? "绑定" : "解绑";
-            art.dialog.confirm(
-'确定要' + opName + '？',
-function () {
+            var opName = (isUse == false ? "绑定" : "解绑");
 
-    var array = new Array();
-    var machineId = $('#Model_Machine_Id').val();
-    array.push({ name: "merchantId", value: merchantId });
-    array.push({ name: "machineId", value: machineId });
+            art.dialog.confirm('确定要' + opName + '？', function () {
 
-    $.lumos.postJson({
-        url: "/Biz/Machine/Bind",
-        data: array,
-        success: function (d) {
-            if (d.result == $.lumos.resultType.success) {
-                $.lumos.parentDialog.listTable.loadData();
-                $.lumos.tips(d.message, true);
-            }
-            else {
-                $.lumos.tips(d.message);
-            }
-
-        }
-    });
-});
+                $.lumos.postJson({
+                    url: "/Biz/Machine/Bind",
+                    isUseHandling: true,
+                    data: { machineId: machineId, merchantId: merchantId },
+                    success: function (d) {
+                        if (d.result == $.lumos.resultType.success) {
+                            $.lumos.parentDialog.listTable.loadData();
+                            $.lumos.tips(d.message, true);
+                        }
+                        else {
+                            $.lumos.tips(d.message);
+                        }
+                    }
+                });
+            });
             return false;
         }
 
         function getMerchantDetails(obj) {
-
-            $('#Model_SysMerchantUser_Id').val(obj.id);
-            $('#lbl_SysMerchantUser_MerchantName').text(obj.merchantName);
-            $('#lbl_SysMerchantUser_ContactName').text(obj.contactName);
-            $('#lbl_SysMerchantUser_ContactPhone').text(obj.contactPhone);
-            $('#lbl_SysMerchantUser_ContactAddress').text(obj.contactAddress);
+            merchantId = obj.id;
+            $('#lbl_Merchant_Name').text(obj.merchantName);
+            $('#lbl_Merchant_ContactName').text(obj.contactName);
+            $('#lbl_Merchant_ContactPhone').text(obj.contactPhone);
+            $('#lbl_Merchant_ContactAddress').text(obj.contactAddress);
         }
 
+        function getDetails() {
+
+            $.lumos.getJson({
+                url: "/Biz/Machine/GetDetails",
+                urlParams: { machineId: machineId },
+                isUseHandling: true,
+                success: function (d) {
+                    if (d.result == $.lumos.resultType.success) {
+                        var data = d.data;
+                        $('#lbl_DeviceId').text(data.deviceId);
+                        $("#lbl_MacAddress").text(data.macAddress);
+                        $("#lbl_Name").text(data.name);
+
+                        isUse = data.isUse;
+
+                        if (!data.isUse) {
+                            $('#btn_select_mrchUser').show();
+                        }
+
+                        merchantId = data.merchant.merchantId;
+
+                        $("#lbl_Merchant_Name").text(data.merchant.name);
+                        $("#lbl_Merchant_ContactPhone").text(data.merchant.contactPhone);
+                        $("#lbl_Merchant_ContactName").text(data.merchant.contactName);
+                        $("#lbl_Merchant_ContactAddress").text(data.merchant.contactAddress);
+                    }
+                }
+            });
+        }
         //-->
     </script>
 }
 
 <form id="form1">
-
-    <input name="Model.Machine.Id" id="Model_Machine_Id" type="hidden" value="@Model.Machine.Id" />
-    <input name="Model.SysMerchantUser.Id" id="Model_SysMerchantUser_Id" type="hidden" value="@Model.SysMerchantUser.Id" />
     <div class="gbr-row-title clearfix">
         <div class="pull-left">
             <h5>机器信息</h5>
@@ -76,13 +99,13 @@ function () {
     <table class="f-tb" cellpadding="0" cellspacing="1" style="width:100%">
         <tr>
             <td class="f-tb-t">设备ID：</td>
-            <td class="f-tb-c">@Model.Machine.DeviceId</td>
+            <td class="f-tb-c"> <span id="lbl_DeviceId"></span> </td>
             <td class="f-tb-t">Mac地址：</td>
-            <td class="f-tb-c">@Model.Machine.MacAddress</td>
+            <td class="f-tb-c"><span id="lbl_MacAddress"></span></td>
         </tr>
         <tr>
             <td class="f-tb-t">名称：</td>
-            <td class="f-tb-c">@Model.Machine.Name</td>
+            <td class="f-tb-c"><span id="lbl_Name"></span></td>
             <td class="f-tb-t"></td>
             <td class="f-tb-c"></td>
         </tr>
@@ -103,13 +126,10 @@ function () {
             </td>
             <td class="f-tb-c">
 
-                <span id="lbl_SysMerchantUser_Name">@Model.SysMerchantUser.MerchantName</span>
+                <span id="lbl_Merchant_Name"></span>
 
+                <input type="button" class="btn" id="btn_select_mrchUser" value="选择" dialog-title="选择" style="display:none" />
 
-                @if (!Model.Machine.IsUse)
-                {
-                    <span> <input type="button" class="btn" id="btn_select_mrchUser" value="选择" dialog-title="选择" /></span>
-                }
             </td>
         </tr>
         <tr>
@@ -117,7 +137,7 @@ function () {
                 联系人：
             </td>
             <td class="f-tb-c">
-                <span id="lbl_SysMerchantUser_ContactName"> @Model.SysMerchantUser.ContactName</span>
+                <span id="lbl_Merchant_ContactName"></span>
             </td>
         </tr>
         <tr>
@@ -125,7 +145,7 @@ function () {
                 联系电话：
             </td>
             <td class="f-tb-c">
-                <span id="lbl_SysMerchantUser_ContactPhone">   @Model.SysMerchantUser.ContactPhone</span>
+                <span id="lbl_Merchant_ContactPhone"></span>
             </td>
         </tr>
         <tr>
@@ -133,7 +153,7 @@ function () {
                 联系地址：
             </td>
             <td class="f-tb-c">
-                <span id="lbl_SysMerchantUser_ContactAddress">   @Model.SysMerchantUser.ContactAddress</span>
+                <span id="lbl_Merchant_ContactAddress"></span>
             </td>
         </tr>
     </table>

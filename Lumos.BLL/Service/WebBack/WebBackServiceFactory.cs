@@ -39,5 +39,14 @@ namespace Lumos.BLL.Service.WebBack
                 return new SysMenuService();
             }
         }
+
+        public static ManchineService Manchine
+        {
+            get
+            {
+                return new ManchineService();
+            }
+        }
+
     }
 }

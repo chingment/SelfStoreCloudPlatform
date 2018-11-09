@@ -13,6 +13,7 @@ using System.Data;
 using System.Transactions;
 using WebBack.Models.Biz.Machine;
 using Lumos;
+using Lumos.BLL.Service.WebBack;
 
 namespace WebBack.Controllers.Biz
 {
@@ -34,17 +35,19 @@ namespace WebBack.Controllers.Biz
             return View();
         }
 
-        public ViewResult Edit(string id)
+        public ViewResult Edit()
         {
-            var model = new EditViewModel(id);
-            return View(model);
+            return View();
         }
 
-        public ViewResult Bind(string id)
+        public ViewResult Bind()
         {
-            var model = new BindViewModel(id);
+            return View();
+        }
 
-            return View(model);
+        public CustomJsonResult GetDetails(string machineId)
+        {
+            return WebBackServiceFactory.Manchine.GetDetails(this.CurrentUserId, machineId);
         }
 
         public CustomJsonResult GetList(SearchCondition condition)
@@ -105,17 +108,16 @@ namespace WebBack.Controllers.Biz
         }
 
         [HttpPost]
-        public CustomJsonResult Add(AddViewModel model)
+        public CustomJsonResult Add(RopMachineAdd rop)
         {
-            return BizFactory.Machine.Add(this.CurrentUserId, model.Machine);
+            return WebBackServiceFactory.Manchine.Add(this.CurrentUserId, rop);
         }
-
 
         [HttpPost]
 
-        public CustomJsonResult Edit(EditViewModel model)
+        public CustomJsonResult Edit(RopMachineEdit rop)
         {
-            return BizFactory.Machine.Edit(this.CurrentUserId, model.Machine);
+            return WebBackServiceFactory.Manchine.Edit(this.CurrentUserId, rop);
         }
 
 
@@ -131,6 +133,7 @@ namespace WebBack.Controllers.Biz
             {
                 return BizFactory.MerchantMachine.BindOn(this.CurrentUserId, merchantId, machineId);
             }
+
         }
     }
 }
