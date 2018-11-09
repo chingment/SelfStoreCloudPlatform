@@ -201,8 +201,8 @@ namespace System.Web
             StringBuilder sb = new StringBuilder();
 
             string id = name.Replace('.', '_');
-            sb.Append("<select multiple='multiple' id=\"" + id + "\" data-placeholder=\"请选择\" name =\"" + name + "\" class=\"chosen-select\" style=\"width: 325px;\" >");
-            sb.Append("<option value=\"\" selected ></option>");
+            sb.Append("<select multiple='multiple' id=\"" + id + "\" name=\"" + name + "\" data-placeholder=\"请选择\" class=\"chosen-select\"  style=\"width: 325px;\" >");
+
 
             var p_category = productKind.Where(m => m.PId == GuidUtil.Empty()).ToList();
 

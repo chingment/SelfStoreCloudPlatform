@@ -1,5 +1,4 @@
-﻿@model WebMerch.Models.ProductSku.AddViewModel
-@{
+﻿@{
     ViewBag.Title = "Add";
     Layout = "~/Views/Shared/_LayoutHomeDialog.cshtml";
 }
@@ -15,103 +14,45 @@
     <script src="~/Scripts/ckeditor/config.js"></script>
     <script type="text/javascript">
 
+        var kindIds = [];
+        var recipientModeIds = [];
         $(document).ready(function () {
 
-            CKEDITOR.replace('Model_ProductSku_DetailsDes', { height: '180px' });
+            CKEDITOR.replace('txt_DetailsDes', { height: '180px' });
 
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { art.dialog.tips(msg); } });
-            $("#Model_ProductSku_Name").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "商品名称不能为空,且不超过50个字符" });
-            $("#Model_ProductSku_KindIds").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择所属模块" });
-            //$("#Model_ProductSku_Subjects").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择所属栏目" });
-            $("#Model_ProductSku_RecipientModeIds").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择收货模式" });
-            $("#Model_ProductSku_ShowPrice").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "市场价不能为空,且不超过50个字符" });
-            $("#Model_ProductSku_ShowPrice").decimalInput(2);
-            $("#Model_ProductSku_SalePrice").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "售价不能为空,且不超过50个字符" });
-            $("#Model_ProductSku_SalePrice").decimalInput(2);
-            $("#Model_DispalyImgs_ImgUrl_0").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请上传商品封面图片" });
-            $("#Model_ProductSku_BriefInfo").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 100, onError: "商品简短描述不能为空,且不超过100个字符" });
-
-            $("#ddl_ProductKinds").live("change", function () {
-
-                var v = "";
-
-                var sels = $(this).find("option:selected");
-
-                for (var i = 0; i < sels.length; i++) {
-                    var _v = $(sels[i]).val();
-                    _v = _v.replace(/&nbsp;/ig, "");
-                    _v = $.trim(_v);
-                    v += _v + ",";
-                }
-
-                if (v != "") {
-                    v = v.substring(0, v.length - 1);
-                }
-
-                $("#Model_ProductSku_KindIds").val(v);
-            });
-
-            $("#ddl_ProductSubjects").live("change", function () {
-
-                var v = "";
-                var sels = $(this).find("option:selected");
-
-                for (var i = 0; i < sels.length; i++) {
-                    var _v = $(sels[i]).val();
-                    _v = _v.replace(/&nbsp;/ig, "");
-                    _v = $.trim(_v);
-                    v += _v + ",";
-                }
-
-                if (v != "") {
-                    v = v.substring(0, v.length - 1);
-                }
-
-                $("#Model_ProductSku_SubjectIds").val(v);
-            });
-
-            $("#ddl_RecipientModes").live("change", function () {
-
-                var v = "";
-                var sels = $(this).find("option:selected");
-
-                for (var i = 0; i < sels.length; i++) {
-                    var _v = $(sels[i]).val();
-                    _v = _v.replace(/&nbsp;/ig, "");
-                    _v = $.trim(_v);
-                    v += _v + ",";
-                }
-
-                if (v != "") {
-                    v = v.substring(0, v.length - 1);
-                }
-
-                $("#Model_ProductSku_RecipientModeIds").val(v);
-            });
+            $("#txt_Name").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "商品名称不能为空,且不超过50个字符" });
+            $("#sel_Kinds").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 3, onError: "请选择所属模块" });
+            $("#sel_Subjects").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择所属栏目" });
+            $("#sel_RecipientModes").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择收货模式" });
+            $("#txt_ShowPrice").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "市场价不能为空,且不超过50个字符" });
+            $("#txt_ShowPrice").decimalInput(2);
+            $("#txt_SalePrice").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "售价不能为空,且不超过50个字符" });
+            $("#txt_SalePrice").decimalInput(2);
+            $("#dispalyImgs_ImgUrl_0").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请上传商品封面图片" });
+            $("#txt_BriefInfo").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 100, onError: "商品简短描述不能为空,且不超过100个字符" });
 
         });
 
         function add() {
-
-
-            var form = $("#form1");
+           
             var isValid = $.formValidator.pageIsValid();
             if (isValid) {
 
-                var name = $('#Model_ProductSku_Name').val();
-                var kindIds = $('#ddl_ProductKinds').val2Arr();
-                var subjectIds = $('#ddl_ProductSubjects').val();
-                var recipientModeIds = $('#ddl_RecipientModes').val();
-                var showPrice = $('#Model_ProductSku_ShowPrice').val();
-                var salePrice = $('#Model_ProductSku_SalePrice').val();
-                var briefInfo = $('#Model_ProductSku_BriefInfo').val();
-                var detailsDes = CKEDITOR.instances.Model_ProductSku_DetailsDes.getData();
+                var name = $('#txt_Name').val();
+                var kindIds = $('#sel_Kinds').val2Arr();
+                var subjectIds = $('#sel_Subjects').val2Arr();
+                var recipientModeIds = $('#sel_RecipientModes').val2Arr();
+                var showPrice = $('#txt_ShowPrice').val();
+                var salePrice = $('#txt_SalePrice').val();
+                var briefInfo = $('#txt_BriefInfo').val();
+                var detailsDes = CKEDITOR.instances.txt_DetailsDes.getData();
                 var dispalyImgUrls = $('#list_GoodsPic').val2ImgArr();
 
                 art.dialog.confirm(
                '确定要提交？',
                 function () {
-                    var l_Data = $(form).serializeArray();
+
                     $.lumos.postJson({
                         isUseHandling: true,
                         url: "/ProductSku/Add",
@@ -151,7 +92,7 @@
                     商品名称<span class="required-symbol">*</span>：
                 </td>
                 <td class="f-tb-c">
-                    <input id="Model_ProductSku_Name" name="Model.ProductSku.Name" type="text" class="input-control" value="" style="width:300px;" autocomplete="off" />
+                    <input id="txt_Name" type="text" class="input-control" value="" style="width:300px;" autocomplete="off" />
                 </td>
 
                 <td class="f-tb-c" rowspan="6">
@@ -166,11 +107,11 @@
                             <td>
                                 <div>
                                     <span class="uploadimgbox" upload="true">
-                                        <span class="uploadimg" inputname="Model.DispalyImgs[0].ImgUrl" path="product">
+                                        <span class="uploadimg" inputname="dispalyImgs_ImgUrl_0" path="product">
                                             <img src="~/Static/default1.jpg" />
                                             <span class="uploadimg-click" style="">上传</span>
-                                            <input id="Model_DispalyImgs_ImgUrl_0" class="imgUrl" value="" name="Model.DispalyImgs[0].ImgUrl" type="hidden" />
-                                            <input id="Model_DispalyImgs_IsMain_0" class="isMain" value="true" name="Model.DispalyImgs[0].IsMain" type="hidden" />
+                                            <input id="dispalyImgs_ImgUrl_0" class="imgUrl" value="" name="dispalyImgs_ImgUrl_0" type="hidden" />
+                                            <input id="dispalyImgs_IsMain_0" class="isMain" value="true" name="dispalyImgs_IsMain_0" type="hidden" />
                                         </span>
                                         <span class="uploadimg-view" style="">预览</span>
                                     </span>
@@ -245,19 +186,14 @@
                                 </td>*@
                         </tr>
                     </table>
-
-
-
                 </td>
-
             </tr>
             <tr>
                 <td class="f-tb-t">
                     所属模块<span class="required-symbol">*</span>：
                 </td>
                 <td class="f-tb-c">
-                    <input id="Model_ProductSku_KindIds" name="Model.ProductSku.KindIds" type="hidden" value="" />
-                    @Html.initProductKind("ddl.ProductKinds")
+                    @Html.initProductKind("sel.Kinds")
                 </td>
             </tr>
             <tr>
@@ -265,15 +201,13 @@
                     所属栏目：
                 </td>
                 <td class="f-tb-c">
-                    <input id="Model_ProductSku_SubjectIds" name="Model.ProductSku.SubjectIds" type="hidden" value="" />
-                    @Html.initProductSubject("ddl.ProductSubjects")
+                    @Html.initProductSubject("sel.Subjects")
                 </td>
             </tr>
             <tr>
                 <td class="f-tb-t" style="width:50px">收货模式<span class="required-symbol">*</span>：</td>
                 <td class="f-tb-c">
-                    <input id="Model_ProductSku_RecipientModeIds" name="Model.ProductSku.RecipientModeIds" type="hidden" value="" />
-                    @Html.initRecipientMode("ddl.RecipientModes")
+                    @Html.initRecipientMode("sel.RecipientModes")
                 </td>
             </tr>
             <tr>
@@ -281,7 +215,7 @@
                     展示价<span class="required-symbol">*</span>：
                 </td>
                 <td class="f-tb-c">
-                    <input id="Model_ProductSku_ShowPrice" name="Model.ProductSku.ShowPrice" type="text" class="input-control" value="" style="width:80px;" autocomplete="off" />
+                    <input id="txt_ShowPrice" type="text" class="input-control" value="" style="width:80px;" autocomplete="off" />
                 </td>
             </tr>
             <tr>
@@ -289,7 +223,7 @@
                     销售价<span class="required-symbol">*</span>：
                 </td>
                 <td class="f-tb-c">
-                    <input id="Model_ProductSku_SalePrice" name="Model.ProductSku.SalePrice" type="text" class="input-control" value="" style="width:80px;" autocomplete="off" />
+                    <input id="txt_SalePrice" type="text" class="input-control" value="" style="width:80px;" autocomplete="off" />
                 </td>
             </tr>
             <tr>
@@ -297,7 +231,7 @@
                     简短描述<span class="required-symbol">*</span>：
                 </td>
                 <td class="f-tb-c" colspan="2">
-                    <input id="Model_ProductSku_BriefInfo" name="Model.ProductSku.BriefInfo" type="text" class="input-control" value="" style="width:300px;" autocomplete="off"  />
+                    <input id="txt_BriefInfo" n type="text" class="input-control" value="" style="width:300px;" autocomplete="off" />
                 </td>
             </tr>
             <tr>
@@ -305,7 +239,7 @@
                     商品详情：
                 </td>
                 <td class="f-tb-c" colspan="2">
-                    <textarea id="Model_ProductSku_DetailsDes" name="Model.ProductSku.DetailsDes" class="ckeditor"></textarea>
+                    <textarea id="txt_DetailsDes" class="ckeditor"></textarea>
                 </td>
             </tr>
         </table>

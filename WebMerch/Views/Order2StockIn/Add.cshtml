@@ -90,6 +90,18 @@
 
             });
 
+            $('.deleteRowSku').live("click", function () {
+                var _this = $(this);
+                var rows = $('#list_table_skus tbody tr');
+                if (rows.length <= 1) {
+                    $.lumos.tips("最后一行，不能删除");
+                    return;
+                }
+                art.dialog.confirm('确定要删除提交？', function () {
+                    $(_this).parent().parent().remove();
+                });
+
+            });
         });
 
         function add() {
@@ -176,12 +188,14 @@
             l_StrRows += "<td><input type=\"text\" name=\"quantity\" style=\"width:80%;\" value=\"\" autocomplete=\"off\"  onkeyup=\"clearNoNum2(this)\"   /></td>";
             l_StrRows += "<td><input type=\"text\" name=\"amount\" style=\"width:80%;\" value=\"\" autocomplete=\"off\" onkeyup=\"clearNoNum(this)\" /></td>";
             l_StrRows += "<td class=\"operation\">";
+            l_StrRows += " <a href=\"javascript:void(0)\"  class=\"a-btn deleteRowSku\" >删除</a>";
             l_StrRows += "</td>";
             l_StrRows += "</tr>";
 
-
             $('#list_table_skus tbody').append(l_StrRows);
         }
+
+
 
         function clearNoNum2(obj) {
             obj.value = obj.value.replace(/[^1-9]/g, '');  //清除“数字”和“.”以外的字符

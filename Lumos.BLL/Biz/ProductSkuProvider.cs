@@ -120,7 +120,7 @@ namespace Lumos.BLL
         {
             CustomJsonResult result = new CustomJsonResult();
 
-            if (string.IsNullOrEmpty(rop.Id))
+            if (string.IsNullOrEmpty(rop.ProductSkuId))
             {
                 return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "商品Id不能为空");
             }
@@ -147,7 +147,7 @@ namespace Lumos.BLL
 
             using (TransactionScope ts = new TransactionScope())
             {
-                var productSku = CurrentDb.ProductSku.Where(m => m.Id == rop.Id).FirstOrDefault();
+                var productSku = CurrentDb.ProductSku.Where(m => m.Id == rop.ProductSkuId).FirstOrDefault();
 
                 productSku.Name = rop.Name;
 
@@ -167,7 +167,7 @@ namespace Lumos.BLL
                 productSku.RecipientModeIds = string.Join(",", recipientModes.Select(m => m.Id).ToArray());
                 productSku.RecipientModeNames = string.Join(",", recipientModes.Select(m => m.Name).ToArray());
 
-                var productKindSkus = CurrentDb.ProductKindSku.Where(m => m.ProductSkuId == rop.Id).ToList();
+                var productKindSkus = CurrentDb.ProductKindSku.Where(m => m.ProductSkuId == rop.ProductSkuId).ToList();
 
                 foreach (var item in productKindSkus)
                 {
@@ -198,20 +198,23 @@ namespace Lumos.BLL
                 }
 
 
-                var productSubjects = CurrentDb.ProductSubject.Where(m => rop.SubjectIds.Contains(m.Id)).ToList();
-
-                productSku.SubjectIds = string.Join(",", productSubjects.Select(m => m.Id).ToArray());
-                productSku.SubjectNames = string.Join(",", productSubjects.Select(m => m.Name).ToArray());
-
-                foreach (var productSubject in productSubjects)
+                if (rop.SubjectIds != null)
                 {
-                    var productSubjectSku = new ProductSubjectSku();
-                    productSubjectSku.Id = GuidUtil.New();
-                    productSubjectSku.ProductSubjectId = productSubject.Id;
-                    productSubjectSku.ProductSkuId = productSku.Id;
-                    productSubjectSku.Creator = pOperater;
-                    productSubjectSku.CreateTime = this.DateTime;
-                    CurrentDb.ProductSubjectSku.Add(productSubjectSku);
+                    var productSubjects = CurrentDb.ProductSubject.Where(m => rop.SubjectIds.Contains(m.Id)).ToList();
+
+                    productSku.SubjectIds = string.Join(",", productSubjects.Select(m => m.Id).ToArray());
+                    productSku.SubjectNames = string.Join(",", productSubjects.Select(m => m.Name).ToArray());
+
+                    foreach (var productSubject in productSubjects)
+                    {
+                        var productSubjectSku = new ProductSubjectSku();
+                        productSubjectSku.Id = GuidUtil.New();
+                        productSubjectSku.ProductSubjectId = productSubject.Id;
+                        productSubjectSku.ProductSkuId = productSku.Id;
+                        productSubjectSku.Creator = pOperater;
+                        productSubjectSku.CreateTime = this.DateTime;
+                        CurrentDb.ProductSubjectSku.Add(productSubjectSku);
+                    }
                 }
 
                 CurrentDb.SaveChanges(true);
@@ -223,17 +226,17 @@ namespace Lumos.BLL
             return result;
         }
 
-        public CustomJsonResult EditBySalePrice(string pOperater, string pStoreId, string pProductSkuId, decimal pProductSkuSalePrice)
+        public CustomJsonResult EditBySalePrice(string pOperater, string pMerchantId, RopProductSkuEditSalePrice rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 
             using (TransactionScope ts = new TransactionScope())
             {
-                var lMachineStocks = CurrentDb.StoreSellStock.Where(m => m.StoreId == pStoreId && m.ProductSkuId == pProductSkuId).ToList();
+                var lMachineStocks = CurrentDb.StoreSellStock.Where(m => m.MerchantId == pMerchantId && m.StoreId == rop.StoreId && m.ProductSkuId == rop.ProductSkuId).ToList();
 
                 foreach (var machineStock in lMachineStocks)
                 {
-                    machineStock.SalePrice = pProductSkuSalePrice;
+                    machineStock.SalePrice = rop.SalePrice;
                     machineStock.Mender = pOperater;
                     machineStock.MendTime = this.DateTime;
                 }

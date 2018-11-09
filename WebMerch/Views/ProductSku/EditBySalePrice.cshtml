@@ -52,31 +52,21 @@
                             id: 'EF893L',
                             lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
 
-                                art.dialog.confirm(
-        '确定要保存？',
-         function () {
-             var l_Data = $("form2").serializeArray();
-
-             var salePrice = $('#txt_SalePrice').val();
-             l_Data.push({ name: "storeId", value: obj.storeId });
-             l_Data.push({ name: "skuId", value: obj.productSkuId });
-             l_Data.push({ name: "salePrice", value: salePrice });
-
-             $.lumos.postJson({
-                 isUseHandling: true,
-                 url: "/ProductSku/EditBySalePrice",
-                 data: l_Data,
-                 success: function (d) {
-                     $.lumos.tips(d.message);
-                     if (d.result == $.lumos.resultType.success) {
-                         listTable.loadData("c");
-                         dialog.close();
-                     }
-                 }
-             });
-         });
-
-
+                                art.dialog.confirm('确定要保存？', function () {
+                                    var salePrice = $('#txt_SalePrice').val();
+                                    $.lumos.postJson({
+                                        isUseHandling: true,
+                                        url: "/ProductSku/EditBySalePrice",
+                                        data: { storeId: obj.storeId, productSkuId: obj.productSkuId, salePrice: salePrice },
+                                        success: function (d) {
+                                            $.lumos.tips(d.message);
+                                            if (d.result == $.lumos.resultType.success) {
+                                                listTable.loadData("c");
+                                                dialog.close();
+                                            }
+                                        }
+                                    });
+                                });
 
                                 return false;
                             }
@@ -95,7 +85,7 @@
 
 <div class="gbr-row">
     <form id="form1" name="form1" method="post">
-        <input type="hidden" name="Id" value="@Request.QueryString["id"]" />
+        <input type="hidden" name="Id" value="@Request.QueryString["productSkuId"]" />
         <div class="list">
             <table id="list_table" class="list-tb" cellpadding="0" cellspacing="0">
                 <thead>

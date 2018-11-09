@@ -110,6 +110,7 @@
     <Compile Include="Biz\RModels\RopOrderReserve.cs" />
     <Compile Include="Biz\RModels\RopProducSkuAdd.cs" />
     <Compile Include="Biz\RModels\RopProducSkuEdit.cs" />
+    <Compile Include="Biz\RModels\RopProductSkuEditSalePrice.cs" />
     <Compile Include="Biz\RModels\RopReplenishStaffBindMobile.cs" />
     <Compile Include="Biz\RModels\RopStoreAdd.cs" />
     <Compile Include="Biz\RModels\RopStoreEdit.cs" />

@@ -19,16 +19,13 @@ namespace WebMerch.Controllers
         }
         public ViewResult Add()
         {
-            AddViewModel model = new AddViewModel();
-            model.LoadData();
-
-            return View(model);
+            return View();
         }
 
-        public ViewResult Edit(string id)
+        public ViewResult Edit(string productSkuId)
         {
             EditViewModel model = new EditViewModel();
-            model.LoadData(id);
+            model.LoadData(productSkuId);
 
             return View(model);
         }
@@ -145,9 +142,9 @@ namespace WebMerch.Controllers
         }
 
         [HttpPost]
-        public CustomJsonResult EditBySalePrice(string storeId, string skuId, decimal salePrice)
+        public CustomJsonResult EditBySalePrice(RopProductSkuEditSalePrice rop)
         {
-            return BizFactory.ProductSku.EditBySalePrice(this.CurrentUserId, storeId, skuId, salePrice);
+            return BizFactory.ProductSku.EditBySalePrice(this.CurrentUserId, this.CurrentUserId, rop);
         }
 
         [HttpPost]

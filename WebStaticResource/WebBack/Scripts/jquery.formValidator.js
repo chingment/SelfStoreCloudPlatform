@@ -372,7 +372,7 @@ function trimLeft(s) {
                     len = elem.options ? elem.options.selectedIndex : -1;
                     break;
                 case "select-multiple":
-                    len = $("select[name=" + elem.name + "] option:selected").length;
+                    len = $("select[name='" + elem.name + "'] option:selected").length;
                     break;
             }
             return len;
