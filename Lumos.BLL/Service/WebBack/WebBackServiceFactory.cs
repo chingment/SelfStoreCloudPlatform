@@ -48,5 +48,13 @@ namespace Lumos.BLL.Service.WebBack
             }
         }
 
+        public static MerchantService Merchant
+        {
+            get
+            {
+                return new MerchantService();
+            }
+        }
+
     }
 }

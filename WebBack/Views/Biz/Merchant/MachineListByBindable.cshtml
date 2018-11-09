@@ -6,7 +6,7 @@
 <script type="text/javascript">
 
     var listTable;
-
+    var merchantId = $.lumos.getUrlParamValue("merchantId");
     $(document).ready(function () {
 
 
@@ -35,34 +35,23 @@
                 {
                     "bindon": function (obj) {
 
-                        art.dialog.confirm(
-     "确定要绑定？",
-         function () {
-             var array = new Array();
-             array.push({ name: "merchantId", value: $.lumos.getUrlParamValue("merchantId") });
-             array.push({ name: "machineId", value: obj.id });
-
-             $.lumos.postJson({
-                 isUseHandling: true,
-                 url: "/Biz/Merchant/BindOnMachine",
-                 data: array,
-                 success: function (d) {
-                     $.lumos.parentDialog.list_machine.loadData(0);
-                     art.dialog.close();
-                 }
-             });
-         });
-
+                        art.dialog.confirm("确定要绑定？", function () {
+                            $.lumos.postJson({
+                                isUseHandling: true,
+                                url: "/Biz/Merchant/BindOnMachine",
+                                data: { merchantId: merchantId, machineId: obj.id },
+                                success: function (d) {
+                                    $.lumos.parentDialog.list_machine.loadData(0);
+                                    art.dialog.close();
+                                }
+                            });
+                        });
 
                     }
                 }
         });
 
     });
-
-
-
-
 </script>
 
 <form id="form1" name="form1">

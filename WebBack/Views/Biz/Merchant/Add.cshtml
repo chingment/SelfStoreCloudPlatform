@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Add";
+    ViewBag.Title = "";
     Layout = "~/Views/Shared/_LayoutHomeDialog.cshtml";
 }
 
@@ -7,39 +7,47 @@
 @section scripts{
     <script type="text/javascript">
 
-
         $(this).ready(function () {
-            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); }, onSuccess: function () { return add(); } });
-
-            $("#Model_SysMerchantUser_UserName").formValidator().regexValidator({ min: 3, max: 20, regExp: "^[0-9a-zA-Z_]{3,20}$", onError: "账号由3到20个数字、英文字母或下划线组成" });
-            $("#Model_SysMerchantUser_Password").formValidator().regexValidator({ regExp: regexEnum.password, onError: "密码由6到20个数字、英文字母或下划线组成" });
-            $("#Model_SysMerchantUser_MerchantName").formValidator().inputValidator({ min: 1, max: 100, onError: "商户名称不能为空，且不超过100个字符" });
-            $("#Model_SysMerchantUser_ContactName").formValidator().inputValidator({ min: 1, max: 100, onError: "联系人不能为空，且不超过100个字符" });
-            $("#Model_SysMerchantUser_ContactPhone").formValidator().inputValidator({ min: 1, max: 100, onError: "联系电话不能为空，且不超过100个字符" });
+            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
+            $("#txt_UserName").formValidator().regexValidator({ min: 3, max: 20, regExp: "^[0-9a-zA-Z_]{3,20}$", onError: "账号由3到20个数字、英文字母或下划线组成" });
+            $("#txt_Password").formValidator().regexValidator({ regExp: regexEnum.password, onError: "密码由6到20个数字、英文字母或下划线组成" });
+            $("#txt_MerchantName").formValidator().inputValidator({ min: 1, max: 100, onError: "商户名称不能为空，且不超过100个字符" });
+            $("#txt_ContactName").formValidator().inputValidator({ min: 1, max: 100, onError: "联系人不能为空，且不超过100个字符" });
+            $("#txt_ContactPhone").formValidator().inputValidator({ min: 1, max: 100, onError: "联系电话不能为空，且不超过100个字符" });
 
         });
 
         function add() {
-            art.dialog.confirm(
-'确定要新建？',
-function () {
-    var postData = $("#form1").serializeArray();
 
-    $.lumos.postJson({
-        url: "/Biz/Merchant/Add",
-        data: postData,
-        success: function (d) {
-            if (d.result == $.lumos.resultType.success) {
-                $.lumos.parentDialog.listTable.loadData();
-                $.lumos.tips(d.message, true);
-            }
-            else {
-                $.lumos.tips(d.message);
-            }
+            var isValid = $.formValidator.pageIsValid();
+            if (isValid) {
+                art.dialog.confirm('确定要新建？', function () {
 
-        }
-    });
-});
+                    var userName = $("#txt_UserName").val();
+                    var password = $("#txt_Password").val();
+                    var merchantName = $("#txt_MerchantName").val();
+                    var contactName = $("#txt_ContactName").val();
+                    var contactPhone = $("#txt_ContactPhone").val();
+                    var contactAddress = $("#txt_ContactAddress").val();
+
+                    $.lumos.postJson({
+                        url: "/Biz/Merchant/Add",
+                        data: { userName: userName, password: password, merchantName: merchantName, contactName: contactName, contactPhone: contactPhone, contactAddress: contactAddress },
+                        isUseHandling: true,
+                        success: function (d) {
+                            if (d.result == $.lumos.resultType.success) {
+                                $.lumos.parentDialog.listTable.loadData();
+                                $.lumos.tips(d.message, true);
+                            }
+                            else {
+                                $.lumos.tips(d.message);
+                            }
+
+                        }
+                    });
+                });
+
+            }
             return false;
         }
 
@@ -64,8 +72,7 @@ function () {
                 <span class="required-symbol">*</span>账号：
             </td>
             <td class="f-tb-c">
-                M
-                <input name="Model.SysMerchantUser.UserName" class="input-control" autocomplete="off" type="text" id="Model_SysMerchantUser_UserName" style="width: 128px;" clear="on" />
+                M <input class="input-control" autocomplete="off" type="text" id="txt_UserName" style="width: 128px;" clear="on" />
             </td>
         </tr>
         <tr>
@@ -73,7 +80,7 @@ function () {
                 <span class="required-symbol">*</span>密码：
             </td>
             <td class="f-tb-c">
-                <input name="Model.SysMerchantUser.Password" class="input-control" autocomplete="off" type="password" id="Model_SysMerchantUser_Password" style="width: 150px;" />
+                <input class="input-control" autocomplete="off" type="password" id="txt_Password" style="width: 150px;" />
             </td>
         </tr>
     </table>
@@ -92,7 +99,7 @@ function () {
                 <span class="required-symbol">*</span>商户名称：
             </td>
             <td class="f-tb-c">
-                <input name="Model.SysMerchantUser.MerchantName" class="input-control"  type="text" id="Model_SysMerchantUser_MerchantName" style="width: 150px;" />
+                <input class="input-control" type="text" id="txt_MerchantName" style="width: 150px;" autocomplete="off" />
             </td>
         </tr>
         <tr>
@@ -100,7 +107,7 @@ function () {
                 <span class="required-symbol">*</span>联系人：
             </td>
             <td class="f-tb-c">
-                <input name="Model.SysMerchantUser.ContactName" class="input-control" type="text" id="Model_SysMerchantUser_ContactName" style="width: 150px;" />
+                <input class="input-control" type="text" id="txt_ContactName" style="width: 150px;" autocomplete="off" />
             </td>
         </tr>
         <tr>
@@ -108,7 +115,7 @@ function () {
                 <span class="required-symbol">*</span>联系电话：
             </td>
             <td class="f-tb-c">
-                <input name="Model.SysMerchantUser.ContactPhone" class="input-control" type="text" id="Model_SysMerchantUser_ContactPhone" style="width: 150px;" />
+                <input class="input-control" type="text" id="txt_ContactPhone" style="width: 150px;" autocomplete="off" />
             </td>
         </tr>
         <tr>
@@ -116,7 +123,7 @@ function () {
                 联系地址：
             </td>
             <td class="f-tb-c">
-                <input name="Model.SysMerchantUser.ContactAddress" class="input-control" type="text" id="Model_SysMerchantUser_ContactAddress" style="width: 150px;" />
+                <input class="input-control" type="text" id="txt_ContactAddress" style="width: 150px;" autocomplete="off" />
             </td>
         </tr>
     </table>

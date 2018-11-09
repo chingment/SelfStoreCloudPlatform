@@ -25,7 +25,6 @@ namespace Lumos.BLL
                     return new CustomJsonResult(ResultType.Failure, "账号已经存在");
                 }
                 pSysMerchatUser.Id = GuidUtil.New();
-                //pSysMerchatUser.PasswordHash = PassWordHelper.HashPassword(pSysMerchatUser.Password);
                 pSysMerchatUser.SecurityStamp = Guid.NewGuid().ToString();
                 pSysMerchatUser.RegisterTime = this.DateTime;
                 pSysMerchatUser.CreateTime = this.DateTime;

@@ -120,7 +120,6 @@ namespace WebBack.Controllers.Biz
             return WebBackServiceFactory.Manchine.Edit(this.CurrentUserId, rop);
         }
 
-
         [HttpPost]
         public CustomJsonResult Bind(string merchantId, string machineId)
         {

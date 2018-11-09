@@ -9,6 +9,7 @@ using Lumos.Common;
 using Lumos.BLL;
 using WebBack.Models.Biz.Merchant;
 using Lumos;
+using Lumos.BLL.Service.WebBack;
 
 namespace WebBack.Controllers.Biz
 {
@@ -39,6 +40,11 @@ namespace WebBack.Controllers.Biz
         public ViewResult MachineListByBindable()
         {
             return View();
+        }
+
+        public CustomJsonResult GetDetails(string merchantId)
+        {
+            return WebBackServiceFactory.Merchant.GetDetails(this.CurrentUserId, merchantId);
         }
 
         public CustomJsonResult GetList(SearchCondition condition)
@@ -82,18 +88,16 @@ namespace WebBack.Controllers.Biz
         }
 
         [HttpPost]
-        public CustomJsonResult Add(AddViewModel model)
+        public CustomJsonResult Add(RopMerchantAdd rop)
         {
-            model.SysMerchantUser.UserName = string.Format("{0}{1}", "M", model.SysMerchantUser.UserName);
-
-            return BizFactory.Merchant.Add(this.CurrentUserId, model.SysMerchantUser);
+            return WebBackServiceFactory.Merchant.Add(this.CurrentUserId, rop);
         }
 
         [HttpPost]
 
-        public CustomJsonResult Edit(EditViewModel model)
+        public CustomJsonResult Edit(RopMerchantEdit rop)
         {
-            return BizFactory.Merchant.Edit(this.CurrentUserId, model.SysMerchantUser);
+            return WebBackServiceFactory.Merchant.Edit(this.CurrentUserId, rop);
         }
 
 
