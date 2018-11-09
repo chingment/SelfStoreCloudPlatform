@@ -1,5 +1,6 @@
 ﻿using Lumos;
 using Lumos.BLL;
+using Lumos.BLL.Biz;
 using Lumos.Entity;
 using System;
 using System.Collections.Generic;
@@ -18,8 +19,7 @@ namespace WebMerch.Controllers
 
         public ViewResult Add()
         {
-            AddViewModel mode = new AddViewModel();
-            return View(mode);
+            return View();
         }
         public ViewResult Sort()
         {
@@ -39,33 +39,31 @@ namespace WebMerch.Controllers
 
         }
 
-        public CustomJsonResult GetDetails(string id)
+        public CustomJsonResult GetDetails(string subjectId)
         {
-            DetailsViewModel model = new DetailsViewModel(id);
-            return Json(ResultType.Success, model, "");
+            return BizFactory.ProductSubject.GetDetails(this.CurrentUserId, this.CurrentUserId, subjectId);
         }
 
 
         [HttpPost]
         [OwnNoResubmit]
-        public CustomJsonResult Add(AddViewModel model)
+        public CustomJsonResult Add(RopProductSubjectAdd rop)
         {
-            model.ProductSubject.MerchantId = this.CurrentUserId;
-            return BizFactory.ProductSubject.Add(this.CurrentUserId, model.ProductSubject);
+            return BizFactory.ProductSubject.Add(this.CurrentUserId, this.CurrentUserId, rop);
         }
 
 
 
         [HttpPost]
-        public CustomJsonResult Edit(EditViewModel model)
+        public CustomJsonResult Edit(RopProductSubjectEdit rop)
         {
-            return BizFactory.ProductSubject.Edit(this.CurrentUserId, model.ProductSubject);
+            return BizFactory.ProductSubject.Edit(this.CurrentUserId, this.CurrentUserId, rop);
         }
 
         [HttpPost]
-        public CustomJsonResult Delete(string[] ids)
+        public CustomJsonResult Delete(string[] subjectIds)
         {
-            return BizFactory.ProductSubject.Delete(this.CurrentUserId, ids);
+            return BizFactory.ProductSubject.Delete(this.CurrentUserId, this.CurrentUserId, subjectIds);
         }
 
         public CustomJsonResult GetProductSkuList(ProductSearchCondition condition)

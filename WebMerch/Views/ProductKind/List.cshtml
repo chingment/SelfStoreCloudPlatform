@@ -6,23 +6,21 @@
 @section scripts{
     <script type="text/javascript">
 
-        var zTree;
         var num = 0;
         var maxMum = 2;
-        var listProduct;
-        var tab;
-
+        var tree_Kinds;
+        var list_ProductSkus;
+        var tab_Main;
+        var cur_KindId;
         $(this).ready(function () {
 
-            tab = $("#tab1").tab({
+            tab_Main = $("#tab_Main").tab({
                 click: function (index) {
 
                     var selObj = getSelectedNode();
                     if (selObj == null) {
                         return false;
                     }
-
-                    $("input[id^='Model_ProductKind_Id']").val(selObj.id);
 
                     switch (index) {
                         case 0:
@@ -41,37 +39,25 @@
                 }
             });
 
-            loadTreeList();
+            loadKinds();
 
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { art.dialog.tips(msg); } });
-
-            $("#Model_ProductKind_Id").formValidator({ onShow: "", onFocus: "请在左边树形结构选中节点信息", onCorrect: "&nbsp;" }).inputValidator({ min: 1, max: 100, empty: { leftEmpty: false, emptyError: "不能为空" }, onError: "请在左边树形结构选中节点信息" });
-            $("#Model_ProductKind_Name").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 20, empty: { leftEmpty: false, emptyError: "不能为空" }, onError: "名称不能超过20个字符" });
-            $("#Model_ProductKind_MainImg").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请上传封面" });
-            $("#Model_ProductKind_IconImg").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请上传小图标" });
-            $("#Model_ProductKind_Status").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择状态" });
-            $("#Model_ProductKind_Description").formValidator({ onShow: "", onFocus: "不超过500个字符", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 500, onError: "不超过500个字符" });
+            $("#txt_Name").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 20, empty: { leftEmpty: false, emptyError: "不能为空" }, onError: "名称不能超过20个字符" });
+            $("#txt_MainImg").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请上传封面" });
+            $("#txt_IconImg").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请上传小图标" });
+            $("#sel_Status").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择状态" });
+            $("#txt_Description").formValidator({ onShow: "", onFocus: "不超过500个字符", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 500, onError: "不超过500个字符" });
 
             $("#btn_add").click(function () {
-
                 var selObj = getSelectedNode();
                 if (selObj == null) {
                     return;
                 }
-
-                var url = '/ProductKind/Add?type=add&id=' + selObj.id + '&pName=' + escape(selObj.name);
+                var url = '/ProductKind/Add?pKindId=' + selObj.id + '&pKindName=' + escape(selObj.name);
                 var title = '新建';
                 art.dialog.open(url, {
                     id: "openDialog", title: title, width: '650px', height: '450px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '确定', ok: function () {
-                        this.iframe.contentWindow.submit(function (d) {
-                            if (d.result == $.lumos.resultType.success) {
-                                $.lumos.parentDialog.loadTreeList($.lumos.getUrlParamValue("id"));
-                                $.lumos.tips(d.message, true);
-                            }
-                            else {
-                                $.lumos.tips(d.message);
-                            }
-                        });
+                        this.iframe.contentWindow.add();
                         return false;
                     }
                 });
@@ -79,27 +65,23 @@
             });
 
             $("#btn_delete").click(function () {
-
-
                 var selObj = getSelectedNode();
                 if (selObj == null) {
                     return;
                 }
-
-
                 art.dialog.confirm(
                     "确定删除[" + selObj.name + "]节点及其子节点吗？",
                          function () {
                              var id = selObj.id;
-                             var data = [];
-                             var nodes = zTree.getSelectedNodeFollowChildren();
+                             var kindIds = [];
+                             var nodes = tree_Kinds.getSelectedNodeFollowChildren();
                              $.each(nodes, function (i, n) {
-                                 data.push({ name: "ids", value: n.id });
+                                 kindIds.push(n.id);
                              });
 
                              $.lumos.postJson({
                                  url: "/ProductKind/Delete",
-                                 data: data,
+                                 data: { kindIds: kindIds },
                                  success: function (d) {
                                      art.dialog.tips(d.message);
                                      loadTreeList();
@@ -160,22 +142,20 @@
                 operate: {
                     "remove": function (key) {
 
-                        art.dialog.confirm(
-   '确定要移除[' + key.name + ']？',
-   function () {
+                        art.dialog.confirm('确定要移除[' + key.name + ']？', function () {
 
-       $.lumos.postJson({
-           url: "/ProductKind/RemoveProductSku",
-           data: {
-               kindId: key.kindId,
-               skuId: key.id
-           },
-           success: function (d) {
-               listProduct.loadData(0);
-               $.lumos.tips(d.message);
-           }
-       });
-   });
+                            $.lumos.postJson({
+                                url: "/ProductKind/RemoveProductSku",
+                                data: {
+                                    kindId: key.kindId,
+                                    skuId: key.id
+                                },
+                                success: function (d) {
+                                    listProduct.loadData(0);
+                                    $.lumos.tips(d.message);
+                                }
+                            });
+                        });
 
                     }
                 }
@@ -184,7 +164,7 @@
         });
 
         function getSelectedNode() {
-            var selObj = zTree.getSelectedNodes();
+            var selObj = tree_Kinds.getSelectedNodes();
             if ($.lumos.isNullOrEmpty(selObj)) {
                 $.lumos.tips("请在左边树形结构选中节点信息");
                 return null;
@@ -200,73 +180,36 @@
             }
         }
 
-        function treeNodeOnClick(event, treeId, treeNode, clickFlag) {
-
-
-            var parentName = "/";
-            if (treeNode.getParentNode() != null) {
-                parentName = treeNode.getParentNode().name;
-                $("#btn_delete").attr("disabled", false);
-            }
-            else {
-                $("#btn_delete").attr("disabled", true);
-            }
-
-            /*最大支持几级菜单由maxMum决定 可修改这个值*/
-            num = 0;
-            getChildNodeGrade(treeNode);
-            if (num >= maxMum) {
-                $("#btn_add").attr("disabled", true);
-            }
-            else {
-                $("#btn_add").attr("disabled", false);
-            }
-
-            $("#lbl_PName").text(parentName);
-            $("#txt_PName").val(parentName)
-
-
-            tab.click();
-
-            //$("input[id^='Model_ProductKind_Id']").val(treeNode.id);
-
-
-            //tabFun(tabIndex)
-
-
-
-        }
-
         function getDetails() {
-            var id = $("#Model_ProductKind_Id").val();
+
             $.lumos.postJson({
-                data: { id: id },
+                data: { kindId: cur_KindId },
                 url: "/ProductKind/GetDetails",
                 success: function (d) {
                     if (d.result == $.lumos.resultType.success) {
-                        var data = d.data.productKind;
-                        $("#Model_ProductKind_Name").val(data.name);
-                        $("#Model_ProductKind_Name").defaultPassed();
-                        $("#Model_ProductKind_Description").val(data.description);
-                        $("#Model_ProductKind_Description").defaultPassed();
-                        $("#Model_ProductKind_MainImg").val(data.mainImg);
-                        $("#Model_ProductKind_IconImg").val(data.iconImg);
-                        $("#Model_ProductKind_Status").find("option[value='" + data.status + "']").attr("selected", true);
+                        var data = d.data;
+                        $("#txt_Name").val(data.name);
+                        $("#txt_Name").defaultPassed();
+                        $("#txt_Description").val(data.description);
+                        $("#txt_Description").defaultPassed();
+                        $("#txt_MainImg").val(data.mainImg);
+                        $("#txt_IconImg").val(data.iconImg);
+                        //$("#txt_Status").find("option[value='" + data.status + "']").attr("selected", true);
 
-                        $("#img_Model_ProductKind_MainImg").attr("src", data.mainImg);
-                        $("#img_Model_ProductKind_IconImg").attr("src", data.iconImg);
+                        $("#img_MainImg").attr("src", data.mainImg);
+                        $("#img_IconImg").attr("src", data.iconImg);
                     }
                 }
             });
         }
 
-        function loadTreeList(id) {
+        function loadKinds(id) {
 
             $.lumos.postJson({
-                url: "/ProductKind/GetTreeList?pId=0",
+                url: "/ProductKind/GetAll?pId=0",
                 success: function (d) {
                     var obj = eval(d.data);
-                    zTree = $.fn.zTree.init($("#treemenu"), {
+                    tree_Kinds = $.fn.zTree.init($("#tree_Kinds"), {
                         view: {
                             showLine: true,
                             selectedMulti: false
@@ -275,11 +218,40 @@
                             simpleData: { enable: true }
                         },
                         callback: {
-                            onClick: treeNodeOnClick
+                            onClick: function treeNodeOnClick(event, treeId, treeNode, clickFlag) {
+
+                                cur_KindId = treeNode.id;
+
+                                $("input[name='KindId']").val(cur_KindId);
+
+                                var parentName = "/";
+                                if (treeNode.getParentNode() != null) {
+                                    parentName = treeNode.getParentNode().name;
+                                    $("#btn_delete").attr("disabled", false);
+                                }
+                                else {
+                                    $("#btn_delete").attr("disabled", true);
+                                }
+
+                                /*最大支持几级菜单由maxMum决定 可修改这个值*/
+                                num = 0;
+                                getChildNodeGrade(treeNode);
+                                if (num >= maxMum) {
+                                    $("#btn_add").attr("disabled", true);
+                                }
+                                else {
+                                    $("#btn_add").attr("disabled", false);
+                                }
+
+                                $("#lbl_PName").text(parentName);
+                                $("#txt_PName").val(parentName)
+
+                                tab_Main.click();
+                            }
                         }
                     }, obj);
-                    var node = zTree.getNodeByParam("id", id, null);
-                    zTree.selectNode(node);
+                    var node = tree_Kinds.getNodeByParam("id", id, null);
+                    tree_Kinds.selectNode(node);
                 }
             });
 
@@ -293,22 +265,24 @@
             }
             var isValid = $.formValidator.pageIsValid();
             if (isValid) {
-                art.dialog.confirm(
-         '确定要保存？',
-         function () {
-             var id = selObj.id;
-             var l_Data = $("#form1").serializeArray();
-             l_Data.push({ name: "Model.ProductKind.Id", value: id });
-             $.lumos.postJson({
-                 url: "/ProductKind/Edit",
-                 data: l_Data,
-                 success: function (d) {
-                     art.dialog.tips(d.message);
-                     loadTreeList(id);
+                art.dialog.confirm('确定要保存？', function () {
+                    var id = selObj.id;
 
-                 }
-             });
-         });
+                    var name = $('#txt_Name').val();
+                    var description = $("#txt_Description").val();
+
+                    $.lumos.postJson({
+                        url: "/ProductKind/Edit",
+                        data: { kindId: cur_KindId, name: name, description: description },
+                        isUseHandling: true,
+                        success: function (d) {
+                            $.lumos.tips(d.message);
+                            if (d.result == $.lumos.resultType.success) {
+                                loadKinds(id);
+                            }
+                        }
+                    });
+                });
             }
             return false;
         }
@@ -321,15 +295,14 @@
 
 <dl class="tree-tab">
     <dd class="tree-tab-left">
-        <ul id="treemenu" class="ztree"></ul>
+        <ul id="tree_Kinds" class="ztree"></ul>
     </dd>
     <dd class="tree-tab-right">
-        <div class="tab" id="tab1">
+        <div class="tab" id="tab_Main">
             <div class="tab-item">
                 <ul>
                     <li class="item first selected"><a class="a-btn-info" href="javascript:void(0)">基本信息</a></li>
                     <li class="item"><a class="a-btn-info" href="javascript:void(0)">关联商品</a></li>
-                    @*<li class="item"><a class="a-btn-info" href="javascript:void(0)">关联广告</a></li>*@
                 </ul>
             </div>
             <div class="tab-content">
@@ -337,7 +310,6 @@
                     <div class="f-btn-area" style="margin-bottom:5px;">
                         <input type="button" class="btn btn-open" id="btn_add" value="新建" />
                         <input type="button" class="btn btn-delete" id="btn_delete" value="删除" />
-                        @*<input type="button" class="btn btn-open" id="btn_sort" value="排序" />*@
                     </div>
                     <form name="form1" method="post" id="form1">
                         <input type="hidden" name="ProductKindId" id="Model_ProductKind_Id" />
@@ -348,8 +320,6 @@
                                 </td>
                                 <td class="f-tb-c">
                                     <label id="lbl_PName">/</label>
-                                    <input name="txt_PName" type="hidden" id="txt_PName" />
-                                    <input name="txt_PId" type="hidden" id="txt_PId" />
                                 </td>
                             </tr>
                             <tr>
@@ -357,7 +327,7 @@
                                     <span class="required-symbol">*</span>名称：
                                 </td>
                                 <td class="f-tb-c">
-                                    <input name="Model.ProductKind.Name" type="text" autocomplete="off" value="" id="Model_ProductKind_Name" style="width: 250px;" class="input-control" />
+                                    <input type="text" autocomplete="off" value="" id="txt_Name" style="width: 250px;" class="input-control" />
                                 </td>
                             </tr>
                             <tr>
@@ -371,10 +341,10 @@
                                             <td>
                                                 <div>
                                                     <span class="uploadimgbox" upload="true">
-                                                        <span class="uploadimg" inputname="Model.ProductKind.MainImg" path="productkind">
-                                                            <img id="img_Model_ProductKind_MainImg" src="~/Static/default1.jpg" />
+                                                        <span class="uploadimg" inputname="txt_MainImg" path="productkind">
+                                                            <img id="img_MainImg" src="~/Static/default1.jpg" />
                                                             <span class="uploadimg-click" style="">上传</span>
-                                                            <input id="Model_ProductKind_MainImg" value="" name="Model.ProductKind.MainImg" type="hidden" />
+                                                            <input id="txt_MainImg" value="" name="txt_MainImg" type="hidden" />
                                                         </span>
                                                         <span class="uploadimg-view" style="">预览</span>
                                                     </span>
@@ -386,10 +356,10 @@
                                             <td>
                                                 <div>
                                                     <span class="uploadimgbox" upload="true">
-                                                        <span class="uploadimg" inputname="Model.ProductKind.IconImg" path="productkind">
-                                                            <img id="img_Model_ProductKind_IconImg" src="~/Static/default1.jpg" />
+                                                        <span class="uploadimg" inputname="txt_IconImg" path="productkind">
+                                                            <img id="img_IconImg" src="~/Static/default1.jpg" />
                                                             <span class="uploadimg-click" style="">上传</span>
-                                                            <input id="Model_ProductKind_IconImg" value="" name="Model.ProductKind.IconImg" type="hidden" />
+                                                            <input id="txt_IconImg" value="" name="txt_IconImg" type="hidden" />
                                                         </span>
                                                         <span class="uploadimg-view" style="">预览</span>
                                                     </span>
@@ -407,8 +377,7 @@
                                     <span class="required-symbol">*</span>状态：
                                 </td>
                                 <td class="f-tb-c">
-                                    @(Html.initEnumeration<Lumos.Entity.Enumeration.ProductKindStatus>(Lumos.Entity.Enumeration.InputType.Select, "Model.ProductKind.Status", new { @class = "select-control", defaulttext = "请选择", hidevalue = new Lumos.Entity.Enumeration.ProductKindStatus[] { Lumos.Entity.Enumeration.ProductKindStatus.Unknow } }))
-                                    <span id="Model_ProductKindStatusTip"></span>
+                                    @(Html.initEnumeration<Lumos.Entity.Enumeration.ProductKindStatus>(Lumos.Entity.Enumeration.InputType.Select, "sel.Status", new { @class = "select-control", defaulttext = "请选择", hidevalue = new Lumos.Entity.Enumeration.ProductKindStatus[] { Lumos.Entity.Enumeration.ProductKindStatus.Unknow } }))
                                 </td>
                             </tr>
                             <tr>
@@ -430,8 +399,7 @@
                 </div>
                 <div class="subcontent">
                     <form id="form2" name="form2">
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" name="KindId" id="Model_ProductKind_Id2" value="" />
+                        <input type="hidden" name="KindId" value="" />
                         <div class="search-bar">
                             <div class="filter">
                                 <span class="filter-label">商品名称：</span>
@@ -486,14 +454,6 @@
                                     </tr>
                                 </tfoot>
                             </table>
-                        </div>
-                    </form>
-                </div>
-                <div class="subcontent">
-                    <form id="form3" name="form3">
-                        <ul id="rolemenu_tree" class="ztree"></ul>
-                        <div class="f-btn-area" style="margin-bottom:5px; text-align:center">
-                            <input type="button" class="btn btn-sure" id="btn_save_rolemenu" value="保存" style="margin-right:5px;" />
                         </div>
                     </form>
                 </div>

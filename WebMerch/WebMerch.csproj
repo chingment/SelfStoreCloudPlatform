@@ -192,16 +192,9 @@
     <Compile Include="Models\OwnBaseViewModel.cs" />
     <Compile Include="Models\Home\ChangePasswordModel.cs" />
     <Compile Include="Models\Home\LoginModel.cs" />
-    <Compile Include="Models\ProductKind\AddViewModel.cs" />
-    <Compile Include="Models\ProductKind\DetailsViewModel.cs" />
-    <Compile Include="Models\ProductKind\EditViewModel.cs" />
     <Compile Include="Models\ProductKind\ProductSearchCondition.cs" />
-    <Compile Include="Models\ProductSku\DetailsViewModel.cs" />
     <Compile Include="Models\ProductSku\EditViewModel.cs" />
     <Compile Include="Models\ProductSku\SearchCondition.cs" />
-    <Compile Include="Models\ProductSubject\AddViewModel.cs" />
-    <Compile Include="Models\ProductSubject\DetailsViewModel.cs" />
-    <Compile Include="Models\ProductSubject\EditViewModel.cs" />
     <Compile Include="Models\ProductSubject\ProductSearchCondition.cs" />
     <Compile Include="Models\Store\SearchCondition.cs" />
     <Compile Include="Models\Supplier\SearchCondition.cs" />

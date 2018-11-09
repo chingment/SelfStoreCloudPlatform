@@ -1,38 +1,49 @@
-﻿@model WebMerch.Models.ProductKind.AddViewModel
-@{
-    ViewBag.Title = "Add";
+﻿@{
+    ViewBag.Title = "";
     Layout = "~/Views/Shared/_LayoutHomeDialog.cshtml";
 }
 @section scripts{
     <script type="text/javascript">
+
+        var pKindId = $.lumos.getUrlParamValue("pKindId");
+        var pKindName = $.lumos.getUrlParamValue("pKindName");
+
         $(this).ready(function () {
 
-            var id = $.lumos.getUrlParamValue("id");
-            var pName = $.lumos.getUrlParamValue("pName");
-            $("#lbl_PName").text(pName);
+            $("#lbl_PName").text(pKindName);
 
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { art.dialog.tips(msg); } });
-            $("#Model_ProductKind_Name").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 20, empty: { leftEmpty: false, emptyError: "名称不能为空" }, onError: "名称不能为空,且不超过20个字符" });
-            $("#Model_ProductKind_MainImg").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请上传封面" });
-            $("#Model_ProductKind_IconImg").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请上传小图标" });
-            $("#Model_ProductKind_Status").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择状态" });
-            $("#Model_ProductKind_Description").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 0, max: 500, onError: "备注不超过500个字符" });
+            $("#txt_Name").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 20, empty: { leftEmpty: false, emptyError: "名称不能为空" }, onError: "名称不能为空,且不超过20个字符" });
+            $("#txt_MainImg").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请上传封面" });
+            $("#txt_IconImg").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请上传小图标" });
+            $("#sel_Status").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择状态" });
+            $("#txt_Description").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 0, max: 500, onError: "备注不超过500个字符" });
         });
 
-        function submit(fun) {
+        function add() {
 
             var isValid = $.formValidator.pageIsValid();
             if (isValid) {
                 art.dialog.confirm(
          '确定要新建？',
          function () {
-             var l_Data = $("#form1").serializeArray();
-             l_Data.push({ name: "Model.ProductKind.PId", value: $.lumos.getUrlParamValue("id") });
+
+             var name = $("#txt_Name").val();
+             var mainImg = $("#txt_MainImg").val();
+             var iconImg = $("#txt_IconImg").val();
+             var description = $("#txt_Description").val();
+
              $.lumos.postJson({
                  url: "/ProductKind/Add",
-                 data: l_Data,
+                 data: { pKindId: pKindId, name: name, mainImg: mainImg, iconImg: iconImg, description: description },
                  success: function (d) {
-                     fun(d);
+                     if (d.result == $.lumos.resultType.success) {
+                         $.lumos.parentDialog.loadKinds(pKindId);
+                         $.lumos.tips(d.message, true);
+                     }
+                     else {
+                         $.lumos.tips(d.message);
+                     }
                  }
              });
 
@@ -43,8 +54,6 @@
     </script>
 }
 <form name="form1" method="post" action="#" id="form1">
-    @AntiForgery.GetHtml()
-    @Html.GenerateUniqueSubmitIdentifier()
     <table class="f-tb" cellpadding="0" cellspacing="1">
         <tr>
             <td class="f-tb-t" style="width:80px">
@@ -59,7 +68,7 @@
                 <span class="required-symbol">*</span>名称：
             </td>
             <td class="f-tb-c">
-                <input name="Model.ProductKind.Name" type="text" autocomplete="off" id="Model_ProductKind_Name" style="width:250px;" class="input-control" />
+                <input type="text" autocomplete="off" id="txt_Name" style="width:250px;" class="input-control" />
             </td>
         </tr>
         <tr>
@@ -73,10 +82,10 @@
                         <td>
                             <div>
                                 <span class="uploadimgbox" upload="true">
-                                    <span class="uploadimg" inputname="Model.ProductKind.MainImg" path="productkind">
+                                    <span class="uploadimg" inputname="txt_MainImg" path="productkind">
                                         <img src="~/Static/default1.jpg" />
                                         <span class="uploadimg-click" style="">上传</span>
-                                        <input id="Model_ProductKind_MainImg" value="" name="Model.ProductKind.MainImg" type="hidden" />
+                                        <input id="txt_MainImg" value="" name="txt_MainImg" type="hidden" />
                                     </span>
                                     <span class="uploadimg-view" style="">预览</span>
                                 </span>
@@ -88,10 +97,10 @@
                         <td>
                             <div>
                                 <span class="uploadimgbox" upload="true">
-                                    <span class="uploadimg" inputname="Model.ProductKind.IconImg" path="productkind">
+                                    <span class="uploadimg" inputname="txt_IconImg" path="productkind">
                                         <img src="~/Static/default1.jpg" />
                                         <span class="uploadimg-click" style="">上传</span>
-                                        <input id="Model_ProductKind_IconImg" value="" name="Model.ProductKind.IconImg" type="hidden" />
+                                        <input id="txt_IconImg" value="" name="txt_IconImg" type="hidden" />
                                     </span>
                                     <span class="uploadimg-view" style="">预览</span>
                                 </span>
@@ -102,18 +111,6 @@
                         </td>
                     </tr>
                 </table>
-
-
-
-            </td>
-        </tr>
-        <tr>
-            <td class="f-tb-t" style="width:50px;">
-                <span class="required-symbol">*</span>状态：
-            </td>
-            <td class="f-tb-c">
-                @(Html.initEnumeration<Lumos.Entity.Enumeration.ProductKindStatus>(Lumos.Entity.Enumeration.InputType.Select, "Model.ProductKind.Status", new { @class = "select-control", defaulttext = "请选择", hidevalue = new Lumos.Entity.Enumeration.ProductKindStatus[] { Lumos.Entity.Enumeration.ProductKindStatus.Unknow } }))
-                <span id="Model_ProductKindStatusTip"></span>
             </td>
         </tr>
         <tr>
@@ -121,7 +118,7 @@
                 备注：
             </td>
             <td class="f-tb-c">
-                <textarea name="Model.ProductKind.Description" rows="5" cols="46" id="Model_ProductKind_Description" class="input-control"></textarea>
+                <textarea rows="5" cols="46" id="txt_Description" class="input-control"></textarea>
             </td>
         </tr>
         <tr style="display:none">

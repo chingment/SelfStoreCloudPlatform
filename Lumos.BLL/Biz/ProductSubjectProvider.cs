@@ -1,4 +1,5 @@
-﻿using Lumos.Entity;
+﻿using Lumos.BLL.Biz;
+using Lumos.Entity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,21 +13,47 @@ namespace Lumos.BLL
 {
     public class ProductSubjectProvider : BaseProvider
     {
-        public CustomJsonResult Add(string pOperater, ProductSubject pProductSubject)
+        public CustomJsonResult GetDetails(string pOperater, string pMerchantId, string pSubjectId)
+        {
+            var ret = new RetProductSubjectGetDetails();
+            var productKind = CurrentDb.ProductSubject.Where(m => m.MerchantId == pMerchantId && m.Id == pSubjectId).FirstOrDefault();
+            if (productKind != null)
+            {
+                ret.SubjectId = productKind.Id ?? "";
+                ret.Name = productKind.Name ?? "";
+                ret.MainImg = productKind.MainImg ?? "";
+                ret.IconImg = productKind.IconImg ?? "";
+                ret.Description = productKind.Description ?? "";
+                ret.Status = productKind.Status;
+            }
+
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
+        }
+
+
+        public CustomJsonResult Add(string pOperater, string pMerchantId, RopProductSubjectAdd rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 
             using (TransactionScope ts = new TransactionScope())
             {
-                var isExistProductSubject = CurrentDb.ProductSubject.Where(m => m.MerchantId == pProductSubject.MerchantId && m.Name == pProductSubject.Name).FirstOrDefault();
+                var isExistProductSubject = CurrentDb.ProductSubject.Where(m => m.MerchantId == pMerchantId && m.Name == rop.Name).FirstOrDefault();
                 if (isExistProductSubject != null)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "名称已存在");
                 }
-                pProductSubject.Id = GuidUtil.New();
-                pProductSubject.Creator = pOperater;
-                pProductSubject.CreateTime = DateTime.Now;
-                CurrentDb.ProductSubject.Add(pProductSubject);
+
+                var productSubject = new ProductSubject();
+                productSubject.Id = GuidUtil.New();
+                productSubject.MerchantId = pMerchantId;
+                productSubject.Name = rop.Name;
+                productSubject.MainImg = rop.MainImg;
+                productSubject.IconImg = rop.IconImg;
+                productSubject.Description = rop.Description;
+                productSubject.Status = Enumeration.ProductSubjectStatus.Valid;
+                productSubject.Creator = pOperater;
+                productSubject.CreateTime = DateTime.Now;
+                CurrentDb.ProductSubject.Add(productSubject);
                 CurrentDb.SaveChanges();
                 ts.Complete();
                 result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "添加成功");
@@ -35,35 +62,35 @@ namespace Lumos.BLL
             return result;
         }
 
-        public CustomJsonResult Edit(string pOperater, ProductSubject pProductSubject)
+        public CustomJsonResult Edit(string pOperater, string pMerchantId, RopProductSubjectEdit rop)
         {
-            var lProductSubject = CurrentDb.ProductSubject.Where(m => m.Id == pProductSubject.Id).FirstOrDefault();
+            var productSubject = CurrentDb.ProductSubject.Where(m => m.Id == rop.SubjectId).FirstOrDefault();
 
-            var isExistlProductSubject = CurrentDb.ProductSubject.Where(m => m.MerchantId == lProductSubject.MerchantId && m.Id != lProductSubject.Id && m.Name == lProductSubject.Name).FirstOrDefault();
+            var isExistlProductSubject = CurrentDb.ProductSubject.Where(m => m.MerchantId == pMerchantId && m.Id != productSubject.Id && m.Name == rop.Name).FirstOrDefault();
             if (isExistlProductSubject != null)
             {
                 return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "名称已存在");
             }
 
 
-            lProductSubject.Name = pProductSubject.Name;
-            lProductSubject.MainImg = pProductSubject.MainImg;
-            lProductSubject.IconImg = pProductSubject.IconImg;
-            lProductSubject.Status = pProductSubject.Status;
-            lProductSubject.Description = pProductSubject.Description;
-            lProductSubject.Mender = pOperater;
-            lProductSubject.MendTime = DateTime.Now;
+            productSubject.Name = rop.Name;
+            productSubject.MainImg = rop.MainImg;
+            productSubject.IconImg = rop.IconImg;
+            productSubject.Status = rop.Status;
+            productSubject.Description = rop.Description;
+            productSubject.Mender = pOperater;
+            productSubject.MendTime = DateTime.Now;
             CurrentDb.SaveChanges();
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
 
         }
 
-        public CustomJsonResult Delete(string pOperater, string[] pIds)
+        public CustomJsonResult Delete(string pOperater, string pMerchantId, string[] pKindIds)
         {
-            if (pIds != null)
+            if (pKindIds != null)
             {
-                foreach (var id in pIds)
+                foreach (var id in pKindIds)
                 {
                     var productSubject = CurrentDb.ProductSubject.Where(m => m.Id == id).FirstOrDefault();
                     if (productSubject != null)

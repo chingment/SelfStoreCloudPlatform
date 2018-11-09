@@ -47,11 +47,14 @@ namespace System.Web
             {
                 int i = 0;
                 string id = name.Replace(".", "_");
-                sb.Append("<select name=\"" + name + "\" id=\"" + id + "\"  " + classname + ">");
-                if (defaulttext != "")
-                {
-                    sb.Append("<option value=\"\"  >" + defaulttext + "</option>");
-                }
+                //sb.Append("<select name=\"" + name + "\" id=\"" + id + "\"  " + classname + ">");
+                //if (defaulttext != "")
+                //{
+                //    sb.Append("<option value=\"\"  >" + defaulttext + "</option>");
+                //}
+                sb.Append("<select  id=\"" + id + "\" data-placeholder=\"请选择\" name =\"" + name + "\" class=\"chosen-select\" style=\"width: 100px\" >");
+                sb.Append("<option value=\"-1\"></option>");
+
                 foreach (T t in Enum.GetValues(typeof(T)))
                 {
                     string strKey = Convert.ToInt32(t).ToString();
@@ -87,7 +90,7 @@ namespace System.Web
                     i++;
 
                 }
-                sb.Append("/<select>");
+                sb.Append("</select>");
             }
             else if (inputType == Enumeration.InputType.CheckBox)
             {

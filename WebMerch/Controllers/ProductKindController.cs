@@ -1,5 +1,6 @@
 ﻿using Lumos;
 using Lumos.BLL;
+using Lumos.BLL.Biz;
 using Lumos.Entity;
 using System;
 using System.Collections.Generic;
@@ -18,15 +19,14 @@ namespace WebMerch.Controllers
 
         public ViewResult Add()
         {
-            AddViewModel mode = new AddViewModel();
-            return View(mode);
+            return View();
         }
         public ViewResult Sort()
         {
             return View();
         }
 
-        public CustomJsonResult GetTreeList(int pId)
+        public CustomJsonResult GetAll(int pId)
         {
             ProductKind[] arr;
             if (pId == 0)
@@ -43,33 +43,31 @@ namespace WebMerch.Controllers
 
         }
 
-        public CustomJsonResult GetDetails(string id)
+        public CustomJsonResult GetDetails(string kindId)
         {
-            DetailsViewModel model = new DetailsViewModel(id);
-            return Json(ResultType.Success, model, "");
+            return BizFactory.ProductKind.GetDetails(this.CurrentUserId, this.CurrentUserId, kindId);
         }
 
 
         [HttpPost]
         [OwnNoResubmit]
-        public CustomJsonResult Add(AddViewModel model)
+        public CustomJsonResult Add(RopProductKindAdd rop)
         {
-            model.ProductKind.MerchantId = this.CurrentUserId;
-            return BizFactory.ProductKind.Add(this.CurrentUserId, model.ProductKind);
+            return BizFactory.ProductKind.Add(this.CurrentUserId, this.CurrentUserId, rop);
         }
 
 
 
         [HttpPost]
-        public CustomJsonResult Edit(EditViewModel model)
+        public CustomJsonResult Edit(RopProductKindEdit rop)
         {
-            return BizFactory.ProductKind.Edit(this.CurrentUserId, model.ProductKind);
+            return BizFactory.ProductKind.Edit(this.CurrentUserId, this.CurrentUserId, rop);
         }
 
         [HttpPost]
-        public CustomJsonResult Delete(string[] ids)
+        public CustomJsonResult Delete(string[] kindIds)
         {
-            return BizFactory.ProductKind.Delete(this.CurrentUserId, ids);
+            return BizFactory.ProductKind.Delete(this.CurrentUserId, this.CurrentUserId, kindIds);
         }
 
         public CustomJsonResult GetProductSkuList(ProductSearchCondition condition)
@@ -129,28 +127,5 @@ namespace WebMerch.Controllers
         {
             return BizFactory.ProductKind.RemoveProductSku(this.CurrentUserId, kindId, skuId);
         }
-
-        //[HttpPost]
-        //public CustomJsonResult Sort(int pId)
-        //{
-
-        //    for (int i = 0; i < Request.Form.Count; i++)
-        //    {
-        //        string name = Request.Form.AllKeys[i].ToString();
-        //        if (name.IndexOf("kindId") > -1)
-        //        {
-        //            int id = int.Parse(name.Split('_')[1].Trim());
-        //            int priority = int.Parse(Request.Form[i].Trim());
-        //            var model = CurrentDb.ProductKind.Where(m => m.Id == id).FirstOrDefault();
-        //            if (model != null)
-        //            {
-        //                model.Priority = priority;
-        //                CurrentDb.SaveChanges();
-        //            }
-        //        }
-        //    }
-        //    return Json(ResultType.Success, "保存成功");
-
-        //}
     }
 }

@@ -290,6 +290,7 @@
                     var description = $("#txt_Description").val();
                     $.lumos.postJson({
                         url: "/Sys/Role/Edit",
+                        isUseHandling: true,
                         data: { roleId: cur_RoleId, name: name, description: description },
                         success: function (d) {
                             $.lumos.tips(d.message);
