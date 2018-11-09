@@ -1,5 +1,6 @@
 ﻿using Lumos;
 using Lumos.BLL;
+using Lumos.BLL.Biz;
 using Lumos.Entity;
 using System;
 using System.Collections.Generic;
@@ -18,15 +19,17 @@ namespace WebMerch.Controllers
 
         public ViewResult Add()
         {
-            AddViewModel model = new AddViewModel();
-            return View(model);
+            return View();
         }
 
-        public ViewResult Edit(string id)
+        public ViewResult Edit()
         {
-            EditViewModel model = new EditViewModel();
-            model.LoadData(id);
-            return View(model);
+            return View();
+        }
+
+        public CustomJsonResult GetDetails(string companyId)
+        {
+            return BizFactory.Company.GetDetails(this.CurrentUserId, this.CurrentUserId, companyId);
         }
 
         [HttpPost]
@@ -73,17 +76,16 @@ namespace WebMerch.Controllers
 
 
         [HttpPost]
-        public CustomJsonResult Add(AddViewModel model)
+        public CustomJsonResult Add(RopCompanyAdd rop)
         {
-            model.Company.MerchantId = this.CurrentUserId;
-            model.Company.Class = Lumos.Entity.Enumeration.CompanyClass.Supplier;
-            return BizFactory.Company.Add(this.CurrentUserId, model.Company);
+            rop.Class = Lumos.Entity.Enumeration.CompanyClass.Supplier;
+            return BizFactory.Company.Add(this.CurrentUserId, this.CurrentUserId, rop);
         }
 
         [HttpPost]
-        public CustomJsonResult Edit(EditViewModel model)
+        public CustomJsonResult Edit(RopCompanyEdit rop)
         {
-            return BizFactory.Company.Edit(this.CurrentUserId, model.Company);
+            return BizFactory.Company.Edit(this.CurrentUserId, this.CurrentUserId, rop);
         }
     }
 }

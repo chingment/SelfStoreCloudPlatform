@@ -46,7 +46,7 @@
             },
             operate: {
                 "detail": function (obj) {
-                    var url = '/Order/Details?id=' + obj.id;
+                    var url = '/Order/Details?orderId=' + obj.id;
                     var title = '订单信息查看';
                     var dialog = art.dialog.open(url, {
                         id: "openDialog", title: title, width: '1000px', height: '600px', lock: true, drag: false, cancelVal: '关闭', cancel: true

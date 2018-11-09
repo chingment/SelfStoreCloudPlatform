@@ -89,13 +89,17 @@
     <Compile Include="Biz\Redis\RedisMq4GlobalProvider.cs" />
     <Compile Include="Biz\Redis\RedisMq4GlobalModel.cs" />
     <Compile Include="Biz\Redis\RedisMqFactory.cs" />
+    <Compile Include="Biz\RModels\RetCompanyGetDetails.cs" />
     <Compile Include="Biz\RModels\RetMachineGetDetails.cs" />
     <Compile Include="Biz\RModels\RetMerchantGetDetails.cs" />
     <Compile Include="Biz\RModels\RetOrderReserve.cs" />
     <Compile Include="Biz\RModels\RetPayResultQuery.cs" />
     <Compile Include="Biz\RModels\RetProducSkuAdd.cs" />
     <Compile Include="Biz\RModels\RetStoreGetDetails.cs" />
+    <Compile Include="Biz\RModels\RetWarehouseGetDetails.cs" />
     <Compile Include="Biz\RModels\RetWxUserCheckedUser.cs" />
+    <Compile Include="Biz\RModels\RopCompanyAdd.cs" />
+    <Compile Include="Biz\RModels\RopCompanyEdit.cs" />
     <Compile Include="Biz\RModels\RopMachineAdd.cs" />
     <Compile Include="Biz\RModels\RopMachineEdit.cs" />
     <Compile Include="Biz\RModels\RopMachineLoginByQrCode.cs" />
@@ -107,6 +111,8 @@
     <Compile Include="Biz\RModels\RopReplenishStaffBindMobile.cs" />
     <Compile Include="Biz\RModels\RopStoreAdd.cs" />
     <Compile Include="Biz\RModels\RopStoreEdit.cs" />
+    <Compile Include="Biz\RModels\RopWarehouseAdd.cs" />
+    <Compile Include="Biz\RModels\RopWarehouseEdit.cs" />
     <Compile Include="Biz\RModels\RopWxUserCheckedUser.cs" />
     <Compile Include="Biz\RModels\RupMachineLoginResultQuery.cs" />
     <Compile Include="Biz\SmsProvider.cs" />

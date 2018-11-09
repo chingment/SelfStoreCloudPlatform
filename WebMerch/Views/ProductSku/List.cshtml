@@ -45,7 +45,7 @@
 
                     $.lumos.postJson({
                         url: "/Biz/ProductSku/Delete",
-                        data: { id: obj[0].id },
+                        data: { productSkuId: obj[0].id },
                         success: function (d) {
                             listTable.loadData(0);
                             $.lumos.tips(d.message);
@@ -54,7 +54,7 @@
 
                 },
                 "edit": function (obj) {
-                    var url = '/ProductSku/Edit?id=' + obj.id;
+                    var url = '/ProductSku/Edit?productSkuId=' + obj.id;
                     var title = '商品信息修改';
                     var dialog = art.dialog.open(url, {
                         id: "openDialog", title: title, width: '800px', height: '600px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
@@ -64,7 +64,7 @@
                     });
                 },
                 "editBySalePrice": function (obj) {
-                    var url = '/ProductSku/EditBySalePrice?id=' + obj.id;
+                    var url = '/ProductSku/EditBySalePrice?productSkuId=' + obj.id;
                     var title = '便利店商品销售价修改';
                     var dialog = art.dialog.open(url, {
                         id: "openDialog", title: title, width: '800px', height: '600px', lock: true, drag: false, cancelVal: '关闭', cancel: true

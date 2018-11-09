@@ -1,32 +1,41 @@
-﻿@model WebMerch.Models.Supplier.EditViewModel
-@{
-    ViewBag.Title = "Add";
+﻿@{
+    ViewBag.Title = "";
     Layout = "~/Views/Shared/_LayoutHomeDialog.cshtml";
 }
 
 @section scripts{
     <script type="text/javascript">
 
+        var companyId = $.lumos.getUrlParamValue("companyId");
         $(document).ready(function () {
             $.formValidator.initConfig({ formID: "form_company", onError: function (msg) { art.dialog.tips(msg); } });
-            $("#Model_Company_Name").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "名称不能为空,且不超过50个字符" });
-            $("#Model_Company_Address").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 100, onError: "地址不能为空,且不超过100个字符" });
+            $("#txt_Name").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "名称不能为空,且不超过50个字符" });
+            $("#txt_Address").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 100, onError: "地址不能为空,且不超过100个字符" });
 
+            initData();
         });
+
+        function initData() {
+            getDetails();
+        }
+
 
         function edit() {
             var isValid = $.formValidator.pageIsValid();
             if (isValid) {
-                var form = $("#form_company");
 
                 art.dialog.confirm(
                '确定要保存基本信息？',
                 function () {
-                    var l_Data = $(form).serializeArray();
+
+                    var name = $("#txt_Name").val();
+                    var address = $("#txt_Address").val();
+                    var description = $("#txt_Description").val();
+
                     $.lumos.postJson({
                         isUseHandling: true,
                         url: "/Supplier/Edit",
-                        data: l_Data,
+                        data: { companyId: companyId, name: name, address: address, description: description },
                         success: function (d) {
                             $.lumos.tips(d.message);
                             $.lumos.parentDialog.listTable.loadData();
@@ -39,19 +48,36 @@
             return false;
         }
 
+        function getDetails() {
+
+            $.lumos.getJson({
+                url: "/Supplier/GetDetails",
+                urlParams: { companyId: companyId },
+                isUseHandling: true,
+                success: function (d) {
+                    if (d.result == $.lumos.resultType.success) {
+                        var data = d.data;
+                        $('#txt_Name').val(data.name);
+                        $('#txt_Address').val(data.address);
+                        $('#txt_Description').val(data.description);
+                    }
+                }
+            });
+        }
+
     </script>
 }
 
 <div class="gbr-row">
 
     <form id="form_company" name="form_company">
-        <input id="Model_Company_Id" name="Model.Company.Id" type="hidden" value="@Model.Company.Id" />
+
         <table class="f-tb" cellpadding="0" cellspacing="1">
             <tr>
                 <td class="f-tb-t" style="width:50px">名称<span class="required-symbol">*</span>：</td>
                 <td class="f-tb-c">
                     <span>
-                        <input id="Model_Company_Name" name="Model.Company.Name" type="text" class="input-control" value="@Model.Company.Name" style="width:200px;" />
+                        <input id="txt_Name" type="text" class="input-control" value="" style="width:200px;" autocomplete="off" />
                     </span>
                 </td>
             </tr>
@@ -59,7 +85,7 @@
                 <td class="f-tb-t">地址：</td>
                 <td class="f-tb-c">
                     <span>
-                        <input id="Model_Company_Address" name="Model.Company.Address" type="text" class="input-control" value="@Model.Company.Address" style="width:300px;" />
+                        <input id="txt_Address" type="text" class="input-control" value="" style="width:300px;" autocomplete="off" />
                     </span>
                 </td>
             </tr>
@@ -68,7 +94,7 @@
                     描述：
                 </td>
                 <td class="f-tb-c">
-                    <textarea id="Model_Company_Description" name="Model.Company.Description" class="ckeditor" style="width:80%;height:150px;">@Model.Company.Description</textarea>
+                    <textarea id="txt_Description" class="ckeditor" style="width:80%;height:150px;"></textarea>
                 </td>
             </tr>
         </table>

@@ -207,12 +207,8 @@
     <Compile Include="Models\ProductSubject\EditViewModel.cs" />
     <Compile Include="Models\ProductSubject\ProductSearchCondition.cs" />
     <Compile Include="Models\Store\SearchCondition.cs" />
-    <Compile Include="Models\Supplier\AddViewModel.cs" />
-    <Compile Include="Models\Supplier\EditViewModel.cs" />
     <Compile Include="Models\Supplier\SearchCondition.cs" />
     <Compile Include="Models\User\SearchCondition.cs" />
-    <Compile Include="Models\Warehouse\AddViewModel.cs" />
-    <Compile Include="Models\Warehouse\EditViewModel.cs" />
     <Compile Include="Models\Warehouse\SearchCondition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Machine\EditViewModel.cs" />

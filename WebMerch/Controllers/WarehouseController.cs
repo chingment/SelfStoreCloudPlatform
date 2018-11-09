@@ -1,5 +1,6 @@
 ﻿using Lumos;
 using Lumos.BLL;
+using Lumos.BLL.Biz;
 using Lumos.Entity;
 using System;
 using System.Collections.Generic;
@@ -18,15 +19,17 @@ namespace WebMerch.Controllers
 
         public ViewResult Add()
         {
-            AddViewModel model = new AddViewModel();
-            return View(model);
+            return View();
         }
 
-        public ViewResult Edit(string id)
+        public ViewResult Edit()
         {
-            EditViewModel model = new EditViewModel();
-            model.LoadData(id);
-            return View(model);
+            return View();
+        }
+
+        public CustomJsonResult GetDetails(string warehouseId)
+        {
+            return BizFactory.Warehouse.GetDetails(this.CurrentUserId, this.CurrentUserId, warehouseId);
         }
 
         [HttpPost]
@@ -41,7 +44,7 @@ namespace WebMerch.Controllers
             var query = (from u in CurrentDb.Warehouse
                          where (name.Length == 0 || u.Name.Contains(name))
                          &&
-                         u.MerchantId==this.CurrentUserId
+                         u.MerchantId == this.CurrentUserId
                          select new { u.Id, u.Name, u.Address, u.CreateTime });
 
             int total = query.Count();
@@ -73,16 +76,15 @@ namespace WebMerch.Controllers
 
 
         [HttpPost]
-        public CustomJsonResult Add(AddViewModel model)
+        public CustomJsonResult Add(RopWarehouseAdd rop)
         {
-            model.Warehouse.MerchantId = this.CurrentUserId;
-            return BizFactory.Warehouse.Add(this.CurrentUserId, model.Warehouse);
+            return BizFactory.Warehouse.Add(this.CurrentUserId, this.CurrentUserId, rop);
         }
 
         [HttpPost]
-        public CustomJsonResult Edit(EditViewModel model)
+        public CustomJsonResult Edit(RopWarehouseEdit rop)
         {
-            return BizFactory.Warehouse.Edit(this.CurrentUserId, model.Warehouse);
+            return BizFactory.Warehouse.Edit(this.CurrentUserId, this.CurrentUserId, rop);
         }
     }
 }
