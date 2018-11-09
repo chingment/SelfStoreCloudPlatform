@@ -8,45 +8,73 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 
-namespace Lumos.BLL
+namespace Lumos.BLL.Biz
 {
     public class MachineProvider : BaseProvider
     {
-        public CustomJsonResult Add(string pOperater, Machine pMachine)
+        public CustomJsonResult GetDetails(string pOperater, string manchineId)
+        {
+            var ret = new RetMachineGetDetails();
+            var machine = CurrentDb.Machine.Where(m => m.Id == manchineId).FirstOrDefault();
+            if (machine != null)
+            {
+                ret.MachineId = machine.Id ?? ""; ;
+                ret.Name = machine.Name ?? ""; ;
+                ret.DeviceId = machine.DeviceId ?? ""; ;
+                ret.MacAddress = machine.MacAddress ?? "";
+                ret.IsUse = machine.IsUse;
+
+                var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.MachineId == machine.Id && m.IsBind == true).FirstOrDefault();
+                if (merchantMachine != null)
+                {
+                    var sysMerchantUser = CurrentDb.SysMerchantUser.Where(m => m.Id == merchantMachine.MerchantId).FirstOrDefault();
+                    if (sysMerchantUser != null)
+                    {
+                        ret.Merchant.MerchantId = sysMerchantUser.Id;
+                        ret.Merchant.Name = sysMerchantUser.MerchantName ?? "";
+                        ret.Merchant.ContactName = sysMerchantUser.ContactName ?? "";
+                        ret.Merchant.ContactPhone = sysMerchantUser.ContactPhone ?? "";
+                        ret.Merchant.ContactAddress = sysMerchantUser.ContactAddress ?? "";
+                    }
+                }
+            }
+
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
+        }
+
+        public CustomJsonResult Add(string pOperater, RopMachineAdd rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 
-            var lPosMachine = CurrentDb.Machine.Where(m => m.DeviceId == pMachine.DeviceId).FirstOrDefault();
+            var lPosMachine = CurrentDb.Machine.Where(m => m.DeviceId == rop.DeviceId).FirstOrDefault();
             if (lPosMachine != null)
                 return new CustomJsonResult(ResultType.Failure, "该POS机设备ID已经登记");
 
-            pMachine.Id = GuidUtil.New();
-            pMachine.CreateTime = this.DateTime;
-            pMachine.Creator = pOperater;
-
-
-            CurrentDb.Machine.Add(pMachine);
+            var machine = new Machine();
+            machine.Id = GuidUtil.New();
+            machine.Name = rop.Name;
+            machine.DeviceId = rop.DeviceId;
+            machine.MacAddress = rop.MacAddress;
+            machine.CreateTime = this.DateTime;
+            machine.Creator = pOperater;
+            CurrentDb.Machine.Add(machine);
             CurrentDb.SaveChanges();
-
-            // machine.Sn = SnUtil.Build(machine.Id);
-            CurrentDb.SaveChanges();
-
 
             return new CustomJsonResult(ResultType.Success, "登记成功");
         }
 
-        public CustomJsonResult Edit(string pOperater, Machine pMachine)
+        public CustomJsonResult Edit(string pOperater, RopMachineEdit rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 
-            var lMachine = CurrentDb.Machine.Where(m => m.Id == pMachine.Id).FirstOrDefault();
-            if (lMachine == null)
+            var machine = CurrentDb.Machine.Where(m => m.Id == rop.MachineId).FirstOrDefault();
+            if (machine == null)
                 return new CustomJsonResult(ResultType.Failure, "不存在");
 
-            lMachine.Name = pMachine.Name;
-            lMachine.MacAddress = pMachine.MacAddress;
-            lMachine.MendTime = this.DateTime;
-            lMachine.Mender = pOperater;
+            machine.Name = rop.Name;
+            machine.MacAddress = rop.MacAddress;
+            machine.MendTime = this.DateTime;
+            machine.Mender = pOperater;
             CurrentDb.SaveChanges();
 
             return new CustomJsonResult(ResultType.Success, "保存成功");

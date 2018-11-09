@@ -10,6 +10,7 @@ using Lumos.BLL;
 using WebBack.Models.Biz.Merchant;
 using Lumos;
 using Lumos.BLL.Service.WebBack;
+using Lumos.BLL.Biz;
 
 namespace WebBack.Controllers.Biz
 {
@@ -44,7 +45,7 @@ namespace WebBack.Controllers.Biz
 
         public CustomJsonResult GetDetails(string merchantId)
         {
-            return WebBackServiceFactory.Merchant.GetDetails(this.CurrentUserId, merchantId);
+            return BizFactory.Merchant.GetDetails(this.CurrentUserId, merchantId);
         }
 
         public CustomJsonResult GetList(SearchCondition condition)
@@ -90,14 +91,14 @@ namespace WebBack.Controllers.Biz
         [HttpPost]
         public CustomJsonResult Add(RopMerchantAdd rop)
         {
-            return WebBackServiceFactory.Merchant.Add(this.CurrentUserId, rop);
+            return BizFactory.Merchant.Add(this.CurrentUserId, rop);
         }
 
         [HttpPost]
 
         public CustomJsonResult Edit(RopMerchantEdit rop)
         {
-            return WebBackServiceFactory.Merchant.Edit(this.CurrentUserId, rop);
+            return BizFactory.Merchant.Edit(this.CurrentUserId, rop);
         }
 
 

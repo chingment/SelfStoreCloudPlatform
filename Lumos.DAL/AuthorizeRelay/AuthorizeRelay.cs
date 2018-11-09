@@ -376,7 +376,7 @@ namespace Lumos.DAL.AuthorizeRelay
             }
 
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "修改成功");
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
         }
 
         public bool ResetPassword(string pOperater, string pUserId, string pPassword)
@@ -431,7 +431,7 @@ namespace Lumos.DAL.AuthorizeRelay
             AddOperateHistory(pOperater, Enumeration.OperateType.Update, _sysRole.Id, string.Format("修改角色{0}(ID:{1})", _sysRole.Name, _sysRole.Id));
 
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "修改成功");
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
         }
 
         public CustomJsonResult DeleteRole(string pOperater, string[] pRoldeIds)
@@ -587,7 +587,7 @@ namespace Lumos.DAL.AuthorizeRelay
 
             _db.SaveChanges();
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "修改成功");
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
 
         }
 

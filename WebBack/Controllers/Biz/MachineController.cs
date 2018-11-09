@@ -14,6 +14,7 @@ using System.Transactions;
 using WebBack.Models.Biz.Machine;
 using Lumos;
 using Lumos.BLL.Service.WebBack;
+using Lumos.BLL.Biz;
 
 namespace WebBack.Controllers.Biz
 {
@@ -47,7 +48,7 @@ namespace WebBack.Controllers.Biz
 
         public CustomJsonResult GetDetails(string machineId)
         {
-            return WebBackServiceFactory.Manchine.GetDetails(this.CurrentUserId, machineId);
+            return BizFactory.Machine.GetDetails(this.CurrentUserId, machineId);
         }
 
         public CustomJsonResult GetList(SearchCondition condition)
@@ -110,14 +111,14 @@ namespace WebBack.Controllers.Biz
         [HttpPost]
         public CustomJsonResult Add(RopMachineAdd rop)
         {
-            return WebBackServiceFactory.Manchine.Add(this.CurrentUserId, rop);
+            return BizFactory.Machine.Add(this.CurrentUserId, rop);
         }
 
         [HttpPost]
 
         public CustomJsonResult Edit(RopMachineEdit rop)
         {
-            return WebBackServiceFactory.Manchine.Edit(this.CurrentUserId, rop);
+            return BizFactory.Machine.Edit(this.CurrentUserId, rop);
         }
 
         [HttpPost]

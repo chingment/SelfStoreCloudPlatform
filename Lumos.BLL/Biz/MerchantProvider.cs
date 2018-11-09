@@ -7,36 +7,61 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 
-namespace Lumos.BLL
+namespace Lumos.BLL.Biz
 {
     public class MerchantProvider : BaseProvider
     {
-        public CustomJsonResult Add(string pOperater, SysMerchantUser pSysMerchatUser)
+        public CustomJsonResult GetDetails(string pOperater, string merchantId)
+        {
+            var ret = new RetMerchantGetDetails();
+            var sysMerchantUser = CurrentDb.SysMerchantUser.Where(m => m.Id == merchantId).FirstOrDefault();
+            if (sysMerchantUser != null)
+            {
+                ret.MerchantId = sysMerchantUser.Id ?? ""; ;
+                ret.UserName = sysMerchantUser.UserName ?? ""; ;
+                ret.MerchantName = sysMerchantUser.MerchantName ?? ""; ;
+                ret.ContactAddress = sysMerchantUser.ContactAddress ?? "";
+                ret.ContactName = sysMerchantUser.ContactName ?? "";
+                ret.ContactPhone = sysMerchantUser.ContactPhone ?? "";
+            }
+
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
+        }
+
+        public CustomJsonResult Add(string pOperater, RopMerchantAdd rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 
             using (TransactionScope ts = new TransactionScope())
             {
 
-                var isExistsSysUser = CurrentDb.SysUser.Where(m => m.UserName == pSysMerchatUser.UserName).FirstOrDefault();
+                var isExistsSysUser = CurrentDb.SysUser.Where(m => m.UserName == rop.UserName).FirstOrDefault();
 
                 if (isExistsSysUser != null)
                 {
                     return new CustomJsonResult(ResultType.Failure, "账号已经存在");
                 }
-                pSysMerchatUser.Id = GuidUtil.New();
-                pSysMerchatUser.SecurityStamp = Guid.NewGuid().ToString();
-                pSysMerchatUser.RegisterTime = this.DateTime;
-                pSysMerchatUser.CreateTime = this.DateTime;
-                pSysMerchatUser.Creator = pOperater;
-                pSysMerchatUser.Status = Enumeration.UserStatus.Normal;
-                pSysMerchatUser.Type = Enumeration.UserType.Merchant;
-                CurrentDb.SysMerchantUser.Add(pSysMerchatUser);
+
+                var sysMerchatUser = new SysMerchantUser();
+                sysMerchatUser.Id = GuidUtil.New();
+                sysMerchatUser.UserName = rop.UserName;
+                sysMerchatUser.PasswordHash = PassWordHelper.HashPassword(rop.Password);
+                sysMerchatUser.MerchantName = rop.MerchantName;
+                sysMerchatUser.ContactName = rop.ContactName;
+                sysMerchatUser.ContactPhone = rop.ContactPhone;
+                sysMerchatUser.ContactAddress = rop.ContactAddress;
+                sysMerchatUser.SecurityStamp = Guid.NewGuid().ToString();
+                sysMerchatUser.RegisterTime = this.DateTime;
+                sysMerchatUser.CreateTime = this.DateTime;
+                sysMerchatUser.Creator = pOperater;
+                sysMerchatUser.Status = Enumeration.UserStatus.Normal;
+                sysMerchatUser.Type = Enumeration.UserType.Merchant;
+                CurrentDb.SysMerchantUser.Add(sysMerchatUser);
                 CurrentDb.SaveChanges();
 
                 var merchantConfig = new MerchantConfig();
                 merchantConfig.Id = GuidUtil.New();
-                merchantConfig.MerchantId = pSysMerchatUser.Id;
+                merchantConfig.MerchantId = sysMerchatUser.Id;
                 merchantConfig.CreateTime = this.DateTime;
                 merchantConfig.Creator = pOperater;
                 merchantConfig.ApiHost = "http://demo.api.term.17fanju.com";
@@ -54,22 +79,22 @@ namespace Lumos.BLL
             return result;
         }
 
-        public CustomJsonResult Edit(string pOperater, SysMerchantUser pSysMerchatUser)
+        public CustomJsonResult Edit(string pOperater, RopMerchantEdit rop)
         {
             CustomJsonResult result = new CustomJsonResult();
             using (TransactionScope ts = new TransactionScope())
             {
-                var lSysMerchantUser = CurrentDb.SysMerchantUser.Where(m => m.Id == pSysMerchatUser.Id).FirstOrDefault();
-                lSysMerchantUser.ContactName = pSysMerchatUser.ContactName;
-                lSysMerchantUser.ContactPhone = pSysMerchatUser.ContactPhone;
-                lSysMerchantUser.ContactAddress = pSysMerchatUser.ContactAddress;
-                lSysMerchantUser.MendTime = this.DateTime;
-                lSysMerchantUser.Mender = pOperater;
+                var sysMerchantUser = CurrentDb.SysMerchantUser.Where(m => m.Id == rop.MerchantId).FirstOrDefault();
+                sysMerchantUser.ContactName = rop.ContactName;
+                sysMerchantUser.ContactPhone = rop.ContactPhone;
+                sysMerchantUser.ContactAddress = rop.ContactAddress;
+                sysMerchantUser.MendTime = this.DateTime;
+                sysMerchantUser.Mender = pOperater;
 
-                //if (!string.IsNullOrEmpty(pSysMerchatUser.Password))
-                //{
-                //    lSysMerchantUser.PasswordHash = PassWordHelper.HashPassword(pSysMerchatUser.Password);
-                //}
+                if (!string.IsNullOrEmpty(rop.Password))
+                {
+                    sysMerchantUser.PasswordHash = PassWordHelper.HashPassword(rop.Password);
+                }
 
                 CurrentDb.SaveChanges();
                 ts.Complete();
@@ -79,7 +104,6 @@ namespace Lumos.BLL
 
             return result;
         }
-
 
 
     }

@@ -40,21 +40,5 @@ namespace Lumos.BLL.Service.WebBack
             }
         }
 
-        public static ManchineService Manchine
-        {
-            get
-            {
-                return new ManchineService();
-            }
-        }
-
-        public static MerchantService Merchant
-        {
-            get
-            {
-                return new MerchantService();
-            }
-        }
-
     }
 }
