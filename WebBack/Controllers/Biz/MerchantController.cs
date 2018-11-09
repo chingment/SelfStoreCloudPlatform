@@ -31,10 +31,9 @@ namespace WebBack.Controllers.Biz
             return View();
         }
 
-        public ViewResult Edit(string id)
+        public ViewResult Edit()
         {
-            EditViewModel model = new EditViewModel(id);
-            return View(model);
+            return View();
         }
 
         public ViewResult MachineListByBindable()

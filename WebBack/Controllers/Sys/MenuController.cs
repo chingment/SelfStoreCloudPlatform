@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
-using WebBack.Models.Sys.Menu;
 
 namespace WebBack.Controllers.Sys
 {
@@ -20,8 +19,7 @@ namespace WebBack.Controllers.Sys
 
         public ActionResult List()
         {
-            ListViewModel mode = new ListViewModel();
-            return View(mode);
+            return View();
         }
 
         public ActionResult Add()
