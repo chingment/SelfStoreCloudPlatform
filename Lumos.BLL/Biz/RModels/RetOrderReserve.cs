@@ -3,7 +3,7 @@
 using System.Collections.Generic;
 
 
-namespace Lumos.BLL.Biz.RModels
+namespace Lumos.BLL.Biz
 {
 
 

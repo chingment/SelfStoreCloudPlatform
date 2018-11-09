@@ -94,6 +94,7 @@
     <Compile Include="Biz\RModels\RetOrderReserve.cs" />
     <Compile Include="Biz\RModels\RetPayResultQuery.cs" />
     <Compile Include="Biz\RModels\RetProducSkuAdd.cs" />
+    <Compile Include="Biz\RModels\RetStoreGetDetails.cs" />
     <Compile Include="Biz\RModels\RetWxUserCheckedUser.cs" />
     <Compile Include="Biz\RModels\RopMachineAdd.cs" />
     <Compile Include="Biz\RModels\RopMachineEdit.cs" />
@@ -104,6 +105,8 @@
     <Compile Include="Biz\RModels\RopProducSkuAdd.cs" />
     <Compile Include="Biz\RModels\RopProducSkuEdit.cs" />
     <Compile Include="Biz\RModels\RopReplenishStaffBindMobile.cs" />
+    <Compile Include="Biz\RModels\RopStoreAdd.cs" />
+    <Compile Include="Biz\RModels\RopStoreEdit.cs" />
     <Compile Include="Biz\RModels\RopWxUserCheckedUser.cs" />
     <Compile Include="Biz\RModels\RupMachineLoginResultQuery.cs" />
     <Compile Include="Biz\SmsProvider.cs" />

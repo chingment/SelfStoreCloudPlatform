@@ -206,9 +206,6 @@
     <Compile Include="Models\ProductSubject\DetailsViewModel.cs" />
     <Compile Include="Models\ProductSubject\EditViewModel.cs" />
     <Compile Include="Models\ProductSubject\ProductSearchCondition.cs" />
-    <Compile Include="Models\Store\AddViewModel.cs" />
-    <Compile Include="Models\Store\DetailsViewModel.cs" />
-    <Compile Include="Models\Store\EditViewModel.cs" />
     <Compile Include="Models\Store\SearchCondition.cs" />
     <Compile Include="Models\Supplier\AddViewModel.cs" />
     <Compile Include="Models\Supplier\EditViewModel.cs" />
@@ -251,7 +248,6 @@
     <Content Include="Views\Machine\Edit.cshtml" />
     <Content Include="Views\Store\MachineListByBindable.cshtml" />
     <Content Include="Views\Store\Edit.cshtml" />
-    <Content Include="Views\Store\MachineSet.cshtml" />
     <Content Include="Views\Store\List.cshtml" />
     <Content Include="Views\ProductSku\Add.cshtml" />
     <Content Include="Views\ProductSku\Edit.cshtml" />

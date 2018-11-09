@@ -1,4 +1,5 @@
-﻿using Lumos.Entity;
+﻿using Lumos.BLL.Biz;
+using Lumos.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,21 +11,43 @@ namespace Lumos.BLL
 {
     public class StoreProvider : BaseProvider
     {
-        public CustomJsonResult Add(string pOperater, Store pStore)
+        public CustomJsonResult GetDetails(string pOperater, string pMerchantId, string pStoreId)
+        {
+            var ret = new RetStoreGetDetails();
+            var store = CurrentDb.Store.Where(m => m.MerchantId == pMerchantId && m.Id == pStoreId).FirstOrDefault();
+            if (store != null)
+            {
+                ret.StoreId = store.Id ?? "";
+                ret.Name = store.Name ?? "";
+                ret.Address = store.Address ?? "";
+                ret.Description = store.Description ?? "";
+                ret.Status = store.Status;
+            }
+
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
+        }
+
+        public CustomJsonResult Add(string pOperater, string pMerchantId, RopStoreAdd rop)
         {
             CustomJsonResult result = new CustomJsonResult();
             using (TransactionScope ts = new TransactionScope())
             {
-                var isExistStore = CurrentDb.Store.Where(m => m.MerchantId == pStore.MerchantId && m.Name == pStore.Name).FirstOrDefault();
+                var isExistStore = CurrentDb.Store.Where(m => m.MerchantId == pMerchantId && m.Name == rop.Name).FirstOrDefault();
                 if (isExistStore != null)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "名称已存在,请使用其它");
                 }
-                pStore.Id = GuidUtil.New();
-                pStore.Status = Enumeration.StoreStatus.Closed;
-                pStore.CreateTime = this.DateTime;
-                pStore.Creator = pOperater;
-                CurrentDb.Store.Add(pStore);
+
+                var store = new Store();
+                store.Id = GuidUtil.New();
+                store.MerchantId = pMerchantId;
+                store.Name = rop.Name;
+                store.Address = rop.Address;
+                store.Description = rop.Description;
+                store.Status = Enumeration.StoreStatus.Closed;
+                store.CreateTime = this.DateTime;
+                store.Creator = pOperater;
+                CurrentDb.Store.Add(store);
                 CurrentDb.SaveChanges();
 
                 ts.Complete();
@@ -34,33 +57,34 @@ namespace Lumos.BLL
             return result;
         }
 
-        public CustomJsonResult Edit(string pOperater, Store pStore)
+        public CustomJsonResult Edit(string pOperater, string pMerchantId, RopStoreEdit rop)
         {
             CustomJsonResult result = new CustomJsonResult();
             using (TransactionScope ts = new TransactionScope())
             {
-                var lStore = CurrentDb.Store.Where(m => m.Id == pStore.Id).FirstOrDefault();
 
-                var isExistStore = CurrentDb.Store.Where(m => m.MerchantId == lStore.MerchantId && m.Id != pStore.Id && m.Name == pStore.Name).FirstOrDefault();
+                var isExistStore = CurrentDb.Store.Where(m => m.MerchantId == pMerchantId && m.Id != rop.StoreId && m.Name == rop.Name).FirstOrDefault();
                 if (isExistStore != null)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "名称已存在,请使用其它");
                 }
 
-                if (lStore.Status == Enumeration.StoreStatus.Opened)
+                var store = CurrentDb.Store.Where(m => m.Id == rop.StoreId).FirstOrDefault();
+
+                if (store.Status == Enumeration.StoreStatus.Opened)
                 {
-                    var storeMachineBindCount = CurrentDb.StoreMachine.Where(m => m.StoreId == pStore.Id && m.IsBind == true).Count();
+                    var storeMachineBindCount = CurrentDb.StoreMachine.Where(m => m.StoreId == rop.StoreId && m.IsBind == true).Count();
                     if (storeMachineBindCount == 0)
                     {
                         return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "设置为正常状态，必须先在机器管理里绑定一台机器");
                     }
                 }
 
-                lStore.Name = pStore.Name;
-                lStore.Address = pStore.Address;
-                lStore.Status = pStore.Status;
-                lStore.MendTime = this.DateTime;
-                lStore.Mender = pOperater;
+                store.Name = rop.Name;
+                store.Address = rop.Address;
+                store.Status = rop.Status;
+                store.MendTime = this.DateTime;
+                store.Mender = pOperater;
                 CurrentDb.SaveChanges();
                 ts.Complete();
                 result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");

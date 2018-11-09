@@ -7,6 +7,8 @@ using Lumos.Redis;
 using NPinyin;
 using System.Text;
 using Lumos.BLL.Biz.RModels;
+using Lumos.BLL.Biz;
+
 namespace Lumos.BLL
 {
 

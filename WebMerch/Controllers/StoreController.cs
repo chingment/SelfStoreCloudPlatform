@@ -1,5 +1,6 @@
 ﻿using Lumos;
 using Lumos.BLL;
+using Lumos.BLL.Biz;
 using Lumos.Entity;
 using System;
 using System.Collections.Generic;
@@ -18,15 +19,12 @@ namespace WebMerch.Controllers
 
         public ViewResult Add()
         {
-            AddViewModel model = new AddViewModel();
-            return View(model);
+            return View();
         }
 
-        public ViewResult Edit(string id)
+        public ViewResult Edit()
         {
-            EditViewModel model = new EditViewModel();
-            model.LoadData(id);
-            return View(model);
+            return View();
         }
 
         public ViewResult MachineListByBindable()
@@ -77,18 +75,21 @@ namespace WebMerch.Controllers
             return Json(ResultType.Success, pageEntity, "");
         }
 
-
-        [HttpPost]
-        public CustomJsonResult Add(AddViewModel model)
+        public CustomJsonResult GetDetails(string storeId)
         {
-            model.Store.MerchantId = this.CurrentUserId;
-            return BizFactory.Store.Add(this.CurrentUserId, model.Store);
+            return BizFactory.Store.GetDetails(this.CurrentUserId, this.CurrentUserId, storeId);
         }
 
         [HttpPost]
-        public CustomJsonResult Edit(EditViewModel model)
+        public CustomJsonResult Add(RopStoreAdd rop)
         {
-            return BizFactory.Store.Edit(this.CurrentUserId, model.Store);
+            return BizFactory.Store.Add(this.CurrentUserId, this.CurrentUserId, rop);
+        }
+
+        [HttpPost]
+        public CustomJsonResult Edit(RopStoreEdit rop)
+        {
+            return BizFactory.Store.Edit(this.CurrentUserId, this.CurrentUserId, rop);
         }
 
         public CustomJsonResult GetMachineListByBind(SearchCondition condition)
@@ -103,7 +104,7 @@ namespace WebMerch.Controllers
             var query = (from u in CurrentDb.Machine
                          join p in CurrentDb.MerchantMachine on u.Id equals p.MachineId
                          where (from d in CurrentDb.StoreMachine
-                                where d.StoreId == condition.Id && d.IsBind == true
+                                where d.StoreId == condition.StoreId && d.IsBind == true
                                 select d.MachineId).Contains(u.Id)
                          &&
                          (name.Length == 0 || u.Name.Contains(name))

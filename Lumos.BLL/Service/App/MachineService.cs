@@ -12,7 +12,7 @@ namespace Lumos.BLL.Service.App
         {
             CustomJsonResult result = new CustomJsonResult();
 
-            Biz.RModels.RopMachineLoginByQrCode bizRop = new Biz.RModels.RopMachineLoginByQrCode();
+            Biz.RopMachineLoginByQrCode bizRop = new Biz.RopMachineLoginByQrCode();
 
             bizRop.LoginUserId = pClientId;
             bizRop.Token = rop.Token;

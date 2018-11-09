@@ -18,7 +18,7 @@ namespace Lumos.BLL.Service.App
         {
             CustomJsonResult result = new CustomJsonResult();
 
-            Biz.RModels.RopOrderReserve bizRop = new Biz.RModels.RopOrderReserve();
+            Biz.RopOrderReserve bizRop = new Biz.RopOrderReserve();
             bizRop.Source = Enumeration.OrderSource.Machine;
             bizRop.StoreId = rop.StoreId;
             bizRop.PayTimeout = rop.PayTimeout;
@@ -27,7 +27,7 @@ namespace Lumos.BLL.Service.App
 
             foreach (var item in rop.Skus)
             {
-                bizRop.Skus.Add(new Biz.RModels.RopOrderReserve.Sku() { CartId = item.CartId, Id = item.Id, Quantity = item.Quantity, ReceptionMode = item.ReceptionMode });
+                bizRop.Skus.Add(new Biz.RopOrderReserve.Sku() { CartId = item.CartId, Id = item.Id, Quantity = item.Quantity, ReceptionMode = item.ReceptionMode });
             }
 
             var bizResult = BizFactory.Order.Reserve(pOperater, bizRop);

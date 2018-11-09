@@ -1,19 +1,20 @@
-﻿@model WebMerch.Models.Store.EditViewModel
-@{
-    ViewBag.Title = "Add";
+﻿@{
+    ViewBag.Title = "";
     Layout = "~/Views/Shared/_LayoutHomeDialog.cshtml";
 }
 
 @section scripts{
     <script type="text/javascript">
 
+        var storeId = $.lumos.getUrlParamValue("storeId");
         var list_machine;
         $(document).ready(function () {
 
+            $('input[name=StoreId]').val(storeId);
 
             $.formValidator.initConfig({ formID: "form_store", onError: function (msg) { art.dialog.tips(msg); } });
-            $("#Model_Store_Name").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "名称不能为空,且不超过50个字符" });
-            $("#Model_Store_Address").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 100, onError: "地址不能为空,且不超过100个字符" });
+            $("#txt_Name").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "名称不能为空,且不超过50个字符" });
+            $("#txt_Address").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 100, onError: "地址不能为空,且不超过100个字符" });
 
 
             list_machine = $("#list_machine").loadDataTable({
@@ -42,23 +43,18 @@
                         "bindoff": function (obj) {
 
 
-                            art.dialog.confirm(
-    "确定要解绑,数据会被清除，慎重操作？",
-    function () {
-        var array = new Array();
-        array.push({ name: "storeId", value: $.lumos.getUrlParamValue("id") });
-        array.push({ name: "machineId", value: obj.id });
+                            art.dialog.confirm("确定要解绑,数据会被清除，慎重操作？", function () {
 
-        $.lumos.postJson({
-            isUseHandling: true,
-            url: "/Store/BindOffMachine",
-            data: array,
-            success: function (d) {
-                list_machine.loadData(0);
-                $.lumos.tips(d.message);
-            }
-        });
-    });
+                                $.lumos.postJson({
+                                    isUseHandling: true,
+                                    url: "/Store/BindOffMachine",
+                                    data: { storeId: storeId, machineId: obj.id },
+                                    success: function (d) {
+                                        list_machine.loadData(0);
+                                        $.lumos.tips(d.message);
+                                    }
+                                });
+                            });
 
 
                         }
@@ -68,7 +64,7 @@
 
             $("#btn_add_machine").click(function () {
 
-                var url = '/Store/MachineListByBindable?storeId=' + $.lumos.getUrlParamValue("id");
+                var url = '/Store/MachineListByBindable?storeId=' + storeId;
                 var title = '选择绑定';
                 art.dialog.open(url, {
                     id: "openDialog333", title: title, width: '600px', height: '400px', lock: true, drag: false, cancelVal: '关闭', cancel: true
@@ -76,22 +72,29 @@
 
             });
 
+            initData();
         });
+
+        function initData() {
+            getDetails();
+        }
 
         function edit() {
 
             var isValid = $.formValidator.pageIsValid();
             if (isValid) {
-                var form = $("#form_store");
 
                 art.dialog.confirm(
                '确定要保存基本信息？',
                 function () {
-                    var l_Data = $(form).serializeArray();
+
+                    var name = $("#txt_Name").val();
+                    var address = $("#txt_Address").val();
+                    var status = $("input[name=rd_Status]").val();
                     $.lumos.postJson({
                         isUseHandling: true,
                         url: "/Store/Edit",
-                        data: l_Data,
+                        data: { storeId: storeId, name: name, address: address, status: status },
                         success: function (d) {
                             $.lumos.tips(d.message);
                             $.lumos.parentDialog.listTable.loadData();
@@ -103,6 +106,23 @@
             return false;
         }
 
+        function getDetails() {
+
+            $.lumos.getJson({
+                url: "/Store/GetDetails",
+                urlParams: { storeId: storeId },
+                isUseHandling: true,
+                success: function (d) {
+
+                    if (d.result == $.lumos.resultType.success) {
+                        var data = d.data;
+                        $('#txt_Name').val(data.name);
+                        $('#txt_Address').val(data.address);
+                        $("input[name=rd_Status][value=" + data.status + "]").attr("checked", true);
+                    }
+                }
+            });
+        }
     </script>
 }
 
@@ -117,13 +137,13 @@
         <div class="tab-content">
             <div class="subcontent">
                 <form id="form_store" name="form_store">
-                    <input id="Model_Store_Id" name="Model.Store.Id" type="hidden" value="@Model.Store.Id" />
+
                     <table class="f-tb" cellpadding="0" cellspacing="1">
                         <tr>
                             <td class="f-tb-t">名称：</td>
                             <td class="f-tb-c">
                                 <span>
-                                    <input id="Model_Store_Name" name="Model.Store.Name" type="text" class="input-control" value="@Model.Store.Name" style="width:200px;" />
+                                    <input id="txt_Name" type="text" class="input-control" value="" style="width:200px;" autocomplete="off" />
                                 </span>
                             </td>
                         </tr>
@@ -131,7 +151,7 @@
                             <td class="f-tb-t">地址：</td>
                             <td class="f-tb-c">
                                 <span>
-                                    <input id="Model_Store_Address" name="Model.Store.Address" type="text" class="input-control" value="@Model.Store.Address" style="width:300px;" />
+                                    <input id="txt_Address" type="text" class="input-control" value="" autocomplete="off" style="width:300px;" />
                                 </span>
                             </td>
                         </tr>
@@ -139,7 +159,7 @@
                             <td class="f-tb-t">状态：</td>
                             <td class="f-tb-c">
                                 <span>
-                                    @(Html.initEnumeration<Lumos.Entity.Enumeration.StoreStatus>(Lumos.Entity.Enumeration.InputType.Radio, "Model.Store.Status", new { @class = "select-control", defaulttext = "请选择", hidevalue = new Lumos.Entity.Enumeration.StoreStatus[] { Lumos.Entity.Enumeration.StoreStatus.Unknow }, selectedvalue = new Lumos.Entity.Enumeration.StoreStatus[] { Model.Store.Status } }))
+                                    @(Html.initEnumeration<Lumos.Entity.Enumeration.StoreStatus>(Lumos.Entity.Enumeration.InputType.Radio, "rd_Status", new { @class = "select-control", defaulttext = "请选择", hidevalue = new Lumos.Entity.Enumeration.StoreStatus[] { Lumos.Entity.Enumeration.StoreStatus.Unknow } }))
                                 </span>
                             </td>
                         </tr>
@@ -155,7 +175,7 @@
             <div class="subcontent">
 
                 <form id="form_machine" name="form_machine">
-                    <input id="Id" name="Id" type="hidden" value="@Model.Store.Id" />
+                    <input id="Id" name="StoreId" type="hidden" value="" />
                     <div class="search-bar">
                         <div class="filter">
                             <span class="filter-label">名称：</span>

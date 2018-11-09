@@ -8,6 +8,6 @@ namespace WebMerch.Models.Store
 {
     public class SearchCondition : BaseSearchCondition
     {
-        public string Id { get; set; }
+        public string StoreId { get; set; }
     }
 }

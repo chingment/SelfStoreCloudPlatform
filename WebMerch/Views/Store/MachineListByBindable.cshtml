@@ -6,8 +6,10 @@
 <script type="text/javascript">
 
     var listTable;
-
+    var storeId = $.lumos.getUrlParamValue("storeId");
     $(document).ready(function () {
+
+        $('input[name=StoreId]').val(storeId);
 
         listTable = $("#list_table").loadDataTable({
             url: "/Store/GetMachineListByBindable",
@@ -60,8 +62,7 @@
 </script>
 
 <form id="form1" name="form1">
-    @Html.AntiForgeryToken()
-    <input type="hidden" name="StoreId" id="txt_StoreId" value="@Request.QueryString["id"]" />
+    <input type="hidden" name="StoreId" id="txt_StoreId" value="" />
     <div class="search-bar">
         <div class="filter">
             <span class="filter-label">设备Id：</span>

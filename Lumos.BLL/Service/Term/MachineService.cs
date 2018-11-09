@@ -243,7 +243,7 @@ namespace Lumos.BLL.Service.Term
 
             CustomJsonResult result = new CustomJsonResult();
 
-            Biz.RModels.RupMachineLoginResultQuery bizRup = new Biz.RModels.RupMachineLoginResultQuery();
+            Biz.RupMachineLoginResultQuery bizRup = new Biz.RupMachineLoginResultQuery();
 
             bizRup.Token = rup.Token;
 

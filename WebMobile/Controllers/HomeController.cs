@@ -19,6 +19,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 using Lumos.BLL.Biz.RModels;
+using Lumos.BLL.Biz;
 
 namespace WebMobile.Controllers
 {
