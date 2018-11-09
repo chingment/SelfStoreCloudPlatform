@@ -92,6 +92,7 @@
     <Compile Include="Biz\RModels\RetCompanyGetDetails.cs" />
     <Compile Include="Biz\RModels\RetMachineGetDetails.cs" />
     <Compile Include="Biz\RModels\RetMerchantGetDetails.cs" />
+    <Compile Include="Biz\RModels\RetOrder2StockInGetDetails.cs" />
     <Compile Include="Biz\RModels\RetOrderReserve.cs" />
     <Compile Include="Biz\RModels\RetPayResultQuery.cs" />
     <Compile Include="Biz\RModels\RetProducSkuAdd.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="Biz\RModels\RopMachineLoginByQrCode.cs" />
     <Compile Include="Biz\RModels\RopMerchantAdd.cs" />
     <Compile Include="Biz\RModels\RopMerchantEdit.cs" />
+    <Compile Include="Biz\RModels\RopOrder2StockInAdd.cs" />
     <Compile Include="Biz\RModels\RopOrderReserve.cs" />
     <Compile Include="Biz\RModels\RopProducSkuAdd.cs" />
     <Compile Include="Biz\RModels\RopProducSkuEdit.cs" />

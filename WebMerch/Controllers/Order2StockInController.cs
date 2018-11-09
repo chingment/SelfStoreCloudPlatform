@@ -1,5 +1,6 @@
 ﻿using Lumos;
 using Lumos.BLL;
+using Lumos.BLL.Biz;
 using Lumos.Entity;
 using System;
 using System.Collections.Generic;
@@ -21,11 +22,14 @@ namespace WebMerch.Controllers
             return View();
         }
 
-        public ActionResult Details(string id)
+        public ActionResult Details()
         {
-            DetailsViewModel model = new DetailsViewModel();
-            model.LoadData(id);
-            return View(model);
+            return View();
+        }
+
+        public CustomJsonResult GetDetails(string order2StockInId)
+        {
+            return BizFactory.Order2StockIn.GetDetails(this.CurrentUserId, this.CurrentUserId, order2StockInId);
         }
 
         [HttpPost]
@@ -73,10 +77,9 @@ namespace WebMerch.Controllers
         }
 
         [HttpPost]
-        public CustomJsonResult Add(AddViewModel model)
+        public CustomJsonResult Add(RopOrder2StockInAdd rop)
         {
-            model.Order2StockIn.MerchantId = this.CurrentUserId;
-            return BizFactory.Order2StockIn.Add(this.CurrentUserId, model.Order2StockIn, model.Order2StockInDetails);
+            return BizFactory.Order2StockIn.Add(this.CurrentUserId, this.CurrentUserId, rop);
         }
     }
 }

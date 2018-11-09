@@ -1,6 +1,5 @@
-﻿﻿@model WebMerch.Models.Warehouse.AddViewModel
-@{
-    ViewBag.Title = "Add";
+﻿@{
+    ViewBag.Title = "";
     Layout = "~/Views/Shared/_LayoutHomeDialog.cshtml";
 }
 @section scripts{
@@ -25,9 +24,9 @@
         $(document).ready(function () {
             addRowSku();
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { art.dialog.tips(msg); } });
-            $("#Model_Order2StockIn_StockInTime").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "请选择日期" });
-            $("#Model_Order2StockIn_WarehouseId").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择仓库" });
-            $("#Model_Order2StockIn_SupplierId").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择供应商" });
+            $("#txt_StockInTime").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "请选择日期" });
+            $("#sel_WarehouseId").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择仓库" });
+            $("#sel_SupplierId").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择供应商" });
 
             $('input[name=code]').live("click", function () {
                 var _this = $(this);
@@ -94,64 +93,76 @@
         });
 
         function add() {
-            var form = $("#form1");
+
             var isValid = $.formValidator.pageIsValid();
-            var l_Data = $(form).serializeArray();
+            if (!isValid)
+                return;
+
+            var isNoHasErrorVal = false;
+            var isNoHasSku = true;
+
             var rows = $('#list_table_skus tbody tr');
 
-            var isCheckValueFormat = true;
-            var isCheckHasSku = true;
+            var skus = [];
             $.each(rows, function (i, row) {
 
                 var id = $(row).find("input[name=id]").val();
                 if (id != "") {
-                    isCheckHasSku = false;
+                    isNoHasSku = false;
 
                     var quantity = $(row).find("input[name=quantity]").val();
                     var amount = $(row).find("input[name=amount]").val();
 
                     if (!$.lumos.isInt(quantity)) {
                         $.lumos.tips("检查到输入数量的值不是正整数格式");
-                        isCheckValueFormat = false;
+                        isNoHasErrorVal = true;
                         return;
                     }
 
                     if (!$.lumos.isFloat(amount)) {
                         $.lumos.tips("检查到输入金额不是金额格式");
-                        isCheckValueFormat = false;
+                        isNoHasErrorVal = true;
                         return;
                     }
 
-                    l_Data.push({ name: "Model.Order2StockInDetails[" + i + "].ProductSkuId", value: id });
-                    l_Data.push({ name: "Model.Order2StockInDetails[" + i + "].Quantity", value: quantity });
-                    l_Data.push({ name: "Model.Order2StockInDetails[" + i + "].Amount", value: amount });
+                    skus.push({ skuId: id, quantity: quantity, amount: amount });
                 }
 
             });
 
-            if (isCheckHasSku) {
-                $.lumos.tips("至少入库一种商品");
-                return false;
+            if (isNoHasErrorVal) {
+                return;
             }
 
-            if (isValid == true && isCheckValueFormat == true) {
-                art.dialog.confirm(
-               '确定要提交？',
-                function () {
-                    $.lumos.postJson({
-                        isUseHandling: true,
-                        url: "/Order2StockIn/Add",
-                        data: l_Data,
-                        success: function (d) {
-                            $.lumos.tips(d.message);
-                            if (d.result == $.lumos.resultType.success) {
-                                $.lumos.parentDialog.listTable.loadData();
-                                $.lumos.closeDialog();
-                            }
-                        }
-                    });
-                });
+            if (isNoHasSku) {
+                $.lumos.tips("至少入库一种商品");
+                return;
             }
+
+
+            art.dialog.confirm(
+           '确定要提交？',
+            function () {
+
+                var stockInTime = $("#txt_StockInTime").val();
+                var warehouseId = $("#sel_WarehouseId").val();
+                var supplierId = $("#sel_SupplierId").val();
+                var description = $("#txt_Description").val()
+
+                $.lumos.postJson({
+                    isUseHandling: true,
+                    url: "/Order2StockIn/Add",
+                    data: { stockInTime: stockInTime, warehouseId: warehouseId, supplierId: supplierId, description: description, skus: skus },
+                    success: function (d) {
+                        $.lumos.tips(d.message);
+                        if (d.result == $.lumos.resultType.success) {
+                            $.lumos.parentDialog.listTable.loadData();
+                            $.lumos.closeDialog();
+                        }
+                    }
+                });
+            });
+
             return false;
         }
 
@@ -199,19 +210,19 @@
                     入库日期<span class="required-symbol">*</span>：
                 </td>
                 <td class="f-tb-c">
-                    <input id="Model_Order2StockIn_StockInTime" name="Model.Order2StockIn.StockInTime" type="text" value="@DateTime.Now.ToUnifiedFormatDate()" class="Wdate" style="width:100px;" onclick="WdatePicker({ maxDate: '#F{\'@DateTime.Now.ToString("yyyy-MM-dd")\'}', dateFmt: 'yyyy-MM-dd' })" autocomplete="off" />
+                    <input id="txt_StockInTime" type="text" value="@DateTime.Now.ToUnifiedFormatDate()" class="Wdate" style="width:100px;" onclick="WdatePicker({ maxDate: '#F{\'@DateTime.Now.ToString("yyyy-MM-dd")\'}', dateFmt: 'yyyy-MM-dd' })" autocomplete="off" />
                 </td>
                 <td class="f-tb-t">
                     仓库<span class="required-symbol">*</span>：
                 </td>
                 <td class="f-tb-c">
-                    @Html.initWarehouse("Model.Order2StockIn.WarehouseId")
+                    @Html.initWarehouse("sel.WarehouseId")
                 </td>
                 <td class="f-tb-t">
                     供应商<span class="required-symbol">*</span>：
                 </td>
                 <td class="f-tb-c">
-                    @Html.initCompany(Lumos.Entity.Enumeration.CompanyClass.Supplier, "Model.Order2StockIn.SupplierId")
+                    @Html.initCompany(Lumos.Entity.Enumeration.CompanyClass.Supplier, "sel.SupplierId")
                 </td>
             </tr>
             <tr>
@@ -219,13 +230,7 @@
                     描述：
                 </td>
                 <td class="f-tb-c" colspan="5">
-                    <input id="Model_Order2StockIn_Description" name="Model.Order2StockIn.Description" type="text" value="" style="width:80%;" autocomplete="off" />
-                </td>
-            </tr>
-            <tr style="display:none">
-                <td class="f-tb-t"></td>
-                <td class="f-tb-c">
-                    <input type="button" value="保存" class="btn btn-sure" onclick="return add()" />
+                    <input id="txt_Description" type="text" value="" style="width:80%;" autocomplete="off" />
                 </td>
             </tr>
         </table>

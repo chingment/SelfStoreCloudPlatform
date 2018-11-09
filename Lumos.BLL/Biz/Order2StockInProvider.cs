@@ -1,4 +1,5 @@
-﻿using Lumos.Entity;
+﻿using Lumos.BLL.Biz;
+using Lumos.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,82 +11,123 @@ namespace Lumos.BLL
 {
     public class Order2StockInProvider : BaseProvider
     {
-        public CustomJsonResult Add(string pOperater, Order2StockIn pOrder2StockIn, List<Order2StockInDetails> pOrder2StockInDetails)
+        public CustomJsonResult GetDetails(string pOperater, string pMerchantId, string pOrder2StockInId)
+        {
+            var ret = new RetOrder2StockInGetDetails();
+
+
+            var order2StockIn = CurrentDb.Order2StockIn.Where(m => m.Id == pOrder2StockInId).FirstOrDefault();
+
+            if (order2StockIn != null)
+            {
+                ret.Order2StockInId = order2StockIn.Id;
+                ret.Sn = order2StockIn.Sn;
+                ret.StockInTime = order2StockIn.StockInTime.ToUnifiedFormatDateTime();
+                ret.WarehouseName = order2StockIn.WarehouseName;
+                ret.SupplierName = order2StockIn.SupplierName;
+                ret.Description = order2StockIn.Description;
+                ret.Amount = order2StockIn.Amount;
+                ret.Quantity = order2StockIn.Quantity;
+
+                var order2StockInDetails = CurrentDb.Order2StockInDetails.Where(m => m.Order2StockInId == order2StockIn.Id).ToList();
+
+                foreach (var item in order2StockInDetails)
+                {
+                    ret.Skus.Add(new RetOrder2StockInGetDetails.Sku { SkuId = item.ProductSkuId, BarCode = item.ProductSkuBarCode, Name = item.ProductSkuName, Amount = item.Amount, Quantity = item.Quantity });
+                }
+            }
+
+
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
+        }
+
+        public CustomJsonResult Add(string pOperater, string pMerchantId, RopOrder2StockInAdd rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 
             using (TransactionScope ts = new TransactionScope())
             {
-                var lWarehouse = CurrentDb.Warehouse.Where(m => m.Id == pOrder2StockIn.WarehouseId).FirstOrDefault();
-                var lSupplier = CurrentDb.Company.Where(m => m.Id == pOrder2StockIn.SupplierId).FirstOrDefault();
+                var warehouse = CurrentDb.Warehouse.Where(m => m.Id == rop.WarehouseId).FirstOrDefault();
+                var supplier = CurrentDb.Company.Where(m => m.Id == rop.SupplierId).FirstOrDefault();
 
-                pOrder2StockIn.Id = GuidUtil.New();
-                pOrder2StockIn.Sn = SnUtil.Build(Enumeration.BizSnType.Order2StockIn, pOrder2StockIn.MerchantId);
-                pOrder2StockIn.Quantity = pOrder2StockInDetails.Select(m => m.Quantity).Sum();
-                pOrder2StockIn.Amount = pOrder2StockInDetails.Select(m => m.Amount).Sum();
-                pOrder2StockIn.WarehouseName = lWarehouse.Name;
-                pOrder2StockIn.SupplierName = lSupplier.Name;
-                pOrder2StockIn.Creator = pOperater;
-                pOrder2StockIn.CreateTime = this.DateTime;
-                CurrentDb.Order2StockIn.Add(pOrder2StockIn);
+                var order2StockIn = new Order2StockIn();
+                order2StockIn.Id = GuidUtil.New();
+                order2StockIn.MerchantId = pMerchantId;
+                order2StockIn.Sn = SnUtil.Build(Enumeration.BizSnType.Order2StockIn, order2StockIn.MerchantId);
+                order2StockIn.Quantity = rop.Skus.Select(m => m.Quantity).Sum();
+                order2StockIn.Amount = rop.Skus.Select(m => m.Amount).Sum();
+                order2StockIn.WarehouseId = warehouse.Id;
+                order2StockIn.WarehouseName = warehouse.Name;
+                order2StockIn.SupplierId = supplier.Id;
+                order2StockIn.SupplierName = supplier.Name;
+                order2StockIn.StockInTime = rop.StockInTime;
+                order2StockIn.Description = rop.Description;
+                order2StockIn.Creator = pOperater;
+                order2StockIn.CreateTime = this.DateTime;
+                CurrentDb.Order2StockIn.Add(order2StockIn);
                 CurrentDb.SaveChanges();
 
-                foreach (var item in pOrder2StockInDetails)
+                foreach (var sku in rop.Skus)
                 {
-                    var productSKu = CurrentDb.ProductSku.Where(m => m.Id == item.ProductSkuId).FirstOrDefault();
+                    var productSKu = CurrentDb.ProductSku.Where(m => m.Id == sku.SkuId).FirstOrDefault();
 
-                    item.Id = GuidUtil.New();
-                    item.MerchantId = pOrder2StockIn.MerchantId;
-                    item.Order2StockInId = pOrder2StockIn.Id;
-                    item.WarehouseId = pOrder2StockIn.WarehouseId;
-                    item.WarehouseName = pOrder2StockIn.WarehouseName;
-                    item.SupplierId = pOrder2StockIn.SupplierId;
-                    item.SupplierName = pOrder2StockIn.SupplierName;
-                    item.StockInTime = pOrder2StockIn.StockInTime;
-                    item.Creator = pOrder2StockIn.Creator;
-                    item.CreateTime = pOrder2StockIn.CreateTime;
-                    item.ProductSkuName = productSKu.Name;
-                    CurrentDb.Order2StockInDetails.Add(item);
+                    var order2StockInDetails = new Order2StockInDetails();
+                    order2StockInDetails.Id = GuidUtil.New();
+                    order2StockInDetails.MerchantId = pMerchantId;
+                    order2StockInDetails.Order2StockInId = order2StockIn.Id;
+                    order2StockInDetails.WarehouseId = order2StockIn.WarehouseId;
+                    order2StockInDetails.WarehouseName = order2StockIn.WarehouseName;
+                    order2StockInDetails.SupplierId = order2StockIn.SupplierId;
+                    order2StockInDetails.SupplierName = order2StockIn.SupplierName;
+                    order2StockInDetails.StockInTime = order2StockIn.StockInTime;
+                    order2StockInDetails.Creator = order2StockIn.Creator;
+                    order2StockInDetails.CreateTime = order2StockIn.CreateTime;
+                    order2StockInDetails.ProductSkuId = productSKu.Id;
+                    order2StockInDetails.ProductSkuBarCode = productSKu.BarCode;
+                    order2StockInDetails.ProductSkuName = productSKu.Name;
+                    order2StockInDetails.Quantity = sku.Quantity;
+                    order2StockInDetails.Amount = sku.Amount;
+                    CurrentDb.Order2StockInDetails.Add(order2StockInDetails);
                     CurrentDb.SaveChanges();
 
 
-                    var warehouseStock = CurrentDb.WarehouseStock.Where(m => m.MerchantId == item.MerchantId && m.WarehouseId == item.WarehouseId && m.ProductSkuId == item.ProductSkuId).FirstOrDefault();
+                    var warehouseStock = CurrentDb.WarehouseStock.Where(m => m.MerchantId == pMerchantId && m.WarehouseId == order2StockIn.WarehouseId && m.ProductSkuId == sku.SkuId).FirstOrDefault();
 
                     if (warehouseStock == null)
                     {
                         warehouseStock = new WarehouseStock();
                         warehouseStock.Id = GuidUtil.New();
-                        warehouseStock.MerchantId = item.MerchantId;
-                        warehouseStock.WarehouseId = item.WarehouseId;
-                        warehouseStock.WarehouseName = item.WarehouseName;
-                        warehouseStock.ProductSkuId = item.ProductSkuId;
-                        warehouseStock.ProductSkuName = item.ProductSkuName;
-                        warehouseStock.Quantity = item.Quantity;
-                        warehouseStock.CreateTime = item.CreateTime;
-                        warehouseStock.Creator = item.Creator;
+                        warehouseStock.MerchantId = order2StockInDetails.MerchantId;
+                        warehouseStock.WarehouseId = order2StockInDetails.WarehouseId;
+                        warehouseStock.WarehouseName = order2StockInDetails.WarehouseName;
+                        warehouseStock.ProductSkuId = order2StockInDetails.ProductSkuId;
+                        warehouseStock.ProductSkuName = order2StockInDetails.ProductSkuName;
+                        warehouseStock.Quantity = order2StockInDetails.Quantity;
+                        warehouseStock.CreateTime = order2StockInDetails.CreateTime;
+                        warehouseStock.Creator = order2StockInDetails.Creator;
                         CurrentDb.WarehouseStock.Add(warehouseStock);
                         CurrentDb.SaveChanges();
                     }
                     else
                     {
-                        warehouseStock.Quantity += item.Quantity;
-                        warehouseStock.MendTime = item.CreateTime;
-                        warehouseStock.Mender = item.Creator;
+                        warehouseStock.Quantity += order2StockInDetails.Quantity;
+                        warehouseStock.MendTime = order2StockInDetails.CreateTime;
+                        warehouseStock.Mender = order2StockInDetails.Creator;
                     }
 
 
                     var warehouseStockLog = new WarehouseStockLog();
                     warehouseStockLog.Id = GuidUtil.New();
-                    warehouseStockLog.MerchantId = item.MerchantId;
-                    warehouseStockLog.WarehouseId = item.WarehouseId;
-                    warehouseStockLog.WarehouseName = item.WarehouseName;
-                    warehouseStockLog.ProductSkuId = item.ProductSkuId;
-                    warehouseStockLog.ProductSkuName = item.ProductSkuName;
+                    warehouseStockLog.MerchantId = order2StockInDetails.MerchantId;
+                    warehouseStockLog.WarehouseId = order2StockInDetails.WarehouseId;
+                    warehouseStockLog.WarehouseName = order2StockInDetails.WarehouseName;
+                    warehouseStockLog.ProductSkuId = order2StockInDetails.ProductSkuId;
+                    warehouseStockLog.ProductSkuName = order2StockInDetails.ProductSkuName;
                     warehouseStockLog.Quantity = warehouseStock.Quantity;
                     warehouseStockLog.ChangeType = Enumeration.WarehouseStockLogChangeTpye.StockIn;
-                    warehouseStockLog.ChangeQuantity = item.Quantity;
-                    warehouseStockLog.CreateTime = item.CreateTime;
-                    warehouseStockLog.Creator = item.Creator;
+                    warehouseStockLog.ChangeQuantity = order2StockInDetails.Quantity;
+                    warehouseStockLog.CreateTime = order2StockInDetails.CreateTime;
+                    warehouseStockLog.Creator = order2StockInDetails.Creator;
                     CurrentDb.WarehouseStockLog.Add(warehouseStockLog);
                     CurrentDb.SaveChanges();
 

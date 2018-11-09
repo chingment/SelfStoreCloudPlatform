@@ -264,6 +264,7 @@
     <Content Include="WebBack\Scripts\jquery.mouseoverbox.js" />
     <Content Include="WebBack\Scripts\jquery.mousewheel.js" />
     <Content Include="WebBack\Scripts\jquery.resizeEnd.js" />
+    <Content Include="WebBack\Scripts\jquery.tmpl.min.js" />
     <Content Include="WebBack\Scripts\Jquery.tree\jquery.ztree.core-3.2.js" />
     <Content Include="WebBack\Scripts\Jquery.tree\jquery.ztree.excheck-3.2.js" />
     <Content Include="WebBack\Scripts\Jquery.tree\zTreeStyle.css" />
