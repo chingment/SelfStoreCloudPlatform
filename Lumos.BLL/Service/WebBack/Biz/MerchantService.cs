@@ -44,13 +44,12 @@ namespace Lumos.BLL.Service.WebBack
             var sysMerchantUser = new SysMerchantUser();
             sysMerchantUser.Id = rop.MerchantId;
 
-            if (string.IsNullOrEmpty(rop.Password))
+            if (!string.IsNullOrEmpty(rop.Password))
             {
                 sysMerchantUser.PasswordHash = PassWordHelper.HashPassword(rop.Password);
             }
 
             sysMerchantUser.PasswordHash = rop.Password;
-            sysMerchantUser.MerchantName = rop.MerchantName;
             sysMerchantUser.ContactName = rop.ContactName;
             sysMerchantUser.ContactAddress = rop.ContactAddress;
             sysMerchantUser.ContactPhone = rop.ContactPhone;

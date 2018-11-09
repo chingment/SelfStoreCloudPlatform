@@ -10,10 +10,8 @@ namespace Lumos.BLL.Service.WebBack
     {
         public string MerchantId { get; set; }
         public string Password { get; set; }
-        public string MerchantName { get; set; }
         public string ContactName { get; set; }
         public string ContactPhone { get; set; }
-
         public string ContactAddress { get; set; }
     }
 }

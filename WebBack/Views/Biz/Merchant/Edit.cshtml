@@ -9,7 +9,7 @@
         var merchantId = $.lumos.getUrlParamValue("merchantId");
         var list_machine;
         $(this).ready(function () {
-
+            $('input[name=MerchantId]').val(merchantId);
             $.formValidator.initConfig({ formID: "form_merchant", onError: function (msg) { $.lumos.tips(msg); } });
             $("#txt_Password").formValidator().regexValidator({ regExp: regexEnum.password, onError: "密码由6到20个数字、英文字母或下划线组成" });
             $("#txt_Password").attr("disabled", true).unFormValidator(true);
@@ -81,6 +81,9 @@
 
             });
 
+            $("#btn_edit").click(function () {
+                edit();
+            });
 
             initData();
         });
@@ -95,13 +98,12 @@
                 art.dialog.confirm('确定要保存？', function () {
 
                     var password = $("#txt_Password").val();
-                    var merchantName = $("#txt_MerchantName").val();
                     var contactName = $("#txt_ContactName").val();
                     var contactPhone = $("#txt_ContactPhone").val();
                     var contactAddress = $("#txt_ContactAddress").val();
                     $.lumos.postJson({
                         url: "/Biz/Merchant/Edit",
-                        data: { merchantId: merchantId, password: password, merchantName: merchantName, contactName: contactName, contactPhone: contactPhone, contactAddress: contactAddress },
+                        data: { merchantId: merchantId, password: password, contactName: contactName, contactPhone: contactPhone, contactAddress: contactAddress },
                         success: function (d) {
                             $.lumos.tips(d.message);
                         }
@@ -116,7 +118,7 @@
 
             $.lumos.getJson({
                 url: "/Biz/Merchant/GetDetails",
-                urlParams: { merchantId: machineId },
+                urlParams: { merchantId: merchantId },
                 isUseHandling: true,
                 success: function (d) {
                     if (d.result == $.lumos.resultType.success) {
@@ -221,7 +223,7 @@
                         <tr>
                             <td class="f-tb-t"></td>
                             <td class="f-tb-c">
-                                <input type="submit" name="btn_Submit" id="btn_Submit" value="保存" class="btn btn-sure" />
+                                <input type="button" id="btn_edit" value="保存" class="btn btn-sure" />
                             </td>
                         </tr>
                     </table>
