@@ -13,5 +13,7 @@ namespace Lumos.BLL.Sys
         public string Password { get; set; }
 
         public bool IsRememberMe { get; set; }
+
+        public string VerifyCode { get; set; }
     }
 }

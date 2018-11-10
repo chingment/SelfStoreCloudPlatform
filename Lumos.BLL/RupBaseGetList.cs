@@ -12,6 +12,7 @@ namespace Lumos.BLL
         {
             this.PageSize = 10;
         }
+        public string Id { get; set; }
 
         public string Sn { get; set; }
 

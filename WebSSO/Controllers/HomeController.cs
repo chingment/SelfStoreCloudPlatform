@@ -2,7 +2,6 @@
 using Lumos.Entity;
 using Lumos.Web.Mvc;
 using Lumos.BLL;
-using WebSSO.Models.Home;
 using System.Web.Mvc;
 using Lumos.Session;
 using System;
@@ -11,6 +10,7 @@ using log4net;
 using System.Reflection;
 using Lumos.Redis;
 using Lumos.Web;
+using Lumos.BLL.Sys;
 
 namespace WebSSO.Controllers
 {
@@ -22,9 +22,7 @@ namespace WebSSO.Controllers
         public ActionResult Login(string returnUrl)
         {
             Session["WebSSOLoginVerifyCode"] = null;
-            LoginModel model = new LoginModel();
-            model.ReturnUrl = returnUrl;
-            return View(model);
+            return View();
         }
 
         /// <summary>
@@ -35,11 +33,11 @@ namespace WebSSO.Controllers
         [HttpPost]
         [AllowAnonymous]
         [CheckVerifyCode("WebSSOLoginVerifyCode")]
-        public CustomJsonResult Login(LoginModel model)
+        public CustomJsonResult Login(RopLogin rop)
         {
             GoToViewModel gotoViewModel = new GoToViewModel();
 
-            var result = SysFactory.AuthorizeRelay.SignIn(model.UserName, model.Password, CommonUtils.GetIP(), Enumeration.LoginType.Website);
+            var result = SysFactory.AuthorizeRelay.SignIn(rop.UserName, rop.Password, CommonUtils.GetIP(), Enumeration.LoginType.Website);
 
             if (result.ResultType == Enumeration.LoginResult.Failure)
             {

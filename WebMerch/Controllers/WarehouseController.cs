@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using WebMerch.Models.Warehouse;
+
 
 namespace WebMerch.Controllers
 {
@@ -33,12 +33,12 @@ namespace WebMerch.Controllers
         }
 
         [HttpPost]
-        public CustomJsonResult GetList(SearchCondition condition)
+        public CustomJsonResult GetList(RupWarehouseGetList rup)
         {
             string name = "";
-            if (condition.Name != null)
+            if (rup.Name != null)
             {
-                name = condition.Name.ToSearchString();
+                name = rup.Name.ToSearchString();
             }
 
             var query = (from u in CurrentDb.Warehouse
@@ -49,7 +49,7 @@ namespace WebMerch.Controllers
 
             int total = query.Count();
 
-            int pageIndex = condition.PageIndex;
+            int pageIndex = rup.PageIndex;
             int pageSize = 10;
             query = query.OrderByDescending(r => r.CreateTime).Skip(pageSize * (pageIndex)).Take(pageSize);
 

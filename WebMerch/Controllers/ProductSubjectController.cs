@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using WebMerch.Models.ProductSubject;
 
 namespace WebMerch.Controllers
 {
@@ -66,16 +65,16 @@ namespace WebMerch.Controllers
             return BizFactory.ProductSubject.Delete(this.CurrentUserId, this.CurrentUserId, subjectIds);
         }
 
-        public CustomJsonResult GetProductSkuList(ProductSearchCondition condition)
+        public CustomJsonResult GetProductSkuList(RupProductSkuGetList rup)
         {
 
-            string name = condition.Name.ToSearchString();
+            string name = rup.Name.ToSearchString();
             var query = (from p in CurrentDb.ProductSku
 
                          join c in CurrentDb.ProductSubjectSku on p.Id equals c.ProductSkuId
                          where
 (from d in CurrentDb.ProductSubjectSku
- where d.ProductSubjectId == condition.SubjectId
+ where d.ProductSubjectId == rup.SubjectId
  select d.ProductSkuId).Contains(p.Id)
    && (name.Length == 0 || p.Name.Contains(name))
    && p.MerchantId == this.CurrentUserId
@@ -83,7 +82,7 @@ namespace WebMerch.Controllers
 
             int total = query.Count();
 
-            int pageIndex = condition.PageIndex;
+            int pageIndex = rup.PageIndex;
             int pageSize = 10;
             query = query.OrderBy(r => r.Id).Skip(pageSize * (pageIndex)).Take(pageSize);
 

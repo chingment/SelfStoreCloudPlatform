@@ -125,8 +125,17 @@
     <Compile Include="Biz\RModels\RopWxUserCheckedUser.cs" />
     <Compile Include="Biz\RModels\RupMachineGetList.cs" />
     <Compile Include="Biz\RModels\RupMachineLoginResultQuery.cs" />
+    <Compile Include="Biz\RModels\RupMachineStockGetList.cs" />
     <Compile Include="Biz\RModels\RupMerchantGetList.cs" />
     <Compile Include="Biz\RModels\RupMerchantMachineGetList.cs" />
+    <Compile Include="Biz\RModels\RupOrder2StockInGetList.cs" />
+    <Compile Include="Biz\RModels\RupOrderGetList.cs" />
+    <Compile Include="Biz\RModels\RupProductSkuGetList.cs" />
+    <Compile Include="Biz\RModels\RupProductSubjectGetList.cs" />
+    <Compile Include="Biz\RModels\RupReplenishStaffGetList.cs" />
+    <Compile Include="Biz\RModels\RupStoreGetList.cs" />
+    <Compile Include="Biz\RModels\RupSupplierGetList.cs" />
+    <Compile Include="Biz\RModels\RupWarehouseGetList.cs" />
     <Compile Include="Biz\SmsProvider.cs" />
     <Compile Include="Biz\StoreProvider.cs" />
     <Compile Include="Biz\WarehouseProvider.cs" />

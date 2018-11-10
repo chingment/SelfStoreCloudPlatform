@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using Lumos.Entity;
 using Lumos;
 using WebMerch.Models.Order;
+using Lumos.BLL.Biz;
 
 namespace WebMerch.Controllers
 {
@@ -17,7 +18,7 @@ namespace WebMerch.Controllers
         }
 
         [HttpPost]
-        public CustomJsonResult List(SearchCondition condition)
+        public CustomJsonResult List(RupOrderGetList rup)
         {
             var query = from o in CurrentDb.Order
 
@@ -28,16 +29,16 @@ namespace WebMerch.Controllers
                             //from gci in wx.DefaultIfEmpty()
 
                         where
-                        (condition.Nickname == null || o.ClientName.Contains(condition.Nickname)) &&
-                        (condition.OrderStatus == Enumeration.OrderStatus.Unknow || o.Status == condition.OrderStatus) &&
-                        (condition.OrderSn == null || o.Sn.Contains(condition.OrderSn))
+                        (rup.Nickname == null || o.ClientName.Contains(rup.Nickname)) &&
+                        (rup.OrderStatus == Enumeration.OrderStatus.Unknow || o.Status == rup.OrderStatus) &&
+                        (rup.OrderSn == null || o.Sn.Contains(rup.OrderSn))
                         &&
                         o.MerchantId == this.CurrentUserId
                         select new { o.Sn, o.Id, o.ClientId, o.ClientName, o.StoreName, o.Source, o.SubmitTime, o.ChargeAmount, o.DiscountAmount, o.OriginalAmount, o.CreateTime };
 
             int total = query.GroupBy(p => p.Sn).Select(o => o.FirstOrDefault()).Count();
 
-            int pageIndex = condition.PageIndex;
+            int pageIndex = rup.PageIndex;
             int pageSize = 10;
             query = query.GroupBy(p => new { p.Sn }).Select(o => o.FirstOrDefault()).OrderByDescending(r => r.CreateTime).Skip(pageSize * (pageIndex)).Take(pageSize);
 

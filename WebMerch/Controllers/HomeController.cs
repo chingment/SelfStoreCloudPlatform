@@ -1,8 +1,7 @@
 ﻿using System.Web.Mvc;
-using WebMerch.Models.Home;
 using Lumos.BLL;
 using Lumos;
-
+using Lumos.BLL.Sys;
 
 namespace WebMerch.Controllers
 {
@@ -79,9 +78,9 @@ namespace WebMerch.Controllers
         }
 
         [HttpPost]
-        public CustomJsonResult ChangePassword(ChangePasswordModel model)
+        public CustomJsonResult ChangePassword(RopChangePassword rop)
         {
-            SysFactory.AuthorizeRelay.ChangePassword(this.CurrentUserId, this.CurrentUserId, model.OldPassword, model.NewPassword);
+            SysFactory.AuthorizeRelay.ChangePassword(this.CurrentUserId, this.CurrentUserId, rop.OldPassword, rop.NewPassword);
 
             return Json(ResultType.Success, "点击<a href=\"" + OwnWebSettingUtils.GetLoginPage("") + "\">登录</a>");
 

@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using WebMerch.Models.ProductKind;
 
 namespace WebMerch.Controllers
 {
@@ -70,22 +69,22 @@ namespace WebMerch.Controllers
             return BizFactory.ProductKind.Delete(this.CurrentUserId, this.CurrentUserId, kindIds);
         }
 
-        public CustomJsonResult GetProductSkuList(ProductSearchCondition condition)
+        public CustomJsonResult GetProductSkuList(RupProductSkuGetList rup)
         {
-            var kinds = BizFactory.ProductKind.GetProductKind(condition.KindId);
+            var kinds = BizFactory.ProductKind.GetProductKind(rup.KindId);
 
             string[] kindIds = kinds.Select(m => m.Id).ToArray();
 
 
 
-            string name = condition.Name.ToSearchString();
+            string name = rup.Name.ToSearchString();
             var query = (from p in CurrentDb.ProductSku
 
                          join c in CurrentDb.ProductKindSku on p.Id equals c.ProductSkuId
 
                          where
 (from d in CurrentDb.ProductKindSku
- where (kindIds.Contains(d.ProductKindId) || d.ProductKindId == condition.KindId)
+ where (kindIds.Contains(d.ProductKindId) || d.ProductKindId == rup.KindId)
  select d.ProductSkuId).Contains(p.Id)
    && (name.Length == 0 || p.Name.Contains(name))
    &&
@@ -94,7 +93,7 @@ namespace WebMerch.Controllers
 
             int total = query.Count();
 
-            int pageIndex = condition.PageIndex;
+            int pageIndex = rup.PageIndex;
             int pageSize = 10;
             query = query.OrderBy(r => r.ProductSkuId).Skip(pageSize * (pageIndex)).Take(pageSize);
 

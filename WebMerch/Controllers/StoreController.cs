@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using WebMerch.Models.Store;
 
 namespace WebMerch.Controllers
 {
@@ -34,12 +33,12 @@ namespace WebMerch.Controllers
 
 
         [HttpPost]
-        public CustomJsonResult GetList(SearchCondition condition)
+        public CustomJsonResult GetList(RupStoreGetList rup)
         {
             string name = "";
-            if (condition.Name != null)
+            if (rup.Name != null)
             {
-                name = condition.Name.ToSearchString();
+                name = rup.Name.ToSearchString();
             }
 
             var query = (from u in CurrentDb.Store
@@ -49,7 +48,7 @@ namespace WebMerch.Controllers
 
             int total = query.Count();
 
-            int pageIndex = condition.PageIndex;
+            int pageIndex = rup.PageIndex;
             int pageSize = 10;
             query = query.OrderByDescending(r => r.CreateTime).Skip(pageSize * (pageIndex)).Take(pageSize);
 
@@ -92,19 +91,19 @@ namespace WebMerch.Controllers
             return BizFactory.Store.Edit(this.CurrentUserId, this.CurrentUserId, rop);
         }
 
-        public CustomJsonResult GetMachineListByBind(SearchCondition condition)
+        public CustomJsonResult GetMachineListByBind(RupMachineGetList rup)
         {
 
             string name = "";
-            if (condition.Name != null)
+            if (rup.Name != null)
             {
-                name = condition.Name.ToSearchString();
+                name = rup.Name.ToSearchString();
             }
 
             var query = (from u in CurrentDb.Machine
                          join p in CurrentDb.MerchantMachine on u.Id equals p.MachineId
                          where (from d in CurrentDb.StoreMachine
-                                where d.StoreId == condition.StoreId && d.IsBind == true
+                                where d.StoreId == rup.StoreId && d.IsBind == true
                                 select d.MachineId).Contains(u.Id)
                          &&
                          (name.Length == 0 || u.Name.Contains(name))
@@ -114,7 +113,7 @@ namespace WebMerch.Controllers
 
             int total = query.Count();
 
-            int pageIndex = condition.PageIndex;
+            int pageIndex = rup.PageIndex;
             int pageSize = 10;
             query = query.OrderBy(r => r.Id).Skip(pageSize * (pageIndex)).Take(pageSize);
 
@@ -137,13 +136,13 @@ namespace WebMerch.Controllers
             return Json(ResultType.Success, pageEntity);
         }
 
-        public CustomJsonResult GetMachineListByBindable(SearchCondition condition)
+        public CustomJsonResult GetMachineListByBindable(RupMachineGetList rup)
         {
 
             string name = "";
-            if (condition.Name != null)
+            if (rup.Name != null)
             {
-                name = condition.Name.ToSearchString();
+                name = rup.Name.ToSearchString();
             }
 
             var query = (from u in CurrentDb.Machine
@@ -161,7 +160,7 @@ namespace WebMerch.Controllers
 
             int total = query.Count();
 
-            int pageIndex = condition.PageIndex;
+            int pageIndex = rup.PageIndex;
             int pageSize = 10;
             query = query.OrderBy(r => r.Id).Skip(pageSize * (pageIndex)).Take(pageSize);
 

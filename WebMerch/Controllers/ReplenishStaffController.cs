@@ -1,11 +1,11 @@
 ﻿using Lumos;
-using WebMerch.Models.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Lumos.Entity;
+using Lumos.BLL.Biz;
 
 namespace WebMerch.Controllers
 {
@@ -24,9 +24,9 @@ namespace WebMerch.Controllers
 
 
         [HttpPost]
-        public CustomJsonResult GetList(SearchCondition condition)
+        public CustomJsonResult GetList(RupReplenishStaffGetList rup)
         {
-            string phoneNumber = condition.PhoneNumber.ToSearchString();
+            string phoneNumber = rup.PhoneNumber.ToSearchString();
 
 
             var query = (from u in CurrentDb.MerchantReplenishStaff
@@ -37,7 +37,7 @@ namespace WebMerch.Controllers
 
             int total = query.Count();
 
-            int pageIndex = condition.PageIndex;
+            int pageIndex = rup.PageIndex;
             int pageSize = 10;
             query = query.OrderByDescending(r => r.CreateTime).Skip(pageSize * (pageIndex)).Take(pageSize);
 
@@ -65,9 +65,9 @@ namespace WebMerch.Controllers
 
 
         [HttpPost]
-        public CustomJsonResult SearchStaff(SearchCondition condition)
+        public CustomJsonResult SearchStaff(RupReplenishStaffGetList rup)
         {
-            string phoneNumber = condition.PhoneNumber.ToSearchString();
+            string phoneNumber = rup.PhoneNumber.ToSearchString();
 
             var query = (from p in CurrentDb.SysUser
                          where (phoneNumber.Length > 3 && p.PhoneNumber == phoneNumber)
@@ -75,7 +75,7 @@ namespace WebMerch.Controllers
 
             int total = query.Count();
 
-            int pageIndex = condition.PageIndex;
+            int pageIndex = rup.PageIndex;
             int pageSize = 10;
             query = query.OrderByDescending(r => r.CreateTime).Skip(pageSize * (pageIndex)).Take(pageSize);
 

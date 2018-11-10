@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using WebMerch.Models.Order2StockIn;
 
 namespace WebMerch.Controllers
 {
@@ -33,12 +32,12 @@ namespace WebMerch.Controllers
         }
 
         [HttpPost]
-        public CustomJsonResult GetList(SearchCondition condition)
+        public CustomJsonResult GetList(RupOrder2StockInGetList rup)
         {
             string sn = "";
-            if (condition.Sn != null)
+            if (rup.Sn != null)
             {
-                sn = condition.Sn.ToSearchString();
+                sn = rup.Sn.ToSearchString();
             }
 
             var query = (from u in CurrentDb.Order2StockIn
@@ -49,7 +48,7 @@ namespace WebMerch.Controllers
 
             int total = query.Count();
 
-            int pageIndex = condition.PageIndex;
+            int pageIndex = rup.PageIndex;
             int pageSize = 10;
             query = query.OrderByDescending(r => r.CreateTime).Skip(pageSize * (pageIndex)).Take(pageSize);
 

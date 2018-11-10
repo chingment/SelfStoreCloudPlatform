@@ -59,17 +59,17 @@ namespace WebMerch.Controllers
         }
 
         [HttpPost]
-        public CustomJsonResult GetList(SearchCondition condition)
+        public CustomJsonResult GetList(RupProductSkuGetList rup)
         {
             var query = (from u in CurrentDb.ProductSku
-                         where (condition.Name == null || u.Name.Contains(condition.Name))
+                         where (rup.Name == null || u.Name.Contains(rup.Name))
                          &&
                          u.MerchantId == this.CurrentUserId
                          select new { u.Id, u.Name, u.CreateTime, u.KindNames, u.SubjectNames, u.SalePrice, u.ShowPrice, u.DispalyImgUrls });
 
             int total = query.Count();
 
-            int pageIndex = condition.PageIndex;
+            int pageIndex = rup.PageIndex;
             int pageSize = 10;
             query = query.OrderByDescending(r => r.CreateTime).Skip(pageSize * (pageIndex)).Take(pageSize);
 
@@ -99,10 +99,10 @@ namespace WebMerch.Controllers
         }
 
         [HttpPost]
-        public CustomJsonResult GetListBySalePrice(SearchCondition condition)
+        public CustomJsonResult GetListBySalePrice(RupBaseGetList rup)
         {
             var query = (from u in CurrentDb.StoreSellStock
-                         where u.ProductSkuId == condition.Id
+                         where u.ProductSkuId == rup.Id
 
                          &&
                          (from d in CurrentDb.StoreMachine
@@ -113,7 +113,7 @@ namespace WebMerch.Controllers
 
             int total = query.Count();
 
-            int pageIndex = condition.PageIndex;
+            int pageIndex = rup.PageIndex;
             int pageSize = 10;
             query = query.OrderByDescending(r => r.SalePrice).Skip(pageSize * (pageIndex)).Take(pageSize);
 
@@ -148,10 +148,10 @@ namespace WebMerch.Controllers
         }
 
         [HttpPost]
-        public CustomJsonResult Search(SearchCondition condition)
+        public CustomJsonResult Search(RupProductSkuGetList rup)
         {
 
-            var list = BizFactory.ProductSku.Search(this.CurrentUserId, condition.Name);
+            var list = BizFactory.ProductSku.Search(this.CurrentUserId, rup.Name);
 
             List<object> olist = new List<object>();
 

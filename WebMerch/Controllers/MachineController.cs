@@ -7,6 +7,7 @@ using Lumos.BLL;
 using System.Data;
 using WebMerch.Models.Machine;
 using Lumos;
+using Lumos.BLL.Biz;
 
 namespace WebMerch.Controllers
 {
@@ -25,9 +26,9 @@ namespace WebMerch.Controllers
             return View(model);
         }
 
-        public CustomJsonResult GetList(SearchCondition condition)
+        public CustomJsonResult GetList(RupMachineGetList rup)
         {
-            string deviceId = condition.DeviceId.ToSearchString();
+            string deviceId = rup.DeviceId.ToSearchString();
 
             var query = (from mp in CurrentDb.MerchantMachine
                          join p in CurrentDb.Machine on mp.MachineId equals p.Id
@@ -41,7 +42,7 @@ namespace WebMerch.Controllers
 
             int total = query.Count();
 
-            int pageIndex = condition.PageIndex;
+            int pageIndex = rup.PageIndex;
             int pageSize = 10;
             query = query.OrderByDescending(r => r.CreateTime).Skip(pageSize * (pageIndex)).Take(pageSize);
 
@@ -83,26 +84,26 @@ namespace WebMerch.Controllers
             return BizFactory.MerchantMachine.Edit(this.CurrentUserId, model.MerchantMachine);
         }
 
-        public CustomJsonResult GetSkuList(Models.MachineStock.SearchCondition condition)
+        public CustomJsonResult GetSkuList(RupMachineStockGetList rup)
         {
 
             string name = "";
-            if (condition.Name != null)
+            if (rup.Name != null)
             {
-                name = condition.Name.ToSearchString();
+                name = rup.Name.ToSearchString();
             }
 
             var query = from u in CurrentDb.StoreSellStock
                         where
                         u.MerchantId == this.CurrentUserId &&
-                        u.StoreId == condition.StoreId &&
-                        u.ChannelId == condition.MachineId &&
+                        u.StoreId == rup.StoreId &&
+                        u.ChannelId == rup.MachineId &&
                         (name.Length == 0 || u.ProductSkuName.Contains(name))
                         select new { u.Id, u.SlotId, u.ProductSkuName, u.Quantity, u.LockQuantity, u.SellQuantity, u.SalePrice };
 
             int total = query.Count();
 
-            int pageIndex = condition.PageIndex;
+            int pageIndex = rup.PageIndex;
             int pageSize = 10;
             query = query.OrderBy(r => r.Id);
 

@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Biz
 {
-    public class RupMachineGetList:RupBaseGetList
+    public class RupMachineStockGetList:RupBaseGetList
     {
-        public string MacAddress { get; set; }
-
-        public string DeviceId { get; set; }
-
         public string StoreId { get; set; }
+
+        public string MachineId { get; set; }
     }
 }

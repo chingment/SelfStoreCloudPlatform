@@ -1,6 +1,5 @@
-﻿@model WebSSO.Models.Home.LoginModel
-@{
-    ViewBag.Title = "Login";
+﻿@{
+    ViewBag.Title = "登录";
     Layout = "~/Views/Shared/_LayoutHome.cshtml";
 }
 @section styles{
@@ -116,7 +115,7 @@
                 type: "post",
                 url: "/Home/Login",
                 dataType: "json",
-                data: $('#form1').serialize(),
+                data: { userName: userName, passWord: passWord, returnUrl: $.lumos.getUrlParamValue("returnUrl"), verifyCode: verifyCode },
                 beforeSend: function (data) {
                     $(msgObj).text("正在登录中...");
                 },
@@ -131,7 +130,7 @@
                     }
                 }
             }).done(function (d) {
-   
+
                 if (d.result == $.lumos.resultType.success) {
                     $(msgObj).text("");
                     window.location.href = d.data.url;
