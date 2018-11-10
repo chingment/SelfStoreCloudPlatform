@@ -222,6 +222,8 @@
     <Compile Include="Sys\RModels\RetSysRoleGetDetails.cs" />
     <Compile Include="Sys\RModels\RetSysStaffUserGetDetails.cs" />
     <Compile Include="Sys\RModels\RetSysUserGetDetails.cs" />
+    <Compile Include="Sys\RModels\RopChangePassword.cs" />
+    <Compile Include="Sys\RModels\RopLogin.cs" />
     <Compile Include="Sys\RModels\RopSysMenuAdd.cs" />
     <Compile Include="Sys\RModels\RopSysMenuEdit.cs" />
     <Compile Include="Sys\RModels\RopSysMenuEditSort.cs" />

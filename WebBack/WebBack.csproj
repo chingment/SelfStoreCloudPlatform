@@ -176,9 +176,6 @@
     <Compile Include="App_Start\Own\OwnHmlExtension.cs" />
     <Compile Include="App_Start\Own\OwnNoResubmitAttribute.cs" />
     <Compile Include="App_Start\Own\OwnStaticResource.cs" />
-    <Compile Include="Models\OwnBaseViewModel.cs" />
-    <Compile Include="Models\Home\ChangePasswordModel.cs" />
-    <Compile Include="Models\Home\LoginModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1109,6 +1106,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\" />
     <Folder Include="Scripts\ckeditor\samples\assets\inlineall\" />
     <Folder Include="Scripts\ckeditor\samples\assets\outputxhtml\" />
     <Folder Include="Scripts\ckeditor\samples\assets\uilanguages\" />

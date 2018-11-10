@@ -3,7 +3,6 @@ using Lumos.DAL.AuthorizeRelay;
 using Lumos.Entity;
 using log4net;
 using System.Web.Mvc;
-using WebBack.Models.Home;
 using Lumos.Web.Mvc;
 using System;
 using System.Reflection;
@@ -16,6 +15,7 @@ using MySDK;
 using System.Linq;
 using System.Data.Entity.Core.Objects;
 using Lumos;
+using Lumos.BLL.Sys;
 
 namespace WebBack.Controllers
 {
@@ -47,10 +47,10 @@ namespace WebBack.Controllers
         }
 
         [HttpPost]
-        public CustomJsonResult ChangePassword(ChangePasswordModel model)
+        public CustomJsonResult ChangePassword(RopChangePassword rop)
         {
 
-            SysFactory.AuthorizeRelay.ChangePassword(this.CurrentUserId, this.CurrentUserId, model.OldPassword, model.NewPassword);
+            SysFactory.AuthorizeRelay.ChangePassword(this.CurrentUserId, this.CurrentUserId, rop.OldPassword, rop.NewPassword);
 
             return Json(ResultType.Success, "点击<a href=\"" + OwnWebSettingUtils.GetLoginPage("") + "\">登录</a>");
         
