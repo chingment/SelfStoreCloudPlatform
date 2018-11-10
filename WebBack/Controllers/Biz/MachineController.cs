@@ -11,7 +11,6 @@ using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using System.Data;
 using System.Transactions;
-using WebBack.Models.Biz.Machine;
 using Lumos;
 using Lumos.BLL.Biz;
 
@@ -50,9 +49,9 @@ namespace WebBack.Controllers.Biz
             return BizFactory.Machine.GetDetails(this.CurrentUserId, machineId);
         }
 
-        public CustomJsonResult GetList(SearchCondition condition)
+        public CustomJsonResult GetList(RupMachineGetList rup)
         {
-            string deviceId = condition.DeviceId.ToSearchString();
+            string deviceId = rup.DeviceId.ToSearchString();
 
             var query = (from p in CurrentDb.Machine
                          where
@@ -61,7 +60,7 @@ namespace WebBack.Controllers.Biz
 
             int total = query.Count();
 
-            int pageIndex = condition.PageIndex;
+            int pageIndex = rup.PageIndex;
             int pageSize = 10;
             query = query.OrderByDescending(r => r.CreateTime).Skip(pageSize * (pageIndex)).Take(pageSize);
 

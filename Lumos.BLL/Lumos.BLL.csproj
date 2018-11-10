@@ -123,13 +123,17 @@
     <Compile Include="Biz\RModels\RopWarehouseAdd.cs" />
     <Compile Include="Biz\RModels\RopWarehouseEdit.cs" />
     <Compile Include="Biz\RModels\RopWxUserCheckedUser.cs" />
+    <Compile Include="Biz\RModels\RupMachineGetList.cs" />
     <Compile Include="Biz\RModels\RupMachineLoginResultQuery.cs" />
+    <Compile Include="Biz\RModels\RupMerchantGetList.cs" />
+    <Compile Include="Biz\RModels\RupMerchantMachineGetList.cs" />
     <Compile Include="Biz\SmsProvider.cs" />
     <Compile Include="Biz\StoreProvider.cs" />
     <Compile Include="Biz\WarehouseProvider.cs" />
     <Compile Include="Biz\WxUserProvider.cs" />
     <Compile Include="Factory..cs" />
     <Compile Include="RetOperateResult.cs" />
+    <Compile Include="RupBaseGetList.cs" />
     <Compile Include="RupOperateGetResult.cs" />
     <Compile Include="Sdk\SdkFactory.cs" />
     <Compile Include="Sdk\WxConfigByFanJu.cs" />
@@ -225,6 +229,9 @@
     <Compile Include="Sys\RModels\RopSysRoleEdit.cs" />
     <Compile Include="Sys\RModels\RopSysStaffUserAdd.cs" />
     <Compile Include="Sys\RModels\RopSysStaffUserEdit.cs" />
+    <Compile Include="Sys\RModels\RupSysRoleUserGetList.cs" />
+    <Compile Include="Sys\RModels\RupSysStaffUserGetList.cs" />
+    <Compile Include="Sys\RModels\RupSysUserGetList.cs" />
     <Compile Include="Sys\SysMenuProvider.cs" />
     <Compile Include="Sys\SysRoleProvider.cs" />
     <Compile Include="Sys\SysStaffUserProvider.cs" />

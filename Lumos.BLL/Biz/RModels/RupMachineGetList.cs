@@ -1,12 +1,12 @@
-﻿using Lumos.Web.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace WebBack.Models.Biz.Machine
+namespace Lumos.BLL.Biz
 {
-    public class SearchCondition : BaseSearchCondition
+    public class RupMachineGetList:RupBaseGetList
     {
         public string MacAddress { get; set; }
 

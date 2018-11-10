@@ -1,15 +1,14 @@
-﻿using Lumos.Web.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace WebBack.Models.Sys.Role
+namespace Lumos.BLL.Sys
 {
-    public class RoleUserSearchCondition: BaseSearchCondition
+    public class RupSysRoleUserGetList : RupBaseGetList
     {
         public string RoleId { get; set; }
-
         public string UserName { get; set; }
         public string FullName { get; set; }
     }

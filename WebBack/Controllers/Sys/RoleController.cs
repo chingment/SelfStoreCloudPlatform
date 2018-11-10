@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
-using WebBack.Models.Sys.Role;
 
 namespace WebBack.Controllers.Sys
 {
@@ -57,27 +56,27 @@ namespace WebBack.Controllers.Sys
 
         }
 
-        public CustomJsonResult GetRoleUserList(RoleUserSearchCondition condition)
+        public CustomJsonResult GetRoleUserList(RupSysRoleUserGetList rup)
         {
 
 
             string userName = "";
-            if (condition.UserName != null)
+            if (rup.UserName != null)
             {
-                userName = condition.UserName.Trim();
+                userName = rup.UserName.Trim();
             }
 
             string fullName = "";
-            if (condition.FullName != null)
+            if (rup.FullName != null)
             {
-                fullName = condition.FullName.Trim();
+                fullName = rup.FullName.Trim();
             }
 
 
             var list = (from ur in CurrentDb.SysUserRole
                         join r in CurrentDb.SysRole on ur.RoleId equals r.Id
                         join u in CurrentDb.SysStaffUser on ur.UserId equals u.Id
-                        where ur.RoleId == condition.RoleId &&
+                        where ur.RoleId == rup.RoleId &&
                             (userName.Length == 0 || u.UserName.Contains(userName)) &&
                                (fullName.Length == 0 || u.FullName.Contains(fullName)) &&
                               u.IsDelete == false
@@ -85,7 +84,7 @@ namespace WebBack.Controllers.Sys
 
             int total = list.Count();
 
-            int pageIndex = condition.PageIndex;
+            int pageIndex = rup.PageIndex;
             int pageSize = 10;
             list = list.OrderBy(r => r.UserId).Skip(pageSize * (pageIndex)).Take(pageSize);
 
@@ -94,26 +93,26 @@ namespace WebBack.Controllers.Sys
             return Json(ResultType.Success, pageEntity);
         }
 
-        public CustomJsonResult GetNotBindUsers(RoleUserSearchCondition condition)
+        public CustomJsonResult GetNotBindUsers(RupSysRoleUserGetList rup)
         {
 
             string userName = "";
-            if (condition.UserName != null)
+            if (rup.UserName != null)
             {
-                userName = condition.UserName.Trim();
+                userName = rup.UserName.Trim();
             }
 
             string fullName = "";
-            if (condition.FullName != null)
+            if (rup.FullName != null)
             {
-                fullName = condition.FullName.Trim();
+                fullName = rup.FullName.Trim();
             }
 
 
             var list = (from u in CurrentDb.SysStaffUser
                         where !(from d in CurrentDb.SysUserRole
 
-                                where d.RoleId == condition.RoleId
+                                where d.RoleId == rup.RoleId
                                 select d.UserId).Contains(u.Id)
 
                         where
@@ -124,7 +123,7 @@ namespace WebBack.Controllers.Sys
 
             int total = list.Count();
 
-            int pageIndex = condition.PageIndex;
+            int pageIndex = rup.PageIndex;
             int pageSize = 10;
             list = list.OrderBy(r => r.Id).Skip(pageSize * (pageIndex)).Take(pageSize);
 

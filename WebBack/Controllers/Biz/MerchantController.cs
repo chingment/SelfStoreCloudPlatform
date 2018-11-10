@@ -7,7 +7,6 @@ using System.Web;
 using System.Web.Mvc;
 using Lumos.Common;
 using Lumos.BLL;
-using WebBack.Models.Biz.Merchant;
 using Lumos;
 using Lumos.BLL.Biz;
 
@@ -46,10 +45,10 @@ namespace WebBack.Controllers.Biz
             return BizFactory.Merchant.GetDetails(this.CurrentUserId, merchantId);
         }
 
-        public CustomJsonResult GetList(SearchCondition condition)
+        public CustomJsonResult GetList(RupMachineGetList rup)
         {
 
-            string name = condition.Name.ToSearchString();
+            string name = rup.Name.ToSearchString();
             var query = (from m in CurrentDb.SysMerchantUser
                          join u in CurrentDb.SysUser on m.Id equals u.Id
                          where
@@ -58,7 +57,7 @@ namespace WebBack.Controllers.Biz
 
             int total = query.Count();
 
-            int pageIndex = condition.PageIndex;
+            int pageIndex = rup.PageIndex;
             int pageSize = 10;
             query = query.OrderByDescending(r => r.CreateTime).Skip(pageSize * (pageIndex)).Take(pageSize);
 
@@ -100,16 +99,16 @@ namespace WebBack.Controllers.Biz
         }
 
 
-        public CustomJsonResult GetMachineListByBinded(WebBack.Models.Biz.MerchantMachine.SearchCondition condition)
+        public CustomJsonResult GetMachineListByBinded(RupMerchantMachineGetList rup)
         {
 
-            string deviceId = condition.DeviceId.ToSearchString();
+            string deviceId = rup.DeviceId.ToSearchString();
 
             var list = (from mp in CurrentDb.MerchantMachine
                         join m in CurrentDb.SysMerchantUser on mp.MerchantId equals m.Id
                         join p in CurrentDb.Machine on mp.MachineId equals p.Id
                         where
-                        mp.MerchantId == condition.MerchantId &&
+                        mp.MerchantId == rup.MerchantId &&
                         p.IsUse == true &&
                         mp.IsBind == true &&
                                (deviceId.Length == 0 || p.DeviceId.Contains(deviceId))
@@ -118,7 +117,7 @@ namespace WebBack.Controllers.Biz
 
             int total = list.Count();
 
-            int pageIndex = condition.PageIndex;
+            int pageIndex = rup.PageIndex;
             int pageSize = 10;
             list = list.OrderBy(r => r.Id).Skip(pageSize * (pageIndex)).Take(pageSize);
 
@@ -128,10 +127,10 @@ namespace WebBack.Controllers.Biz
         }
 
 
-        public CustomJsonResult GetMachineListByBindable(WebBack.Models.Biz.MerchantMachine.SearchCondition condition)
+        public CustomJsonResult GetMachineListByBindable(RupMerchantMachineGetList rup)
         {
 
-            string deviceId = condition.DeviceId.ToSearchString();
+            string deviceId = rup.DeviceId.ToSearchString();
 
             var list = (from u in CurrentDb.Machine
                         where u.IsUse == false &&
@@ -140,7 +139,7 @@ namespace WebBack.Controllers.Biz
 
             int total = list.Count();
 
-            int pageIndex = condition.PageIndex;
+            int pageIndex = rup.PageIndex;
             int pageSize = 10;
             list = list.OrderBy(r => r.Id).Skip(pageSize * (pageIndex)).Take(pageSize);
 

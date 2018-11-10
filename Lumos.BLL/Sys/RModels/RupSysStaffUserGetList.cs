@@ -1,12 +1,12 @@
-﻿using Lumos.Web.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace WebBack.Models.Sys.StaffUser
+namespace Lumos.BLL.Sys
 {
-    public class SearchCondition : BaseSearchCondition
+    public class RupSysStaffUserGetList : RupBaseGetList
     {
         public string UserName { get; set; }
         public string FullName { get; set; }

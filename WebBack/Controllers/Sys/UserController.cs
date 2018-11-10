@@ -5,10 +5,10 @@ using System.Data.Entity;
 using Lumos.Entity;
 using Lumos.DAL.AuthorizeRelay;
 using Lumos.Common;
-using WebBack.Models.Sys.User;
 using Lumos.Web.Mvc;
 using Lumos;
 using Lumos.BLL;
+using Lumos.BLL.Sys;
 
 namespace WebBack.Controllers.Sys
 {
@@ -32,17 +32,17 @@ namespace WebBack.Controllers.Sys
 
         #region 方法
 
-        public CustomJsonResult GetList(SearchCondition condition)
+        public CustomJsonResult GetList(RupSysUserGetList rup)
         {
             var list = (from u in CurrentDb.SysUser
-                        where (condition.UserName == null || u.UserName.Contains(condition.UserName)) &&
-                        (condition.FullName == null || u.FullName.Contains(condition.FullName)) &&
+                        where (rup.UserName == null || u.UserName.Contains(rup.UserName)) &&
+                        (rup.FullName == null || u.FullName.Contains(rup.FullName)) &&
                         u.IsDelete == false
                         select new { u.Id, u.UserName, u.FullName, u.Email, u.PhoneNumber, u.CreateTime, u.IsDelete });
 
             int total = list.Count();
 
-            int pageIndex = condition.PageIndex;
+            int pageIndex = rup.PageIndex;
             int pageSize = 10;
             list = list.OrderByDescending(r => r.CreateTime).Skip(pageSize * (pageIndex)).Take(pageSize);
 
