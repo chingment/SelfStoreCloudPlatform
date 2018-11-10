@@ -14,6 +14,46 @@ namespace Lumos.BLL
 
     public class ProductSkuProvider : BaseProvider
     {
+
+        public string[] ToArrary(string str)
+        {
+
+            if (string.IsNullOrWhiteSpace(str))
+                return null;
+
+            string[] arr = null;
+            try
+            {
+                arr = str.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            }
+            catch
+            {
+                arr = null;
+            }
+
+            return arr;
+        }
+        public CustomJsonResult GetDetails(string pOperater, string pMerchantId, string pProductSkuId)
+        {
+            var ret = new RupProductSkuGetDetails();
+            var productSku = CurrentDb.ProductSku.Where(m => m.MerchantId == pMerchantId && m.Id == pProductSkuId).FirstOrDefault();
+            if (productSku != null)
+            {
+                ret.ProductSkuId = productSku.Id ?? "";
+                ret.Name = productSku.Name ?? "";
+                ret.SalePrice = productSku.SalePrice;
+                ret.ShowPrice = productSku.ShowPrice;
+                ret.DetailsDes = productSku.DetailsDes;
+                ret.BriefInfo = productSku.BriefInfo;
+                ret.KindIds = ToArrary(productSku.KindIds);
+                ret.SubjectIds = ToArrary(productSku.SubjectIds);
+                ret.RecipientModeIds = ToArrary(productSku.RecipientModeIds);
+                ret.DispalyImgUrls = productSku.DispalyImgUrls.ToJsonObject<List<ImgSet>>();;
+            }
+
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
+        }
+
         public CustomJsonResult Add(string pOperater, string pMerchantId, RopProducSkuAdd rop)
         {
             CustomJsonResult result = new CustomJsonResult();

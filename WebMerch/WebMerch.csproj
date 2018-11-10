@@ -187,7 +187,6 @@
     <Compile Include="App_Start\Own\OwnStatisticsTrackerAttribute.cs" />
     <Compile Include="Models\Order\DetailsViewModel.cs" />
     <Compile Include="Models\OwnBaseViewModel.cs" />
-    <Compile Include="Models\ProductSku\EditViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Machine\EditViewModel.cs" />
   </ItemGroup>

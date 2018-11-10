@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using WebMerch.Models.ProductSku;
 
 namespace WebMerch.Controllers
 {
@@ -22,20 +21,19 @@ namespace WebMerch.Controllers
             return View();
         }
 
-        public ViewResult Edit(string productSkuId)
+        public ViewResult Edit()
         {
-            EditViewModel model = new EditViewModel();
-            model.LoadData(productSkuId);
-
-            return View(model);
+            return View();
         }
 
-        public ViewResult EditBySalePrice(string id)
+        public ViewResult EditBySalePrice()
         {
-            EditViewModel model = new EditViewModel();
-            model.LoadData(id);
+            return View();
+        }
 
-            return View(model);
+        public CustomJsonResult GetDetails(string productSkuId)
+        {
+            return BizFactory.ProductSku.GetDetails(this.CurrentUserId, this.CurrentUserId, productSkuId);
         }
 
         [HttpPost]

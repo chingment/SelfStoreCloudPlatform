@@ -1855,7 +1855,28 @@
 
     }
 
-    $.fn.val2Arr = function () {
+    $.fn.val2Arr = function (arr_val) {
+
+
+        if (typeof arr_val != "undefined") {
+            if (arr_val != null) {
+                var options = $(this).find("option");
+                for (var i = 0; i < options.length; i++) {
+                    var _v = $(options[i]).val();
+
+                    for (var j = 0; j < arr_val.length; j++) {
+
+                        if (_v == arr_val[j]) {
+                            $(options[i]).attr("selected", "selected");
+                        }
+                    }
+
+                }
+
+                $(this).trigger("chosen:updated");
+            }
+        }
+
         var v = new Array()
         var sels = $(this).find("option:selected");
         for (var i = 0; i < sels.length; i++) {
@@ -1866,8 +1887,14 @@
                 v.push(_v)
             }
         }
+
+
+
+
+
         return v;
     }
+
 
     $.fn.val2ImgArr = function () {
 

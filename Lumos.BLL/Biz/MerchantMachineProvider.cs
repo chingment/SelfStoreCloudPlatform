@@ -100,5 +100,31 @@ namespace Lumos.BLL
             CurrentDb.SaveChanges();
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
         }
+
+        public CustomJsonResult GetDetails(string pOperater, string pMerchantMachineId)
+        {
+            var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.Id == pMerchantMachineId).FirstOrDefault();
+
+
+            var machine = CurrentDb.Machine.Where(m => m.Id == merchantMachine.MachineId).FirstOrDefault();
+            if (machine != null)
+            {
+
+            }
+
+            var storeMachine = CurrentDb.StoreMachine.Where(m => m.MachineId == merchantMachine.MachineId && m.IsBind == true).FirstOrDefault();
+            if (storeMachine != null)
+            {
+                var store = CurrentDb.Store.Where(m => m.Id == storeMachine.StoreId).FirstOrDefault();
+
+                if (store != null)
+                {
+                    
+                }
+            }
+
+
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
+        }
     }
 }

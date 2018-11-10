@@ -8,6 +8,6 @@ namespace Lumos.BLL.Biz
 {
     public class RupWarehouseGetList : RupBaseGetList
     {
-        public string Id { get; set; }
+
     }
 }

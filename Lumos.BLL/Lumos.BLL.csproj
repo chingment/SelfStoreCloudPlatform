@@ -130,6 +130,7 @@
     <Compile Include="Biz\RModels\RupMerchantMachineGetList.cs" />
     <Compile Include="Biz\RModels\RupOrder2StockInGetList.cs" />
     <Compile Include="Biz\RModels\RupOrderGetList.cs" />
+    <Compile Include="Biz\RModels\RupProductSkuGetDetails.cs" />
     <Compile Include="Biz\RModels\RupProductSkuGetList.cs" />
     <Compile Include="Biz\RModels\RupProductSubjectGetList.cs" />
     <Compile Include="Biz\RModels\RupReplenishStaffGetList.cs" />

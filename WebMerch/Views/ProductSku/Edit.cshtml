@@ -1,9 +1,6 @@
-﻿@model WebMerch.Models.ProductSku.EditViewModel
-@{
-    ViewBag.Title = "Edit";
+﻿@{
+    ViewBag.Title = "";
     Layout = "~/Views/Shared/_LayoutHomeDialog.cshtml";
-
-    var mainImg = Model.DispalyImgs.Where(m => m.IsMain == true).FirstOrDefault();
 }
 
 @section styles{
@@ -42,8 +39,12 @@
             $("#dispalyImgs_ImgUrl_0").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请上传商品封面图片" });
             $("#txt_BriefInfo").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 100, onError: "商品简短描述不能为空,且不超过100个字符" });
 
-
+            initData();
         });
+
+        function initData() {
+            getDetails();
+        }
 
         function edit(fun) {
 
@@ -63,7 +64,7 @@
                     var briefInfo = $('#txt_BriefInfo').val();
                     var detailsDes = CKEDITOR.instances.txt_DetailsDes.getData();
                     var dispalyImgUrls = $('#list_GoodsPic').val2ImgArr();
-      
+
                     $.lumos.postJson({
                         isUseHandling: true,
                         url: "/ProductSku/Edit",
@@ -90,19 +91,40 @@
             return false;
         }
 
+        function getDetails() {
+            $.lumos.getJson({
+                url: "/ProductSku/GetDetails",
+                urlParams: { productSkuId: productSkuId },
+                isUseHandling: true,
+                success: function (d) {
+                    if (d.result == $.lumos.resultType.success) {
+                        var data = d.data;
+                        $('#txt_Name').val(data.name);
+                        $('#sel_Kinds').val2Arr(data.kindIds);
+                        $('#sel_Subjects').val2Arr(data.subjectIds);
+                        $('#sel_RecipientModes').val2Arr(data.recipientModeIds);
+                        $('#txt_ShowPrice').val(data.showPrice);
+                        $('#txt_SalePrice').val(data.salePrice);
+                        $('#txt_BriefInfo').val(data.briefInfo);
+                        $("#dispalyImgs_ImgUrl_0").val(data.dispalyImgUrls[0].imgUrl);
+                        $("#img_dispalyImgs_ImgUrl_0").attr("src", data.dispalyImgUrls[0].imgUrl);
+                        CKEDITOR.instances['txt_DetailsDes'].setData(data.detailsDes);
+                    }
+                }
+            });
+        }
     </script>
 }
 
 <div class="gbr-row">
     <form id="form1" name="form1" method="post">
-        <input id="Model_ProductSku_Id" name="Model.ProductSku.Id" type="hidden" value="@Model.ProductSku.Id" />
         <table class="f-tb" cellpadding="0" cellspacing="1">
             <tr>
                 <td class="f-tb-t" style="width:80px">
                     商品名称<span class="required-symbol">*</span>：
                 </td>
                 <td class="f-tb-c">
-                    <input id="txt_Name" type="text" class="input-control" value="@Model.ProductSku.Name" style="width:300px;" autocomplete="off" />
+                    <input id="txt_Name" type="text" class="input-control" value="" style="width:300px;" autocomplete="off" />
                 </td>
 
                 <td class="f-tb-c" rowspan="6">
@@ -118,9 +140,9 @@
                                 <div>
                                     <span class="uploadimgbox" upload="true">
                                         <span class="uploadimg" inputname="dispalyImgs_ImgUrl_0" path="product">
-                                            <img src="@Model.DispalyImgs[0].ImgUrl" />
-                                            <span class="uploadimg-click" style="@Model.DispalyImgs[0].ImgUrl">上传</span>
-                                            <input id="dispalyImgs_ImgUrl_0" class="imgUrl" value="@Model.DispalyImgs[0].ImgUrl" name="dispalyImgs_ImgUrl_0" type="hidden" />
+                                            <img id="img_dispalyImgs_ImgUrl_0" src="~/Static/default1.jpg" />
+                                            <span class="uploadimg-click">上传</span>
+                                            <input id="dispalyImgs_ImgUrl_0" class="imgUrl" value="" name="dispalyImgs_ImgUrl_0" type="hidden" />
                                             <input id="dispalyImgs_IsMain_0" class="isMain" value="true" name="dispalyImgs_IsMain_0" type="hidden" />
                                         </span>
                                         <span class="uploadimg-view" style="">预览</span>
@@ -203,7 +225,7 @@
                     所属模块<span class="required-symbol">*</span>：
                 </td>
                 <td class="f-tb-c">
-                    @Html.initProductKind("sel.Kinds", Model.ProductSku.KindIds)
+                    @Html.initProductKind("sel.Kinds")
                 </td>
             </tr>
             <tr>
@@ -211,13 +233,13 @@
                     所属栏目<span class="required-symbol">*</span>：
                 </td>
                 <td class="f-tb-c">
-                    @Html.initProductSubject("sel.Subjects", Model.ProductSku.SubjectIds)
+                    @Html.initProductSubject("sel.Subjects")
                 </td>
             </tr>
             <tr>
                 <td class="f-tb-t" style="width:50px">收货模式<span class="required-symbol">*</span>：</td>
                 <td class="f-tb-c">
-                    @Html.initRecipientMode("sel.RecipientModes", Model.ProductSku.RecipientModeIds)
+                    @Html.initRecipientMode("sel.RecipientModes")
                 </td>
             </tr>
             <tr>
@@ -225,7 +247,7 @@
                     展示价<span class="required-symbol">*</span>：
                 </td>
                 <td class="f-tb-c">
-                    <input id="txt_ShowPrice" type="text" class="input-control" value="@Model.ProductSku.ShowPrice" style="width:80px;" autocomplete="off" />
+                    <input id="txt_ShowPrice" type="text" class="input-control" value="" style="width:80px;" autocomplete="off" />
                 </td>
             </tr>
             <tr>
@@ -233,7 +255,7 @@
                     销售价<span class="required-symbol">*</span>：
                 </td>
                 <td class="f-tb-c">
-                    <input id="txt_SalePrice" type="text" class="input-control" value="@Model.ProductSku.SalePrice" style="width:80px;" autocomplete="off" />
+                    <input id="txt_SalePrice" type="text" class="input-control" value="" style="width:80px;" autocomplete="off" />
                 </td>
             </tr>
             <tr>
@@ -241,7 +263,7 @@
                     简短描述<span class="required-symbol">*</span>：
                 </td>
                 <td class="f-tb-c" colspan="2">
-                    <input id="txt_BriefInfo" ype="text" class="input-control" value="@Model.ProductSku.BriefInfo" style="width:300px;" autocomplete="off" />
+                    <input id="txt_BriefInfo" ype="text" class="input-control" value="" style="width:300px;" autocomplete="off" />
                 </td>
             </tr>
             <tr>
@@ -249,7 +271,7 @@
                     商品详情：
                 </td>
                 <td class="f-tb-c" colspan="2">
-                    <textarea id="txt_DetailsDes" class="ckeditor">@Model.ProductSku.DetailsDes</textarea>
+                    <textarea id="txt_DetailsDes" class="ckeditor"></textarea>
                 </td>
             </tr>
         </table>
