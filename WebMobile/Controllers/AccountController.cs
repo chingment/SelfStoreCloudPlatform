@@ -4,10 +4,10 @@ using Lumos.BLL;
 using Lumos.Entity;
 using Lumos.Common;
 using Lumos;
-using WebMobile.Models.Account;
 using Lumos.Session;
 using Lumos.Web;
 using Newtonsoft.Json;
+using Lumos.BLL.Sys;
 
 namespace WebMobile.Controllers
 {
@@ -22,12 +22,12 @@ namespace WebMobile.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public CustomJsonResult Login(LoginViewModel model)
+        public CustomJsonResult Login(RopLogin rop)
         {
 
             GoToViewModel gotoViewModel = new GoToViewModel();
 
-            var result = SysFactory.AuthorizeRelay.SignIn(model.UserName, model.Password, CommonUtils.GetIP(), Enumeration.LoginType.Website);
+            var result = SysFactory.AuthorizeRelay.SignIn(rop.UserName, rop.Password, CommonUtils.GetIP(), Enumeration.LoginType.Website);
 
             if (result.ResultType == Enumeration.LoginResult.Failure)
             {
@@ -59,7 +59,7 @@ namespace WebMobile.Controllers
 
             Response.Cookies.Add(new HttpCookie(OwnRequest.SESSION_NAME, accessToken));
 
-            gotoViewModel.Url = (model.ReturnUrl == null ? OwnWebSettingUtils.GetHomePage() : model.ReturnUrl);
+            gotoViewModel.Url = (rop.ReturnUrl == null ? OwnWebSettingUtils.GetHomePage() : rop.ReturnUrl);
 
             return Json(ResultType.Success, gotoViewModel, "登录成功");
 
