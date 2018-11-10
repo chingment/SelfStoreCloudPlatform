@@ -2260,17 +2260,19 @@ height:50px;
 	border-radius: 4px;
 	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
 	box-shadow: 0px 1px 1px rgba(0,0,0,0.05);
+	display: flex;
 }
 
 .tree-tab-left {
 	float: left;
 	width: 200px;
+	overflow: hidden;
 }
 
 .tree-tab-right {
 	min-height: 450px;
-	margin-left: 200px;
 	border-left: 1px solid #e9ecf2;
+	flex: 1;
 	/*background-color: #f1f1f1;*/
 }
 
@@ -2446,6 +2448,7 @@ height:50px;
 	padding: 5px;
 	color: #333;
 	overflow: auto;
+	width: 200px;
 }
 
 .ztree li {

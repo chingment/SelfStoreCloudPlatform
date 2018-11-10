@@ -1,4 +1,358 @@
 ﻿@{
-    ViewBag.Title = OwnWebSettingUtils.GetWebName();
-    Layout = "~/Views/Shared/_LayoutHomeIframe.cshtml";
+    Layout = null;
 }
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta content="" name="description">
+    <title>@ViewBag.Title</title>
+    <link href="~/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+    @OwnStaticStylesResource.Render("base/Site.css")
+    @OwnStaticScriptsResource.Render("ArtDialog/artDialog.source.js?skin=default")
+    @OwnStaticScriptsResource.Render("ArtDialog/iframeTools.source.js")
+    @OwnStaticScriptsResource.Render("jquery-1.8.3.min.js")
+    @OwnStaticScriptsResource.Render("jquery.cookie.js")
+    @OwnStaticScriptsResource.Render("jquery.lumos.back.1.0.0.js?" + DateTime.Now.ToString("yyyyMMddHHmmss"))
+    @OwnStaticScriptsResource.Render("jquery.resizeEnd.js")
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $("ul.btn-dropdownmenu > .parent").on("mouseenter", function (e) {
+                var _this = $(this);
+
+                var children = $(_this).find('.children');
+                var display = $(children).css('display');
+
+                if (display == "none") {
+                    $(children).show();
+                    $(_this).addClass('open');
+                }
+                else {
+                    $(children).hide();
+                    $(_this).removeClass('open');
+                }
+
+                $(_this).mouseleave(function () {
+                    $(children).hide();
+                    $(_this).removeClass('open');
+                });
+
+            });
+
+            $('a[gotopage]').on("click", function () {
+                var target = $(this).attr("target");
+                var gotopage = $(this).attr("gotopage");
+
+
+                $('a[gotopage]').parent().removeClass('active');
+                $(this).parent().addClass('active');
+
+
+
+
+                window.frames[target].document.location = gotopage;
+            });
+
+            setInterval("reinitIframe()", 200);
+        });
+
+        function reinitIframe() {
+            var iframe = document.getElementById("iframeMain");
+            try {
+                var bHeight = iframe.contentWindow.document.body.scrollHeight;
+                var dHeight = iframe.contentWindow.document.documentElement.scrollHeight;
+                var height = Math.max(bHeight, dHeight);
+
+                var heightss = $(iframe).contents().find("body").height()
+                var height = Math.max(bHeight, dHeight);
+
+                iframe.height = heightss;
+
+                var tree_tab_left = $('.ztree');
+                if (tree_tab_left.length > 0) {
+                    console.log($(tree_tab_left).height())
+                }
+            } catch (ex) { }
+        }
+
+        function tips(message) {
+            var windowWidth = $(window).width();
+            var left = (windowWidth / 2) - (130 / 2);
+            $('#custom_noTitle_aui_content', window.top.document).text(message);
+            $('#custom_noTitle', window.top.document).show();
+            $('#custom_noTitle', window.top.document).css('left', left)
+            setTimeout(function () { $('#custom_noTitle', window.top.document).hide() }, 1500);
+        }
+    </script>
+    <style type="text/css">
+        .tipnumcount {
+            font-size: 12px;
+            color: #fff;
+            background: #ff9900;
+            border-radius: 5px;
+            padding: 2px 5px;
+            display: inline-block;
+            margin-top: 15px;
+            line-height: 16px;
+            vertical-align: top;
+            text-align: center;
+        }
+
+        .tipnumcount2 {
+            font-size: 12px;
+            color: #fff;
+            background: #ff9900;
+            border-radius: 5px;
+            padding: 2px 5px;
+            display: inline-block;
+            line-height: 16px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="custom_noTitle" class=" aui_state_noTitle aui_state_focus" style="position: fixed; left: 609px; top: 221px; display: none; width: auto; z-index: 9999999; ">
+        <div class="aui_outer">
+            <table class="aui_border">
+                <tbody>
+                    <tr>
+                        <td class="aui_nw"></td>
+                        <td class="aui_n"></td>
+                        <td class="aui_ne"></td>
+                    </tr>
+                    <tr>
+                        <td class="aui_w"></td>
+                        <td class="aui_c">
+                            <div class="aui_inner">
+                                <table class="aui_dialog">
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="2" class="aui_header">
+                                                <div class="aui_titleBar">
+                                                    <div class="aui_title" style="cursor: move; display: none;"></div>
+                                                    <a class="aui_close" href="javascript:/*artDialog*/;" style="display: none;">×</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="aui_icon" style="display: none;">
+                                                <div class="aui_iconBg" style="background: none;">
+                                                </div>
+                                            </td>
+                                            <td class="aui_main" style="width: auto; height: auto;">
+                                                <div class="aui_content" style="padding: 20px 25px;">
+                                                    <div style="padding: 0 1em;" id="custom_noTitle_aui_content">正在加载</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="aui_footer">
+                                                <div class="aui_buttons" style="display: none;"></div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                        <td class="aui_e"></td>
+                    </tr>
+                    <tr>
+                        <td class="aui_sw"></td>
+                        <td class="aui_s"></td>
+                        <td class="aui_se" style="cursor: se-resize;"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="gb">
+        <div class="gbr gbr-header" id="gbr_header">
+            <div class="wrapper">
+                <div class="content clearfix">
+                    <ul class="content-left">
+                        <li>
+                            <span class="title">@OwnWebSettingUtils.GetWebName()</span>
+                        </li>
+                    </ul>
+                    <ul class="content-right btn-dropdownmenu">
+
+                        @if (OwnRequest.IsLogin())
+                        {
+                            <li>
+                                <a href="/home/main" target="iframeMain">
+                                    <span class="title">
+                                        主界面
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="parent">
+                                <a href="javascript:void(0)" class="directory">
+                                    <span class="title">
+                                        欢迎您,@OwnRequest.GetUserNameWithSymbol()
+                                    </span>
+                                    <span class="more"></span>
+                                </a>
+                                <ul class="children">
+                                    <li><a href="/Home/ChangePassword" target="iframeMain">修改密码</a></li>
+                                    <li>
+                                        @using (Html.BeginForm("LogOff", "Home", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                                        {
+
+                                        }
+                                        <a href="javascript:document.getElementById('logoutForm').submit()">退出</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                        }
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="gbr gbr-main" id="gbr_main">
+            <div class="wrapper">
+                <div class="content clearfix" id="gbr_main_content">
+                    <dl>
+                        <dd class="content-left">
+                            <ul class="navmenu-left">
+                                @if (OwnRequest.IsLogin())
+                                {
+                                    <li class="parent">
+                                        <span><span class="icon icon_navmenu_level1_common"></span><span>机器管理</span></span>
+                                        <ul class="children">
+                                            <li>
+                                                <a gotopage="/Machine/List" target="iframeMain">
+                                                    <span class="icon"></span><span>机器列表</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="parent">
+                                        <span><span class="icon icon_navmenu_level1_common"></span><span>便利店管理</span></span>
+                                        <ul class="children">
+                                            <li>
+                                                <a gotopage="/Store/List" target="iframeMain">
+                                                    <span class="icon"></span><span>便利店设置</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="parent">
+                                        <span><span class="icon icon_navmenu_level1_common"></span><span>商品管理</span></span>
+                                        <ul class="children">
+                                            <li>
+                                                <a gotopage="/ProductSku/List" target="iframeMain">
+                                                    <span class="icon"></span><span>商品设置</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a gotopage="/ProductKind/List" target="iframeMain">
+                                                    <span class="icon"></span><span>商品模块设置</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a gotopage="/ProductSubject/List" target="iframeMain">
+                                                    <span class="icon"></span><span>商品栏目设置</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="parent">
+                                        <span><span class="icon icon_navmenu_level1_common"></span><span>库存管理</span></span>
+                                        <ul class="children">
+                                            <li>
+                                                <a gotopage="/Warehouse/List" target="iframeMain">
+                                                    <span class="icon"></span><span>仓库设置</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a gotopage="/Supplier/List" target="iframeMain">
+                                                    <span class="icon"></span><span>供应商设置</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a gotopage="/Order2StockIn/List" target="iframeMain">
+                                                    <span class="icon"></span><span>商品入库</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="parent">
+                                        <span><span class="icon icon_navmenu_level1_common"></span><span>订单查询</span></span>
+                                        <ul class="children">
+                                            <li>
+                                                <a gotopage="/Order/List?status=2000" target="iframeMain">
+                                                    <span class="icon"></span><span>待支付订单</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a gotopage="/Order/List?status=3000" target="iframeMain">
+                                                    <span class="icon"></span><span>待提货订单</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a gotopage="/Order/List?status=3000" target="iframeMain">
+                                                    <span class="icon"></span><span>待发货订单</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a gotopage="/Order/List?status=3000" target="iframeMain">
+                                                    <span class="icon"></span><span>已发货订单</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a gotopage="/Order/List?status=4000" target="iframeMain">
+                                                    <span class="icon"></span><span>已完成订单</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a gotopage="/Order/List?status=5000" target="iframeMain">
+                                                    <span class="icon"></span><span>已取消订单</span>
+                                                </a>
+                                            </li>
+
+                                        </ul>
+                                    </li>
+
+                                    <li class="parent">
+                                        <span><span class="icon icon_navmenu_level1_common"></span><span>用户管理</span></span>
+                                        <ul class="children">
+                                            <li>
+                                                <a gotopage="/ReplenishStaff/List" target="iframeMain">
+                                                    <span class="icon"></span><span>商品补货员</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                }
+                            </ul>
+                        </dd>
+                        <dd class="content-right">
+                            <div class="gbr-row gbr-row-breadcrumb">
+                                <ul class="breadcrumb">
+                                    <li><a target="iframeMain" href="/home/main" class="root">&nbsp;</a></li>
+                                    <li><span class="site">主界面</span></li>
+                                </ul>
+                            </div>
+                            <div class="gbr-row gbr-row-functionpage">
+                                <iframe src="/home/Main" id="iframeMain" name="iframeMain" style="width:100%;" frameBorder="0px" scrolling="no"></iframe>
+                            </div>
+                        </dd>
+                        <div class="clear"></div>
+                    </dl>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</body>
+</html>

@@ -17,6 +17,10 @@
     @OwnStaticScriptsResource.Render("DatePicker/WdatePicker.js")
     @OwnStaticScriptsResource.Render("jquery-1.8.3.min.js")
     @OwnStaticScriptsResource.Render("jquery.tmpl.min.js")
+    @OwnStaticScriptsResource.Render("jquery.formValidator.js")
+    @OwnStaticScriptsResource.Render("jquery.formValidatorRegex.js")
+    @OwnStaticScriptsResource.Render("Jquery.tree/jquery.ztree.core-3.2.js")
+    @OwnStaticScriptsResource.Render("Jquery.tree/jquery.ztree.excheck-3.2.js")
     @OwnStaticScriptsResource.Render("json2.js")
     @OwnStaticScriptsResource.Render("jquery.form.js")
     @OwnStaticScriptsResource.Render("jquery.autocomplete.js?" + DateTime.Now.ToString("yyyyMMddHHmmss"))
@@ -27,28 +31,6 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-
-            $("ul.btn-dropdownmenu > .parent").on("mouseenter", function (e) {
-                var _this = $(this);
-
-                var children = $(_this).find('.children');
-                var display = $(children).css('display');
-
-                if (display == "none") {
-                    $(children).show();
-                    $(_this).addClass('open');
-                }
-                else {
-                    $(children).hide();
-                    $(_this).removeClass('open');
-                }
-
-                $(_this).mouseleave(function () {
-                    $(children).hide();
-                    $(_this).removeClass('open');
-                });
-
-            });
 
             $('.status-bar span').click(function () {
                 $('.status-bar span').removeClass('selected')

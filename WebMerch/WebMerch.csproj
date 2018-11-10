@@ -206,9 +206,6 @@
     <Content Include="Views\Shared\MessageBox.cshtml" />
     <Content Include="Views\Shared\UpLoadFile.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Shared\_LayoutHomeDialog.cshtml" />
-    <Content Include="Views\Shared\_LayoutHomeIframe.cshtml" />
-    <Content Include="Views\Shared\_LayoutHomeIframeMainList.cshtml" />
     <Content Include="Views\Machine\List.cshtml" />
     <Content Include="Views\Machine\Edit.cshtml" />
     <Content Include="Views\Store\MachineListByBindable.cshtml" />

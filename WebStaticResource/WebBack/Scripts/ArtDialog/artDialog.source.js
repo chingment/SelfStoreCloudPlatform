@@ -1872,7 +1872,7 @@
         height: 'auto',				// 内容高度
         minWidth: 96,				// 最小宽度限制
         minHeight: 32,				// 最小高度限制
-        padding: '20px 25px',		// 内容与边界填充距离
+        padding: '5px',		// 内容与边界填充距离
         skin: '',					// 皮肤名(预留接口,尚未实现)
         icon: null,					// 消息图标名称
         time: null,					// 自动关闭时间
