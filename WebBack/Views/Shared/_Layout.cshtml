@@ -23,40 +23,6 @@
     @OwnStaticScriptsResource.Render("jquery.lumos.back.1.0.0.js?" + DateTime.Now.ToString("yyyyMMddHHmmss"))
     @OwnStaticScriptsResource.Render("jquery.resizeEnd.js")
     <script type="text/javascript">
-        (function ($) {
-
-            $.imgVerifyCode = {
-                init: function (opts) {
-
-                    opts = $.extend({
-                        imgId: 'img1',
-                        btnId: 'a1',
-                        sessionName: 'verifycode'
-                    }, opts || {});
-
-
-                    function getImgVerifyCode() {
-
-                        $("#" + opts.imgId).attr("src", "/Common/GetImgVerifyCode?name=" + opts.sessionName + "&date=" + new Date().getTime());
-
-                    }
-
-                    getImgVerifyCode();
-
-                    $('#' + opts.imgId + ',#' + opts.btnId).live("click", function () {
-                        getImgVerifyCode();
-                    });
-
-                    this.getImgVerifyCode = getImgVerifyCode;
-
-                    return this;
-                },
-                getCode: function () {
-                    this.getImgVerifyCode();
-                }
-            };
-
-        })(jQuery);
 
         $(document).ready(function () {
 

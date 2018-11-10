@@ -17,11 +17,11 @@ namespace WebSSO.Controllers
 
     public class HomeController : OwnBaseController
     {
-
+        public readonly string sesionKeyLoginVerifyCode = "sesionKeyLoginVerifyCode";
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            Session["WebSSOLoginVerifyCode"] = null;
+            Session[sesionKeyLoginVerifyCode] = null;
             return View();
         }
 
@@ -32,10 +32,19 @@ namespace WebSSO.Controllers
         /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
-        [CheckVerifyCode("WebSSOLoginVerifyCode")]
         public CustomJsonResult Login(RopLogin rop)
         {
             GoToViewModel gotoViewModel = new GoToViewModel();
+
+            if (Session[sesionKeyLoginVerifyCode] == null)
+            {
+                return Json(ResultType.Failure, gotoViewModel, "验证码超时");
+            }
+
+            if (Session[sesionKeyLoginVerifyCode].ToString() != rop.VerifyCode)
+            {
+                return Json(ResultType.Failure, gotoViewModel, "验证码不正确");
+            }
 
             var result = SysFactory.AuthorizeRelay.SignIn(rop.UserName, rop.Password, CommonUtils.GetIP(), Enumeration.LoginType.Website);
 

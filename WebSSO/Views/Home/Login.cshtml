@@ -42,8 +42,7 @@
 </div>
 <div class="gbr-row gbr-row-login">
     <form id="form1" onsubmit="return login()">
-        <input type="hidden" id="txt_ReturnUrl" name="ReturnUrl" value="@Model.ReturnUrl" />
-
+ 
         <div class="h-form-container login-box">
             <div class="h-message">
                 <span id="lbl_Message"></span>
@@ -154,7 +153,7 @@
             imgVerifyCode = $.imgVerifyCode.init({
                 imgId: 'img_VerifyCode',
                 btnId: 'a_VerifyCode',
-                sessionName: 'WebSSOLoginVerifyCode'
+                sessionName: 'sesionKeyLoginVerifyCode'
             });
 
         });
