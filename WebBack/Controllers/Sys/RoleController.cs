@@ -50,7 +50,7 @@ namespace WebBack.Controllers.Sys
 
         public CustomJsonResult GetRoleMenus(string roleId)
         {
-            var roleMenus = SysFactory.AuthorizeRelay.GetRoleMenus(roleId);
+            var roleMenus = SysFactory.SysRole.GetRoleMenus(this.CurrentUserId, roleId);
             var isCheckedIds = from p in roleMenus select p.Id;
             object obj = Newtonsoft.Json.JsonConvert.DeserializeObject(ConvertToZTreeJson(CurrentDb.SysMenu.OrderByDescending(m => m.Priority).ToArray(), "id", "pid", "name", "menu", isCheckedIds.ToArray()));
             return Json(ResultType.Success, obj);
@@ -171,7 +171,7 @@ namespace WebBack.Controllers.Sys
         [HttpPost]
         public CustomJsonResult Delete(string[] roleIds)
         {
-            return SysFactory.AuthorizeRelay.DeleteRole(this.CurrentUserId, roleIds);
+            return SysFactory.SysRole.Delete(this.CurrentUserId, roleIds);
         }
 
         #endregion

@@ -47,5 +47,7 @@ namespace Lumos.Entity
         public DateTime? MendTime { get; set; }
         public Enumeration.UserType Type { get; set; }
 
+        public bool IsCanDelete { get; set; }
+
     }
 }

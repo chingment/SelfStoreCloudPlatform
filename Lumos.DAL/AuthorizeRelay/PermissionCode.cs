@@ -13,8 +13,6 @@ namespace System
         public const string 后台用户管理 = "Sys2000";
         public const string 角色管理 = "Sys4000";
         public const string 菜单管理 = "Sys5000";
-        public const string 业务人员设置 = "BizB001";
-
     }
 
 }

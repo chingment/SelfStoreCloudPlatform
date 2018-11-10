@@ -152,15 +152,6 @@ namespace Lumos.DAL.AuthorizeRelay
             return result;
         }
 
-        public bool UserNameIsExists(string pUserName)
-        {
-            var sysUser = _db.SysUser.Where(m => m.UserName == pUserName).FirstOrDefault();
-            if (sysUser == null)
-                return false;
-
-            return true;
-        }
-
         public List<SysMenu> GetUserMenus(string pUserId)
         {
             List<SysMenu> listMenu = new List<SysMenu>();
@@ -249,7 +240,7 @@ namespace Lumos.DAL.AuthorizeRelay
                         foreach (string roleId in pRoleIds)
                         {
 
-                            _db.SysUserRole.Add(new SysUserRole { Id = GuidUtil.New(), UserId = pUser.Id, RoleId = roleId, Creator = pOperater, CreateTime = DateTime.Now });
+                            _db.SysUserRole.Add(new SysUserRole { Id = GuidUtil.New(), UserId = pUser.Id, RoleId = roleId, Creator = pOperater, CreateTime = DateTime.Now, IsCanDelete = true });
 
                         }
                     }
@@ -309,7 +300,7 @@ namespace Lumos.DAL.AuthorizeRelay
                         {
                             if (roleId != "0")
                             {
-                                _db.SysUserRole.Add(new SysUserRole { Id = GuidUtil.New(), UserId = pUser.Id, RoleId = roleId, Creator = pOperater, CreateTime = DateTime.Now });
+                                _db.SysUserRole.Add(new SysUserRole { Id = GuidUtil.New(), UserId = pUser.Id, RoleId = roleId, Creator = pOperater, CreateTime = DateTime.Now, IsCanDelete = true });
                             }
                         }
                     }
@@ -377,244 +368,6 @@ namespace Lumos.DAL.AuthorizeRelay
 
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
-        }
-
-        public bool ResetPassword(string pOperater, string pUserId, string pPassword)
-        {
-            //SysUser user = GetUser(userId);
-            //user.PasswordHash = null;
-            //user.Mender = operater;
-            //user.LastUpdateTime = DateTime.Now;
-            //_db.SaveChanges();
-
-            //IdentityResult result = _userManager.AddPassword(userId, password);
-            //return result.Succeeded;
-
-            return true;
-
-        }
-
-        public CustomJsonResult CreateRole(string pOperater, SysRole pRole)
-        {
-            var isExistName = _db.SysRole.Where(m => m.Name == pRole.Name).FirstOrDefault();
-
-            if (isExistName != null)
-            {
-                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "该用户名已经存在");
-            }
-            pRole.Id = GuidUtil.New();
-            pRole.PId = "0";
-            pRole.CreateTime = DateTime.Now;
-            pRole.Creator = pOperater;
-            _db.SysRole.Add(pRole);
-            _db.SaveChanges();
-            AddOperateHistory(pOperater, Enumeration.OperateType.New, pRole.Id, string.Format("新建角色{0}(ID:{1})", pRole.Name, pRole.Id));
-
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "添加成功");
-        }
-
-        public CustomJsonResult UpdateRole(string pOperater, SysRole pSysRole)
-        {
-            var isExistRoleName = _db.SysRole.Where(m => m.Name == pSysRole.Name && m.Id != pSysRole.Id).FirstOrDefault();
-            if (isExistRoleName != null)
-            {
-                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "角色名字已经存在");
-            }
-
-            var _sysRole = _db.SysRole.Where(m => m.Id == pSysRole.Id).FirstOrDefault();
-
-            _sysRole.Name = pSysRole.Name;
-            _sysRole.Description = pSysRole.Description;
-            _sysRole.MendTime = DateTime.Now;
-            _sysRole.Mender = pOperater;
-
-            AddOperateHistory(pOperater, Enumeration.OperateType.Update, _sysRole.Id, string.Format("修改角色{0}(ID:{1})", _sysRole.Name, _sysRole.Id));
-
-
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
-        }
-
-        public CustomJsonResult DeleteRole(string pOperater, string[] pRoldeIds)
-        {
-
-            if (pRoldeIds != null)
-            {
-                foreach (var id in pRoldeIds)
-                {
-                    var roleUsers = _db.SysUserRole.Where(u => u.RoleId == id).Distinct();
-
-                    var roleMenus = _db.SysRoleMenu.Where(u => u.RoleId == id).Distinct();
-
-
-                    var role = _db.SysRole.Find(id);
-
-                    foreach (var user in roleUsers)
-                    {
-                        _db.SysUserRole.Remove(user);
-                    }
-
-                    foreach (var menu in roleMenus)
-                    {
-                        _db.SysRoleMenu.Remove(menu);
-                    }
-
-
-                    _db.SysRole.Remove(role);
-                    _db.SaveChanges();
-
-                    AddOperateHistory(pOperater, Enumeration.OperateType.Delete, role.Id, string.Format("删除角色{0}(ID:{1})", role.Name, role.Id));
-                }
-
-            }
-
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "删除成功");
-        }
-
-        public CustomJsonResult AddUserToRole(string pOperater, string pRoleId, string[] pUserIds)
-        {
-            foreach (string userId in pUserIds)
-            {
-                _db.SysUserRole.Add(new SysUserRole { Id = GuidUtil.New(), UserId = userId, RoleId = pRoleId, Creator = pOperater, CreateTime = DateTime.Now });
-                _db.SaveChanges();
-
-                AddOperateHistory(pOperater, Enumeration.OperateType.Update, pRoleId, string.Format("添加用户(ID：{0})到角色(ID:{1})", userId, pRoleId));
-            }
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "添加成功");
-        }
-
-        public CustomJsonResult RemoveUserFromRole(string pOperater, string pRoleId, string[] pUserIds)
-        {
-            foreach (string userId in pUserIds)
-            {
-                SysUserRole userRole = _db.SysUserRole.Find(pRoleId, userId);
-                _db.SysUserRole.Remove(userRole);
-                _db.SaveChanges();
-
-
-                AddOperateHistory(pOperater, Enumeration.OperateType.Update, pRoleId, string.Format("移除用户(ID：{0})所在的角色(ID:{1})", userId, pRoleId));
-
-            }
-
-
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "移除成功");
-        }
-
-        public List<SysMenu> GetRoleMenus(string pRoleId)
-        {
-            var model = from c in _db.SysMenu
-                        where
-                            (from o in _db.SysRoleMenu where o.RoleId == pRoleId select o.MenuId).Contains(c.Id)
-                        select c;
-
-            return model.ToList();
-        }
-
-        public CustomJsonResult SaveRoleMenu(string pOperater, string pRoleId, string[] pMenuIds)
-        {
-
-            List<SysRoleMenu> roleMenuList = _db.SysRoleMenu.Where(r => r.RoleId == pRoleId).ToList();
-
-            foreach (var roleMenu in roleMenuList)
-            {
-                _db.SysRoleMenu.Remove(roleMenu);
-            }
-
-
-            if (pMenuIds != null)
-            {
-                foreach (var menuId in pMenuIds)
-                {
-                    _db.SysRoleMenu.Add(new SysRoleMenu { Id = GuidUtil.New(), RoleId = pRoleId, MenuId = menuId, Creator = pOperater, CreateTime = DateTime.Now });
-                }
-            }
-
-            _db.SaveChanges();
-
-            AddOperateHistory(pOperater, Enumeration.OperateType.Update, pRoleId, string.Format("保存角色(ID:{0})菜单", pRoleId));
-
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
-        }
-
-        public CustomJsonResult CreateMenu(string pOperater, SysMenu pSysMenu, string[] pPerssionIds)
-        {
-            pSysMenu.Id = GuidUtil.New();
-            pSysMenu.Creator = pOperater;
-            pSysMenu.CreateTime = DateTime.Now;
-            _db.SysMenu.Add(pSysMenu);
-            _db.SaveChanges();
-
-            if (pPerssionIds != null)
-            {
-                foreach (var id in pPerssionIds)
-                {
-                    _db.SysMenuPermission.Add(new SysMenuPermission { Id = GuidUtil.New(), MenuId = pSysMenu.Id, PermissionId = id, Creator = pOperater, CreateTime = DateTime.Now });
-                }
-            }
-            _db.SaveChanges();
-
-            AddOperateHistory(pOperater, Enumeration.OperateType.New, pSysMenu.Id, string.Format("新建菜单(ID:{0})", pSysMenu.Id));
-
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "添加成功");
-        }
-
-        public CustomJsonResult UpdateMenu(string pOperater, SysMenu pSysMenu, string[] pPerssionIds)
-        {
-
-            var _sysMenu = _db.SysMenu.Where(m => m.Id == pSysMenu.Id).FirstOrDefault();
-
-            _sysMenu.Name = pSysMenu.Name;
-            _sysMenu.Url = pSysMenu.Url;
-            _sysMenu.Description = pSysMenu.Description;
-            _sysMenu.Mender = pOperater;
-            _sysMenu.MendTime = DateTime.Now;
-
-            var sysMenuPermission = _db.SysMenuPermission.Where(r => r.MenuId == pSysMenu.Id).ToList();
-            foreach (var m in sysMenuPermission)
-            {
-                _db.SysMenuPermission.Remove(m);
-            }
-
-
-            if (pPerssionIds != null)
-            {
-                foreach (var id in pPerssionIds)
-                {
-                    _db.SysMenuPermission.Add(new SysMenuPermission { Id = GuidUtil.New(), MenuId = pSysMenu.Id, PermissionId = id, Creator = pOperater, CreateTime = DateTime.Now });
-                }
-            }
-
-            AddOperateHistory(pOperater, Enumeration.OperateType.Update, pSysMenu.Id, string.Format("修改菜单(ID:{0})", pSysMenu.Id));
-
-            _db.SaveChanges();
-
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
-
-        }
-
-        public CustomJsonResult DeleteMenu(string pOperater, string[] pMenuIds)
-        {
-            if (pMenuIds != null)
-            {
-                foreach (var id in pMenuIds)
-                {
-                    var sysMenu = _db.SysMenu.Where(m => m.Id == id).FirstOrDefault();
-
-                    _db.SysMenu.Remove(sysMenu);
-
-                    var sysRoleMenus = _db.SysRoleMenu.Where(r => r.MenuId == id).ToList();
-                    foreach (var sysRoleMenu in sysRoleMenus)
-                    {
-                        _db.SysRoleMenu.Remove(sysRoleMenu);
-                    }
-
-                    _db.SaveChanges();
-
-                    AddOperateHistory(pOperater, Enumeration.OperateType.Delete, id, string.Format("删除菜单(ID:{0})", id));
-
-                }
-            }
-
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "删除成功");
         }
 
         public List<SysPermission> GetPermissionList(PermissionCode pPermissionCode)

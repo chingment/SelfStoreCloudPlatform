@@ -102,7 +102,7 @@ namespace WebBack.Controllers.Sys
         [HttpPost]
         public CustomJsonResult Delete(string[] userIds)
         {
-            return SysFactory.SysStaffUser.Edit(this.CurrentUserId, userIds);
+            return SysFactory.SysStaffUser.Delete(this.CurrentUserId, userIds);
         }
 
     }

@@ -4,12 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Lumos.Entity
 {
-
-    //角色信息表AspNetRoles
-    //通过一个类的继承来扩展IdentityRole的属性对应的表是AspNetRoles表
-    //在这里测试 添加了Description属性
     [Table("SysRole")]
-    public class SysRole 
+    public class SysRole
     {
         [Key]
         public string Id { get; set; }
@@ -28,5 +24,7 @@ namespace Lumos.Entity
         public string Mender { get; set; }
 
         public DateTime? MendTime { get; set; }
+
+        public bool IsCanDelete { get; set; }
     }
 }

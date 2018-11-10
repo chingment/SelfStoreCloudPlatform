@@ -18,18 +18,18 @@ namespace Lumos.BLL.Sys
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
         }
 
-        public CustomJsonResult GetDetails(string pOperater, string menuId)
+        public CustomJsonResult GetDetails(string pOperater, string pMenuId)
         {
             var ret = new RetSysMenuGetDetails();
 
-            var menu = CurrentDb.SysMenu.Where(m => m.Id == menuId).FirstOrDefault();
+            var menu = CurrentDb.SysMenu.Where(m => m.Id == pMenuId).FirstOrDefault();
 
             ret.MenuId = menu.Id;
             ret.Name = menu.Name;
             ret.Url = menu.Url;
             ret.Description = menu.Description;
 
-            var sysMenuPermission = CurrentDb.SysMenuPermission.Where(u => u.MenuId == menuId).ToList();
+            var sysMenuPermission = CurrentDb.SysMenuPermission.Where(u => u.MenuId == pMenuId).ToList();
             var permissionIdIds = (from p in sysMenuPermission select p.PermissionId).ToArray();
 
             ret.PermissionIds = permissionIdIds;
@@ -40,30 +40,93 @@ namespace Lumos.BLL.Sys
         public CustomJsonResult Add(string pOperater, RopSysMenuAdd rop)
         {
             var sysMenu = new SysMenu();
+            sysMenu.Id = GuidUtil.New();
             sysMenu.Name = rop.Name;
             sysMenu.Url = rop.Url;
             sysMenu.Description = rop.Description;
             sysMenu.PId = rop.PMenuId;
-            return SysFactory.AuthorizeRelay.CreateMenu(pOperater, sysMenu, rop.PermissionIds);
+            sysMenu.IsCanDelete = true;
+            sysMenu.Creator = pOperater;
+            sysMenu.CreateTime = DateTime.Now;
+            CurrentDb.SysMenu.Add(sysMenu);
+            CurrentDb.SaveChanges();
+
+            if (rop.PermissionIds != null)
+            {
+                foreach (var id in rop.PermissionIds)
+                {
+                    CurrentDb.SysMenuPermission.Add(new SysMenuPermission { Id = GuidUtil.New(), MenuId = sysMenu.Id, PermissionId = id, Creator = pOperater, CreateTime = DateTime.Now });
+                }
+            }
+
+            CurrentDb.SaveChanges();
+
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "添加成功");
+
         }
 
 
         public CustomJsonResult Edit(string pOperater, RopSysMenuEdit rop)
         {
-            var sysMenu = new SysMenu();
-            sysMenu.Id = rop.MenuId;
+
+            var sysMenu = CurrentDb.SysMenu.Where(m => m.Id == rop.MenuId).FirstOrDefault();
+
             sysMenu.Name = rop.Name;
             sysMenu.Url = rop.Url;
             sysMenu.Description = rop.Description;
+            sysMenu.Mender = pOperater;
+            sysMenu.MendTime = DateTime.Now;
 
-            return SysFactory.AuthorizeRelay.UpdateMenu(pOperater, sysMenu, rop.PermissionIds);
+            var sysMenuPermission = CurrentDb.SysMenuPermission.Where(r => r.MenuId == rop.MenuId).ToList();
+            foreach (var m in sysMenuPermission)
+            {
+                CurrentDb.SysMenuPermission.Remove(m);
+            }
 
+
+            if (rop.PermissionIds != null)
+            {
+                foreach (var id in rop.PermissionIds)
+                {
+                    CurrentDb.SysMenuPermission.Add(new SysMenuPermission { Id = GuidUtil.New(), MenuId =sysMenu.Id, PermissionId = id, Creator = pOperater, CreateTime = DateTime.Now });
+                }
+            }
+
+            CurrentDb.SaveChanges();
+
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
+
+  
         }
 
 
-        public CustomJsonResult Delete(string pOperater, string[] menuIds)
+        public CustomJsonResult Delete(string pOperater, string[] pMenuIds)
         {
-            return SysFactory.AuthorizeRelay.DeleteMenu(pOperater, menuIds);
+            if (pMenuIds != null)
+            {
+                foreach (var id in pMenuIds)
+                {
+                    var sysMenu = CurrentDb.SysMenu.Where(m => m.Id == id).FirstOrDefault();
+
+                    if (!sysMenu.IsCanDelete)
+                    {
+                        return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("所选菜单（{0}）不允许删除", sysMenu.Name));
+                    }
+
+                    CurrentDb.SysMenu.Remove(sysMenu);
+
+                    var sysRoleMenus = CurrentDb.SysRoleMenu.Where(r => r.MenuId == id).ToList();
+                    foreach (var sysRoleMenu in sysRoleMenus)
+                    {
+                        CurrentDb.SysRoleMenu.Remove(sysRoleMenu);
+                    }
+
+                    CurrentDb.SaveChanges();
+
+                }
+            }
+
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "删除成功");
         }
 
         public CustomJsonResult EditSort(string pOperater, RopSysMenuEditSort rop)

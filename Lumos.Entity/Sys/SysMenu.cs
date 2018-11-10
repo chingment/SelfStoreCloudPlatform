@@ -32,8 +32,6 @@ namespace Lumos.Entity
 
         public DateTime? MendTime { get; set; }
 
-        [NotMapped]
-        public string[] Permission { get; set; }
-
+        public bool IsCanDelete { get; set; }
     }
 }
