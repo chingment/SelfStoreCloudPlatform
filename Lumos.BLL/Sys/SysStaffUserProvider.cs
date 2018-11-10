@@ -161,9 +161,9 @@ namespace Lumos.BLL.Sys
             {
                 SysUser user = CurrentDb.SysUser.Find(userId);
 
-                if(!user.IsCanDelete)
+                if (!user.IsCanDelete)
                 {
-                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("不能删除用户（{0}）", user.UserName));
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("不允许删除用户（{0}）", user.UserName));
                 }
 
                 user.IsDelete = true;
@@ -177,10 +177,10 @@ namespace Lumos.BLL.Sys
                     CurrentDb.SysUserRole.Remove(userRole);
                 }
 
-                CurrentDb.SaveChanges();         
+                CurrentDb.SaveChanges();
             }
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "找不到用户");
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "删除成功");
         }
     }
 }
