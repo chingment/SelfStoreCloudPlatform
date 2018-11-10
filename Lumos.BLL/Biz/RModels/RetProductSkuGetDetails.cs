@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Biz
 {
-    public class RupProductSkuGetDetails
+    public class RetProductSkuGetDetails
     {
         public string ProductSkuId { get; set; }
         public string Name { get; set; }

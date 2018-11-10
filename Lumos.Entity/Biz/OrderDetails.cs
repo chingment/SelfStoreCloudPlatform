@@ -15,6 +15,7 @@ namespace Lumos.Entity
         public string StoreId { get; set; }
         public string ChannelId { get; set; }
         public Entity.Enumeration.ChannelType ChannelType { get; set; }
+        public string ChannelName { get; set; }
         public string OrderId { get; set; }
         public string OrderSn { get; set; }
         public Enumeration.ReceptionMode ReceptionMode { get; set; }

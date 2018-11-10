@@ -22,6 +22,63 @@ namespace Lumos.BLL
 
     public class OrderProvider : BaseProvider
     {
+        public CustomJsonResult GetDetails(string pOperater, string s, string pOrderId)
+        {
+            var ret = new RetOrderGetDetails();
+
+            var order = CurrentDb.Order.Where(m => m.Id == pOrderId).FirstOrDefault();
+
+            ret.Sn = order.Sn;
+            ret.SourceName = order.Source.GetCnName();
+            ret.Status = (int)order.Status;
+            ret.StatusName = order.Status.GetCnName();
+            ret.StoreName = order.StoreName;
+            ret.ClientName = order.ClientName;
+            ret.ClientId = order.ClientId;
+            ret.ChargeAmount = order.ChargeAmount.ToF2Price();
+            ret.DiscountAmount = order.DiscountAmount.ToF2Price();
+            ret.OriginalAmount = order.OriginalAmount.ToF2Price();
+            ret.SubmitTime = order.SubmitTime.ToUnifiedFormatDateTime();
+
+            var orderDetails = CurrentDb.OrderDetails.Where(m => m.OrderId == order.Id).ToList();
+
+            foreach (var item in orderDetails)
+            {
+                var block = new RetOrderGetDetails.Block();
+                block.Name = item.ChannelName;
+
+
+                var orderDetailsChild = CurrentDb.OrderDetailsChild.Where(m => m.OrderDetailsId == item.Id).ToList();
+
+                foreach (var item2 in orderDetailsChild)
+                {
+                    var blockSku = new RetOrderGetDetails.BlockSku();
+
+                    blockSku.ProductSkuName = item2.ProductSkuName;
+                    blockSku.Quantity = item2.Quantity;
+                    blockSku.ChargeAmount = item2.ChargeAmount.ToF2Price();
+                    blockSku.DiscountAmount = item2.DiscountAmount.ToF2Price();
+                    blockSku.OriginalAmount = item2.OriginalAmount.ToF2Price();
+                    blockSku.StatusName = item2.Status.GetCnName();
+
+                    var orderDetailsChildSon = CurrentDb.OrderDetailsChildSon.Where(m => m.OrderDetailsChildId == item2.Id).ToList();
+
+                    foreach(var item3 in orderDetailsChildSon)
+                    {
+
+                        blockSku.BlockSubSkus.Add(new RetOrderGetDetails.BlockSku.BlockSubSku { StatusName = item3.Status.GetCnName(), Quantity = item3.Quantity });
+                    }
+
+
+                    block.Skus.Add(blockSku);
+                }
+
+                ret.Blocks.Add(block);
+
+            }
+
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
+        }
 
         public CustomJsonResult<RetOrderReserve> Reserve(string pOperater, RopOrderReserve rop)
         {
@@ -174,7 +231,7 @@ namespace Lumos.BLL
                     var cartsIds = rop.Skus.Select(m => m.CartId).Distinct().ToArray();
                     if (cartsIds != null)
                     {
-                        LogUtil.Info("cartsIds:"+Newtonsoft.Json.JsonConvert.SerializeObject(cartsIds));
+                        LogUtil.Info("cartsIds:" + Newtonsoft.Json.JsonConvert.SerializeObject(cartsIds));
                         var clientCarts = CurrentDb.ClientCart.Where(m => cartsIds.Contains(m.Id) && m.ClientId == rop.ClientId).ToList();
                         if (clientCarts != null)
                         {

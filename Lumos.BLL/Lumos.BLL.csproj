@@ -93,6 +93,7 @@
     <Compile Include="Biz\RModels\RetMachineGetDetails.cs" />
     <Compile Include="Biz\RModels\RetMerchantGetDetails.cs" />
     <Compile Include="Biz\RModels\RetOrder2StockInGetDetails.cs" />
+    <Compile Include="Biz\RModels\RetOrderGetDetails.cs" />
     <Compile Include="Biz\RModels\RetOrderReserve.cs" />
     <Compile Include="Biz\RModels\RetPayResultQuery.cs" />
     <Compile Include="Biz\RModels\RetProducSkuAdd.cs" />
@@ -130,7 +131,7 @@
     <Compile Include="Biz\RModels\RupMerchantMachineGetList.cs" />
     <Compile Include="Biz\RModels\RupOrder2StockInGetList.cs" />
     <Compile Include="Biz\RModels\RupOrderGetList.cs" />
-    <Compile Include="Biz\RModels\RupProductSkuGetDetails.cs" />
+    <Compile Include="Biz\RModels\RetProductSkuGetDetails.cs" />
     <Compile Include="Biz\RModels\RupProductSkuGetList.cs" />
     <Compile Include="Biz\RModels\RupProductSubjectGetList.cs" />
     <Compile Include="Biz\RModels\RupReplenishStaffGetList.cs" />

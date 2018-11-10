@@ -4,8 +4,8 @@ using System.Linq;
 using System.Web.Mvc;
 using Lumos.Entity;
 using Lumos;
-using WebMerch.Models.Order;
 using Lumos.BLL.Biz;
+using Lumos.BLL;
 
 namespace WebMerch.Controllers
 {
@@ -71,12 +71,14 @@ namespace WebMerch.Controllers
             return Json(ResultType.Success, pageEntity, "");
         }
 
-        public ViewResult Details(string id)
+        public ViewResult Details()
         {
-            DetailsViewModel model = new DetailsViewModel();
-            model.LoadData(id);
+            return View();
+        }
 
-            return View(model);
+        public CustomJsonResult GetDetails(string orderId)
+        {
+            return BizFactory.Order.GetDetails(this.CurrentUserId, this.CurrentUserId, orderId);
         }
     }
 }

@@ -35,7 +35,7 @@ namespace Lumos.BLL
         }
         public CustomJsonResult GetDetails(string pOperater, string pMerchantId, string pProductSkuId)
         {
-            var ret = new RupProductSkuGetDetails();
+            var ret = new RetProductSkuGetDetails();
             var productSku = CurrentDb.ProductSku.Where(m => m.MerchantId == pMerchantId && m.Id == pProductSkuId).FirstOrDefault();
             if (productSku != null)
             {
