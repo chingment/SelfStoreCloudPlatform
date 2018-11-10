@@ -81,6 +81,8 @@ namespace Lumos.BLL.Biz
         }
         public MerchantModel Merchant { get; set; }
 
+        public StoreModel Store { get; set; }
+
         public class MerchantModel
         {
             public string _merchantId = "";
@@ -153,6 +155,13 @@ namespace Lumos.BLL.Biz
                     _contactAddress = value;
                 }
             }
+        }
+
+        public class StoreModel {
+
+            public string Name { get; set; }
+
+            public string StoreId { get; set; }
         }
     }
 }

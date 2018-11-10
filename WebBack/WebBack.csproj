@@ -1078,11 +1078,8 @@
     <Content Include="Scripts\ckfinder\plugins\fileeditor\codemirror\LICENSE" />
     <Content Include="Scripts\ckfinder\userfiles\.htaccess" />
     <Content Include="Views\Sys\StaffUser\SelectList.cshtml" />
-    <Content Include="Views\Shared\_LayoutHomeMainReport.cshtml" />
     <Content Include="Static\ExcelTemplate\POS机信登记表.xls" />
     <Content Include="Views\Shared\UpLoadFile.cshtml" />
-    <Content Include="Views\Shared\_LayoutHomeIframe.cshtml" />
-    <Content Include="Views\Shared\_LayoutHomeIframeMainList.cshtml" />
     <Content Include="Views\Home\Main.cshtml" />
     <Content Include="Views\Biz\Machine\Add.cshtml" />
     <Content Include="Views\Biz\Machine\Edit.cshtml" />
@@ -1166,12 +1163,6 @@
     <Content Include="Views\Home\ChangePassword.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Shared\_LayoutHome.cshtml" />
-    <Content Include="Views\Shared\_LayoutHomeDialog.cshtml" />
-    <Content Include="Views\Shared\_LayoutHomeMain.cshtml" />
-    <Content Include="Views\Shared\_LayoutHomeMainEdit.cshtml" />
-    <Content Include="Views\Shared\_LayoutHomeMainList.cshtml" />
-    <Content Include="Views\Shared\_LayoutHomeMainTree.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\MessageBox.cshtml" />
     <Content Include="Views\Sys\Menu\Add.cshtml" />
