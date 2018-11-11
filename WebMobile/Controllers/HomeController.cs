@@ -7,7 +7,6 @@ using Lumos.Web.Mvc;
 using Lumos.WeiXinSdk;
 using System.Text;
 using System.Web.Security;
-using WebMobile.Models.Home;
 using Lumos.WeiXinSdk.MsgPush;
 using System.Linq;
 using System.Threading;

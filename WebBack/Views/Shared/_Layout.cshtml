@@ -30,24 +30,16 @@
 
         $(document).ready(function () {
 
-         
             $('.status-bar > div > span').click(function () {
                 var parent = $(this).parent().parent();;
                 $(parent).find('span').removeClass('selected')
                 $(this).addClass('selected')
             });
 
-
             $("input[childname$='child']").multiSelect();
-
-
             $(".uploadimg").initUploadImage();
-
-
             $("#tab1").tab();
-
             $('.chosen-select').chosen({ search_contains: true });
-
             $('#btn_select_mrchUser').live('click', function () {
                 var dialogtitle = "选择";
                 var l_title = $(this).attr("dialog-title")
