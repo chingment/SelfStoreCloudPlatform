@@ -142,32 +142,5 @@ namespace Lumos.BLL
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "删除成功");
         }
 
-        public CustomJsonResult RemoveProductSku(string pOperater, string pKindId, string pSkuId)
-        {
-            CustomJsonResult result = new CustomJsonResult();
-
-            var productSku = CurrentDb.ProductSku.Where(m => m.Id == pSkuId).FirstOrDefault();
-
-            var productKindSkus = CurrentDb.ProductKindSku.Where(m => m.ProductSkuId == pSkuId).ToList();
-
-            foreach (var productKindSku in productKindSkus)
-            {
-
-                if (productKindSku.ProductKindId == pKindId)
-                {
-                    CurrentDb.ProductKindSku.Remove(productKindSku);
-                }
-            }
-
-            var kindIds = productKindSkus.Select(m => m.ProductKindId).ToArray();
-            var productKinds = CurrentDb.ProductKind.Where(m => kindIds.Contains(m.Id)).ToList();
-            productSku.KindIds = string.Join(",", productKinds.Select(m => m.Id).ToArray());
-            productSku.KindNames = string.Join(",", productKinds.Select(m => m.Name).ToArray());
-
-            CurrentDb.SaveChanges();
-
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "删除成功");
-        }
-
     }
 }

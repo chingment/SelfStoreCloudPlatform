@@ -122,7 +122,7 @@
                 containerId: "form2",
                 rowDataCombie: function (p_index, p_row) {
                     var l_Strlimt = "";
-                    l_Strlimt += "@Html.IsInPermission("<a href=\\\"javascript:void(0)\\\" operate=\\\"remove\\\"   class=\\\"a-btn a-btn-edit\\\"  >移除</a>")";
+                    l_Strlimt += "@Html.IsInPermission("<a href=\\\"javascript:void(0)\\\" operate=\\\"edit\\\"   class=\\\"a-btn a-btn-edit\\\"  >修改</a>")";
                     var l_StrRows = "";
                     l_StrRows += "<tr>";
                     l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
@@ -136,23 +136,16 @@
                     return l_StrRows;
                 },
                 operate: {
-                    "remove": function (key) {
-                        art.dialog.confirm(
-'确定要移除[' + key.name + ']？',
-function () {
-
-    $.lumos.postJson({
-        url: "/ProductSubject/RemoveProductSku",
-        data: {
-            subjectId: key.subjectId,
-            skuId: key.id
-        },
-        success: function (d) {
-            $.lumos.tips(d.message);
-            list_ProductSkus.loadData(0);
-        }
-    });
-});
+                    "edit": function (obj) {
+ 
+                        var url = '/ProductSku/Edit?productSkuId=' + obj.id;
+                        var title = '商品信息修改';
+                        var dialog = art.dialog.open(url, {
+                            id: "openDialog", title: title, width: '800px', height: '600px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
+                                this.iframe.contentWindow.edit();
+                                return false;
+                            }
+                        });
 
                     }
                 }

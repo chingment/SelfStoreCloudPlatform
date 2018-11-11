@@ -64,7 +64,6 @@
                 urlParams: { orderId: orderId },
                 isUseHandling: true,
                 success: function (d) {
-                    alert(JSON.stringify(d))
                     if (d.result == $.lumos.resultType.success) {
                         $('#gbr_page').html($("#tmpl_block").tmpl(d.data));
                     }
@@ -174,7 +173,7 @@
 
                 {{each(k,item2) item.skus}}
                 <tr>
-                    <td class="no">${k}</td>
+                    <td class="no">${k+1}</td>
                     <td class="overflow" title="">${item2.productSkuName}</td>
                     <td class="overflow" title="">${item2.quantity}</td>
                     <td class="overflow" title="">${item2.originalAmount}</td>

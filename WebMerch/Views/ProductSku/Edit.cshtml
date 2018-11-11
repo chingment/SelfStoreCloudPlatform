@@ -29,9 +29,9 @@
 
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { art.dialog.tips(msg); } });
             $("#txt_Name").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "商品名称不能为空,且不超过50个字符" });
-            $("#sel_Kinds").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择所属模块" });
-            $("#sel_Subjects").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择所属栏目" });
-            $("#sel_RecipientModes").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择收货模式" });
+            $("#sel_Kinds").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 2, onError: "请选择所属模块,最多选择2个" });
+            $("#sel_Subjects").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 3, onError: "请选择所属栏目,最多选择3个" });
+            $("#sel_RecipientModes").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 2, onError: "请选择收货模式，至少选择一种" });
             $("#txt_ShowPrice").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "市场价不能为空,且不超过50个字符" });
             $("#txt_ShowPrice").decimalInput(2);
             $("#txt_SalePrice").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "售价不能为空,且不超过50个字符" });

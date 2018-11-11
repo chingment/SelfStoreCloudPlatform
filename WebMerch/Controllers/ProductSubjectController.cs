@@ -73,10 +73,8 @@ namespace WebMerch.Controllers
 
                          join c in CurrentDb.ProductSubjectSku on p.Id equals c.ProductSkuId
                          where
-(from d in CurrentDb.ProductSubjectSku
- where d.ProductSubjectId == rup.SubjectId
- select d.ProductSkuId).Contains(p.Id)
-   && (name.Length == 0 || p.Name.Contains(name))
+                         c.ProductSubjectId == rup.SubjectId &&
+   (name.Length == 0 || p.Name.Contains(name))
    && p.MerchantId == this.CurrentUserId
                          select new { p.Id, c.ProductSubjectId, p.Name, p.CreateTime, p.KindNames, p.SubjectNames, p.DispalyImgUrls, p.SalePrice, p.ShowPrice });
 
@@ -109,12 +107,6 @@ namespace WebMerch.Controllers
             PageEntity pageEntity = new PageEntity { PageSize = pageSize, TotalRecord = total, Rows = olist };
 
             return Json(ResultType.Success, pageEntity);
-        }
-
-        [HttpPost]
-        public CustomJsonResult RemoveProductSku(string subjectId, string skuId)
-        {
-            return BizFactory.ProductSubject.RemoveProductSku(this.CurrentUserId, subjectId, skuId);
         }
     }
 }
