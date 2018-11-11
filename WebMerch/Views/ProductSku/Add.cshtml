@@ -35,7 +35,7 @@
         });
 
         function add() {
-           
+
             var isValid = $.formValidator.pageIsValid();
             if (isValid) {
 
@@ -223,7 +223,12 @@
                     销售价<span class="required-symbol">*</span>：
                 </td>
                 <td class="f-tb-c">
-                    <input id="txt_SalePrice" type="text" class="input-control" value="" style="width:80px;" autocomplete="off" />
+                    <div>
+                        <div>
+                            <input id="txt_SalePrice" type="text" class="input-control" value="" style="width:80px;" autocomplete="off" />
+                        </div>
+                        <div class="help-tips">提示：此销售价作为初始数据，如需更正请带商品添加后，查询商品->点击修改后调整</div>
+                    </div>
                 </td>
             </tr>
             <tr>

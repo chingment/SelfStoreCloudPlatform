@@ -90,7 +90,7 @@
 
                     var name = $("#txt_Name").val();
                     var address = $("#txt_Address").val();
-                    var status = $("input[name=rd_Status]").val();
+                    var status = $("input[name=rd_Status]:checked").val();
                     $.lumos.postJson({
                         isUseHandling: true,
                         url: "/Store/Edit",

@@ -85,8 +85,12 @@ body {
 
 .help-tips {
 	color: #999;
-	height: 32px;
-	line-height: 32px;
+	line-height: 22px;
+}
+
+.remark-tips {
+	color: #999;
+	line-height: 22px;
 }
 
 .icon_navmenu_level1_common {
@@ -2352,9 +2356,8 @@ height:50px;
 .f-tb-c {
 	FONT-SIZE: 9pt;
 	background-color: White;
-	height: 30px;
-	PADDING-LEFT: 5px;
-	PADDING-RIGHT: 5px;
+
+	PADDING: 5px;
 }
 
 .f-tb-i {

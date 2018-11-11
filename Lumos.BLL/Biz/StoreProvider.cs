@@ -71,7 +71,7 @@ namespace Lumos.BLL
 
                 var store = CurrentDb.Store.Where(m => m.Id == rop.StoreId).FirstOrDefault();
 
-                if (store.Status == Enumeration.StoreStatus.Opened)
+                if (rop.Status == Enumeration.StoreStatus.Opened)
                 {
                     var storeMachineBindCount = CurrentDb.StoreMachine.Where(m => m.StoreId == rop.StoreId && m.IsBind == true).Count();
                     if (storeMachineBindCount == 0)

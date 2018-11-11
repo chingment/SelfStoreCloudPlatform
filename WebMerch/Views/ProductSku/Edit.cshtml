@@ -39,6 +39,18 @@
             $("#dispalyImgs_ImgUrl_0").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请上传商品封面图片" });
             $("#txt_BriefInfo").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 100, onError: "商品简短描述不能为空,且不超过100个字符" });
 
+            $('#btn_editprice').click( function () {
+      
+                var url = '/ProductSku/EditBySalePrice?productSkuId=' + productSkuId;
+                var title = '商品信息修改';
+
+                var dialog = art.dialog.open(url, {
+                    id: "openDialogssss", title: title, width: '600px', height: '400px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存'
+                });
+
+                return false;
+            });
+
             initData();
         });
 
@@ -255,7 +267,12 @@
                     销售价<span class="required-symbol">*</span>：
                 </td>
                 <td class="f-tb-c">
-                    <input id="txt_SalePrice" type="text" class="input-control" value="" style="width:80px;" autocomplete="off" />
+                    <div>
+                        <div>
+                            <input id="txt_SalePrice" type="text" class="input-control" value="" style="width:80px;" autocomplete="off" />
+                        </div>
+                        <div class="help-tips">提示：此销售价作为初始数据，如需更正请<a href="javascript:void(0)"   id="btn_editprice" >点击修改</a></div>
+                    </div>
                 </td>
             </tr>
             <tr>
