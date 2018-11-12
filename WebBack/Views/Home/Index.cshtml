@@ -52,14 +52,16 @@
 
             $('#btn_LoginOut').live("click", function () {
 
-                $.lumos.postJson({
-                    url: "/Home/LogOff",
-                    success: function (d) {
-                        $.lumos.tips(d.message);
-                        if (d.result == $.lumos.resultType.success) {
-                            window.location.href = d.data.url;
+                art.dialog.confirm('确定要退出？', function () {
+                    $.lumos.postJson({
+                        url: "/Home/LogOff",
+                        success: function (d) {
+                            $.lumos.tips(d.message);
+                            if (d.result == $.lumos.resultType.success) {
+                                window.location.href = d.data.url;
+                            }
                         }
-                    }
+                    });
                 });
 
                 return false;
