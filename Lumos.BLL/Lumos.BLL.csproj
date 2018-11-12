@@ -79,6 +79,7 @@
     <Compile Include="Biz\MachineProvider.cs" />
     <Compile Include="Biz\MerchantMachineProvider.cs" />
     <Compile Include="Biz\MerchantProvider.cs" />
+    <Compile Include="Biz\Models\SkuModel.cs" />
     <Compile Include="Biz\Order2StockInProvider.cs" />
     <Compile Include="Biz\OrderProvider.cs" />
     <Compile Include="Biz\ProductKindProvider.cs" />
@@ -89,9 +90,11 @@
     <Compile Include="Biz\Redis\RedisMq4GlobalProvider.cs" />
     <Compile Include="Biz\Redis\RedisMq4GlobalModel.cs" />
     <Compile Include="Biz\Redis\RedisMqFactory.cs" />
+    <Compile Include="Biz\RModels\RetAdminHomeIndexData.cs" />
     <Compile Include="Biz\RModels\RetCompanyGetDetails.cs" />
     <Compile Include="Biz\RModels\RetMachineGetDetails.cs" />
     <Compile Include="Biz\RModels\RetMerchantGetDetails.cs" />
+    <Compile Include="Biz\RModels\RetMerchantMachineGetDetails.cs" />
     <Compile Include="Biz\RModels\RetOrder2StockInGetDetails.cs" />
     <Compile Include="Biz\RModels\RetOrderGetDetails.cs" />
     <Compile Include="Biz\RModels\RetOrderReserve.cs" />
@@ -109,6 +112,7 @@
     <Compile Include="Biz\RModels\RopMachineLoginByQrCode.cs" />
     <Compile Include="Biz\RModels\RopMerchantAdd.cs" />
     <Compile Include="Biz\RModels\RopMerchantEdit.cs" />
+    <Compile Include="Biz\RModels\RopMerchantMachineEdit.cs" />
     <Compile Include="Biz\RModels\RopOrder2StockInAdd.cs" />
     <Compile Include="Biz\RModels\RopOrderReserve.cs" />
     <Compile Include="Biz\RModels\RopProducSkuAdd.cs" />
@@ -168,7 +172,6 @@
     <Compile Include="Service\App\Models\PersonalPageModel.cs" />
     <Compile Include="Service\App\Models\ProductChildKindModel.cs" />
     <Compile Include="Service\App\Models\ProductParentKindModel.cs" />
-    <Compile Include="Service\App\Models\SkuModel.cs" />
     <Compile Include="Service\App\Models\UserDeliveryAddressModel.cs" />
     <Compile Include="Service\App\Models\SpecModel.cs" />
     <Compile Include="Service\App\Models\SpecValueModel.cs" />

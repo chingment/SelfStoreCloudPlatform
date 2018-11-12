@@ -31,11 +31,16 @@
             },
             operate: {
                 "edit": function (obj) {
-                    var url = '/Machine/Edit?id=' + obj.id;
+
+                   
+
+                    var url = '/Machine/Edit?merchantMachineId=' + obj.id;
                     var title = '设置';
                     art.dialog.open(url, {
-                        id: "openDialog", title: title, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true
+                        id: "openDialog", title: title, width: '80%', height: '80%', lock: true, drag: false, cancelVal: '关闭', cancel: true
                     });
+
+
                 }
             }
         });

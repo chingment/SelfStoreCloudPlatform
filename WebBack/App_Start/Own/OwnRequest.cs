@@ -96,12 +96,6 @@ namespace WebBack
             return userName;
         }
 
-        public static bool IsInMenu(string url)
-        {
-
-            return true;
-        }
-
         public static List<SysMenu> GetMenus()
         {
             return SysFactory.AuthorizeRelay.GetUserMenus(GetCurrentUserId());
@@ -134,7 +128,6 @@ namespace WebBack
 
             return isHas;
         }
-
 
         public static void Postpone()
         {

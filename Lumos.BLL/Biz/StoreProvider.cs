@@ -132,6 +132,8 @@ namespace Lumos.BLL
                     }
                     else
                     {
+                        var machine = CurrentDb.Machine.Where(m => m.Id == machineId).FirstOrDefault();
+                        storeMachine.MachineName = machine.Name;
                         storeMachine.IsBind = true;
                         storeMachine.MendTime = this.DateTime;
                         storeMachine.Mender = pOperater;

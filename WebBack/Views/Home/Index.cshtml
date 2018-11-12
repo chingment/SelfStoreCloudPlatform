@@ -7,9 +7,18 @@
 
         $(document).ready(function () {
 
-            $("ul.btn-dropdownmenu > .parent").on("mouseenter", function (e) {
-                var _this = $(this);
+            $.lumos.getJson({
+                url: "/Home/GetIndexData",
+                isUseHandling: true,
+                success: function (d) {
+                    if (d.result == $.lumos.resultType.success) {
+                        $('#gbr_page').html($("#tmpl_block").tmpl(d.data));
+                    }
+                }
+            });
 
+            $("ul.btn-dropdownmenu > .parent").live("mouseenter", function (e) {
+                var _this = $(this);
                 var children = $(_this).find('.children');
                 var display = $(children).css('display');
 
@@ -29,7 +38,8 @@
 
             });
 
-            $('a[gotopage]').on("click", function () {
+            $('a[gotopage]').live("click", function () {
+
                 var target = $(this).attr("target");
                 var gotopage = $(this).attr("gotopage");
 
@@ -37,10 +47,22 @@
                 $('a[gotopage]').parent().removeClass('active');
                 $(this).parent().addClass('active');
 
-
-
-
                 window.frames[target].document.location = gotopage;
+            });
+
+            $('#btn_LoginOut').live("click", function () {
+
+                $.lumos.postJson({
+                    url: "/Home/LogOff",
+                    success: function (d) {
+                        $.lumos.tips(d.message);
+                        if (d.result == $.lumos.resultType.success) {
+                            window.location.href = d.data.url;
+                        }
+                    }
+                });
+
+                return false;
             });
 
             setInterval("reinitIframe()", 200);
@@ -60,48 +82,43 @@
             } catch (ex) { }
         }
 
+
     </script>
 }
 
-<div class="gb" id="gb">
+<script id="tmpl_block" type="text/x-jquery-tmpl">
     <div class="gbr gbr-header" id="gbr_header">
         <div class="wrapper">
             <div class="content clearfix">
                 <ul class="content-left">
                     <li>
-                        <span class="title">@OwnWebSettingUtils.GetWebName()</span>
+                        <span class="title">${title}</span>
                     </li>
                 </ul>
                 <ul class="content-right btn-dropdownmenu">
-
-                    @if (OwnRequest.IsLogin())
-                        {
-                        <li>
-                            <a href="/home/main" target="iframeMain">
-                                <span class="title">
-                                    主界面
-                                </span>
-                            </a>
-                        </li>
-                        <li class="parent">
-                            <a href="javascript:void(0)" class="directory">
-                                <span class="title">
-                                    欢迎您,@OwnRequest.GetUserNameWithSymbol()
-                                </span>
-                                <span class="more"></span>
-                            </a>
-                            <ul class="children">
-                                <li><a href="/Home/ChangePassword" target="iframeMain">修改密码</a></li>
-                                <li>
-                                    @using (Html.BeginForm("LogOff", "Home", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-                                        {
-
-                                        }
-                                    <a href="javascript:document.getElementById('logoutForm').submit()">退出</a>
-                                </li>
-                            </ul>
-                        </li>
-                        }
+                    {{if isLogin}}
+                    <li>
+                        <a href="/home/main" target="iframeMain">
+                            <span class="title">
+                                主界面
+                            </span>
+                        </a>
+                    </li>
+                    <li class="parent">
+                        <a href="javascript:void(0)" class="directory">
+                            <span class="title">
+                                欢迎您,${userName}
+                            </span>
+                            <span class="more"></span>
+                        </a>
+                        <ul class="children">
+                            <li><a href="/Home/ChangePassword" target="iframeMain">修改密码</a></li>
+                            <li>
+                                <a id="btn_LoginOut" href="javascript:void(0)">退出</a>
+                            </li>
+                        </ul>
+                    </li>
+                    {{/if}}
                 </ul>
                 <div class="clear"></div>
             </div>
@@ -115,35 +132,22 @@
                 <dl>
                     <dd class="content-left">
                         <ul class="navmenu-left">
-                            @if (OwnRequest.IsLogin())
-                                {
-                                    string pId = "00000000000000000000000000000001";
-                                    var menus = OwnRequest.GetMenus();
-                                    var menuLevel1 = from c in menus where c.PId == pId select c;
-                                    foreach (var menuLevel1Child in menuLevel1)
-                                    {
-                                <li class="parent">
-                                    <span><span class="icon icon_navmenu_level1_common"></span><span>@menuLevel1Child.Name</span></span>
-                                    <ul class="children">
-                                        @{
-                                                    var menuLevel2 = from c in menus where c.PId == menuLevel1Child.Id select c;
-                                                    if (menuLevel2 != null)
-                                                    {
-                                                        foreach (var menuLevel2Child in menuLevel2)
-                                                        {
-                                                <li>
-                                                    <a gotopage="@menuLevel2Child.Url" target="iframeMain">
-                                                        <span class="icon"></span><span>@menuLevel2Child.Name</span>
-                                                    </a>
-                                                </li>
-                                                        }
-                                                    }
-                                        }
-
-                                    </ul>
-                                </li>
-                                                        }
-                                                    }
+                            {{if isLogin}}
+                            {{each(j,item1) menuNavByLeft}}
+                            <li class="parent">
+                                <span><span class="icon icon_navmenu_level1_common"></span><span>${item1.name}</span></span>
+                                <ul class="children">
+                                    {{each(i,item2) item1.subMenus}}
+                                    <li>
+                                        <a gotopage="${item2.url}" target="iframeMain">
+                                            <span class="icon"></span><span>${item2.name}</span>
+                                        </a>
+                                    </li>
+                                    {{/each}}
+                                </ul>
+                            </li>
+                            {{/each}}
+                            {{/if}}
                         </ul>
                     </dd>
                     <dd class="content-right">
@@ -165,4 +169,10 @@
         </div>
         <div class="clear"></div>
     </div>
+
+
+</script>
+
+<div class="gbr-row" id="gbr_page">
+
 </div>

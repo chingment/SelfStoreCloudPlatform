@@ -129,7 +129,7 @@
     @RenderSection("scripts", required: false)
 </head>
 <body>
-    <div id="custom_noTitle" class=" aui_state_noTitle   aui_state_focus" style="position: fixed; left: 609px; top: 221px; display: none; width: auto; z-index: 9999999; ">
+    <div id="custom_noTitle" class=" aui_state_noTitle aui_state_focus" style="position: fixed; left: 609px; top: 221px; display: none; width: auto; z-index: 9999999; ">
         <div class="aui_outer">
             <table class="aui_border">
                 <tbody>
@@ -183,7 +183,9 @@
             </table>
         </div>
     </div>
-    @RenderBody()
+    <div class="gb" id="gb">
+        @RenderBody()
+    </div>
     @RenderSection("scriptsbyend", required: false)
 </body>
 </html>

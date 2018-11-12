@@ -37,5 +37,27 @@ namespace Lumos.Entity
 
             return imgUrl;
         }
+
+        public static string GetMain(List<ImgSet> imgs)
+        {
+            string imgUrl = "";
+            try
+            {
+
+                var d1 = imgs.Where(m => m.IsMain == true).FirstOrDefault();
+                if (d1 != null)
+                {
+                    imgUrl = d1.ImgUrl;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                LogUtil.Error("解释ImgSet Json 错误", ex);
+            }
+
+            return imgUrl;
+        }
     }
 }

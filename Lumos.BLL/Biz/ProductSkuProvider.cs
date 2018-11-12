@@ -48,7 +48,7 @@ namespace Lumos.BLL
                 ret.KindIds = ToArrary(productSku.KindIds);
                 ret.SubjectIds = ToArrary(productSku.SubjectIds);
                 ret.RecipientModeIds = ToArrary(productSku.RecipientModeIds);
-                ret.DispalyImgUrls = productSku.DispalyImgUrls.ToJsonObject<List<ImgSet>>();;
+                ret.DispalyImgUrls = productSku.DispalyImgUrls.ToJsonObject<List<ImgSet>>(); ;
             }
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
@@ -310,7 +310,7 @@ namespace Lumos.BLL
 
         public SkuModel GetModel(string pId)
         {
-            var skuModel = new SkuModel();
+            SkuModel skuModel = null;
             var sku = ProductSkuCacheUtil.GetOne(pId);
 
             if (sku == null)
@@ -322,14 +322,18 @@ namespace Lumos.BLL
                 }
             }
 
-            skuModel.Id = sku.Id;
-            skuModel.Name = sku.Name;
-            skuModel.SalePrice = sku.SalePrice;
-            skuModel.ShowPrice = sku.ShowPrice;
-            skuModel.BriefInfo = sku.BriefInfo;
-            skuModel.DispalyImgUrls = sku.DispalyImgUrls.ToJsonObject<List<ImgSet>>();
-            skuModel.ImgUrl = ImgSet.GetMain(sku.DispalyImgUrls);
-            skuModel.DetailsDes = sku.DetailsDes;
+            if (sku != null)
+            {
+                skuModel = new SkuModel();
+                skuModel.Id = sku.Id;
+                skuModel.Name = sku.Name;
+                skuModel.SalePrice = sku.SalePrice;
+                skuModel.ShowPrice = sku.ShowPrice;
+                skuModel.BriefInfo = sku.BriefInfo;
+                skuModel.DispalyImgUrls = sku.DispalyImgUrls.ToJsonObject<List<ImgSet>>();
+                skuModel.ImgUrl = ImgSet.GetMain(sku.DispalyImgUrls);
+                skuModel.DetailsDes = sku.DetailsDes;
+            }
 
             return skuModel;
         }

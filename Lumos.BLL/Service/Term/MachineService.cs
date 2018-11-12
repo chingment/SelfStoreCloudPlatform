@@ -207,30 +207,30 @@ namespace Lumos.BLL.Service.Term
         {
             var result = new CustomJsonResult();
 
-            var storeMachine = CurrentDb.StoreMachine.Where(m => m.MerchantId == rop.MerchantId && m.StoreId == rop.StoreId && m.MachineId == rop.MachineId).FirstOrDefault();
+            var machine = CurrentDb.Machine.Where(m => m.Id == rop.MachineId).FirstOrDefault();
 
-            if (storeMachine == null)
+            if (machine == null)
             {
                 return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "更新失败，找不到机器信息");
             }
 
             if (rop.Lat > 0)
             {
-                storeMachine.Lat = rop.Lat;
+                machine.Lat = rop.Lat;
             }
 
             if (rop.Lng > 0)
             {
-                storeMachine.Lng = rop.Lng;
+                machine.Lng = rop.Lng;
             }
 
             if (string.IsNullOrEmpty(rop.JPushRegId))
             {
-                storeMachine.JPushRegId = rop.JPushRegId;
+                machine.JPushRegId = rop.JPushRegId;
             }
 
-            storeMachine.Mender = pOperater;
-            storeMachine.MendTime = this.DateTime;
+            machine.Mender = pOperater;
+            machine.MendTime = this.DateTime;
 
             CurrentDb.SaveChanges();
 

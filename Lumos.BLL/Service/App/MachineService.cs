@@ -57,7 +57,7 @@ namespace Lumos.BLL.Service.App
                 return new CustomJsonResult(ResultType.Success, ResultCode.Success, "", ret);
             }
 
-            var machine = CurrentDb.MerchantMachine.Where(m => m.MerchantId == rup.MerchantId && m.MachineId == rup.MachineId && m.IsBind == true).FirstOrDefault();
+            var machine = CurrentDb.StoreMachine.Where(m => m.StoreId == rup.StoreId && m.MerchantId == rup.MerchantId && m.MachineId == rup.MachineId && m.IsBind == true).FirstOrDefault();
 
             if (machine == null)
             {
@@ -71,7 +71,7 @@ namespace Lumos.BLL.Service.App
 
             var merchantReplenishStaff = CurrentDb.MerchantReplenishStaff.Where(m => m.MerchantId == rup.MerchantId && m.UserId == pClientId).FirstOrDefault();
 
-            if(merchantReplenishStaff==null)
+            if (merchantReplenishStaff == null)
             {
                 ret.Result = RetOperateResult.ResultType.Failure;
                 ret.Remarks = "";

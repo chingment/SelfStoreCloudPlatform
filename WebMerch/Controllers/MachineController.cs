@@ -5,7 +5,6 @@ using System.Web.Mvc;
 using Lumos.Entity;
 using Lumos.BLL;
 using System.Data;
-using WebMerch.Models.Machine;
 using Lumos;
 using Lumos.BLL.Biz;
 
@@ -19,11 +18,14 @@ namespace WebMerch.Controllers
             return View();
         }
 
-        public ViewResult Edit(string id)
+        public ViewResult Edit()
         {
-            EditViewModel model = new EditViewModel();
-            model.LoadData(id);
-            return View(model);
+            return View();
+        }
+
+        public CustomJsonResult GetDetails(string merchantMachineId)
+        {
+            return BizFactory.MerchantMachine.GetDetails(this.CurrentUserId, this.CurrentUserId, merchantMachineId);
         }
 
         public CustomJsonResult GetList(RupMachineGetList rup)
@@ -38,7 +40,7 @@ namespace WebMerch.Controllers
                                  mp.MerchantId == this.CurrentUserId
                                  &&
                                  mp.IsBind == true
-                         select new { mp.Id, MachineId = p.Id, mp.MachineName, p.DeviceId, p.MacAddress, p.IsUse, p.CreateTime });
+                         select new { mp.Id, MachineId = p.Id, MachineName = p.Name, p.DeviceId, p.MacAddress, p.IsUse, p.CreateTime });
 
             int total = query.Count();
 
@@ -51,10 +53,13 @@ namespace WebMerch.Controllers
             List<object> olist = new List<object>();
             foreach (var item in list)
             {
+                string machineName = item.MachineName;
                 string storeName = "未绑定便利店";
                 var storeMachine = CurrentDb.StoreMachine.Where(m => m.MachineId == item.MachineId && m.IsBind == true).FirstOrDefault();
                 if (storeMachine != null)
                 {
+                    machineName = storeMachine.MachineName;
+
                     var store = CurrentDb.Store.Where(m => m.Id == storeMachine.StoreId).FirstOrDefault();
                     if (store != null)
                     {
@@ -65,7 +70,7 @@ namespace WebMerch.Controllers
                 olist.Add(new
                 {
                     item.Id,
-                    item.MachineName,
+                    machineName,
                     item.DeviceId,
                     storeName,
                     item.CreateTime
@@ -79,51 +84,9 @@ namespace WebMerch.Controllers
         }
 
         [HttpPost]
-        public CustomJsonResult Edit(EditViewModel model)
+        public CustomJsonResult Edit(RopMerchantMachineEdit rop)
         {
-            return BizFactory.MerchantMachine.Edit(this.CurrentUserId, model.MerchantMachine);
-        }
-
-        public CustomJsonResult GetSkuList(RupMachineStockGetList rup)
-        {
-
-            string name = "";
-            if (rup.Name != null)
-            {
-                name = rup.Name.ToSearchString();
-            }
-
-            var query = from u in CurrentDb.StoreSellStock
-                        where
-                        u.MerchantId == this.CurrentUserId &&
-                        u.StoreId == rup.StoreId &&
-                        u.ChannelId == rup.MachineId &&
-                        (name.Length == 0 || u.ProductSkuName.Contains(name))
-                        select new { u.Id, u.SlotId, u.ProductSkuName, u.Quantity, u.LockQuantity, u.SellQuantity, u.SalePrice };
-
-            int total = query.Count();
-
-            int pageIndex = rup.PageIndex;
-            int pageSize = 10;
-            query = query.OrderBy(r => r.Id);
-
-            var list = query.ToList();
-
-            List<object> olist = new List<object>();
-            foreach (var item in list)
-            {
-                olist.Add(new
-                {
-                    item.Id,
-                    item.SlotId,
-                    item.ProductSkuName
-                });
-
-            }
-
-            PageEntity pageEntity = new PageEntity { PageSize = pageSize, TotalRecord = total, Rows = olist };
-
-            return Json(ResultType.Success, pageEntity);
+            return BizFactory.MerchantMachine.Edit(this.CurrentUserId, this.CurrentUserId, rop);
         }
     }
 }

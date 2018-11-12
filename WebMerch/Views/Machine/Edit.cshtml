@@ -1,160 +1,149 @@
-﻿@model WebMerch.Models.Machine.EditViewModel
-@{
-    ViewBag.Title = "Edit";
+﻿@{
+    ViewBag.Title = "";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @section scripts{
     <script type="text/javascript">
 
-
+        var merchantMachineId = $.lumos.getUrlParamValue("merchantMachineId");
         $(this).ready(function () {
-            $.formValidator.initConfig({ formID: "form_machine", onError: function (msg) { art.dialog.tips(msg); } });
-            $("#Model_MerchantMachine_MachineName").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "名称不能为空,且不超过50个字符！" });
+
+            $.lumos.getJson({
+                isUseHandling: true,
+                url: "/Machine/GetDetails",
+                urlParams: { merchantMachineId: merchantMachineId },
+                success: function (d) {
+                    $('#gbr_page').html($("#tmpl_block").tmpl(d.data));
+                }
+            });
+
         });
 
-        function edit() {
 
-            var isValid = $.formValidator.pageIsValid();
-            if (isValid) {
-                var form = $("#form_machine");
-
-                art.dialog.confirm(
-               '确定要保存基本信息？',
-                function () {
-                    var l_Data = $(form).serializeArray();
-                    $.lumos.postJson({
-                        isUseHandling: true,
-                        url: "/Machine/Edit",
-                        data: l_Data,
-                        success: function (d) {
-                            $.lumos.tips(d.message);
-                            $.lumos.parentDialog.listTable.loadData();
-                        }
-                    });
-                });
-            }
-            return false;
-        }
 
         //-->
     </script>
 }
 
-<div class="gbr-row">
-    <div class="tab" id="tab1">
-        <div class="tab-item">
-            <ul>
-                <li class="item first selected"><a class="a-btn-info" href="javascript:void(0)">基本信息</a></li>
-                <li class="item"><a class="a-btn-info" href="javascript:void(0)">商品信息</a></li>
-            </ul>
+@section styles{
+
+    <style type="text/css">
+        .list-skus {
+            display: block;
+        }
+
+        .list-skus .it {
+            float: left;
+            text-align: center;
+            padding: 10px;
+            width: 120px;
+            height: 150px;
+        }
+
+        .list-skus .imgbox .img {
+            width: 80px;
+            height: 80px;
+        }
+
+        .list-skus .name {
+            height: 30px;
+            line-height: 30px;
+            overflow: hidden;
+        }
+
+        .list-skus .price {
+            display: flex;
+            height: 30px;
+        }
+
+         .list-skus .quantity{
+           color:#0404f5;
+         }
+
+          .list-skus .lockQuantity{
+           color:#e1a607;
+         }
+
+          .list-skus .sellQuantity{
+           color:#00ca47;
+         }
+
+        .list-skus .qa {
+            display: flex;
+            height: 40px;
+        }
+
+        .list-skus .flex1 {
+            flex: 1;
+        }
+    </style>
+}
+<script id="tmpl_block" type="text/x-jquery-tmpl">
+    <div class="gbr-row-title clearfix">
+        <div class="pull-left">
+            <h5>基本信息</h5>
         </div>
-        <div class="tab-content">
-            <div class="subcontent">
-                <form id="form_machine" name="form_machine">
-                    <input id="Model_MerchantMachine_Id" name="Model.MerchantMachine.Id" type="hidden" value="@Model.MerchantMachine.Id" />
-                    <table class="f-tb" cellpadding="0" cellspacing="1">
-                        <tr>
-                            <td class="f-tb-t" style="width:80px;">所属便利店：</td>
-                            <td class="f-tb-c">
-                                <span>
-                                    @Model.Store.Name
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="f-tb-t">设备ID：</td>
-                            <td class="f-tb-c">
-                                <span>
-                                    @Model.Machine.DeviceId
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="f-tb-t">机器名称：</td>
-                            <td class="f-tb-c">
-                                <span>
-                                    <input id="Model_MerchantMachine_MachineName" name="Model.MerchantMachine.MachineName" type="text" class="input-control" value="@Model.MerchantMachine.MachineName" style="width:300px;" />
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="f-tb-t">状态：</td>
-                            <td class="f-tb-c">
-                                <span>
-
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="f-tb-t"></td>
-                            <td class="f-tb-c">
-                                <input type="button" value="保存" class="btn btn-sure" onclick="return edit();" />
-                            </td>
-                        </tr>
-                    </table>
-                </form>
-            </div>
-            <div class="subcontent">
-
-                <form id="form_productsku" name="form_productsku">
-                 
-                    <div class="search-bar">
-                        <div class="filter">
-                            <span class="filter-label">名称：</span>
-                            <span class="filter-input">
-                                <input type="text" class="input-control" name="Name" style="width:120px;" />
-                            </span>
-                        </div>
-
-                        <div class="filter"><input type="button" class="btn btn-search" id="btn_Search" value="查询" /> </div>
-
-                        <div class="filter" style="float:right"> </div>
-                    </div>
-                    <div class="list">
-                        <table id="list_machine" class="list-tb" cellpadding="0" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th style="width:15%" class="no">
-                                        序号
-                                    </th>
-                                    <th style="width:15%">
-                                        设备ID
-                                    </th>
-                                    <th style="width:15%">
-                                        名称
-                                    </th>
-                                    <th style="width:10%" class="operation">
-                                        操作
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="4">
-                                        <div class="pull-left">
-                                            <span class="load-tip"></span>
-                                        </div>
-                                        <div class="pull-right pagination">
-                                            <div class="pagination-info">
-
-                                            </div>
-                                            <div class="pagination-index">
-
-                                            </div>
-                                            <div class="pagination-goto">
-
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                </form>
-
-            </div>
+        <div class="pull-right f-tb1-item-pull-right">
+            <h6></h6>
         </div>
     </div>
+
+    <table class="f-tb1-detail">
+        <tr>
+            <td class="t">设备ID：</td>
+            <td class="c">
+                <span>${deviceId}</span>
+            </td>
+            <td class="t">机器名称：</td>
+            <td class="c">
+                <span>${machineName}</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="t">所属便利店：</td>
+            <td class="c">
+                <span>${storeName}</span>
+            </td>
+            <td class="t">状态：</td>
+            <td class="c">
+                <span></span>
+            </td>
+        </tr>
+  
+    </table>
+
+    <div class="gbr-row-title clearfix">
+        <div class="pull-left">
+            <h5>商品概况</h5>
+        </div>
+        <div class="pull-right f-tb1-item-pull-right">
+            <h6></h6>
+        </div>
+    </div>
+    <div class="list-skus">
+
+        {{each(j,item) skus}}
+        <div class="it">
+            <div class="imgbox"><img class="img" src="${item.skuImgUrl}"></div>
+            <div class="name"><span class="txt">${item.skuName}</span></div>
+            <div class="price">
+                <div class="flex1 salePrice" title="销售价"><span class="txt">${item.salePrice}</span> </div>
+                <div class="flex1 salePriceByVip" title="会员价"><span class="txt">${item.salePriceByVip}</span> </div>
+            </div>
+            <div class="qa">
+                <div class="flex1 quantity" title="总量"><span class="txt">${item.quantity}</span> </div>
+                <div class="flex1 lockQuantity" title="预定数量"><span class="txt">${item.lockQuantity}</span></div>
+                <div class="flex1 sellQuantity" title="可卖数量"><span class="txt">${item.sellQuantity}</span></div>
+            </div>
+        </div>
+        {{/each}}
+
+    </div>
+</script>
+
+<div class="gbr-row" id="gbr_page">
+
+
+
 </div>
