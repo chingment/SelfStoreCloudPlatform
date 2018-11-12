@@ -6,7 +6,17 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
-            $("ul.btn-dropdownmenu > .parent").on("mouseenter", function (e) {
+            $.lumos.getJson({
+                url: "/Home/GetIndexData",
+                isUseHandling: true,
+                success: function (d) {
+                    if (d.result == $.lumos.resultType.success) {
+                        $('#gbr_page').html($("#tmpl_block").tmpl(d.data));
+                    }
+                }
+            });
+
+            $("ul.btn-dropdownmenu > .parent").live("mouseenter", function (e) {
                 var _this = $(this);
 
                 var children = $(_this).find('.children');
@@ -28,7 +38,7 @@
 
             });
 
-            $('a[gotopage]').on("click", function () {
+            $('a[gotopage]').live("click", function () {
                 var target = $(this).attr("target");
                 var gotopage = $(this).attr("gotopage");
 
@@ -40,6 +50,21 @@
 
 
                 window.frames[target].document.location = gotopage;
+            });
+
+            $('#btn_LoginOut').live("click", function () {
+
+                $.lumos.postJson({
+                    url: "/Home/LogOff",
+                    success: function (d) {
+                        $.lumos.tips(d.message);
+                        if (d.result == $.lumos.resultType.success) {
+                            window.location.href = d.data.url;
+                        }
+                    }
+                });
+
+                return false;
             });
 
             setInterval("reinitIframe()", 200);
@@ -66,46 +91,40 @@
     </script>
 }
 
-<div class="gb">
+<script id="tmpl_block" type="text/x-jquery-tmpl">
     <div class="gbr gbr-header" id="gbr_header">
         <div class="wrapper">
             <div class="content clearfix">
                 <ul class="content-left">
                     <li>
-                        <span class="title">@OwnWebSettingUtils.GetWebName()</span>
+                        <span class="title">${title}</span>
                     </li>
                 </ul>
                 <ul class="content-right btn-dropdownmenu">
 
-                    @if (OwnRequest.IsLogin())
-                        {
-                        <li>
-                            <a href="/home/main" target="iframeMain">
-                                <span class="title">
-                                    主界面
-                                </span>
-                            </a>
-                        </li>
-                        <li class="parent">
-                            <a href="javascript:void(0)" class="directory">
-                                <span class="title">
-                                    欢迎您,@OwnRequest.GetUserNameWithSymbol()
-                                </span>
-                                <span class="more"></span>
-                            </a>
-                            <ul class="children">
-                                <li><a href="/Home/ChangePassword" target="iframeMain">修改密码</a></li>
-                                <li>
-                                    @using (Html.BeginForm("LogOff", "Home", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-                                        {
-
-                                        }
-                                    <a href="javascript:document.getElementById('logoutForm').submit()">退出</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        }
+                    {{if isLogin}}
+                    <li>
+                        <a href="/home/main" target="iframeMain">
+                            <span class="title">
+                                主界面
+                            </span>
+                        </a>
+                    </li>
+                    <li class="parent">
+                        <a href="javascript:void(0)" class="directory">
+                            <span class="title">
+                                欢迎您,${userName}
+                            </span>
+                            <span class="more"></span>
+                        </a>
+                        <ul class="children">
+                            <li><a href="/Home/ChangePassword" target="iframeMain">修改密码</a></li>
+                            <li>
+                                <a id="btn_LoginOut" href="javascript:void(0)">退出</a>
+                            </li>
+                        </ul>
+                    </li>
+                    {{/if}}
                 </ul>
                 <div class="clear"></div>
             </div>
@@ -119,116 +138,115 @@
                 <dl>
                     <dd class="content-left">
                         <ul class="navmenu-left">
-                            @if (OwnRequest.IsLogin())
-                                {
-                                <li class="parent">
-                                    <span><span class="icon icon_navmenu_level1_common"></span><span>机器管理</span></span>
-                                    <ul class="children">
-                                        <li>
-                                            <a gotopage="/Machine/List" target="iframeMain">
-                                                <span class="icon"></span><span>机器列表</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="parent">
-                                    <span><span class="icon icon_navmenu_level1_common"></span><span>便利店管理</span></span>
-                                    <ul class="children">
-                                        <li>
-                                            <a gotopage="/Store/List" target="iframeMain">
-                                                <span class="icon"></span><span>便利店设置</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="parent">
-                                    <span><span class="icon icon_navmenu_level1_common"></span><span>商品管理</span></span>
-                                    <ul class="children">
-                                        <li>
-                                            <a gotopage="/ProductSku/List" target="iframeMain">
-                                                <span class="icon"></span><span>商品设置</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a gotopage="/ProductKind/List" target="iframeMain">
-                                                <span class="icon"></span><span>商品模块设置</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a gotopage="/ProductSubject/List" target="iframeMain">
-                                                <span class="icon"></span><span>商品栏目设置</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="parent">
-                                    <span><span class="icon icon_navmenu_level1_common"></span><span>库存管理</span></span>
-                                    <ul class="children">
-                                        <li>
-                                            <a gotopage="/Warehouse/List" target="iframeMain">
-                                                <span class="icon"></span><span>仓库设置</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a gotopage="/Supplier/List" target="iframeMain">
-                                                <span class="icon"></span><span>供应商设置</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a gotopage="/Order2StockIn/List" target="iframeMain">
-                                                <span class="icon"></span><span>商品入库</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="parent">
-                                    <span><span class="icon icon_navmenu_level1_common"></span><span>订单查询</span></span>
-                                    <ul class="children">
-                                        <li>
-                                            <a gotopage="/Order/List?status=2000" target="iframeMain">
-                                                <span class="icon"></span><span>待支付订单</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a gotopage="/Order/List?status=3000" target="iframeMain">
-                                                <span class="icon"></span><span>待提货订单</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a gotopage="/Order/List?status=3000" target="iframeMain">
-                                                <span class="icon"></span><span>待发货订单</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a gotopage="/Order/List?status=3000" target="iframeMain">
-                                                <span class="icon"></span><span>已发货订单</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a gotopage="/Order/List?status=4000" target="iframeMain">
-                                                <span class="icon"></span><span>已完成订单</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a gotopage="/Order/List?status=5000" target="iframeMain">
-                                                <span class="icon"></span><span>已取消订单</span>
-                                            </a>
-                                        </li>
+                            {{if isLogin}}
+                            <li class="parent">
+                                <span><span class="icon icon_navmenu_level1_common"></span><span>机器管理</span></span>
+                                <ul class="children">
+                                    <li>
+                                        <a gotopage="/Machine/List" target="iframeMain">
+                                            <span class="icon"></span><span>机器列表</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="parent">
+                                <span><span class="icon icon_navmenu_level1_common"></span><span>便利店管理</span></span>
+                                <ul class="children">
+                                    <li>
+                                        <a gotopage="/Store/List" target="iframeMain">
+                                            <span class="icon"></span><span>便利店设置</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="parent">
+                                <span><span class="icon icon_navmenu_level1_common"></span><span>商品管理</span></span>
+                                <ul class="children">
+                                    <li>
+                                        <a gotopage="/ProductSku/List" target="iframeMain">
+                                            <span class="icon"></span><span>商品设置</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a gotopage="/ProductKind/List" target="iframeMain">
+                                            <span class="icon"></span><span>商品模块设置</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a gotopage="/ProductSubject/List" target="iframeMain">
+                                            <span class="icon"></span><span>商品栏目设置</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="parent">
+                                <span><span class="icon icon_navmenu_level1_common"></span><span>库存管理</span></span>
+                                <ul class="children">
+                                    <li>
+                                        <a gotopage="/Warehouse/List" target="iframeMain">
+                                            <span class="icon"></span><span>仓库设置</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a gotopage="/Supplier/List" target="iframeMain">
+                                            <span class="icon"></span><span>供应商设置</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a gotopage="/Order2StockIn/List" target="iframeMain">
+                                            <span class="icon"></span><span>商品入库</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="parent">
+                                <span><span class="icon icon_navmenu_level1_common"></span><span>订单查询</span></span>
+                                <ul class="children">
+                                    <li>
+                                        <a gotopage="/Order/List?status=2000" target="iframeMain">
+                                            <span class="icon"></span><span>待支付订单</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a gotopage="/Order/List?status=3000" target="iframeMain">
+                                            <span class="icon"></span><span>待提货订单</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a gotopage="/Order/List?status=3000" target="iframeMain">
+                                            <span class="icon"></span><span>待发货订单</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a gotopage="/Order/List?status=3000" target="iframeMain">
+                                            <span class="icon"></span><span>已发货订单</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a gotopage="/Order/List?status=4000" target="iframeMain">
+                                            <span class="icon"></span><span>已完成订单</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a gotopage="/Order/List?status=5000" target="iframeMain">
+                                            <span class="icon"></span><span>已取消订单</span>
+                                        </a>
+                                    </li>
 
-                                    </ul>
-                                </li>
+                                </ul>
+                            </li>
 
-                                <li class="parent">
-                                    <span><span class="icon icon_navmenu_level1_common"></span><span>用户管理</span></span>
-                                    <ul class="children">
-                                        <li>
-                                            <a gotopage="/ReplenishStaff/List" target="iframeMain">
-                                                <span class="icon"></span><span>商品补货员</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                }
+                            <li class="parent">
+                                <span><span class="icon icon_navmenu_level1_common"></span><span>用户管理</span></span>
+                                <ul class="children">
+                                    <li>
+                                        <a gotopage="/ReplenishStaff/List" target="iframeMain">
+                                            <span class="icon"></span><span>商品补货员</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            {{/if}}
                         </ul>
                     </dd>
                     <dd class="content-right">
@@ -250,4 +268,9 @@
         </div>
         <div class="clear"></div>
     </div>
+</script>
+
+
+<div class="gbr-row" id="gbr_page">
+
 </div>

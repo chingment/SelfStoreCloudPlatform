@@ -1,12 +1,14 @@
 ﻿@model  Lumos.Web.MessageBoxModel
 @{
-    ViewBag.Title = "MessageBox";
-    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+    ViewBag.Title = "信息提示";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
 
 @section scripts{
     <script type="text/javascript">
+
+        
         $(document).ready(function () {
 
             $.lumos.messageBox({ type: "@Model.Type", isPopup: @(Model.IsPopup==true? "true":"false"), isTop: @(Model.IsTop==true? "true":"false"), title: "@Model.Title", content: "@Model.Content", errorStackTrace: "@Html.Raw(Model.ErrorStackTrace)" })

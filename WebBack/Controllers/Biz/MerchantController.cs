@@ -47,7 +47,6 @@ namespace WebBack.Controllers.Biz
 
         public CustomJsonResult GetList(RupMachineGetList rup)
         {
-
             string name = rup.Name.ToSearchString();
             var query = (from m in CurrentDb.SysMerchantUser
                          join u in CurrentDb.SysUser on m.Id equals u.Id

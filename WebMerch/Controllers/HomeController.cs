@@ -2,6 +2,7 @@
 using Lumos.BLL;
 using Lumos;
 using Lumos.BLL.Sys;
+using System.Collections.Generic;
 
 namespace WebMerch.Controllers
 {
@@ -70,11 +71,11 @@ namespace WebMerch.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult LogOff()
+        public CustomJsonResult LogOff()
         {
             OwnRequest.Quit();
-
-            return Redirect(OwnWebSettingUtils.GetLoginPage(""));
+            var ret = new { url = OwnWebSettingUtils.GetLoginPage("") };
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "退出成功", ret);
         }
 
         [HttpPost]
@@ -86,5 +87,58 @@ namespace WebMerch.Controllers
 
         }
 
+
+        public CustomJsonResult GetIndexData()
+        {
+            var ret = new IndexModel();
+
+            ret.Title = OwnWebSettingUtils.GetWebName();
+            ret.IsLogin = OwnRequest.IsLogin();
+
+            if (ret.IsLogin)
+            {
+                ret.UserName = OwnRequest.GetUserNameWithSymbol();
+
+            }
+
+
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
+        }
+
+
+        public class IndexModel
+        {
+            public IndexModel()
+            {
+                this.MenuNavByLeft = new List<MenuModel>();
+            }
+
+            public string Title { get; set; }
+
+            public bool IsLogin { get; set; }
+
+            public string UserName { get; set; }
+
+            public List<MenuModel> MenuNavByLeft { get; set; }
+
+            public class MenuModel
+            {
+                public MenuModel()
+                {
+                    this.SubMenus = new List<SubMenuModel>();
+                }
+
+                public string Name { get; set; }
+
+                public List<SubMenuModel> SubMenus { get; set; }
+            }
+
+            public class SubMenuModel
+            {
+                public string Url { get; set; }
+
+                public string Name { get; set; }
+            }
+        }
     }
 }
