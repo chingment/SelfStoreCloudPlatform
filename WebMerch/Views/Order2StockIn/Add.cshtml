@@ -4,7 +4,7 @@
 }
 @section scripts{
     <style type="text/css">
-        form input[type=text] {
+         input[type=text] {
             border-left-width: 0px;
             border-top-width: 0px;
             border-right-width: 0px;
@@ -12,7 +12,7 @@
             border-bottom-width: 0.1px;
         }
 
-        form input[type=text]:focus {
+         input[type=text]:focus {
             border-width: 0px;
             outline: none;
             border-bottom-width: 0.1px;
@@ -97,7 +97,7 @@
                     $.lumos.tips("最后一行，不能删除");
                     return;
                 }
-                art.dialog.confirm('确定要删除提交？', function () {
+                art.dialog.confirm('确定要删除该商品？', function () {
                     $(_this).parent().parent().remove();
                 });
 
