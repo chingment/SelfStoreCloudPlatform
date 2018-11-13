@@ -8,6 +8,15 @@ namespace Lumos.Entity
     /// </summary>
     public partial class Enumeration
     {
+        public enum Order2StockOutTargetType
+        {
+            [Remark("未知")]
+            Unknow = 0,
+            [Remark("客户")]
+            Tartget = 1,
+            [Remark("店铺")]
+            Store = 2
+        }
 
         public enum StoreStatus
         {

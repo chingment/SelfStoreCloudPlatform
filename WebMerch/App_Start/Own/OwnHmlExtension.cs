@@ -357,7 +357,7 @@ namespace System.Web
             return new MvcHtmlString(sb.ToString());
         }
 
-        public static MvcHtmlString initStore(this HtmlHelper helper,string name, string selectval = null)
+        public static MvcHtmlString initOrder2StockOutTarget(this HtmlHelper helper, string name, string selectval = null)
         {
 
             LumosDbContext dbContext = new LumosDbContext();
@@ -388,7 +388,7 @@ namespace System.Web
                     }
                 }
 
-                sb.Append("<option value=\"" + m.Id + "\"   " + selected + "   >&nbsp;" + m.Name + "</option>");
+                sb.Append("<option value=\"" + m.Id + "\"   " + selected + " name=\"" + m.Name + "\" type=\"2\"   >&nbsp;" + string.Format("[{0}]{1}", Lumos.Entity.Enumeration.Order2StockOutTargetType.Store.GetCnName(), m.Name) + "</option>");
             }
 
             sb.Append("</select>");

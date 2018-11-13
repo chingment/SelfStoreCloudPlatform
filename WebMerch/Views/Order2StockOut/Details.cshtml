@@ -50,9 +50,8 @@
 
     </script>
 }
-
 <script id="tmpl_block" type="text/x-jquery-tmpl">
-
+  
     <div class="gbr-row-title clearfix">
         <div class="pull-left">
             <h5>基本信息</h5>
@@ -75,14 +74,14 @@
                 出库日期：
             </td>
             <td class="f-tb-c"><span>${stockOutTime}</span></td>
-            <td class="f-tb-t">
+            <td class="f-tb-t" style="width:80px">
                 仓库：
             </td>
             <td class="f-tb-c"><span>${warehouseName}</span></td>
             <td class="f-tb-t">
-                店铺：
+                目的处：
             </td>
-            <td class="f-tb-c"><span>${storeName}</span></td>
+            <td class="f-tb-c"><span>${targetName}</span></td>
         </tr>
         <tr>
             <td class="f-tb-t">
@@ -134,8 +133,13 @@
         </table>
     </div>
 
+
+
+
 </script>
 
 <div class="gbr-row gbr-dialog" id="gbr_page">
 
 </div>
+
+

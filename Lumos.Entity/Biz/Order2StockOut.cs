@@ -13,8 +13,9 @@ namespace Lumos.Entity
         public string MerchantId { get; set; }
         public string WarehouseId { get; set; }
         public string WarehouseName { get; set; }
-        public string StoreId { get; set; }
-        public string StoreName { get; set; }
+        public string TargetId { get; set; }
+        public string TargetName { get; set; }
+        public Entity.Enumeration.Order2StockOutTargetType TargetType { get; set; }
         public int Quantity { get; set; }
         public DateTime StockOutTime { get; set; }
         [MaxLength(512)]

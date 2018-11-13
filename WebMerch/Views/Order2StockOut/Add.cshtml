@@ -30,7 +30,7 @@
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
             $("#txt_StockOutTime").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "请选择日期" });
             $("#sel_WarehouseId").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择仓库" });
-            $("#sel_StoreId").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择店铺" });
+            $("#sel_TargetId").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择" });
 
             $('input[name=code]').live("focus", function () {
                 var _this = $(this);
@@ -157,13 +157,15 @@
 
                 var stockOutTime = $("#txt_StockOutTime").val();
                 var warehouseId = $("#sel_WarehouseId").val();
-                var storeId = $("#sel_StoreId").val();
+                var targetId = $("#sel_TargetId").find("option:selected").val();
+                var targetName = $("#sel_TargetId").find("option:selected").attr("name");
+                var targetType = $("#sel_TargetId").find("option:selected").attr("type");
                 var description = $("#txt_Description").val()
 
                 $.lumos.postJson({
                     isUseHandling: true,
                     url: "/Order2StockOut/Add",
-                    data: { stockOutTime: stockOutTime, warehouseId: warehouseId, storeId: storeId, description: description, skus: skus },
+                    data: { stockOutTime: stockOutTime, warehouseId: warehouseId, targetId: targetId,targetName:targetName,targetType:targetType, description: description, skus: skus },
                     success: function (d) {
                         $.lumos.tips(d.message);
                         if (d.result == $.lumos.resultType.success) {
@@ -213,7 +215,11 @@
         }
     </script>
 }
+
+
+
 <div class="gbr-row gbr-dialog">
+
     <div class="gbr-row-title clearfix">
         <div class="pull-left">
             <h5>基本信息</h5>
@@ -237,10 +243,10 @@
                 @Html.initWarehouse("sel.WarehouseId")
             </td>
             <td class="f-tb-t">
-                店铺<span class="required-symbol">*</span>：
+                目的处<span class="required-symbol">*</span>：
             </td>
             <td class="f-tb-c">
-                @Html.initStore("sel.StoreId")
+                @Html.initOrder2StockOutTarget("sel.TargetId")
             </td>
         </tr>
         <tr>

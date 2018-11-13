@@ -44,7 +44,7 @@ namespace WebMerch.Controllers
                          where (sn.Length == 0 || u.Sn.Contains(sn))
                          &&
                          u.MerchantId == this.CurrentUserId
-                         select new { u.Id, u.Sn, u.StoreName, u.Quantity, u.StockOutTime, u.CreateTime });
+                         select new { u.Id, u.Sn, u.TargetType, u.TargetName, u.Quantity, u.StockOutTime, u.CreateTime });
 
             int total = query.Count();
 
@@ -62,7 +62,7 @@ namespace WebMerch.Controllers
                 {
                     Id = item.Id,
                     Sn = item.Sn,
-                    StoreName = item.StoreName,
+                    TargetName = string.Format("[{0}]{1}", item.TargetType.GetCnName(), item.TargetName),
                     Quantity = item.Quantity,
                     StockOutTime = item.StockOutTime.ToUnifiedFormatDate(),
                     CreateTime = item.CreateTime

@@ -24,7 +24,7 @@ namespace Lumos.BLL
                 ret.Sn = order2StockOut.Sn;
                 ret.StockOutTime = order2StockOut.StockOutTime.ToUnifiedFormatDateTime();
                 ret.WarehouseName = order2StockOut.WarehouseName;
-                ret.StoreName = order2StockOut.StoreName;
+                ret.TargetName = string.Format("[{0}]{1}", order2StockOut.TargetType.GetCnName(), order2StockOut.TargetName);
                 ret.Description = order2StockOut.Description;
                 ret.Quantity = order2StockOut.Quantity;
 
@@ -47,7 +47,6 @@ namespace Lumos.BLL
             using (TransactionScope ts = new TransactionScope())
             {
                 var warehouse = CurrentDb.Warehouse.Where(m => m.Id == rop.WarehouseId).FirstOrDefault();
-                var store = CurrentDb.Store.Where(m => m.Id == rop.StoreId).FirstOrDefault();
 
                 var order2StockOut = new Order2StockOut();
                 order2StockOut.Id = GuidUtil.New();
@@ -56,8 +55,9 @@ namespace Lumos.BLL
                 order2StockOut.Quantity = rop.Skus.Select(m => m.Quantity).Sum();
                 order2StockOut.WarehouseId = warehouse.Id;
                 order2StockOut.WarehouseName = warehouse.Name;
-                order2StockOut.StoreId = store.Id;
-                order2StockOut.StoreName = store.Name;
+                order2StockOut.TargetId = rop.TargetId;
+                order2StockOut.TargetName = rop.TargetName;
+                order2StockOut.TargetType = rop.TargetType;
                 order2StockOut.StockOutTime = rop.StockOutTime;
                 order2StockOut.Description = rop.Description;
                 order2StockOut.Creator = pOperater;
@@ -75,8 +75,9 @@ namespace Lumos.BLL
                     order2StockOutDetails.Order2StockOutId = order2StockOut.Id;
                     order2StockOutDetails.WarehouseId = order2StockOut.WarehouseId;
                     order2StockOutDetails.WarehouseName = order2StockOut.WarehouseName;
-                    order2StockOutDetails.StoreId = order2StockOut.StoreId;
-                    order2StockOutDetails.StoreName = order2StockOut.StoreName;
+                    order2StockOutDetails.TargetId = order2StockOut.TargetId;
+                    order2StockOutDetails.TargetName = order2StockOut.TargetName;
+                    order2StockOutDetails.TargetType = order2StockOut.TargetType;
                     order2StockOutDetails.StockOutTime = order2StockOut.StockOutTime;
                     order2StockOutDetails.Creator = order2StockOut.Creator;
                     order2StockOutDetails.CreateTime = order2StockOut.CreateTime;

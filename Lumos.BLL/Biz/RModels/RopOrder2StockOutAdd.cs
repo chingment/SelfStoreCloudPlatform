@@ -17,7 +17,11 @@ namespace Lumos.BLL.Biz
 
         public string WarehouseId { get; set; }
 
-        public string StoreId { get; set; }
+        public string TargetId { get; set; }
+
+        public Entity.Enumeration.Order2StockOutTargetType TargetType { get; set; }
+
+        public string TargetName { get; set; }
 
         public string Description { get; set; }
 
@@ -30,5 +34,7 @@ namespace Lumos.BLL.Biz
             public int Quantity { get; set; }
 
         }
+
+
     }
 }
