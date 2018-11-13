@@ -23,7 +23,7 @@
 
         $(document).ready(function () {
             addRowSku();
-            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { art.dialog.tips(msg); } });
+            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
             $("#txt_StockInTime").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "请选择日期" });
             $("#sel_WarehouseId").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择仓库" });
             $("#sel_SupplierId").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择供应商" });
@@ -215,64 +215,75 @@
         }
     </script>
 }
-<div class="gbr-row">
-    <form id="form1" name="form1" method="post">
-
-        <table class="f-tb" cellpadding="0" cellspacing="1">
-            <tr>
-                <td class="f-tb-t" style="width:80px">
-                    入库日期<span class="required-symbol">*</span>：
-                </td>
-                <td class="f-tb-c">
-                    <input id="txt_StockInTime" type="text" value="@DateTime.Now.ToUnifiedFormatDate()" class="Wdate" style="width:100px;" onclick="WdatePicker({ maxDate: '#F{\'@DateTime.Now.ToString("yyyy-MM-dd")\'}', dateFmt: 'yyyy-MM-dd' })" autocomplete="off" />
-                </td>
-                <td class="f-tb-t">
-                    仓库<span class="required-symbol">*</span>：
-                </td>
-                <td class="f-tb-c">
-                    @Html.initWarehouse("sel.WarehouseId")
-                </td>
-                <td class="f-tb-t">
-                    供应商<span class="required-symbol">*</span>：
-                </td>
-                <td class="f-tb-c">
-                    @Html.initCompany(Lumos.Entity.Enumeration.CompanyClass.Supplier, "sel.SupplierId")
-                </td>
-            </tr>
-            <tr>
-                <td class="f-tb-t">
-                    描述：
-                </td>
-                <td class="f-tb-c" colspan="5">
-                    <input id="txt_Description" type="text" value="" style="width:80%;" autocomplete="off" />
-                </td>
-            </tr>
-        </table>
-
-        <div class="list list-skus">
-            <table id="list_table_skus" class="list-tb list-tb-skus" cellpadding="0" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th style="width:20%" class="no">
-                            编码
-                        </th>
-                        <th style="width:45%">
-                            商品
-                        </th>
-                        <th style="width:15%">
-                            数量（计单位/个）
-                        </th>
-                        <th style="width:15%">
-                            金额
-                        </th>
-                        <th style="width:5%" class="operation">
-                            操作
-                        </th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+<div class="gbr-row gbr-dialog">
+    <div class="gbr-row-title clearfix">
+        <div class="pull-left">
+            <h5>基本信息</h5>
         </div>
-
-    </form>
+        <div class="pull-right f-tb1-item-pull-right">
+            <h6></h6>
+        </div>
+    </div>
+    <table class="f-tb" cellpadding="0" cellspacing="1">
+        <tr>
+            <td class="f-tb-t" style="width:80px">
+                入库日期<span class="required-symbol">*</span>：
+            </td>
+            <td class="f-tb-c">
+                <input id="txt_StockInTime" type="text" value="@DateTime.Now.ToUnifiedFormatDate()" class="Wdate" style="width:100px;" onclick="WdatePicker({ maxDate: '#F{\'@DateTime.Now.ToString("yyyy-MM-dd")\'}', dateFmt: 'yyyy-MM-dd' })" autocomplete="off" />
+            </td>
+            <td class="f-tb-t">
+                仓库<span class="required-symbol">*</span>：
+            </td>
+            <td class="f-tb-c">
+                @Html.initWarehouse("sel.WarehouseId")
+            </td>
+            <td class="f-tb-t">
+                供应商<span class="required-symbol">*</span>：
+            </td>
+            <td class="f-tb-c">
+                @Html.initCompany(Lumos.Entity.Enumeration.CompanyClass.Supplier, "sel.SupplierId")
+            </td>
+        </tr>
+        <tr>
+            <td class="f-tb-t">
+                描述：
+            </td>
+            <td class="f-tb-c" colspan="5">
+                <input id="txt_Description" type="text" value="" style="width:80%;" autocomplete="off" />
+            </td>
+        </tr>
+    </table>
+    <div class="gbr-row-title clearfix">
+        <div class="pull-left">
+            <h5>商品信息</h5>
+        </div>
+        <div class="pull-right f-tb1-item-pull-right">
+            <h6></h6>
+        </div>
+    </div>
+    <div class="list list-skus">
+        <table id="list_table_skus" class="list-tb list-tb-skus" cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <th style="width:20%" class="no">
+                        编码
+                    </th>
+                    <th style="width:45%">
+                        商品
+                    </th>
+                    <th style="width:15%">
+                        数量（计单位/个）
+                    </th>
+                    <th style="width:15%">
+                        金额
+                    </th>
+                    <th style="width:5%" class="operation">
+                        操作
+                    </th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
 </div>

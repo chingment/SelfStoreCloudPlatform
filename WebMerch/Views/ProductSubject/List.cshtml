@@ -37,7 +37,7 @@
 
             loadSubjects();
 
-            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { art.dialog.tips(msg); } });
+            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
 
 
             $("#txt_Name").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 20, empty: { leftEmpty: false, emptyError: "不能为空" }, onError: "名称不能超过20个字符" });

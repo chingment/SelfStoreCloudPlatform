@@ -83,14 +83,14 @@
                     $(uploadFileNameInput).text('');
 
                     if (d.result == "Success") {
-                        art.dialog.tips(d.message);
+                        $.lumos.tips(d.message);
 
                     }
                     else {
                         var data = d.data;
                         if (typeof data == 'undefined') {
 
-                            art.dialog.tips(d.message);
+                            $.lumos.tips(d.message);
                         }
                         else {
                             var msg = "";

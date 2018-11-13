@@ -20,7 +20,7 @@
 
             CKEDITOR.replace('txt_DetailsDes', { height: '180px' });
 
-            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { art.dialog.tips(msg); } });
+            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
             $("#txt_Name").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "商品名称不能为空,且不超过50个字符" });
             $("#sel_Kinds").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 2, onError: "请选择所属模块,最多选择2个" });
             $("#sel_Subjects").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 3, onError: "请选择所属栏目,最多选择3个" });
@@ -84,170 +84,178 @@
     </script>
 }
 
-<div class="gbr-row">
-    <form id="form1" name="form1" method="post">
-        <table class="f-tb" cellpadding="0" cellspacing="1">
-            <tr>
-                <td class="f-tb-t" style="width:80px">
-                    商品名称<span class="required-symbol">*</span>：
-                </td>
-                <td class="f-tb-c">
-                    <input id="txt_Name" type="text" class="input-control" value="" style="width:300px;" autocomplete="off" />
-                </td>
+<div class="gbr-row gbr-dialog">
 
-                <td class="f-tb-c" rowspan="6">
-                    @*<div class="cked-title">
-                        <label class="frm_label" for="">
-                           span class="tip" style="float:left;">建议尺寸：320 * 320</span>
-                                            </label>
-                                        </div>*@
+    <div class="gbr-row-title clearfix">
+        <div class="pull-left">
+            <h5>基本信息</h5>
+        </div>
+        <div class="pull-right f-tb1-item-pull-right">
+            <h6></h6>
+        </div>
+    </div>
+    <table class="f-tb" cellpadding="0" cellspacing="1">
+        <tr>
+            <td class="f-tb-t" style="width:80px">
+                商品名称<span class="required-symbol">*</span>：
+            </td>
+            <td class="f-tb-c">
+                <input id="txt_Name" type="text" class="input-control" value="" style="width:300px;" autocomplete="off" />
+            </td>
 
-                    <table class="f-tb1-detail" id="list_GoodsPic" style="text-align:center;width:auto;margin:auto;">
-                        <tr style="vertical-align:top">
-                            <td>
+            <td class="f-tb-c" rowspan="6">
+                @*<div class="cked-title">
+                    <label class="frm_label" for="">
+                       span class="tip" style="float:left;">建议尺寸：320 * 320</span>
+                                        </label>
+                                    </div>*@
+
+                <table class="f-tb1-detail" id="list_GoodsPic" style="text-align:center;width:auto;margin:auto;">
+                    <tr style="vertical-align:top">
+                        <td>
+                            <div>
+                                <span class="uploadimgbox" upload="true">
+                                    <span class="uploadimg" inputname="dispalyImgs_ImgUrl_0" path="product">
+                                        <img src="~/Static/default1.jpg" />
+                                        <span class="uploadimg-click" style="">上传</span>
+                                        <input id="dispalyImgs_ImgUrl_0" class="imgUrl" value="" name="dispalyImgs_ImgUrl_0" type="hidden" />
+                                        <input id="dispalyImgs_IsMain_0" class="isMain" value="true" name="dispalyImgs_IsMain_0" type="hidden" />
+                                    </span>
+                                    <span class="uploadimg-view" style="">预览</span>
+                                </span>
+                            </div>
+                            <div>
+                                <span>封面</span><span class="required-symbol">*</span>
+                            </div>
+                        </td>
+                        @*<td>
                                 <div>
                                     <span class="uploadimgbox" upload="true">
-                                        <span class="uploadimg" inputname="dispalyImgs_ImgUrl_0" path="product">
-                                            <img src="~/Static/default1.jpg" />
+                                        <span class="uploadimg" inputname="Model.DispalyImgs[1].ImgUrl" path="product">
+                                            <img src="" />
                                             <span class="uploadimg-click" style="">上传</span>
-                                            <input id="dispalyImgs_ImgUrl_0" class="imgUrl" value="" name="dispalyImgs_ImgUrl_0" type="hidden" />
-                                            <input id="dispalyImgs_IsMain_0" class="isMain" value="true" name="dispalyImgs_IsMain_0" type="hidden" />
+                                            <input id="Model_DispalyImgs_ImgUrl_1" value="" name="Model.DispalyImgs[1].ImgUrl" type="hidden" />
+                                            <input id="Model_DispalyImgs_IsMain_1" value="false" name="Model.DispalyImgs[1].IsMain" type="hidden" />
                                         </span>
                                         <span class="uploadimg-view" style="">预览</span>
                                     </span>
                                 </div>
                                 <div>
-                                    <span>封面</span><span class="required-symbol">*</span>
+                                    <span>图片1</span>
                                 </div>
                             </td>
-                            @*<td>
-                                    <div>
-                                        <span class="uploadimgbox" upload="true">
-                                            <span class="uploadimg" inputname="Model.DispalyImgs[1].ImgUrl" path="product">
-                                                <img src="" />
-                                                <span class="uploadimg-click" style="">上传</span>
-                                                <input id="Model_DispalyImgs_ImgUrl_1" value="" name="Model.DispalyImgs[1].ImgUrl" type="hidden" />
-                                                <input id="Model_DispalyImgs_IsMain_1" value="false" name="Model.DispalyImgs[1].IsMain" type="hidden" />
-                                            </span>
-                                            <span class="uploadimg-view" style="">预览</span>
+                            <td>
+                                <div>
+                                    <span class="uploadimgbox" upload="true">
+                                        <span class="uploadimg" inputname="Model.DispalyImgs[2].ImgUrl" path="product">
+                                            <img src="" />
+                                            <span class="uploadimg-click" style="">上传</span>
+                                            <input id="Model_DispalyImgs_ImgUrl_2" value="" name="Model.DispalyImgs[2].ImgUrl" type="hidden" />
+                                            <input id="Model_DispalyImgs_IsMain_2" value="false" name="Model.DispalyImgs[2].IsMain" type="hidden" />
                                         </span>
-                                    </div>
-                                    <div>
-                                        <span>图片1</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div>
-                                        <span class="uploadimgbox" upload="true">
-                                            <span class="uploadimg" inputname="Model.DispalyImgs[2].ImgUrl" path="product">
-                                                <img src="" />
-                                                <span class="uploadimg-click" style="">上传</span>
-                                                <input id="Model_DispalyImgs_ImgUrl_2" value="" name="Model.DispalyImgs[2].ImgUrl" type="hidden" />
-                                                <input id="Model_DispalyImgs_IsMain_2" value="false" name="Model.DispalyImgs[2].IsMain" type="hidden" />
-                                            </span>
-                                            <span class="uploadimg-view" style="">预览</span>
+                                        <span class="uploadimg-view" style="">预览</span>
+                                    </span>
+                                </div>
+                                <div>
+                                    <span>图片2</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <span class="uploadimgbox" upload="true">
+                                        <span class="uploadimg" inputname="Model.DispalyImgs[3].ImgUrl" path="product">
+                                            <img src="" />
+                                            <span class="uploadimg-click" style="">上传</span>
+                                            <input id="Model_DispalyImgs_ImgUrl_3" value="" name="Model.DispalyImgs[3].ImgUrl" type="hidden" />
+                                            <input id="Model_DispalyImgs_IsMain_3" value="false" name="Model.DispalyImgs[3].IsMain" type="hidden" />
                                         </span>
-                                    </div>
-                                    <div>
-                                        <span>图片2</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div>
-                                        <span class="uploadimgbox" upload="true">
-                                            <span class="uploadimg" inputname="Model.DispalyImgs[3].ImgUrl" path="product">
-                                                <img src="" />
-                                                <span class="uploadimg-click" style="">上传</span>
-                                                <input id="Model_DispalyImgs_ImgUrl_3" value="" name="Model.DispalyImgs[3].ImgUrl" type="hidden" />
-                                                <input id="Model_DispalyImgs_IsMain_3" value="false" name="Model.DispalyImgs[3].IsMain" type="hidden" />
-                                            </span>
-                                            <span class="uploadimg-view" style="">预览</span>
+                                        <span class="uploadimg-view" style="">预览</span>
+                                    </span>
+                                </div>
+                                <div>
+                                    <span>图片3</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <span class="uploadimgbox" upload="true">
+                                        <span class="uploadimg" inputname="Model.DispalyImgs[4].ImgUrl" path="product">
+                                            <img src="" />
+                                            <span class="uploadimg-click" style="">上传</span>
+                                            <input id="Model_DispalyImgs_ImgUrl_4" value="" name="Model.DispalyImgs[4].ImgUrl" type="hidden" />
+                                            <input id="Model_DispalyImgs_IsMain_4" value="false" name="Model.DispalyImgs[4].IsMain" type="hidden" />
                                         </span>
-                                    </div>
-                                    <div>
-                                        <span>图片3</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div>
-                                        <span class="uploadimgbox" upload="true">
-                                            <span class="uploadimg" inputname="Model.DispalyImgs[4].ImgUrl" path="product">
-                                                <img src="" />
-                                                <span class="uploadimg-click" style="">上传</span>
-                                                <input id="Model_DispalyImgs_ImgUrl_4" value="" name="Model.DispalyImgs[4].ImgUrl" type="hidden" />
-                                                <input id="Model_DispalyImgs_IsMain_4" value="false" name="Model.DispalyImgs[4].IsMain" type="hidden" />
-                                            </span>
-                                            <span class="uploadimg-view" style="">预览</span>
-                                        </span>
-                                    </div>
-                                    <div>
-                                        <span>图片4</span>
-                                    </div>
-                                </td>*@
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <td class="f-tb-t">
-                    所属模块<span class="required-symbol">*</span>：
-                </td>
-                <td class="f-tb-c">
-                    @Html.initProductKind("sel.Kinds")
-                </td>
-            </tr>
-            <tr>
-                <td class="f-tb-t">
-                    所属栏目：
-                </td>
-                <td class="f-tb-c">
-                    @Html.initProductSubject("sel.Subjects")
-                </td>
-            </tr>
-            <tr>
-                <td class="f-tb-t" style="width:50px">收货模式<span class="required-symbol">*</span>：</td>
-                <td class="f-tb-c">
-                    @Html.initRecipientMode("sel.RecipientModes")
-                </td>
-            </tr>
-            <tr>
-                <td class="f-tb-t" style="width:50px">
-                    展示价<span class="required-symbol">*</span>：
-                </td>
-                <td class="f-tb-c">
-                    <input id="txt_ShowPrice" type="text" class="input-control" value="" style="width:80px;" autocomplete="off" />
-                </td>
-            </tr>
-            <tr>
-                <td class="f-tb-t" style="width:50px">
-                    销售价<span class="required-symbol">*</span>：
-                </td>
-                <td class="f-tb-c">
+                                        <span class="uploadimg-view" style="">预览</span>
+                                    </span>
+                                </div>
+                                <div>
+                                    <span>图片4</span>
+                                </div>
+                            </td>*@
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td class="f-tb-t">
+                所属模块<span class="required-symbol">*</span>：
+            </td>
+            <td class="f-tb-c">
+                @Html.initProductKind("sel.Kinds")
+            </td>
+        </tr>
+        <tr>
+            <td class="f-tb-t">
+                所属栏目：
+            </td>
+            <td class="f-tb-c">
+                @Html.initProductSubject("sel.Subjects")
+            </td>
+        </tr>
+        <tr>
+            <td class="f-tb-t" style="width:50px">收货模式<span class="required-symbol">*</span>：</td>
+            <td class="f-tb-c">
+                @Html.initRecipientMode("sel.RecipientModes")
+            </td>
+        </tr>
+        <tr>
+            <td class="f-tb-t" style="width:50px">
+                展示价<span class="required-symbol">*</span>：
+            </td>
+            <td class="f-tb-c">
+                <input id="txt_ShowPrice" type="text" class="input-control" value="" style="width:80px;" autocomplete="off" />
+            </td>
+        </tr>
+        <tr>
+            <td class="f-tb-t" style="width:50px">
+                销售价<span class="required-symbol">*</span>：
+            </td>
+            <td class="f-tb-c">
+                <div>
                     <div>
-                        <div>
-                            <input id="txt_SalePrice" type="text" class="input-control" value="" style="width:80px;" autocomplete="off" />
-                        </div>
-                        <div class="help-tips">提示：此销售价作为初始数据，如需更正请带商品添加后，查询商品->点击修改后调整</div>
+                        <input id="txt_SalePrice" type="text" class="input-control" value="" style="width:80px;" autocomplete="off" />
                     </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="f-tb-t" style="width:50px">
-                    简短描述<span class="required-symbol">*</span>：
-                </td>
-                <td class="f-tb-c" colspan="2">
-                    <input id="txt_BriefInfo" n type="text" class="input-control" value="" style="width:300px;" autocomplete="off" />
-                </td>
-            </tr>
-            <tr>
-                <td class="f-tb-t" style="width:50px">
-                    商品详情：
-                </td>
-                <td class="f-tb-c" colspan="2">
-                    <textarea id="txt_DetailsDes" class="ckeditor"></textarea>
-                </td>
-            </tr>
-        </table>
-    </form>
+                    <div class="help-tips">提示：此销售价作为初始数据，如需更正请带商品添加后，查询商品->点击修改后调整</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="f-tb-t" style="width:50px">
+                简短描述<span class="required-symbol">*</span>：
+            </td>
+            <td class="f-tb-c" colspan="2">
+                <input id="txt_BriefInfo" n type="text" class="input-control" value="" style="width:300px;" autocomplete="off" />
+            </td>
+        </tr>
+        <tr>
+            <td class="f-tb-t" style="width:50px">
+                商品详情：
+            </td>
+            <td class="f-tb-c" colspan="2">
+                <textarea id="txt_DetailsDes" class="ckeditor"></textarea>
+            </td>
+        </tr>
+    </table>
+
 </div>
 

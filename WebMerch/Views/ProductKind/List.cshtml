@@ -38,7 +38,7 @@
 
             loadKinds();
 
-            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { art.dialog.tips(msg); } });
+            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
             $("#txt_Name").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 20, empty: { leftEmpty: false, emptyError: "不能为空" }, onError: "名称不能超过20个字符" });
             $("#txt_MainImg").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请上传封面" });
             $("#txt_IconImg").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请上传小图标" });
@@ -80,7 +80,7 @@
                                  url: "/ProductKind/Delete",
                                  data: { kindIds: kindIds },
                                  success: function (d) {
-                                     art.dialog.tips(d.message);
+                                     $.lumos.tips(d.message);
                                      loadKinds();
                                  }
                              });

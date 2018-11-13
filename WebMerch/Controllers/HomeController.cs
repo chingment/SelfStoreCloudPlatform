@@ -13,7 +13,7 @@ namespace WebMerch.Controllers
         {
             BizFactory.ProductSku.InitSearchCache();
 
-           
+
 
             //var tran = RedisManager.Db.CreateTransaction();
 
@@ -81,7 +81,14 @@ namespace WebMerch.Controllers
         [HttpPost]
         public CustomJsonResult ChangePassword(RopChangePassword rop)
         {
-            SysFactory.AuthorizeRelay.ChangePassword(this.CurrentUserId, this.CurrentUserId, rop.OldPassword, rop.NewPassword);
+            var result = SysFactory.AuthorizeRelay.ChangePassword(this.CurrentUserId, this.CurrentUserId, rop.OldPassword, rop.NewPassword);
+
+            if (result.Result != ResultType.Success)
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, result.Message);
+            }
+
+            OwnRequest.Quit();
 
             return Json(ResultType.Success, "点击<a href=\"" + OwnWebSettingUtils.GetLoginPage("") + "\">登录</a>");
 

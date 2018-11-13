@@ -2356,7 +2356,6 @@ height:50px;
 .f-tb-c {
 	FONT-SIZE: 9pt;
 	background-color: White;
-
 	PADDING: 5px;
 }
 
@@ -3669,6 +3668,7 @@ ul.ztree.zTreeDragUL {
 	-webkit-margin-start: 0px;
 	-webkit-margin-end: 0px;
 	-webkit-padding-start: 0px;
+	overflow: auto;
 }
 
 .autocomplete-skusearch > div {

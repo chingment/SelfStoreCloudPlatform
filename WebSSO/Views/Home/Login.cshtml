@@ -121,11 +121,11 @@
                 complete: function (XMLHttpRequest, status) {
                     if (status == 'timeout') {
                         $("#btn_Login").removeAttr("disabled")
-                        art.dialog.tips("网络请求超时,请重新打开页面");
+                        $.lumos.tips("网络请求超时,请重新打开页面");
                     }
                     else if (status == 'error') {
                         $("#btn_Login").removeAttr("disabled");
-                        art.dialog.tips("网络请求失败,请检查网络是否已连接");
+                        $.lumos.tips("网络请求失败,请检查网络是否已连接");
                     }
                 }
             }).done(function (d) {

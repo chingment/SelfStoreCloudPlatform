@@ -19,7 +19,7 @@ namespace WebSSO.Controllers
     {
         public readonly string sesionKeyLoginVerifyCode = "sesionKeyLoginVerifyCode";
         [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
+        public ActionResult Login()
         {
             Session[sesionKeyLoginVerifyCode] = null;
             return View();
@@ -100,6 +100,17 @@ namespace WebSSO.Controllers
         }
 
 
+        [AllowAnonymous]
+        public ActionResult GetImgVerifyCode(string name)
+        {
+            VerifyCodeHelper v = new VerifyCodeHelper();
+            v.CodeSerial = "0,1,2,3,4,5,6,7,8,9";
+            string code = v.CreateVerifyCode(); //取随机码 
+            v.CreateImageOnPage(code, ControllerContext.HttpContext);   //输出图片
+            Session[name] = code;   //Session 取出验证码
+            Response.End();
+            return null;
+        }
 
     }
 }

@@ -12,7 +12,7 @@
 
             $("#lbl_PName").text(pKindName);
 
-            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { art.dialog.tips(msg); } });
+            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
             $("#txt_Name").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 20, empty: { leftEmpty: false, emptyError: "名称不能为空" }, onError: "名称不能为空,且不超过20个字符" });
             $("#txt_MainImg").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请上传封面" });
             $("#txt_IconImg").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请上传小图标" });
@@ -53,83 +53,93 @@
         }
     </script>
 }
-<form name="form1" method="post" action="#" id="form1">
-    <table class="f-tb" cellpadding="0" cellspacing="1">
-        <tr>
-            <td class="f-tb-t" style="width:80px">
-                上级名称：
-            </td>
-            <td class="f-tb-c">
-                <label id="lbl_PName"></label>
-            </td>
-        </tr>
-        <tr>
-            <td class="f-tb-t">
-                <span class="required-symbol">*</span>名称：
-            </td>
-            <td class="f-tb-c">
-                <input type="text" autocomplete="off" id="txt_Name" style="width:250px;" class="input-control" />
-            </td>
-        </tr>
-        <tr>
-            <td class="f-tb-t">
-                图片：
-            </td>
-            <td class="f-tb-c">
 
-                <table class="f-tb1-detail" style="text-align:center;width:auto">
-                    <tr style="vertical-align:top">
-                        <td>
-                            <div>
-                                <span class="uploadimgbox" upload="true">
-                                    <span class="uploadimg" inputname="txt_MainImg" path="productkind">
-                                        <img src="~/Static/default1.jpg" />
-                                        <span class="uploadimg-click" style="">上传</span>
-                                        <input id="txt_MainImg" value="" name="txt_MainImg" type="hidden" />
-                                    </span>
-                                    <span class="uploadimg-view" style="">预览</span>
-                                </span>
-                            </div>
-                            <div>
-                                <span><span class="required-symbol">*</span>封面</span>
-                            </div>
-                        </td>
-                        <td>
-                            <div>
-                                <span class="uploadimgbox" upload="true">
-                                    <span class="uploadimg" inputname="txt_IconImg" path="productkind">
-                                        <img src="~/Static/default1.jpg" />
-                                        <span class="uploadimg-click" style="">上传</span>
-                                        <input id="txt_IconImg" value="" name="txt_IconImg" type="hidden" />
-                                    </span>
-                                    <span class="uploadimg-view" style="">预览</span>
-                                </span>
-                            </div>
-                            <div>
-                                <span><span class="required-symbol">*</span>小图标</span>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr>
-            <td class="f-tb-t">
-                备注：
-            </td>
-            <td class="f-tb-c">
-                <textarea rows="5" cols="46" id="txt_Description" class="input-control"></textarea>
-            </td>
-        </tr>
-        <tr style="display:none">
-            <td class="f-tb-t"></td>
-            <td class="f-tb-c">
-                <input type="submit" name="btn_Submit" id="btn_Submit" value="确定" class="btn btn-sure" />
-                <input type="button" name="btn_Cancle" id="btn_Cancle" value="关闭" class="btn btn-close dialog-close" />
-            </td>
-        </tr>
-    </table>
-</form>
+<div class="gbr-row gbr-dialog">
+    <div class="gbr-row-title clearfix">
+        <div class="pull-left">
+            <h5>基本信息</h5>
+        </div>
+        <div class="pull-right f-tb1-item-pull-right">
+            <h6></h6>
+        </div>
+    </div>
+    <form name="form1" method="post" action="#" id="form1">
+        <table class="f-tb" cellpadding="0" cellspacing="1">
+            <tr>
+                <td class="f-tb-t" style="width:80px">
+                    上级名称：
+                </td>
+                <td class="f-tb-c">
+                    <label id="lbl_PName"></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="f-tb-t">
+                    <span class="required-symbol">*</span>名称：
+                </td>
+                <td class="f-tb-c">
+                    <input type="text" autocomplete="off" id="txt_Name" style="width:250px;" class="input-control" />
+                </td>
+            </tr>
+            <tr>
+                <td class="f-tb-t">
+                    图片：
+                </td>
+                <td class="f-tb-c">
 
+                    <table class="f-tb1-detail" style="text-align:center;width:auto">
+                        <tr style="vertical-align:top">
+                            <td>
+                                <div>
+                                    <span class="uploadimgbox" upload="true">
+                                        <span class="uploadimg" inputname="txt_MainImg" path="productkind">
+                                            <img src="~/Static/default1.jpg" />
+                                            <span class="uploadimg-click" style="">上传</span>
+                                            <input id="txt_MainImg" value="" name="txt_MainImg" type="hidden" />
+                                        </span>
+                                        <span class="uploadimg-view" style="">预览</span>
+                                    </span>
+                                </div>
+                                <div>
+                                    <span><span class="required-symbol">*</span>封面</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <span class="uploadimgbox" upload="true">
+                                        <span class="uploadimg" inputname="txt_IconImg" path="productkind">
+                                            <img src="~/Static/default1.jpg" />
+                                            <span class="uploadimg-click" style="">上传</span>
+                                            <input id="txt_IconImg" value="" name="txt_IconImg" type="hidden" />
+                                        </span>
+                                        <span class="uploadimg-view" style="">预览</span>
+                                    </span>
+                                </div>
+                                <div>
+                                    <span><span class="required-symbol">*</span>小图标</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td class="f-tb-t">
+                    备注：
+                </td>
+                <td class="f-tb-c">
+                    <textarea rows="5" cols="46" id="txt_Description" class="input-control"></textarea>
+                </td>
+            </tr>
+            <tr style="display:none">
+                <td class="f-tb-t"></td>
+                <td class="f-tb-c">
+                    <input type="submit" name="btn_Submit" id="btn_Submit" value="确定" class="btn btn-sure" />
+                    <input type="button" name="btn_Cancle" id="btn_Cancle" value="关闭" class="btn btn-close dialog-close" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
 
 

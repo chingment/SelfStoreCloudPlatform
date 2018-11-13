@@ -181,7 +181,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bb.js" />
     <Content Include="Content\default\images\col_nav_right.png" />
     <Content Include="Content\default\images\ic_pass.png" />
     <Content Include="Content\default\images\ic_phone.png" />
@@ -230,9 +229,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />

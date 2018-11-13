@@ -109,7 +109,7 @@
             var _url = opts.url;
 
             if (_url == '') {
-                art.dialog.tips("请求失败,链接为空");
+                $.lumos.tips("请求失败,链接为空");
                 return;
             }
 
@@ -129,16 +129,16 @@
                 beforeSend: _beforeSend,
                 complete: function (XMLHttpRequest, status) {
                     if (status == 'timeout') {
-                        art.dialog.tips("网络请求超时,请重新打开页面");
+                        $.lumos.tips("网络请求超时,请重新打开页面");
                     }
                     else if (status == 'error') {
-                        art.dialog.tips("网络请求失败,请检查网络是否已连接");
+                        $.lumos.tips("网络请求失败,请检查网络是否已连接");
                     }
                 }
             }).done(function (d) {
                 if (d.result == $.lumos.resultType.exception) {
                     var messsage = d.data;
-                    art.dialog.tips("").hide();
+                    $.lumos.tips("");
                     $.lumos.messageBox({ type: "exception", title: messsage.Title, content: messsage.Content })
                 }
                 else {
@@ -160,7 +160,7 @@
             var _success = opts.success;
 
             if (_url == '') {
-                art.dialog.tips("请求失败,链接为空");
+                $.lumos.tips("请求失败,链接为空");
                 return;
             }
 
@@ -415,12 +415,12 @@
             var pagecount = parseInt($(this).attr("pagecount"));
             var regexp = /^[1-9]\d*$/;
             if (!regexp.test(index)) {
-                art.dialog.tips("请输入正整数");
+                $.lumos.tips("请输入正整数");
                 return;
             }
 
             if (index > pagecount) {
-                art.dialog.tips("请重新输入,不能超过" + pagecount);
+                $.lumos.tips("请重新输入,不能超过" + pagecount);
                 return;
             }
 

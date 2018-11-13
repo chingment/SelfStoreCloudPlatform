@@ -6,7 +6,7 @@
     <script type="text/javascript">
 
         $(this).ready(function () {
-            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { art.dialog.tips(msg); } });
+            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
             $("#txt_Name").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 20, empty: { leftEmpty: false, emptyError: "名称不能为空" }, onError: "名称不能为空,且不超过20个字符" });
             $("#txt_MainImg").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请上传封面" });
             $("#txt_IconImg").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请上传小图标" });
@@ -45,15 +45,22 @@
         }
     </script>
 }
-<form name="form1" method="post" action="#" id="form1">
-
+<div class="gbr-row gbr-dialog">
+    <div class="gbr-row-title clearfix">
+        <div class="pull-left">
+            <h5>基本信息</h5>
+        </div>
+        <div class="pull-right f-tb1-item-pull-right">
+            <h6></h6>
+        </div>
+    </div>
     <table class="f-tb" cellpadding="0" cellspacing="1">
         <tr>
             <td class="f-tb-t">
                 <span class="required-symbol">*</span>名称：
             </td>
             <td class="f-tb-c">
-                <input  type="text" autocomplete="off" id="txt_Name" style="width:250px;" class="input-control" />
+                <input type="text" autocomplete="off" id="txt_Name" style="width:250px;" class="input-control" />
             </td>
         </tr>
         <tr>
@@ -114,7 +121,7 @@
             </td>
         </tr>
     </table>
-</form>
+</div>
 
 
 

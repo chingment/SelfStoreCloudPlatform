@@ -487,10 +487,10 @@
                 },
                 complete: function (XMLHttpRequest, status) {
                     if (status == 'timeout') {
-                        art.dialog.tips("网络请求超时,请重新打开页面");
+                        $.lumos.tips("网络请求超时,请重新打开页面");
                     }
                     else if (status == 'error') {
-                        art.dialog.tips("网络请求失败,请检查网络是否已连接");
+                        $.lumos.tips("网络请求失败,请检查网络是否已连接");
                     }
                 },
                 success: function () { }
@@ -499,7 +499,7 @@
             var _url = opts.url;
 
             if (_url == '') {
-                art.dialog.tips("请求失败,链接为空");
+                $.lumos.tips("请求失败,链接为空");
                 return;
             }
 
@@ -757,7 +757,7 @@
             var _success = opts.success;
 
             if (_url == '') {
-                art.dialog.tips("请求失败,链接为空");
+                $.lumos.tips("请求失败,链接为空");
                 return;
             }
 
@@ -1051,10 +1051,10 @@
                         // loading.close();
                     }
                     if (status == 'timeout') {
-                        art.dialog.tips("网络请求超时,请重新打开页面");
+                        $.lumos.tips("网络请求超时,请重新打开页面");
                     }
                     else if (status == 'error') {
-                        art.dialog.tips("网络请求失败,请检查网络是否已连接");
+                        $.lumos.tips("网络请求失败,请检查网络是否已连接");
 
                         if ($(_thisTable).find("tbody tr").length == 0) {
                             var headLen = $(_thisTable).find("thead tr th").length;
@@ -1062,7 +1062,7 @@
                         }
                     }
                     else if (status == 'parsererror') {
-                        art.dialog.tips("网络请求发生错误");
+                        $.lumos.tips("网络请求发生错误");
                     }
                     else if (status == 'success') {
                         // loading.close();
@@ -1198,12 +1198,12 @@
             var pagecount = parseInt($(this).attr("pagecount"));
             var regexp = /^[1-9]\d*$/;
             if (!regexp.test(index)) {
-                art.dialog.tips("请输入大于0的正整数");
+                $.lumos.tips("请输入大于0的正整数");
                 return;
             }
 
             if (index > pagecount) {
-                art.dialog.tips("请重新输入,不能超过" + pagecount);
+                $.lumos.tips("请重新输入,不能超过" + pagecount);
                 return;
             }
 
@@ -1243,7 +1243,7 @@
                                 var tr_Checked = $(_thisTable).find(" tbody tr input[checked=checked]");
 
                                 if ($(tr_Checked).length <= 0) {
-                                    art.dialog.tips("请选择要删除的数据");
+                                    $.lumos.tips("请选择要删除的数据");
                                     return
                                 }
 
@@ -1281,7 +1281,7 @@
                                 var tr_Checked = $(_thisTable).find(" tbody tr input[checked=checked]");
 
                                 if ($(tr_Checked).length <= 0) {
-                                    art.dialog.tips("请选择数据");
+                                    $.lumos.tips("请选择数据");
                                     return
                                 }
                                 $(tr_Checked).each(function () {
@@ -1291,7 +1291,7 @@
                                 });
                             }
 
-                            art.dialog.confirm(del_tips, function () {
+                            $.lumos.confirm(del_tips, function () {
                                 f(keys)
                                 return true;
                             },
@@ -1420,7 +1420,7 @@
                 var extStart = fileName.lastIndexOf(".");
                 var ext = fileName.substring(extStart, fileName.length).toUpperCase();
                 if (ext != ".BMP" && ext != ".PNG" && ext != ".GIF" && ext != ".JPG" && ext != ".JPEG") {
-                    art.dialog.tips('您上传的图片格式(.jpg|.jpeg|.gif|.png|.bmp)不正确，请重新选择！');
+                    $.lumos.tips('您上传的图片格式(.jpg|.jpeg|.gif|.png|.bmp)不正确，请重新选择！');
                     return;
                 }
             }
@@ -1450,14 +1450,14 @@
                     var file = $(_this)
                     file.after(file.clone().val(""));
                     file.remove();
-                    art.dialog.tips('文件不存在或者文件的内容为空,请重新选择');
+                    $.lumos.tips('文件不存在或者文件的内容为空,请重新选择');
                     return;
                 }
                 else if (size > 10) {
                     var file = $(_this)
                     file.after(file.clone().val(""));
                     file.remove();
-                    art.dialog.tips('图片大小不能超过10M,请重新选择');
+                    $.lumos.tips('图片大小不能超过10M,请重新选择');
                     return;
                 }
             }
@@ -1541,7 +1541,7 @@
                         }
                     }
                     else {
-                        art.dialog.tips(d.message)
+                        $.lumos.tips(d.message)
                     }
                 }
             });
@@ -1557,7 +1557,7 @@
             }
 
             if (url == "") {
-                art.dialog.tips("没有图片可以预览");
+                $.lumos.tips("没有图片可以预览");
                 return;
             }
 

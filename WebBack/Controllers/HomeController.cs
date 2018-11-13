@@ -49,8 +49,14 @@ namespace WebBack.Controllers
         [HttpPost]
         public CustomJsonResult ChangePassword(RopChangePassword rop)
         {
+            var result = SysFactory.AuthorizeRelay.ChangePassword(this.CurrentUserId, this.CurrentUserId, rop.OldPassword, rop.NewPassword);
 
-            SysFactory.AuthorizeRelay.ChangePassword(this.CurrentUserId, this.CurrentUserId, rop.OldPassword, rop.NewPassword);
+            if (result.Result != ResultType.Success)
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, result.Message);
+            }
+
+            OwnRequest.Quit();
 
             return Json(ResultType.Success, "点击<a href=\"" + OwnWebSettingUtils.GetLoginPage("") + "\">登录</a>");
 

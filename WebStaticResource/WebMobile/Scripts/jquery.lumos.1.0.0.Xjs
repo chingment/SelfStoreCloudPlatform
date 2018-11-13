@@ -129,7 +129,7 @@
 			var _url = opts.url;
 
 			if (_url == '') {
-				art.dialog.tips("请求失败,链接为空");
+				$.lumos.tips("请求失败,链接为空");
 				return;
 			}
 
@@ -149,10 +149,10 @@
 				beforeSend: _beforeSend,
 				complete: function (XMLHttpRequest, status) {
 					if (status == 'timeout') {
-						art.dialog.tips("网络请求超时,请重新打开页面");
+						$.lumos.tips("网络请求超时,请重新打开页面");
 					}
 					else if (status == 'error') {
-						art.dialog.tips("网络请求失败,请检查网络是否已连接");
+						$.lumos.tips("网络请求失败,请检查网络是否已连接");
 					}
 				}
 			}).done(function (data) {
@@ -179,7 +179,7 @@
 			var _success = opts.success;
 
 			if (_url == '') {
-				art.dialog.tips("请求失败,链接为空");
+				$.lumos.tips("请求失败,链接为空");
 				return;
 			}
 
