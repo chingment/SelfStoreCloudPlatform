@@ -163,6 +163,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\Order2StockInController.cs" />
+    <Compile Include="Controllers\Order2StockOutController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductSubjectController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
@@ -232,6 +233,9 @@
     <Content Include="Views\Order\List.cshtml" />
     <Content Include="Views\ReplenishStaff\List.cshtml" />
     <Content Include="Views\ReplenishStaff\Add.cshtml" />
+    <Content Include="Views\Order2StockOut\Add.cshtml" />
+    <Content Include="Views\Order2StockOut\Details.cshtml" />
+    <Content Include="Views\Order2StockOut\List.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

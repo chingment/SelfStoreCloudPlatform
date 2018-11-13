@@ -357,6 +357,44 @@ namespace System.Web
             return new MvcHtmlString(sb.ToString());
         }
 
+        public static MvcHtmlString initStore(this HtmlHelper helper,string name, string selectval = null)
+        {
+
+            LumosDbContext dbContext = new LumosDbContext();
+            var store = dbContext.Store.ToList();
+            StringBuilder sb = new StringBuilder();
+
+            string id = name.Replace('.', '_');
+            sb.Append("<select id=\"" + id + "\" data-placeholder=\"请选择\" name =\"" + name + "\" class=\"chosen-select\" style=\"width: 100px\" >");
+            sb.Append("<option value=\"-1\"></option>");
+
+
+            string[] arr_selectval = null;
+
+            if (selectval != null)
+            {
+                arr_selectval = selectval.Split(',');
+            }
+
+            foreach (var m in store)
+            {
+                string selected = "";
+
+                if (selectval != null)
+                {
+                    if (arr_selectval.Contains(m.Id.ToString()))
+                    {
+                        selected = "selected";
+                    }
+                }
+
+                sb.Append("<option value=\"" + m.Id + "\"   " + selected + "   >&nbsp;" + m.Name + "</option>");
+            }
+
+            sb.Append("</select>");
+            return new MvcHtmlString(sb.ToString());
+        }
+
         private static void GetProductKindNodes(StringBuilder sb, List<ProductKind> productKind, string pId, int nLevel, string[] arr_selectval)
         {
 

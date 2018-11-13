@@ -81,6 +81,7 @@
     <Compile Include="Biz\MerchantProvider.cs" />
     <Compile Include="Biz\Models\SkuModel.cs" />
     <Compile Include="Biz\Order2StockInProvider.cs" />
+    <Compile Include="Biz\Order2StockOutProvider.cs" />
     <Compile Include="Biz\OrderProvider.cs" />
     <Compile Include="Biz\ProductKindProvider.cs" />
     <Compile Include="Biz\ProductSkuCacheUtil.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Biz\RModels\RetMerchantGetDetails.cs" />
     <Compile Include="Biz\RModels\RetMerchantMachineGetDetails.cs" />
     <Compile Include="Biz\RModels\RetOrder2StockInGetDetails.cs" />
+    <Compile Include="Biz\RModels\RetOrder2StockOutGetDetails.cs" />
     <Compile Include="Biz\RModels\RetOrderGetDetails.cs" />
     <Compile Include="Biz\RModels\RetOrderReserve.cs" />
     <Compile Include="Biz\RModels\RetPayResultQuery.cs" />
@@ -114,6 +116,7 @@
     <Compile Include="Biz\RModels\RopMerchantEdit.cs" />
     <Compile Include="Biz\RModels\RopMerchantMachineEdit.cs" />
     <Compile Include="Biz\RModels\RopOrder2StockInAdd.cs" />
+    <Compile Include="Biz\RModels\RopOrder2StockOutAdd.cs" />
     <Compile Include="Biz\RModels\RopOrderReserve.cs" />
     <Compile Include="Biz\RModels\RopProducSkuAdd.cs" />
     <Compile Include="Biz\RModels\RopProducSkuEdit.cs" />
@@ -134,6 +137,7 @@
     <Compile Include="Biz\RModels\RupMerchantGetList.cs" />
     <Compile Include="Biz\RModels\RupMerchantMachineGetList.cs" />
     <Compile Include="Biz\RModels\RupOrder2StockInGetList.cs" />
+    <Compile Include="Biz\RModels\RupOrder2StockOutGetList.cs" />
     <Compile Include="Biz\RModels\RupOrderGetList.cs" />
     <Compile Include="Biz\RModels\RetProductSkuGetDetails.cs" />
     <Compile Include="Biz\RModels\RupProductSkuGetList.cs" />

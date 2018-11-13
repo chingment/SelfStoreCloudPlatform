@@ -1,0 +1,141 @@
+﻿@{
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+    <style type="text/css">
+        form input[type=text] {
+            border-left-width: 0px;
+            border-top-width: 0px;
+            border-right-width: 0px;
+            border-bottom-color: black;
+            border-bottom-width: 0.1px;
+        }
+
+        form input[type=text]:focus {
+            border-width: 0px;
+            outline: none;
+            border-bottom-width: 0.1px;
+        }
+    </style>
+
+}
+
+@section scripts{
+    <script type="text/javascript">
+
+        var order2StockOutId = $.lumos.getUrlParamValue("order2StockOutId");
+
+        $(document).ready(function () {
+            initData();
+        });
+
+        function initData() {
+            getDetails();
+        }
+
+
+        function getDetails() {
+            $.lumos.getJson({
+                url: "/Order2StockOut/GetDetails",
+                urlParams: { order2StockOutId: order2StockOutId },
+                isUseHandling: true,
+                success: function (d) {
+                    if (d.result == $.lumos.resultType.success) {
+                        $('#gbr_page').html($("#tmpl_block").tmpl(d.data));
+                    }
+                }
+            });
+        }
+
+    </script>
+}
+
+<script id="tmpl_block" type="text/x-jquery-tmpl">
+
+    <div class="gbr-row-title clearfix">
+        <div class="pull-left">
+            <h5>基本信息</h5>
+        </div>
+        <div class="pull-right f-tb1-item-pull-right">
+            <h6></h6>
+        </div>
+    </div>
+    <table class="f-tb" cellpadding="0" cellspacing="1">
+        <tr>
+            <td class="f-tb-t">
+                出库单号：
+            </td>
+            <td class="f-tb-c" colspan="5">
+                <span>${sn}</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="f-tb-t" style="width:80px">
+                出库日期：
+            </td>
+            <td class="f-tb-c"><span>${stockOutTime}</span></td>
+            <td class="f-tb-t">
+                仓库：
+            </td>
+            <td class="f-tb-c"><span>${warehouseName}</span></td>
+            <td class="f-tb-t">
+                店铺：
+            </td>
+            <td class="f-tb-c"><span>${storeName}</span></td>
+        </tr>
+        <tr>
+            <td class="f-tb-t">
+                描述：
+            </td>
+            <td class="f-tb-c" colspan="5"><p>${description}</p></td>
+        </tr>
+
+    </table>
+
+    <div class="gbr-row-title clearfix">
+        <div class="pull-left">
+            <h5>商品列表</h5>
+        </div>
+        <div class="pull-right f-tb1-item-pull-right">
+            <h6></h6>
+        </div>
+    </div>
+
+    <div class="list list-skus">
+        <table id="list_table_skus" class="list-tb list-tb-skus" cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <th style="width:20%" class="no">
+                        编码
+                    </th>
+                    <th style="width:45%">
+                        商品
+                    </th>
+                    <th style="width:30%">
+                        数量（计单位/个）
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {{each(j,item) skus}}
+                <tr>
+                    <td>${item.barCode}</td>
+                    <td>${item.name}</td>
+                    <td>${item.quantity}</td>
+                </tr>
+                {{/each}}
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>${quantity}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</script>
+
+<div class="gbr-row gbr-dialog" id="gbr_page">
+
+</div>

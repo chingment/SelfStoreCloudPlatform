@@ -89,6 +89,14 @@ namespace Lumos.BLL
             }
         }
 
+        public static Order2StockOutProvider Order2StockOut
+        {
+            get
+            {
+                return new Order2StockOutProvider();
+            }
+        }
+
         public static OrderProvider Order
         {
             get

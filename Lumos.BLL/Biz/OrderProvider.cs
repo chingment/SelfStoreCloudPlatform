@@ -619,18 +619,6 @@ namespace Lumos.BLL
             return details;
         }
 
-        private static readonly object lock_UnifiedOrder = new object();
-        public CustomJsonResult<Order> UnifiedOrder(string pOperater, string pClientId, UnifiedOrderPms pPayPms)
-        {
-            CustomJsonResult<Order> result = new CustomJsonResult<Order>();
-            lock (lock_UnifiedOrder)
-            {
-                var strOrderPms = pPayPms.OrderPms.ToJsonString();
-
-            }
-            return result;
-        }
-
         private static readonly object lock_PayResultNotify = new object();
         public CustomJsonResult PayResultNotify(string operater, Enumeration.OrderNotifyLogNotifyFrom from, string content, string orderSn, out bool isPaySuccessed)
         {

@@ -28,9 +28,9 @@
         $(document).ready(function () {
             addRowSku();
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
-            $("#txt_StockInTime").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "请选择日期" });
+            $("#txt_StockOutTime").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "请选择日期" });
             $("#sel_WarehouseId").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择仓库" });
-            $("#sel_SupplierId").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择供应商" });
+            $("#sel_StoreId").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择店铺" });
 
             $('input[name=code]').live("focus", function () {
                 var _this = $(this);
@@ -127,7 +127,7 @@
                     isNoHasSku = false;
 
                     var quantity = $(row).find("input[name=quantity]").val();
-                    var amount = $(row).find("input[name=amount]").val();
+
 
                     if (!$.lumos.isInt(quantity)) {
                         $.lumos.tips("检查到输入数量的值不是正整数格式");
@@ -135,13 +135,8 @@
                         return;
                     }
 
-                    if (!$.lumos.isFloat(amount)) {
-                        $.lumos.tips("检查到输入金额不是金额格式");
-                        isNoHasErrorVal = true;
-                        return;
-                    }
 
-                    skus.push({ skuId: id, quantity: quantity, amount: amount });
+                    skus.push({ skuId: id, quantity: quantity });
                 }
 
             });
@@ -160,15 +155,15 @@
            '确定要提交？',
             function () {
 
-                var stockInTime = $("#txt_StockInTime").val();
+                var stockOutTime = $("#txt_StockOutTime").val();
                 var warehouseId = $("#sel_WarehouseId").val();
-                var supplierId = $("#sel_SupplierId").val();
+                var storeId = $("#sel_StoreId").val();
                 var description = $("#txt_Description").val()
 
                 $.lumos.postJson({
                     isUseHandling: true,
-                    url: "/Order2StockIn/Add",
-                    data: { stockInTime: stockInTime, warehouseId: warehouseId, supplierId: supplierId, description: description, skus: skus },
+                    url: "/Order2StockOut/Add",
+                    data: { stockOutTime: stockOutTime, warehouseId: warehouseId, storeId: storeId, description: description, skus: skus },
                     success: function (d) {
                         $.lumos.tips(d.message);
                         if (d.result == $.lumos.resultType.success) {
@@ -190,7 +185,6 @@
             l_StrRows += "<td><input type=\"text\" name=\"code\" style=\"width:80%;\" value=\"\" autocomplete=\"off\" /></td>";
             l_StrRows += "<td ><input type=\"hidden\" name=\"id\" value=\"\"  /><span class=\"name\"></span> </td>";
             l_StrRows += "<td><input type=\"text\" name=\"quantity\" style=\"width:80%;\" value=\"\" autocomplete=\"off\"  onkeyup=\"clearNoNum2(this)\"   /></td>";
-            l_StrRows += "<td><input type=\"text\" name=\"amount\" style=\"width:80%;\" value=\"\" autocomplete=\"off\" onkeyup=\"clearNoNum(this)\" /></td>";
             l_StrRows += "<td class=\"operation\">";
             l_StrRows += " <a href=\"javascript:void(0)\"  class=\"a-btn deleteRowSku\" >删除</a>";
             l_StrRows += "</td>";
@@ -231,10 +225,10 @@
     <table class="f-tb" cellpadding="0" cellspacing="1">
         <tr>
             <td class="f-tb-t" style="width:80px">
-                入库日期<span class="required-symbol">*</span>：
+                出库日期<span class="required-symbol">*</span>：
             </td>
             <td class="f-tb-c">
-                <input id="txt_StockInTime" type="text" value="@DateTime.Now.ToUnifiedFormatDate()" class="Wdate" style="width:100px;" onclick="WdatePicker({ maxDate: '#F{\'@DateTime.Now.ToString("yyyy-MM-dd")\'}', dateFmt: 'yyyy-MM-dd' })" autocomplete="off" />
+                <input id="txt_StockOutTime" type="text" value="@DateTime.Now.ToUnifiedFormatDate()" class="Wdate" style="width:100px;" onclick="WdatePicker({ maxDate: '#F{\'@DateTime.Now.ToString("yyyy-MM-dd")\'}', dateFmt: 'yyyy-MM-dd' })" autocomplete="off" />
             </td>
             <td class="f-tb-t">
                 仓库<span class="required-symbol">*</span>：
@@ -243,10 +237,10 @@
                 @Html.initWarehouse("sel.WarehouseId")
             </td>
             <td class="f-tb-t">
-                供应商<span class="required-symbol">*</span>：
+                店铺<span class="required-symbol">*</span>：
             </td>
             <td class="f-tb-c">
-                @Html.initCompany(Lumos.Entity.Enumeration.CompanyClass.Supplier, "sel.SupplierId")
+                @Html.initStore("sel.StoreId")
             </td>
         </tr>
         <tr>
@@ -276,11 +270,8 @@
                     <th style="width:45%">
                         商品
                     </th>
-                    <th style="width:15%">
+                    <th style="width:30%">
                         数量（计单位/个）
-                    </th>
-                    <th style="width:15%">
-                        金额
                     </th>
                     <th style="width:5%" class="operation">
                         操作

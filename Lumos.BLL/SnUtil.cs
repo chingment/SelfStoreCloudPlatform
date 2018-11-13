@@ -70,6 +70,9 @@ namespace Lumos.BLL
                 case Entity.Enumeration.BizSnType.Order2StockIn:
                     prefix = "30";
                     break;
+                case Entity.Enumeration.BizSnType.Order2StockOut:
+                    prefix = "31";
+                    break;
             }
 
             ThreadSafeRandom ran = new ThreadSafeRandom();

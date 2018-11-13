@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace WebMerch.Controllers
 {
-    public class Order2StockInController : OwnBaseController
+    public class Order2StockOutController : OwnBaseController
     {
         public ActionResult List()
         {
@@ -26,13 +26,13 @@ namespace WebMerch.Controllers
             return View();
         }
 
-        public CustomJsonResult GetDetails(string order2StockInId)
+        public CustomJsonResult GetDetails(string order2StockOutId)
         {
-            return BizFactory.Order2StockIn.GetDetails(this.CurrentUserId, this.CurrentUserId, order2StockInId);
+            return BizFactory.Order2StockOut.GetDetails(this.CurrentUserId, this.CurrentUserId, order2StockOutId);
         }
 
         [HttpPost]
-        public CustomJsonResult GetList(RupOrder2StockInGetList rup)
+        public CustomJsonResult GetList(RupOrder2StockOutGetList rup)
         {
             string sn = "";
             if (rup.Sn != null)
@@ -40,11 +40,11 @@ namespace WebMerch.Controllers
                 sn = rup.Sn.ToSearchString();
             }
 
-            var query = (from u in CurrentDb.Order2StockIn
+            var query = (from u in CurrentDb.Order2StockOut
                          where (sn.Length == 0 || u.Sn.Contains(sn))
                          &&
                          u.MerchantId == this.CurrentUserId
-                         select new { u.Id, u.Sn, u.Amount, u.Quantity,u.SupplierName, u.StockInTime, u.CreateTime });
+                         select new { u.Id, u.Sn, u.StoreName, u.Quantity, u.StockOutTime, u.CreateTime });
 
             int total = query.Count();
 
@@ -62,10 +62,9 @@ namespace WebMerch.Controllers
                 {
                     Id = item.Id,
                     Sn = item.Sn,
-                    Amount = item.Amount.ToF2Price(),
-                    SupplierName=item.SupplierName,
+                    StoreName = item.StoreName,
                     Quantity = item.Quantity,
-                    StockInTime = item.StockInTime.ToUnifiedFormatDate(),
+                    StockOutTime = item.StockOutTime.ToUnifiedFormatDate(),
                     CreateTime = item.CreateTime
                 });
             }
@@ -77,9 +76,9 @@ namespace WebMerch.Controllers
         }
 
         [HttpPost]
-        public CustomJsonResult Add(RopOrder2StockInAdd rop)
+        public CustomJsonResult Add(RopOrder2StockOutAdd rop)
         {
-            return BizFactory.Order2StockIn.Add(this.CurrentUserId, this.CurrentUserId, rop);
+            return BizFactory.Order2StockOut.Add(this.CurrentUserId, this.CurrentUserId, rop);
         }
     }
 }

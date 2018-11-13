@@ -11,7 +11,7 @@
     $(document).ready(function () {
 
         listTable = $("#list_table").loadDataTable({
-            url: "/Order2StockIn/GetList",
+            url: "/Order2StockOut/GetList",
             pageIndex: 0,
             searchParams: $("#form1").serializeArray(),
             searchButtonId: "btn_Search",
@@ -24,9 +24,8 @@
                 l_StrRows += "<tr>";
                 l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.sn + "\">" + p_row.sn + "</td>";
-                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.stockInTime + "\">" + p_row.stockInTime + "</td>";
-                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.supplierName + "\">" + p_row.supplierName + "</td>";
-                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.amount + "\">" + p_row.amount + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.stockOutTime + "\">" + p_row.stockOutTime + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.storeName + "\">" + p_row.storeName + "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.quantity + "\">" + p_row.quantity + "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.createTime + "\">" + p_row.createTime + "</td>";
                 l_StrRows += "<td class=\"operation\">";
@@ -37,7 +36,7 @@
             },
             operate: {
                 "details": function (obj) {
-                    var url = '/Order2StockIn/Details?order2StockInId=' + obj.id;
+                    var url = '/Order2StockOut/Details?order2StockOutId=' + obj.id;
                     var title = '查看';
                     var dialog = art.dialog.open(url, {
                         id: "openDialog", title: title, width: '800px', height: '600px', lock: true, drag: false, cancelVal: '关闭', cancel: true
@@ -48,7 +47,7 @@
 
 
         $("#btn_Add").click(function () {
-            var url = '/Order2StockIn/Add';
+            var url = '/Order2StockOut/Add';
             var title = '新建';
             art.dialog.open(url, {
                 id: "openDialog", title: title, width: '800px', height: '600px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
@@ -91,15 +90,12 @@
                         单号
                     </th>
                     <th style="width:20%">
-                        入库日期
+                        出库日期
                     </th>
                     <th style="width:20%">
-                        供应商
+                        店铺
                     </th>
-                    <th style="width:5%">
-                        金额
-                    </th>
-                    <th style="width:5%">
+                    <th style="width:10%">
                         数量
                     </th>
                     <th style="width:15%">
@@ -113,7 +109,7 @@
             <tbody></tbody>
             <tfoot>
                 <tr>
-                    <td colspan="8">
+                    <td colspan="7">
                         <div class="pull-left">
                             <span class="load-tip"></span>
                         </div>

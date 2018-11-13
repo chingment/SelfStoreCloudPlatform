@@ -62,6 +62,8 @@
     <Compile Include="Biz\BizProcessesAuditDetails.cs" />
     <Compile Include="Biz\Machine.cs" />
     <Compile Include="Biz\MerchantReplenishStaff.cs" />
+    <Compile Include="Biz\Order2StockOut.cs" />
+    <Compile Include="Biz\Order2StockOutDetails.cs" />
     <Compile Include="Biz\StoreSellStock.cs" />
     <Compile Include="Biz\StoreSellStockLog.cs" />
     <Compile Include="Biz\MerchantConfig.cs" />
@@ -72,7 +74,6 @@
     <Compile Include="Biz\OrderDetails.cs" />
     <Compile Include="Biz\OrderDetailsChildSon.cs" />
     <Compile Include="Biz\OrderNotifyLog.cs" />
-    <Compile Include="Biz\Pms\UnifiedOrderPms.cs" />
     <Compile Include="Biz\ProductKind.cs" />
     <Compile Include="Biz\ProductKindSku.cs" />
     <Compile Include="Biz\ProductSku.cs" />
