@@ -66,9 +66,6 @@
     <Compile Include="Http\BaseController.cs" />
     <Compile Include="Http\BaseStatisticsTrackerAttribute.cs" />
     <Compile Include="Mvc\BaseController.cs" />
-    <Compile Include="Mvc\BaseSearchCondition.cs" />
-    <Compile Include="Mvc\BaseViewModel.cs" />
-    <Compile Include="GoToViewModel.cs" />
     <Compile Include="HmlExtension.cs" />
     <Compile Include="MessageBoxModel.cs" />
     <Compile Include="MvcExtensions.cs" />

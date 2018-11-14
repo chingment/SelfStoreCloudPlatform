@@ -93,6 +93,7 @@
     <Compile Include="Biz\Redis\RedisMqFactory.cs" />
     <Compile Include="Biz\RModels\RetAdminHomeIndexData.cs" />
     <Compile Include="Biz\RModels\RetCompanyGetDetails.cs" />
+    <Compile Include="Biz\RModels\RetLogin.cs" />
     <Compile Include="Biz\RModels\RetMachineGetDetails.cs" />
     <Compile Include="Biz\RModels\RetMerchantGetDetails.cs" />
     <Compile Include="Biz\RModels\RetMerchantMachineGetDetails.cs" />

@@ -11,6 +11,7 @@ using System.Reflection;
 using Lumos.Redis;
 using Lumos.Web;
 using Lumos.BLL.Sys;
+using Lumos.BLL.Biz;
 
 namespace WebSSO.Controllers
 {
@@ -34,16 +35,16 @@ namespace WebSSO.Controllers
         [AllowAnonymous]
         public CustomJsonResult Login(RopLogin rop)
         {
-            GoToViewModel gotoViewModel = new GoToViewModel();
+            RetLogin ret = new RetLogin();
 
             if (Session[sesionKeyLoginVerifyCode] == null)
             {
-                return Json(ResultType.Failure, gotoViewModel, "验证码超时");
+                return Json(ResultType.Failure, ret, "验证码超时");
             }
 
             if (Session[sesionKeyLoginVerifyCode].ToString() != rop.VerifyCode)
             {
-                return Json(ResultType.Failure, gotoViewModel, "验证码不正确");
+                return Json(ResultType.Failure, ret, "验证码不正确");
             }
 
             var result = SysFactory.AuthorizeRelay.SignIn(rop.UserName, rop.Password, CommonUtils.GetIP(), Enumeration.LoginType.Website);
@@ -53,17 +54,17 @@ namespace WebSSO.Controllers
 
                 if (result.ResultTip == Enumeration.LoginResultTip.UserNotExist || result.ResultTip == Enumeration.LoginResultTip.UserPasswordIncorrect)
                 {
-                    return Json(ResultType.Failure, gotoViewModel, "用户名或密码不正确");
+                    return Json(ResultType.Failure, ret, "用户名或密码不正确");
                 }
 
                 if (result.ResultTip == Enumeration.LoginResultTip.UserDisabled)
                 {
-                    return Json(ResultType.Failure, gotoViewModel, "账户被禁用");
+                    return Json(ResultType.Failure, ret, "账户被禁用");
                 }
 
                 if (result.ResultTip == Enumeration.LoginResultTip.UserDeleted)
                 {
-                    return Json(ResultType.Failure, gotoViewModel, "账户被删除");
+                    return Json(ResultType.Failure, ret, "账户被删除");
                 }
             }
 
@@ -93,9 +94,9 @@ namespace WebSSO.Controllers
             string token = GuidUtil.New();
             SSOUtil.SetUserInfo(token, userInfo);
 
-            gotoViewModel.Url = string.Format("{0}?token={1}", returnUrl, token);
+            ret.Url = string.Format("{0}?token={1}", returnUrl, token);
 
-            return Json(ResultType.Success, gotoViewModel, "登录成功");
+            return Json(ResultType.Success, ret, "登录成功");
 
         }
 

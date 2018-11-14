@@ -8,6 +8,7 @@ using Lumos.Session;
 using Lumos.Web;
 using Newtonsoft.Json;
 using Lumos.BLL.Sys;
+using Lumos.BLL.Biz;
 
 namespace WebMobile.Controllers
 {
@@ -25,7 +26,7 @@ namespace WebMobile.Controllers
         public CustomJsonResult Login(RopLogin rop)
         {
 
-            GoToViewModel gotoViewModel = new GoToViewModel();
+            RetLogin ret = new RetLogin();
 
             var result = SysFactory.AuthorizeRelay.SignIn(rop.UserName, rop.Password, CommonUtils.GetIP(), Enumeration.LoginType.Website);
 
@@ -34,17 +35,17 @@ namespace WebMobile.Controllers
 
                 if (result.ResultTip == Enumeration.LoginResultTip.UserNotExist || result.ResultTip == Enumeration.LoginResultTip.UserPasswordIncorrect)
                 {
-                    return Json(ResultType.Failure, gotoViewModel, "用户名或密码不正确");
+                    return Json(ResultType.Failure, ret, "用户名或密码不正确");
                 }
 
                 if (result.ResultTip == Enumeration.LoginResultTip.UserDisabled)
                 {
-                    return Json(ResultType.Failure, gotoViewModel, "账户被禁用");
+                    return Json(ResultType.Failure, ret, "账户被禁用");
                 }
 
                 if (result.ResultTip == Enumeration.LoginResultTip.UserDeleted)
                 {
-                    return Json(ResultType.Failure, gotoViewModel, "账户被删除");
+                    return Json(ResultType.Failure, ret, "账户被删除");
                 }
             }
 
@@ -59,9 +60,9 @@ namespace WebMobile.Controllers
 
             Response.Cookies.Add(new HttpCookie(OwnRequest.SESSION_NAME, accessToken));
 
-            gotoViewModel.Url = (rop.ReturnUrl == null ? OwnWebSettingUtils.GetHomePage() : rop.ReturnUrl);
+            ret.Url = (rop.ReturnUrl == null ? OwnWebSettingUtils.GetHomePage() : rop.ReturnUrl);
 
-            return Json(ResultType.Success, gotoViewModel, "登录成功");
+            return Json(ResultType.Success, ret, "登录成功");
 
         }
 
