@@ -61,6 +61,11 @@ namespace Lumos.BLL
                     break;
             }
 
+            if (loginHis.UserId == null)
+            {
+                loginHis.UserId = "-1";
+            }
+
             CurrentDb.SysUserLoginHistory.Add(loginHis);
             CurrentDb.SaveChanges();
 
