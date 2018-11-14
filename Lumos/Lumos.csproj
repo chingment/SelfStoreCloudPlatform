@@ -51,14 +51,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomJsonResult.cs" />
+    <Compile Include="CustomJsonResult\CustomJsonResult.cs" />
     <Compile Include="JsonConverter\DBNullCreationConverter.cs" />
     <Compile Include="JsonConverter\RemarkConverter.cs" />
     <Compile Include="JsonConverter\EnumerationTypeConverter.cs" />
     <Compile Include="GuidUtil.cs" />
     <Compile Include="ImgSet.cs" />
     <Compile Include="IpInfo.cs" />
-    <Compile Include="IResult.cs" />
+    <Compile Include="CustomJsonResult\IResult.cs" />
     <Compile Include="JsonObjectConvert.cs" />
     <Compile Include="LogUtil.cs" />
     <Compile Include="JsonConverter\NullToEmptyStringResolver.cs" />
