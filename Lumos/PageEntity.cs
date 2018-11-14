@@ -1,6 +1,6 @@
 ﻿
 
-namespace Lumos.Entity
+namespace Lumos
 {
     public class PageEntity
     {

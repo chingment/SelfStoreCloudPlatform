@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Reflection;
-namespace Lumos.Entity
+namespace Lumos
 {
     public class EnumerationRemarkConverter<T> : JsonConverter
     {

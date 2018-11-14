@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace Lumos.Entity
+namespace Lumos
 {
     public class IpInfo
     {
