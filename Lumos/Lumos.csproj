@@ -52,19 +52,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomJsonResult.cs" />
-    <Compile Include="DBNullCreationConverter.cs" />
-    <Compile Include="EnumerationRemarkConverter.cs" />
-    <Compile Include="EnumerationTypeConverter.cs" />
+    <Compile Include="JsonConverter\DBNullCreationConverter.cs" />
+    <Compile Include="JsonConverter\RemarkConverter.cs" />
+    <Compile Include="JsonConverter\EnumerationTypeConverter.cs" />
     <Compile Include="GuidUtil.cs" />
     <Compile Include="ImgSet.cs" />
     <Compile Include="IpInfo.cs" />
     <Compile Include="IResult.cs" />
     <Compile Include="JsonObjectConvert.cs" />
     <Compile Include="LogUtil.cs" />
-    <Compile Include="NullToEmptyStringResolver.cs" />
+    <Compile Include="JsonConverter\NullToEmptyStringResolver.cs" />
     <Compile Include="PageEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="EnumerationResolver.cs" />
+    <Compile Include="JsonConverter\EnumerationResolver.cs" />
     <Compile Include="RemarkAttribute.cs" />
     <Compile Include="ThreadSafeRandom .cs" />
   </ItemGroup>

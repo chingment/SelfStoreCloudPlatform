@@ -3,9 +3,9 @@ using System;
 using System.Reflection;
 namespace Lumos
 {
-    public class EnumerationRemarkConverter<T> : JsonConverter
+    public class RemarkConverter<T> : JsonConverter
     {
-        public EnumerationRemarkConverter()
+        public RemarkConverter()
         {
 
         }
