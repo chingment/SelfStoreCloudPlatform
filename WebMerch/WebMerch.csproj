@@ -178,7 +178,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="App_Start\Own\OwnAuthorizeAttribute.cs" />
-    <Compile Include="App_Start\Own\OwnBreadcrumb.cs" />
     <Compile Include="App_Start\Own\OwnWebSettingUtils.cs" />
     <Compile Include="App_Start\Own\OwnBaseController.cs" />
     <Compile Include="App_Start\Own\OwnExceptionAttribute.cs" />
