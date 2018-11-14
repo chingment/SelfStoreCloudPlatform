@@ -252,7 +252,7 @@ namespace System.Web
             StringBuilder sb = new StringBuilder();
 
             string id = name.Replace('.', '_');
-            sb.Append("<select  id=\"" + id + "\" data-placeholder=\"请选择\" name =\"" + name + "\" class=\"chosen-select\" style=\"width: 100px\" >");
+            sb.Append("<select  id=\"" + id + "\" data-placeholder=\"请选择\" name =\"" + name + "\" class=\"chosen-select\" style=\"width: 190px\" >");
             sb.Append("<option value=\"-1\"></option>");
 
             string[] arr_selectval = null;
@@ -327,7 +327,7 @@ namespace System.Web
             StringBuilder sb = new StringBuilder();
 
             string id = name.Replace('.', '_');
-            sb.Append("<select id=\"" + id + "\" data-placeholder=\"请选择\" name =\"" + name + "\" class=\"chosen-select\" style=\"width: 100px\" >");
+            sb.Append("<select id=\"" + id + "\" data-placeholder=\"请选择\" name =\"" + name + "\" class=\"chosen-select\" style=\"width: 190px\" >");
             sb.Append("<option value=\"-1\"></option>");
 
 
@@ -365,7 +365,7 @@ namespace System.Web
             StringBuilder sb = new StringBuilder();
 
             string id = name.Replace('.', '_');
-            sb.Append("<select id=\"" + id + "\" data-placeholder=\"请选择\" name =\"" + name + "\" class=\"chosen-select\" style=\"width: 100px\" >");
+            sb.Append("<select id=\"" + id + "\" data-placeholder=\"请选择\" name =\"" + name + "\" class=\"chosen-select\" style=\"width: 190px\" >");
             sb.Append("<option value=\"-1\"></option>");
 
 

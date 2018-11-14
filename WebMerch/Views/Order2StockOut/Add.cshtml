@@ -233,16 +233,16 @@
             <td class="f-tb-t" style="width:80px">
                 出库日期<span class="required-symbol">*</span>：
             </td>
-            <td class="f-tb-c">
+            <td class="f-tb-c" style="width:105px">
                 <input id="txt_StockOutTime" type="text" value="@DateTime.Now.ToUnifiedFormatDate()" class="Wdate" style="width:100px;" onclick="WdatePicker({ maxDate: '#F{\'@DateTime.Now.ToString("yyyy-MM-dd")\'}', dateFmt: 'yyyy-MM-dd' })" autocomplete="off" />
             </td>
-            <td class="f-tb-t">
+            <td class="f-tb-t" style="width:45px">
                 仓库<span class="required-symbol">*</span>：
             </td>
             <td class="f-tb-c">
                 @Html.initWarehouse("sel.WarehouseId")
             </td>
-            <td class="f-tb-t">
+            <td class="f-tb-t" style="width:50px">
                 目的处<span class="required-symbol">*</span>：
             </td>
             <td class="f-tb-c">

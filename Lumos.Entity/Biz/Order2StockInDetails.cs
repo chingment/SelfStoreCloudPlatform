@@ -18,6 +18,7 @@ namespace Lumos.Entity
         public string ProductSkuId { get; set; }
         public string ProductSkuBarCode { get; set; }
         public string ProductSkuName { get; set; }
+        public decimal UnitPrice { get; set; }
         public decimal Amount { get; set; }
         public DateTime StockInTime { get; set; }
         public int Quantity { get; set; }
