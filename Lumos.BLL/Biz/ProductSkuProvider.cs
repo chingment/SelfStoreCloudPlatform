@@ -369,6 +369,8 @@ namespace Lumos.BLL
             List<ProductSku> list = new List<ProductSku>();
             var hs = RedisManager.Db.HashGetAll("search_productskus_u_" + pUserId);
 
+            pKey = pKey.ToUpper();
+
             var d = (from i in hs select i).Where(x => x.Name.ToString().Contains(pKey)).Take(10).ToList();
 
             foreach (var item in d)
