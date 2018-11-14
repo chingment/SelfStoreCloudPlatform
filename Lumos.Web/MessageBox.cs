@@ -11,7 +11,7 @@ namespace Lumos.Web
         Exception = 4
     }
 
-    public class MessageBoxModel
+    public class MessageBox
     {
         public string No { get; set; }
 

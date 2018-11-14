@@ -46,7 +46,7 @@ namespace WebMerch
             {
                 if (isAjaxRequest)
                 {
-                    MessageBoxModel messageBox = new MessageBoxModel();
+                    MessageBox messageBox = new MessageBox();
                     messageBox.No = Guid.NewGuid().ToString();
                     messageBox.Type = MessageBoxTip.Exception;
                     messageBox.Title = "温馨提示";

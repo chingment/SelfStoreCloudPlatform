@@ -67,7 +67,7 @@
     <Compile Include="Http\BaseStatisticsTrackerAttribute.cs" />
     <Compile Include="Mvc\BaseController.cs" />
     <Compile Include="HmlExtension.cs" />
-    <Compile Include="MessageBoxModel.cs" />
+    <Compile Include="MessageBox.cs" />
     <Compile Include="MvcExtensions.cs" />
     <Compile Include="Mvc\BaseStatisticsTrackerAttribute.cs" />
     <Compile Include="Mvc\MonitorLog.cs" />

@@ -51,7 +51,7 @@ namespace WebMobile
                 bool isAjaxRequest = filterContext.RequestContext.HttpContext.Request.IsAjaxRequest();
                 if (isAjaxRequest)
                 {
-                    MessageBoxModel messageBox = new MessageBoxModel();
+                    MessageBox messageBox = new MessageBox();
                     messageBox.No = Guid.NewGuid().ToString();
                     messageBox.Type = MessageBoxTip.Exception;
                     messageBox.Title = "您没有权限访问,可能链接超时,请登录";

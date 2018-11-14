@@ -90,7 +90,7 @@ namespace WebMobile
 
                     if (isAjaxRequest)
                     {
-                        MessageBoxModel messageBox = new MessageBoxModel();
+                        MessageBox messageBox = new MessageBox();
                         messageBox.No = Guid.NewGuid().ToString();
                         messageBox.Type = MessageBoxTip.Failure;
                         messageBox.Title = "请登录";

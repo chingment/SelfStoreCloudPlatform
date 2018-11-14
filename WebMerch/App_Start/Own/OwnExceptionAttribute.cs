@@ -19,7 +19,7 @@ namespace WebMerch
             string controller = (string)filterContext.RouteData.Values["controller"];
             string action = (string)filterContext.RouteData.Values["action"];
 
-            MessageBoxModel messageBox = new MessageBoxModel();
+            MessageBox messageBox = new MessageBox();
             messageBox.No = Guid.NewGuid().ToString();
             messageBox.Type = MessageBoxTip.Exception;
             messageBox.Title = "温馨提示";
