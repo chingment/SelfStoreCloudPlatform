@@ -105,13 +105,7 @@ namespace Lumos.BLL.Service.Merch
             }
         }
 
-        public static SmsProvider Sms
-        {
-            get
-            {
-                return new SmsProvider();
-            }
-        }
+    
 
     }
 }

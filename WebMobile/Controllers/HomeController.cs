@@ -162,7 +162,7 @@ namespace WebMobile.Controllers
             }
 
             bool isPaySuccessed = false;
-            var result = MerchServiceFactory.Order.PayResultNotify(GuidUtil.Empty(), Enumeration.OrderNotifyLogNotifyFrom.NotifyUrl, xml, orderSn, out isPaySuccessed);
+            var result = BizFactory.Order.PayResultNotify(GuidUtil.Empty(), Enumeration.OrderNotifyLogNotifyFrom.NotifyUrl, xml, orderSn, out isPaySuccessed);
 
             if (result.Result == ResultType.Success)
             {

@@ -1,4 +1,5 @@
-﻿using Lumos.BLL.Service.Merch;
+﻿using Lumos.BLL.Biz;
+using Lumos.BLL.Service.Merch;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace Lumos.BLL.Service.AppMobile
     {
         public CustomJsonResult BindMobile(string pOperater, string pClientId, RopReplenishStaffBindMobile rup)
         {
-            if (!MerchServiceFactory.Sms.ReplenishStaffBindMobileCheckValidCode(rup.PhoneNumber, rup.VerifyCode))
+            if (!BizFactory.Sms.ReplenishStaffBindMobileCheckValidCode(rup.PhoneNumber, rup.VerifyCode))
             {
                 return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "验证码不正确");
             }

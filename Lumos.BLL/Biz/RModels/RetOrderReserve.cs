@@ -3,7 +3,7 @@
 using System.Collections.Generic;
 
 
-namespace Lumos.BLL.Service.Merch
+namespace Lumos.BLL.Biz
 {
 
 

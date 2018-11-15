@@ -1,5 +1,6 @@
 ﻿using Lumos;
 using Lumos.BLL;
+using Lumos.BLL.Biz;
 using Lumos.BLL.Service.AppMobile;
 using Lumos.BLL.Service.Merch;
 using Lumos.Common;
@@ -29,7 +30,7 @@ namespace WebMobile.Controllers
             {
                 return new CustomJsonResult(ResultType.Failure, ResultCode.AlreadyExist, "该手机号已被使用");
             }
-            var result = MerchServiceFactory.Sms.ReplenishStaffBindMobile(this.CurrentUserId, phoneNumber);
+            var result = BizFactory.Sms.ReplenishStaffBindMobile(this.CurrentUserId, phoneNumber);
             return result;
         }
 

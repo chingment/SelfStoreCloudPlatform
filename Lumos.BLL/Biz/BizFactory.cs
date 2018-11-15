@@ -15,5 +15,21 @@ namespace Lumos.BLL.Biz
                 return new ProductSkuProvider();
             }
         }
+
+        public static OrderProvider Order
+        {
+            get
+            {
+                return new OrderProvider();
+            }
+        }
+
+        public static SmsProvider Sms
+        {
+            get
+            {
+                return new SmsProvider();
+            }
+        }
     }
 }

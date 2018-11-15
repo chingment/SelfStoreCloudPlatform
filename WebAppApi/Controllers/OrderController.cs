@@ -12,6 +12,7 @@ using System.Web;
 using Lumos.BLL.Service.AppMobile;
 using Lumos.BLL.Service.Admin;
 using Lumos.BLL.Service.Merch;
+using Lumos.BLL.Biz;
 
 namespace WebAppApi.Controllers
 {
@@ -27,7 +28,7 @@ namespace WebAppApi.Controllers
 
 
         [HttpPost]
-        public OwnApiHttpResponse Reserve([FromBody]RopOrderReserve rop)
+        public OwnApiHttpResponse Reserve([FromBody]Lumos.BLL.Service.AppMobile.RopOrderReserve rop)
         {
             IResult result = AppServiceFactory.Order.Reserve(this.CurrentUserId, this.CurrentUserId, rop);
             return new OwnApiHttpResponse(result);
@@ -82,7 +83,7 @@ namespace WebAppApi.Controllers
             }
 
             bool isPaySuccessed = false;
-            var result = MerchServiceFactory.Order.PayResultNotify(GuidUtil.Empty(), Enumeration.OrderNotifyLogNotifyFrom.NotifyUrl, xml, orderSn, out isPaySuccessed);
+            var result = BizFactory.Order.PayResultNotify(GuidUtil.Empty(), Enumeration.OrderNotifyLogNotifyFrom.NotifyUrl, xml, orderSn, out isPaySuccessed);
 
             if (result.Result == ResultType.Success)
             {

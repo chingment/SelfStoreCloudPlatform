@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lumos.BLL.Service.Merch
+namespace Lumos.BLL.Biz
 {
     public class RetPayResultQuery
     {

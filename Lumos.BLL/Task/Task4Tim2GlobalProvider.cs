@@ -1,4 +1,5 @@
-﻿using Lumos.BLL.Service.Admin;
+﻿using Lumos.BLL.Biz;
+using Lumos.BLL.Service.Admin;
 using Lumos.BLL.Service.Merch;
 using Lumos.Entity;
 using Lumos.Redis;
@@ -96,7 +97,7 @@ namespace Lumos.BLL.Task
                                     var appInfo = AdminServiceFactory.AppInfo.Get(chData.AppId);
                                     string xml = SdkFactory.Wx.OrderQuery(appInfo, chData.Sn);
                                     LogUtil.Info(string.Format("订单号：{0},结果文件:{1}", chData.Sn, xml));
-                                    MerchServiceFactory.Order.PayResultNotify(GuidUtil.Empty(), Entity.Enumeration.OrderNotifyLogNotifyFrom.OrderQuery, xml, chData.Sn, out isPaySuccessed);
+                                    BizFactory.Order.PayResultNotify(GuidUtil.Empty(), Entity.Enumeration.OrderNotifyLogNotifyFrom.OrderQuery, xml, chData.Sn, out isPaySuccessed);
                                 }
 
                                 if (isPaySuccessed)
@@ -116,7 +117,7 @@ namespace Lumos.BLL.Task
                         {
                             case TimerTaskType.CheckOrderPay:
                                 var chData = m.Data.ToJsonObject<Order>();
-                                var rt = MerchServiceFactory.Order.Cancle(GuidUtil.Empty(), chData.Sn, "订单支付有效时间过期");
+                                var rt = BizFactory.Order.Cancle(GuidUtil.Empty(), chData.Sn, "订单支付有效时间过期");
                                 if (rt.Result == ResultType.Success)
                                 {
                                     Task4Factory.Global.Exit(m.Id);

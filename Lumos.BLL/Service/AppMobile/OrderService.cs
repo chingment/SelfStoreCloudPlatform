@@ -32,7 +32,7 @@ namespace Lumos.BLL.Service.AppMobile
                 bizRop.Skus.Add(new Biz.RopOrderReserve.Sku() { CartId = item.CartId, Id = item.Id, Quantity = item.Quantity, ReceptionMode = item.ReceptionMode });
             }
 
-            var bizResult = MerchServiceFactory.Order.Reserve(pOperater, bizRop);
+            var bizResult = BizFactory.Order.Reserve(pOperater, bizRop);
 
             if (bizResult.Result == ResultType.Success)
             {
