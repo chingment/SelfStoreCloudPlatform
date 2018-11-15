@@ -75,7 +75,9 @@
     </Compile>
     <Compile Include="BaseProvider.cs" />
     <Compile Include="Biz\BizFactory.cs" />
+    <Compile Include="Biz\Models\RetLogin.cs" />
     <Compile Include="Biz\Models\RetWxUserCheckedUser.cs" />
+    <Compile Include="Biz\Models\RopLogin.cs" />
     <Compile Include="Biz\Models\RopWxUserCheckedUser.cs" />
     <Compile Include="Biz\Models\SkuModel.cs" />
     <Compile Include="Biz\OrderProvider.cs" />
@@ -190,7 +192,6 @@
     <Compile Include="Service\Admin\Sys\RModels\RetSysStaffUserGetDetails.cs" />
     <Compile Include="Service\Admin\Sys\RModels\RetSysUserGetDetails.cs" />
     <Compile Include="Service\Admin\Sys\RModels\RopChangePassword.cs" />
-    <Compile Include="Service\Admin\Sys\RModels\RopLogin.cs" />
     <Compile Include="Service\Admin\Sys\RModels\RopSysMenuAdd.cs" />
     <Compile Include="Service\Admin\Sys\RModels\RopSysMenuEdit.cs" />
     <Compile Include="Service\Admin\Sys\RModels\RopSysMenuEditSort.cs" />
@@ -214,9 +215,7 @@
     <Compile Include="Service\Merch\ProductSkuProvider.cs" />
     <Compile Include="Service\Merch\ProductSubjectProvider.cs" />
     <Compile Include="Service\Merch\RecipientModeProvider.cs" />
-    <Compile Include="Service\Merch\RModels\RetAdminHomeIndexData.cs" />
     <Compile Include="Service\Merch\RModels\RetCompanyGetDetails.cs" />
-    <Compile Include="Service\Merch\RModels\RetLogin.cs" />
     <Compile Include="Service\Merch\RModels\RetMachineGetDetails.cs" />
     <Compile Include="Service\Merch\RModels\RetMerchantGetDetails.cs" />
     <Compile Include="Service\Merch\RModels\RetMerchantMachineGetDetails.cs" />
