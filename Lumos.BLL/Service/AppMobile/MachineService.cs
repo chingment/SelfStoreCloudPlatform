@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lumos.BLL.Service.AppTerm;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,7 +22,7 @@ namespace Lumos.BLL.Service.AppMobile
             bizRop.MachineId = rop.MachineId;
 
 
-            result = BizFactory.Machine.LoginByQrCode(pOperater, bizRop);
+            result = TermServiceFactory.Machine.LoginByQrCode(pOperater, bizRop);
 
             return result;
         }

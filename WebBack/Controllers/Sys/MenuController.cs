@@ -1,6 +1,7 @@
 ﻿using Lumos;
 using Lumos.BLL;
-using Lumos.BLL.Sys;
+using Lumos.BLL.Service.Admin;
+using Lumos.BLL.Service.Admin.Sys;
 using Lumos.Common;
 using Lumos.DAL.AuthorizeRelay;
 using Lumos.Entity;
@@ -34,13 +35,13 @@ namespace WebBack.Controllers.Sys
 
         public CustomJsonResult GetPermissions()
         {
-            return SysFactory.SysMenu.GetPermissions(this.CurrentUserId);
+            return AdminServiceFactory.SysMenu.GetPermissions(this.CurrentUserId);
         }
 
 
         public CustomJsonResult GetDetails(string menuId)
         {
-            return SysFactory.SysMenu.GetDetails(this.CurrentUserId, menuId);
+            return AdminServiceFactory.SysMenu.GetDetails(this.CurrentUserId, menuId);
         }
 
         public CustomJsonResult GetAll(string pMenuId)
@@ -64,26 +65,26 @@ namespace WebBack.Controllers.Sys
         [OwnNoResubmit]
         public CustomJsonResult Add(RopSysMenuAdd rop)
         {
-            return SysFactory.SysMenu.Add(this.CurrentUserId, rop);
+            return AdminServiceFactory.SysMenu.Add(this.CurrentUserId, rop);
         }
 
         [HttpPost]
         public CustomJsonResult Edit(RopSysMenuEdit rop)
         {
-            return SysFactory.SysMenu.Edit(this.CurrentUserId, rop);
+            return AdminServiceFactory.SysMenu.Edit(this.CurrentUserId, rop);
 
         }
 
         [HttpPost]
         public CustomJsonResult Delete(string[] menuIds)
         {
-            return SysFactory.SysMenu.Delete(this.CurrentUserId, menuIds);
+            return AdminServiceFactory.SysMenu.Delete(this.CurrentUserId, menuIds);
         }
 
         [HttpPost]
         public CustomJsonResult EditSort(RopSysMenuEditSort rop)
         {
-            return SysFactory.SysMenu.EditSort(this.CurrentUserId, rop);
+            return AdminServiceFactory.SysMenu.EditSort(this.CurrentUserId, rop);
         }
 
     }

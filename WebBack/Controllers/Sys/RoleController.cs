@@ -1,6 +1,7 @@
 ﻿using Lumos;
 using Lumos.BLL;
-using Lumos.BLL.Sys;
+using Lumos.BLL.Service.Admin;
+using Lumos.BLL.Service.Admin.Sys;
 using Lumos.Common;
 using Lumos.DAL.AuthorizeRelay;
 using Lumos.Entity;
@@ -44,12 +45,12 @@ namespace WebBack.Controllers.Sys
 
         public CustomJsonResult GetDetails(string roleId)
         {
-            return SysFactory.SysRole.GetDetails(this.CurrentUserId, roleId);
+            return AdminServiceFactory.SysRole.GetDetails(this.CurrentUserId, roleId);
         }
 
         public CustomJsonResult GetRoleMenus(string roleId)
         {
-            var roleMenus = SysFactory.SysRole.GetRoleMenus(this.CurrentUserId, roleId);
+            var roleMenus = AdminServiceFactory.SysRole.GetRoleMenus(this.CurrentUserId, roleId);
             var isCheckedIds = from p in roleMenus select p.Id;
             object obj = Newtonsoft.Json.JsonConvert.DeserializeObject(ConvertToZTreeJson(CurrentDb.SysMenu.OrderByDescending(m => m.Priority).ToArray(), "id", "pid", "name", "menu", isCheckedIds.ToArray()));
             return Json(ResultType.Success, obj);
@@ -136,41 +137,41 @@ namespace WebBack.Controllers.Sys
         [HttpPost]
         public CustomJsonResult AddUserToRole(string roleId, string[] userIds)
         {
-            return SysFactory.SysRole.AddUserToRole(this.CurrentUserId, roleId, userIds);
+            return AdminServiceFactory.SysRole.AddUserToRole(this.CurrentUserId, roleId, userIds);
         }
 
         [HttpPost]
         public CustomJsonResult RemoveUserFromRole(string roleId, string[] userIds)
         {
-            return SysFactory.SysRole.RemoveUserFromRole(this.CurrentUserId, roleId, userIds);
+            return AdminServiceFactory.SysRole.RemoveUserFromRole(this.CurrentUserId, roleId, userIds);
         }
 
 
         [HttpPost]
         public CustomJsonResult SaveRoleMenu(string roleId, string[] menuIds)
         {
-            return SysFactory.SysRole.SaveRoleMenu(this.CurrentUserId, roleId, menuIds);
+            return AdminServiceFactory.SysRole.SaveRoleMenu(this.CurrentUserId, roleId, menuIds);
         }
 
 
         [HttpPost]
         public CustomJsonResult Add(RopSysRoleAdd rop)
         {
-            return SysFactory.SysRole.Add(this.CurrentUserId, rop);
+            return AdminServiceFactory.SysRole.Add(this.CurrentUserId, rop);
         }
 
 
         [HttpPost]
         public CustomJsonResult Edit(RopSysRoleEdit rop)
         {
-            return SysFactory.SysRole.Edit(this.CurrentUserId, rop);
+            return AdminServiceFactory.SysRole.Edit(this.CurrentUserId, rop);
         }
 
 
         [HttpPost]
         public CustomJsonResult Delete(string[] roleIds)
         {
-            return SysFactory.SysRole.Delete(this.CurrentUserId, roleIds);
+            return AdminServiceFactory.SysRole.Delete(this.CurrentUserId, roleIds);
         }
 
         #endregion

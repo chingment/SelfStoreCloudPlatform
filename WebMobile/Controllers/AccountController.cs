@@ -7,8 +7,9 @@ using Lumos;
 using Lumos.Session;
 using Lumos.Web;
 using Newtonsoft.Json;
-using Lumos.BLL.Sys;
+using Lumos.BLL.Service.Admin.Sys;
 using Lumos.BLL.Biz;
+using Lumos.BLL.Service.Admin;
 
 namespace WebMobile.Controllers
 {
@@ -28,7 +29,7 @@ namespace WebMobile.Controllers
 
             RetLogin ret = new RetLogin();
 
-            var result = SysFactory.AuthorizeRelay.SignIn(rop.UserName, rop.Password, CommonUtil.GetIP(), Enumeration.LoginType.Website);
+            var result = AdminServiceFactory.AuthorizeRelay.SignIn(rop.UserName, rop.Password, CommonUtil.GetIP(), Enumeration.LoginType.Website);
 
             if (result.ResultType == Enumeration.LoginResult.Failure)
             {

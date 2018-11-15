@@ -6,9 +6,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Lumos.Common;
-using Lumos.BLL;
 using Lumos;
-using Lumos.BLL.Biz;
+using Lumos.BLL.Service.Admin.Biz;
+using Lumos.BLL.Service.Admin;
 
 namespace WebBack.Controllers.Biz
 {
@@ -42,7 +42,7 @@ namespace WebBack.Controllers.Biz
 
         public CustomJsonResult GetDetails(string merchantId)
         {
-            return BizFactory.Merchant.GetDetails(this.CurrentUserId, merchantId);
+            return AdminServiceFactory.Merchant.GetDetails(this.CurrentUserId, merchantId);
         }
 
         public CustomJsonResult GetList(RupMachineGetList rup)
@@ -87,18 +87,18 @@ namespace WebBack.Controllers.Biz
         [HttpPost]
         public CustomJsonResult Add(RopMerchantAdd rop)
         {
-            return BizFactory.Merchant.Add(this.CurrentUserId, rop);
+            return AdminServiceFactory.Merchant.Add(this.CurrentUserId, rop);
         }
 
         [HttpPost]
 
         public CustomJsonResult Edit(RopMerchantEdit rop)
         {
-            return BizFactory.Merchant.Edit(this.CurrentUserId, rop);
+            return AdminServiceFactory.Merchant.Edit(this.CurrentUserId, rop);
         }
 
 
-        public CustomJsonResult GetMachineListByBinded(RupMerchantMachineGetList rup)
+        public CustomJsonResult GetMachineListByBinded(RupMachineGetList rup)
         {
 
             string deviceId = rup.DeviceId.ToSearchString();
@@ -126,7 +126,7 @@ namespace WebBack.Controllers.Biz
         }
 
 
-        public CustomJsonResult GetMachineListByBindable(RupMerchantMachineGetList rup)
+        public CustomJsonResult GetMachineListByBindable(RupMachineGetList rup)
         {
 
             string deviceId = rup.DeviceId.ToSearchString();
@@ -150,14 +150,14 @@ namespace WebBack.Controllers.Biz
         [HttpPost]
         public CustomJsonResult BindOffMachine(string merchantId, string machineId)
         {
-            return BizFactory.MerchantMachine.BindOff(this.CurrentUserId, merchantId, machineId);
+            return AdminServiceFactory.Merchant.MachineBindOff(this.CurrentUserId, merchantId, machineId);
         }
 
 
         [HttpPost]
         public CustomJsonResult BindOnMachine(string merchantId, string machineId)
         {
-            return BizFactory.MerchantMachine.BindOn(this.CurrentUserId, merchantId, machineId);
+            return AdminServiceFactory.Merchant.MachineBindOn(this.CurrentUserId, merchantId, machineId);
         }
     }
 }

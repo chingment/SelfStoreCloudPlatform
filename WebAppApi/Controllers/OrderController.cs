@@ -10,6 +10,8 @@ using System.Net;
 using System.Text;
 using System.Web;
 using Lumos.BLL.Service.AppMobile;
+using Lumos.BLL.Service.Admin.Sys;
+using Lumos.BLL.Service.Admin;
 
 namespace WebAppApi.Controllers
 {
@@ -64,7 +66,7 @@ namespace WebAppApi.Controllers
 
             string appId = dic2["appid"].ToString();
 
-            var appInfo = SysFactory.AppInfo.Get(appId);
+            var appInfo = AdminServiceFactory.AppInfo.Get(appId);
 
             if (!SdkFactory.Wx.CheckPayNotifySign(appInfo, xml))
             {

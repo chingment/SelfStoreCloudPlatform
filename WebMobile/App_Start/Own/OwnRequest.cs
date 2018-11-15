@@ -1,4 +1,6 @@
 ﻿using Lumos.BLL;
+using Lumos.BLL.Service.Admin;
+using Lumos.BLL.Service.Admin.Sys;
 using Lumos.Entity;
 using Lumos.Session;
 using System;
@@ -104,12 +106,12 @@ namespace WebMobile
 
         public static List<SysMenu> GetMenus()
         {
-            return SysFactory.AuthorizeRelay.GetUserMenus(GetCurrentUserId());
+            return AdminServiceFactory.AuthorizeRelay.GetUserMenus(GetCurrentUserId());
         }
 
         public static bool IsInPermission(string[] permissions)
         {
-            List<string> listPermissions = SysFactory.AuthorizeRelay.GetUserPermissions(GetCurrentUserId());
+            List<string> listPermissions = AdminServiceFactory.AuthorizeRelay.GetUserPermissions(GetCurrentUserId());
             if (listPermissions == null)
                 return false;
             if (listPermissions.Count < 1)

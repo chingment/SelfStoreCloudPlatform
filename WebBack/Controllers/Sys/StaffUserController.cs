@@ -9,7 +9,8 @@ using Lumos.Web.Mvc;
 using Lumos.DAL;
 using Lumos.BLL;
 using Lumos;
-using Lumos.BLL.Sys;
+using Lumos.BLL.Service.Admin.Sys;
+using Lumos.BLL.Service.Admin;
 
 namespace WebBack.Controllers.Sys
 {
@@ -83,25 +84,25 @@ namespace WebBack.Controllers.Sys
 
         public CustomJsonResult GetDetails(string userId)
         {
-            return SysFactory.SysStaffUser.GetDetails(this.CurrentUserId, userId);
+            return AdminServiceFactory.SysStaffUser.GetDetails(this.CurrentUserId, userId);
         }
 
         [HttpPost]
         public CustomJsonResult Add(RopSysStaffUserAdd rop)
         {
-            return SysFactory.SysStaffUser.Add(this.CurrentUserId, rop);
+            return AdminServiceFactory.SysStaffUser.Add(this.CurrentUserId, rop);
         }
 
         [HttpPost]
         public CustomJsonResult Edit(RopSysStaffUserEdit rop)
         {
-            return SysFactory.SysStaffUser.Edit(this.CurrentUserId, rop);
+            return AdminServiceFactory.SysStaffUser.Edit(this.CurrentUserId, rop);
         }
 
         [HttpPost]
         public CustomJsonResult Delete(string[] userIds)
         {
-            return SysFactory.SysStaffUser.Delete(this.CurrentUserId, userIds);
+            return AdminServiceFactory.SysStaffUser.Delete(this.CurrentUserId, userIds);
         }
 
     }

@@ -19,6 +19,8 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using Lumos.BLL.Biz.RModels;
 using Lumos.BLL.Biz;
+using Lumos.BLL.Service.Admin.Sys;
+using Lumos.BLL.Service.Admin;
 
 namespace WebMobile.Controllers
 {
@@ -145,7 +147,7 @@ namespace WebMobile.Controllers
 
             string appId = dic2["appid"].ToString();
 
-            var appInfo = SysFactory.AppInfo.Get(appId);
+            var appInfo = AdminServiceFactory.AppInfo.Get(appId);
 
             if (!SdkFactory.Wx.CheckPayNotifySign(appInfo, xml))
             {
@@ -209,7 +211,7 @@ namespace WebMobile.Controllers
                 if (baseEventMsg != null)
                 {
                     var appId = Request.QueryString["appId"];
-                    var appInfo = SysFactory.AppInfo.Get(appId);
+                    var appInfo = AdminServiceFactory.AppInfo.Get(appId);
                     var userInfo_Result = SdkFactory.Wx.GetUserInfoByApiToken(appInfo, baseEventMsg.FromUserName);
 
                     if (userInfo_Result.openid != null)

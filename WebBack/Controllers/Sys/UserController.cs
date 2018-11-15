@@ -8,7 +8,8 @@ using Lumos.Common;
 using Lumos.Web.Mvc;
 using Lumos;
 using Lumos.BLL;
-using Lumos.BLL.Sys;
+using Lumos.BLL.Service.Admin.Sys;
+using Lumos.BLL.Service.Admin;
 
 namespace WebBack.Controllers.Sys
 {
@@ -54,7 +55,7 @@ namespace WebBack.Controllers.Sys
 
         public CustomJsonResult GetDetails(string userId)
         {
-            return SysFactory.SysUser.GetDetails(this.CurrentUserId, userId);
+            return AdminServiceFactory.SysUser.GetDetails(this.CurrentUserId, userId);
         }
 
         #endregion

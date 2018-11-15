@@ -1,4 +1,5 @@
-﻿using Lumos.Entity;
+﻿using Lumos.BLL.Biz;
+using Lumos.Entity;
 using Lumos.Redis;
 using System;
 using System.Collections.Generic;
@@ -239,17 +240,44 @@ namespace Lumos.BLL.Service.AppTerm
 
         public CustomJsonResult LoginResultQuery(string pOperater, RupMachineLoginResultQuery rup)
         {
+            var key = string.Format("machineLoginResult:{0}", rup.Token);
 
-            CustomJsonResult result = new CustomJsonResult();
+            var redis = new RedisClient<string>();
+            var token = redis.KGetString(key);
 
-            Biz.RupMachineLoginResultQuery bizRup = new Biz.RupMachineLoginResultQuery();
+            if (token == null)
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "登录失败");
 
-            bizRup.Token = rup.Token;
 
-            result = BizFactory.Machine.LoginResultQuery(pOperater, bizRup);
-
-            return result;
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "登录成功");
         }
+
+        public CustomJsonResult LoginByQrCode(string pOperater, RopMachineLoginByQrCode rop)
+        {
+
+            var ret = new RetOperateResult();
+
+            var key = string.Format("machineLoginResult:{0}", rop.Token.ToLower());
+            var redis = new RedisClient<string>();
+            var isFlag = redis.KSet(key, "true", new TimeSpan(0, 1, 0));
+            if (!isFlag)
+            {
+                ret.Result = RetOperateResult.ResultType.Success;
+                ret.Remarks = "";
+                ret.Message = "登录失败";
+                ret.IsComplete = true;
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "登录失败", ret);
+            }
+            else
+            {
+                ret.Result = RetOperateResult.ResultType.Success;
+                ret.Remarks = "";
+                ret.Message = "登录成功";
+                ret.IsComplete = true;
+                return new CustomJsonResult(ResultType.Success, ResultCode.Success, "登录成功", ret);
+            }
+        }
+
 
     }
 }

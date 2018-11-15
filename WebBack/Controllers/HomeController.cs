@@ -15,7 +15,8 @@ using MySDK;
 using System.Linq;
 using System.Data.Entity.Core.Objects;
 using Lumos;
-using Lumos.BLL.Sys;
+using Lumos.BLL.Service.Admin.Sys;
+using Lumos.BLL.Service.Admin;
 
 namespace WebBack.Controllers
 {
@@ -49,7 +50,7 @@ namespace WebBack.Controllers
         [HttpPost]
         public CustomJsonResult ChangePassword(RopChangePassword rop)
         {
-            var result = SysFactory.AuthorizeRelay.ChangePassword(this.CurrentUserId, this.CurrentUserId, rop.OldPassword, rop.NewPassword);
+            var result = AdminServiceFactory.AuthorizeRelay.ChangePassword(this.CurrentUserId, this.CurrentUserId, rop.OldPassword, rop.NewPassword);
 
             if (result.Result != ResultType.Success)
             {

@@ -1,8 +1,9 @@
 ﻿using System.Web.Mvc;
 using Lumos.BLL;
 using Lumos;
-using Lumos.BLL.Sys;
+using Lumos.BLL.Service.Admin.Sys;
 using System.Collections.Generic;
+using Lumos.BLL.Service.Admin;
 
 namespace WebMerch.Controllers
 {
@@ -81,7 +82,7 @@ namespace WebMerch.Controllers
         [HttpPost]
         public CustomJsonResult ChangePassword(RopChangePassword rop)
         {
-            var result = SysFactory.AuthorizeRelay.ChangePassword(this.CurrentUserId, this.CurrentUserId, rop.OldPassword, rop.NewPassword);
+            var result = AdminServiceFactory.AuthorizeRelay.ChangePassword(this.CurrentUserId, this.CurrentUserId, rop.OldPassword, rop.NewPassword);
 
             if (result.Result != ResultType.Success)
             {

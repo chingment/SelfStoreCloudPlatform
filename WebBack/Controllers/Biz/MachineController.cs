@@ -12,7 +12,8 @@ using NPOI.SS.UserModel;
 using System.Data;
 using System.Transactions;
 using Lumos;
-using Lumos.BLL.Biz;
+using Lumos.BLL.Service.Admin.Biz;
+using Lumos.BLL.Service.Admin;
 
 namespace WebBack.Controllers.Biz
 {
@@ -46,7 +47,7 @@ namespace WebBack.Controllers.Biz
 
         public CustomJsonResult GetDetails(string machineId)
         {
-            return BizFactory.Machine.GetDetails(this.CurrentUserId, machineId);
+            return AdminServiceFactory.Machine.GetDetails(this.CurrentUserId, machineId);
         }
 
         public CustomJsonResult GetList(RupMachineGetList rup)
@@ -109,14 +110,14 @@ namespace WebBack.Controllers.Biz
         [HttpPost]
         public CustomJsonResult Add(RopMachineAdd rop)
         {
-            return BizFactory.Machine.Add(this.CurrentUserId, rop);
+            return AdminServiceFactory.Machine.Add(this.CurrentUserId, rop);
         }
 
         [HttpPost]
 
         public CustomJsonResult Edit(RopMachineEdit rop)
         {
-            return BizFactory.Machine.Edit(this.CurrentUserId, rop);
+            return AdminServiceFactory.Machine.Edit(this.CurrentUserId, rop);
         }
 
         [HttpPost]
@@ -125,11 +126,11 @@ namespace WebBack.Controllers.Biz
             var machine = CurrentDb.Machine.Where(m => m.Id == machineId).FirstOrDefault();
             if (machine.IsUse)
             {
-                return BizFactory.MerchantMachine.BindOff(this.CurrentUserId, merchantId, machineId);
+                return AdminServiceFactory.Merchant.MachineBindOff(this.CurrentUserId, merchantId, machineId);
             }
             else
             {
-                return BizFactory.MerchantMachine.BindOn(this.CurrentUserId, merchantId, machineId);
+                return AdminServiceFactory.Merchant.MachineBindOn(this.CurrentUserId, merchantId, machineId);
             }
 
         }

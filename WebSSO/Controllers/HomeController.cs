@@ -10,8 +10,9 @@ using log4net;
 using System.Reflection;
 using Lumos.Redis;
 using Lumos.Web;
-using Lumos.BLL.Sys;
+using Lumos.BLL.Service.Admin.Sys;
 using Lumos.BLL.Biz;
+using Lumos.BLL.Service.Admin;
 
 namespace WebSSO.Controllers
 {
@@ -47,7 +48,7 @@ namespace WebSSO.Controllers
                 return Json(ResultType.Failure, ret, "验证码不正确");
             }
 
-            var result = SysFactory.AuthorizeRelay.SignIn(rop.UserName, rop.Password, CommonUtil.GetIP(), Enumeration.LoginType.Website);
+            var result = AdminServiceFactory.AuthorizeRelay.SignIn(rop.UserName, rop.Password, CommonUtil.GetIP(), Enumeration.LoginType.Website);
 
             if (result.ResultType == Enumeration.LoginResult.Failure)
             {
