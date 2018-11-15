@@ -76,7 +76,6 @@
     <Compile Include="DatabaseFactory\IDBOption.cs" />
     <Compile Include="DatabaseFactory\IDBOptionBySqlSentence.cs" />
     <Compile Include="DatabaseFactory\SqlServerOptionBySqlSentence.cs" />
-    <Compile Include="EnumerableExX.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LumosDbContext.cs" />

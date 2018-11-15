@@ -73,17 +73,10 @@ namespace Lumos.DAL.AuthorizeRelay
             // this.Configuration.ProxyCreationEnabled = false;
         }
 
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            //必须继承调用 base.OnModelCreating(modelBuilder);
             base.OnModelCreating(modelBuilder);
-            // Identity创建的表是带Identity开头的 这里重新定义以Sys开头
-            modelBuilder.Entity<SysUser>().ToTable("SysUser");
-            modelBuilder.Entity<SysUserRole>().HasKey(r => new { r.RoleId, r.UserId }).ToTable("SysUserRole");
-            modelBuilder.Entity<SysRole>().ToTable("SysRole");
         }
-
 
         public DataSet GetPageReocrdByProc(QueryParam model)
         {

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Lumos.Redis;
+using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
@@ -7,14 +9,6 @@ namespace System
 {
     public static class DbContextDatabaseExtensions
     {
-
-
-        /// <summary>
-        /// DataTable扩展方法：将DataTable类型转化为指定类型的实体集合
-        /// </summary>
-        /// <typeparam name="T">实体类型</typeparam>
-        /// <param name="dateTimeToString">是否需要将日期转换为字符串，默认为转换,值为true</param>
-        /// <returns></returns>
         public static List<T> ToList<T>(this DataTable dt, bool dateTimeToString = true) where T : class, new()
         {
             List<T> list = new List<T>();
@@ -63,6 +57,44 @@ namespace System
             }
         }
 
-    
+        public static List<TSource> ToListByCache<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        {
+
+            string tpye_name = source.GetType().ToString();
+
+            int start = tpye_name.IndexOf("[") + 1;
+
+            string entity_name = tpye_name.Substring(start, tpye_name.Length - start - 1);
+
+
+            List<TSource> list = RedisHashUtil.GetAll<TSource>(string.Format("entity:{0}", entity_name));
+
+            list = list.Where(predicate).ToList();
+            //IQueryable<TSource> c = list.Where(predicate);
+            ////var c = source;
+            ////string name = source.GetType().ToString();
+            ////return default(TSource);
+
+            //List<TSource> a = new List<TSource>();
+            return list;
+        }
+
+
+        public static TSource FirstOrDefault<TSource>(this IEnumerable<TSource> source, string id)
+        {
+
+            string tpye_name = source.GetType().ToString();
+
+            int start = tpye_name.IndexOf("[") + 1;
+
+            string entity_name = tpye_name.Substring(start, tpye_name.Length - start - 1);
+
+
+            TSource model = RedisHashUtil.Get<TSource>(string.Format("entity:{0}", entity_name), id);
+
+
+            return model;
+        }
+
     }
 }

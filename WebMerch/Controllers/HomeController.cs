@@ -11,9 +11,9 @@ namespace WebMerch.Controllers
 
         public ViewResult Index()
         {
-            BizFactory.ProductSku.InitSearchCache();
+            //BizFactory.ProductSku.InitSearchCache();
 
-
+            
 
             //var tran = RedisManager.Db.CreateTransaction();
 
