@@ -1,7 +1,6 @@
 ﻿
 using System.Web.Http;
 using Lumos;
-using Lumos.BLL.Service.App;
 using Lumos.WeiXinSdk;
 using System.IO;
 using System.Net.Http;
@@ -10,6 +9,7 @@ using Lumos.Entity;
 using System.Net;
 using System.Text;
 using System.Web;
+using Lumos.BLL.Service.AppMobile;
 
 namespace WebAppApi.Controllers
 {

@@ -1,6 +1,6 @@
 ﻿using Lumos;
 using Lumos.BLL;
-using Lumos.BLL.Service.App;
+using Lumos.BLL.Service.AppMobile;
 using Lumos.Common;
 using System;
 using System.Collections.Generic;

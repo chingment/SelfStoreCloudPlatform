@@ -1,5 +1,5 @@
 ﻿using Lumos;
-using Lumos.BLL.Service.Term;
+using Lumos.BLL.Service.AppTerm;
 using System.Web;
 using System.Web.Http;
 namespace WebTermApi.Controllers

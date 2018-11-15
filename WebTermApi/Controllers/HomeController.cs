@@ -1,5 +1,5 @@
 ﻿
-using Lumos.BLL.Service.Term;
+using Lumos.BLL.Service.AppTerm;
 using Lumos.Common;
 using Newtonsoft.Json;
 using System;

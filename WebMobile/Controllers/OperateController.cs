@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 using Lumos;
-using Lumos.BLL.Service.App;
+using Lumos.BLL.Service.AppMobile;
 using Lumos.BLL;
 
 namespace WebMobile.Controllers

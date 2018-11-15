@@ -1,7 +1,7 @@
 ﻿
 using log4net;
 using Lumos.BLL;
-using Lumos.BLL.Service.App;
+using Lumos.BLL.Service.AppMobile;
 using Lumos.Common;
 using Lumos.DAL;
 using Lumos.Entity;

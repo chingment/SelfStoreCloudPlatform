@@ -3,9 +3,8 @@ using Lumos.Entity;
 using System;
 using System.Web.Http;
 using Lumos;
-using Lumos.BLL.Service.App;
+using Lumos.BLL.Service.AppMobile;
 using Lumos.Session;
-using Lumos.BLL.Biz.RModels;
 using Lumos.BLL.Biz;
 
 namespace WebAppApi.Controllers

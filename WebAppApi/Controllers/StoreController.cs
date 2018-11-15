@@ -1,5 +1,5 @@
 ﻿using Lumos;
-using Lumos.BLL.Service.App;
+using Lumos.BLL.Service.AppMobile;
 using System.Web.Http;
 
 namespace WebAppApi.Controllers
