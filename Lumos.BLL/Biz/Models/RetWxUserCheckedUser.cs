@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lumos.BLL.Service.Merch
+namespace Lumos.BLL.Biz
 {
-    public class RopWxUserCheckedUser
+    public class RetWxUserCheckedUser
     {
         public string OpenId { get; set; }
         public string UnionId { get; set; }
@@ -19,5 +19,7 @@ namespace Lumos.BLL.Service.Merch
         public string Province { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
+
+        public string ClientId { get; set; }
     }
 }

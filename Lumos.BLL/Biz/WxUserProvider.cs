@@ -1,4 +1,5 @@
-﻿using Lumos.DAL;
+﻿using Lumos.BLL.Biz;
+using Lumos.DAL;
 using Lumos.Entity;
 using Newtonsoft.Json;
 using System;
@@ -8,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 
-namespace Lumos.BLL.Service.Merch
+namespace Lumos.BLL.Biz
 {
 
 

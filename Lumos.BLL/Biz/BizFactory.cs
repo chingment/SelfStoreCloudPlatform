@@ -31,5 +31,13 @@ namespace Lumos.BLL.Biz
                 return new SmsProvider();
             }
         }
+        public static WxUserProvider WxUser
+        {
+            get
+            {
+                return new WxUserProvider();
+            }
+        }
+
     }
 }

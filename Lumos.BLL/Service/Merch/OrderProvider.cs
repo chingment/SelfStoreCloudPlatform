@@ -10,14 +10,6 @@ using System.Transactions;
 
 namespace Lumos.BLL.Service.Merch
 {
-    public class SkuByUnderStock
-    {
-        public string SkuId { get; set; }
-        public int ReserveQuantity { get; set; }
-        public int SellQuantity { get; set; }
-        public Enumeration.ReceptionMode ReceptionMode { get; set; }
-    }
-
 
     public class OrderProvider : BaseProvider
     {
@@ -78,7 +70,5 @@ namespace Lumos.BLL.Service.Merch
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
         }
-
-
     }
 }

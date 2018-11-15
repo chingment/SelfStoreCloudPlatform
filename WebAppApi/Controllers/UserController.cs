@@ -43,7 +43,7 @@ namespace WebAppApi.Controllers
             ropWxCheckedUser.HeadImgUrl = userInfo.avatarUrl;
 
 
-            var retWxCheckedUser = MerchServiceFactory.WxUser.CheckedUser(GuidUtil.Empty(), ropWxCheckedUser);
+            var retWxCheckedUser = BizFactory.WxUser.CheckedUser(GuidUtil.Empty(), ropWxCheckedUser);
 
 
             if (retWxCheckedUser == null)

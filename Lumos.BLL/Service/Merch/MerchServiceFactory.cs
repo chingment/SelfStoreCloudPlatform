@@ -89,14 +89,6 @@ namespace Lumos.BLL.Service.Merch
             }
         }
 
-        public static WxUserProvider WxUser
-        {
-            get
-            {
-                return new WxUserProvider();
-            }
-        }
-
         public static RecipientModeProvider RecipientMode
         {
             get

@@ -1,4 +1,5 @@
-﻿using Lumos.Entity;
+﻿using Lumos.BLL.Biz;
+using Lumos.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,7 +57,7 @@ namespace Lumos.BLL.Service.Merch
                         List<object> olist = new List<object>();
                         foreach (var item in skus)
                         {
-                            var skuModel = MerchServiceFactory.ProductSku.GetModel(item.ProductSkuId);
+                            var skuModel = BizFactory.ProductSku.GetModel(item.ProductSkuId);
                             if (skuModel != null)
                             {
                                 ret.Skus.Add(new RetMerchantMachineGetDetails.SkuModel

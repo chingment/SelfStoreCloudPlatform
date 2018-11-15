@@ -80,7 +80,7 @@ namespace WebMobile.Controllers
                         ropWxUserCheckedUser.UnionId = snsUserInfo_Result.unionid;
 
 
-                        var retWxUserCheckedUser = MerchServiceFactory.WxUser.CheckedUser(GuidUtil.New(), ropWxUserCheckedUser);
+                        var retWxUserCheckedUser = BizFactory.WxUser.CheckedUser(GuidUtil.New(), ropWxUserCheckedUser);
                         if (retWxUserCheckedUser != null)
                         {
                             LogUtil.Info("用户Id：" + retWxUserCheckedUser.ClientId);
@@ -228,7 +228,7 @@ namespace WebMobile.Controllers
                         ropWxUserCheckedUser.HeadImgUrl = userInfo_Result.headimgurl;
                         ropWxUserCheckedUser.UnionId = userInfo_Result.unionid;
 
-                        var retWxUserCheckedUser = MerchServiceFactory.WxUser.CheckedUser(GuidUtil.New(), ropWxUserCheckedUser);
+                        var retWxUserCheckedUser = BizFactory.WxUser.CheckedUser(GuidUtil.New(), ropWxUserCheckedUser);
 
                         if (retWxUserCheckedUser != null)
                         {

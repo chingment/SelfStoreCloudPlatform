@@ -75,6 +75,8 @@
     </Compile>
     <Compile Include="BaseProvider.cs" />
     <Compile Include="Biz\BizFactory.cs" />
+    <Compile Include="Biz\Models\RetWxUserCheckedUser.cs" />
+    <Compile Include="Biz\Models\RopWxUserCheckedUser.cs" />
     <Compile Include="Biz\Models\SkuModel.cs" />
     <Compile Include="Biz\OrderProvider.cs" />
     <Compile Include="Biz\ProductSkuCacheUtil.cs" />
@@ -86,6 +88,7 @@
     <Compile Include="Biz\RModels\RetPayResultQuery.cs" />
     <Compile Include="Biz\RModels\RopOrderReserve.cs" />
     <Compile Include="Biz\SmsProvider.cs" />
+    <Compile Include="Biz\WxUserProvider.cs" />
     <Compile Include="Service\Admin\AdminServiceFactory.cs" />
     <Compile Include="Service\Admin\Biz\MachineProvider.cs" />
     <Compile Include="Service\Admin\Biz\MerchantProvider.cs" />
@@ -226,7 +229,6 @@
     <Compile Include="Service\Merch\RModels\RetProductSubjectGetDetails.cs" />
     <Compile Include="Service\Merch\RModels\RetStoreGetDetails.cs" />
     <Compile Include="Service\Merch\RModels\RetWarehouseGetDetails.cs" />
-    <Compile Include="Service\Merch\RModels\RetWxUserCheckedUser.cs" />
     <Compile Include="Service\Merch\RModels\RopCompanyAdd.cs" />
     <Compile Include="Service\Merch\RModels\RopCompanyEdit.cs" />
     <Compile Include="Service\Merch\RModels\RopMachineLoginByQrCode.cs" />
@@ -245,7 +247,6 @@
     <Compile Include="Service\Merch\RModels\RopStoreEdit.cs" />
     <Compile Include="Service\Merch\RModels\RopWarehouseAdd.cs" />
     <Compile Include="Service\Merch\RModels\RopWarehouseEdit.cs" />
-    <Compile Include="Service\Merch\RModels\RopWxUserCheckedUser.cs" />
     <Compile Include="Service\Merch\RModels\RupMachineGetList.cs" />
     <Compile Include="Service\Merch\RModels\RupMachineLoginResultQuery.cs" />
     <Compile Include="Service\Merch\RModels\RupMachineStockGetList.cs" />
@@ -262,7 +263,6 @@
     <Compile Include="Service\Merch\RModels\RupWarehouseGetList.cs" />
     <Compile Include="Service\Merch\StoreProvider.cs" />
     <Compile Include="Service\Merch\WarehouseProvider.cs" />
-    <Compile Include="Service\Merch\WxUserProvider.cs" />
     <Compile Include="SnUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\Admin\Sys\AuthorizeRelayProvider.cs" />
