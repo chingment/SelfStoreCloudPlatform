@@ -1,7 +1,7 @@
 ﻿using Lumos.Redis;
 
 
-namespace Lumos.BLL
+namespace Lumos.BLL.Biz
 {
     
     public class RedisMq4GlobalProvider : RedisMqObject<RedisMq4GlobalModel>

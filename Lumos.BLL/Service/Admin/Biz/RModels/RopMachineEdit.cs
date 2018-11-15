@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lumos.BLL.Service.Admin.Biz
+namespace Lumos.BLL.Service.Admin
 {
     public class RopMachineEdit
     {

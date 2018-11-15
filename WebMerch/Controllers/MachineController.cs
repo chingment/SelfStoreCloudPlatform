@@ -7,6 +7,7 @@ using Lumos.BLL;
 using System.Data;
 using Lumos;
 using Lumos.BLL.Biz;
+using Lumos.BLL.Service.Merch;
 
 namespace WebMerch.Controllers
 {
@@ -25,7 +26,7 @@ namespace WebMerch.Controllers
 
         public CustomJsonResult GetDetails(string merchantMachineId)
         {
-            return BizFactory.MerchantMachine.GetDetails(this.CurrentUserId, this.CurrentUserId, merchantMachineId);
+            return MerchServiceFactory.MerchantMachine.GetDetails(this.CurrentUserId, this.CurrentUserId, merchantMachineId);
         }
 
         public CustomJsonResult GetList(RupMachineGetList rup)
@@ -86,7 +87,7 @@ namespace WebMerch.Controllers
         [HttpPost]
         public CustomJsonResult Edit(RopMerchantMachineEdit rop)
         {
-            return BizFactory.MerchantMachine.Edit(this.CurrentUserId, this.CurrentUserId, rop);
+            return MerchServiceFactory.MerchantMachine.Edit(this.CurrentUserId, this.CurrentUserId, rop);
         }
     }
 }

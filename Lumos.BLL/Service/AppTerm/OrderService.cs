@@ -1,4 +1,5 @@
-﻿using Lumos.BLL.Task;
+﻿using Lumos.BLL.Service.Merch;
+using Lumos.BLL.Task;
 using Lumos.Entity;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ namespace Lumos.BLL.Service.AppTerm
                 bizRop.Skus.Add(new Biz.RopOrderReserve.Sku() { Id = item.Id, Quantity = item.Quantity, ReceptionMode = Enumeration.ReceptionMode.Machine });
             }
 
-            var bizResult = BizFactory.Order.Reserve(pOperater, bizRop);
+            var bizResult = MerchServiceFactory.Order.Reserve(pOperater, bizRop);
 
             if (bizResult.Result == ResultType.Success)
             {
@@ -54,7 +55,7 @@ namespace Lumos.BLL.Service.AppTerm
             CustomJsonResult<RetOrderPayResultQuery> ret = new CustomJsonResult<RetOrderPayResultQuery>();
 
 
-            var ret_Biz = BizFactory.Order.PayResultQuery(operater, rup.OrderSn);
+            var ret_Biz = MerchServiceFactory.Order.PayResultQuery(operater, rup.OrderSn);
 
             ret.Result = ret_Biz.Result;
             ret.Code = ret_Biz.Code;
@@ -74,7 +75,7 @@ namespace Lumos.BLL.Service.AppTerm
         {
             CustomJsonResult result = new CustomJsonResult();
 
-            result = BizFactory.Order.Cancle(pOperater, rop.OrderSn, rop.Reason);
+            result = MerchServiceFactory.Order.Cancle(pOperater, rop.OrderSn, rop.Reason);
 
             return result;
         }

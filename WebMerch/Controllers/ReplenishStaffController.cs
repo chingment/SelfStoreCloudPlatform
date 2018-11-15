@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using Lumos.Entity;
 using Lumos.BLL.Biz;
+using Lumos.BLL.Service.Merch;
 
 namespace WebMerch.Controllers
 {

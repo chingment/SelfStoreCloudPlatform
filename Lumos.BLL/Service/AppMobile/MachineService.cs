@@ -13,9 +13,9 @@ namespace Lumos.BLL.Service.AppMobile
         {
             CustomJsonResult result = new CustomJsonResult();
 
-            Biz.RopMachineLoginByQrCode bizRop = new Biz.RopMachineLoginByQrCode();
+            RopMachineLoginByQrCode bizRop = new RopMachineLoginByQrCode();
 
-            bizRop.LoginUserId = pClientId;
+            //bizRop.LoginUserId = pClientId;
             bizRop.Token = rop.Token;
             bizRop.MerchantId = rop.MerchantId;
             bizRop.StoreId = rop.StoreId;

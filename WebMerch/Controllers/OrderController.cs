@@ -6,6 +6,7 @@ using Lumos.Entity;
 using Lumos;
 using Lumos.BLL.Biz;
 using Lumos.BLL;
+using Lumos.BLL.Service.Merch;
 
 namespace WebMerch.Controllers
 {
@@ -78,7 +79,7 @@ namespace WebMerch.Controllers
 
         public CustomJsonResult GetDetails(string orderId)
         {
-            return BizFactory.Order.GetDetails(this.CurrentUserId, this.CurrentUserId, orderId);
+            return MerchServiceFactory.Order.GetDetails(this.CurrentUserId, this.CurrentUserId, orderId);
         }
     }
 }

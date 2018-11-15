@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lumos.BLL
+namespace Lumos.BLL.Biz
 {
     public static class RedisMqFactory
     {

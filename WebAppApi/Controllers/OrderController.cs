@@ -10,8 +10,8 @@ using System.Net;
 using System.Text;
 using System.Web;
 using Lumos.BLL.Service.AppMobile;
-using Lumos.BLL.Service.Admin.Sys;
 using Lumos.BLL.Service.Admin;
+using Lumos.BLL.Service.Merch;
 
 namespace WebAppApi.Controllers
 {
@@ -82,7 +82,7 @@ namespace WebAppApi.Controllers
             }
 
             bool isPaySuccessed = false;
-            var result = BizFactory.Order.PayResultNotify(GuidUtil.Empty(), Enumeration.OrderNotifyLogNotifyFrom.NotifyUrl, xml, orderSn, out isPaySuccessed);
+            var result = MerchServiceFactory.Order.PayResultNotify(GuidUtil.Empty(), Enumeration.OrderNotifyLogNotifyFrom.NotifyUrl, xml, orderSn, out isPaySuccessed);
 
             if (result.Result == ResultType.Success)
             {

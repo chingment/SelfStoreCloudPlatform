@@ -9,7 +9,6 @@ using Lumos.Web.Mvc;
 using Lumos.DAL;
 using Lumos.BLL;
 using Lumos;
-using Lumos.BLL.Service.Admin.Sys;
 using Lumos.BLL.Service.Admin;
 
 namespace WebBack.Controllers.Sys

@@ -15,7 +15,6 @@ using MySDK;
 using System.Linq;
 using System.Data.Entity.Core.Objects;
 using Lumos;
-using Lumos.BLL.Service.Admin.Sys;
 using Lumos.BLL.Service.Admin;
 
 namespace WebBack.Controllers

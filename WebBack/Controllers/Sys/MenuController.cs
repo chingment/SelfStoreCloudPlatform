@@ -1,7 +1,6 @@
 ﻿using Lumos;
 using Lumos.BLL;
 using Lumos.BLL.Service.Admin;
-using Lumos.BLL.Service.Admin.Sys;
 using Lumos.Common;
 using Lumos.DAL.AuthorizeRelay;
 using Lumos.Entity;

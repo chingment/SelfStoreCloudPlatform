@@ -17,10 +17,9 @@ using Lumos.Session;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
-using Lumos.BLL.Biz.RModels;
 using Lumos.BLL.Biz;
-using Lumos.BLL.Service.Admin.Sys;
 using Lumos.BLL.Service.Admin;
+using Lumos.BLL.Service.Merch;
 
 namespace WebMobile.Controllers
 {
@@ -81,7 +80,7 @@ namespace WebMobile.Controllers
                         ropWxUserCheckedUser.UnionId = snsUserInfo_Result.unionid;
 
 
-                        var retWxUserCheckedUser = BizFactory.WxUser.CheckedUser(GuidUtil.New(), ropWxUserCheckedUser);
+                        var retWxUserCheckedUser = MerchServiceFactory.WxUser.CheckedUser(GuidUtil.New(), ropWxUserCheckedUser);
                         if (retWxUserCheckedUser != null)
                         {
                             LogUtil.Info("用户Id：" + retWxUserCheckedUser.ClientId);
@@ -163,7 +162,7 @@ namespace WebMobile.Controllers
             }
 
             bool isPaySuccessed = false;
-            var result = BizFactory.Order.PayResultNotify(GuidUtil.Empty(), Enumeration.OrderNotifyLogNotifyFrom.NotifyUrl, xml, orderSn, out isPaySuccessed);
+            var result = MerchServiceFactory.Order.PayResultNotify(GuidUtil.Empty(), Enumeration.OrderNotifyLogNotifyFrom.NotifyUrl, xml, orderSn, out isPaySuccessed);
 
             if (result.Result == ResultType.Success)
             {
@@ -229,7 +228,7 @@ namespace WebMobile.Controllers
                         ropWxUserCheckedUser.HeadImgUrl = userInfo_Result.headimgurl;
                         ropWxUserCheckedUser.UnionId = userInfo_Result.unionid;
 
-                        var retWxUserCheckedUser = BizFactory.WxUser.CheckedUser(GuidUtil.New(), ropWxUserCheckedUser);
+                        var retWxUserCheckedUser = MerchServiceFactory.WxUser.CheckedUser(GuidUtil.New(), ropWxUserCheckedUser);
 
                         if (retWxUserCheckedUser != null)
                         {

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 
-namespace Lumos.BLL.Service.Admin.Sys
+namespace Lumos.BLL.Service.Admin
 {
     public class SysStaffUserProvider : BaseProvider
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Lumos.BLL.Service.Admin.Sys
+namespace Lumos.BLL.Service.Admin
 {
     public class SysUserProvider : BaseProvider
     {

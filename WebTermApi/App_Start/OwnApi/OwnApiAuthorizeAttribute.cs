@@ -12,7 +12,6 @@ using Lumos.BLL;
 using Lumos.Common;
 using System.Web.Http;
 using System.Linq;
-using Lumos.BLL.Service.Admin.Sys;
 using Lumos.BLL.Service.Admin;
 
 namespace WebTermApi

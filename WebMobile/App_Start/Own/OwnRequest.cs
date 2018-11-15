@@ -1,6 +1,5 @@
 ﻿using Lumos.BLL;
 using Lumos.BLL.Service.Admin;
-using Lumos.BLL.Service.Admin.Sys;
 using Lumos.Entity;
 using Lumos.Session;
 using System;

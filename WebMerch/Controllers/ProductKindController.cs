@@ -1,6 +1,7 @@
 ﻿using Lumos;
 using Lumos.BLL;
 using Lumos.BLL.Biz;
+using Lumos.BLL.Service.Merch;
 using Lumos.Entity;
 using System;
 using System.Collections.Generic;
@@ -44,7 +45,7 @@ namespace WebMerch.Controllers
 
         public CustomJsonResult GetDetails(string kindId)
         {
-            return BizFactory.ProductKind.GetDetails(this.CurrentUserId, this.CurrentUserId, kindId);
+            return MerchServiceFactory.ProductKind.GetDetails(this.CurrentUserId, this.CurrentUserId, kindId);
         }
 
 
@@ -52,7 +53,7 @@ namespace WebMerch.Controllers
         [OwnNoResubmit]
         public CustomJsonResult Add(RopProductKindAdd rop)
         {
-            return BizFactory.ProductKind.Add(this.CurrentUserId, this.CurrentUserId, rop);
+            return MerchServiceFactory.ProductKind.Add(this.CurrentUserId, this.CurrentUserId, rop);
         }
 
 
@@ -60,18 +61,18 @@ namespace WebMerch.Controllers
         [HttpPost]
         public CustomJsonResult Edit(RopProductKindEdit rop)
         {
-            return BizFactory.ProductKind.Edit(this.CurrentUserId, this.CurrentUserId, rop);
+            return MerchServiceFactory.ProductKind.Edit(this.CurrentUserId, this.CurrentUserId, rop);
         }
 
         [HttpPost]
         public CustomJsonResult Delete(string[] kindIds)
         {
-            return BizFactory.ProductKind.Delete(this.CurrentUserId, this.CurrentUserId, kindIds);
+            return MerchServiceFactory.ProductKind.Delete(this.CurrentUserId, this.CurrentUserId, kindIds);
         }
 
         public CustomJsonResult GetProductSkuList(RupProductSkuGetList rup)
         {
-            var kinds = BizFactory.ProductKind.GetProductKind(rup.KindId);
+            var kinds = MerchServiceFactory.ProductKind.GetProductKind(rup.KindId);
 
             string[] kindIds = kinds.Select(m => m.Id).ToArray();
 

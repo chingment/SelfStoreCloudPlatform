@@ -10,9 +10,9 @@ using log4net;
 using System.Reflection;
 using Lumos.Redis;
 using Lumos.Web;
-using Lumos.BLL.Service.Admin.Sys;
 using Lumos.BLL.Biz;
 using Lumos.BLL.Service.Admin;
+using Lumos.BLL.Service.Merch;
 
 namespace WebSSO.Controllers
 {

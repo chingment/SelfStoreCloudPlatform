@@ -1,5 +1,4 @@
-﻿using Lumos.BLL.Biz.RModels;
-using Lumos.Entity;
+﻿using Lumos.Entity;
 using Lumos.Redis;
 using System;
 using System.Collections.Generic;
@@ -8,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 
-namespace Lumos.BLL.Service.Admin.Biz
+namespace Lumos.BLL.Service.Admin
 {
     public class MachineProvider : BaseProvider
     {

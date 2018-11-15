@@ -1,6 +1,7 @@
 ﻿using Lumos;
 using Lumos.BLL;
 using Lumos.BLL.Biz;
+using Lumos.BLL.Service.Merch;
 using Lumos.Entity;
 using System;
 using System.Collections.Generic;
@@ -76,19 +77,19 @@ namespace WebMerch.Controllers
 
         public CustomJsonResult GetDetails(string storeId)
         {
-            return BizFactory.Store.GetDetails(this.CurrentUserId, this.CurrentUserId, storeId);
+            return MerchServiceFactory.Store.GetDetails(this.CurrentUserId, this.CurrentUserId, storeId);
         }
 
         [HttpPost]
         public CustomJsonResult Add(RopStoreAdd rop)
         {
-            return BizFactory.Store.Add(this.CurrentUserId, this.CurrentUserId, rop);
+            return MerchServiceFactory.Store.Add(this.CurrentUserId, this.CurrentUserId, rop);
         }
 
         [HttpPost]
         public CustomJsonResult Edit(RopStoreEdit rop)
         {
-            return BizFactory.Store.Edit(this.CurrentUserId, this.CurrentUserId, rop);
+            return MerchServiceFactory.Store.Edit(this.CurrentUserId, this.CurrentUserId, rop);
         }
 
         public CustomJsonResult GetMachineListByBind(RupMachineGetList rup)
@@ -183,13 +184,13 @@ namespace WebMerch.Controllers
         [HttpPost]
         public CustomJsonResult BindOnMachine(string storeId, string[] machineIds)
         {
-            return BizFactory.Store.BindOnMachine(this.CurrentUserId, storeId, machineIds);
+            return MerchServiceFactory.Store.BindOnMachine(this.CurrentUserId, storeId, machineIds);
         }
 
         [HttpPost]
         public CustomJsonResult BindOffMachine(string storeId, string machineId)
         {
-            return BizFactory.Store.BindOffMachine(this.CurrentUserId, storeId, machineId);
+            return MerchServiceFactory.Store.BindOffMachine(this.CurrentUserId, storeId, machineId);
         }
     }
 }

@@ -4,7 +4,6 @@ using Lumos.Entity;
 using Lumos.WeiXinSdk;
 using Lumos.BLL;
 using System.Web;
-using Lumos.BLL.Service.Admin.Sys;
 using Lumos.BLL.Service.Admin;
 
 namespace WebAppApi

@@ -1,6 +1,7 @@
 ﻿using Lumos;
 using Lumos.BLL;
 using Lumos.BLL.Biz;
+using Lumos.BLL.Service.Merch;
 using Lumos.Entity;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace WebMerch.Controllers
 
         public CustomJsonResult GetDetails(string order2StockOutId)
         {
-            return BizFactory.Order2StockOut.GetDetails(this.CurrentUserId, this.CurrentUserId, order2StockOutId);
+            return MerchServiceFactory.Order2StockOut.GetDetails(this.CurrentUserId, this.CurrentUserId, order2StockOutId);
         }
 
         [HttpPost]
@@ -78,7 +79,7 @@ namespace WebMerch.Controllers
         [HttpPost]
         public CustomJsonResult Add(RopOrder2StockOutAdd rop)
         {
-            return BizFactory.Order2StockOut.Add(this.CurrentUserId, this.CurrentUserId, rop);
+            return MerchServiceFactory.Order2StockOut.Add(this.CurrentUserId, this.CurrentUserId, rop);
         }
     }
 }

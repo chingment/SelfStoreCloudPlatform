@@ -6,6 +6,7 @@ using Lumos;
 using Lumos.BLL.Service.AppMobile;
 using Lumos.Session;
 using Lumos.BLL.Biz;
+using Lumos.BLL.Service.Merch;
 
 namespace WebAppApi.Controllers
 {
@@ -42,7 +43,7 @@ namespace WebAppApi.Controllers
             ropWxCheckedUser.HeadImgUrl = userInfo.avatarUrl;
 
 
-            var retWxCheckedUser = BizFactory.WxUser.CheckedUser(GuidUtil.Empty(), ropWxCheckedUser);
+            var retWxCheckedUser = MerchServiceFactory.WxUser.CheckedUser(GuidUtil.Empty(), ropWxCheckedUser);
 
 
             if (retWxCheckedUser == null)

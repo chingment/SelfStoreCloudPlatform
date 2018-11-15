@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lumos.BLL.Service.Admin.Sys
+namespace Lumos.BLL.Service.Admin
 {
     public class SysMenuProvider : BaseProvider
     {

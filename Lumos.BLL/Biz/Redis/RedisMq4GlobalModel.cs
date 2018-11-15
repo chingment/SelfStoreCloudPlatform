@@ -2,7 +2,7 @@
 using System;
 using System.Transactions;
 
-namespace Lumos.BLL
+namespace Lumos.BLL.Biz
 {
     public enum RedisMqType
     {

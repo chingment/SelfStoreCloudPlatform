@@ -1,4 +1,6 @@
-﻿using Lumos.BLL.Task;
+﻿using Lumos.BLL.Biz;
+using Lumos.BLL.Service.Merch;
+using Lumos.BLL.Task;
 using Lumos.Entity;
 using Lumos.WeiXinSdk;
 using System;
@@ -30,7 +32,7 @@ namespace Lumos.BLL.Service.AppMobile
                 bizRop.Skus.Add(new Biz.RopOrderReserve.Sku() { CartId = item.CartId, Id = item.Id, Quantity = item.Quantity, ReceptionMode = item.ReceptionMode });
             }
 
-            var bizResult = BizFactory.Order.Reserve(pOperater, bizRop);
+            var bizResult = MerchServiceFactory.Order.Reserve(pOperater, bizRop);
 
             if (bizResult.Result == ResultType.Success)
             {

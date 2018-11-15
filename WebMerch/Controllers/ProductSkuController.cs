@@ -1,7 +1,7 @@
 ﻿using Lumos;
 using Lumos.BLL;
 using Lumos.BLL.Biz;
-using Lumos.BLL.Biz.RModels;
+using Lumos.BLL.Service.Merch;
 using Lumos.Entity;
 using System;
 using System.Collections.Generic;
@@ -33,19 +33,19 @@ namespace WebMerch.Controllers
 
         public CustomJsonResult GetDetails(string productSkuId)
         {
-            return BizFactory.ProductSku.GetDetails(this.CurrentUserId, this.CurrentUserId, productSkuId);
+            return MerchServiceFactory.ProductSku.GetDetails(this.CurrentUserId, this.CurrentUserId, productSkuId);
         }
 
         [HttpPost]
         public CustomJsonResult Add(RopProducSkuAdd rop)
         {
-            return BizFactory.ProductSku.Add(this.CurrentUserId, this.CurrentUserId, rop);
+            return MerchServiceFactory.ProductSku.Add(this.CurrentUserId, this.CurrentUserId, rop);
         }
 
         [HttpPost]
         public CustomJsonResult Edit(RopProducSkuEdit rop)
         {
-            return BizFactory.ProductSku.Edit(this.CurrentUserId, this.CurrentUserId, rop);
+            return MerchServiceFactory.ProductSku.Edit(this.CurrentUserId, this.CurrentUserId, rop);
         }
 
         [HttpPost]
@@ -142,7 +142,7 @@ namespace WebMerch.Controllers
         [HttpPost]
         public CustomJsonResult EditBySalePrice(RopProductSkuEditSalePrice rop)
         {
-            return BizFactory.ProductSku.EditBySalePrice(this.CurrentUserId, this.CurrentUserId, rop);
+            return MerchServiceFactory.ProductSku.EditBySalePrice(this.CurrentUserId, this.CurrentUserId, rop);
         }
 
         [HttpPost]

@@ -8,7 +8,6 @@ using Lumos.Common;
 using Lumos.Web.Mvc;
 using Lumos;
 using Lumos.BLL;
-using Lumos.BLL.Service.Admin.Sys;
 using Lumos.BLL.Service.Admin;
 
 namespace WebBack.Controllers.Sys

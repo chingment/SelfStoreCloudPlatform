@@ -1,4 +1,5 @@
 ﻿using Lumos.BLL.Biz;
+using Lumos.BLL.Service.AppMobile;
 using Lumos.Entity;
 using Lumos.Redis;
 using System;

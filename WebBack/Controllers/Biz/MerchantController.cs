@@ -7,7 +7,6 @@ using System.Web;
 using System.Web.Mvc;
 using Lumos.Common;
 using Lumos;
-using Lumos.BLL.Service.Admin.Biz;
 using Lumos.BLL.Service.Admin;
 
 namespace WebBack.Controllers.Biz
