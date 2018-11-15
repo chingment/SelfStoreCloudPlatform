@@ -9,7 +9,7 @@ using System.Xml.Serialization;
 
 namespace Lumos.Common
 {
-    public class XmlUtils
+    public class XmlUtil
     {
         #region 反序列化
         /// <summary>

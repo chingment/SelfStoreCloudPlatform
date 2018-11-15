@@ -44,7 +44,7 @@ namespace Lumos.Web.Http
             var sb = new StringBuilder();
             var myRequest = ((HttpContextWrapper)request.Properties["MS_HttpContext"]).Request;
             sb.Append("Url: " + myRequest.RawUrl + Environment.NewLine);
-            sb.Append("IP: " + Common.CommonUtils.GetIP() + Environment.NewLine);
+            sb.Append("IP: " + Common.CommonUtil.GetIP() + Environment.NewLine);
             sb.Append("Method: " + myRequest.HttpMethod + Environment.NewLine);
             sb.Append("ContentType: " + myRequest.ContentType + Environment.NewLine);
 

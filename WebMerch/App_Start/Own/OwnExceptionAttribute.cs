@@ -26,9 +26,9 @@ namespace WebMerch
             messageBox.Content = "[Own]抱歉,访问出错";
             messageBox.IsTop = false;
             messageBox.IsPopup = true;
-            if (CommonUtils.CanViewErrorStackTrace())
+            if (CommonUtil.CanViewErrorStackTrace())
             {
-                messageBox.ErrorStackTrace = CommonUtils.ToHtml(filterContext.Exception.Message + "\r\n" + filterContext.Exception.StackTrace);
+                messageBox.ErrorStackTrace = CommonUtil.ToHtml(filterContext.Exception.Message + "\r\n" + filterContext.Exception.StackTrace);
             }
 
             if (isAjaxRequest)

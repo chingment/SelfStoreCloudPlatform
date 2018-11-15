@@ -52,7 +52,7 @@ namespace WebMobile.Controllers
             {
                 ret.Result = RetOperateResult.ResultType.Success;
                 ret.Remarks = "";
-                ret.Message = string.Format("已绑定手机尾号({0})", CommonUtils.GetPhoneNumberTail(sysUser.PhoneNumber));
+                ret.Message = string.Format("已绑定手机尾号({0})", CommonUtil.GetPhoneNumberTail(sysUser.PhoneNumber));
                 ret.IsComplete = true;
 
                 return new CustomJsonResult(ResultType.Success, ResultCode.HasBind, "已绑定手机", ret);

@@ -21,7 +21,7 @@ namespace Lumos.Common
     };
 
 
-    public static class CommonUtils
+    public static class CommonUtil
     {
         #region "数组转字符串"
         public static string ArraryToString(long[] l)
@@ -184,7 +184,7 @@ namespace Lumos.Common
             }
             else
             {
-                return CommonUtils.IsDateTime(strDate.ToString());
+                return CommonUtil.IsDateTime(strDate.ToString());
             }
         }
         #endregion
@@ -262,7 +262,7 @@ namespace Lumos.Common
 
         public static string ConverToShortDateStart(string strDate)
         {
-            if (CommonUtils.IsDateTime(strDate))
+            if (CommonUtil.IsDateTime(strDate))
             {
                 return DateTime.Parse(strDate).ToShortDateString() + " 00:00:00.000";
             }
@@ -279,7 +279,7 @@ namespace Lumos.Common
 
         public static string ConverToShortDateEnd(string strDate)
         {
-            if (CommonUtils.IsDateTime(strDate))
+            if (CommonUtil.IsDateTime(strDate))
             {
                 return DateTime.Parse(strDate).ToShortDateString() + " 23:59:59";
             }
@@ -502,7 +502,7 @@ namespace Lumos.Common
         {
             get
             {
-                string Script_Name = CommonUtils.GetScriptName;
+                string Script_Name = CommonUtil.GetScriptName;
                 Script_Name = Script_Name.Substring(Script_Name.LastIndexOf("/") + 1);
                 if (GetScriptNameQueryString != "")
                 {
@@ -519,7 +519,7 @@ namespace Lumos.Common
         {
             get
             {
-                string Script_Name = CommonUtils.GetScriptName;
+                string Script_Name = CommonUtil.GetScriptName;
                 Script_Name = Script_Name.Substring(Script_Name.LastIndexOf("/") + 1);
                 return Script_Name;
             }
@@ -532,7 +532,7 @@ namespace Lumos.Common
         {
             get
             {
-                return CommonUtils.GetScriptNameQueryString == "" ? CommonUtils.GetScriptName : string.Format("{0}?{1}", CommonUtils.GetScriptName, CommonUtils.GetScriptNameQueryString);
+                return CommonUtil.GetScriptNameQueryString == "" ? CommonUtil.GetScriptName : string.Format("{0}?{1}", CommonUtil.GetScriptName, CommonUtil.GetScriptNameQueryString);
             }
         }
 
@@ -543,7 +543,7 @@ namespace Lumos.Common
         /// <returns></returns>
         public static string GetHomeBaseUrl(string FileName)
         {
-            string Script_Name = CommonUtils.GetScriptName;
+            string Script_Name = CommonUtil.GetScriptName;
             return string.Format("{0}/{1}", Script_Name.Remove(Script_Name.LastIndexOf("/")), FileName);
         }
 
@@ -821,7 +821,7 @@ namespace Lumos.Common
             string[] canViewIp = new string[] { "127.0.0.1", "::1" };
 
 
-            string ip = CommonUtils.GetIP();
+            string ip = CommonUtil.GetIP();
 
             if (canViewIp.Contains(ip))
             {

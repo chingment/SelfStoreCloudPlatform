@@ -9,7 +9,7 @@ using System.Xml;
 
 namespace Lumos.Common
 {
-    public class SerializeUtils
+    public class SerializeUtil
     {
         public static string Serialize(object o)
         {

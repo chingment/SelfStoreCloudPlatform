@@ -27,9 +27,9 @@ namespace WebBack
             messageBox.IsTop = false;
             messageBox.IsPopup = true;
 
-            if (CommonUtils.CanViewErrorStackTrace())
+            if (CommonUtil.CanViewErrorStackTrace())
             {
-                messageBox.ErrorStackTrace = CommonUtils.ToHtml(filterContext.Exception.Message + "\r\n" + filterContext.Exception.StackTrace);
+                messageBox.ErrorStackTrace = CommonUtil.ToHtml(filterContext.Exception.Message + "\r\n" + filterContext.Exception.StackTrace);
             }
 
             if (isAjaxRequest)

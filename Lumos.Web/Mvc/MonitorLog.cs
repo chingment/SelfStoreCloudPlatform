@@ -70,7 +70,7 @@ namespace Lumos.Web.Mvc
         {
             var sb = new StringBuilder();
             sb.Append("Url: " + request.RawUrl + Environment.NewLine);
-            sb.Append("IP: " + Common.CommonUtils.GetIP() + Environment.NewLine);
+            sb.Append("IP: " + Common.CommonUtil.GetIP() + Environment.NewLine);
             sb.Append("Method: " + request.HttpMethod + Environment.NewLine);
             sb.Append("ContentType: " + request.ContentType + Environment.NewLine);
             sb.Append("UserAgent: " + request.UserAgent + Environment.NewLine);

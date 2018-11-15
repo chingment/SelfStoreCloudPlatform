@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Lumos.Common
 {
-    public static class DataTableUtils
+    public static class DataTableUtil
     {
         public static DataTable ToStringDataTable(this DataTable argDataTable)
         {

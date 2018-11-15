@@ -11,7 +11,7 @@ namespace Lumos.Common
     /// Cookie静态操作类  
     /// </summary>  
 
-    public static class CookieUtils
+    public static class CookieUtil
     {
 
         #region 静态方法

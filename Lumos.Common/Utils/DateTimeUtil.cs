@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace System
 {
-    public static class DateTimeUtility
+    public static class DateTimeUtil
     {
         public static string ToUnifiedFormatDateTime(this DateTime instance)
         {

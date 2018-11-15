@@ -54,9 +54,9 @@ namespace WebSSO
            // messageBox.Content = "<a href=\"javascript:void(0)\" onclick=\"window.top.location.href='" + OwnWebSettingUtils.GetHomePage() + "'\">返回主页</a>";
             messageBox.IsTop = false;
             messageBox.IsPopup = true;
-            if (CommonUtils.CanViewErrorStackTrace())
+            if (CommonUtil.CanViewErrorStackTrace())
             {
-                messageBox.ErrorStackTrace = CommonUtils.ToHtml(filterContext.Exception.Message + "\r\n" + filterContext.Exception.StackTrace);
+                messageBox.ErrorStackTrace = CommonUtil.ToHtml(filterContext.Exception.Message + "\r\n" + filterContext.Exception.StackTrace);
             }
 
             //判断是否异步调用
