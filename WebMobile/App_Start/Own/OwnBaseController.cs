@@ -13,11 +13,6 @@ using Lumos.BLL.Biz;
 
 namespace WebMobile
 {
-
-    /// <summary>
-    /// BaseController用来扩展Controller,凡是在都该继承BaseController
-    /// </summary>
-    [OwnException]
     [ValidateInput(false)]
     public abstract class OwnBaseController : BaseController
     {

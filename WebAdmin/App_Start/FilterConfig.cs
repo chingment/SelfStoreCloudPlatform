@@ -8,9 +8,8 @@ namespace WebAdmin
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            filters.Add(new HandleErrorAttribute());
-
             //监控引用
+            filters.Add(new OwnExceptionAttribute());
             filters.Add(new OwnStatisticsTrackerAttribute());
         }
     }

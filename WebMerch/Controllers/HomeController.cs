@@ -13,8 +13,7 @@ namespace WebMerch.Controllers
         {
             //BizFactory.ProductSku.InitSearchCache();
 
-            
-
+  
             //var tran = RedisManager.Db.CreateTransaction();
 
             //var productSkus = CurrentDb.ProductSku.Where(m => m.BarCode != null).ToList();

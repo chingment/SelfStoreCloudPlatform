@@ -8,7 +8,7 @@ namespace WebMerch
     /// <summary>
     /// BaseController用来扩展Controller,凡是在都该继承BaseController
     /// </summary>
-    [OwnException]
+
     [OwnAuthorize]
     [ValidateInput(false)]
     public abstract class OwnBaseController : BaseController

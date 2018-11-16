@@ -199,7 +199,6 @@
     <Content Include="Views\Home\ChangePassword.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Main.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\MessageBox.cshtml" />
     <Content Include="Views\Shared\UpLoadFile.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />

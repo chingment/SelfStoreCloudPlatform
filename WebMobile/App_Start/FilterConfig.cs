@@ -8,7 +8,7 @@ namespace WebMobile
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            filters.Add(new HandleErrorAttribute());
+            filters.Add(new OwnExceptionAttribute());
 
             //监控引用
             filters.Add(new OwnStatisticsTrackerAttribute());
