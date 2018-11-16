@@ -65,7 +65,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAdmin", "WebAdmin\WebAdm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiApp", "WebApiApp\WebApiApp.csproj", "{E1173D8D-CD59-4230-9D51-D87F0187D7B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiTerm", "WebApiTerm\WebApiTerm.csproj", "{EBEC6AEF-5054-4A01-B516-42148A4F0858}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiTerm", "WebTermApi\WebApiTerm.csproj", "{EBEC6AEF-5054-4A01-B516-42148A4F0858}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
