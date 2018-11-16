@@ -208,7 +208,6 @@
     <Content Include="Scripts\jquery.redcountdown.js" />
     <Content Include="Scripts\jquery.tmpl.min.js" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\MessageBox.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
