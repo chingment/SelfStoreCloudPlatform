@@ -149,14 +149,14 @@ namespace WebAdmin.Controllers.Biz
         [HttpPost]
         public CustomJsonResult BindOffMachine(string merchantId, string machineId)
         {
-            return AdminServiceFactory.Merchant.MachineBindOff(this.CurrentUserId, merchantId, machineId);
+            return AdminServiceFactory.Merchant.BindOffMachine(this.CurrentUserId, merchantId, machineId);
         }
 
 
         [HttpPost]
         public CustomJsonResult BindOnMachine(string merchantId, string machineId)
         {
-            return AdminServiceFactory.Merchant.MachineBindOn(this.CurrentUserId, merchantId, machineId);
+            return AdminServiceFactory.Merchant.BindOnMachine(this.CurrentUserId, merchantId, machineId);
         }
     }
 }

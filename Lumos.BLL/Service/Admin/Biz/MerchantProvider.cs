@@ -106,7 +106,7 @@ namespace Lumos.BLL.Service.Admin
         }
 
 
-        public CustomJsonResult MachineBindOn(string pOperater, string pMerchantId, string pMachineId)
+        public CustomJsonResult BindOnMachine(string pOperater, string pMerchantId, string pMachineId)
         {
             CustomJsonResult result = new CustomJsonResult();
 
@@ -154,7 +154,7 @@ namespace Lumos.BLL.Service.Admin
             return result;
         }
 
-        public CustomJsonResult MachineBindOff(string pOperater, string pMerchantId, string pMachineId)
+        public CustomJsonResult BindOffMachine(string pOperater, string pMerchantId, string pMachineId)
         {
             CustomJsonResult result = new CustomJsonResult();
 
