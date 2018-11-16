@@ -9,6 +9,7 @@ using System.Configuration;
 using Lumos.BLL;
 using Lumos.DAL;
 using Lumos.BLL.Service.Admin;
+using Lumos.BLL.Biz;
 
 namespace WebMobile
 {
@@ -119,7 +120,7 @@ namespace WebMobile
             get
             {
                 var appId = ConfigurationManager.AppSettings["custom:WxAppId"];
-                var appInfo = AdminServiceFactory.AppInfo.Get(appId);
+                var appInfo = BizFactory.AppInfo.Get(appId);
                 return appInfo;
             }
         }

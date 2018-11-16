@@ -95,9 +95,9 @@
     <Compile Include="Service\Admin\Biz\MachineProvider.cs" />
     <Compile Include="Service\Admin\Biz\MerchantProvider.cs" />
     <Compile Include="Factory..cs" />
-    <Compile Include="RetOperateResult.cs" />
-    <Compile Include="RupBaseGetList.cs" />
-    <Compile Include="RupOperateGetResult.cs" />
+    <Compile Include="Biz\Models\RetOperateResult.cs" />
+    <Compile Include="Biz\Models\RupBaseGetList.cs" />
+    <Compile Include="Biz\Models\RupOperateGetResult.cs" />
     <Compile Include="Sdk\SdkFactory.cs" />
     <Compile Include="Sdk\WxConfigByFanJu.cs" />
     <Compile Include="Sdk\WxConfigByQyj.cs" />
@@ -265,7 +265,7 @@
     <Compile Include="SnUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\Admin\Sys\AuthorizeRelayProvider.cs" />
-    <Compile Include="Service\Admin\Sys\SysAppInfoProvider.cs" />
+    <Compile Include="Biz\AppInfoProvider.cs" />
     <Compile Include="Service\Admin\Sys\SysFactory.cs" />
     <Compile Include="Service\Admin\Sys\SysItemCacheUpdateTimeProvider.cs" />
     <Compile Include="Service\Admin\Sys\SysUserProvider.cs" />

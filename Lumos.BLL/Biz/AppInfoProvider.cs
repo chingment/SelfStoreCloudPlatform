@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lumos.BLL.Service.Admin
+namespace Lumos.BLL.Biz
 {
-    public class SysAppInfoProvider : BaseProvider
+    public class AppInfoProvider : BaseProvider
     {
         public string GetSecret(string pAppId)
         {

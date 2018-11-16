@@ -5,6 +5,7 @@ using Lumos.WeiXinSdk;
 using Lumos.BLL;
 using System.Web;
 using Lumos.BLL.Service.Admin;
+using Lumos.BLL.Biz;
 
 namespace WebAppApi
 {
@@ -61,7 +62,7 @@ namespace WebAppApi
                 var appId = request.Params["appId"];
                 if (appId == null)
                     return null;
-                var appInfo = AdminServiceFactory.AppInfo.Get(appId);
+                var appInfo = BizFactory.AppInfo.Get(appId);
                 return appInfo;
             }
         }

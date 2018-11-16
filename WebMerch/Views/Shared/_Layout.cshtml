@@ -114,6 +114,71 @@
                 $(this).parent().parent().find('.file-name').text(file_name);
             });
 
+
+            $('input[autocomplete=skusearch]').live("focus", function () {
+                var _this = $(this);
+                $(_this).autocomplete({
+                    serviceUrl: '/productSku/Search',
+                    paramName: 'name',
+                    containerClass: "autocomplete-skusearch",
+                    width: '500px',
+                    ajaxSettings: {
+                        type: 'post',
+                        dataType: 'json'
+                    },
+                    transformResult: function (d) {
+                        return {
+                            suggestions: $.map(d.data, function (item) {
+                                return { value: item.barCode, data: item.name, barCode: item.barCode, id: item.id };
+                            })
+                        };
+                    },
+                    formatResult: function (suggestion, value) {
+
+                        return "(" + suggestion.barCode + ")" + suggestion.data;
+                    },
+                    onSelect: function (suggestion) {
+
+                        var ids = $("#list_table_skus").find('input[name=id]');
+
+                        var isExist = false;
+                        $(ids).each(function () {
+                            var v = $(this).val();
+                            if (suggestion.id == v) {
+                                isExist = true
+                            }
+                        });
+
+                        if (isExist) {
+                            $.lumos.tips("清单中已经存在该商品");
+                            $(_this).val("");
+                            return;
+                        }
+
+                        $(_this).parent().parent().find('input[name=id]').val(suggestion.id);
+                        $(_this).parent().parent().find('.name').text(suggestion.data);
+
+                        var isFlag = false;
+
+                        $(ids).each(function () {
+                            var v = $(this).val();
+                            if (v == '') {
+                                isFlag = true;
+                            }
+                        });
+
+                        if (!isFlag) {
+                            if (typeof addRowSku != "undefined") {
+                                addRowSku();
+                            }
+                        }
+
+
+                    }
+                });
+
+            });
+
         });
 
         function tips(message) {

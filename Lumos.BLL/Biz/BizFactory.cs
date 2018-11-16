@@ -39,5 +39,13 @@ namespace Lumos.BLL.Biz
             }
         }
 
+        public static AppInfoProvider AppInfo
+        {
+            get
+            {
+                return new AppInfoProvider();
+            }
+        }
+
     }
 }

@@ -24,14 +24,6 @@ namespace Lumos.BLL.Service.Admin
             }
         }
 
-        public static SysAppInfoProvider AppInfo
-        {
-            get
-            {
-                return new SysAppInfoProvider();
-            }
-        }
-
         public static SysUserProvider SysUser
         {
             get

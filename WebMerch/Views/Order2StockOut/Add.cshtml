@@ -32,67 +32,7 @@
             $("#sel_WarehouseId").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择仓库" });
             $("#sel_TargetId").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择" });
 
-            $('input[name=code]').live("focus", function () {
-                var _this = $(this);
-                $(_this).autocomplete({
-                    serviceUrl: '/productSku/Search',
-                    paramName: 'name',
-                    containerClass: "autocomplete-skusearch",
-                    width: '500px',
-                    ajaxSettings: {
-                        type: 'post',
-                        dataType: 'json'
-                    },
-                    transformResult: function (d) {
-                        return {
-                            suggestions: $.map(d.data, function (item) {
-                                return { value: item.barCode, data: item.name, barCode: item.barCode, id: item.id };
-                            })
-                        };
-                    },
-                    formatResult: function (suggestion, value) {
 
-                        return "(" + suggestion.barCode + ")" + suggestion.data;
-                    },
-                    onSelect: function (suggestion) {
-
-                        var ids = $("#list_table_skus").find('input[name=id]');
-
-                        var isExist = false;
-                        $(ids).each(function () {
-                            var v = $(this).val();
-                            if (suggestion.id == v) {
-                                isExist = true
-                            }
-                        });
-
-                        if (isExist) {
-                            $.lumos.tips("清单中已经存在该商品");
-                            $(_this).val("");
-                            return;
-                        }
-
-                        $(_this).parent().parent().find('input[name=id]').val(suggestion.id);
-                        $(_this).parent().parent().find('.name').text(suggestion.data);
-
-                        var isFlag = false;
-
-                        $(ids).each(function () {
-                            var v = $(this).val();
-                            if (v == '') {
-                                isFlag = true;
-                            }
-                        });
-
-                        if (!isFlag) {
-                            addRowSku();
-                        }
-
-
-                    }
-                });
-
-            });
 
             $('.deleteRowSku').live("click", function () {
                 var _this = $(this);
@@ -184,7 +124,7 @@
 
             var l_StrRows = "";
             l_StrRows += "<tr>";
-            l_StrRows += "<td><input type=\"text\" name=\"code\" style=\"width:80%;\" value=\"\" autocomplete=\"off\" /></td>";
+            l_StrRows += "<td><input type=\"text\" name=\"code\" autocomplete=\"skusearch\" style=\"width:80%;\" value=\"\" autocomplete=\"off\" /></td>";
             l_StrRows += "<td ><input type=\"hidden\" name=\"id\" value=\"\"  /><span class=\"name\"></span> </td>";
             l_StrRows += "<td><input type=\"text\" name=\"quantity\" style=\"width:80%;\" value=\"\" autocomplete=\"off\"  onkeyup=\"clearNoNum2(this)\"   /></td>";
             l_StrRows += "<td class=\"operation\">";
