@@ -76,7 +76,7 @@ namespace WebSSO.Controllers
             switch (result.User.Type)
             {
                 case Enumeration.UserType.Staff:
-                    host = System.Configuration.ConfigurationManager.AppSettings["custom:WebBackUrl"];
+                    host = System.Configuration.ConfigurationManager.AppSettings["custom:WebAdminUrl"];
                     //returnUrl = string.Format("{0}?returnUrl={1}", host, model.ReturnUrl);
                     returnUrl = string.Format("{0}", host);
                     break;

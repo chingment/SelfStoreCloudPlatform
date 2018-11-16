@@ -59,7 +59,7 @@
     <Compile Include="ImgSet.cs" />
     <Compile Include="IpInfo.cs" />
     <Compile Include="CustomJsonResult\IResult.cs" />
-    <Compile Include="JsonObjectConvert.cs" />
+    <Compile Include="JsonConverter\JsonObjectConvert.cs" />
     <Compile Include="LogUtil.cs" />
     <Compile Include="JsonConverter\NullToEmptyStringResolver.cs" />
     <Compile Include="PageEntity.cs" />
