@@ -210,7 +210,6 @@
     <Content Include="Views\ProductSku\Add.cshtml" />
     <Content Include="Views\ProductSku\Edit.cshtml" />
     <Content Include="Views\ProductSku\List.cshtml" />
-    <Content Include="Views\ProductKind\Add.cshtml" />
     <Content Include="Views\ProductKind\List.cshtml" />
     <Content Include="Views\ProductKind\Sort.cshtml" />
     <Content Include="Views\ProductSku\EditBySalePrice.cshtml" />
