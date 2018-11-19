@@ -97,7 +97,9 @@
                         data: { storeId: storeId, name: name, address: address, status: status },
                         success: function (d) {
                             $.lumos.tips(d.message);
-                            $.lumos.parentDialog.listTable.loadData();
+                            if (d.result == $.lumos.resultType.success) {
+                                $.lumos.parentDialog.refresh(2);
+                            }
                         }
                     });
                 });
@@ -122,6 +124,15 @@
                     }
                 }
             });
+        }
+
+
+        function refresh(type) {
+            switch (type) {
+                case 1:
+                    list_machine.loadData(0)
+                    break;
+            }
         }
     </script>
 }

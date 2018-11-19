@@ -45,8 +45,13 @@
                             url: "/Store/BindOnMachine",
                             data: array,
                             success: function (d) {
-                                $.lumos.parentDialog.list_machine.loadData(0);
-                                art.dialog.close();
+                                if (d.result == $.lumos.resultType.success) {
+                                    $.lumos.parentDialog.refresh(1);
+                                    $.lumos.tips(d.message, true);
+                                }
+                                else {
+                                    $.lumos.tips(d.message);
+                                }
                             }
                         });
 

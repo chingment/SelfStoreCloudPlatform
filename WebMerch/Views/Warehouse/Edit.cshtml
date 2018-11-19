@@ -37,7 +37,9 @@
                         data: { warehouseId: warehouseId, name: name, address: address, description: description },
                         success: function (d) {
                             $.lumos.tips(d.message);
-                            $.lumos.parentDialog.listTable.loadData();
+                            if (d.result == $.lumos.resultType.success) {
+                                $.lumos.parentDialog.refresh(2);
+                            }
                         }
                     });
                 });

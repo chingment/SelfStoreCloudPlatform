@@ -29,10 +29,12 @@
                         url: "/Store/Add",
                         data: { name: name, address: address, description: description },
                         success: function (d) {
-                            $.lumos.tips(d.message);
                             if (d.result == $.lumos.resultType.success) {
-                                $.lumos.parentDialog.listTable.loadData();
-                                $.lumos.closeDialog();
+                                $.lumos.parentDialog.refresh(1);
+                                $.lumos.tips(d.message, true);
+                            }
+                            else {
+                                $.lumos.tips(d.message);
                             }
                         }
                     });
