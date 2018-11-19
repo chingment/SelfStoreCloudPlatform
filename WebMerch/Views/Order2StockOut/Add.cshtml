@@ -107,10 +107,12 @@
                     url: "/Order2StockOut/Add",
                     data: { stockOutTime: stockOutTime, warehouseId: warehouseId, targetId: targetId,targetName:targetName,targetType:targetType, description: description, skus: skus },
                     success: function (d) {
-                        $.lumos.tips(d.message);
                         if (d.result == $.lumos.resultType.success) {
-                            $.lumos.parentDialog.listTable.loadData();
-                            $.lumos.closeDialog();
+                            $.lumos.parentDialog.refresh(1);
+                            $.lumos.tips(d.message,true);
+                        }
+                        else{
+                            $.lumos.tips(d.message);
                         }
                     }
                 });

@@ -4,7 +4,7 @@
 }
 @section scripts{
     <style type="text/css">
-         input[type=text] {
+        input[type=text] {
             border-left-width: 0px;
             border-top-width: 0px;
             border-right-width: 0px;
@@ -12,14 +12,14 @@
             border-bottom-width: 0.1px;
         }
 
-         input[type=text]:focus {
+        input[type=text]:focus {
             border-width: 0px;
             outline: none;
             border-bottom-width: 0.1px;
         }
 
-        .autocomplete-skusearch .autocomplete-selected{
-            color:#30a5ff;
+        .autocomplete-skusearch .autocomplete-selected {
+            color: #30a5ff;
         }
     </style>
 
@@ -32,7 +32,7 @@
             $("#sel_WarehouseId").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择仓库" });
             $("#sel_SupplierId").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择供应商" });
 
-            
+
 
             $('.deleteRowSku').live("click", function () {
                 var _this = $(this);
@@ -110,10 +110,12 @@
                     url: "/Order2StockIn/Add",
                     data: { stockInTime: stockInTime, warehouseId: warehouseId, supplierId: supplierId, description: description, skus: skus },
                     success: function (d) {
-                        $.lumos.tips(d.message);
                         if (d.result == $.lumos.resultType.success) {
-                            $.lumos.parentDialog.listTable.loadData();
-                            $.lumos.closeDialog();
+                            $.lumos.parentDialog.refresh(1);
+                            $.lumos.tips(d.message,true);
+                        }
+                        else{
+                            $.lumos.tips(d.message);
                         }
                     }
                 });

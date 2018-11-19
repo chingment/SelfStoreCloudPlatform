@@ -87,6 +87,17 @@
 
     });
 
+    function refresh(type) {
+        switch (type) {
+            case 1:
+                listTable.loadData();
+                break;
+            case 2:
+                listTable.loadData('c');
+                break;
+        }
+    }
+
 
 </script>
 

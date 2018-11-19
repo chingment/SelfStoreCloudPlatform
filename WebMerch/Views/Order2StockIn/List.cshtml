@@ -1,0 +1,138 @@
+﻿@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+
+    var listTable;
+
+    $(document).ready(function () {
+
+        listTable = $("#list_table").loadDataTable({
+            url: "/Order2StockIn/GetList",
+            pageIndex: 0,
+            searchParams: $("#form1").serializeArray(),
+            searchButtonId: "btn_Search",
+            containerId: "form1",
+            rowDataCombie: function (p_index, p_row) {
+                var l_Strlimt = "";
+
+                l_Strlimt += "@Html.IsInPermission("<a href=\\\"javascript:void(0)\\\" operate=\\\"details\\\"   class=\\\"a-btn a-btn-edit\\\"  >查看</a>")";
+                var l_StrRows = "";
+                l_StrRows += "<tr>";
+                l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.sn + "\">" + p_row.sn + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.stockInTime + "\">" + p_row.stockInTime + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.supplierName + "\">" + p_row.supplierName + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.amount + "\">" + p_row.amount + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.quantity + "\">" + p_row.quantity + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.createTime + "\">" + p_row.createTime + "</td>";
+                l_StrRows += "<td class=\"operation\">";
+                l_StrRows += l_Strlimt;
+                l_StrRows += "</td>";
+                l_StrRows += "</tr>";
+                return l_StrRows;
+            },
+            operate: {
+                "details": function (obj) {
+                    var url = '/Order2StockIn/Details?order2StockInId=' + obj.id;
+                    var title = '查看';
+                    var dialog = art.dialog.open(url, {
+                        id: "openDialog", title: title, width: '800px', height: '600px', lock: true, drag: false, cancelVal: '关闭', cancel: true
+                    });
+                }
+            }
+        });
+
+
+        $("#btn_Add").click(function () {
+            var url = '/Order2StockIn/Add';
+            var title = '新建';
+            art.dialog.open(url, {
+                id: "openDialog", title: title, width: '800px', height: '600px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
+                    this.iframe.contentWindow.add();
+                    return false;
+                }
+            });
+        });
+
+
+    });
+
+
+    function refresh(type) {
+        switch (type) {
+            case 1:
+                listTable.loadData();
+                break;
+            case 2:
+                listTable.loadData('c');
+                break;
+        }
+    }
+
+</script>
+<form id="form1" name="form1">
+    <div class="search-bar">
+        <div class="filter">
+            <span class="filter-label">单号：</span>
+            <span class="filter-input">
+                <input type="text" class="input-control" name="Sn" style="width:120px;" />
+            </span>
+        </div>
+        <div class="filter"><input type="button" class="btn btn-search" id="btn_Search" value="查询" /> </div>
+        <div class="filter" style="float:right">
+            <input type="button" class="btn btn-add" id="btn_Add" value="录入" />
+        </div>
+    </div>
+    <div class="list">
+        <table id="list_table" class="list-tb" cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <th style="width:5%" class="no">
+                        序号
+                    </th>
+                    <th style="width:20%">
+                        单号
+                    </th>
+                    <th style="width:20%">
+                        入库日期
+                    </th>
+                    <th style="width:20%">
+                        供应商
+                    </th>
+                    <th style="width:5%">
+                        金额
+                    </th>
+                    <th style="width:5%">
+                        数量
+                    </th>
+                    <th style="width:15%">
+                        制单时间
+                    </th>
+                    <th style="width:10%" class="operation">
+                        操作
+                    </th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="8">
+                        <div class="pull-left">
+                            <span class="load-tip"></span>
+                        </div>
+                        <div class="pull-right pagination">
+                            <div class="pagination-info">
+                            </div>
+                            <div class="pagination-index">
+                            </div>
+                            <div class="pagination-goto">
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</form>
