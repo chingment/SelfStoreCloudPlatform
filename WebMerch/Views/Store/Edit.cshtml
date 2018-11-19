@@ -42,7 +42,8 @@
                     {
                         "bindoff": function (obj) {
 
-
+                            alert(storeId)
+                            alert(obj.id)
                             art.dialog.confirm("确定要解绑,数据会被清除，慎重操作？", function () {
 
                                 $.lumos.postJson({

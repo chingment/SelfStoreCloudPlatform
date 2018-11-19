@@ -273,7 +273,7 @@
       <Name>MySDK</Name>
     </ProjectReference>
     <ProjectReference Include="..\WeiXinSdk\WeiXinSdk.csproj">
-      <Project>{a8b6b73d-f2ee-41d7-9d96-ad65b31fcdc0}</Project>
+      <Project>{636311a8-0485-4953-841e-35ca27eea436}</Project>
       <Name>WeiXinSdk</Name>
     </ProjectReference>
   </ItemGroup>
