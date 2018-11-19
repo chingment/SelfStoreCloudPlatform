@@ -69,7 +69,7 @@
                         data: { pMenuId: pMenuId, name: name, url: url, description: description, permissionIds: permissionIds },
                         success: function (d) {
                             if (d.result == $.lumos.resultType.success) {
-                                $.lumos.parentDialog.loadMenus(pMenuId);
+                                $.lumos.parentDialog.refresh(1);
                                 $.lumos.tips(d.message, true);
                             }
                             else {

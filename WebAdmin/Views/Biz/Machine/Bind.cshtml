@@ -34,7 +34,7 @@
                     data: { machineId: machineId, merchantId: merchantId },
                     success: function (d) {
                         if (d.result == $.lumos.resultType.success) {
-                            $.lumos.parentDialog.listTable.loadData();
+                            $.lumos.parentDialog.refresh(2);
                             $.lumos.tips(d.message, true);
                         }
                         else {

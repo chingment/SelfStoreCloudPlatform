@@ -313,6 +313,17 @@
             return selObj[0];
         }
 
+        function refresh(type) {
+            switch (type) {
+                case 1:
+                    loadRoles()
+                    break;
+                case 2:
+                    list_RoleUsers.loadData('c');
+                    break;
+            }
+        }
+
     </script>
 }
 

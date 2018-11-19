@@ -64,7 +64,7 @@
 function () {
     var l_Data = [];
 
-    $("#form1").find('input[name="priority"]').each(function () {
+    $('input[name="priority"]').each(function () {
 
         var id = $(this).attr("id");
         var priority = $(this).val();
@@ -80,7 +80,7 @@ function () {
         isUseHandling: true,
         data: { dics: l_Data },
         success: function (d) {
-            $.lumos.parentDialog.loadMenus();
+            $.lumos.parentDialog.refresh(1);
             $.lumos.tips(d.message);
         }
     });

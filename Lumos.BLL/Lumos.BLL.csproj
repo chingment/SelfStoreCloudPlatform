@@ -100,8 +100,6 @@
     <Compile Include="Biz\Models\RupOperateGetResult.cs" />
     <Compile Include="Sdk\SdkFactory.cs" />
     <Compile Include="Sdk\WxConfigByFanJu.cs" />
-    <Compile Include="Sdk\WxConfigByQyj.cs" />
-    <Compile Include="Sdk\WxConfigByTest.cs" />
     <Compile Include="Sdk\WxSdkProvider.cs" />
     <Compile Include="Service\Admin\Biz\RModels\RetMachineGetDetails.cs" />
     <Compile Include="Service\Admin\Biz\RModels\RetMerchantGetDetails.cs" />

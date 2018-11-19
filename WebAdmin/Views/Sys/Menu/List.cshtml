@@ -8,6 +8,7 @@
         var maxMum = 2;
         var tree_Menus;
         var tab_Main;
+        var cur_MenuId;
         $(this).ready(function () {
 
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { } });
@@ -195,6 +196,8 @@
                                     $("#btn_add").show();
                                 }
 
+                                cur_MenuId = treeNode.id;
+
                                 $.lumos.getJson({
                                     url: "/Sys/Menu/GetDetails",
                                     urlParams: { menuId: treeNode.id },
@@ -260,6 +263,15 @@
                     }
                 }
             });
+        }
+
+
+        function refresh(type) {
+            switch (type) {
+                case 1:
+                    loadMenus(cur_MenuId)
+                    break;
+            }
         }
     </script>
 }

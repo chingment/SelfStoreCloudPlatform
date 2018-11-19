@@ -27,7 +27,7 @@
                         data: { name: name, description: description },
                         success: function (d) {
                             if (d.result == $.lumos.resultType.success) {
-                                $.lumos.parentDialog.loadRoles("0");
+                                $.lumos.parentDialog.refresh(1);
                                 $.lumos.tips(d.message, true);
                             }
                             else {

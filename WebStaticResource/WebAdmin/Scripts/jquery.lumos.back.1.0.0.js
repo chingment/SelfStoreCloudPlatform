@@ -1291,11 +1291,11 @@
                                 });
                             }
 
-                            $.lumos.confirm(del_tips, function () {
+                            art.dialog.confirm(del_tips, function () {
                                 f(keys)
                                 return true;
-                            },
-                            function () { keys = ""; })
+                            });
+
                         });
                         break;
                     default:

@@ -260,7 +260,6 @@
     <Content Include="WebAdmin\Scripts\jquery.formValidatorRegex.js" />
     <Content Include="WebAdmin\Scripts\jquery.js" />
     <Content Include="WebAdmin\Scripts\jquery.lumos.back.1.0.0.js" />
-    <Content Include="WebAdmin\Scripts\jquery.lumos.front.1.0.0.js" />
     <Content Include="WebAdmin\Scripts\jquery.mouseoverbox.js" />
     <Content Include="WebAdmin\Scripts\jquery.mousewheel.js" />
     <Content Include="WebAdmin\Scripts\jquery.resizeEnd.js" />

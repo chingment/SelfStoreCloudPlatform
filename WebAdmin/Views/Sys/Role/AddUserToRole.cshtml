@@ -46,7 +46,7 @@
                             url: "/Sys/Role/AddUserToRole",
                             data: { roleId: roleId, userIds: userIds },
                             success: function (d) {
-                                $.lumos.parentDialog.list_RoleUsers.loadData('c');
+                                $.lumos.parentDialog.refresh(2);
                                 $.lumos.tips(d.message, true);
                             }
                         });

@@ -29,7 +29,7 @@
                         isUseHandling: true,
                         success: function (d) {
                             if (d.result == $.lumos.resultType.success) {
-                                $.lumos.parentDialog.listTable.loadData();
+                                $.lumos.parentDialog.refresh(1);
                                 $.lumos.tips(d.message, true);
                             }
                             else {
