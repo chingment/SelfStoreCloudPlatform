@@ -1,8 +1,12 @@
 ﻿using Common.Logging;
+using Lumos;
 using Only.Jobs.Core;
+using Only.Jobs.JobItems;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Impl.Matchers;
+using Quartz.Impl.Triggers;
+using System;
 using Topshelf;
 
 namespace Only.Jobs
@@ -27,6 +31,22 @@ namespace Only.Jobs
 
         public bool Start(HostControl hostControl)
         {
+
+            Type mainJobType = typeof(ManagerJob);
+            string mainJobId = GuidUtil.New();
+            IJobDetail job = new JobDetailImpl(mainJobId, mainJobId + "Group", mainJobType);
+            job.JobDataMap.Add("Parameters", "");
+            job.JobDataMap.Add("JobName", "监控子任务状态变化任务");
+
+            CronTriggerImpl trigger = new CronTriggerImpl();
+            trigger.CronExpressionString = "0/3 * * * * ?";
+            trigger.Name = mainJobId;
+            trigger.Description = "监控子任务状态变化任务";
+            trigger.StartTimeUtc = DateTime.UtcNow;
+            trigger.Group = mainJobId + "TriggerGroup";
+            scheduler.ScheduleJob(job, trigger);
+
+
             scheduler.ListenerManager.AddJobListener(new SchedulerJobListener(), GroupMatcher<JobKey>.AnyGroup());
             scheduler.Start();
             new QuartzManager().JobScheduler(scheduler);
