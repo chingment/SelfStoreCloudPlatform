@@ -76,11 +76,14 @@
                         $("#txt_Email").val(data.email);
                         $("#txt_PhoneNumber").val(data.phoneNumber);
 
-                        $.each(data.roleIds, function (i, n) {
-                            var node = tree_Roles.getNodeByParam("id", n);
-                            tree_Roles.checkNode(node);
-                        });
-
+                        if (data.roleIds != null) {
+                            if (data.roleIds.length > 0) {
+                                $.each(data.roleIds, function (i, n) {
+                                    var node = tree_Roles.getNodeByParam("id", n);
+                                    tree_Roles.checkNode(node);
+                                });
+                            }
+                        }
                     }
                 }
             });

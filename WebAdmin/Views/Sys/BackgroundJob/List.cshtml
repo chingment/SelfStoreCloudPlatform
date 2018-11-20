@@ -15,11 +15,10 @@
             searchParams: $("#form1").serializeArray(),
             searchButtonId: "btn_Search",
             containerId: "form1",
-            refreshInterval: 1000,
+            refreshInterval: 0,
             rowDataCombie: function (p_index, p_row) {
                 var l_Strlimt = "";
                 l_Strlimt += "@Html.IsInPermission("<a href=\\\"javascript:void(0)\\\" operate=\\\"edit\\\"   class=\\\"a-btn a-btn-edit\\\"  >编辑</a>")";
-                l_Strlimt += "@Html.IsInPermission("<a href=\\\"javascript:void(0)\\\" operate=\\\"delete\\\"  class=\\\"a-btn\\\" >删除</a>")";
                 var l_StrRows = "";
                 l_StrRows += "<tr>";
                 l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
@@ -50,24 +49,8 @@
                 return l_StrRows;
             },
             operate: {
-                "delete": function (obj) {
-
-                    var userIds = [];
-                    $.each(obj, function (i, n) {
-                        userIds.push(n.id);
-                    });
-
-                    $.lumos.postJson({
-                        url: "/Sys/StaffUser/Delete",
-                        data: { userIds: userIds },
-                        success: function (d) {
-                            listTable.loadData(0);
-                            $.lumos.tips(d.message);
-                        }
-                    });
-                },
                 "edit": function (obj) {
-                    var url = '/Sys/StaffUser/Edit?userId=' + obj.id;
+                    var url = '/Sys/BackgroundJob/Edit?backgroundJobId=' + obj.id;
                     var title = '修改';
                     art.dialog.open(url, {
                         id: "openDialog", title: title, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
@@ -150,10 +133,10 @@
                     <th style="width:10%">
                         名称
                     </th>
-                    <th style="width:10%">
+                    <th style="width:15%">
                         描述
                     </th>
-                    <th style="width:10%">
+                    <th style="width:20%">
                         类名
                     </th>
                     <th style="width:10%">
@@ -168,10 +151,10 @@
                     <th style="width:10%">
                         Cron表达式描述
                     </th>
-                    <th style="width:10%">
+                    <th style="width:5%">
                         状态
                     </th>
-                    <th style="width:15%" class="operation">
+                    <th style="width:5%" class="operation">
                         操作
                     </th>
                 </tr>

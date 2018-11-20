@@ -1093,6 +1093,7 @@
     <Content Include="Views\Biz\Merchant\ListBySelect.cshtml" />
     <Content Include="Views\Sys\BackgroundJob\List.cshtml" />
     <Content Include="Views\Sys\BackgroundJob\Add.cshtml" />
+    <Content Include="Views\Sys\BackgroundJob\Edit.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

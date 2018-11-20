@@ -27,6 +27,11 @@ namespace WebAdmin.Controllers.Sys
             return View();
         }
 
+        public ViewResult Edit()
+        {
+            return View();
+        }
+
         public CustomJsonResult GetList(RupBaseGetList rup)
         {
             var query = (from u in CurrentDb.BackgroundJob
@@ -71,10 +76,22 @@ namespace WebAdmin.Controllers.Sys
             return Json(ResultType.Success, pageEntity, "");
         }
 
+        public CustomJsonResult GetDetails(string backgroundJobId)
+        {
+            return AdminServiceFactory.BackgroundJob.GetDetails(this.CurrentUserId, backgroundJobId);
+        }
+
         [HttpPost]
         public CustomJsonResult Add(RopBackgroundJobAdd rop)
         {
             return AdminServiceFactory.BackgroundJob.Add(this.CurrentUserId, rop);
+        }
+
+
+        [HttpPost]
+        public CustomJsonResult Edit(RopBackgroundJobEdit rop)
+        {
+            return AdminServiceFactory.BackgroundJob.Edit(this.CurrentUserId, rop);
         }
 
         [HttpPost]

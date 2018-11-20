@@ -5,7 +5,7 @@
 @section scripts{
     <script type="text/javascript">
 
-        var tree_Roles;
+
         $(this).ready(function () {
 
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
@@ -29,7 +29,6 @@
                 art.dialog.confirm('确定要新建？', function (e) {
          
                     var name = $("#txt_Name").val();
-                    var jobType = $("#txt_JobType").val();
                     var assemblyName = $("#txt_AssemblyName").val();
                     var className = $("#txt_ClassName").val();
                     var description = $("#txt_Description").val();
@@ -39,7 +38,7 @@
 
                     $.lumos.postJson({
                         url: "/Sys/BackgroundJob/Add",
-                        data: { name: name, jobType: jobType, assemblyName: assemblyName, className: className, description: description, jobArgs: jobArgs, cronExpression: cronExpression, cronExpressionDescription: cronExpressionDescription },
+                        data: { name: name, assemblyName: assemblyName, className: className, description: description, jobArgs: jobArgs, cronExpression: cronExpression, cronExpressionDescription: cronExpressionDescription },
                         isUseHandling: true,
                         success: function (d) {
                             if (d.result == $.lumos.resultType.success) {

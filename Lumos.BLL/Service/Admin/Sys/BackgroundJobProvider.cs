@@ -9,6 +9,25 @@ namespace Lumos.BLL.Service.Admin
 {
     public class BackgroundJobProvider : BaseProvider
     {
+        public CustomJsonResult GetDetails(string pOperater, string pBackgroundJobId)
+        {
+            var ret = new RetBackgroundJobGetDetails();
+            var backgroundJob = CurrentDb.BackgroundJob.Where(m => m.Id == pBackgroundJobId).FirstOrDefault();
+            if (backgroundJob != null)
+            {
+                ret.BackgroundJobId = backgroundJob.Id;
+                ret.Name = backgroundJob.Name;
+                ret.AssemblyName = backgroundJob.AssemblyName;
+                ret.ClassName = backgroundJob.ClassName;
+                ret.Description = backgroundJob.Description;
+                ret.CronExpression = backgroundJob.CronExpression;
+                ret.CronExpressionDescription = backgroundJob.CronExpressionDescription;
+                ret.JobArgs = backgroundJob.JobArgs;
+            }
+
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
+        }
+
         public CustomJsonResult Add(string pOperater, RopBackgroundJobAdd rop)
         {
             CustomJsonResult result = new CustomJsonResult();
@@ -35,6 +54,27 @@ namespace Lumos.BLL.Service.Admin
 
 
             result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "新建成功");
+
+            return result;
+        }
+
+        public CustomJsonResult Edit(string pOperater, RopBackgroundJobEdit rop)
+        {
+            CustomJsonResult result = new CustomJsonResult();
+
+
+            var backgroundJob = CurrentDb.BackgroundJob.Where(m => m.Id == rop.BackgroundJobId).FirstOrDefault();
+            backgroundJob.AssemblyName = rop.AssemblyName;
+            backgroundJob.ClassName = rop.ClassName;
+            backgroundJob.CronExpression = rop.CronExpression;
+            backgroundJob.CronExpressionDescription = rop.CronExpressionDescription;
+            backgroundJob.Description = rop.Description;
+            backgroundJob.Mender = pOperater;
+            backgroundJob.MendTime = DateTime.Now;
+
+            CurrentDb.SaveChanges();
+
+            result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
 
             return result;
         }
