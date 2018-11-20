@@ -57,8 +57,8 @@ namespace WebAdmin.Controllers.Sys
                     Description = item.Description,
                     CronExpression = item.CronExpression,
                     CronExpressionDescription = item.CronExpressionDescription,
-                    NextRunTime = item.NextRunTime.ToUnifiedFormatDate(),
-                    LastRunTime = item.LastRunTime.ToUnifiedFormatDate(),
+                    NextRunTime = item.NextRunTime.ToUnifiedFormatDateTime(),
+                    LastRunTime = item.LastRunTime.ToUnifiedFormatDateTime(),
                     RunCount = item.RunCount,
                     Status = item.Status,
                     StatusName = item.Status.GetCnName(),
@@ -76,6 +76,12 @@ namespace WebAdmin.Controllers.Sys
         public CustomJsonResult Add(RopBackgroundJobAdd rop)
         {
             return AdminServiceFactory.BackgroundJob.Add(this.CurrentUserId, rop);
+        }
+
+        [HttpPost]
+        public CustomJsonResult SetStartOrStop(string backgroundJobId)
+        {
+            return AdminServiceFactory.BackgroundJob.SetStartOrStop(this.CurrentUserId, backgroundJobId);
         }
     }
 }

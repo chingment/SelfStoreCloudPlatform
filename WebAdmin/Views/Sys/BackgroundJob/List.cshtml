@@ -15,6 +15,7 @@
             searchParams: $("#form1").serializeArray(),
             searchButtonId: "btn_Search",
             containerId: "form1",
+            refreshInterval: 1000,
             rowDataCombie: function (p_index, p_row) {
                 var l_Strlimt = "";
                 l_Strlimt += "@Html.IsInPermission("<a href=\\\"javascript:void(0)\\\" operate=\\\"edit\\\"   class=\\\"a-btn a-btn-edit\\\"  >编辑</a>")";
@@ -31,6 +32,18 @@
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.cronExpressionDescription + "\">" + p_row.cronExpressionDescription + "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.statusName + "\">" + p_row.statusName + "</td>";
                 l_StrRows += "<td class=\"operation\">";
+
+                var op1 = "";
+                if (p_row.status == 1) {
+                    op1 = "开启";
+                }
+                else if (p_row.status == 2) {
+                    op1 = "停止";
+                }
+                if (op1 != "") {
+                    l_StrRows += "<a href=\"javascript:void(0)\" operate=\"setstatus\"   class=\"a-btn a-btn-edit\"  >" + op1 + "</a>";
+                }
+
                 l_StrRows += l_Strlimt;
                 l_StrRows += "</td>";
                 l_StrRows += "</tr>";
@@ -61,6 +74,23 @@
                             this.iframe.contentWindow.edit();
                             return false;
                         }
+                    });
+                },
+                "setstatus": function (obj) {
+
+                    var op = obj.status == 1 ? "开启" : "停止";
+
+                    art.dialog.confirm('确定要' + op + '该任务？', function (e) {
+
+                        $.lumos.postJson({
+                            url: "/Sys/BackgroundJob/SetStartOrStop",
+                            data: { backgroundJobId: obj.id },
+                            success: function (d) {
+                                listTable.loadData(0);
+                                $.lumos.tips(d.message);
+                            }
+                        });
+
                     });
                 }
             }
