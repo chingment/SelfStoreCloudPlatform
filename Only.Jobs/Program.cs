@@ -1,4 +1,4 @@
-﻿using Common.Logging;
+﻿using log4net;
 using System;
 using System.IO;
 using System.Reflection;
@@ -12,7 +12,7 @@ namespace Only.Jobs
 
         static void Main(string[] args)
         {
-            log.Info("程序开始");
+            log.InfoFormat("程序开始");
 
             log4net.Config.XmlConfigurator.ConfigureAndWatch(new FileInfo(AppDomain.CurrentDomain.BaseDirectory + "log4net.config"));
             HostFactory.Run(x =>

@@ -1,4 +1,4 @@
-﻿using Common.Logging;
+﻿using log4net;
 using Lumos;
 using Lumos.BLL.Service.Admin;
 using Lumos.Entity;
@@ -124,8 +124,12 @@ namespace Only.Jobs.Core
             List<BackgroundJob> list = AdminServiceFactory.BackgroundJob.GeAllowScheduleJobInfoList();
             if (list != null && list.Count > 0)
             {
+                _logger.InfoFormat("进入Job状态管控,有效监控数为:" + list.Count);
+
                 foreach (BackgroundJob jobInfo in list)
                 {
+                    _logger.InfoFormat("进入Job[{0}]的状态为:{1}", jobInfo.Id, jobInfo.Status.GetCnName());
+
                     JobKey jobKey = new JobKey(jobInfo.Id, jobInfo.Id + "Group");
                     if (Scheduler.CheckExists(jobKey) == false)
                     {
