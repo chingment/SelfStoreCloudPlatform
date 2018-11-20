@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 namespace Lumos.BLL.Service.Admin
 {
     public class RopBackgroundJobAdd
-    {
-        public string JobType { get; set; }			
+    {	
         public string Name { get; set; }			
         public string Description { get; set; }		
         public string AssemblyName { get; set; }		

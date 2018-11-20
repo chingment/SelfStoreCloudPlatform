@@ -17,7 +17,6 @@ namespace Lumos.BLL.Service.Admin
             var backgroundJob = new BackgroundJob();
             backgroundJob.Id = GuidUtil.New();
             backgroundJob.Name = rop.Name;
-            backgroundJob.JobType = rop.JobType;
             backgroundJob.AssemblyName = rop.AssemblyName;
             backgroundJob.ClassName = rop.ClassName;
             backgroundJob.CronExpression = rop.CronExpression;

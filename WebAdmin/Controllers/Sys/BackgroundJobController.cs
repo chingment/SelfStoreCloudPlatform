@@ -32,7 +32,7 @@ namespace WebAdmin.Controllers.Sys
             var query = (from u in CurrentDb.BackgroundJob
                          where (rup.Name == null || u.Name.Contains(rup.Name)) &&
                          u.IsDelete == false
-                         select new { u.Id, u.Name, u.JobType, u.AssemblyName, u.ClassName, u.Description, u.CronExpression, u.CronExpressionDescription, u.NextRunTime, u.LastRunTime, u.RunCount, u.Status, u.IsDelete, u.CreateTime });
+                         select new { u.Id, u.Name,u.AssemblyName, u.ClassName, u.Description, u.CronExpression, u.CronExpressionDescription, u.NextRunTime, u.LastRunTime, u.RunCount, u.Status, u.IsDelete, u.CreateTime });
 
             int total = query.Count();
 
@@ -51,7 +51,6 @@ namespace WebAdmin.Controllers.Sys
                 {
                     Id = item.Id,
                     Name = item.Name,
-                    JobType = item.JobType,
                     AssemblyName = item.AssemblyName,
                     ClassName = item.ClassName,
                     Description = item.Description,

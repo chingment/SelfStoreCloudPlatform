@@ -33,7 +33,8 @@ namespace Only.Jobs
         {
 
             Type mainJobType = typeof(ManagerJob);
-            string mainJobId = GuidUtil.New();
+            string mainJobId = "main";
+            JobKey jobKey = new JobKey(mainJobId, mainJobId + "Group");
             IJobDetail job = new JobDetailImpl(mainJobId, mainJobId + "Group", mainJobType);
             job.JobDataMap.Add("Parameters", "");
             job.JobDataMap.Add("JobName", "监控子任务状态变化任务");
@@ -44,7 +45,11 @@ namespace Only.Jobs
             trigger.Description = "监控子任务状态变化任务";
             trigger.StartTimeUtc = DateTime.UtcNow;
             trigger.Group = mainJobId + "TriggerGroup";
-            scheduler.ScheduleJob(job, trigger);
+
+            if (!scheduler.CheckExists(jobKey))
+            {
+                scheduler.ScheduleJob(job, trigger);
+            }
 
 
             scheduler.ListenerManager.AddJobListener(new SchedulerJobListener(), GroupMatcher<JobKey>.AnyGroup());

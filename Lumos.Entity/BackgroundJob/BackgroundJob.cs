@@ -14,11 +14,6 @@ namespace Lumos.Entity
         public string Id { get; set; }
 
         /// <summary>
-        /// Job类型
-        /// </summary>
-        public string JobType { get; set; }
-
-        /// <summary>
         /// Job名称
         /// </summary>				
         public string Name { get; set; }
