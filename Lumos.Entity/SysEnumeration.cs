@@ -249,5 +249,20 @@ namespace Lumos.Entity
             Unknow = 0,
             User = 1
         }
+
+
+        public enum BackgroundJobStatus
+        {
+            [Remark("未知")]
+            Unknow = 0,
+            [Remark("停止")]
+            Stoped = 1,
+            [Remark("运行")]
+            Runing = 2,
+            [Remark("启动中")]
+            Starting = 3,
+            [Remark("停止中")]
+            Stoping = 4
+        }
     }
 }

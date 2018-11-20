@@ -67,6 +67,8 @@ namespace Lumos.DAL.AuthorizeRelay
 
         public IDbSet<SysMerchantUser> SysMerchantUser { get; set; }
 
+        public IDbSet<BackgroundJob>  BackgroundJob { get; set; }
+
         public AuthorizeRelayDbContext(string nameOrConnectionString)
             : base(nameOrConnectionString)
         {

@@ -71,5 +71,13 @@ namespace Lumos.BLL.Service.Admin
                 return new AuthorizeRelayProvider();
             }
         }
+
+        public static BackgroundJobProvider BackgroundJob
+        {
+            get
+            {
+                return new BackgroundJobProvider();
+            }
+        }
     }
 }
