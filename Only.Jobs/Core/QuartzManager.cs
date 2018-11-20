@@ -104,7 +104,7 @@ namespace Only.Jobs.Core
             }
             else
             {
-                AdminServiceFactory.BackgroundJob.WriteLog(GuidUtil.New(),jobInfo.Id, jobInfo.Name, DateTime.Now, 0, jobInfo.CronExpression + "不是正确的Cron表达式,无法启动该任务");
+                AdminServiceFactory.BackgroundJob.WriteLog(GuidUtil.New(), jobInfo.Id, jobInfo.Name, DateTime.Now, 0, jobInfo.CronExpression + "不是正确的Cron表达式,无法启动该任务");
             }
         }
 
@@ -115,6 +115,8 @@ namespace Only.Jobs.Core
         /// <param name="Scheduler"></param>
         public void JobScheduler(IScheduler Scheduler)
         {
+            LogUtil.Info("进入Job状态管控");
+
             List<BackgroundJob> list = AdminServiceFactory.BackgroundJob.GeAllowScheduleJobInfoList();
             if (list != null && list.Count > 0)
             {
@@ -128,16 +130,16 @@ namespace Only.Jobs.Core
                             ScheduleJob(Scheduler, jobInfo);
                             if (Scheduler.CheckExists(jobKey) == false)
                             {
-                                AdminServiceFactory.BackgroundJob.SetStatus(GuidUtil.New(),jobInfo.Id, Enumeration.BackgroundJobStatus.Stoped);
+                                AdminServiceFactory.BackgroundJob.SetStatus(GuidUtil.New(), jobInfo.Id, Enumeration.BackgroundJobStatus.Stoped);
                             }
                             else
                             {
-                                AdminServiceFactory.BackgroundJob.SetStatus(GuidUtil.New(),jobInfo.Id, Enumeration.BackgroundJobStatus.Runing);
+                                AdminServiceFactory.BackgroundJob.SetStatus(GuidUtil.New(), jobInfo.Id, Enumeration.BackgroundJobStatus.Runing);
                             }
                         }
                         else if (jobInfo.Status == Enumeration.BackgroundJobStatus.Stoping)
                         {
-                            AdminServiceFactory.BackgroundJob.SetStatus(GuidUtil.New(),jobInfo.Id, Enumeration.BackgroundJobStatus.Stoped);
+                            AdminServiceFactory.BackgroundJob.SetStatus(GuidUtil.New(), jobInfo.Id, Enumeration.BackgroundJobStatus.Stoped);
                         }
                     }
                     else
@@ -145,11 +147,11 @@ namespace Only.Jobs.Core
                         if (jobInfo.Status == Enumeration.BackgroundJobStatus.Stoping)
                         {
                             Scheduler.DeleteJob(jobKey);
-                            AdminServiceFactory.BackgroundJob.SetStatus(GuidUtil.New(),jobInfo.Id, Enumeration.BackgroundJobStatus.Stoped);
+                            AdminServiceFactory.BackgroundJob.SetStatus(GuidUtil.New(), jobInfo.Id, Enumeration.BackgroundJobStatus.Stoped);
                         }
                         else if (jobInfo.Status == Enumeration.BackgroundJobStatus.Starting)
                         {
-                            AdminServiceFactory.BackgroundJob.SetStatus(GuidUtil.New(),jobInfo.Id, Enumeration.BackgroundJobStatus.Runing);
+                            AdminServiceFactory.BackgroundJob.SetStatus(GuidUtil.New(), jobInfo.Id, Enumeration.BackgroundJobStatus.Runing);
                         }
                     }
                 }
