@@ -257,7 +257,7 @@ namespace Lumos.Entity
             Unknow = 0,
             [Remark("停止")]
             Stoped = 1,
-            [Remark("运行")]
+            [Remark("运行中")]
             Runing = 2,
             [Remark("启动中")]
             Starting = 3,

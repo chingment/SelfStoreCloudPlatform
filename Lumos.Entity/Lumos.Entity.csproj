@@ -52,6 +52,8 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="BackgroundJob\BackgroundJob.cs" />
+    <Compile Include="BackgroundJob\BackgroundJobLog.cs" />
     <Compile Include="BizEnumeration.cs" />
     <Compile Include="Biz\BizSn.cs" />
     <Compile Include="Biz\ClientCart.cs" />

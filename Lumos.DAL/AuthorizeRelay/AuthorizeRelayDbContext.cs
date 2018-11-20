@@ -69,6 +69,9 @@ namespace Lumos.DAL.AuthorizeRelay
 
         public IDbSet<BackgroundJob>  BackgroundJob { get; set; }
 
+        public IDbSet<BackgroundJobLog> BackgroundJobLog { get; set; }
+ 
+
         public AuthorizeRelayDbContext(string nameOrConnectionString)
             : base(nameOrConnectionString)
         {
