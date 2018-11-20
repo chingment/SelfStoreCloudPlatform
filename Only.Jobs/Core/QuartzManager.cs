@@ -1,4 +1,5 @@
-﻿using Lumos;
+﻿using Common.Logging;
+using Lumos;
 using Lumos.BLL.Service.Admin;
 using Lumos.Entity;
 using Quartz;
@@ -14,6 +15,8 @@ namespace Only.Jobs.Core
 {
     public class QuartzManager
     {
+
+
         /// <summary>
         /// 从程序集中加载指定类
         /// </summary>
@@ -115,7 +118,8 @@ namespace Only.Jobs.Core
         /// <param name="Scheduler"></param>
         public void JobScheduler(IScheduler Scheduler)
         {
-            LogUtil.Info("进入Job状态管控");
+            ILog _logger = LogManager.GetLogger(typeof(QuartzManager));
+            _logger.InfoFormat("进入Job状态管控");
 
             List<BackgroundJob> list = AdminServiceFactory.BackgroundJob.GeAllowScheduleJobInfoList();
             if (list != null && list.Count > 0)

@@ -1,13 +1,19 @@
-﻿using System;
+﻿using Common.Logging;
+using System;
 using System.IO;
+using System.Reflection;
 using Topshelf;
 
 namespace Only.Jobs
 {
     class Program
     {
+        public static ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         static void Main(string[] args)
         {
+            log.Info("程序开始");
+
             log4net.Config.XmlConfigurator.ConfigureAndWatch(new FileInfo(AppDomain.CurrentDomain.BaseDirectory + "log4net.config"));
             HostFactory.Run(x =>
             {
