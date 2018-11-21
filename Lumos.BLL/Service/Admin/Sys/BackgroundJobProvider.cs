@@ -1,4 +1,5 @@
-﻿using Lumos.Entity;
+﻿using Lumos.BLL.Task;
+using Lumos.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,17 @@ namespace Lumos.BLL.Service.Admin
             if (isExists != null)
             {
                 return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("程序集:{0},类名:{1},已存在"));
+            }
+
+            var type = QuartzManager.GetClassInfo(rop.AssemblyName, rop.ClassName);
+            if (type == null)
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "程序集或类型无效，无法映射");
+            }
+
+            if (!QuartzManager.ValidExpression(rop.CronExpression))
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "无效的Cron表达式");
             }
 
             var backgroundJob = new BackgroundJob();
