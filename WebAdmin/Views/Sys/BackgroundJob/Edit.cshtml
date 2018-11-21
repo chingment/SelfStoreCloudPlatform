@@ -36,8 +36,8 @@
                         var data = d.data;
 
                         $('#lbl_Name').text(data.name);
-                        $("#txt_AssemblyName").val(data.assemblyName);
-                        $("#txt_ClassName").val(data.className);
+                        $("#lbl_AssemblyName").val(data.assemblyName);
+                        $("#lbl_ClassName").val(data.className);
                         $("#txt_Description").val(data.description);
                         $("#txt_JobArgs").val(data.jobArgs);
                         $("#txt_CronExpression").val(data.cronExpression);
@@ -102,18 +102,18 @@
         </tr>
         <tr>
             <td class="f-tb-t">
-                <span class="required-symbol">*</span>程序集：
+                程序集：
             </td>
             <td class="f-tb-c">
-                <input id="txt_AssemblyName" class="input-control" autocomplete="off" type="text" style="width: 350px;" clear="on" />
+                <span id="lbl_AssemblyName"></span>
             </td>
         </tr>
         <tr>
             <td class="f-tb-t">
-                <span class="required-symbol">*</span>类名：
+                类名：
             </td>
             <td class="f-tb-c">
-                <input id="txt_ClassName" class="input-control" autocomplete="off" type="text" style="width: 350px;" clear="on" />
+                <span id="lbl_ClassName"></span>
             </td>
         </tr>
         <tr>

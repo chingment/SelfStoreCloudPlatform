@@ -3,7 +3,7 @@ using Lumos.BLL.Service.Admin;
 using Quartz;
 using System;
 
-namespace Only.Jobs.Core
+namespace Lumos.BLL.Task
 {
     public class SchedulerJobListener : IJobListener
     {

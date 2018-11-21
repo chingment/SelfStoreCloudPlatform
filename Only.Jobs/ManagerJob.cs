@@ -1,9 +1,9 @@
 ﻿using log4net;
-using Only.Jobs.Core;
+using Lumos.BLL.Task;
 using Quartz;
 using System;
 
-namespace Only.Jobs.JobItems
+namespace Only.Jobs
 {
     [DisallowConcurrentExecution]
     public class ManagerJob : IJob

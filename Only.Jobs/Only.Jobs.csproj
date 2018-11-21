@@ -91,9 +91,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\QuartzManager.cs" />
-    <Compile Include="JobItems\ManagerJob.cs" />
-    <Compile Include="Core\SchedulerJobListener.cs" />
+    <Compile Include="ManagerJob.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceRunner.cs" />

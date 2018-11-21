@@ -274,6 +274,8 @@
     <Compile Include="Service\Admin\Sys\SysItemCacheUpdateTimeProvider.cs" />
     <Compile Include="Service\Admin\Sys\SysUserProvider.cs" />
     <Compile Include="Task\BaseProgram.cs" />
+    <Compile Include="Task\Quartz\QuartzManager.cs" />
+    <Compile Include="Task\Quartz\SchedulerJobListener.cs" />
     <Compile Include="Task\ITask.cs" />
     <Compile Include="Task\Launcher.cs" />
     <Compile Include="Task\Task4Factory.cs" />

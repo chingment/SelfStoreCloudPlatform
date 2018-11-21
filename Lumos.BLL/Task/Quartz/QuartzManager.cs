@@ -11,7 +11,7 @@ using System.IO;
 using System.Reflection;
 using System.Web;
 
-namespace Only.Jobs.Core
+namespace Lumos.BLL.Task
 {
     public class QuartzManager
     {
@@ -23,7 +23,7 @@ namespace Only.Jobs.Core
         /// <param name="assemblyName">含后缀的程序集名</param>
         /// <param name="className">含命名空间完整类名</param>
         /// <returns></returns>
-        public Type GetClassInfo(string assemblyName, string className)
+        public static Type GetClassInfo(string assemblyName, string className)
         {
             Type type = null;
             try
@@ -44,7 +44,7 @@ namespace Only.Jobs.Core
         /// </summary>
         /// <param name="cronExpression">带校验表达式</param>
         /// <returns></returns>
-        public bool ValidExpression(string cronExpression)
+        public static bool ValidExpression(string cronExpression)
         {
             return CronExpression.IsValidExpression(cronExpression);
         }
@@ -54,7 +54,7 @@ namespace Only.Jobs.Core
         /// </summary>
         /// <param name="relativePath">相对路径</param>
         /// <returns></returns>
-        public string GetAbsolutePath(string relativePath)
+        public static string GetAbsolutePath(string relativePath)
         {
             if (string.IsNullOrEmpty(relativePath))
             {

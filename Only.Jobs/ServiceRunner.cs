@@ -1,7 +1,6 @@
 ﻿using Common.Logging;
 using Lumos;
-using Only.Jobs.Core;
-using Only.Jobs.JobItems;
+using Lumos.BLL.Task;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Impl.Matchers;

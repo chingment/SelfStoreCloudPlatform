@@ -32,6 +32,11 @@ namespace Lumos.BLL.Service.Admin
         {
             CustomJsonResult result = new CustomJsonResult();
 
+            var isExists = CurrentDb.BackgroundJob.Where(m => m.AssemblyName == rop.AssemblyName && m.ClassName == rop.ClassName).FirstOrDefault();
+            if (isExists != null)
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("程序集:{0},类名:{1},已存在"));
+            }
 
             var backgroundJob = new BackgroundJob();
             backgroundJob.Id = GuidUtil.New();
@@ -64,8 +69,8 @@ namespace Lumos.BLL.Service.Admin
 
 
             var backgroundJob = CurrentDb.BackgroundJob.Where(m => m.Id == rop.BackgroundJobId).FirstOrDefault();
-            backgroundJob.AssemblyName = rop.AssemblyName;
-            backgroundJob.ClassName = rop.ClassName;
+            //backgroundJob.AssemblyName = rop.AssemblyName;
+            //backgroundJob.ClassName = rop.ClassName;
             backgroundJob.CronExpression = rop.CronExpression;
             backgroundJob.CronExpressionDescription = rop.CronExpressionDescription;
             backgroundJob.Description = rop.Description;
