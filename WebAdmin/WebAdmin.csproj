@@ -1094,6 +1094,7 @@
     <Content Include="Views\Sys\BackgroundJob\List.cshtml" />
     <Content Include="Views\Sys\BackgroundJob\Add.cshtml" />
     <Content Include="Views\Sys\BackgroundJob\Edit.cshtml" />
+    <Content Include="Views\Sys\BackgroundJob\ListByLog.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

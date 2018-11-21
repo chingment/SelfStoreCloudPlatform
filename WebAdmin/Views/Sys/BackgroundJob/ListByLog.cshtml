@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<script type="text/javascript">
+
+    var listTable;
+
+    $(document).ready(function () {
+        listTable = $("#list_table").loadDataTable({
+            url: "/Sys/BackgroundJob/GetListByLog",
+            pageIndex: 0,
+            searchParams: $("#form1").serializeArray(),
+            searchButtonId: "btn_Search",
+            containerId: "form1",
+            rowDataCombie: function (p_index, p_row) {
+                var l_StrRows = "";
+                l_StrRows += "<tr>";
+                l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
+                l_StrRows += "<td class=\"overflow tipitem\" title=\"" + p_row.jobName + "\"   >" + p_row.jobName + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.executionTime + "\">" + p_row.executionTime + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.executionDuration + "\">" + p_row.executionDuration + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.runLog + "\">" + p_row.runLog + "</td>";
+                l_StrRows += "</tr>";
+                return l_StrRows;
+            }
+        });
+    });
+
+</script>
+
+<form id="form1" name="form1">
+    <div class="search-bar">
+        <div class="filter">
+            <span class="filter-label">名称：</span>
+            <span class="filter-input">
+                <input type="text" class="input-control" name="Name" style="width:120px;" />
+            </span>
+        </div>
+        <div class="filter"><input type="button" class="btn btn-search" id="btn_Search" value="查询" /> </div>
+        <div class="filter" style="float:right">
+            <input type="button" class="btn btn-add" id="btn_Add" value="新建" />
+        </div>
+    </div>
+    <div class="list">
+        <table id="list_table" class="list-tb" cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <th style="width:5%" class="no">
+                        序号
+                    </th>
+                    <th style="width:10%">
+                        名称
+                    </th>
+                    <th style="width:10%">
+                        执行时间
+                    </th>
+                    <th style="width:10%">
+                        执行时长
+                    </th>
+                    <th style="width:55%">
+                        运行日志
+                    </th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="5">
+                        <div class="pull-left">
+                            <span class="load-tip"></span>
+                        </div>
+                        <div class="pull-right pagination">
+                            <div class="pagination-info">
+
+                            </div>
+                            <div class="pagination-index">
+
+                            </div>
+                            <div class="pagination-goto">
+
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</form>
+

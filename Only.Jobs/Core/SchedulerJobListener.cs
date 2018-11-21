@@ -28,7 +28,7 @@ namespace Only.Jobs.Core
             DateTime NextFireTimeUtc = TimeZoneInfo.ConvertTimeFromUtc(context.NextFireTimeUtc.Value.DateTime, TimeZoneInfo.Local);
             DateTime FireTimeUtc = TimeZoneInfo.ConvertTimeFromUtc(context.FireTimeUtc.Value.DateTime, TimeZoneInfo.Local);
 
-            double TotalSeconds = context.JobRunTime.TotalSeconds;
+            decimal TotalSeconds = decimal.Parse(context.JobRunTime.TotalSeconds.ToString());
             string JobName = string.Empty;
             string LogContent = string.Empty;
             if (context.MergedJobDataMap != null)
@@ -59,7 +59,7 @@ namespace Only.Jobs.Core
                 LogContent = LogContent + " EX:" + jobException.ToString();
             }
 
-            AdminServiceFactory.BackgroundJob.UpdateInfo(GuidUtil.New(),BackgroundJobId, JobName, FireTimeUtc, NextFireTimeUtc, TotalSeconds, LogContent);
+            AdminServiceFactory.BackgroundJob.UpdateInfo(GuidUtil.New(), BackgroundJobId, JobName, FireTimeUtc, NextFireTimeUtc, TotalSeconds, LogContent);
         }
 
         public string Name

@@ -79,7 +79,7 @@ namespace Lumos.BLL.Service.Admin
             return result;
         }
 
-        public void WriteLog(string pOperater, string pBackgroundJobId, string pJobName, DateTime pExecutionTime, double pExecutionDuration, string pRunLog)
+        public void WriteLog(string pOperater, string pBackgroundJobId, string pJobName, DateTime pExecutionTime, decimal pExecutionDuration, string pRunLog)
         {
             var backgroundJobLog = new BackgroundJobLog();
             backgroundJobLog.Id = GuidUtil.New();
@@ -136,7 +136,7 @@ namespace Lumos.BLL.Service.Admin
             return result;
         }
 
-        public bool UpdateInfo(string pOperater, string pBackgroundJobId, string pJobName, DateTime pLastRunTime, DateTime pNextRunTime, double pExecutionDuration, string pRunLog)
+        public bool UpdateInfo(string pOperater, string pBackgroundJobId, string pJobName, DateTime pLastRunTime, DateTime pNextRunTime, decimal pExecutionDuration, string pRunLog)
         {
             var backgroundJob = CurrentDb.BackgroundJob.Where(m => m.Id == pBackgroundJobId).FirstOrDefault();
             if (backgroundJob != null)

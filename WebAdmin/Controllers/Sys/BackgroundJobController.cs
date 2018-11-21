@@ -22,6 +22,11 @@ namespace WebAdmin.Controllers.Sys
             return View();
         }
 
+        public ViewResult ListByLog()
+        {
+            return View();
+        }
+
         public ViewResult Add()
         {
             return View();
@@ -68,6 +73,41 @@ namespace WebAdmin.Controllers.Sys
                     StatusName = item.Status.GetCnName(),
                     IsDelete = item.IsDelete,
                     CreateTime = item.CreateTime.ToUnifiedFormatDate()
+                });
+            }
+
+            PageEntity pageEntity = new PageEntity { PageSize = pageSize, TotalRecord = total, Rows = olist };
+
+            return Json(ResultType.Success, pageEntity, "");
+        }
+
+        public CustomJsonResult GetListByLog(RupBaseGetList rup)
+        {
+            var query = (from u in CurrentDb.BackgroundJobLog
+                         where (rup.Name == null || u.JobName.Contains(rup.Name)) 
+                         select new { u.Id, u.JobName, u.ExecutionTime, u.ExecutionDuration, u.CreateTime, u.RunLog });
+
+            int total = query.Count();
+
+            int pageIndex = rup.PageIndex;
+            int pageSize = 10;
+            query = query.OrderByDescending(r => r.CreateTime).Skip(pageSize * (pageIndex)).Take(pageSize);
+
+
+            var list = query.ToList();
+
+            List<object> olist = new List<object>();
+
+            foreach (var item in list)
+            {
+                olist.Add(new
+                {
+                    Id = item.Id,
+                    JobName = item.JobName,
+                    ExecutionTime = item.ExecutionTime,
+                    ExecutionDuration = item.ExecutionDuration,
+                    RunLog = item.RunLog,
+                    CreateTime = item.CreateTime
                 });
             }
 

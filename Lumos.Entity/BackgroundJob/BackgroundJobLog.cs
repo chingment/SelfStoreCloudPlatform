@@ -30,7 +30,7 @@ namespace Lumos.Entity
         /// <summary>
         /// 执行持续时长
         /// </summary>				
-        public Nullable<double> ExecutionDuration { get; set; }
+        public decimal ExecutionDuration { get; set; }
 
         /// <summary>
         /// 创建日期时间
