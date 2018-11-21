@@ -32,37 +32,37 @@ namespace WebAppApi.Controllers
 
         public ActionResult Index()
         {
-            object isTest = ConfigurationManager.AppSettings["custom:IsTest"];
-            if (isTest == null)
-            {
-                isTest = "false";
-            }
+            //object isTest = ConfigurationManager.AppSettings["custom:IsTest"];
+            //if (isTest == null)
+            //{
+            //    isTest = "false";
+            //}
 
-            host = "https://demo.res.17fanju.com";
+            //host = "https://demo.res.17fanju.com";
 
-            if (isTest.ToString() == "false")
-            {
-                host = "https://demo.res.17fanju.com";
-            }
-            else
-            {
-                 host = "http://localhost:16665";
-            }
-
-
-            string clientId = "00000000000000000000000000000000";
-            string storeId = "be9ae32c554d4942be4a42fa48446210";
+            //if (isTest.ToString() == "false")
+            //{
+            //    host = "https://demo.res.17fanju.com";
+            //}
+            //else
+            //{
+            //     host = "http://localhost:16665";
+            //}
 
 
+            //string clientId = "00000000000000000000000000000000";
+            //string storeId = "be9ae32c554d4942be4a42fa48446210";
 
-            //model.Add("获取全局数据", GlobalDataSet(clientId, storeId, DateTime.Parse("2018-04-09 15:14:28")));
-            //model.Add("获取全局数据", ShippingAddress(clientId, storeId));
-            //model.Add("获取地址", GetShippingAddress(1215));
-            string aa = "rnx2OLcr5wRVFkLrDuv6hypG+VNHtCr+r5DrsKIrPUrEbG4NGTH7UnirjzbZKrYkxdxYRWl/ei+6dLhNMJh+kzM8NPYwfxclqh0kzHXyuopZ/RHNcJy9qIBb0gFKLOH/p7+/QHRvAdBStDz9gmuTf3DhtpUcw1/U2OJvQtjW4B3sr095619fniJsSok+O5XESbKfgU9AsTPdGgGn6DEpfgt3zjvycN1EhPKlkx68NJoGjP9oIFvrOxW7fXjfv6+o6Q2/X4A8buLrpRVYsQ+8qfp+JYSLnZDoXkR+XBEx+sn3iETilxtDDNsEGHBlR+2MKbj51RiRmxDIAkwYvNCfD/O79X9AnIEavL129Oxib0Gb4Br6MwAvugiGpTcFnpDjC7zssH9LmetCXPUjWUPZ1fidcSHtMIBwpMwQpl7oBaGX8ftU5vs3GFz2yASGQHanoJeT1OAl/Mdu/p+Muq6+0vL2Ven8GJEMtnPpzgF2v0c=";
-            string xx = "0239gQNL1xGz651x9XOL1VaSNL19gQNK";
-            string bb = "Dz8+EgdBeZqX4EOl8r/yxQ==";
-            model.Add("用户小程序授权", LoginByMinProgram(aa, xx, bb));
-            model.Add("订单确认", OrderConfirm("100e4a2715244d749a08aa88c51a5153","a1d1740312b34691b243453db81bf007"));
+
+
+            ////model.Add("获取全局数据", GlobalDataSet(clientId, storeId, DateTime.Parse("2018-04-09 15:14:28")));
+            ////model.Add("获取全局数据", ShippingAddress(clientId, storeId));
+            ////model.Add("获取地址", GetShippingAddress(1215));
+            //string aa = "rnx2OLcr5wRVFkLrDuv6hypG+VNHtCr+r5DrsKIrPUrEbG4NGTH7UnirjzbZKrYkxdxYRWl/ei+6dLhNMJh+kzM8NPYwfxclqh0kzHXyuopZ/RHNcJy9qIBb0gFKLOH/p7+/QHRvAdBStDz9gmuTf3DhtpUcw1/U2OJvQtjW4B3sr095619fniJsSok+O5XESbKfgU9AsTPdGgGn6DEpfgt3zjvycN1EhPKlkx68NJoGjP9oIFvrOxW7fXjfv6+o6Q2/X4A8buLrpRVYsQ+8qfp+JYSLnZDoXkR+XBEx+sn3iETilxtDDNsEGHBlR+2MKbj51RiRmxDIAkwYvNCfD/O79X9AnIEavL129Oxib0Gb4Br6MwAvugiGpTcFnpDjC7zssH9LmetCXPUjWUPZ1fidcSHtMIBwpMwQpl7oBaGX8ftU5vs3GFz2yASGQHanoJeT1OAl/Mdu/p+Muq6+0vL2Ven8GJEMtnPpzgF2v0c=";
+            //string xx = "0239gQNL1xGz651x9XOL1VaSNL19gQNK";
+            //string bb = "Dz8+EgdBeZqX4EOl8r/yxQ==";
+            //model.Add("用户小程序授权", LoginByMinProgram(aa, xx, bb));
+            //model.Add("订单确认", OrderConfirm("100e4a2715244d749a08aa88c51a5153","a1d1740312b34691b243453db81bf007"));
             return View(model);
         }
 

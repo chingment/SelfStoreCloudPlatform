@@ -67,7 +67,7 @@ namespace Lumos.BLL.Task
             }
             if (HttpContext.Current != null)
             {
-                return Path.Combine(HttpRuntime.AppDomainAppPath, relativePath);
+                return Path.Combine(HttpRuntime.AppDomainAppPath + "\\bin\\", relativePath);
             }
             else
             {
