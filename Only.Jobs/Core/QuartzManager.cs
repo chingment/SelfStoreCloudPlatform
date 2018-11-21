@@ -23,7 +23,7 @@ namespace Only.Jobs.Core
         /// <param name="assemblyName">含后缀的程序集名</param>
         /// <param name="className">含命名空间完整类名</param>
         /// <returns></returns>
-        private Type GetClassInfo(string assemblyName, string className)
+        public Type GetClassInfo(string assemblyName, string className)
         {
             Type type = null;
             try

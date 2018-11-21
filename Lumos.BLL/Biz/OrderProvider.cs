@@ -696,6 +696,12 @@ namespace Lumos.BLL.Biz
             {
                 var order = CurrentDb.Order.Where(m => m.Sn == pOrderSn).FirstOrDefault();
 
+                if (order == null)
+                {
+                    LogUtil.Info(string.Format("该订单号:{0},找不到", pOrderSn));
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("该订单号:{0},找不到", pOrderSn));
+                }
+
                 if (order.Status == Enumeration.OrderStatus.Cancled)
                 {
                     return new CustomJsonResult(ResultType.Success, ResultCode.Success, "该订单已经取消");
