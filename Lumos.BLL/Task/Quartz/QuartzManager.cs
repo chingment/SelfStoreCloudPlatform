@@ -81,7 +81,7 @@ namespace Lumos.BLL.Task
         /// </summary>
         /// <param name="scheduler"></param>
         /// <param name="jobInfo"></param>
-        public void ScheduleJob(IScheduler scheduler, BackgroundJob jobInfo)
+        public static void ScheduleJob(IScheduler scheduler, BackgroundJob jobInfo)
         {
             if (ValidExpression(jobInfo.CronExpression))
             {
@@ -112,59 +112,63 @@ namespace Lumos.BLL.Task
         }
 
 
+        public static void DeleteJob(IScheduler scheduler, JobKey jobKey)
+        {
+            if (scheduler == null)
+                return;
+
+            if (jobKey == null)
+                return;
+
+            if (scheduler.CheckExists(jobKey))
+            {
+                scheduler.DeleteJob(jobKey);
+            }
+        }
+
         /// <summary>
         /// Job状态管控
         /// </summary>
         /// <param name="Scheduler"></param>
-        public void JobScheduler(IScheduler Scheduler)
+        public static void JobScheduler(IScheduler scheduler)
         {
             ILog _logger = LogManager.GetLogger(typeof(QuartzManager));
-            _logger.InfoFormat("进入Job状态管控");
+            _logger.InfoFormat("Job状态管控");
 
-            List<BackgroundJob> list = AdminServiceFactory.BackgroundJob.GeAllowScheduleJobInfoList();
-            if (list != null && list.Count > 0)
+            var jobs = AdminServiceFactory.BackgroundJob.GeAllowScheduleJobInfoList();
+
+            _logger.InfoFormat("Job状态管控,有效控数为:" + jobs.Count);
+
+            if (jobs.Count > 0)
             {
-                _logger.InfoFormat("进入Job状态管控,有效监控数为:" + list.Count);
-
-                foreach (BackgroundJob jobInfo in list)
+                foreach (BackgroundJob job in jobs)
                 {
-                    _logger.InfoFormat("进入Job[{0}]的状态为:{1}", jobInfo.Id, jobInfo.Status.GetCnName());
+                    string jobId = job.Id;
+                    string jobGroup = string.Format("{0}Group", jobId);
 
-                    JobKey jobKey = new JobKey(jobInfo.Id, jobInfo.Id + "Group");
-                    if (Scheduler.CheckExists(jobKey) == false)
+                    _logger.InfoFormat("Job状态管控,任务({0})的状态:{1}", jobId, job.Status.GetCnName());
+
+                    JobKey jobKey = new JobKey(jobId, jobGroup);
+
+                    switch (job.Status)
                     {
-                        if (jobInfo.Status == Enumeration.BackgroundJobStatus.Runing || jobInfo.Status == Enumeration.BackgroundJobStatus.Starting)
-                        {
-                            ScheduleJob(Scheduler, jobInfo);
-                            if (Scheduler.CheckExists(jobKey) == false)
-                            {
-                                AdminServiceFactory.BackgroundJob.SetStatus(GuidUtil.New(), jobInfo.Id, Enumeration.BackgroundJobStatus.Stoped);
-                            }
-                            else
-                            {
-                                AdminServiceFactory.BackgroundJob.SetStatus(GuidUtil.New(), jobInfo.Id, Enumeration.BackgroundJobStatus.Runing);
-                            }
-                        }
-                        else if (jobInfo.Status == Enumeration.BackgroundJobStatus.Stoping)
-                        {
-                            AdminServiceFactory.BackgroundJob.SetStatus(GuidUtil.New(), jobInfo.Id, Enumeration.BackgroundJobStatus.Stoped);
-                        }
-                    }
-                    else
-                    {
-                        if (jobInfo.Status == Enumeration.BackgroundJobStatus.Stoping)
-                        {
-                            Scheduler.DeleteJob(jobKey);
-                            AdminServiceFactory.BackgroundJob.SetStatus(GuidUtil.New(), jobInfo.Id, Enumeration.BackgroundJobStatus.Stoped);
-                        }
-                        else if (jobInfo.Status == Enumeration.BackgroundJobStatus.Starting)
-                        {
-                            AdminServiceFactory.BackgroundJob.SetStatus(GuidUtil.New(), jobInfo.Id, Enumeration.BackgroundJobStatus.Runing);
-                        }
+                        case Enumeration.BackgroundJobStatus.Stoped:
+                            DeleteJob(scheduler, jobKey);
+                            break;
+                        case Enumeration.BackgroundJobStatus.Starting:
+                            ScheduleJob(scheduler, job);
+                            AdminServiceFactory.BackgroundJob.SetStatus(GuidUtil.New(), job.Id, Enumeration.BackgroundJobStatus.Runing);
+                            break;
+                        case Enumeration.BackgroundJobStatus.Runing:
+                            ScheduleJob(scheduler, job);
+                            break;
+                        case Enumeration.BackgroundJobStatus.Stoping:
+                            DeleteJob(scheduler, jobKey);
+                            AdminServiceFactory.BackgroundJob.SetStatus(GuidUtil.New(), job.Id, Enumeration.BackgroundJobStatus.Stoped);
+                            break;
                     }
                 }
             }
         }
-
     }
 }

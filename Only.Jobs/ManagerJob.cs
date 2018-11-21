@@ -12,12 +12,13 @@ namespace Only.Jobs
 
         public void Execute(IJobExecutionContext context)
         {
+            string curRunId = Guid.NewGuid().ToString();
             Version Ver = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-            _logger.InfoFormat("ManagerJob Execute begin Ver." + Ver.ToString());
+            _logger.InfoFormat("ManagerJob[{0}] Execute begin Ver.", Ver.ToString(), curRunId);
             try
             {
-                new QuartzManager().JobScheduler(context.Scheduler);
-                _logger.InfoFormat("ManagerJob Executing ...");
+                QuartzManager.JobScheduler(context.Scheduler);
+                _logger.InfoFormat("ManagerJob[{0}] Executing ...", curRunId);
             }
             catch (Exception ex)
             {
@@ -26,7 +27,7 @@ namespace Only.Jobs
             }
             finally
             {
-                _logger.InfoFormat("ManagerJob Execute end ");
+                _logger.InfoFormat("ManagerJob[{0}] Execute end ", curRunId);
             }
         }
     }

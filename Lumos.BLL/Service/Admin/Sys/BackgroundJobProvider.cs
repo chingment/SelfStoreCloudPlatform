@@ -79,6 +79,10 @@ namespace Lumos.BLL.Service.Admin
         {
             CustomJsonResult result = new CustomJsonResult();
 
+            if (!QuartzManager.ValidExpression(rop.CronExpression))
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "无效的Cron表达式");
+            }
 
             var backgroundJob = CurrentDb.BackgroundJob.Where(m => m.Id == rop.BackgroundJobId).FirstOrDefault();
             //backgroundJob.AssemblyName = rop.AssemblyName;
@@ -172,9 +176,7 @@ namespace Lumos.BLL.Service.Admin
 
         public List<BackgroundJob> GeAllowScheduleJobInfoList()
         {
-
-            List<BackgroundJob> list = null;
-            list = CurrentDb.BackgroundJob.Where(it => it.IsDelete == false && (it.Status == Enumeration.BackgroundJobStatus.Runing || it.Status == Enumeration.BackgroundJobStatus.Starting || it.Status == Enumeration.BackgroundJobStatus.Stoping)).OrderBy(it => it.CreateTime).ToList();
+            var list = CurrentDb.BackgroundJob.Where(it => it.IsDelete == false).OrderBy(it => it.CreateTime).ToList();
             return list;
         }
     }

@@ -32,14 +32,16 @@ namespace Only.Jobs
         {
 
             Type mainJobType = typeof(ManagerJob);
-            string mainJobId = "main";
-            JobKey jobKey = new JobKey(mainJobId, mainJobId + "Group");
-            IJobDetail job = new JobDetailImpl(mainJobId, mainJobId + "Group", mainJobType);
+            string mainJobId = GuidUtil.Empty();
+            string mainJobGroup = string.Format("{0}Group", mainJobId);
+
+            JobKey jobKey = new JobKey(mainJobId, mainJobGroup);
+            IJobDetail job = new JobDetailImpl(mainJobId, mainJobGroup, mainJobType);
             job.JobDataMap.Add("Parameters", "");
             job.JobDataMap.Add("JobName", "监控子任务状态变化任务");
 
             CronTriggerImpl trigger = new CronTriggerImpl();
-            trigger.CronExpressionString = "0/3 * * * * ?";
+            trigger.CronExpressionString = "0/3 * * * * ?";//每3秒执行一次
             trigger.Name = mainJobId;
             trigger.Description = "监控子任务状态变化任务";
             trigger.StartTimeUtc = DateTime.UtcNow;
@@ -49,11 +51,9 @@ namespace Only.Jobs
             {
                 scheduler.ScheduleJob(job, trigger);
             }
-
-
             scheduler.ListenerManager.AddJobListener(new SchedulerJobListener(), GroupMatcher<JobKey>.AnyGroup());
             scheduler.Start();
-            new QuartzManager().JobScheduler(scheduler);
+            //QuartzManager.JobScheduler(scheduler);
             _logger.Info(string.Format("{0} Start", ServiceName));
             return true;
         }
