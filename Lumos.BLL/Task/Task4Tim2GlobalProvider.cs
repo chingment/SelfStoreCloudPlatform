@@ -30,7 +30,6 @@ namespace Lumos.BLL.Task
 
     public class Task4Tim2GlobalProvider : BaseProvider, IJob
     {
-
         private static readonly string key = "task4GlobalTimer";
 
         public void Enter(TimerTaskType type, DateTime expireTime, object data)
@@ -66,30 +65,24 @@ namespace Lumos.BLL.Task
         public void Execute(IJobExecutionContext context)
         {
             #region 检查支付状态
-
             try
             {
                 var lists = GetList();
-
                 LogUtil.Info(string.Format("共有{0}条记录需要检查状态", lists.Count));
-
                 if (lists.Count > 0)
                 {
                     LogUtil.Info(string.Format("开始执行订单查询,时间：{0}", this.DateTime));
-
                     foreach (var m in lists)
                     {
-                        //判断是否已过期
-                        if (m.ExpireTime.AddMinutes(1) >= DateTime.Now)//未过期
+                        switch (m.Type)
                         {
-                            switch (m.Type)
-                            {
-                                case TimerTaskType.CheckOrderPay:
-
+                            case TimerTaskType.CheckOrderPay:
+                                #region 检查支付状态
+                                if (m.ExpireTime.AddMinutes(1) >= DateTime.Now)//未过期
+                                {
                                     var chData = m.Data.ToJsonObject<Order>();
+
                                     LogUtil.Info(string.Format("查询订单号：{0}", chData.Sn));
-
-
 
                                     bool isPaySuccessed = false;
 
@@ -104,27 +97,20 @@ namespace Lumos.BLL.Task
                                     if (isPaySuccessed)
                                     {
                                         Task4Factory.Global.Exit(m.Id);
-
                                         LogUtil.Info(string.Format("订单号：{0},支付成功,删除缓存", chData.Sn));
                                     }
-                                    break;
-
-                            }
-                        }
-                        else
-                        {
-                            //已过期
-                            switch (m.Type)
-                            {
-                                case TimerTaskType.CheckOrderPay:
+                                }
+                                else
+                                {
                                     var chData = m.Data.ToJsonObject<Order>();
                                     var rt = BizFactory.Order.Cancle(GuidUtil.Empty(), chData.Sn, "订单支付有效时间过期");
                                     if (rt.Result == ResultType.Success)
                                     {
                                         Task4Factory.Global.Exit(m.Id);
                                     }
-                                    break;
-                            }
+                                }
+                                #endregion 
+                                break;
                         }
                     }
 
