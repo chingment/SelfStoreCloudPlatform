@@ -233,6 +233,7 @@
     <Content Include="Views\Order2StockOut\Add.cshtml" />
     <Content Include="Views\Order2StockOut\Details.cshtml" />
     <Content Include="Views\Order2StockOut\List.cshtml" />
+    <Content Include="Views\ProductKind\Add.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>
