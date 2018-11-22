@@ -101,7 +101,7 @@
     <Compile Include="Sys\SysPageAccessRecord.cs" />
     <Compile Include="Sys\SysRole.cs" />
     <Compile Include="Sys\SysSmsSendHistory.cs" />
-    <Compile Include="Sys\SysStaffUser.cs" />
+    <Compile Include="Sys\SysAdminUser.cs" />
     <Compile Include="Sys\SysPermission.cs" />
     <Compile Include="Sys\SysMenu.cs" />
     <Compile Include="Sys\SysProvinceCity.cs" />

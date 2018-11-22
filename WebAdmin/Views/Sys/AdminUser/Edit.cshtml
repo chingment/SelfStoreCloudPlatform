@@ -2,30 +2,40 @@
     ViewBag.Title = "";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 @section scripts{
     <script type="text/javascript">
 
+        var userId = $.lumos.getUrlParamValue("userId");
         var tree_Roles;
         $(this).ready(function () {
-
-            $.formValidator.initConfig({ formID: "form1" });
-            $("#txt_UserName").formValidator({ onShow: "&nbsp;", onFocus: "由3到20个数字、英文字母或下划线组成", onCorrect: "&nbsp;" }).regexValidator({ min: 3, max: 20, regExp: "^[0-9a-zA-Z_]{3,20}$", onError: "由3到20个数字、英文字母或下划线组成" });
-            $("#txt_Password").formValidator({ onShow: "&nbsp;", onFocus: "由6到20个数字、英文字母或下划线组成", onCorrect: "&nbsp;" }).regexValidator({ regExp: regexEnum.password, onError: "由6到20个数字、英文字母或下划线组成" });
-            $("#txt_FullName").formValidator({ onShow: "&nbsp;", onFocus: "不超过50个字符", onCorrect: "&nbsp;" }).inputValidator({ min: 1, max: 50, empty: { leftEmpty: false, emptyError: "不能有空格" }, onError: "不超过50个字符" });
+            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { } });
+            $("#txt_FullName").formValidator({ onShow: "&nbsp;", onFocus: "不超过50个字", onCorrect: "&nbsp;" }).inputValidator({ min: 1, max: 50, empty: { leftEmpty: false, emptyError: "不能有空格" }, onError: "不超过50个字符" }).defaultPassed();
             $("#txt_Email").formValidator({ onShow: "&nbsp;", onFocus: "邮箱格式且不超过100个字符", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 100, onError: "邮箱格式且不超过100个字符" }).regexValidator({ regExp: regexEnum.email, onError: "邮箱格式且不超过100个字符" });
             $("#txt_PhoneNumber").formValidator({ onShow: "&nbsp;", onFocus: "手机号码格式", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).regexValidator({ regExp: regexEnum.mobile, onError: "手机号码格式" });
 
+            $("#abtn-editPwd").toggle(function () {
+                $("#lbl_Password").hide();
+                $("#txt_Password").show();
+                $(this).text("取消");
+            }, function () {
+                $("#lbl_Password").show();
+                $("#txt_Password").hide();
+                $("#txt_Password").val("");
+                $(this).text("修改");
+            }
+            );
+
             initData();
+
         });
 
         function initData() {
-
             loadRoles();
+            getDetails();
         }
 
-
         function loadRoles() {
-
             $.lumos.getJson({
                 url: "/Sys/Role/GetAll",
                 isUseHandling: true,
@@ -51,17 +61,44 @@
             });
         }
 
-        function add() {
+        function getDetails() {
 
+            $.lumos.getJson({
+                url: "/Sys/AdminUser/GetDetails",
+                urlParams: { userId: userId },
+                isUseHandling: true,
+                success: function (d) {
+                    if (d.result == $.lumos.resultType.success) {
+                        var data = d.data;
+
+                        $('#lbl_UserName').text(data.userName);
+                        $("#txt_FullName").val(data.fullName);
+                        $("#txt_Email").val(data.email);
+                        $("#txt_PhoneNumber").val(data.phoneNumber);
+
+                        if (data.roleIds != null) {
+                            if (data.roleIds.length > 0) {
+                                $.each(data.roleIds, function (i, n) {
+                                    var node = tree_Roles.getNodeByParam("id", n);
+                                    tree_Roles.checkNode(node);
+                                });
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function edit() {
             var isValid = $.formValidator.pageIsValid();
             if (isValid) {
-                art.dialog.confirm('确定要新建？', function (e) {
+                art.dialog.confirm('确定要保存？', function () {
+
                     var tree_RolesByChecked = tree_Roles.getCheckedNodes(true);
                     var roleIds = [];
                     $.each(tree_RolesByChecked, function (i, n) {
                         roleIds.push(n.id);
                     });
-
 
                     var userName = $("#txt_UserName").val();
                     var password = $("#txt_Password").val();
@@ -70,13 +107,13 @@
                     var phoneNumber = $("#txt_PhoneNumber").val();
 
                     $.lumos.postJson({
-                        url: "/Sys/StaffUser/Add",
-                        data: { userName: userName, password: password, fullName: fullName, email: email, phoneNumber: phoneNumber, roleIds: roleIds },
+                        url: "/Sys/AdminUser/Edit",
                         isUseHandling: true,
+                        data: { userId: userId, userName: userName, password: password, fullName: fullName, email: email, phoneNumber: phoneNumber, roleIds: roleIds },
                         success: function (d) {
                             if (d.result == $.lumos.resultType.success) {
-                                $.lumos.parentDialog.refresh(1);
-                                $.lumos.tips(d.message, true);
+                                $.lumos.parentDialog.refresh(2);
+                                $.lumos.tips(d.message);
                             }
                             else {
                                 $.lumos.tips(d.message);
@@ -88,30 +125,18 @@
             return false;
         }
 
-
+        //-->
     </script>
 }
-
-
-
 <div class="gbr-row gbr-dialog">
-    <div class="gbr-row-title clearfix">
-        <div class="pull-left">
-            <h5>基本信息</h5>
-        </div>
-        <div class="pull-right f-tb1-item-pull-right">
-            <h6></h6>
-        </div>
-    </div>
+
         <table class="f-tb" cellpadding="0" cellspacing="1">
             <tr>
                 <td class="f-tb-t">
                     用户名：
                 </td>
                 <td class="f-tb-c">
-                    Up
-                    <input id="txt_UserName" class="input-control" autocomplete="off" type="text" style="width: 128px;" clear="on" />
-                    <span id="txt_UserNameTip"></span>
+                    <label id="lbl_UserName"></label>
                 </td>
             </tr>
             <tr>
@@ -119,7 +144,10 @@
                     密码：
                 </td>
                 <td class="f-tb-c">
-                    <input id="txt_Password" class="input-control" autocomplete="off" type="password" style="width: 150px;" />
+                    <label id="lbl_Password">******</label>
+
+                    <input id="txt_Password" class="input-control" autocomplete="off" type="password" style="width: 150px;display:none;" />
+                    <a class="a-btn" id="abtn-editPwd" href="javascript:void(0)">修改</a>
                     <span id="txt_PasswordTip"></span>
                 </td>
             </tr>
@@ -128,7 +156,7 @@
                     姓名：
                 </td>
                 <td class="f-tb-c">
-                    <input id="txt_FullName" class="input-control" type="text" style="width: 150px;" autocomplete="off" />
+                    <input name="txt_FullName" class="input-control" type="text" id="txt_FullName" value="" style="width: 150px;" autocomplete="off" />
                     <span id="txt_FullNameTip"></span>
                 </td>
             </tr>
@@ -137,7 +165,7 @@
                     E-mail：
                 </td>
                 <td class="f-tb-c">
-                    <input id="txt_Email" class="input-control" type="text" style="width: 150px;" autocomplete="off" />
+                    <input id="txt_Email" class="input-control" type="text" value="" style="width: 150px;" autocomplete="off" />
                     <span id="txt_EmailTip"></span>
                 </td>
             </tr>
@@ -146,7 +174,7 @@
                     手机：
                 </td>
                 <td class="f-tb-c">
-                    <input id="txt_PhoneNumber" class="input-control" type="text" style="width: 150px;" autocomplete="off" />
+                    <input id="txt_PhoneNumber" class="input-control" type="text" value="" style="width: 150px;" autocomplete="off" />
                     <span id="txt_PhoneNumberTip"></span>
                 </td>
             </tr>
@@ -161,10 +189,16 @@
             <tr style="display:none">
                 <td class="f-tb-t"></td>
                 <td class="f-tb-c">
-                    <input type="submit" name="btn_Submit" id="btn_Submit" value="确定" class="btn btn-sure" />
+                    <input type="submit" name="btn_Submit" id="btn_Submit" value="保存" class="btn btn-save" />
                     <input type="button" name="btn_Cancle" id="btn_Cancle" value="关闭" class="btn btn-close dialog-close" />
                 </td>
             </tr>
         </table>
+
 </div>
+
+
+
+
+
 

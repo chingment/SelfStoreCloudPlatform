@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.Admin
 {
-    public class RetSysStaffUserGetDetails
+    public class RetSysAdminUserGetDetails
     {
         public string[] RoleIds { get; set; }
         public string UserName { get; set; }

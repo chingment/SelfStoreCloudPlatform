@@ -75,7 +75,7 @@ namespace WebAdmin.Controllers.Sys
 
             var list = (from ur in CurrentDb.SysUserRole
                         join r in CurrentDb.SysRole on ur.RoleId equals r.Id
-                        join u in CurrentDb.SysStaffUser on ur.UserId equals u.Id
+                        join u in CurrentDb.SysAdminUser on ur.UserId equals u.Id
                         where ur.RoleId == rup.RoleId &&
                             (userName.Length == 0 || u.UserName.Contains(userName)) &&
                                (fullName.Length == 0 || u.FullName.Contains(fullName)) &&
@@ -109,7 +109,7 @@ namespace WebAdmin.Controllers.Sys
             }
 
 
-            var list = (from u in CurrentDb.SysStaffUser
+            var list = (from u in CurrentDb.SysAdminUser
                         where !(from d in CurrentDb.SysUserRole
 
                                 where d.RoleId == rup.RoleId

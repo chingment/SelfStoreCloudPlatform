@@ -194,7 +194,7 @@
     <Compile Include="Service\Admin\Sys\RModels\RetSysMenuGetDetails.cs" />
     <Compile Include="Service\Admin\Sys\RModels\RetSysMenuGetPermissions.cs" />
     <Compile Include="Service\Admin\Sys\RModels\RetSysRoleGetDetails.cs" />
-    <Compile Include="Service\Admin\Sys\RModels\RetSysStaffUserGetDetails.cs" />
+    <Compile Include="Service\Admin\Sys\RModels\RetSysAdminUserGetDetails.cs" />
     <Compile Include="Service\Admin\Sys\RModels\RetSysUserGetDetails.cs" />
     <Compile Include="Service\Admin\Sys\RModels\RopChangePassword.cs" />
     <Compile Include="Service\Admin\Sys\RModels\RopSysMenuAdd.cs" />
@@ -202,14 +202,14 @@
     <Compile Include="Service\Admin\Sys\RModels\RopSysMenuEditSort.cs" />
     <Compile Include="Service\Admin\Sys\RModels\RopSysRoleAdd.cs" />
     <Compile Include="Service\Admin\Sys\RModels\RopSysRoleEdit.cs" />
-    <Compile Include="Service\Admin\Sys\RModels\RopSysStaffUserAdd.cs" />
-    <Compile Include="Service\Admin\Sys\RModels\RopSysStaffUserEdit.cs" />
+    <Compile Include="Service\Admin\Sys\RModels\RopSysAdminUserAdd.cs" />
+    <Compile Include="Service\Admin\Sys\RModels\RopSysAdminUserEdit.cs" />
     <Compile Include="Service\Admin\Sys\RModels\RupSysRoleUserGetList.cs" />
-    <Compile Include="Service\Admin\Sys\RModels\RupSysStaffUserGetList.cs" />
+    <Compile Include="Service\Admin\Sys\RModels\RupSysAdminUserGetList.cs" />
     <Compile Include="Service\Admin\Sys\RModels\RupSysUserGetList.cs" />
     <Compile Include="Service\Admin\Sys\SysMenuProvider.cs" />
     <Compile Include="Service\Admin\Sys\SysRoleProvider.cs" />
-    <Compile Include="Service\Admin\Sys\SysStaffUserProvider.cs" />
+    <Compile Include="Service\Admin\Sys\SysAdminUserProvider.cs" />
     <Compile Include="Service\Merch\MerchServiceFactory.cs" />
     <Compile Include="Service\Merch\CompanyProvider.cs" />
     <Compile Include="Service\Merch\MerchantMachineProvider.cs" />

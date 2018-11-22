@@ -4,8 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Lumos.Entity
 {
-    [Table("SysStaffUser")]
-    public class SysStaffUser : SysUser
+    [Table("SysAdminUser")]
+    public class SysAdminUser : SysUser
     {
 
     }

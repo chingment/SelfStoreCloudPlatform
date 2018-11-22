@@ -48,7 +48,7 @@ namespace Lumos.DAL.AuthorizeRelay
 
         public IDbSet<SysUserLoginHistory> SysUserLoginHistory { get; set; }
 
-        public IDbSet<SysStaffUser> SysStaffUser { get; set; }
+        public IDbSet<SysAdminUser> SysAdminUser { get; set; }
 
         public IDbSet<SysClientUser> SysClientUser { get; set; }
 

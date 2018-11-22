@@ -14,7 +14,7 @@ using Lumos.BLL.Service.Admin;
 namespace WebAdmin.Controllers.Sys
 {
     [OwnAuthorize(PermissionCode.后台用户管理)]
-    public class StaffUserController : OwnBaseController
+    public class AdminUserController : OwnBaseController
     {
 
         #region 视图
@@ -40,9 +40,9 @@ namespace WebAdmin.Controllers.Sys
         }
         #endregion
 
-        public CustomJsonResult GetList(RupSysStaffUserGetList rup)
+        public CustomJsonResult GetList(RupSysAdminUserGetList rup)
         {
-            var list = (from u in CurrentDb.SysStaffUser
+            var list = (from u in CurrentDb.SysAdminUser
                         where (rup.UserName == null || u.UserName.Contains(rup.UserName)) &&
                         (rup.FullName == null || u.FullName.Contains(rup.FullName)) &&
                         u.IsDelete == false
@@ -60,9 +60,9 @@ namespace WebAdmin.Controllers.Sys
         }
 
 
-        public CustomJsonResult GetSelectList(RupSysStaffUserGetList rup)
+        public CustomJsonResult GetSelectList(RupSysAdminUserGetList rup)
         {
-            var list = (from u in CurrentDb.SysStaffUser
+            var list = (from u in CurrentDb.SysAdminUser
                         where (rup.UserName == null || u.UserName.Contains(rup.UserName)) &&
                         (rup.FullName == null || u.FullName.Contains(rup.FullName)) &&
                         u.IsDelete == false
@@ -83,25 +83,25 @@ namespace WebAdmin.Controllers.Sys
 
         public CustomJsonResult GetDetails(string userId)
         {
-            return AdminServiceFactory.SysStaffUser.GetDetails(this.CurrentUserId, userId);
+            return AdminServiceFactory.SysAdminUser.GetDetails(this.CurrentUserId, userId);
         }
 
         [HttpPost]
-        public CustomJsonResult Add(RopSysStaffUserAdd rop)
+        public CustomJsonResult Add(RopSysAdminUserAdd rop)
         {
-            return AdminServiceFactory.SysStaffUser.Add(this.CurrentUserId, rop);
+            return AdminServiceFactory.SysAdminUser.Add(this.CurrentUserId, rop);
         }
 
         [HttpPost]
         public CustomJsonResult Edit(RopSysStaffUserEdit rop)
         {
-            return AdminServiceFactory.SysStaffUser.Edit(this.CurrentUserId, rop);
+            return AdminServiceFactory.SysAdminUser.Edit(this.CurrentUserId, rop);
         }
 
         [HttpPost]
         public CustomJsonResult Delete(string[] userIds)
         {
-            return AdminServiceFactory.SysStaffUser.Delete(this.CurrentUserId, userIds);
+            return AdminServiceFactory.SysAdminUser.Delete(this.CurrentUserId, userIds);
         }
 
     }
