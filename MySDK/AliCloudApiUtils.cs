@@ -111,7 +111,7 @@ namespace MySDK
                 if (apiResult.Success)
                 {
 
-                    sendHistory.Result = Enumeration.SysSmsSendResult.Success;
+                    sendHistory.Result = Enumeration.SmsSendResult.Success;
                     currentDb.SysSmsSendHistory.Add(sendHistory);
                     currentDb.SaveChanges();
 
@@ -120,7 +120,7 @@ namespace MySDK
                 }
                 else
                 {
-                    sendHistory.Result = Enumeration.SysSmsSendResult.Failure;
+                    sendHistory.Result = Enumeration.SmsSendResult.Failure;
                     sendHistory.FailureReason = string.Format("描述:{0}", apiResult.Message);
                     currentDb.SysSmsSendHistory.Add(sendHistory);
                     currentDb.SaveChanges();
@@ -135,7 +135,7 @@ namespace MySDK
             }
             catch (Exception ex)
             {
-                sendHistory.Result = Enumeration.SysSmsSendResult.Exception;
+                sendHistory.Result = Enumeration.SmsSendResult.Exception;
 
                 sendHistory.FailureReason = ex.Message;
 

@@ -9,7 +9,7 @@ namespace Lumos.Entity
     /// </summary>
     public partial class Enumeration
     {
-        public enum SysSmsSendResult
+        public enum SmsSendResult
         {
             [Remark("未知")]
             Unknow = 0,
@@ -21,24 +21,6 @@ namespace Lumos.Entity
             Exception = 2,
         }
 
-        public enum BannerType
-        {
-            Unknow = 0,
-            MainHomeTop = 1
-        }
-
-        public enum SysBannerStatus
-        {
-            [Remark("未知")]
-            Unknow = 0,
-            [Remark("暂存")]
-            Save = 1,
-            [Remark("已发布")]
-            Release = 2,
-            [Remark("撤销")]
-            Cancle = 3
-        }
-
         public enum AppType
         {
             Unknow = 0,
@@ -46,7 +28,6 @@ namespace Lumos.Entity
             PublicNumber = 2,
             MinProgram = 3
         }
-
 
         public enum UserStatus
         {
@@ -65,9 +46,6 @@ namespace Lumos.Entity
             Merchant = 5
         }
 
-        /// <summary>
-        /// 登录类型
-        /// </summary>
         public enum LoginType
         {
             Unknow = 0,
@@ -77,9 +55,6 @@ namespace Lumos.Entity
             Wechat = 4
         }
 
-        /// <summary>
-        /// 登录结果
-        /// </summary>
         public enum LoginResult
         {
 
@@ -99,10 +74,6 @@ namespace Lumos.Entity
             UserAccessFailedMaxCount = 6
         }
 
-
-        /// <summary>
-        /// 控件类型
-        /// </summary>
         public enum InputType
         {
             CheckBox = 0,
@@ -113,84 +84,6 @@ namespace Lumos.Entity
             Select = 5
         }
 
-
-        /// <summary>
-        /// 是否有效
-        /// </summary>
-        public enum Disable
-        {
-            /// <summary>
-            /// 是
-            /// </summary>
-            Yes = 0,
-            /// <summary>
-            /// 否
-            /// </summary>
-            No = 1
-        }
-
-        /// <summary>
-        /// 是否有效
-        /// </summary>
-        public enum YesOrNo
-        {
-            /// <summary>
-            /// 是
-            /// </summary>
-            [Remark("否")]
-            No = 0,
-            /// <summary>
-            /// 否
-            /// </summary>
-            [Remark("是")]
-            Yes = 1
-        }
-
-
-        /// <summary>
-        /// 性别
-        /// </summary>
-        public enum Sex
-        {
-            /// <summary>
-            /// 未知
-            /// </summary>
-            [Remark("未知")]
-            Unknow = 0,
-            /// <summary>
-            /// 男
-            /// </summary>
-            [Remark("男")]
-            Male = 1,
-            /// <summary>
-            /// 女
-            /// </summary>
-            [Remark("女")]
-            Female = 2
-        }
-
-        /// <summary>
-        /// 证件类型
-        /// </summary>
-        public enum DocumentType
-        {
-            /// <summary>
-            /// 未知
-            /// </summary>
-            Unknow = 0,
-            /// <summary>
-            /// 身份证
-            /// </summary>
-            IdCard = 1,
-            /// <summary>
-            /// 护照
-            /// </summary>
-            Passport = 2
-        }
-
-        /// <summary>
-        /// 操作类型
-        /// </summary>
         public enum OperateType
         {
             /// <summary>
@@ -249,7 +142,6 @@ namespace Lumos.Entity
             Unknow = 0,
             User = 1
         }
-
 
         public enum BackgroundJobStatus
         {

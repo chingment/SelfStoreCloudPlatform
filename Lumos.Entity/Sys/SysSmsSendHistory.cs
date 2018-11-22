@@ -40,6 +40,6 @@ namespace Lumos.Entity
 
         public DateTime CreateTime { get; set; }
 
-        public Enumeration.SysSmsSendResult Result { get; set; }
+        public Enumeration.SmsSendResult Result { get; set; }
     }
 }

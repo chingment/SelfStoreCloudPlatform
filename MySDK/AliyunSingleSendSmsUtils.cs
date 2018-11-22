@@ -55,12 +55,12 @@ namespace MySDK
                 SendSmsResponse sendSmsResponse = acsClient.GetAcsResponse(request);
                 if (sendSmsResponse.Code == "OK")
                 {
-                    sendHistory.Result = Enumeration.SysSmsSendResult.Success;
+                    sendHistory.Result = Enumeration.SmsSendResult.Success;
                     result = new CustomJsonResult(ResultType.Success, "发送成功.");
                 }
                 else
                 {
-                    sendHistory.Result = Enumeration.SysSmsSendResult.Failure;
+                    sendHistory.Result = Enumeration.SmsSendResult.Failure;
                     sendHistory.FailureReason = sendSmsResponse.Message;
                     result = new CustomJsonResult(ResultType.Failure, "发送失败.");
                 }
@@ -68,7 +68,7 @@ namespace MySDK
             }
             catch (ServerException ex)
             {
-                sendHistory.Result = Enumeration.SysSmsSendResult.Exception;
+                sendHistory.Result = Enumeration.SmsSendResult.Exception;
 
                 sendHistory.FailureReason = ex.ErrorCode;
 
@@ -77,7 +77,7 @@ namespace MySDK
             }
             catch (ClientException ex)
             {
-                sendHistory.Result = Enumeration.SysSmsSendResult.Exception;
+                sendHistory.Result = Enumeration.SmsSendResult.Exception;
 
                 sendHistory.FailureReason = ex.ErrorCode;
 
@@ -85,7 +85,7 @@ namespace MySDK
             }
             catch (Exception ex)
             {
-                sendHistory.Result = Enumeration.SysSmsSendResult.Exception;
+                sendHistory.Result = Enumeration.SmsSendResult.Exception;
 
                 sendHistory.FailureReason = ex.Message;
 
