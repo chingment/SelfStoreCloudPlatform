@@ -39,11 +39,9 @@ namespace Lumos.Entity
         public enum UserType
         {
             Unknow = 0,
-            Staff = 1,
-            Client = 2,
-            Agent = 3,
-            Salesman = 4,
-            Merchant = 5
+            Admin = 1,
+            Merchant = 2,
+            Client = 3,
         }
 
         public enum LoginType
