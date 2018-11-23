@@ -79,11 +79,6 @@ namespace Lumos.BLL.Service.AppTerm
                 return new CustomJsonResult(ResultType.Failure, "设备未绑定商户");
             }
 
-            var merchantConfig = CurrentDb.MerchantConfig.Where(m => m.Id == merchantMachine.MerchantId).FirstOrDefault();
-            if (merchantConfig == null)
-            {
-                return new CustomJsonResult(ResultType.Failure, "已绑定商户，却找不到商户信息");
-            }
 
             var storeMachine = CurrentDb.StoreMachine.Where(m => m.MerchantId == merchantMachine.MerchantId && m.MachineId == merchantMachine.MachineId && m.IsBind == true).FirstOrDefault();
 
@@ -92,9 +87,9 @@ namespace Lumos.BLL.Service.AppTerm
                 return new CustomJsonResult(ResultType.Failure, "设备未绑定店铺");
             }
 
-            var merchant = CurrentDb.SysMerchantUser.Where(m => m.Id == storeMachine.MerchantId).FirstOrDefault();
+            var sysMerchantUser = CurrentDb.SysMerchantUser.Where(m => m.Id == storeMachine.MerchantId).FirstOrDefault();
 
-            if (merchant == null)
+            if (sysMerchantUser == null)
             {
                 return new CustomJsonResult(ResultType.Failure, "商户不存在");
             }
@@ -106,16 +101,22 @@ namespace Lumos.BLL.Service.AppTerm
                 return new CustomJsonResult(ResultType.Failure, "店铺不存在");
             }
 
+            var merchantInfo = CurrentDb.MerchantInfo.Where(m => m.MerchantId == merchantMachine.MerchantId).FirstOrDefault();
+            if (merchantInfo == null)
+            {
+                return new CustomJsonResult(ResultType.Failure, "已绑定商户，却找不到商户信息");
+            }
+
             var ret = new RetMachineApiConfig();
             ret.MerchantId = storeMachine.MerchantId;
-            ret.MerchantName = merchant.MerchantName;
+            ret.MerchantName = merchantInfo.Name;
             ret.StoreId = storeMachine.StoreId;
             ret.StoreName = store.Name;
             ret.MachineId = storeMachine.MachineId;
-            ret.ApiHost = merchantConfig.ApiHost;
-            ret.ApiKey = merchantConfig.ApiKey;
-            ret.ApiSecret = merchantConfig.ApiSecret;
-            ret.PayTimeout = merchantConfig.PayTimeout;
+            ret.ApiHost = merchantInfo.ApiHost;
+            ret.ApiKey = merchantInfo.ApiKey;
+            ret.ApiSecret = merchantInfo.ApiSecret;
+            ret.PayTimeout = merchantInfo.PayTimeout;
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }

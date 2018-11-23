@@ -30,14 +30,14 @@ namespace Lumos.BLL.Service.Admin
             var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.MachineId == machine.Id && m.IsBind == true).FirstOrDefault();
             if (merchantMachine != null)
             {
-                var sysMerchantUser = CurrentDb.SysMerchantUser.Where(m => m.Id == merchantMachine.MerchantId).FirstOrDefault();
-                if (sysMerchantUser != null)
+                var merchantInfo = CurrentDb.MerchantInfo.Where(m => m.MerchantId == merchantMachine.MerchantId).FirstOrDefault();
+                if (merchantInfo != null)
                 {
-                    ret.Merchant.Id = sysMerchantUser.Id;
-                    ret.Merchant.Name = sysMerchantUser.MerchantName ?? "";
-                    ret.Merchant.ContactName = sysMerchantUser.ContactName ?? "";
-                    ret.Merchant.ContactPhone = sysMerchantUser.ContactPhone ?? "";
-                    ret.Merchant.ContactAddress = sysMerchantUser.ContactAddress ?? "";
+                    ret.Merchant.Id = merchantInfo.MerchantId;
+                    ret.Merchant.Name = merchantInfo.Name ?? "";
+                    ret.Merchant.ContactName = merchantInfo.ContactName ?? "";
+                    ret.Merchant.ContactPhone = merchantInfo.ContactPhone ?? "";
+                    ret.Merchant.ContactAddress = merchantInfo.ContactAddress ?? "";
                 }
             }
 

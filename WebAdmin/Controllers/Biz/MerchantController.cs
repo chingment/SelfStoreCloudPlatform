@@ -47,11 +47,11 @@ namespace WebAdmin.Controllers.Biz
         public CustomJsonResult GetList(RupMerchantGetList rup)
         {
             string name = rup.Name.ToSearchString();
-            var query = (from m in CurrentDb.SysMerchantUser
-                         join u in CurrentDb.SysUser on m.Id equals u.Id
+            var query = (from m in CurrentDb.MerchantInfo
+                         join u in CurrentDb.SysMerchantUser on m.MerchantId equals u.Id
                          where
-                                 (name.Length == 0 || m.MerchantName.Contains(name))
-                         select new { m.Id, u.UserName, m.MerchantName, m.ContactName, m.ContactAddress, m.ContactPhone, m.CreateTime });
+                                 (name.Length == 0 || m.Name.Contains(name))
+                         select new { m.Id, u.UserName, m.Name, m.ContactName, m.ContactAddress, m.ContactPhone, m.CreateTime });
 
             int total = query.Count();
 
@@ -68,7 +68,7 @@ namespace WebAdmin.Controllers.Biz
                 {
                     item.Id,
                     item.UserName,
-                    item.MerchantName,
+                    item.Name,
                     item.ContactName,
                     item.ContactPhone,
                     item.CreateTime,
@@ -103,7 +103,7 @@ namespace WebAdmin.Controllers.Biz
             string deviceId = rup.DeviceId.ToSearchString();
 
             var list = (from mp in CurrentDb.MerchantMachine
-                        join m in CurrentDb.SysMerchantUser on mp.MerchantId equals m.Id
+                        join m in CurrentDb.MerchantInfo on mp.MerchantId equals m.MerchantId
                         join p in CurrentDb.Machine on mp.MachineId equals p.Id
                         where
                         mp.MerchantId == rup.MerchantId &&
@@ -111,7 +111,7 @@ namespace WebAdmin.Controllers.Biz
                         mp.IsBind == true &&
                                (deviceId.Length == 0 || p.DeviceId.Contains(deviceId))
 
-                        select new { mp.Id, mp.MerchantId, mp.MachineId, m.MerchantName, p.DeviceId, MachineName = p.Name, p.MacAddress });
+                        select new { mp.Id, mp.MerchantId, mp.MachineId, MerchantName = m.Name, p.DeviceId, MachineName = p.Name, p.MacAddress });
 
             int total = list.Count();
 

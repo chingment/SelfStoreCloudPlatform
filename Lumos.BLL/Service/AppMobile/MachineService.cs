@@ -34,9 +34,9 @@ namespace Lumos.BLL.Service.AppMobile
 
             var ret = new RetOperateResult();
 
-            var merchant = CurrentDb.SysMerchantUser.Where(m => m.Id == rup.MerchantId).FirstOrDefault();
+            var merchantInfo = CurrentDb.MerchantInfo.Where(m => m.Id == rup.MerchantId).FirstOrDefault();
 
-            if (merchant == null)
+            if (merchantInfo == null)
             {
                 ret.Result = RetOperateResult.ResultType.Failure;
                 ret.Remarks = "";
@@ -90,7 +90,7 @@ namespace Lumos.BLL.Service.AppMobile
 
             ret.Buttons.Add(new RetOperateResult.Button() { Name = "登录", Color = "red", Url = "", Operate = "login" });
 
-            ret.Fields.Add(new RetOperateResult.Field() { Name = "商户", Value = merchant.MerchantName });
+            ret.Fields.Add(new RetOperateResult.Field() { Name = "商户", Value = merchantInfo.Name });
             ret.Fields.Add(new RetOperateResult.Field() { Name = "店铺", Value = store.Name });
             ret.Fields.Add(new RetOperateResult.Field() { Name = "机器编码", Value = machine.MachineName });
 

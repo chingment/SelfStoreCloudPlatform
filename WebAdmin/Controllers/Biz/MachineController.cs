@@ -77,10 +77,10 @@ namespace WebAdmin.Controllers.Biz
                 var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.MachineId == item.Id && m.IsBind == true).FirstOrDefault();
                 if (merchantMachine != null)
                 {
-                    var merchant = CurrentDb.SysMerchantUser.Where(m => m.Id == merchantMachine.MerchantId).FirstOrDefault();
-                    if (merchant != null)
+                    var merchantInfo = CurrentDb.MerchantInfo.Where(m => m.MerchantId == merchantMachine.MerchantId).FirstOrDefault();
+                    if (merchantInfo != null)
                     {
-                        merchantName = merchant.MerchantName;
+                        merchantName = merchantInfo.Name;
                         isBind = true;
                     }
                 }
