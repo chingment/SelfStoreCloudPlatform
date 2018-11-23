@@ -26,22 +26,17 @@ namespace WebMerch.Controllers
             return View();
         }
 
-        public CustomJsonResult GetTreeList(int pId)
+        public CustomJsonResult GetAll()
         {
-            ProductSubject[] arr;
-
-            arr = CurrentDb.ProductSubject.Where(m => m.MerchantId == this.CurrentUserId && m.IsDelete == false).OrderByDescending(m => m.Priority).ToArray();
-
-
-
+            var arr = CurrentDb.ProductSubject.Where(m => m.MerchantId == this.CurrentUserId && m.IsDelete == false).OrderByDescending(m => m.Priority).ToArray();
             object json = ConvertToZTreeJson(arr, "id", "pid", "name", "menu");
             return Json(ResultType.Success, json);
 
         }
 
-        public CustomJsonResult GetDetails(string subjectId)
+        public CustomJsonResult GetDetails(string id)
         {
-            return MerchServiceFactory.ProductSubject.GetDetails(this.CurrentUserId, this.CurrentUserId, subjectId);
+            return MerchServiceFactory.ProductSubject.GetDetails(this.CurrentUserId, this.CurrentUserId, id);
         }
 
 
@@ -61,9 +56,9 @@ namespace WebMerch.Controllers
         }
 
         [HttpPost]
-        public CustomJsonResult Delete(string[] subjectIds)
+        public CustomJsonResult Delete(string[] ids)
         {
-            return MerchServiceFactory.ProductSubject.Delete(this.CurrentUserId, this.CurrentUserId, subjectIds);
+            return MerchServiceFactory.ProductSubject.Delete(this.CurrentUserId, this.CurrentUserId, ids);
         }
 
         public CustomJsonResult GetProductSkuList(RupProductSkuGetList rup)

@@ -38,13 +38,11 @@
             loadSubjects();
 
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
-
-
-            $("#txt_Name").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 20, empty: { leftEmpty: false, emptyError: "不能为空" }, onError: "名称不能超过20个字符" });
-            $("#txt_MainImg").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请上传封面" });
-            $("#txt_IconImg").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请上传小图标" });
-            $("#sel_Status").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择状态" });
-            $("#txt_Description").formValidator({ onShow: "", onFocus: "不超过500个字符", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 500, onError: "不超过500个字符" });
+            $("#txt_Name").formValidator().inputValidator({ min: 1, max: 20, onError: "名称须填，且不能超过20个字符" });
+            $("#txt_MainImg").formValidator().inputValidator({ min: 1, max: 500, onError: "请上传封面" });
+            $("#txt_IconImg").formValidator().inputValidator({ min: 1, max: 500, onError: "请上传小图标" });
+            $("#sel_Status").formValidator().inputValidator({ min: 1, max: 500, onError: "请选择状态" });
+            $("#txt_Description").formValidator().inputValidator({ min: 0, max: 500, onError: "描述不能超过500个字符" });
 
             $("#btn_add").click(function () {
                 var url = '/ProductSubject/Add';
@@ -69,15 +67,15 @@
                     "确定删除[" + selObj.name + "]节点及其子节点吗？",
                          function () {
                              var id = selObj.id;
-                             var subjectIds = [];
+                             var ids = [];
                              var nodes = tree_Subjects.getSelectedNodeFollowChildren();
                              $.each(nodes, function (i, n) {
-                                 subjectIds.push(n.id);
+                                 ids.push(n.id);
                              });
 
                              $.lumos.postJson({
                                  url: "/ProductSubject/Delete",
-                                 data: { subjectIds: subjectIds },
+                                 data: { ids: ids },
                                  success: function (d) {
                                      $.lumos.tips(d.message);
                                      loadSubjects();
@@ -138,7 +136,7 @@
                 operate: {
                     "edit": function (obj) {
 
-                        var url = '/ProductSku/Edit?productSkuId=' + obj.id;
+                        var url = '/ProductSku/Edit?id=' + obj.id;
                         var title = '商品信息修改';
                         var dialog = art.dialog.open(url, {
                             id: "openDialog", title: title, width: '800px', height: '600px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
@@ -173,16 +171,14 @@
         function getDetails() {
 
             $.lumos.postJson({
-                data: { subjectId: cur_SubjectId },
+                data: { id: cur_SubjectId },
                 url: "/ProductSubject/GetDetails",
                 success: function (d) {
 
                     if (d.result == $.lumos.resultType.success) {
                         var data = d.data;
                         $("#txt_Name").val(data.name);
-                        $("#txt_Name").defaultPassed();
                         $("#txt_Description").val(data.description);
-                        $("#txt_Description").defaultPassed();
                         $("#txt_MainImg").val(data.mainImg);
                         $("#txt_IconImg").val(data.iconImg);
                         $("#sel_Status").find("option[value='" + data.status + "']").attr("selected", true);
@@ -196,8 +192,8 @@
 
         function loadSubjects(id) {
 
-            $.lumos.postJson({
-                url: "/ProductSubject/GetTreeList?pId=0",
+            $.lumos.getJson({
+                url: "/ProductSubject/GetAll",
                 success: function (d) {
                     var obj = eval(d.data);
                     tree_Subjects = $.fn.zTree.init($("#tree_Subjects"), {
@@ -245,29 +241,40 @@
                 return false;
             }
             var isValid = $.formValidator.pageIsValid();
-            if (isValid) {
-                art.dialog.confirm(
-         '确定要保存？',
-         function () {
-             var id = selObj.id;
+            if (!isValid)
+                return false;
 
-             var name = $('#txt_Name').val();
-             var mainImg = $("#txt_MainImg").val();
-             var iconImg = $("#txt_IconImg").val();
-             var description = $("#txt_Description").val();
-             var status = $("#sel_Status").val();
+            art.dialog.confirm('确定要保存？', function () {
+                var id = selObj.id;
 
-             $.lumos.postJson({
-                 url: "/ProductSubject/Edit",
-                 data: { subjectId: cur_SubjectId, name: name, mainImg: mainImg, iconImg: iconImg, description: description, status: status },
-                 success: function (d) {
-                     $.lumos.tips(d.message);
-                     loadSubjects(id);
-                 }
-             });
-         });
-            }
+                var name = $('#txt_Name').val();
+                var mainImg = $("#txt_MainImg").val();
+                var iconImg = $("#txt_IconImg").val();
+                var description = $("#txt_Description").val();
+                var status = $("#sel_Status").val();
+
+                $.lumos.postJson({
+                    url: "/ProductSubject/Edit",
+                    data: { id: cur_SubjectId, name: name, mainImg: mainImg, iconImg: iconImg, description: description, status: status },
+                    success: function (d) {
+                        $.lumos.tips(d.message);
+                        loadSubjects(id);
+                    }
+                });
+            });
+
             return false;
+        }
+
+        function refresh(type) {
+
+            switch (type) {
+                case 1:
+                    loadSubjects(cur_SubjectId)
+                    break;
+                case 2:
+                    break;
+            }
         }
 
 

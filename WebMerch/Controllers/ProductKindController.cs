@@ -26,26 +26,17 @@ namespace WebMerch.Controllers
             return View();
         }
 
-        public CustomJsonResult GetAll(int pId)
+        public CustomJsonResult GetAll()
         {
-            ProductKind[] arr;
-            if (pId == 0)
-            {
-                arr = CurrentDb.ProductKind.Where(m => m.MerchantId == this.CurrentUserId && m.IsDelete == false).OrderByDescending(m => m.Priority).ToArray();
-            }
-            else
-            {
-                arr = CurrentDb.ProductKind.Where(m => m.MerchantId == this.CurrentUserId && m.PId == "" && m.IsDelete == false).OrderByDescending(m => m.Priority).ToArray();
-            }
-
+            var arr = CurrentDb.ProductKind.Where(m => m.MerchantId == this.CurrentUserId && m.IsDelete == false).OrderByDescending(m => m.Priority).ToArray();
             object json = ConvertToZTreeJson(arr, "id", "pid", "name", "menu");
             return Json(ResultType.Success, json);
 
         }
 
-        public CustomJsonResult GetDetails(string kindId)
+        public CustomJsonResult GetDetails(string id)
         {
-            return MerchServiceFactory.ProductKind.GetDetails(this.CurrentUserId, this.CurrentUserId, kindId);
+            return MerchServiceFactory.ProductKind.GetDetails(this.CurrentUserId, this.CurrentUserId, id);
         }
 
 
@@ -65,9 +56,9 @@ namespace WebMerch.Controllers
         }
 
         [HttpPost]
-        public CustomJsonResult Delete(string[] kindIds)
+        public CustomJsonResult Delete(string[] ids)
         {
-            return MerchServiceFactory.ProductKind.Delete(this.CurrentUserId, this.CurrentUserId, kindIds);
+            return MerchServiceFactory.ProductKind.Delete(this.CurrentUserId, this.CurrentUserId, ids);
         }
 
         public CustomJsonResult GetProductSkuList(RupProductSkuGetList rup)

@@ -211,7 +211,6 @@
     <Content Include="Views\ProductSku\Edit.cshtml" />
     <Content Include="Views\ProductSku\List.cshtml" />
     <Content Include="Views\ProductKind\List.cshtml" />
-    <Content Include="Views\ProductKind\Sort.cshtml" />
     <Content Include="Views\ProductSku\EditBySalePrice.cshtml" />
     <Content Include="Views\Store\Add.cshtml" />
     <Content Include="Views\Supplier\Add.cshtml" />
@@ -225,7 +224,6 @@
     <Content Include="Views\Order2StockIn\Details.cshtml" />
     <Content Include="Views\ProductSubject\Add.cshtml" />
     <Content Include="Views\ProductSubject\List.cshtml" />
-    <Content Include="Views\ProductSubject\Sort.cshtml" />
     <Content Include="Views\Order\Details.cshtml" />
     <Content Include="Views\Order\List.cshtml" />
     <Content Include="Views\ReplenishStaff\List.cshtml" />

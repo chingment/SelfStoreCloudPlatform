@@ -5,12 +5,12 @@
 @section scripts{
     <script type="text/javascript">
 
-        var pKindId = $.lumos.getUrlParamValue("pKindId");
-        var pKindName = $.lumos.getUrlParamValue("pKindName");
+        var pId = $.lumos.getUrlParamValue("pId");
+        var pName = $.lumos.getUrlParamValue("pName");
 
         $(this).ready(function () {
 
-            $("#lbl_PName").text(pKindName);
+            $("#lbl_PName").text(pName);
 
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
             $("#txt_Name").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 20, empty: { leftEmpty: false, emptyError: "名称不能为空" }, onError: "名称不能为空,且不超过20个字符" });
@@ -23,32 +23,29 @@
         function add() {
 
             var isValid = $.formValidator.pageIsValid();
-            if (isValid) {
-                art.dialog.confirm(
-         '确定要新建？',
-         function () {
+            if (!isValid)
+                return false;
 
-             var name = $("#txt_Name").val();
-             var mainImg = $("#txt_MainImg").val();
-             var iconImg = $("#txt_IconImg").val();
-             var description = $("#txt_Description").val();
+            art.dialog.confirm('确定要新建？', function () {
+                var name = $("#txt_Name").val();
+                var mainImg = $("#txt_MainImg").val();
+                var iconImg = $("#txt_IconImg").val();
+                var description = $("#txt_Description").val();
+                $.lumos.postJson({
+                    url: "/ProductKind/Add",
+                    data: { pId: pId, name: name, mainImg: mainImg, iconImg: iconImg, description: description },
+                    success: function (d) {
+                        if (d.result == $.lumos.resultType.success) {
+                            $.lumos.parentDialog.refresh(1);
+                            $.lumos.tips(d.message, true);
+                        }
+                        else {
+                            $.lumos.tips(d.message);
+                        }
+                    }
+                });
+            });
 
-             $.lumos.postJson({
-                 url: "/ProductKind/Add",
-                 data: { pKindId: pKindId, name: name, mainImg: mainImg, iconImg: iconImg, description: description },
-                 success: function (d) {
-                     if (d.result == $.lumos.resultType.success) {
-                         $.lumos.parentDialog.loadKinds(pKindId);
-                         $.lumos.tips(d.message, true);
-                     }
-                     else {
-                         $.lumos.tips(d.message);
-                     }
-                 }
-             });
-
-         });
-            }
             return false;
         }
     </script>
