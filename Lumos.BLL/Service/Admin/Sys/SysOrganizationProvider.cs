@@ -44,6 +44,7 @@ namespace Lumos.BLL.Service.Admin
                 organization.Status = Enumeration.SysOrganizationStatus.Valid;
                 organization.Creator = pOperater;
                 organization.CreateTime = DateTime.Now;
+                organization.IsCanDelete = true;
                 CurrentDb.SysOrganization.Add(organization);
                 CurrentDb.SaveChanges();
                 ts.Complete();

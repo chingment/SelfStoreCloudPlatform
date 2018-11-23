@@ -209,6 +209,29 @@
 
         function getDetails() {
 
+            var selObj = getSelectedNode();
+            if (selObj == null) {
+                return;
+            }
+            var parentName = "/";
+            if (selObj.getParentNode() != null) {
+                parentName = selObj.getParentNode().name;
+            }
+
+            cur_OrganizationId = selObj.id;
+
+            $("input[name='OrganizationId']").val(selObj.id);
+
+            /*最大支持几级菜单由maxMum决定 可修改这个值*/
+            num = 0;
+            getChildNodeGrade(selObj);
+            if (num >= maxMum) {
+                $("#btn_add").attr("disabled", true);
+            }
+            else {
+                $("#btn_add").attr("disabled", false);
+            }
+
             $.lumos.postJson({
                 data: { organizationId: cur_OrganizationId },
                 url: "/Sys/Organization/GetDetails",
@@ -216,10 +239,9 @@
 
                     if (d.result == $.lumos.resultType.success) {
                         var data = d.data;
+                        $("#lbl_PName").text(parentName);
                         $("#txt_Name").val(data.name);
-                        $("#txt_Name").defaultPassed();
                         $("#txt_Description").val(data.description);
-                        $("#txt_Description").defaultPassed();
                         $("#sel_Status").find("option[value='" + data.status + "']").attr("selected", true);
                         $("#sel_Status").trigger("chosen:updated");
                     }
@@ -243,30 +265,7 @@
                         },
                         callback: {
                             onClick: function treeNodeOnClick(event, treeId, treeNode, clickFlag) {
-
-                                var parentName = "/";
-                                if (treeNode.getParentNode() != null) {
-                                    parentName = treeNode.getParentNode().name;
-                                }
-
-                                cur_OrganizationId = treeNode.id;
-
-                                $("input[name='OrganizationId']").val(cur_OrganizationId);
-
-                                /*最大支持几级菜单由maxMum决定 可修改这个值*/
-                                num = 0;
-                                getChildNodeGrade(treeNode);
-                                if (num >= maxMum) {
-                                    $("#btn_add").attr("disabled", true);
-                                }
-                                else {
-                                    $("#btn_add").attr("disabled", false);
-                                }
-
-
-                                tab_Main.click();
-
-
+                                getDetails();
                             }
                         }
                     }, obj);
@@ -284,26 +283,26 @@
                 return false;
             }
             var isValid = $.formValidator.pageIsValid();
-            if (isValid) {
-                art.dialog.confirm(
-         '确定要保存？',
-         function () {
-             var id = selObj.id;
+            if (!isValid)
+                return false;
 
-             var name = $('#txt_Name').val();
-             var description = $("#txt_Description").val();
-             var status = $("#sel_Status").val();
+            art.dialog.confirm('确定要保存？', function () {
+                var id = selObj.id;
 
-             $.lumos.postJson({
-                 url: "/Sys/Organization/Edit",
-                 data: { organizationId: cur_OrganizationId, name: name, description: description, status: status },
-                 success: function (d) {
-                     $.lumos.tips(d.message);
-                     loadOrganizations(id);
-                 }
-             });
-         });
-            }
+                var name = $('#txt_Name').val();
+                var description = $("#txt_Description").val();
+                var status = $("#sel_Status").val();
+
+                $.lumos.postJson({
+                    url: "/Sys/Organization/Edit",
+                    data: { organizationId: cur_OrganizationId, name: name, description: description, status: status },
+                    success: function (d) {
+                        $.lumos.tips(d.message);
+                        loadOrganizations(id);
+                    }
+                });
+            });
+
             return false;
         }
 
