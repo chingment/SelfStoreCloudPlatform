@@ -11,6 +11,7 @@
         var tree_Organizations;
         var tab_Main;
         var cur_OrganizationId;
+        var list_OrganizationPositions;
         $(this).ready(function () {
 
             tab_Main = $("#tab_Main").tab({
@@ -25,7 +26,7 @@
                             getDetails();
                             break;
                         case 1:
-                            list_Users.loadData();
+                            list_OrganizationPositions.loadData();
                             break;
                     }
 
@@ -48,7 +49,7 @@
                     return;
                 }
 
-                var url = '/Organization/Add?pOrganizationId=' + selObj.id + '&pOrganizationName=' + escape(selObj.name)
+                var url = '/Sys/Organization/Add?pOrganizationId=' + selObj.id + '&pOrganizationName=' + escape(selObj.name)
                 var title = '新建';
                 art.dialog.open(url, {
                     id: "openDialog", title: title, width: '700px', height: '480px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '确定', ok: function () {
@@ -76,7 +77,7 @@
                              });
 
                              $.lumos.postJson({
-                                 url: "/Organization/Delete",
+                                 url: "/Sys/Organization/Delete",
                                  data: { organizationIds: organizationIds },
                                  success: function (d) {
                                      $.lumos.tips(d.message);
@@ -103,7 +104,7 @@
                 }
 
 
-                var url = '/Organization/Sort?id=' + selObj.id + '&pName=' + escape(selObj.name);
+                var url = '/Sys/Organization/Sort?id=' + selObj.id + '&pName=' + escape(selObj.name);
                 var title = '排序';
                 art.dialog.open(url, {
                     id: "openDialog", title: title, width: '650px', height: '400px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
@@ -113,6 +114,53 @@
                 });
 
             });
+
+
+            list_OrganizationPositions = $("#list_table_OrganizationPositions").loadDataTable({
+                url: "/Sys/Organization/GetOrganizationPositionList",
+                pageIndex: 0,
+                searchParams: $("#form2").serializeArray(),
+                searchButtonId: "btn_Search",
+                containerId: "form2",
+                rowDataCombie: function (p_index, p_row) {
+                    var l_Strlimt = "";
+                    l_Strlimt += "@Html.IsInPermission("<a href=\\\"javascript:void(0)\\\" operate=\\\"delete\\\"  class=\\\"a-btn\\\" >删除</a>")";
+                    var l_StrRows = "";
+                    l_StrRows += "<tr>";
+                    l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
+                    l_StrRows += "<td class=\"overflow tipitem\" title=\"" + p_row.name + "\"   >" + p_row.name + "</td>";
+                    l_StrRows += "<td class=\"operation\">";
+                    l_StrRows += l_Strlimt;
+                    l_StrRows += "</td>";
+                    l_StrRows += "</tr>";
+                    return l_StrRows;
+                },
+                operate: {
+                    "delete": function (keys) {
+                        var selObj = getSelectedNode();
+                        if (selObj == null) {
+                            return;
+                        }
+                        var positionIds = [];
+                        $.each(keys, function (i, n) {
+                            positionIds.push(n.id);
+                        });
+
+                        $.lumos.postJson({
+                            url: "/Sys/Organization/RemovePositionFromOrganization",
+                            data: { organizationId: cur_OrganizationId, positionIds: positionIds },
+                            success: function (d) {
+                                $.lumos.tips(d.message);
+                                if (d.result == $.lumos.resultType.success) {
+                                    list_OrganizationPositions.loadData(0);
+                                }
+                            }
+                        });
+
+                    }
+                }
+            });
+
         });
 
         function getSelectedNode() {
@@ -133,12 +181,12 @@
         }
 
         function getDetails() {
-   
+
             $.lumos.postJson({
                 data: { organizationId: cur_OrganizationId },
-                url: "/Organization/GetDetails",
+                url: "/Sys/Organization/GetDetails",
                 success: function (d) {
-                  
+
                     if (d.result == $.lumos.resultType.success) {
                         var data = d.data;
                         $("#txt_Name").val(data.name);
@@ -155,7 +203,7 @@
         function loadOrganizations(id) {
 
             $.lumos.postJson({
-                url: "/Organization/GetTreeList?pId=0",
+                url: "/Sys/Organization/GetAll?pId=0",
                 success: function (d) {
                     var obj = eval(d.data);
                     tree_Organizations = $.fn.zTree.init($("#tree_Organizations"), {
@@ -214,7 +262,7 @@
              var status = $("#sel_Status").val();
 
              $.lumos.postJson({
-                 url: "/Organization/Edit",
+                 url: "/Sys/Organization/Edit",
                  data: { organizationId: cur_OrganizationId, name: name, description: description, status: status },
                  success: function (d) {
                      $.lumos.tips(d.message);
@@ -248,7 +296,8 @@
             <div class="tab-item">
                 <ul>
                     <li class="item first selected"><a class="a-btn-info" href="javascript:void(0)">基本信息</a></li>
-                </ul>
+                    <li class="item"><a class="a-btn-info" href="javascript:void(0)">关联职位</a></li>
+                 </ul>
             </div>
             <div class="tab-content">
                 <div class="subcontent" style="display:block">
@@ -273,7 +322,7 @@
                                     <span class="required-symbol">*</span>状态：
                                 </td>
                                 <td class="f-tb-c">
-                                    @(Html.initEnumeration<Lumos.Entity.Enumeration.OrganizationStatus>(Lumos.Entity.Enumeration.InputType.Select, "sel.Status", new { @class = "select-control", defaulttext = "请选择", hidevalue = new Lumos.Entity.Enumeration.OrganizationStatus[] { Lumos.Entity.Enumeration.OrganizationStatus.Unknow } }))
+                                    @(Html.initEnumeration<Lumos.Entity.Enumeration.SysOrganizationStatus>(Lumos.Entity.Enumeration.InputType.Select, "sel.Status", new { @class = "select-control", defaulttext = "请选择", hidevalue = new Lumos.Entity.Enumeration.SysOrganizationStatus[] { Lumos.Entity.Enumeration.SysOrganizationStatus.Unknow } }))
                                 </td>
                             </tr>
                             <tr>
@@ -291,6 +340,59 @@
                                 </td>
                             </tr>
                         </table>
+                    </form>
+                </div>
+                <div class="subcontent">
+                    <form id="form2" name="form2">
+                        <input type="hidden" name="OrganizationIdId" />
+                        <div class="search-bar">
+                            <div class="filter">
+                                <span class="filter-label">名称：</span>
+                                <span class="filter-input">
+                                    <input type="text" class="input-control" name="Name" style="width:120px;" />
+                                </span>
+                            </div>
+                            <div class="filter"><input type="button" class="btn btn-search" id="btn_Search" value="查询" /> </div>
+                            <div class="filter" style="float:right"><input type="button" class="btn btn-add" id="btn_add_roleuser" value="添加" /></div>
+                        </div>
+                        <div class="list">
+                            <table id="list_table_roleuser" class="list-tb" cellpadding="0" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th style="width:15%" class="no">
+                                           序号
+                                        </th>
+                                        <th style="width:15%">
+                                            名称
+                                        </th>
+                                        <th style="width:10%" class="operation">
+                                            操作
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="3">
+                                            <div class="pull-left">
+                                                <span class="load-tip"></span>
+                                            </div>
+                                            <div class="pull-right pagination">
+                                                <div class="pagination-info">
+
+                                                </div>
+                                                <div class="pagination-index">
+
+                                                </div>
+                                                <div class="pagination-goto">
+
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
                     </form>
                 </div>
             </div>

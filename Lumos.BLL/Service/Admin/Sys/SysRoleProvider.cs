@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace Lumos.BLL.Service.Admin
 {
@@ -30,7 +31,7 @@ namespace Lumos.BLL.Service.Admin
             sysRole.IsCanDelete = true;
             CurrentDb.SysRole.Add(sysRole);
             CurrentDb.SaveChanges();
-          
+
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "添加成功");
         }
@@ -56,9 +57,15 @@ namespace Lumos.BLL.Service.Admin
 
         public CustomJsonResult Delete(string pOperater, string[] pRoleIds)
         {
+            CustomJsonResult result = new CustomJsonResult();
 
-            if (pRoleIds != null)
+            using (TransactionScope ts = new TransactionScope())
             {
+                if (pRoleIds == null || pRoleIds.Length == 0)
+                {
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "请选择要删除的数据");
+                }
+
 
                 foreach (var id in pRoleIds)
                 {
@@ -91,9 +98,15 @@ namespace Lumos.BLL.Service.Admin
 
                 }
 
+
+
+                CurrentDb.SaveChanges();
+                ts.Complete();
+
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "删除成功");
             }
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "删除成功");
+            return result;
 
 
         }
@@ -109,7 +122,7 @@ namespace Lumos.BLL.Service.Admin
             ret.Name = role.Name;
             ret.Description = role.Description;
 
-            var roleMenus = AdminServiceFactory.SysRole.GetRoleMenus(pOperater,roleId);
+            var roleMenus = AdminServiceFactory.SysRole.GetRoleMenus(pOperater, roleId);
             var menuIds = (from p in roleMenus select p.Id).ToArray();
 
             ret.MenuIds = menuIds;
@@ -159,7 +172,7 @@ namespace Lumos.BLL.Service.Admin
                 CurrentDb.SaveChanges();
 
 
-           
+
 
             }
 

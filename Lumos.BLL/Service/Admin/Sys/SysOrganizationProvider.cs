@@ -70,21 +70,40 @@ namespace Lumos.BLL.Service.Admin
 
         public CustomJsonResult Delete(string pOperater, string[] pOrganizationIds)
         {
-            if (pOrganizationIds != null)
+            CustomJsonResult result = new CustomJsonResult();
+
+            using (TransactionScope ts = new TransactionScope())
             {
+                if (pOrganizationIds == null || pOrganizationIds.Length == 0)
+                {
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "请选择要删除的数据");
+                }
+
+
                 foreach (var id in pOrganizationIds)
                 {
                     var organization = CurrentDb.SysOrganization.Where(m => m.Id == id).FirstOrDefault();
                     if (organization != null)
                     {
+                        if (!organization.IsCanDelete)
+                        {
+                            return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("所选机构（{0}）不允许删除", organization.Name));
+                        }
+
                         organization.IsDelete = true;
 
                         CurrentDb.SaveChanges();
                     }
                 }
+
+
+                CurrentDb.SaveChanges();
+                ts.Complete();
+
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "删除成功"); ;
             }
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "删除成功");
+            return result;
         }
 
     }

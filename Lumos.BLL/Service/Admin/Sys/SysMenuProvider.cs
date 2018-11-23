@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace Lumos.BLL.Service.Admin
 {
@@ -129,8 +130,15 @@ namespace Lumos.BLL.Service.Admin
 
         public CustomJsonResult Delete(string pOperater, string[] pMenuIds)
         {
-            if (pMenuIds != null)
+            CustomJsonResult result = new CustomJsonResult();
+
+            using (TransactionScope ts = new TransactionScope())
             {
+                if (pMenuIds == null || pMenuIds.Length == 0)
+                {
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "请选择要删除的数据");
+                }
+
                 foreach (var id in pMenuIds)
                 {
                     var sysMenu = CurrentDb.SysMenu.Where(m => m.Id == id).FirstOrDefault();
@@ -151,9 +159,15 @@ namespace Lumos.BLL.Service.Admin
                     CurrentDb.SaveChanges();
 
                 }
+
+
+                CurrentDb.SaveChanges();
+                ts.Complete();
+
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "删除成功");
             }
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "删除成功");
+            return result;
         }
 
         public CustomJsonResult EditSort(string pOperater, RopSysMenuEditSort rop)

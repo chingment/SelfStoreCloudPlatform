@@ -33,7 +33,7 @@
                 var description = $("#txt_Description").val();
 
                 $.lumos.postJson({
-                    url: "/Organization/Add",
+                    url: "/Sys/Organization/Add",
                     isUseHandling: true,
                     data: { pId: pOrganizationId, name: name, description: description },
                     success: function (d) {
