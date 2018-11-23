@@ -6,13 +6,13 @@
 @section scripts{
     <script type="text/javascript">
 
-        var merchantMachineId = $.lumos.getUrlParamValue("merchantMachineId");
+        var id = $.lumos.getUrlParamValue("id");
         $(this).ready(function () {
 
             $.lumos.getJson({
                 isUseHandling: true,
                 url: "/Machine/GetDetails",
-                urlParams: { merchantMachineId: merchantMachineId },
+                urlParams: { id: id },
                 success: function (d) {
                     $('#gbr_page').html($("#tmpl_block").tmpl(d.data));
                 }

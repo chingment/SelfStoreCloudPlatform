@@ -35,7 +35,7 @@
             operate: {
                 "edit": function (obj) {
                     var okVal = obj.isUse == true ? "解绑" : "绑定";
-                    var url = '/Biz/Machine/Bind?machineId=' + obj.id;
+                    var url = '/Biz/Machine/Bind?id=' + obj.id;
                     art.dialog.open(url, {
                         id: "openDialog", title: okVal, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: okVal, ok: function () {
                             this.iframe.contentWindow.bind();

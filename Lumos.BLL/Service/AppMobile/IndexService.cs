@@ -10,11 +10,11 @@ namespace Lumos.BLL.Service.AppMobile
 {
     public class IndexService : BaseProvider
     {
-        public IndexPageModel GetPageData(string operater, string pClientId, string pStoreId)
+        public IndexPageModel GetPageData(string operater, string clientId, string storeId)
         {
             var pageModel = new IndexPageModel();
 
-            var store = CurrentDb.Store.Where(m => m.Id == pStoreId).FirstOrDefault();
+            var store = CurrentDb.Store.Where(m => m.Id == storeId).FirstOrDefault();
 
             var storeModel = new StoreModel();
             storeModel.Id = store.Id;
@@ -24,7 +24,7 @@ namespace Lumos.BLL.Service.AppMobile
 
             pageModel.Store = storeModel;
 
-            var storeBanners = CurrentDb.StoreBanner.Where(m => m.StoreId == pStoreId && m.Type == Enumeration.StoreBannerType.IndexBanner).ToList();
+            var storeBanners = CurrentDb.StoreBanner.Where(m => m.StoreId == storeId && m.Type == Enumeration.StoreBannerType.IndexBanner).ToList();
 
             BannerModel bannerModel = new BannerModel();
             bannerModel.Autoplay = true;

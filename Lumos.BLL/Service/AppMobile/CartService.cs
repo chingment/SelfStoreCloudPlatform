@@ -75,7 +75,7 @@ namespace Lumos.BLL.Service.AppMobile
         }
 
         private static readonly object operatelock = new object();
-        public CustomJsonResult Operate(string operater, string pClientId, RopCartOperate rop)
+        public CustomJsonResult Operate(string operater, string clientId, RopCartOperate rop)
         {
             var result = new CustomJsonResult();
 
@@ -87,7 +87,7 @@ namespace Lumos.BLL.Service.AppMobile
                     {
                         var store = CurrentDb.Store.Where(m => m.Id == rop.StoreId).FirstOrDefault();
 
-                        var clientCart = CurrentDb.ClientCart.Where(m => m.ClientId == pClientId && m.StoreId == rop.StoreId && m.ProductSkuId == item.SkuId && m.ReceptionMode == item.ReceptionMode && m.Status == Enumeration.CartStatus.WaitSettle).FirstOrDefault();
+                        var clientCart = CurrentDb.ClientCart.Where(m => m.ClientId == clientId && m.StoreId == rop.StoreId && m.ProductSkuId == item.SkuId && m.ReceptionMode == item.ReceptionMode && m.Status == Enumeration.CartStatus.WaitSettle).FirstOrDefault();
 
                         LogUtil.Info("购物车操作：" + rop.Operate);
                         switch (rop.Operate)
@@ -113,7 +113,7 @@ namespace Lumos.BLL.Service.AppMobile
                                 {
                                     clientCart = new ClientCart();
                                     clientCart.Id = GuidUtil.New();
-                                    clientCart.ClientId = pClientId;
+                                    clientCart.ClientId = clientId;
                                     clientCart.MerchantId = store.MerchantId;
                                     clientCart.StoreId = rop.StoreId;
                                     clientCart.ProductSkuId = skuModel.Id;
@@ -144,7 +144,7 @@ namespace Lumos.BLL.Service.AppMobile
 
                     CurrentDb.SaveChanges();
 
-                    var cartModel = GetPageData(operater, pClientId, rop.StoreId);
+                    var cartModel = GetPageData(operater, clientId, rop.StoreId);
 
                     ts.Complete();
 

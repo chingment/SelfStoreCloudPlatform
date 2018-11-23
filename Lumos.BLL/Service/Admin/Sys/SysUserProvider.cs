@@ -5,13 +5,13 @@ namespace Lumos.BLL.Service.Admin
 {
     public class SysUserProvider : BaseProvider
     {
-        public string GetFullName(string pId)
+        public string GetFullName(string id)
         {
-            if (pId == null)
+            if (id == null)
                 return "";
 
             string fullName = "";
-            var user = CurrentDb.SysUser.Where(m => m.Id == pId).FirstOrDefault();
+            var user = CurrentDb.SysUser.Where(m => m.Id == id).FirstOrDefault();
             if (user != null)
             {
                 fullName = user.FullName;
@@ -20,10 +20,10 @@ namespace Lumos.BLL.Service.Admin
             return fullName;
         }
 
-        public CustomJsonResult GetDetails(string operater, string userId)
+        public CustomJsonResult GetDetails(string operater, string id)
         {
             var ret = new RetSysUserGetDetails();
-            var sysUser = CurrentDb.SysUser.Where(m => m.Id == userId).FirstOrDefault();
+            var sysUser = CurrentDb.SysUser.Where(m => m.Id == id).FirstOrDefault();
             if (sysUser != null)
             {
                 ret.UserName = sysUser.UserName ?? "";

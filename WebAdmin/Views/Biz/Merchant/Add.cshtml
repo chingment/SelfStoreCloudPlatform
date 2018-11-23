@@ -20,34 +20,35 @@
         function add() {
 
             var isValid = $.formValidator.pageIsValid();
-            if (isValid) {
-                art.dialog.confirm('确定要新建？', function () {
+            if (!isValid)
+                return false;
+            art.dialog.confirm('确定要新建？', function () {
 
-                    var userName = $("#txt_UserName").val();
-                    var password = $("#txt_Password").val();
-                    var merchantName = $("#txt_MerchantName").val();
-                    var contactName = $("#txt_ContactName").val();
-                    var contactPhone = $("#txt_ContactPhone").val();
-                    var contactAddress = $("#txt_ContactAddress").val();
+                var userName = $("#txt_UserName").val();
+                var password = $("#txt_Password").val();
+                var merchantName = $("#txt_MerchantName").val();
+                var contactName = $("#txt_ContactName").val();
+                var contactPhone = $("#txt_ContactPhone").val();
+                var contactAddress = $("#txt_ContactAddress").val();
 
-                    $.lumos.postJson({
-                        url: "/Biz/Merchant/Add",
-                        data: { userName: userName, password: password, merchantName: merchantName, contactName: contactName, contactPhone: contactPhone, contactAddress: contactAddress },
-                        isUseHandling: true,
-                        success: function (d) {
-                            if (d.result == $.lumos.resultType.success) {
-                                $.lumos.parentDialog.refresh(1);
-                                $.lumos.tips(d.message, true);
-                            }
-                            else {
-                                $.lumos.tips(d.message);
-                            }
-
+                $.lumos.postJson({
+                    url: "/Biz/Merchant/Add",
+                    data: { userName: userName, password: password, merchantName: merchantName, contactName: contactName, contactPhone: contactPhone, contactAddress: contactAddress },
+                    isUseHandling: true,
+                    success: function (d) {
+                        if (d.result == $.lumos.resultType.success) {
+                            $.lumos.parentDialog.refresh(1);
+                            $.lumos.tips(d.message, true);
                         }
-                    });
-                });
+                        else {
+                            $.lumos.tips(d.message);
+                        }
 
-            }
+                    }
+                });
+            });
+
+
             return false;
         }
 

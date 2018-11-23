@@ -11,17 +11,17 @@ namespace Lumos.BLL.Service.AppMobile
 
     public class CouponService : BaseProvider
     {
-        public List<UserCouponModel> My(string operater, string pClientId, RupCouponMy rup)
+        public List<UserCouponModel> My(string operater, string clientId, RupCouponMy rup)
         {
 
             List<ClientCoupon> coupons;
             if (!rup.IsGetHis)
             {
-                coupons = CurrentDb.ClientCoupon.Where(m => m.ClientId == pClientId && m.Status == Entity.Enumeration.CouponStatus.WaitUse && m.EndTime > DateTime.Now).ToList();
+                coupons = CurrentDb.ClientCoupon.Where(m => m.ClientId == clientId && m.Status == Entity.Enumeration.CouponStatus.WaitUse && m.EndTime > DateTime.Now).ToList();
             }
             else
             {
-                coupons = CurrentDb.ClientCoupon.Where(m => m.ClientId == pClientId && (m.Status == Entity.Enumeration.CouponStatus.Used || m.Status == Entity.Enumeration.CouponStatus.Expired) && m.EndTime < DateTime.Now).ToList();
+                coupons = CurrentDb.ClientCoupon.Where(m => m.ClientId == clientId && (m.Status == Entity.Enumeration.CouponStatus.Used || m.Status == Entity.Enumeration.CouponStatus.Expired) && m.EndTime < DateTime.Now).ToList();
             }
 
             var couponsModel = new List<UserCouponModel>();

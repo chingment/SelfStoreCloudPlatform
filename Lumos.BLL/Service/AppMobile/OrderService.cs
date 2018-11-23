@@ -51,7 +51,7 @@ namespace Lumos.BLL.Service.AppMobile
 
         }
 
-        public CustomJsonResult Confrim(string pPperater, string pClientId, RopOrderConfirm rop)
+        public CustomJsonResult Confrim(string operater, string clientId, RopOrderConfirm rop)
         {
             var result = new CustomJsonResult();
             var ret = new RetOrderConfirm();
@@ -132,7 +132,7 @@ namespace Lumos.BLL.Service.AppMobile
             }
 
 
-            var clientUser = CurrentDb.SysClientUser.Where(m => m.Id == pClientId).FirstOrDefault();
+            var clientUser = CurrentDb.SysClientUser.Where(m => m.Id == clientId).FirstOrDefault();
             bool isVip = false;
 
             if (clientUser != null)
@@ -164,7 +164,7 @@ namespace Lumos.BLL.Service.AppMobile
                 orderBlock_Express.TagName = "快递商品";
                 orderBlock_Express.Skus = skus_SelfExpress;
                 var shippingAddressModel = new UserDeliveryAddressModel();
-                var shippingAddress = CurrentDb.ClientDeliveryAddress.Where(m => m.ClientId == pClientId && m.IsDefault == true).FirstOrDefault();
+                var shippingAddress = CurrentDb.ClientDeliveryAddress.Where(m => m.ClientId == clientId && m.IsDefault == true).FirstOrDefault();
                 if (shippingAddress != null)
                 {
                     shippingAddressModel.Id = shippingAddress.Id;

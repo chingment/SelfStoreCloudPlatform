@@ -6,7 +6,7 @@
 @section scripts{
     <script type="text/javascript">
 
-        var machineId = $.lumos.getUrlParamValue("machineId");
+        var id = $.lumos.getUrlParamValue("id");
         var merchantId;
         var isUse = false;
         $(this).ready(function () {
@@ -31,7 +31,7 @@
                 $.lumos.postJson({
                     url: "/Biz/Machine/Bind",
                     isUseHandling: true,
-                    data: { machineId: machineId, merchantId: merchantId },
+                    data: { machineId: id, merchantId: merchantId },
                     success: function (d) {
                         if (d.result == $.lumos.resultType.success) {
                             $.lumos.parentDialog.refresh(2);
@@ -58,7 +58,7 @@
 
             $.lumos.getJson({
                 url: "/Biz/Machine/GetDetails",
-                urlParams: { machineId: machineId },
+                urlParams: { id: id },
                 isUseHandling: true,
                 success: function (d) {
                     if (d.result == $.lumos.resultType.success) {

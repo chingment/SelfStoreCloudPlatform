@@ -13,14 +13,14 @@ namespace Lumos.BLL.Biz
 
     public class ProductSkuProvider : BaseProvider
     {
-        public SkuModel GetModel(string pId)
+        public SkuModel GetModel(string id)
         {
             SkuModel skuModel = null;
-            var sku = ProductSkuCacheUtil.GetOne(pId);
+            var sku = ProductSkuCacheUtil.GetOne(id);
 
             if (sku == null)
             {
-                sku = CurrentDb.ProductSku.Where(m => m.Id == pId).FirstOrDefault();
+                sku = CurrentDb.ProductSku.Where(m => m.Id == id).FirstOrDefault();
                 if (sku != null)
                 {
                     ProductSkuCacheUtil.Add(sku);
@@ -69,14 +69,14 @@ namespace Lumos.BLL.Biz
             tran.ExecuteAsync();
         }
 
-        public List<ProductSku> Search(string pUserId, string pKey)
+        public List<ProductSku> Search(string merchantId, string key)
         {
             List<ProductSku> list = new List<ProductSku>();
-            var hs = RedisManager.Db.HashGetAll("search_productskus_u_" + pUserId);
+            var hs = RedisManager.Db.HashGetAll("search_productskus_u_" + merchantId);
 
-            pKey = pKey.ToUpper();
+            key = key.ToUpper();
 
-            var d = (from i in hs select i).Where(x => x.Name.ToString().Contains(pKey)).Take(10).ToList();
+            var d = (from i in hs select i).Where(x => x.Name.ToString().Contains(key)).Take(10).ToList();
 
             foreach (var item in d)
             {

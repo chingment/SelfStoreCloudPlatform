@@ -44,9 +44,9 @@ namespace WebAdmin.Controllers.Biz
             return View();
         }
 
-        public CustomJsonResult GetDetails(string machineId)
+        public CustomJsonResult GetDetails(string id)
         {
-            return AdminServiceFactory.Machine.GetDetails(this.CurrentUserId, machineId);
+            return AdminServiceFactory.Machine.GetDetails(this.CurrentUserId, id);
         }
 
         public CustomJsonResult GetList(RupMachineGetList rup)

@@ -10,18 +10,18 @@ namespace Lumos.BLL.Biz
 {
     public class AppInfoProvider : BaseProvider
     {
-        public string GetSecret(string pAppId)
+        public string GetSecret(string id)
         {
-            var appInfo = CurrentDb.SysAppInfo.Where(m => m.AppId == pAppId).FirstOrDefault();
+            var appInfo = CurrentDb.SysAppInfo.Where(m => m.AppId == id).FirstOrDefault();
             if (appInfo == null)
                 return null;
 
             return appInfo.AppSecret;
         }
 
-        public AppInfoConfig Get(string pAppId)
+        public AppInfoConfig Get(string id)
         {
-            var sysAppInfo = CurrentDb.SysAppInfo.Where(m => m.AppId == pAppId).FirstOrDefault();
+            var sysAppInfo = CurrentDb.SysAppInfo.Where(m => m.AppId == id).FirstOrDefault();
             if (sysAppInfo == null)
                 return null;
 

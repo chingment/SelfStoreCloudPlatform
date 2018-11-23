@@ -16,30 +16,31 @@
 
         function add() {
             var isValid = $.formValidator.pageIsValid();
-            if (isValid) {
-                art.dialog.confirm('确定要登记？', function () {
+            if (!isValid)
+                return false;
+            art.dialog.confirm('确定要登记？', function () {
 
-                    var deviceId = $("#txt_DeviceId").val();
-                    var macAddress = $("#txt_MacAddress").val();
-                    var name = $("#txt_Name").val();
+                var deviceId = $("#txt_DeviceId").val();
+                var macAddress = $("#txt_MacAddress").val();
+                var name = $("#txt_Name").val();
 
-                    $.lumos.postJson({
-                        url: "/Biz/Machine/Add",
-                        data: { deviceId: deviceId, macAddress: macAddress, name: name },
-                        isUseHandling: true,
-                        success: function (d) {
-                            if (d.result == $.lumos.resultType.success) {
-                                $.lumos.parentDialog.refresh(1);
-                                $.lumos.tips(d.message, true);
-                            }
-                            else {
-                                $.lumos.tips(d.message);
-                            }
-
+                $.lumos.postJson({
+                    url: "/Biz/Machine/Add",
+                    data: { deviceId: deviceId, macAddress: macAddress, name: name },
+                    isUseHandling: true,
+                    success: function (d) {
+                        if (d.result == $.lumos.resultType.success) {
+                            $.lumos.parentDialog.refresh(1);
+                            $.lumos.tips(d.message, true);
                         }
-                    });
+                        else {
+                            $.lumos.tips(d.message);
+                        }
+
+                    }
                 });
-            }
+            });
+
             return false;
         }
 

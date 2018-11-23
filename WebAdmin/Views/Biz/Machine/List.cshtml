@@ -33,7 +33,7 @@
             },
             operate: {
                 "edit": function (obj) {
-                    var url = '/Biz/Machine/Edit?machineId=' + obj.id;
+                    var url = '/Biz/Machine/Edit?id=' + obj.id;
                     var title = '修改';
                     art.dialog.open(url, {
                         id: "openDialog", title: title, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {

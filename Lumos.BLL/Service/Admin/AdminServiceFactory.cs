@@ -72,14 +72,6 @@ namespace Lumos.BLL.Service.Admin
             }
         }
 
-        public static SysItemCacheUpdateTimeProvider SysItemCacheUpdateTime
-        {
-            get
-            {
-                return new SysItemCacheUpdateTimeProvider();
-            }
-        }
-
         public static AuthorizeRelayProvider AuthorizeRelay
         {
             get

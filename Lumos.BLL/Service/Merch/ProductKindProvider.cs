@@ -67,10 +67,10 @@ namespace Lumos.BLL.Service.Merch
         }
 
 
-        private void GetDepth(string pId, ref int level)
+        private void GetDepth(string id, ref int level)
         {
 
-            var l_productKind = CurrentDb.ProductKind.Where(m => m.Id == pId).FirstOrDefault();
+            var l_productKind = CurrentDb.ProductKind.Where(m => m.Id == id).FirstOrDefault();
             if (l_productKind != null)
             {
                 level += 1;
