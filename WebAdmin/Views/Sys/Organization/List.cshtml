@@ -6,18 +6,18 @@
 @section scripts{
     <script type="text/javascript">
 
-        var num = 0;
-        var maxMum = 2;
-        var tree_Organizations;
-        var tab_Main;
-        var cur_OrganizationId;
-        var list_OrganizationPositions;
+        var mainTree;
+        var mainTree_num = 0;
+        var mainTree_maxNodeNum = 2;
+        var mainTree_listPositions;
+
         $(this).ready(function () {
 
-            tab_Main = $("#tab_Main").tab({
+            $("#tab_Main").tab({
                 click: function (index) {
-                    var selObj = getSelectedNode();
-                    if (selObj == null) {
+
+                    var selNode = getMainTreeSelNode();
+                    if (selNode == null) {
                         return false;
                     }
 
@@ -26,16 +26,15 @@
                             getDetails();
                             break;
                         case 1:
-                            list_OrganizationPositions.loadData();
+                            mainTree_listPositions.loadData();
                             break;
                     }
-
 
                     return true;
                 }
             });
 
-            loadOrganizations();
+            mainTreeLoadData();
 
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
 
@@ -43,13 +42,13 @@
             $("#sel_Status").formValidator().inputValidator({ min: 1, max: 500, onError: "请选择状态" });
             $("#txt_Description").formValidator().inputValidator({ min: 0, max: 500, onError: "描述不能超过500个字符" });
 
-            $("#btn_add").click(function () {
-                var selObj = getSelectedNode();
-                if (selObj == null) {
+            $("#maintree_add_node").click(function () {
+                var selNode = getMainTreeSelNode();
+                if (selNode == null) {
                     return;
                 }
 
-                var url = '/Sys/Organization/Add?pOrganizationId=' + selObj.id + '&pOrganizationName=' + escape(selObj.name)
+                var url = '/Sys/Organization/Add?pOrganizationId=' + selNode.id + '&pOrganizationName=' + escape(selNode.name)
                 var title = '新建';
                 art.dialog.open(url, {
                     id: "openDialog", title: title, width: '700px', height: '480px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '确定', ok: function () {
@@ -59,19 +58,19 @@
                 });
             });
 
-            $("#btn_delete").click(function () {
+            $("#maintree_delete_node").click(function () {
 
-                var selObj = getSelectedNode();
-                if (selObj == null) {
+                var selNode = getMainTreeSelNode();
+                if (selNode == null) {
                     return;
                 }
 
                 art.dialog.confirm(
-                    "确定删除[" + selObj.name + "]节点及其子节点吗？",
+                    "确定删除[" + selNode.name + "]节点及其子节点吗？",
                          function () {
-                             var id = selObj.id;
+
                              var organizationIds = [];
-                             var nodes = tree_Organizations.getSelectedNodeFollowChildren();
+                             var nodes = mainTree.getSelectedNodeFollowChildren();
                              $.each(nodes, function (i, n) {
                                  organizationIds.push(n.id);
                              });
@@ -81,7 +80,15 @@
                                  data: { organizationIds: organizationIds },
                                  success: function (d) {
                                      $.lumos.tips(d.message);
-                                     loadSubjects();
+                                     if (d.result == $.lumos.resultType.success) {
+                                         mainTreeLoadData();
+
+                                         $("#lbl_PName").text("/");
+                                         $("#txt_Name").val("");
+                                         $("#txt_Description").val("");
+                                         $("#sel_Status").find("option").attr("selected", false);
+                                         $("#sel_Status").trigger("chosen:updated");
+                                     }
                                  }
                              });
 
@@ -92,19 +99,19 @@
                 return false;
             });
 
-            $("#btn_sort").click(function () {
-                var selObj = getSelectedNode();
-                if (selObj == null) {
+            $("#maintree_sort_node").click(function () {
+                var selNode = getMainTreeSelNode();
+                if (selNode == null) {
                     return;
                 }
 
-                if (typeof selObj.children == "undefined") {
+                if (typeof selNode.children == "undefined") {
                     $.lumos.tips("该节点没有子节点！");
                     return;
                 }
 
 
-                var url = '/Sys/Organization/Sort?id=' + selObj.id + '&pName=' + escape(selObj.name);
+                var url = '/Sys/Organization/Sort?id=' + selNode.id + '&pName=' + escape(selNode.name);
                 var title = '排序';
                 art.dialog.open(url, {
                     id: "openDialog", title: title, width: '650px', height: '400px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
@@ -115,9 +122,9 @@
 
             });
 
-            $("#btn_add_position").click(function () {
-                var selObj = getSelectedNode();
-                if (selObj == null) {
+            $("#maintree_add_position").click(function () {
+                var selNode = getMainTreeSelNode();
+                if (selNode == null) {
                     return;
                 }
 
@@ -132,7 +139,41 @@
 
             });
 
-            list_OrganizationPositions = $("#list_table_OrganizationPositions").loadDataTable({
+            $("#maintree_eidt_node").click(function () {
+
+
+                var selNode = getMainTreeSelNode();
+                if (selNode == null) {
+                    return false;
+                }
+                var isValid = $.formValidator.pageIsValid();
+                if (!isValid)
+                    return false;
+
+                art.dialog.confirm('确定要保存？', function () {
+
+                    var organizationId = selNode.id;
+                    var name = $('#txt_Name').val();
+                    var description = $("#txt_Description").val();
+                    var status = $("#sel_Status").val();
+
+                    $.lumos.postJson({
+                        url: "/Sys/Organization/Edit",
+                        data: { organizationId: organizationId, name: name, description: description, status: status },
+                        success: function (d) {
+                            $.lumos.tips(d.message);
+                            if (d.result == $.lumos.resultType.success) {
+                                mainTreeLoadData(organizationId);
+                            }
+                        }
+                    });
+                });
+
+                return false;
+
+            });
+
+            mainTree_listPositions = $("#list_positions").loadDataTable({
                 url: "/Sys/Organization/GetPositionList",
                 pageIndex: 0,
                 searchParams: $("#form2").serializeArray(),
@@ -154,8 +195,8 @@
                 },
                 operate: {
                     "delete": function (keys) {
-                        var selObj = getSelectedNode();
-                        if (selObj == null) {
+                        var selNode = getMainTreeSelNode();
+                        if (selNode == null) {
                             return;
                         }
                         var positionIds = [];
@@ -190,13 +231,13 @@
 
         });
 
-        function getSelectedNode() {
-            var selObj = tree_Organizations.getSelectedNodes();
-            if ($.lumos.isNullOrEmpty(selObj)) {
+        function getMainTreeSelNode() {
+            var selNode = mainTree.getSelectedNodes();
+            if ($.lumos.isNullOrEmpty(selNode)) {
                 $.lumos.tips("请在左边树形结构选中节点信息");
                 return null;
             }
-            return selObj[0];
+            return selNode[0];
         }
 
         function getChildNodeGrade(treeNode) {
@@ -207,25 +248,24 @@
             }
         }
 
-        function getDetails() {
+        function getMainTreeSelNodeDetails() {
 
-            var selObj = getSelectedNode();
-            if (selObj == null) {
+            var selNode = getMainTreeSelNode();
+            if (selNode == null) {
                 return;
             }
+
             var parentName = "/";
-            if (selObj.getParentNode() != null) {
-                parentName = selObj.getParentNode().name;
+            if (selNode.getParentNode() != null) {
+                parentName = selNode.getParentNode().name;
             }
 
-            cur_OrganizationId = selObj.id;
-
-            $("input[name='OrganizationId']").val(selObj.id);
+            $("input[name='OrganizationId']").val(selNode.id);
 
             /*最大支持几级菜单由maxMum决定 可修改这个值*/
             num = 0;
-            getChildNodeGrade(selObj);
-            if (num >= maxMum) {
+            getChildNodeGrade(selNode);
+            if (num >= mainTree_maxNodeNum) {
                 $("#btn_add").attr("disabled", true);
             }
             else {
@@ -233,7 +273,7 @@
             }
 
             $.lumos.postJson({
-                data: { organizationId: cur_OrganizationId },
+                data: { organizationId: selNode.id },
                 url: "/Sys/Organization/GetDetails",
                 success: function (d) {
 
@@ -249,13 +289,13 @@
             });
         }
 
-        function loadOrganizations(id) {
+        function mainTreeLoadData(selId) {
 
             $.lumos.postJson({
                 url: "/Sys/Organization/GetAll?pId=0",
                 success: function (d) {
                     var obj = eval(d.data);
-                    tree_Organizations = $.fn.zTree.init($("#tree_Organizations"), {
+                    mainTree = $.fn.zTree.init($("#maintree"), {
                         view: {
                             showLine: true,
                             selectedMulti: false
@@ -265,63 +305,37 @@
                         },
                         callback: {
                             onClick: function treeNodeOnClick(event, treeId, treeNode, clickFlag) {
-                                getDetails();
+                                getMainTreeSelNodeDetails();
                             }
                         }
                     }, obj);
-                    var node = tree_Organizations.getNodeByParam("id", id, null);
-                    tree_Organizations.selectNode(node);
+
+                    if (typeof selId != "undefined") {
+                        var node = mainTree.getNodeByParam("id", selId, null);
+                        mainTree.selectNode(node);
+                    }
+
                 }
             });
 
         }
 
-        function eidt() {
-
-            var selObj = getSelectedNode();
-            if (selObj == null) {
-                return false;
-            }
-            var isValid = $.formValidator.pageIsValid();
-            if (!isValid)
-                return false;
-
-            art.dialog.confirm('确定要保存？', function () {
-                var id = selObj.id;
-
-                var name = $('#txt_Name').val();
-                var description = $("#txt_Description").val();
-                var status = $("#sel_Status").val();
-
-                $.lumos.postJson({
-                    url: "/Sys/Organization/Edit",
-                    data: { organizationId: cur_OrganizationId, name: name, description: description, status: status },
-                    success: function (d) {
-                        $.lumos.tips(d.message);
-                        loadOrganizations(id);
-                    }
-                });
-            });
-
-            return false;
-        }
 
         function refresh(type) {
             switch (type) {
                 case 1:
-                    loadOrganizations(cur_OrganizationId)
+                    mainTreeLoadData()
                     break;
             }
         }
 
-        //-->
     </script>
 }
 
 
 <dl class="tree-tab">
     <dd class="tree-tab-left">
-        <ul id="tree_Organizations" class="ztree"></ul>
+        <ul id="maintree" class="ztree"></ul>
     </dd>
     <dd class="tree-tab-right">
         <div class="tab" id="tab_Main">
@@ -334,8 +348,8 @@
             <div class="tab-content">
                 <div class="subcontent" style="display:block">
                     <div class="f-btn-area" style="margin-bottom:5px;">
-                        <input type="button" class="btn btn-open" id="btn_add" value="新建" />
-                        <input type="button" class="btn btn-delete" id="btn_delete" value="删除" />
+                        <input type="button" class="btn btn-open" id="maintree_add_node" value="新建" />
+                        <input type="button" class="btn btn-delete" id="maintree_delete_node" value="删除" />
                         @*<input type="button" class="btn btn-open" id="btn_sort" value="排序" />*@
                     </div>
                     <form name="form1" method="post" id="form1">
@@ -376,7 +390,7 @@
                             <tr>
                                 <td class="f-tb-t"></td>
                                 <td class="f-tb-c">
-                                    <input type="button" onclick="eidt()" name="btn_Save" value="保存" id="btn_Save" class="btn btn-sure" />
+                                    <input type="button" value="保存" id="maintree_eidt_node" class="btn btn-sure" />
                                 </td>
                             </tr>
                         </table>
@@ -393,10 +407,10 @@
                                 </span>
                             </div>
                             <div class="filter"><input type="button" class="btn btn-search" id="btn_Search" value="查询" /> </div>
-                            <div class="filter" style="float:right"><input type="button" class="btn btn-add" id="btn_add_position" value="添加" /></div>
+                            <div class="filter" style="float:right"><input type="button" class="btn btn-add" id="maintree_add_position" value="添加" /></div>
                         </div>
                         <div class="list">
-                            <table id="list_table_OrganizationPositions" class="list-tb" cellpadding="0" cellspacing="0">
+                            <table id="list_positions" class="list-tb" cellpadding="0" cellspacing="0">
                                 <thead>
                                     <tr>
                                         <th style="width:15%" class="no">
