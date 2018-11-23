@@ -31,9 +31,9 @@ namespace WebMerch.Controllers
             return View();
         }
 
-        public CustomJsonResult GetDetails(string productSkuId)
+        public CustomJsonResult GetDetails(string id)
         {
-            return MerchServiceFactory.ProductSku.GetDetails(this.CurrentUserId, this.CurrentUserId, productSkuId);
+            return MerchServiceFactory.ProductSku.GetDetails(this.CurrentUserId, this.CurrentUserId, id);
         }
 
         [HttpPost]

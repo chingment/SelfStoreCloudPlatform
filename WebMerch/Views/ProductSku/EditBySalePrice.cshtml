@@ -7,6 +7,7 @@
 
     <script type="text/javascript">
         var listTable;
+        var id = $.lumos.getUrlParamValue("id");
         $(document).ready(function () {
 
             $('#txt_SalePrice').decimalInput(2);
@@ -83,7 +84,7 @@
 
 <div class="gbr-row gbr-dialog">
     <form id="form1" name="form1" method="post">
-        <input type="hidden" name="Id" value="@Request.QueryString["productSkuId"]" />
+        <input type="hidden" name="Id" value="@Request.QueryString["id"]" />
         <div class="list">
             <table id="list_table" class="list-tb" cellpadding="0" cellspacing="0">
                 <thead>

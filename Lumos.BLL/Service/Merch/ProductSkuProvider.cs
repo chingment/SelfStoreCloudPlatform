@@ -271,9 +271,9 @@ namespace Lumos.BLL.Service.Merch
 
             using (TransactionScope ts = new TransactionScope())
             {
-                var lMachineStocks = CurrentDb.StoreSellStock.Where(m => m.MerchantId == merchantId && m.StoreId == rop.StoreId && m.ProductSkuId == rop.Id).ToList();
+                var machineStocks = CurrentDb.StoreSellStock.Where(m => m.MerchantId == merchantId && m.StoreId == rop.StoreId && m.ProductSkuId == rop.ProductSkuId).ToList();
 
-                foreach (var machineStock in lMachineStocks)
+                foreach (var machineStock in machineStocks)
                 {
                     machineStock.SalePrice = rop.SalePrice;
                     machineStock.Mender = operater;

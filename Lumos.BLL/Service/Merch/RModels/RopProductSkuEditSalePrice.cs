@@ -8,7 +8,7 @@ namespace Lumos.BLL.Service.Merch
 {
     public class RopProductSkuEditSalePrice
     {
-        public string Id { get; set; }
+        public string ProductSkuId { get; set; }
         public string StoreId { get; set; }
         public decimal SalePrice { get; set; }
     }
