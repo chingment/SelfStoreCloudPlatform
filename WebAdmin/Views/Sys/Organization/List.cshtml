@@ -11,6 +11,7 @@
         var mainTree_maxNodeNum = 2;
         var mainTree_listPositions;
         var mainTab;
+        var mainTree_curId;
         $(this).ready(function () {
 
             mainTab = $("#tab_Main").tab({
@@ -21,7 +22,9 @@
                         return false;
                     }
 
-                    $("input[name='OrganizationId']").val(selNode.id);
+                    mainTree_curId = selNode.id;
+
+                    $("input[name='OrganizationId']").val(mainTree_curId);
 
                     switch (index) {
                         case 0:
@@ -50,7 +53,7 @@
                     return;
                 }
 
-                var url = '/Sys/Organization/Add?id=' + selNode.id + '&name=' + escape(selNode.name)
+                var url = '/Sys/Organization/Add?pId=' + selNode.id + '&pName=' + escape(selNode.name)
                 var title = '新建';
                 art.dialog.open(url, {
                     id: "openDialog", title: title, width: '700px', height: '480px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '确定', ok: function () {
@@ -71,15 +74,15 @@
                     "确定删除[" + selNode.name + "]节点及其子节点吗？",
                          function () {
 
-                             var organizationIds = [];
+                             var ids = [];
                              var nodes = mainTree.getSelectedNodeFollowChildren();
                              $.each(nodes, function (i, n) {
-                                 organizationIds.push(n.id);
+                                 ids.push(n.id);
                              });
 
                              $.lumos.postJson({
                                  url: "/Sys/Organization/Delete",
-                                 data: { organizationIds: organizationIds },
+                                 data: { ids: ids },
                                  success: function (d) {
                                      $.lumos.tips(d.message);
                                      if (d.result == $.lumos.resultType.success) {
@@ -113,7 +116,7 @@
                 }
 
 
-                var url = '/Sys/Organization/Sort?id=' + selNode.id + '&pName=' + escape(selNode.name);
+                var url = '/Sys/Organization/Sort?pId=' + selNode.id + '&pName=' + escape(selNode.name);
                 var title = '排序';
                 art.dialog.open(url, {
                     id: "openDialog", title: title, width: '650px', height: '400px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
@@ -154,14 +157,14 @@
 
                 art.dialog.confirm('确定要保存？', function () {
 
-                    var organizationId = selNode.id;
+                    var id = selNode.id;
                     var name = $('#txt_Name').val();
                     var description = $("#txt_Description").val();
                     var status = $("#sel_Status").val();
 
                     $.lumos.postJson({
                         url: "/Sys/Organization/Edit",
-                        data: { organizationId: organizationId, name: name, description: description, status: status },
+                        data: { id: id, name: name, description: description, status: status },
                         success: function (d) {
                             $.lumos.tips(d.message);
                             if (d.result == $.lumos.resultType.success) {
@@ -289,7 +292,7 @@
             });
         }
 
-        function mainTreeLoadData(selId) {
+        function mainTreeLoadData() {
 
             $.lumos.postJson({
                 url: "/Sys/Organization/GetAll",
@@ -310,8 +313,8 @@
                         }
                     }, obj);
 
-                    if (typeof selId != "undefined") {
-                        var node = mainTree.getNodeByParam("id", selId, null);
+                    if (typeof mainTree_curId != "undefined") {
+                        var node = mainTree.getNodeByParam("id", mainTree_curId, null);
                         mainTree.selectNode(node);
                     }
 
@@ -322,7 +325,7 @@
 
 
         function refresh(type) {
-     
+
             switch (type) {
                 case 1:
                     mainTreeLoadData()

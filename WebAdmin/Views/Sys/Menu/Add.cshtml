@@ -5,8 +5,8 @@
 @section scripts{
     <script type="text/javascript">
 
-        var pId = $.lumos.getUrlParamValue("id");
-        var pName = $.lumos.getUrlParamValue("name");
+        var pId = $.lumos.getUrlParamValue("pId");
+        var pName = $.lumos.getUrlParamValue("pName");
         var belongSite = $.lumos.getUrlParamValue("belongSite");
         $(this).ready(function () {
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });

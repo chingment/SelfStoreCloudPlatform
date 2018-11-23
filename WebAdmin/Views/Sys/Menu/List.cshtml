@@ -25,7 +25,7 @@
                     return;
                 }
 
-                var url = '/Sys/Menu/Add?belongSite=' + belongSite + '&id=' + selObj.id + '&name=' + escape(selObj.name)
+                var url = '/Sys/Menu/Add?belongSite=' + belongSite + '&pId=' + selObj.id + '&pName=' + escape(selObj.name)
                 var title = '新建';
                 art.dialog.open(url, {
                     id: "openDialog", title: title, width: '700px', height: '480px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '确定', ok: function () {
