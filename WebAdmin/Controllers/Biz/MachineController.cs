@@ -125,11 +125,11 @@ namespace WebAdmin.Controllers.Biz
             var machine = CurrentDb.Machine.Where(m => m.Id == machineId).FirstOrDefault();
             if (machine.IsUse)
             {
-                return AdminServiceFactory.Merchant.BindOffMachine(this.CurrentUserId, merchantId, machineId);
+                return AdminServiceFactory.Machine.BindOffMerchant(this.CurrentUserId, merchantId, machineId);
             }
             else
             {
-                return AdminServiceFactory.Merchant.BindOnMachine(this.CurrentUserId, merchantId, machineId);
+                return AdminServiceFactory.Machine.BindOnMerchant(this.CurrentUserId, merchantId, machineId);
             }
 
         }

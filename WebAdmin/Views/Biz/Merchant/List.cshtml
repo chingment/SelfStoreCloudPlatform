@@ -35,9 +35,14 @@
                 "edit": function (obj) {
                     var url = '/Biz/Merchant/Edit?id=' + obj.id;
                     var title = '设置';
+
                     art.dialog.open(url, {
-                        id: "openDialog", title: title, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true
+                        id: "openDialog", title: title, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
+                            this.iframe.contentWindow.edit();
+                            return false;
+                        }
                     });
+
                 }
             }
         });

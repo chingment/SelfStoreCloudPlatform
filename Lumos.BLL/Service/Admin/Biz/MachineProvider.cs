@@ -84,6 +84,85 @@ namespace Lumos.BLL.Service.Admin
         }
 
 
+        public CustomJsonResult BindOnMerchant(string operater, string merchantId, string machineId)
+        {
+            CustomJsonResult result = new CustomJsonResult();
+
+            using (TransactionScope ts = new TransactionScope())
+            {
+                var lMachine = CurrentDb.Machine.Where(m => m.Id == machineId).FirstOrDefault();
+
+                if (lMachine.IsUse)
+                {
+                    return new CustomJsonResult(ResultType.Failure, "该设备已经被绑定，未被解绑");
+                }
+
+                lMachine.IsUse = true;
+                lMachine.MendTime = this.DateTime;
+                lMachine.Mender = operater;
+
+                var lMerchantMachine = CurrentDb.MerchantMachine.Where(m => m.MerchantId == merchantId && m.MachineId == machineId).FirstOrDefault();
+                if (lMerchantMachine == null)
+                {
+                    lMerchantMachine = new MerchantMachine();
+                    lMerchantMachine.Id = GuidUtil.New();
+                    lMerchantMachine.MerchantId = merchantId;
+                    lMerchantMachine.MachineId = machineId;
+                    lMerchantMachine.IsBind = true;
+                    lMerchantMachine.CreateTime = this.DateTime;
+                    lMerchantMachine.Creator = operater;
+                    CurrentDb.MerchantMachine.Add(lMerchantMachine);
+                }
+                else
+                {
+                    lMerchantMachine.IsBind = true;
+                    lMerchantMachine.MendTime = this.DateTime;
+                    lMerchantMachine.Mender = operater;
+                }
+
+                lMerchantMachine.LogoImgUrl = "http://file.17fanju.com/Upload/machTmp/tmp/LogoImg.png";
+                lMerchantMachine.BtnBuyImgUrl = "http://file.17fanju.com/Upload/machTmp/tmp/BtnBuyImg.png";
+                lMerchantMachine.BtnPickImgUrl = "http://file.17fanju.com/Upload/machTmp/tmp/BtnPickImg.png";
+
+                CurrentDb.SaveChanges();
+                ts.Complete();
+                result = new CustomJsonResult(ResultType.Success, "绑定成功");
+            }
+
+            return result;
+        }
+
+        public CustomJsonResult BindOffMerchant(string operater, string merchantId, string machineId)
+        {
+            CustomJsonResult result = new CustomJsonResult();
+
+            using (TransactionScope ts = new TransactionScope())
+            {
+                var lMerchantMachine = CurrentDb.MerchantMachine.Where(m => m.MerchantId == merchantId && m.MachineId == machineId).FirstOrDefault();
+
+                if (lMerchantMachine.IsBind == false)
+                {
+
+                    return new CustomJsonResult(ResultType.Failure, "该设备已经被解绑");
+                }
+
+                lMerchantMachine.IsBind = false;
+                lMerchantMachine.MendTime = this.DateTime;
+                lMerchantMachine.Mender = operater;
+
+                var machine = CurrentDb.Machine.Where(m => m.Id == machineId).FirstOrDefault();
+
+                machine.IsUse = false;
+                machine.MendTime = this.DateTime;
+                machine.Mender = operater;
+
+                CurrentDb.SaveChanges();
+                ts.Complete();
+                result = new CustomJsonResult(ResultType.Success, "解绑成功");
+            }
+
+            return result;
+        }
     }
 
 }

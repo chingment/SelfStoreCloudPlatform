@@ -1088,7 +1088,6 @@
     <Content Include="Views\Biz\Merchant\Add.cshtml" />
     <Content Include="Views\Biz\Merchant\Edit.cshtml" />
     <Content Include="Views\Biz\Merchant\List.cshtml" />
-    <Content Include="Views\Biz\Merchant\MachineListByBindable.cshtml" />
     <Content Include="Views\Biz\Machine\ListByBind.cshtml" />
     <Content Include="Views\Biz\Machine\Bind.cshtml" />
     <Content Include="Views\Biz\Merchant\ListBySelect.cshtml" />

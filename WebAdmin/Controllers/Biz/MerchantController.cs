@@ -124,39 +124,5 @@ namespace WebAdmin.Controllers.Biz
             return Json(ResultType.Success, pageEntity);
         }
 
-
-        public CustomJsonResult GetMachineListByBindable(RupMachineGetList rup)
-        {
-
-            string deviceId = rup.DeviceId.ToSearchString();
-
-            var list = (from u in CurrentDb.Machine
-                        where u.IsUse == false &&
-                               (deviceId.Length == 0 || u.DeviceId.Contains(deviceId))
-                        select new { u.Id, u.Name, u.DeviceId, u.MacAddress, u.CreateTime });
-
-            int total = list.Count();
-
-            int pageIndex = rup.PageIndex;
-            int pageSize = 10;
-            list = list.OrderBy(r => r.Id).Skip(pageSize * (pageIndex)).Take(pageSize);
-
-            PageEntity pageEntity = new PageEntity { PageSize = pageSize, TotalRecord = total, Rows = list };
-
-            return Json(ResultType.Success, pageEntity);
-        }
-
-        [HttpPost]
-        public CustomJsonResult BindOffMachine(string merchantId, string machineId)
-        {
-            return AdminServiceFactory.Merchant.BindOffMachine(this.CurrentUserId, merchantId, machineId);
-        }
-
-
-        [HttpPost]
-        public CustomJsonResult BindOnMachine(string merchantId, string machineId)
-        {
-            return AdminServiceFactory.Merchant.BindOnMachine(this.CurrentUserId, merchantId, machineId);
-        }
     }
 }
