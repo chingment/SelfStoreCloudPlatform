@@ -6,11 +6,11 @@
 @section scripts{
     <script type="text/javascript">
 
-        var companyId = $.lumos.getUrlParamValue("companyId");
+        var companyId = $.lumos.getUrlParamValue("id");
         $(document).ready(function () {
             $.formValidator.initConfig({ formID: "form_company", onError: function (msg) { $.lumos.tips(msg); } });
-            $("#txt_Name").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "名称不能为空,且不超过50个字符" });
-            $("#txt_Address").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 100, onError: "地址不能为空,且不超过100个字符" });
+            $("#txt_Name").formValidator().inputValidator({ min: 1, max: 50, onError: "名称不能为空,且不超过50个字符" });
+            $("#txt_Address").formValidator().inputValidator({ min: 1, max: 100, onError: "地址不能为空,且不超过100个字符" });
 
             initData();
         });
@@ -22,29 +22,30 @@
 
         function edit() {
             var isValid = $.formValidator.pageIsValid();
-            if (isValid) {
+            if (!isValid)
+                return false;
 
-                art.dialog.confirm(
-               '确定要保存基本信息？',
-                function () {
+            art.dialog.confirm(
+           '确定要保存基本信息？',
+            function () {
 
-                    var name = $("#txt_Name").val();
-                    var address = $("#txt_Address").val();
-                    var description = $("#txt_Description").val();
+                var name = $("#txt_Name").val();
+                var address = $("#txt_Address").val();
+                var description = $("#txt_Description").val();
 
-                    $.lumos.postJson({
-                        isUseHandling: true,
-                        url: "/Supplier/Edit",
-                        data: { companyId: companyId, name: name, address: address, description: description },
-                        success: function (d) {
-                            $.lumos.tips(d.message);
-                            if (d.result == $.lumos.resultType.success) {
-                                $.lumos.parentDialog.refresh(2);
-                            }
+                $.lumos.postJson({
+                    isUseHandling: true,
+                    url: "/Supplier/Edit",
+                    data: { companyId: companyId, name: name, address: address, description: description },
+                    success: function (d) {
+                        $.lumos.tips(d.message);
+                        if (d.result == $.lumos.resultType.success) {
+                            $.lumos.parentDialog.refresh(2);
                         }
-                    });
+                    }
                 });
-            }
+            });
+
 
 
             return false;
@@ -54,7 +55,7 @@
 
             $.lumos.getJson({
                 url: "/Supplier/GetDetails",
-                urlParams: { companyId: companyId },
+                urlParams: { id: id },
                 isUseHandling: true,
                 success: function (d) {
                     if (d.result == $.lumos.resultType.success) {

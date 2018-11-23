@@ -33,7 +33,7 @@
             },
             operate: {
                 "edit": function (obj) {
-                    var url = '/Warehouse/Edit?warehouseId=' + obj.id;
+                    var url = '/Warehouse/Edit?id=' + obj.id;
                     var title = '设置';
                     var dialog = art.dialog.open(url, {
                         id: "openDialog", title: title, width: '600px', height: '350px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {

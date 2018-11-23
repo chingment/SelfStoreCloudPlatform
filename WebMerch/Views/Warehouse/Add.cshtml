@@ -7,37 +7,39 @@
 
         $(document).ready(function () {
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
-            $("#txt_Name").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "名称不能为空,且不超过50个字符" });
-            $("#txt_Address").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 100, onError: "地址不能为空,且不超过100个字符" });
+            $("#txt_Name").formValidator().inputValidator({ min: 1, max: 50, onError: "名称不能为空,且不超过50个字符" });
+            $("#txt_Address").formValidator().inputValidator({ min: 1, max: 100, onError: "地址不能为空,且不超过100个字符" });
         });
 
         function add() {
             var isValid = $.formValidator.pageIsValid();
-            if (isValid) {
-                art.dialog.confirm(
-               '确定要提交？',
-                function () {
+            if (!isValid)
+                return false;
 
-                    var name = $("#txt_Name").val();
-                    var address = $("#txt_Address").val();
-                    var description = $("#txt_Description").val();
+            art.dialog.confirm(
+           '确定要提交？',
+            function () {
 
-                    $.lumos.postJson({
-                        isUseHandling: true,
-                        url: "/Warehouse/Add",
-                        data: { name: name, address: address, description: description },
-                        success: function (d) {
-                            if (d.result == $.lumos.resultType.success) {
-                                $.lumos.parentDialog.refresh(1);
-                                $.lumos.tips(d.message, true);
-                            }
-                            else {
-                                $.lumos.tips(d.message);
-                            }
+                var name = $("#txt_Name").val();
+                var address = $("#txt_Address").val();
+                var description = $("#txt_Description").val();
+
+                $.lumos.postJson({
+                    isUseHandling: true,
+                    url: "/Warehouse/Add",
+                    data: { name: name, address: address, description: description },
+                    success: function (d) {
+                        if (d.result == $.lumos.resultType.success) {
+                            $.lumos.parentDialog.refresh(1);
+                            $.lumos.tips(d.message, true);
                         }
-                    });
+                        else {
+                            $.lumos.tips(d.message);
+                        }
+                    }
                 });
-            }
+            });
+
             return false;
         }
 

@@ -6,12 +6,12 @@
 @section scripts{
     <script type="text/javascript">
 
-        var warehouseId = $.lumos.getUrlParamValue("warehouseId");
+        var id = $.lumos.getUrlParamValue("id");
 
         $(document).ready(function () {
             $.formValidator.initConfig({ formID: "form_warehouse", onError: function (msg) { $.lumos.tips.tips(msg); } });
-            $("#txt_Name").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "名称不能为空,且不超过50个字符" });
-            $("#txt_Address").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 100, onError: "地址不能为空,且不超过100个字符" });
+            $("#txt_Name").formValidator().inputValidator({ min: 1, max: 50, onError: "名称不能为空,且不超过50个字符" });
+            $("#txt_Address").formValidator().inputValidator({ min: 1, max: 100, onError: "地址不能为空,且不超过100个字符" });
 
             initData();
         });
@@ -23,27 +23,27 @@
         function edit() {
 
             var isValid = $.formValidator.pageIsValid();
-            if (isValid) {
-
-                art.dialog.confirm(
-               '确定要保存基本信息？',
-                function () {
-                    var name = $("#txt_Name").val();
-                    var address = $("#txt_Address").val();
-                    var description = $("#txt_Description").val();
-                    $.lumos.postJson({
-                        isUseHandling: true,
-                        url: "/Warehouse/Edit",
-                        data: { warehouseId: warehouseId, name: name, address: address, description: description },
-                        success: function (d) {
-                            $.lumos.tips(d.message);
-                            if (d.result == $.lumos.resultType.success) {
-                                $.lumos.parentDialog.refresh(2);
-                            }
+            if (!isValid)
+                return false;
+            art.dialog.confirm(
+           '确定要保存基本信息？',
+            function () {
+                var name = $("#txt_Name").val();
+                var address = $("#txt_Address").val();
+                var description = $("#txt_Description").val();
+                $.lumos.postJson({
+                    isUseHandling: true,
+                    url: "/Warehouse/Edit",
+                    data: { id: id, name: name, address: address, description: description },
+                    success: function (d) {
+                        $.lumos.tips(d.message);
+                        if (d.result == $.lumos.resultType.success) {
+                            $.lumos.parentDialog.refresh(2);
                         }
-                    });
+                    }
                 });
-            }
+            });
+
             return false;
         }
 
@@ -51,7 +51,7 @@
 
             $.lumos.getJson({
                 url: "/Warehouse/GetDetails",
-                urlParams: { warehouseId: warehouseId },
+                urlParams: { id: id },
                 isUseHandling: true,
                 success: function (d) {
                     if (d.result == $.lumos.resultType.success) {
