@@ -15,18 +15,24 @@ namespace Lumos.BLL.Service.Admin
         {
             var ret = new RetMerchantGetDetails();
             var sysMerchantUser = CurrentDb.SysMerchantUser.Where(m => m.Id == id).FirstOrDefault();
-            if (sysMerchantUser != null)
+            if (sysMerchantUser == null)
             {
-                ret.Id = sysMerchantUser.Id ?? ""; ;
-                ret.UserName = sysMerchantUser.UserName ?? "";
-
-                var merchantInfo = CurrentDb.MerchantInfo.Where(m => m.MerchantId == id).FirstOrDefault();
-
-                ret.MerchantName = merchantInfo.Name ?? "";
-                ret.ContactAddress = merchantInfo.ContactAddress ?? "";
-                ret.ContactName = merchantInfo.ContactName ?? "";
-                ret.ContactPhone = merchantInfo.ContactPhone ?? "";
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "数据为空", ret);
             }
+
+            var merchantInfo = CurrentDb.MerchantInfo.Where(m => m.MerchantId == id).FirstOrDefault();
+
+            if (merchantInfo == null)
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "数据为空", ret);
+            }
+
+            ret.Id = sysMerchantUser.Id ?? ""; ;
+            ret.UserName = sysMerchantUser.UserName ?? "";
+            ret.Name = merchantInfo.Name ?? "";
+            ret.ContactAddress = merchantInfo.ContactAddress ?? "";
+            ret.ContactName = merchantInfo.ContactName ?? "";
+            ret.ContactPhone = merchantInfo.ContactPhone ?? "";
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
         }
@@ -51,26 +57,26 @@ namespace Lumos.BLL.Service.Admin
                 sysMerchatUser.PasswordHash = PassWordHelper.HashPassword(rop.Password);
                 sysMerchatUser.SecurityStamp = Guid.NewGuid().ToString();
                 sysMerchatUser.RegisterTime = this.DateTime;
-                sysMerchatUser.CreateTime = this.DateTime;
-                sysMerchatUser.Creator = operater;
                 sysMerchatUser.Status = Enumeration.UserStatus.Normal;
                 sysMerchatUser.BelongSite = Enumeration.BelongSite.Merchant;
+                sysMerchatUser.CreateTime = this.DateTime;
+                sysMerchatUser.Creator = operater;
                 CurrentDb.SysMerchantUser.Add(sysMerchatUser);
                 CurrentDb.SaveChanges();
 
                 var merchantInfo = new MerchantInfo();
                 merchantInfo.Id = sysMerchatUser.Id;
                 merchantInfo.MerchantId = sysMerchatUser.Id;
-                merchantInfo.Name = rop.MerchantName;
+                merchantInfo.Name = rop.Name;
                 merchantInfo.ContactName = rop.ContactName;
                 merchantInfo.ContactPhone = rop.ContactPhone;
                 merchantInfo.ContactAddress = rop.ContactAddress;
-                merchantInfo.CreateTime = this.DateTime;
-                merchantInfo.Creator = operater;
                 merchantInfo.ApiHost = "http://demo.api.term.17fanju.com";
                 merchantInfo.ApiKey = "fanju";
                 merchantInfo.ApiSecret = "7460e6512f1940f68c00fe1fdb2b7eb1";
                 merchantInfo.PayTimeout = 120;
+                merchantInfo.CreateTime = this.DateTime;
+                merchantInfo.Creator = operater;
                 CurrentDb.MerchantInfo.Add(merchantInfo);
                 CurrentDb.SaveChanges();
                 ts.Complete();
@@ -85,25 +91,33 @@ namespace Lumos.BLL.Service.Admin
         public CustomJsonResult Edit(string operater, RopMerchantEdit rop)
         {
             CustomJsonResult result = new CustomJsonResult();
+
             using (TransactionScope ts = new TransactionScope())
             {
-                var merchantInfo = CurrentDb.MerchantInfo.Where(m => m.Id == rop.Id).FirstOrDefault();
+                var sysMerchantUser = CurrentDb.SysMerchantUser.Where(m => m.Id == rop.Id).FirstOrDefault();
+                if (sysMerchantUser == null)
+                {
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "数据为空");
+                }
+
+                var merchantInfo = CurrentDb.MerchantInfo.Where(m => m.MerchantId == rop.Id).FirstOrDefault();
+
+                if (merchantInfo == null)
+                {
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "数据为空");
+                }
 
                 merchantInfo.ContactName = rop.ContactName;
                 merchantInfo.ContactPhone = rop.ContactPhone;
                 merchantInfo.ContactAddress = rop.ContactAddress;
-
-
                 merchantInfo.MendTime = this.DateTime;
                 merchantInfo.Mender = operater;
 
                 if (!string.IsNullOrEmpty(rop.Password))
                 {
-                    var sysMerchantUser = CurrentDb.SysMerchantUser.Where(m => m.Id == rop.Id).FirstOrDefault();
-
                     sysMerchantUser.PasswordHash = PassWordHelper.HashPassword(rop.Password);
-
-                    CurrentDb.SaveChanges();
+                    sysMerchantUser.MendTime = this.DateTime;
+                    sysMerchantUser.Mender = operater;
                 }
 
                 CurrentDb.SaveChanges();

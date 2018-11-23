@@ -10,7 +10,7 @@ namespace Lumos.BLL.Service.Admin
     {
         public string UserName { get; set; }
         public string Password { get; set; }
-        public string MerchantName { get; set; }
+        public string Name { get; set; }
         public string ContactName { get; set; }
         public string ContactPhone { get; set; }
 

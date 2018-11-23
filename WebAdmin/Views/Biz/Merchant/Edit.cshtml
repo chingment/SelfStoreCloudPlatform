@@ -95,7 +95,7 @@
         function edit() {
             var isValid = $.formValidator.pageIsValid();
             if (!isValid)
-                return false;
+                return;
             art.dialog.confirm('确定要保存？', function () {
 
                 var password = $("#txt_Password").val();
@@ -113,7 +113,7 @@
                     }
                 });
             });
-            return false;
+            return;
         }
 
         function getDetails() {
@@ -126,7 +126,7 @@
                     if (d.result == $.lumos.resultType.success) {
                         var data = d.data;
                         $('#lbl_UserName').text(data.userName);
-                        $('#lbl_MerchantName').text(data.merchantName);
+                        $('#lbl_Name').text(data.name);
                         $("#txt_ContactName").val(data.contactName);
                         $("#txt_ContactPhone").val(data.contactPhone);
                         $("#txt_ContactAddress").val(data.contactAddress);
@@ -203,7 +203,7 @@
                                 商户名称：
                             </td>
                             <td class="f-tb-c">
-                                <span id="lbl_MerchantName"></span>
+                                <span id="lbl_Name"></span>
                             </td>
                         </tr>
                         <tr>
@@ -227,7 +227,7 @@
                                 联系地址：
                             </td>
                             <td class="f-tb-c">
-                                <input class="input-control" type="text" id="txt_ContactAddress" style="width: 150px;" value="" autocomplete="off" />
+                                <input class="input-control" type="text" id="txt_ContactAddress" style="width: 400px;" value="" autocomplete="off" />
                             </td>
                         </tr>
                         <tr>
