@@ -36,14 +36,14 @@
             operate: {
                 "delete": function (obj) {
 
-                    var userIds = [];
+                    var ids = [];
                     $.each(obj, function (i, n) {
-                        userIds.push(n.id);
+                        ids.push(n.id);
                     });
 
                     $.lumos.postJson({
                         url: "/Sys/AdminUser/Delete",
-                        data: { userIds: userIds },
+                        data: { ids: ids },
                         success: function (d) {
                             $.lumos.tips(d.message);
                             if (d.result == $.lumos.resultType.success) {
@@ -53,7 +53,7 @@
                     });
                 },
                 "edit": function (obj) {
-                    var url = '/Sys/AdminUser/Edit?userId=' + obj.id;
+                    var url = '/Sys/AdminUser/Edit?id=' + obj.id;
                     var title = '修改';
                     art.dialog.open(url, {
                         id: "openDialog", title: title, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {

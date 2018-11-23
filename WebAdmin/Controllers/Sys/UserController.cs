@@ -52,9 +52,9 @@ namespace WebAdmin.Controllers.Sys
         }
 
 
-        public CustomJsonResult GetDetails(string userId)
+        public CustomJsonResult GetDetails(string id)
         {
-            return AdminServiceFactory.SysUser.GetDetails(this.CurrentUserId, userId);
+            return AdminServiceFactory.SysUser.GetDetails(this.CurrentUserId, id);
         }
 
         #endregion

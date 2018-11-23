@@ -5,7 +5,7 @@
 
 @section scripts{
     <script type="text/javascript">
-        var userId = $.lumos.getUrlParamValue("userId");
+        var id = $.lumos.getUrlParamValue("id");
         var tree_Roles;
         $(this).ready(function () {
 
@@ -38,6 +38,7 @@
         function loadRoles() {
             $.lumos.getJson({
                 url: "/Sys/Role/GetAll",
+                urlParams: { belongSite: 1 },
                 isUseHandling: true,
                 success: function (d) {
                     if (d.result == $.lumos.resultType.success) {
@@ -65,7 +66,7 @@
 
             $.lumos.getJson({
                 url: "/Sys/AdminUser/GetDetails",
-                urlParams: { userId: userId },
+                urlParams: { id: id },
                 isUseHandling: true,
                 success: function (d) {
                     if (d.result == $.lumos.resultType.success) {
@@ -111,7 +112,7 @@
                 $.lumos.postJson({
                     url: "/Sys/AdminUser/Edit",
                     isUseHandling: true,
-                    data: { userId: userId, userName: userName, password: password, fullName: fullName, email: email, phoneNumber: phoneNumber, roleIds: roleIds },
+                    data: { id: id, userName: userName, password: password, fullName: fullName, email: email, phoneNumber: phoneNumber, roleIds: roleIds },
                     success: function (d) {
                         if (d.result == $.lumos.resultType.success) {
                             $.lumos.parentDialog.refresh(2);

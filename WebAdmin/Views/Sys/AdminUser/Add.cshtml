@@ -28,6 +28,7 @@
 
             $.lumos.getJson({
                 url: "/Sys/Role/GetAll",
+                urlParams: { belongSite: 1 },
                 isUseHandling: true,
                 success: function (d) {
                     if (d.result == $.lumos.resultType.success) {

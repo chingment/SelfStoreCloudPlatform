@@ -7,7 +7,7 @@
 @section scripts{
     <script type="text/javascript">
 
-        var userId = $.lumos.getUrlParamValue("userId");
+        var userId = $.lumos.getUrlParamValue("id");
 
         $(this).ready(function () {
 
@@ -18,7 +18,7 @@
         function initData() {
             $.lumos.getJson({
                 url: "/Sys/User/GetDetails",
-                urlParams: { userId: userId },
+                urlParams: { id: id },
                 isUseHandling: true,
                 success: function (d) {
                     if (d.result == $.lumos.resultType.success) {

@@ -106,7 +106,7 @@ namespace WebMerch.Controllers
             {
                 ret.UserName = OwnRequest.GetUserNameWithSymbol();
 
-                var menus = CurrentDb.SysMenu.Where(m => m.BelongSite == Lumos.Entity.Enumeration.BelongSite.Merchant).ToList();
+                var menus = OwnRequest.GetMenus();
                 var menuLevel1 = from c in menus where c.Dept == 1 select c;
                 foreach (var menuLevel1Child in menuLevel1)
                 {

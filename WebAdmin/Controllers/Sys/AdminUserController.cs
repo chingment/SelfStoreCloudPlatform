@@ -81,9 +81,9 @@ namespace WebAdmin.Controllers.Sys
 
 
 
-        public CustomJsonResult GetDetails(string userId)
+        public CustomJsonResult GetDetails(string id)
         {
-            return AdminServiceFactory.SysAdminUser.GetDetails(this.CurrentUserId, userId);
+            return AdminServiceFactory.SysAdminUser.GetDetails(this.CurrentUserId, id);
         }
 
         [HttpPost]
@@ -99,9 +99,9 @@ namespace WebAdmin.Controllers.Sys
         }
 
         [HttpPost]
-        public CustomJsonResult Delete(string[] userIds)
+        public CustomJsonResult Delete(string[] ids)
         {
-            return AdminServiceFactory.SysAdminUser.Delete(this.CurrentUserId, userIds);
+            return AdminServiceFactory.SysAdminUser.Delete(this.CurrentUserId, ids);
         }
 
     }
