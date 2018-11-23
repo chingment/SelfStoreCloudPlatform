@@ -73,8 +73,6 @@ namespace Lumos.DAL.AuthorizeRelay
 
         public IDbSet<BackgroundJobLog> BackgroundJobLog { get; set; }
 
-        public IDbSet<SysPosition> SysPosition { get; set; }
-
         public IDbSet<SysPositionRole> SysPositionRole { get; set; }
 
         public AuthorizeRelayDbContext(string nameOrConnectionString)

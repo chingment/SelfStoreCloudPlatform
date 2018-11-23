@@ -163,7 +163,6 @@
     <Compile Include="Controllers\Sys\MachineKeyController.cs" />
     <Compile Include="Controllers\Sys\MenuController.cs" />
     <Compile Include="Controllers\Sys\OrganizationController.cs" />
-    <Compile Include="Controllers\Sys\PositionController.cs" />
     <Compile Include="Controllers\Sys\RoleController.cs" />
     <Compile Include="Controllers\Sys\AdminUserController.cs" />
     <Compile Include="Controllers\Sys\UserController.cs" />
@@ -1098,8 +1097,6 @@
     <Content Include="Views\Sys\Organization\Add.cshtml" />
     <Content Include="Views\Sys\Organization\List.cshtml" />
     <Content Include="Views\Sys\Organization\Sort.cshtml" />
-    <Content Include="Views\Sys\Position\Add.cshtml" />
-    <Content Include="Views\Sys\Position\Edit.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

@@ -294,8 +294,9 @@
 
         function mainTreeLoadData() {
 
-            $.lumos.postJson({
-                url: "/Sys/Organization/GetAll",
+            $.lumos.getJson({
+                url: "/Sys/Position/GetAll",
+                urlParams: { belongSite: belongSite },
                 success: function (d) {
                     var obj = eval(d.data);
                     mainTree = $.fn.zTree.init($("#maintree"), {

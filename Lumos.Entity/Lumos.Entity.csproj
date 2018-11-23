@@ -100,7 +100,6 @@
     <Compile Include="Sys\SysMenuPermission.cs" />
     <Compile Include="Sys\SysOperateHistory.cs" />
     <Compile Include="Sys\SysPageAccessRecord.cs" />
-    <Compile Include="Sys\SysPosition.cs" />
     <Compile Include="Sys\SysPositionRole.cs" />
     <Compile Include="Sys\SysRole.cs" />
     <Compile Include="Sys\SysSmsSendHistory.cs" />
