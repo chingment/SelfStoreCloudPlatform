@@ -29,7 +29,7 @@ namespace Lumos.BLL.Service.AppTerm
             ret.ProductKinds = TermServiceFactory.ProductKind.GetKinds(operater, rup.MerchantId, rup.MachineId);
             ret.ProductSkus = TermServiceFactory.Machine.GetProductSkus(operater, rup.MerchantId, rup.MachineId);
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
     }
 }

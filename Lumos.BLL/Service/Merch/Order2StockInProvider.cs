@@ -37,7 +37,7 @@ namespace Lumos.BLL.Service.Merch
             }
 
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
 
         public CustomJsonResult Add(string operater, string merchantId, RopOrder2StockInAdd rop)
@@ -137,7 +137,7 @@ namespace Lumos.BLL.Service.Merch
 
                 ts.Complete();
 
-                result = new CustomJsonResult(ResultType.Success, "保存成功");
+                result = new CustomJsonResult(ResultType.Success, "操作成功");
             }
 
             return result;

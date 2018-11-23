@@ -21,7 +21,7 @@ namespace WebAppApi.Controllers
         {
             var data = AppServiceFactory.Cart.GetPageData(this.CurrentUserId, this.CurrentUserId, rup.StoreId);
 
-            return ResponseResult(ResultType.Success, ResultCode.Success, "获取成功", data);
+            return ResponseResult(ResultType.Success, ResultCode.Success, "操作成功", data);
         }
     }
 }

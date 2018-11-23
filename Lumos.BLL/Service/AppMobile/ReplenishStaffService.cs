@@ -29,7 +29,7 @@ namespace Lumos.BLL.Service.AppMobile
             var ret = new RetOperateResult();
             ret.Result = RetOperateResult.ResultType.Success;
             ret.Remarks = "";
-            ret.Message = "绑定成功";
+            ret.Message = "操作成功";
             ret.IsComplete = true;
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "", ret);

@@ -26,7 +26,7 @@ namespace Lumos.BLL.Service.Merch
                 ret.Status = productKind.Status;
             }
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
 
 
@@ -60,7 +60,7 @@ namespace Lumos.BLL.Service.Merch
                 CurrentDb.ProductKind.Add(productKind);
                 CurrentDb.SaveChanges();
                 ts.Complete();
-                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "添加成功");
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
             }
 
             return result;
@@ -102,7 +102,7 @@ namespace Lumos.BLL.Service.Merch
             productKind.Depth = depth;
             CurrentDb.SaveChanges();
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
 
         }
 
@@ -138,7 +138,7 @@ namespace Lumos.BLL.Service.Merch
                 }
             }
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "删除成功");
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
         }
 
     }

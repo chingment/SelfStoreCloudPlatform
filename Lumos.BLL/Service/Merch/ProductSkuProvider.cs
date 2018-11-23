@@ -50,7 +50,7 @@ namespace Lumos.BLL.Service.Merch
                 ret.DispalyImgUrls = productSku.DispalyImgUrls.ToJsonObject<List<ImgSet>>(); ;
             }
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
 
         public CustomJsonResult Add(string operater, string merchantId, RopProducSkuAdd rop)
@@ -149,7 +149,7 @@ namespace Lumos.BLL.Service.Merch
 
                 ret.Id = productSku.Id;
 
-                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "新建成功", ret);
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
             }
 
             return result;
@@ -259,7 +259,7 @@ namespace Lumos.BLL.Service.Merch
                 CurrentDb.SaveChanges(true);
                 ts.Complete();
 
-                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
             }
 
             return result;
@@ -283,7 +283,7 @@ namespace Lumos.BLL.Service.Merch
                 CurrentDb.SaveChanges();
                 ts.Complete();
 
-                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
             }
 
             return result;

@@ -23,7 +23,7 @@ namespace Lumos.BLL.Service.Merch
                 ret.Status = store.Status;
             }
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
 
         public CustomJsonResult Add(string operater, string merchantId, RopStoreAdd rop)
@@ -50,7 +50,7 @@ namespace Lumos.BLL.Service.Merch
                 CurrentDb.SaveChanges();
 
                 ts.Complete();
-                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "添加成功");
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
 
             }
             return result;
@@ -86,7 +86,7 @@ namespace Lumos.BLL.Service.Merch
                 store.Mender = operater;
                 CurrentDb.SaveChanges();
                 ts.Complete();
-                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
             }
             return result;
         }
@@ -141,7 +141,7 @@ namespace Lumos.BLL.Service.Merch
                 }
 
                 ts.Complete();
-                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "绑定成功");
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
             }
             return result;
         }
@@ -175,7 +175,7 @@ namespace Lumos.BLL.Service.Merch
 
                 CurrentDb.SaveChanges();
                 ts.Complete();
-                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "解绑成功");
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
             }
             return result;
         }

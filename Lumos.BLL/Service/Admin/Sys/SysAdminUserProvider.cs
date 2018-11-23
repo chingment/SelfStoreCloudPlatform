@@ -27,7 +27,7 @@ namespace Lumos.BLL.Service.Admin
                 ret.RoleIds = roleIds;
             }
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
 
         public CustomJsonResult Add(string operater, RopSysAdminUserAdd rop)
@@ -83,7 +83,7 @@ namespace Lumos.BLL.Service.Admin
                     }
                 }
 
-                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "新建成功");
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
 
                 CurrentDb.SaveChanges();
                 ts.Complete();
@@ -139,7 +139,7 @@ namespace Lumos.BLL.Service.Admin
                 CurrentDb.SaveChanges();
                 ts.Complete();
 
-                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
 
             }
             return result;
@@ -180,7 +180,7 @@ namespace Lumos.BLL.Service.Admin
                 CurrentDb.SaveChanges();
             }
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "删除成功");
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
         }
     }
 }

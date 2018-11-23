@@ -39,7 +39,7 @@ namespace Lumos.BLL.Service.AppTerm
                 ret.OrderSn = bizResult.Data.OrderSn;
                 ret.PayUrl = string.Format("http://mobile.17fanju.com/Order/Confirm?soure=machine&orderId=" + bizResult.Data.OrderId);
 
-                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "预定成功", ret);
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
             }
             else
             {

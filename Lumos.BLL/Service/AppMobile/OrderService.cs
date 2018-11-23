@@ -39,7 +39,7 @@ namespace Lumos.BLL.Service.AppMobile
                 RetOrderReserve ret = new RetOrderReserve();
                 ret.OrderId = bizResult.Data.OrderId;
                 ret.OrderSn = bizResult.Data.OrderSn;
-                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "预定成功", ret);
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
             }
             else
             {

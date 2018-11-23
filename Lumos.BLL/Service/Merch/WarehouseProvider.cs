@@ -22,7 +22,7 @@ namespace Lumos.BLL.Service.Merch
                 ret.Description = warehouse.Description ?? "";
             }
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
 
         public CustomJsonResult Add(string operater, string merchantId, RopWarehouseAdd rop)
@@ -47,7 +47,7 @@ namespace Lumos.BLL.Service.Merch
                 CurrentDb.SaveChanges();
 
                 ts.Complete();
-                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "添加成功");
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
 
             }
             return result;
@@ -73,7 +73,7 @@ namespace Lumos.BLL.Service.Merch
                 warehouse.Mender = operater;
                 CurrentDb.SaveChanges();
                 ts.Complete();
-                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
             }
             return result;
         }

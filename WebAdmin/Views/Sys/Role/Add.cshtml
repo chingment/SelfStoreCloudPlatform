@@ -9,35 +9,37 @@
         var belongSite = $.lumos.getUrlParamValue("belongSite");
         $(this).ready(function () {
 
-            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { } });
-            $("#txt_Name").formValidator({ onShow: "请输入！", onFocus: "不能为空,且不超过20个字符！", onCorrect: "&nbsp;" }).inputValidator({ min: 1, max: 20, empty: { leftEmpty: false, emptyError: "不能为空！" }, onError: "不能为空,且不超过20个字符！" });
-            $("#txt_Description").formValidator({ onShow: "&nbsp;", onFocus: "不超过500个字符", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 500, onError: "不超过500个字符" });
+            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
+            $("#txt_Name").formValidator().inputValidator({ min: 1, max: 20, onError: "名称须填,且不能超过20个字符！" });
+            $("#txt_Description").formValidator().inputValidator({ min: 0, max: 500, onError: "描述不能超过500个字符" });
         });
 
         function add() {
 
             var isValid = $.formValidator.pageIsValid();
-            if (isValid) {
-                art.dialog.confirm('确定要新建？', function () {
+            if (!isValid)
+                return false;
 
-                    var name = $("#txt_Name").val();
-                    var description = $("#txt_Description").val();
-                    $.lumos.postJson({
-                        url: "/Sys/Role/Add",
-                        isUseHandling: true,
-                        data: { name: name, description: description, belongSite: belongSite },
-                        success: function (d) {
-                            if (d.result == $.lumos.resultType.success) {
-                                $.lumos.parentDialog.refresh(1);
-                                $.lumos.tips(d.message, true);
-                            }
-                            else {
-                                $.lumos.tips(d.message);
-                            }
+            art.dialog.confirm('确定要新建？', function () {
+
+                var name = $("#txt_Name").val();
+                var description = $("#txt_Description").val();
+                $.lumos.postJson({
+                    url: "/Sys/Role/Add",
+                    isUseHandling: true,
+                    data: { name: name, description: description, belongSite: belongSite },
+                    success: function (d) {
+                        if (d.result == $.lumos.resultType.success) {
+                            $.lumos.parentDialog.refresh(1);
+                            $.lumos.tips(d.message, true);
                         }
-                    });
+                        else {
+                            $.lumos.tips(d.message);
+                        }
+                    }
                 });
-            }
+            });
+
 
             return false;
         }
@@ -63,7 +65,6 @@
             </td>
             <td class="f-tb-c">
                 <input type="text" id="txt_Name" value="" class="input-control" style="width:250px;" autocomplete="off" />
-                <span id="txt_NameTip"></span>
             </td>
         </tr>
         <tr>
@@ -72,7 +73,6 @@
             </td>
             <td class="f-tb-c" style="white-space:normal;">
                 <textarea rows="5" cols="42" id="txt_Description" class="input-control" autocomplete="off"></textarea>
-                <span id="txt_DescriptionTip"></span>
             </td>
         </tr>
         <tr style="display:none">

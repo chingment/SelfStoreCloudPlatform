@@ -117,7 +117,7 @@ namespace Lumos.BLL.Service.AppTerm
             ret.ApiSecret = merchantConfig.ApiSecret;
             ret.PayTimeout = merchantConfig.PayTimeout;
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
 
         public Dictionary<string, ProductSkuModel> GetProductSkus(string operater, string merchantId, string machineId)
@@ -201,7 +201,7 @@ namespace Lumos.BLL.Service.AppTerm
             }
 
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", slotProductSkuModels);
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", slotProductSkuModels);
         }
 
         public CustomJsonResult UpdateInfo(string operater, RopMachineUpdateInfo rop)

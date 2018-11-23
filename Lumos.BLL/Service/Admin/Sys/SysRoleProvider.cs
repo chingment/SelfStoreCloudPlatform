@@ -33,7 +33,7 @@ namespace Lumos.BLL.Service.Admin
             CurrentDb.SaveChanges();
 
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "添加成功");
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
         }
 
         public CustomJsonResult Edit(string operater, RopSysRoleEdit rop)
@@ -52,7 +52,7 @@ namespace Lumos.BLL.Service.Admin
             sysRole.Mender = operater;
 
             CurrentDb.SaveChanges();
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
         }
 
         public CustomJsonResult Delete(string operater, string[] ids)
@@ -103,7 +103,7 @@ namespace Lumos.BLL.Service.Admin
                 CurrentDb.SaveChanges();
                 ts.Complete();
 
-                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "删除成功");
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
             }
 
             return result;
@@ -122,15 +122,15 @@ namespace Lumos.BLL.Service.Admin
             ret.Name = role.Name;
             ret.Description = role.Description;
 
-            var roleMenus = AdminServiceFactory.SysRole.GetRoleMenus(operater, id);
+            var roleMenus = AdminServiceFactory.SysRole.GetMenus(operater, id);
             var menuIds = (from p in roleMenus select p.Id).ToArray();
 
             ret.MenuIds = menuIds;
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
 
-        public List<SysMenu> GetRoleMenus(string operater, string pRoleId)
+        public List<SysMenu> GetMenus(string operater, string pRoleId)
         {
             var model = from c in CurrentDb.SysMenu
                         where
@@ -148,7 +148,7 @@ namespace Lumos.BLL.Service.Admin
                 CurrentDb.SaveChanges();
 
             }
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "添加成功");
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
         }
 
         public CustomJsonResult RemoveUserFromRole(string operater, string roleId, string[] userIds)
@@ -177,13 +177,13 @@ namespace Lumos.BLL.Service.Admin
             }
 
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "移除成功");
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
         }
 
-        public CustomJsonResult SaveRoleMenu(string operater, string roleId, string[] menuIds)
+        public CustomJsonResult SaveMenus(string operater, string id, string[] menuIds)
         {
 
-            List<SysRoleMenu> roleMenuList = CurrentDb.SysRoleMenu.Where(r => r.RoleId == roleId).ToList();
+            List<SysRoleMenu> roleMenuList = CurrentDb.SysRoleMenu.Where(r => r.RoleId == id).ToList();
 
             foreach (var roleMenu in roleMenuList)
             {
@@ -195,14 +195,14 @@ namespace Lumos.BLL.Service.Admin
             {
                 foreach (var menuId in menuIds)
                 {
-                    CurrentDb.SysRoleMenu.Add(new SysRoleMenu { Id = GuidUtil.New(), RoleId = roleId, MenuId = menuId, Creator = operater, CreateTime = DateTime.Now });
+                    CurrentDb.SysRoleMenu.Add(new SysRoleMenu { Id = GuidUtil.New(), RoleId = id, MenuId = menuId, Creator = operater, CreateTime = DateTime.Now });
                 }
             }
 
             CurrentDb.SaveChanges();
 
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
         }
     }
 }

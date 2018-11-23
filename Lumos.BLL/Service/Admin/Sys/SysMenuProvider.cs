@@ -23,7 +23,7 @@ namespace Lumos.BLL.Service.Admin
                 ret.Permissions = AdminServiceFactory.AuthorizeRelay.GetPermissionList(typeof(MchPermissionCode));
             }
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
 
         public CustomJsonResult GetDetails(string operater, string id)
@@ -46,7 +46,7 @@ namespace Lumos.BLL.Service.Admin
 
             ret.PermissionIds = sysPermissionIds;
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
 
         public static IEnumerable<SysMenu> GetFatherList(IList<SysMenu> list, string pId)
@@ -95,7 +95,7 @@ namespace Lumos.BLL.Service.Admin
 
                 CurrentDb.SaveChanges();
                 ts.Complete();
-                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "新建成功");
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
             }
 
             return result;
@@ -148,7 +148,7 @@ namespace Lumos.BLL.Service.Admin
                 CurrentDb.SaveChanges();
                 ts.Complete();
 
-                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
             }
 
             return result;
@@ -192,7 +192,7 @@ namespace Lumos.BLL.Service.Admin
                 CurrentDb.SaveChanges();
                 ts.Complete();
 
-                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "删除成功");
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
             }
 
             return result;
@@ -218,7 +218,7 @@ namespace Lumos.BLL.Service.Admin
                 }
             }
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
 
         }
     }

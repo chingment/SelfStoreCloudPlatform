@@ -9,16 +9,13 @@
         var tab_Main;
         var tree_Roles;
         var tree_Menus;
-        var list_RoleUsers;
         var cur_RoleId;
         var belongSite = $.lumos.getUrlParamValue("belongSite");
         $(this).ready(function () {
 
-
-
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
-            $("#txt_Name").formValidator({ onShow: "&nbsp;", onFocus: "", onCorrect: "&nbsp;" }).inputValidator({ min: 1, max: 20, empty: { leftEmpty: false, emptyError: "名称不能为空" }, onError: "名称不能超过20个字符" });
-            $("#txt_Description").formValidator({ onShow: "&nbsp;", onFocus: "", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 500, onError: "备注不能超过500个字符" });
+            $("#txt_Name").formValidator().inputValidator({ min: 1, max: 20, onError: "名称须填，且不能超过20个字符" });
+            $("#txt_Description").formValidator().inputValidator({ min: 0, max: 500, onError: "备注不能超过500个字符" });
 
             tab_Main = $("#tab_Main").tab({
                 click: function (index) {
@@ -84,14 +81,6 @@
                 return false;
             });
 
-            $("#btn_add_roleuser").click(function () {
-                var selObj = getSelectedNode();
-                if (selObj == null) {
-                    return;
-                }
-                $.lumos.openDialog('/Sys/Role/AddUserToRole?roleId=' + selObj.id, '添加角色用户', '650px', '520px');
-            });
-
             $("#btn_save_rolemenu").click(function () {
 
                 var selObj = getSelectedNode();
@@ -116,54 +105,6 @@
                     });
                 });
                 return false;
-            });
-
-            list_RoleUsers = $("#list_table_roleuser").loadDataTable({
-                url: "/Sys/Role/GetRoleUserList",
-                pageIndex: 0,
-                searchParams: $("#form2").serializeArray(),
-                searchButtonId: "btn_Search",
-                containerId: "form2",
-                rowDataCombie: function (p_index, p_row) {
-                    var l_Strlimt = "";
-                    l_Strlimt += "@Html.IsInPermission("<a href=\\\"javascript:void(0)\\\" operate=\\\"delete\\\"  class=\\\"a-btn\\\" >删除</a>")";
-                    var l_StrRows = "";
-                    l_StrRows += "<tr>";
-                    l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
-                    l_StrRows += "<td class=\"overflow tipitem\" title=\"" + p_row.userName + "\"   >" + p_row.userName + "</td>";
-                    l_StrRows += "<td class=\"overflow\" title=\"" + p_row.fullName + "\">" + p_row.fullName + "</td>";
-                    l_StrRows += "<td class=\"operation\">";
-                    l_StrRows += l_Strlimt;
-                    l_StrRows = l_StrRows.replace(/{key}/g, p_row.id);
-                    l_StrRows = l_StrRows.replace(/{title}/g, p_row.userName);
-                    l_StrRows += "</td>";
-                    l_StrRows += "</tr>";
-                    return l_StrRows;
-                },
-                operate: {
-                    "delete": function (keys) {
-                        var selObj = getSelectedNode();
-                        if (selObj == null) {
-                            return;
-                        }
-                        var userIds = [];
-                        $.each(keys, function (i, n) {
-                            userIds.push(n.userId);
-                        });
-
-                        $.lumos.postJson({
-                            url: "/Sys/Role/RemoveUserFromRole",
-                            data: { roleId: cur_RoleId, userIds: userIds },
-                            success: function (d) {
-                                $.lumos.tips(d.message);
-                                if (d.result == $.lumos.resultType.success) {
-                                    list_RoleUsers.loadData(0);
-                                }
-                            }
-                        });
-
-                    }
-                }
             });
 
             initData();
@@ -338,7 +279,6 @@
             <div class="tab-item">
                 <ul>
                     <li class="item first selected"><a class="a-btn-info" href="javascript:void(0)">基本信息</a></li>
-                    <li class="item"><a class="a-btn-info" href="javascript:void(0)">关联用户</a></li>
                     <li class="item"><a class="a-btn-info" href="javascript:void(0)">关联菜单</a></li>
                 </ul>
             </div>
@@ -373,70 +313,6 @@
                                 </td>
                             </tr>
                         </table>
-                    </form>
-                </div>
-                <div class="subcontent">
-                    <form id="form2" name="form2">
-                        <input type="hidden" name="RoleId" />
-                        <div class="search-bar">
-                            <div class="filter">
-                                <span class="filter-label">用户名：</span>
-                                <span class="filter-input">
-                                    <input type="text" class="input-control" name="UserName" style="width:120px;" />
-                                </span>
-                            </div>
-                            <div class="filter">
-                                <span class="filter-label">姓名：</span>
-                                <span class="filter-input">
-                                    <input type="text" class="input-control" name="FullName" style="width:120px;" />
-                                </span>
-                            </div>
-
-                            <div class="filter"><input type="button" class="btn btn-search" id="btn_Search" value="查询" /> </div>
-
-                            <div class="filter" style="float:right"><input type="button" class="btn btn-add" id="btn_add_roleuser" value="添加" /><input type="button" class="btn btn-sure" id="btn_Add" value="删除" multiple="true" operate="delete" style="margin-right:0px;margin-left:5px;" />  </div>
-                        </div>
-                        <div class="list">
-                            <table id="list_table_roleuser" class="list-tb" cellpadding="0" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th style="width:15%" class="no">
-                                            <input type="checkbox" name="list_table_ckb" childname="list_table_ckb_child" />
-                                        </th>
-                                        <th style="width:15%">
-                                            用户名
-                                        </th>
-                                        <th style="width:15%">
-                                            姓名
-                                        </th>
-                                        <th style="width:10%" class="operation">
-                                            操作
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td colspan="4">
-                                            <div class="pull-left">
-                                                <span class="load-tip"></span>
-                                            </div>
-                                            <div class="pull-right pagination">
-                                                <div class="pagination-info">
-
-                                                </div>
-                                                <div class="pagination-index">
-
-                                                </div>
-                                                <div class="pagination-goto">
-
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
                     </form>
                 </div>
                 <div class="subcontent">

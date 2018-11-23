@@ -217,7 +217,7 @@ namespace Lumos.DAL.AuthorizeRelay
             }
 
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
         }
 
         public List<SysPermission> GetPermissionList(Type type)

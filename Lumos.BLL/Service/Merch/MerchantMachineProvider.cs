@@ -21,7 +21,7 @@ namespace Lumos.BLL.Service.Merch
                 l_MerchantMachine.MendTime = DateTime.Now;
                 CurrentDb.SaveChanges();
             }
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
         }
 
         public CustomJsonResult GetDetails(string operater, string merchantId, string merchantMachineId)
@@ -77,7 +77,7 @@ namespace Lumos.BLL.Service.Merch
                     }
                 }
             }
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
     }
 }

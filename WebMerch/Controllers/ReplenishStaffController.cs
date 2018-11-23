@@ -139,7 +139,7 @@ namespace WebMerch.Controllers
             CurrentDb.MerchantReplenishStaff.Remove(merchantReplenishStaff);
             CurrentDb.SaveChanges();
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "移除成功");
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
         }
 
     }

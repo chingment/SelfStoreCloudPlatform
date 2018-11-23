@@ -97,7 +97,7 @@ namespace Lumos.BLL.Service.AppMobile
             }
 
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
         }
     }
 }
