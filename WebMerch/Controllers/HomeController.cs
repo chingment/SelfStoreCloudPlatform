@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 using Lumos.BLL;
 using Lumos;
+using System.Linq;
 using System.Collections.Generic;
 using Lumos.BLL.Service.Admin;
 
@@ -105,6 +106,25 @@ namespace WebMerch.Controllers
             {
                 ret.UserName = OwnRequest.GetUserNameWithSymbol();
 
+                var menus = CurrentDb.SysMenu.Where(m => m.BelongSite == Lumos.Entity.Enumeration.BelongSite.Merchant).ToList();
+                var menuLevel1 = from c in menus where c.Dept == 1 select c;
+                foreach (var menuLevel1Child in menuLevel1)
+                {
+                    var menuModel1 = new IndexModel.MenuModel();
+
+                    menuModel1.Name = menuLevel1Child.Name;
+
+
+                    var menuLevel2 = from c in menus where c.PId == menuLevel1Child.Id select c;
+
+                    foreach (var menuLevel2Child in menuLevel2)
+                    {
+
+                        menuModel1.SubMenus.Add(new IndexModel.SubMenuModel { Name = menuLevel2Child.Name, Url = menuLevel2Child.Url });
+                    }
+
+                    ret.MenuNavByLeft.Add(menuModel1);
+                }
             }
 
 

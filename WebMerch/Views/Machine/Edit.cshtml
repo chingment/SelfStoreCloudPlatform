@@ -57,17 +57,17 @@
             height: 30px;
         }
 
-         .list-skus .quantity{
-           color:#0404f5;
-         }
+        .list-skus .quantity {
+            color: #0404f5;
+        }
 
-          .list-skus .lockQuantity{
-           color:#e1a607;
-         }
+        .list-skus .lockQuantity {
+            color: #e1a607;
+        }
 
-          .list-skus .sellQuantity{
-           color:#00ca47;
-         }
+        .list-skus .sellQuantity {
+            color: #00ca47;
+        }
 
         .list-skus .qa {
             display: flex;
@@ -97,20 +97,20 @@
             </td>
             <td class="t">机器名称：</td>
             <td class="c">
-                <span>${machineName}</span>
+                <span>${name}</span>
             </td>
         </tr>
         <tr>
             <td class="t">所属便利店：</td>
             <td class="c">
-                <span>${storeName}</span>
+                <span>${store.name}</span>
             </td>
             <td class="t">状态：</td>
             <td class="c">
-                <span></span>
+                <span>${statusName}</span>
             </td>
         </tr>
-  
+
     </table>
 
     <div class="gbr-row-title clearfix">
@@ -125,8 +125,8 @@
 
         {{each(j,item) skus}}
         <div class="it">
-            <div class="imgbox"><img class="img" src="${item.skuImgUrl}"></div>
-            <div class="name"><span class="txt">${item.skuName}</span></div>
+            <div class="imgbox"><img class="img" src="${item.imgUrl}"></div>
+            <div class="name"><span class="txt">${item.name}</span></div>
             <div class="price">
                 <div class="flex1 salePrice" title="销售价"><span class="txt">${item.salePrice}</span> </div>
                 <div class="flex1 salePriceByVip" title="会员价"><span class="txt">${item.salePriceByVip}</span> </div>

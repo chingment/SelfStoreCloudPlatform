@@ -9,48 +9,49 @@ using System.Transactions;
 
 namespace Lumos.BLL.Service.Merch
 {
-    public class MerchantMachineProvider : BaseProvider
+    public class MachineProvider : BaseProvider
     {
-        public CustomJsonResult Edit(string operater, string merchantId, RopMerchantMachineEdit rop)
+        public CustomJsonResult Edit(string operater, string merchantId, RopMachineEdit rop)
         {
-            var l_MerchantMachine = CurrentDb.MerchantMachine.Where(m => m.Id == rop.MerchantMachineId).FirstOrDefault();
-            if (l_MerchantMachine != null)
+            var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.MerchantId == merchantId && m.MachineId == rop.Id).FirstOrDefault();
+            if (merchantMachine != null)
             {
-                //l_MerchantMachine.MachineName = rop.MachineName;
-                l_MerchantMachine.Mender = operater;
-                l_MerchantMachine.MendTime = DateTime.Now;
+                //l_MerchantMachine.ma = rop.Name;
+                merchantMachine.Mender = operater;
+                merchantMachine.MendTime = DateTime.Now;
                 CurrentDb.SaveChanges();
             }
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
         }
 
-        public CustomJsonResult GetDetails(string operater, string merchantId, string merchantMachineId)
+        public CustomJsonResult GetDetails(string operater, string merchantId, string machineId)
         {
 
-            var ret = new RetMerchantMachineGetDetails();
+            var ret = new RetMachineGetDetails();
 
-            var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.Id == merchantMachineId).FirstOrDefault();
+            var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.MerchantId == merchantId && m.MachineId == machineId).FirstOrDefault();
             if (merchantMachine != null)
             {
                 var machine = CurrentDb.Machine.Where(m => m.Id == merchantMachine.MachineId).FirstOrDefault();
                 var storeMachine = CurrentDb.StoreMachine.Where(m => m.MerchantId == merchantMachine.MerchantId && m.MachineId == merchantMachine.MachineId && m.IsBind == true).FirstOrDefault();
                 if (storeMachine != null)
                 {
-                    ret.StoreId = storeMachine.StoreId;
-                    ret.MachineId = merchantMachine.MachineId;
+                    ret.Id = merchantMachine.MachineId;
                     ret.DeviceId = machine.DeviceId;
-                    ret.MachineName = storeMachine.MachineName;
+                    ret.Name = storeMachine.MachineName;
 
                     var store = CurrentDb.Store.Where(m => m.Id == storeMachine.StoreId).FirstOrDefault();
                     if (store != null)
                     {
-                        ret.StoreName = store.Name;
+                        ret.Store.Id = store.Id;
+                        ret.Store.Name = store.Name;
+                        ret.Store.Address = store.Address;
 
                         var skus = from u in CurrentDb.StoreSellStock
                                    where
                                    u.MerchantId == merchantId &&
-                                   u.StoreId == ret.StoreId &&
-                                   u.ChannelId == ret.MachineId &&
+                                   u.StoreId == store.Id &&
+                                   u.ChannelId == machineId &&
                                    u.ChannelType == Enumeration.ChannelType.Machine
                                    select new { u.Id, u.SlotId, u.ProductSkuId, u.ProductSkuName, u.Quantity, u.LockQuantity, u.SellQuantity, u.SalePrice, u.SalePriceByVip };
 
@@ -60,12 +61,12 @@ namespace Lumos.BLL.Service.Merch
                             var skuModel = BizFactory.ProductSku.GetModel(item.ProductSkuId);
                             if (skuModel != null)
                             {
-                                ret.Skus.Add(new RetMerchantMachineGetDetails.SkuModel
+                                ret.Skus.Add(new RetMachineGetDetails.SkuModel
                                 {
+                                    Id = skuModel.Id,
+                                    Name = skuModel.Name,
+                                    ImgUrl = skuModel.ImgUrl,
                                     SlotId = item.SlotId,
-                                    SkuId = skuModel.Id,
-                                    SkuName = skuModel.Name,
-                                    SkuImgUrl = skuModel.ImgUrl,
                                     Quantity = item.Quantity,
                                     LockQuantity = item.LockQuantity,
                                     SellQuantity = item.SellQuantity,

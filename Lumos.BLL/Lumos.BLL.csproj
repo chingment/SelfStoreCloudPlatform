@@ -222,7 +222,7 @@
     <Compile Include="Service\Admin\Sys\SysAdminUserProvider.cs" />
     <Compile Include="Service\Merch\MerchServiceFactory.cs" />
     <Compile Include="Service\Merch\CompanyProvider.cs" />
-    <Compile Include="Service\Merch\MerchantMachineProvider.cs" />
+    <Compile Include="Service\Merch\MachineProvider.cs" />
     <Compile Include="Service\Merch\Order2StockInProvider.cs" />
     <Compile Include="Service\Merch\Order2StockOutProvider.cs" />
     <Compile Include="Service\Merch\OrderProvider.cs" />
@@ -233,7 +233,6 @@
     <Compile Include="Service\Merch\RModels\RetCompanyGetDetails.cs" />
     <Compile Include="Service\Merch\RModels\RetMachineGetDetails.cs" />
     <Compile Include="Service\Merch\RModels\RetMerchantGetDetails.cs" />
-    <Compile Include="Service\Merch\RModels\RetMerchantMachineGetDetails.cs" />
     <Compile Include="Service\Merch\RModels\RetOrder2StockInGetDetails.cs" />
     <Compile Include="Service\Merch\RModels\RetOrder2StockOutGetDetails.cs" />
     <Compile Include="Service\Merch\RModels\RetOrderGetDetails.cs" />
@@ -246,7 +245,7 @@
     <Compile Include="Service\Merch\RModels\RopCompanyAdd.cs" />
     <Compile Include="Service\Merch\RModels\RopCompanyEdit.cs" />
     <Compile Include="Service\Merch\RModels\RopMachineLoginByQrCode.cs" />
-    <Compile Include="Service\Merch\RModels\RopMerchantMachineEdit.cs" />
+    <Compile Include="Service\Merch\RModels\RopMachineEdit.cs" />
     <Compile Include="Service\Merch\RModels\RopOrder2StockInAdd.cs" />
     <Compile Include="Service\Merch\RModels\RopOrder2StockOutAdd.cs" />
     <Compile Include="Service\Merch\RModels\RopProducSkuAdd.cs" />

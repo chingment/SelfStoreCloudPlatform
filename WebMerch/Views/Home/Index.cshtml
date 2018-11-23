@@ -141,118 +141,20 @@
                     <dd class="content-left">
                         <ul class="navmenu-left">
                             {{if isLogin}}
+                            {{each(j,item1) menuNavByLeft}}
                             <li class="parent">
-                                <span><span class="icon icon_navmenu_level1_common"></span><span>机器管理</span></span>
+                                <span><span class="icon icon_navmenu_level1_common"></span><span>${item1.name}</span></span>
                                 <ul class="children">
+                                    {{each(i,item2) item1.subMenus}}
                                     <li>
-                                        <a gotopage="/Machine/List" target="iframeMain">
-                                            <span class="icon"></span><span>机器列表</span>
+                                        <a gotopage="${item2.url}" target="iframeMain">
+                                            <span class="icon"></span><span>${item2.name}</span>
                                         </a>
                                     </li>
+                                    {{/each}}
                                 </ul>
                             </li>
-                            <li class="parent">
-                                <span><span class="icon icon_navmenu_level1_common"></span><span>便利店管理</span></span>
-                                <ul class="children">
-                                    <li>
-                                        <a gotopage="/Store/List" target="iframeMain">
-                                            <span class="icon"></span><span>便利店设置</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="parent">
-                                <span><span class="icon icon_navmenu_level1_common"></span><span>商品管理</span></span>
-                                <ul class="children">
-                                    <li>
-                                        <a gotopage="/ProductSku/List" target="iframeMain">
-                                            <span class="icon"></span><span>商品设置</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a gotopage="/ProductKind/List" target="iframeMain">
-                                            <span class="icon"></span><span>商品品类设置</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a gotopage="/ProductSubject/List" target="iframeMain">
-                                            <span class="icon"></span><span>商品栏目设置</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="parent">
-                                <span><span class="icon icon_navmenu_level1_common"></span><span>库存管理</span></span>
-                                <ul class="children">
-                                    <li>
-                                        <a gotopage="/Warehouse/List" target="iframeMain">
-                                            <span class="icon"></span><span>仓库设置</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a gotopage="/Supplier/List" target="iframeMain">
-                                            <span class="icon"></span><span>供应商设置</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a gotopage="/Order2StockIn/List" target="iframeMain">
-                                            <span class="icon"></span><span>商品入库</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a gotopage="/Order2StockOut/List" target="iframeMain">
-                                            <span class="icon"></span><span>商品出库</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="parent">
-                                <span><span class="icon icon_navmenu_level1_common"></span><span>订单查询</span></span>
-                                <ul class="children">
-                                    <li>
-                                        <a gotopage="/Order/List?status=2000" target="iframeMain">
-                                            <span class="icon"></span><span>待支付订单</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a gotopage="/Order/List?status=3000" target="iframeMain">
-                                            <span class="icon"></span><span>待提货订单</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a gotopage="/Order/List?status=3000" target="iframeMain">
-                                            <span class="icon"></span><span>待发货订单</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a gotopage="/Order/List?status=3000" target="iframeMain">
-                                            <span class="icon"></span><span>已发货订单</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a gotopage="/Order/List?status=4000" target="iframeMain">
-                                            <span class="icon"></span><span>已完成订单</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a gotopage="/Order/List?status=5000" target="iframeMain">
-                                            <span class="icon"></span><span>已取消订单</span>
-                                        </a>
-                                    </li>
-
-                                </ul>
-                            </li>
-
-                            <li class="parent">
-                                <span><span class="icon icon_navmenu_level1_common"></span><span>用户管理</span></span>
-                                <ul class="children">
-                                    <li>
-                                        <a gotopage="/ReplenishStaff/List" target="iframeMain">
-                                            <span class="icon"></span><span>商品补货员</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                            {{/each}}
                             {{/if}}
                         </ul>
                     </dd>

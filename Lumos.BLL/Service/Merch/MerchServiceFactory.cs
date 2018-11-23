@@ -9,11 +9,11 @@ namespace Lumos.BLL.Service.Merch
     public class MerchServiceFactory : BaseFactory
     {
 
-        public static MerchantMachineProvider MerchantMachine
+        public static MachineProvider Machine
         {
             get
             {
-                return new MerchantMachineProvider();
+                return new MachineProvider();
             }
         }
 

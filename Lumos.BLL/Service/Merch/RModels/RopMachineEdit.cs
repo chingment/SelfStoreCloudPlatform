@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.Merch
 {
-    public class RopMerchantMachineEdit
+    public class RopMachineEdit
     {
-        public string MerchantMachineId { get; set; }
+        public string Id { get; set; }
 
-        public string MachineName { get; set; }
+        public string Name { get; set; }
     }
 }

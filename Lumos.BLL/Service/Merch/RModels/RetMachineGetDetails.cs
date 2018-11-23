@@ -13,10 +13,12 @@ namespace Lumos.BLL.Service.Merch
         private string _deviceId = "";
         private string _macAddress = "";
         private bool _isUse = false;
-
+        private string _status = "";
+        private string _statusName = "";
         public RetMachineGetDetails()
         {
-            this.Merchant = new MerchantModel();
+            this.Skus = new List<SkuModel>();
+            this.Store = new StoreModel();
         }
 
         public string Id
@@ -79,89 +81,63 @@ namespace Lumos.BLL.Service.Merch
                 _isUse = value;
             }
         }
-        public MerchantModel Merchant { get; set; }
 
-        public StoreModel Store { get; set; }
-
-        public class MerchantModel
+        public string StatusName
         {
-            public string _id = "";
-            private string _name = "";
-            private string _contactName = "";
-            private string _contactPhone = "";
-            private string _contactAddress = "";
-
-            public string Id
+            get
             {
-                get
-                {
 
-                    return _id;
-                }
-                set
-                {
-                    _id = value;
-                }
+                return _statusName;
             }
-
-            public string Name
+            set
             {
-                get
-                {
-
-                    return _name;
-                }
-                set
-                {
-                    _name = value;
-                }
-            }
-
-            public string ContactName
-            {
-                get
-                {
-
-                    return _contactName;
-                }
-                set
-                {
-                    _contactName = value;
-                }
-            }
-
-            public string ContactPhone
-            {
-                get
-                {
-
-                    return _contactPhone;
-                }
-                set
-                {
-                    _contactPhone = value;
-                }
-            }
-
-            public string ContactAddress
-            {
-                get
-                {
-
-                    return _contactAddress;
-                }
-                set
-                {
-                    _contactAddress = value;
-                }
+                _statusName = value;
             }
         }
 
+        public string Status
+        {
+            get
+            {
+
+                return _status;
+            }
+            set
+            {
+                _status = value;
+            }
+        }
+
+        public List<SkuModel> Skus { get; set; }
+
+        public StoreModel Store { get; set; }
+
         public class StoreModel {
+
+            public string Id { get; set; }
+            public string Name { get; set; }
+            public string Address { get; set; }
+        }
+
+        public class SkuModel
+        {
+            public string Id { get; set; }
+
+            public string SlotId { get; set; }
 
             public string Name { get; set; }
 
-            public string Id { get; set; }
+            public string ImgUrl { get; set; }
+
+            public int Quantity { get; set; }
+
+            public int LockQuantity { get; set; }
+
+            public int SellQuantity { get; set; }
+
+            public decimal SalePrice { get; set; }
+
+            public decimal SalePriceByVip { get; set; }
         }
     }
 }

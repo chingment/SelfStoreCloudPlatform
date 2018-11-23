@@ -24,9 +24,9 @@ namespace WebMerch.Controllers
             return View();
         }
 
-        public CustomJsonResult GetDetails(string merchantMachineId)
+        public CustomJsonResult GetDetails(string id)
         {
-            return MerchServiceFactory.MerchantMachine.GetDetails(this.CurrentUserId, this.CurrentUserId, merchantMachineId);
+            return MerchServiceFactory.Machine.GetDetails(this.CurrentUserId, this.CurrentUserId, id);
         }
 
         public CustomJsonResult GetList(RupMachineGetList rup)
@@ -41,7 +41,7 @@ namespace WebMerch.Controllers
                                  mp.MerchantId == this.CurrentUserId
                                  &&
                                  mp.IsBind == true
-                         select new { mp.Id, MachineId = p.Id, MachineName = p.Name, p.DeviceId, p.MacAddress, p.IsUse, p.CreateTime });
+                         select new { p.Id, p.Name, p.DeviceId, p.MacAddress, p.IsUse, p.CreateTime });
 
             int total = query.Count();
 
@@ -54,9 +54,9 @@ namespace WebMerch.Controllers
             List<object> olist = new List<object>();
             foreach (var item in list)
             {
-                string machineName = item.MachineName;
+                string machineName = item.Name;
                 string storeName = "未绑定便利店";
-                var storeMachine = CurrentDb.StoreMachine.Where(m => m.MachineId == item.MachineId && m.IsBind == true).FirstOrDefault();
+                var storeMachine = CurrentDb.StoreMachine.Where(m => m.MachineId == item.Id && m.IsBind == true).FirstOrDefault();
                 if (storeMachine != null)
                 {
                     machineName = storeMachine.MachineName;
@@ -68,13 +68,17 @@ namespace WebMerch.Controllers
                     }
                 }
 
+                //todo 未实现状态值
+
                 olist.Add(new
                 {
-                    item.Id,
-                    machineName,
-                    item.DeviceId,
-                    storeName,
-                    item.CreateTime
+                    Id = item.Id,
+                    Name = item.Name,
+                    DeviceId = item.DeviceId,
+                    storeName = storeName,
+                    CreateTime = item.CreateTime.ToUnifiedFormatDateTime(),
+                    Status = "",
+                    StatusName = ""
                 });
 
             }
@@ -85,9 +89,9 @@ namespace WebMerch.Controllers
         }
 
         [HttpPost]
-        public CustomJsonResult Edit(RopMerchantMachineEdit rop)
+        public CustomJsonResult Edit(RopMachineEdit rop)
         {
-            return MerchServiceFactory.MerchantMachine.Edit(this.CurrentUserId, this.CurrentUserId, rop);
+            return MerchServiceFactory.Machine.Edit(this.CurrentUserId, this.CurrentUserId, rop);
         }
     }
 }
