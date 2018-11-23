@@ -322,9 +322,13 @@
 
 
         function refresh(type) {
+     
             switch (type) {
                 case 1:
                     mainTreeLoadData()
+                    break;
+                case 2:
+                    mainTree_listPositions.loadData('c');
                     break;
             }
         }
