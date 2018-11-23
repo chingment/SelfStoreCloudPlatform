@@ -17,7 +17,7 @@ namespace Lumos.BLL.Biz
     {
         private static readonly object goSettlelock = new object();
 
-        public RetWxUserCheckedUser CheckedUser(string pOperater, RopWxUserCheckedUser rop)
+        public RetWxUserCheckedUser CheckedUser(string operater, RopWxUserCheckedUser rop)
         {
             RetWxUserCheckedUser ret = null;
             LogUtil.Info(string.Format("开始检测用户信息：{0}", JsonConvert.SerializeObject(rop)));
@@ -37,7 +37,7 @@ namespace Lumos.BLL.Biz
                             sysClientUser.SecurityStamp = Guid.NewGuid().ToString();
                             sysClientUser.RegisterTime = this.DateTime;
                             sysClientUser.CreateTime = this.DateTime;
-                            sysClientUser.Creator = pOperater;
+                            sysClientUser.Creator = operater;
                             sysClientUser.BelongSite = Enumeration.BelongSite.Client;
                             sysClientUser.Status = Enumeration.UserStatus.Normal;
                             CurrentDb.SysClientUser.Add(sysClientUser);
@@ -84,7 +84,7 @@ namespace Lumos.BLL.Biz
                                 wxUserInfo.UnionId = rop.UnionId;
                             }
                             wxUserInfo.CreateTime = this.DateTime;
-                            wxUserInfo.Creator = pOperater;
+                            wxUserInfo.Creator = operater;
                             CurrentDb.WxUserInfo.Add(wxUserInfo);
                             CurrentDb.SaveChanges();
 
@@ -130,7 +130,7 @@ namespace Lumos.BLL.Biz
                                 wxUserInfo.UnionId = rop.UnionId;
                             }
                             wxUserInfo.MendTime = this.DateTime;
-                            wxUserInfo.Mender = pOperater;
+                            wxUserInfo.Mender = operater;
                         }
 
                         CurrentDb.SaveChanges();

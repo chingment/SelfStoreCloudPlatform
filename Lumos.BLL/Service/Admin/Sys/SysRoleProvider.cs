@@ -10,7 +10,7 @@ namespace Lumos.BLL.Service.Admin
 {
     public class SysRoleProvider : BaseProvider
     {
-        public CustomJsonResult Add(string pOperater, RopSysRoleAdd rop)
+        public CustomJsonResult Add(string operater, RopSysRoleAdd rop)
         {
 
 
@@ -27,7 +27,7 @@ namespace Lumos.BLL.Service.Admin
             sysRole.PId = GuidUtil.Empty();
             sysRole.BelongSite = rop.BelongSite;
             sysRole.CreateTime = DateTime.Now;
-            sysRole.Creator = pOperater;
+            sysRole.Creator = operater;
             sysRole.IsCanDelete = true;
             CurrentDb.SysRole.Add(sysRole);
             CurrentDb.SaveChanges();
@@ -36,38 +36,38 @@ namespace Lumos.BLL.Service.Admin
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "添加成功");
         }
 
-        public CustomJsonResult Edit(string pOperater, RopSysRoleEdit rop)
+        public CustomJsonResult Edit(string operater, RopSysRoleEdit rop)
         {
-            var isExistRoleName = CurrentDb.SysRole.Where(m => m.Name == rop.Name && m.Id != rop.RoleId).FirstOrDefault();
+            var isExistRoleName = CurrentDb.SysRole.Where(m => m.Name == rop.Name && m.Id != rop.Id).FirstOrDefault();
             if (isExistRoleName != null)
             {
                 return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("保存失败，名称({0})已被使用", rop.Name));
             }
 
-            var sysRole = CurrentDb.SysRole.Where(m => m.Id == rop.RoleId).FirstOrDefault();
+            var sysRole = CurrentDb.SysRole.Where(m => m.Id == rop.Id).FirstOrDefault();
 
             sysRole.Name = rop.Name;
             sysRole.Description = rop.Description;
             sysRole.MendTime = DateTime.Now;
-            sysRole.Mender = pOperater;
+            sysRole.Mender = operater;
 
             CurrentDb.SaveChanges();
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
         }
 
-        public CustomJsonResult Delete(string pOperater, string[] pRoleIds)
+        public CustomJsonResult Delete(string operater, string[] ids)
         {
             CustomJsonResult result = new CustomJsonResult();
 
             using (TransactionScope ts = new TransactionScope())
             {
-                if (pRoleIds == null || pRoleIds.Length == 0)
+                if (ids == null || ids.Length == 0)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "请选择要删除的数据");
                 }
 
 
-                foreach (var id in pRoleIds)
+                foreach (var id in ids)
                 {
                     var roleUsers = CurrentDb.SysUserRole.Where(u => u.RoleId == id).Distinct();
 
@@ -112,17 +112,17 @@ namespace Lumos.BLL.Service.Admin
         }
 
 
-        public CustomJsonResult GetDetails(string pOperater, string roleId)
+        public CustomJsonResult GetDetails(string operater, string id)
         {
             var ret = new RetSysRoleGetDetails();
 
-            var role = CurrentDb.SysRole.Where(m => m.Id == roleId).FirstOrDefault();
+            var role = CurrentDb.SysRole.Where(m => m.Id == id).FirstOrDefault();
 
-            ret.RoleId = role.Id;
+            ret.Id = role.Id;
             ret.Name = role.Name;
             ret.Description = role.Description;
 
-            var roleMenus = AdminServiceFactory.SysRole.GetRoleMenus(pOperater, roleId);
+            var roleMenus = AdminServiceFactory.SysRole.GetRoleMenus(operater, id);
             var menuIds = (from p in roleMenus select p.Id).ToArray();
 
             ret.MenuIds = menuIds;
@@ -130,7 +130,7 @@ namespace Lumos.BLL.Service.Admin
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
         }
 
-        public List<SysMenu> GetRoleMenus(string pOperater, string pRoleId)
+        public List<SysMenu> GetRoleMenus(string operater, string pRoleId)
         {
             var model = from c in CurrentDb.SysMenu
                         where
@@ -140,28 +140,28 @@ namespace Lumos.BLL.Service.Admin
             return model.ToList();
         }
 
-        public CustomJsonResult AddUserToRole(string pOperater, string pRoleId, string[] pUserIds)
+        public CustomJsonResult AddUserToRole(string operater, string roleId, string[] userIds)
         {
-            foreach (string userId in pUserIds)
+            foreach (string userId in userIds)
             {
-                CurrentDb.SysUserRole.Add(new SysUserRole { Id = GuidUtil.New(), UserId = userId, RoleId = pRoleId, Creator = pOperater, CreateTime = DateTime.Now, IsCanDelete = true });
+                CurrentDb.SysUserRole.Add(new SysUserRole { Id = GuidUtil.New(), UserId = userId, RoleId = roleId, Creator = operater, CreateTime = DateTime.Now, IsCanDelete = true });
                 CurrentDb.SaveChanges();
 
             }
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "添加成功");
         }
 
-        public CustomJsonResult RemoveUserFromRole(string pOperater, string pRoleId, string[] pUserIds)
+        public CustomJsonResult RemoveUserFromRole(string operater, string roleId, string[] userIds)
         {
 
-            var role = CurrentDb.SysRole.Where(m => m.Id == pRoleId).FirstOrDefault();
+            var role = CurrentDb.SysRole.Where(m => m.Id == roleId).FirstOrDefault();
 
-            foreach (string userId in pUserIds)
+            foreach (string userId in userIds)
             {
                 var user = CurrentDb.SysUser.Where(m => m.Id == userId).FirstOrDefault();
 
 
-                SysUserRole userRole = CurrentDb.SysUserRole.Find(pRoleId, userId);
+                SysUserRole userRole = CurrentDb.SysUserRole.Find(roleId, userId);
 
                 if (!userRole.IsCanDelete)
                 {
@@ -180,10 +180,10 @@ namespace Lumos.BLL.Service.Admin
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "移除成功");
         }
 
-        public CustomJsonResult SaveRoleMenu(string pOperater, string pRoleId, string[] pMenuIds)
+        public CustomJsonResult SaveRoleMenu(string operater, string roleId, string[] menuIds)
         {
 
-            List<SysRoleMenu> roleMenuList = CurrentDb.SysRoleMenu.Where(r => r.RoleId == pRoleId).ToList();
+            List<SysRoleMenu> roleMenuList = CurrentDb.SysRoleMenu.Where(r => r.RoleId == roleId).ToList();
 
             foreach (var roleMenu in roleMenuList)
             {
@@ -191,11 +191,11 @@ namespace Lumos.BLL.Service.Admin
             }
 
 
-            if (pMenuIds != null)
+            if (menuIds != null)
             {
-                foreach (var menuId in pMenuIds)
+                foreach (var menuId in menuIds)
                 {
-                    CurrentDb.SysRoleMenu.Add(new SysRoleMenu { Id = GuidUtil.New(), RoleId = pRoleId, MenuId = menuId, Creator = pOperater, CreateTime = DateTime.Now });
+                    CurrentDb.SysRoleMenu.Add(new SysRoleMenu { Id = GuidUtil.New(), RoleId = roleId, MenuId = menuId, Creator = operater, CreateTime = DateTime.Now });
                 }
             }
 

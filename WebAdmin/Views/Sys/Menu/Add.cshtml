@@ -5,8 +5,8 @@
 @section scripts{
     <script type="text/javascript">
 
-        var pMenuId = $.lumos.getUrlParamValue("pMenuId");
-        var pMenuName = $.lumos.getUrlParamValue("pMenuName");
+        var pId = $.lumos.getUrlParamValue("id");
+        var pName = $.lumos.getUrlParamValue("name");
         var belongSite = $.lumos.getUrlParamValue("belongSite");
         $(this).ready(function () {
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
@@ -19,7 +19,7 @@
 
         function initData() {
 
-            $('#lbl_PMenuName').text(pMenuName);
+            $('#lbl_PName').text(pName);
 
             loadPermissions();
         }
@@ -71,7 +71,7 @@
                 $.lumos.postJson({
                     url: "/Sys/Menu/Add",
                     isUseHandling: true,
-                    data: { pMenuId: pMenuId, name: name, url: url, description: description, permissionIds: permissionIds, belongSite: belongSite },
+                    data: { pId: pId, name: name, url: url, description: description, permissionIds: permissionIds, belongSite: belongSite },
                     success: function (d) {
                         if (d.result == $.lumos.resultType.success) {
                             $.lumos.parentDialog.refresh(1);
@@ -106,7 +106,7 @@
                 上级名称：
             </td>
             <td class="f-tb-c">
-                <label id="lbl_PMenuName"></label>
+                <label id="lbl_PName"></label>
             </td>
         </tr>
         <tr>

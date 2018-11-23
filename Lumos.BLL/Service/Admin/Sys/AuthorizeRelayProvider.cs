@@ -12,7 +12,7 @@ namespace Lumos.BLL.Service.Admin
     {
         private AuthorizeRelay _authorizeRelay = new AuthorizeRelay();
 
-        public LoginResult SignIn(string pUsername, string pPassword, string pLoginIp, Enumeration.LoginType pLoginType)
+        public LoginResult SignIn(string username, string password, string loginIp, Enumeration.LoginType loginType)
         {
             DateTime timeNow = DateTime.Now;
 
@@ -24,9 +24,9 @@ namespace Lumos.BLL.Service.Admin
             loginHis.Country = ipInfo.Country;
             loginHis.Province = ipInfo.Province;
             loginHis.City = ipInfo.City;
-            loginHis.LoginType = pLoginType;
+            loginHis.LoginType = loginType;
             loginHis.CreateTime = this.DateTime;
-            var result = _authorizeRelay.SignIn(pUsername, pPassword, timeNow, pLoginIp);
+            var result = _authorizeRelay.SignIn(username, password, timeNow, loginIp);
 
             switch (result.ResultTip)
             {
@@ -73,24 +73,24 @@ namespace Lumos.BLL.Service.Admin
             return result;
         }
 
-        public List<SysMenu> GetUserMenus(string pUserId,Enumeration.BelongSite belongSite)
+        public List<SysMenu> GetUserMenus(string userId,Enumeration.BelongSite belongSite)
         {
-            return _authorizeRelay.GetUserMenus(pUserId, belongSite);
+            return _authorizeRelay.GetUserMenus(userId, belongSite);
         }
 
-        public List<string> GetUserPermissions(string pUserId)
+        public List<string> GetUserPermissions(string userId)
         {
-            return _authorizeRelay.GetUserPermissions(pUserId);
+            return _authorizeRelay.GetUserPermissions(userId);
         }
 
-        public CustomJsonResult ChangePassword(string pOperater, string pUserId, string pOldpassword, string pNewpassword)
+        public CustomJsonResult ChangePassword(string operater, string userId, string oldpassword, string newpassword)
         {
-            return _authorizeRelay.ChangePassword(pOperater, pUserId, pOldpassword, pNewpassword);
+            return _authorizeRelay.ChangePassword(operater, userId, oldpassword, newpassword);
         }
 
-        public List<SysPermission> GetPermissionList(Type pType)
+        public List<SysPermission> GetPermissionList(Type type)
         {
-            return _authorizeRelay.GetPermissionList(pType);
+            return _authorizeRelay.GetPermissionList(type);
         }
     }
 }

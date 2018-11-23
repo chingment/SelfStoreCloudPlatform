@@ -8,7 +8,7 @@ namespace Lumos.BLL.Service.Admin
 {
     public class RetSysOrganizationGetDetails
     {
-        public string OrganizationId { get; set; }
+        public string Id { get; set; }
 
         public string Name { get; set; }
 

@@ -13,11 +13,11 @@ namespace Lumos.BLL.Service.Merch
 
     public class OrderProvider : BaseProvider
     {
-        public CustomJsonResult GetDetails(string pOperater, string s, string pOrderId)
+        public CustomJsonResult GetDetails(string operater, string merchantId, string id)
         {
             var ret = new RetOrderGetDetails();
 
-            var order = CurrentDb.Order.Where(m => m.Id == pOrderId).FirstOrDefault();
+            var order = CurrentDb.Order.Where(m => m.Id == id).FirstOrDefault();
 
             ret.Sn = order.Sn;
             ret.SourceName = order.Source.GetCnName();
@@ -54,7 +54,7 @@ namespace Lumos.BLL.Service.Merch
 
                     var orderDetailsChildSon = CurrentDb.OrderDetailsChildSon.Where(m => m.OrderDetailsChildId == item2.Id).ToList();
 
-                    foreach(var item3 in orderDetailsChildSon)
+                    foreach (var item3 in orderDetailsChildSon)
                     {
 
                         blockSku.BlockSubSkus.Add(new RetOrderGetDetails.BlockSku.BlockSubSku { StatusName = item3.Status.GetCnName(), Quantity = item3.Quantity });

@@ -8,7 +8,7 @@ namespace Lumos.BLL.Service.Admin
 {
     public class RetBackgroundJobGetDetails
     {
-        public string BackgroundJobId { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string AssemblyName { get; set; }

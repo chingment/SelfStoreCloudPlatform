@@ -9,7 +9,7 @@ namespace Lumos.BLL.Service.Merch
 {
     public class RetProductSkuGetDetails
     {
-        public string ProductSkuId { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
 
         public string BarCode { get; set; }

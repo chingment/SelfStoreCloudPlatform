@@ -69,17 +69,17 @@ namespace Lumos.DAL.AuthorizeRelay
             _db = new AuthorizeRelayDbContext();
         }
 
-        private void AddOperateHistory(string pOperater, Enumeration.OperateType pOperateType, string pReferenceId, string pContent)
+        private void AddOperateHistory(string operater, Enumeration.OperateType operateType, string referenceId, string content)
         {
             SysOperateHistory operateHistory = new SysOperateHistory();
             operateHistory.Id = GuidUtil.New();
-            operateHistory.UserId = pOperater;
-            operateHistory.ReferenceId = pReferenceId;
+            operateHistory.UserId = operater;
+            operateHistory.ReferenceId = referenceId;
             operateHistory.Ip = "";
-            operateHistory.Type = pOperateType;
-            operateHistory.Content = pContent;
+            operateHistory.Type = operateType;
+            operateHistory.Content = content;
             operateHistory.CreateTime = DateTime.Now;
-            operateHistory.Creator = pOperater;
+            operateHistory.Creator = operater;
             _db.SysOperateHistory.Add(operateHistory);
             _db.SaveChanges();
         }
@@ -197,20 +197,20 @@ namespace Lumos.DAL.AuthorizeRelay
             return list;
         }
 
-        public CustomJsonResult ChangePassword(string pOperater, string pUserId, string pOldpassword, string pNewpassword)
+        public CustomJsonResult ChangePassword(string operater, string userId, string oldpassword, string newpassword)
         {
 
-            var sysUser = _db.SysUser.Where(m => m.Id == pUserId).FirstOrDefault();
+            var sysUser = _db.SysUser.Where(m => m.Id == userId).FirstOrDefault();
             if (sysUser != null)
             {
 
-                if (!PassWordHelper.VerifyHashedPassword(sysUser.PasswordHash, pOldpassword))
+                if (!PassWordHelper.VerifyHashedPassword(sysUser.PasswordHash, oldpassword))
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "旧密码不正确");
                 }
 
-                sysUser.PasswordHash = PassWordHelper.HashPassword(pNewpassword);
-                sysUser.Mender = pOperater;
+                sysUser.PasswordHash = PassWordHelper.HashPassword(newpassword);
+                sysUser.Mender = operater;
                 sysUser.MendTime = DateTime.Now;
 
                 _db.SaveChanges();
@@ -220,18 +220,18 @@ namespace Lumos.DAL.AuthorizeRelay
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
         }
 
-        public List<SysPermission> GetPermissionList(Type pType)
+        public List<SysPermission> GetPermissionList(Type type)
         {
             List<SysPermission> list = new List<SysPermission>();
-            list = GetBasePermissionList(pType, list);
+            list = GetBasePermissionList(type, list);
             return list;
         }
 
-        private List<SysPermission> GetBasePermissionList(Type pType, List<SysPermission> pSysPermissionList)
+        private List<SysPermission> GetBasePermissionList(Type type, List<SysPermission> sysPermission)
         {
-            if (pType.Name != "Object")
+            if (type.Name != "Object")
             {
-                System.Reflection.FieldInfo[] properties = pType.GetFields();
+                System.Reflection.FieldInfo[] properties = type.GetFields();
                 foreach (System.Reflection.FieldInfo property in properties)
                 {
                     string pId = "0";
@@ -245,11 +245,11 @@ namespace Lumos.DAL.AuthorizeRelay
                     SysPermission model = new SysPermission();
                     model.Id = id.ToString();
                     model.Name = name;
-                    pSysPermissionList.Add(model);
+                    sysPermission.Add(model);
                 }
-                pSysPermissionList = GetBasePermissionList(pType.BaseType, pSysPermissionList);
+                sysPermission = GetBasePermissionList(type.BaseType, sysPermission);
             }
-            return pSysPermissionList;
+            return sysPermission;
         }
 
     }

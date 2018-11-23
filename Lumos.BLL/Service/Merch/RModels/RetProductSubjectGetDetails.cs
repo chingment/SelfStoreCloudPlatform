@@ -8,7 +8,7 @@ namespace Lumos.BLL.Service.Merch
 {
     public class RetProductSubjectGetDetails
     {
-        public string SubjectId { get; set; }
+        public string Id { get; set; }
 
         public string Name { get; set; }
 

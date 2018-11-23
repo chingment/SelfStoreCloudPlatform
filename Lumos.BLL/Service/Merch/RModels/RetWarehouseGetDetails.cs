@@ -12,6 +12,6 @@ namespace Lumos.BLL.Service.Merch
         public string Address { get; set; }
         public string Description { get; set; }
 
-        public string WarehouseId { get; set; }
+        public string Id { get; set; }
     }
 }

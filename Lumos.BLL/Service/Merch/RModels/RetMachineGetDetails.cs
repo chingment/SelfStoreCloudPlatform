@@ -8,7 +8,7 @@ namespace Lumos.BLL.Service.Merch
 {
     public class RetMachineGetDetails
     {
-        private string _machineId = "";
+        private string _id = "";
         private string _name = "";
         private string _deviceId = "";
         private string _macAddress = "";
@@ -19,16 +19,16 @@ namespace Lumos.BLL.Service.Merch
             this.Merchant = new MerchantModel();
         }
 
-        public string MachineId
+        public string Id
         {
             get
             {
 
-                return _machineId;
+                return _id;
             }
             set
             {
-                _machineId = value;
+                _id = value;
             }
         }
         public string Name
@@ -85,22 +85,22 @@ namespace Lumos.BLL.Service.Merch
 
         public class MerchantModel
         {
-            public string _merchantId = "";
+            public string _id = "";
             private string _name = "";
             private string _contactName = "";
             private string _contactPhone = "";
             private string _contactAddress = "";
 
-            public string MerchantId
+            public string Id
             {
                 get
                 {
 
-                    return _merchantId;
+                    return _id;
                 }
                 set
                 {
-                    _merchantId = value;
+                    _id = value;
                 }
             }
 
@@ -161,7 +161,7 @@ namespace Lumos.BLL.Service.Merch
 
             public string Name { get; set; }
 
-            public string StoreId { get; set; }
+            public string Id { get; set; }
         }
     }
 }

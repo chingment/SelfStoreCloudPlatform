@@ -8,7 +8,7 @@ namespace Lumos.BLL.Service.Merch
 {
     public class RopStoreEdit
     {
-        public string StoreId { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
         public string Description { get; set; }

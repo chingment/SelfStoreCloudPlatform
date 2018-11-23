@@ -20,7 +20,7 @@ namespace Lumos.BLL.Service.Admin
             return fullName;
         }
 
-        public CustomJsonResult GetDetails(string pOperater, string userId)
+        public CustomJsonResult GetDetails(string operater, string userId)
         {
             var ret = new RetSysUserGetDetails();
             var sysUser = CurrentDb.SysUser.Where(m => m.Id == userId).FirstOrDefault();

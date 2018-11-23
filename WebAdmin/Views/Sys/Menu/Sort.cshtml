@@ -37,8 +37,7 @@
             }
         }
 
-        var pMenuId = $.lumos.getUrlParamValue("pMenuId");
-        var belongSite = $.lumos.getUrlParamValue("belongSite");
+        var pId = $.lumos.getUrlParamValue("id");
         $(this).ready(function () {
             loadMenus();
         });
@@ -92,8 +91,8 @@ function () {
         function loadMenus() {
 
             $.lumos.getJson({
-                url: "/Sys/Menu/GetAll",
-                urlParams: { pMenuId: pMenuId, belongSite: belongSite },
+                url: "/Sys/Menu/GetByPId",
+                urlParams: { pId: pId },
                 success: function (d) {
                     var obj = eval(d.data);
                      $.fn.zTree.init($("#treemenu"), setting, obj);

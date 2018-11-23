@@ -8,7 +8,7 @@ namespace Lumos.BLL.Service.Admin
 {
     public class RopMerchantEdit
     {
-        public string MerchantId { get; set; }
+        public string Id { get; set; }
         public string Password { get; set; }
         public string ContactName { get; set; }
         public string ContactPhone { get; set; }

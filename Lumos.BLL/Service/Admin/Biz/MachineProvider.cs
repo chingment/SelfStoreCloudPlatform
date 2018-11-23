@@ -11,13 +11,13 @@ namespace Lumos.BLL.Service.Admin
 {
     public class MachineProvider : BaseProvider
     {
-        public CustomJsonResult GetDetails(string pOperater, string manchineId)
+        public CustomJsonResult GetDetails(string operater, string id)
         {
             var ret = new RetMachineGetDetails();
-            var machine = CurrentDb.Machine.Where(m => m.Id == manchineId).FirstOrDefault();
+            var machine = CurrentDb.Machine.Where(m => m.Id == id).FirstOrDefault();
             if (machine != null)
             {
-                ret.MachineId = machine.Id ?? ""; ;
+                ret.Id = machine.Id ?? ""; ;
                 ret.Name = machine.Name ?? ""; ;
                 ret.DeviceId = machine.DeviceId ?? ""; ;
                 ret.MacAddress = machine.MacAddress ?? "";
@@ -29,7 +29,7 @@ namespace Lumos.BLL.Service.Admin
                     var sysMerchantUser = CurrentDb.SysMerchantUser.Where(m => m.Id == merchantMachine.MerchantId).FirstOrDefault();
                     if (sysMerchantUser != null)
                     {
-                        ret.Merchant.MerchantId = sysMerchantUser.Id;
+                        ret.Merchant.Id = sysMerchantUser.Id;
                         ret.Merchant.Name = sysMerchantUser.MerchantName ?? "";
                         ret.Merchant.ContactName = sysMerchantUser.ContactName ?? "";
                         ret.Merchant.ContactPhone = sysMerchantUser.ContactPhone ?? "";
@@ -41,7 +41,7 @@ namespace Lumos.BLL.Service.Admin
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
         }
 
-        public CustomJsonResult Add(string pOperater, RopMachineAdd rop)
+        public CustomJsonResult Add(string operater, RopMachineAdd rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 
@@ -55,25 +55,25 @@ namespace Lumos.BLL.Service.Admin
             machine.DeviceId = rop.DeviceId;
             machine.MacAddress = rop.MacAddress;
             machine.CreateTime = this.DateTime;
-            machine.Creator = pOperater;
+            machine.Creator = operater;
             CurrentDb.Machine.Add(machine);
             CurrentDb.SaveChanges();
 
             return new CustomJsonResult(ResultType.Success, "登记成功");
         }
 
-        public CustomJsonResult Edit(string pOperater, RopMachineEdit rop)
+        public CustomJsonResult Edit(string operater, RopMachineEdit rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 
-            var machine = CurrentDb.Machine.Where(m => m.Id == rop.MachineId).FirstOrDefault();
+            var machine = CurrentDb.Machine.Where(m => m.Id == rop.Id).FirstOrDefault();
             if (machine == null)
                 return new CustomJsonResult(ResultType.Failure, "不存在");
 
             machine.Name = rop.Name;
             machine.MacAddress = rop.MacAddress;
             machine.MendTime = this.DateTime;
-            machine.Mender = pOperater;
+            machine.Mender = operater;
             CurrentDb.SaveChanges();
 
             return new CustomJsonResult(ResultType.Success, "保存成功");

@@ -55,11 +55,11 @@ namespace Lumos.BLL.Service.AppTerm
 
         //}
 
-        public CustomJsonResult ApiConfig(string pOperater, string pDeviceId)
+        public CustomJsonResult ApiConfig(string operater, string deviceId)
         {
             CustomJsonResult result = new CustomJsonResult();
 
-            var machine = CurrentDb.Machine.Where(m => m.DeviceId == pDeviceId).FirstOrDefault();
+            var machine = CurrentDb.Machine.Where(m => m.DeviceId == deviceId).FirstOrDefault();
 
             if (machine == null)
             {
@@ -120,14 +120,14 @@ namespace Lumos.BLL.Service.AppTerm
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
         }
 
-        public Dictionary<string, ProductSkuModel> GetProductSkus(string pOperater, string pMerchantId, string pMachineId)
+        public Dictionary<string, ProductSkuModel> GetProductSkus(string operater, string merchantId, string machineId)
         {
 
             var productSkuModels = new Dictionary<string, ProductSkuModel>();
 
-            var machineStocks = CurrentDb.StoreSellStock.Where(m => m.MerchantId == pMerchantId && m.ChannelId == pMachineId && m.IsOffSell == false).ToList();
+            var machineStocks = CurrentDb.StoreSellStock.Where(m => m.MerchantId == merchantId && m.ChannelId == machineId && m.IsOffSell == false).ToList();
 
-            var productSkus = CurrentDb.ProductSku.Where(m => m.MerchantId == pMerchantId).ToList();
+            var productSkus = CurrentDb.ProductSku.Where(m => m.MerchantId == merchantId).ToList();
             var productSkuIds = machineStocks.Select(m => m.ProductSkuId).Distinct();
             foreach (var productSkuId in productSkuIds)
             {
@@ -158,11 +158,11 @@ namespace Lumos.BLL.Service.AppTerm
             return productSkuModels;
         }
 
-        public List<BannerModel> GetBanners(string pOperater, string pMerchantId, string machineId)
+        public List<BannerModel> GetBanners(string operater, string merchantId, string machineId)
         {
             var bannerModels = new List<BannerModel>();
 
-            var banners = CurrentDb.MachineBanner.Where(m => m.MerchantId == pMerchantId && m.MachineId == machineId && m.Status == Entity.Enumeration.MachineBannerStatus.Normal).OrderByDescending(m => m.Priority).ToList();
+            var banners = CurrentDb.MachineBanner.Where(m => m.MerchantId == merchantId && m.MachineId == machineId && m.Status == Entity.Enumeration.MachineBannerStatus.Normal).OrderByDescending(m => m.Priority).ToList();
 
             foreach (var item in banners)
             {
@@ -173,13 +173,13 @@ namespace Lumos.BLL.Service.AppTerm
             return bannerModels;
         }
 
-        public CustomJsonResult GetSlotSkusStock(string pOperater, string pMerchantId, string pMachineId)
+        public CustomJsonResult GetSlotSkusStock(string operater, string merchantId, string machineId)
         {
             var slotProductSkuModels = new List<SlotProductSkuModel>();
 
-            var machineStocks = CurrentDb.StoreSellStock.Where(m => m.MerchantId == pMerchantId && m.ChannelId == pMachineId && m.IsOffSell == false).ToList();
+            var machineStocks = CurrentDb.StoreSellStock.Where(m => m.MerchantId == merchantId && m.ChannelId == machineId && m.IsOffSell == false).ToList();
 
-            var productSkus = CurrentDb.ProductSku.Where(m => m.MerchantId == pMerchantId).ToList();
+            var productSkus = CurrentDb.ProductSku.Where(m => m.MerchantId == merchantId).ToList();
 
             foreach (var item in machineStocks)
             {
@@ -204,7 +204,7 @@ namespace Lumos.BLL.Service.AppTerm
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", slotProductSkuModels);
         }
 
-        public CustomJsonResult UpdateInfo(string pOperater, RopMachineUpdateInfo rop)
+        public CustomJsonResult UpdateInfo(string operater, RopMachineUpdateInfo rop)
         {
             var result = new CustomJsonResult();
 
@@ -230,7 +230,7 @@ namespace Lumos.BLL.Service.AppTerm
                 machine.JPushRegId = rop.JPushRegId;
             }
 
-            machine.Mender = pOperater;
+            machine.Mender = operater;
             machine.MendTime = this.DateTime;
 
             CurrentDb.SaveChanges();
@@ -239,7 +239,7 @@ namespace Lumos.BLL.Service.AppTerm
         }
 
 
-        public CustomJsonResult LoginResultQuery(string pOperater, RupMachineLoginResultQuery rup)
+        public CustomJsonResult LoginResultQuery(string operater, RupMachineLoginResultQuery rup)
         {
             var key = string.Format("machineLoginResult:{0}", rup.Token);
 
@@ -253,7 +253,7 @@ namespace Lumos.BLL.Service.AppTerm
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "登录成功");
         }
 
-        public CustomJsonResult LoginByQrCode(string pOperater, RopMachineLoginByQrCode rop)
+        public CustomJsonResult LoginByQrCode(string operater, RopMachineLoginByQrCode rop)
         {
 
             var ret = new RetOperateResult();

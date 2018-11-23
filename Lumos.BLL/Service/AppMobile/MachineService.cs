@@ -9,7 +9,7 @@ namespace Lumos.BLL.Service.AppMobile
 {
     public class MachineService : BaseProvider
     {
-        public CustomJsonResult LoginByQrCode(string pOperater, string pClientId, RopMachineLoginByQrCode rop)
+        public CustomJsonResult LoginByQrCode(string operater, string clientId, RopMachineLoginByQrCode rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 
@@ -22,13 +22,13 @@ namespace Lumos.BLL.Service.AppMobile
             bizRop.MachineId = rop.MachineId;
 
 
-            result = TermServiceFactory.Machine.LoginByQrCode(pOperater, bizRop);
+            result = TermServiceFactory.Machine.LoginByQrCode(operater, bizRop);
 
             return result;
         }
 
 
-        public CustomJsonResult GetLoginConfirmInfo(string pOperater, string pClientId, RupMachineGetLoginConfirmInfo rup)
+        public CustomJsonResult GetLoginConfirmInfo(string operater, string clientId, RupMachineGetLoginConfirmInfo rup)
         {
             var result = new CustomJsonResult();
 
@@ -70,7 +70,7 @@ namespace Lumos.BLL.Service.AppMobile
                 return new CustomJsonResult(ResultType.Success, ResultCode.Success, "", ret);
             }
 
-            var merchantReplenishStaff = CurrentDb.MerchantReplenishStaff.Where(m => m.MerchantId == rup.MerchantId && m.UserId == pClientId).FirstOrDefault();
+            var merchantReplenishStaff = CurrentDb.MerchantReplenishStaff.Where(m => m.MerchantId == rup.MerchantId && m.UserId == clientId).FirstOrDefault();
 
             if (merchantReplenishStaff == null)
             {

@@ -32,13 +32,13 @@ namespace Lumos.BLL.Service.Merch
 
             return arr;
         }
-        public CustomJsonResult GetDetails(string pOperater, string pMerchantId, string pProductSkuId)
+        public CustomJsonResult GetDetails(string operater, string merchantId, string id)
         {
             var ret = new RetProductSkuGetDetails();
-            var productSku = CurrentDb.ProductSku.Where(m => m.MerchantId == pMerchantId && m.Id == pProductSkuId).FirstOrDefault();
+            var productSku = CurrentDb.ProductSku.Where(m => m.MerchantId == merchantId && m.Id == id).FirstOrDefault();
             if (productSku != null)
             {
-                ret.ProductSkuId = productSku.Id ?? "";
+                ret.Id = productSku.Id ?? "";
                 ret.Name = productSku.Name ?? "";
                 ret.SalePrice = productSku.SalePrice;
                 ret.ShowPrice = productSku.ShowPrice;
@@ -53,7 +53,7 @@ namespace Lumos.BLL.Service.Merch
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
         }
 
-        public CustomJsonResult Add(string pOperater, string pMerchantId, RopProducSkuAdd rop)
+        public CustomJsonResult Add(string operater, string merchantId, RopProducSkuAdd rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 
@@ -83,7 +83,7 @@ namespace Lumos.BLL.Service.Merch
 
                 var productSku = new ProductSku();
                 productSku.Id = GuidUtil.New();
-                productSku.MerchantId = pMerchantId;
+                productSku.MerchantId = merchantId;
                 productSku.Name = rop.Name;
                 productSku.BarCode = rop.BarCode;
                 Encoding gb2312 = Encoding.GetEncoding("GB2312");
@@ -97,7 +97,7 @@ namespace Lumos.BLL.Service.Merch
                 productSku.DetailsDes = rop.DetailsDes;
                 productSku.SpecDes = rop.SpecDes;
                 productSku.BriefInfo = rop.BriefInfo;
-                productSku.Creator = pOperater;
+                productSku.Creator = operater;
                 productSku.CreateTime = this.DateTime;
 
 
@@ -118,7 +118,7 @@ namespace Lumos.BLL.Service.Merch
                     productKindSku.Id = GuidUtil.New();
                     productKindSku.ProductKindId = productKind.Id;
                     productKindSku.ProductSkuId = productSku.Id;
-                    productKindSku.Creator = pOperater;
+                    productKindSku.Creator = operater;
                     productKindSku.CreateTime = this.DateTime;
                     CurrentDb.ProductKindSku.Add(productKindSku);
                 }
@@ -135,7 +135,7 @@ namespace Lumos.BLL.Service.Merch
                     productSubjectSku.Id = GuidUtil.New();
                     productSubjectSku.ProductSubjectId = productSubject.Id;
                     productSubjectSku.ProductSkuId = productSku.Id;
-                    productSubjectSku.Creator = pOperater;
+                    productSubjectSku.Creator = operater;
                     productSubjectSku.CreateTime = this.DateTime;
                     CurrentDb.ProductSubjectSku.Add(productSubjectSku);
                 }
@@ -155,11 +155,11 @@ namespace Lumos.BLL.Service.Merch
             return result;
         }
 
-        public CustomJsonResult Edit(string pOperater, string pMerchantId, RopProducSkuEdit rop)
+        public CustomJsonResult Edit(string operater, string merchantId, RopProducSkuEdit rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 
-            if (string.IsNullOrEmpty(rop.ProductSkuId))
+            if (string.IsNullOrEmpty(rop.Id))
             {
                 return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "商品Id不能为空");
             }
@@ -186,7 +186,7 @@ namespace Lumos.BLL.Service.Merch
 
             using (TransactionScope ts = new TransactionScope())
             {
-                var productSku = CurrentDb.ProductSku.Where(m => m.Id == rop.ProductSkuId).FirstOrDefault();
+                var productSku = CurrentDb.ProductSku.Where(m => m.Id == rop.Id).FirstOrDefault();
 
                 productSku.Name = rop.Name;
 
@@ -198,7 +198,7 @@ namespace Lumos.BLL.Service.Merch
                 productSku.SalePrice = rop.SalePrice;
                 productSku.BriefInfo = rop.BriefInfo;
                 productSku.DetailsDes = rop.DetailsDes;
-                productSku.Mender = pOperater;
+                productSku.Mender = operater;
                 productSku.MendTime = this.DateTime;
 
                 var recipientModes = MerchServiceFactory.RecipientMode.GetList().Where(m => rop.RecipientModeIds.Contains(m.Id)).ToList();
@@ -206,7 +206,7 @@ namespace Lumos.BLL.Service.Merch
                 productSku.RecipientModeIds = string.Join(",", recipientModes.Select(m => m.Id).ToArray());
                 productSku.RecipientModeNames = string.Join(",", recipientModes.Select(m => m.Name).ToArray());
 
-                var productKindSkus = CurrentDb.ProductKindSku.Where(m => m.ProductSkuId == rop.ProductSkuId).ToList();
+                var productKindSkus = CurrentDb.ProductKindSku.Where(m => m.ProductSkuId == rop.Id).ToList();
 
                 foreach (var item in productKindSkus)
                 {
@@ -224,7 +224,7 @@ namespace Lumos.BLL.Service.Merch
                     productKindSku.Id = GuidUtil.New();
                     productKindSku.ProductKindId = productKind.Id;
                     productKindSku.ProductSkuId = productSku.Id;
-                    productKindSku.Creator = pOperater;
+                    productKindSku.Creator = operater;
                     productKindSku.CreateTime = this.DateTime;
                     CurrentDb.ProductKindSku.Add(productKindSku);
                 }
@@ -250,7 +250,7 @@ namespace Lumos.BLL.Service.Merch
                         productSubjectSku.Id = GuidUtil.New();
                         productSubjectSku.ProductSubjectId = productSubject.Id;
                         productSubjectSku.ProductSkuId = productSku.Id;
-                        productSubjectSku.Creator = pOperater;
+                        productSubjectSku.Creator = operater;
                         productSubjectSku.CreateTime = this.DateTime;
                         CurrentDb.ProductSubjectSku.Add(productSubjectSku);
                     }
@@ -265,18 +265,18 @@ namespace Lumos.BLL.Service.Merch
             return result;
         }
 
-        public CustomJsonResult EditBySalePrice(string pOperater, string pMerchantId, RopProductSkuEditSalePrice rop)
+        public CustomJsonResult EditBySalePrice(string operater, string merchantId, RopProductSkuEditSalePrice rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 
             using (TransactionScope ts = new TransactionScope())
             {
-                var lMachineStocks = CurrentDb.StoreSellStock.Where(m => m.MerchantId == pMerchantId && m.StoreId == rop.StoreId && m.ProductSkuId == rop.ProductSkuId).ToList();
+                var lMachineStocks = CurrentDb.StoreSellStock.Where(m => m.MerchantId == merchantId && m.StoreId == rop.StoreId && m.ProductSkuId == rop.Id).ToList();
 
                 foreach (var machineStock in lMachineStocks)
                 {
                     machineStock.SalePrice = rop.SalePrice;
-                    machineStock.Mender = pOperater;
+                    machineStock.Mender = operater;
                     machineStock.MendTime = this.DateTime;
                 }
 

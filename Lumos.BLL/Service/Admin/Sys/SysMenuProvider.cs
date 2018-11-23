@@ -10,7 +10,7 @@ namespace Lumos.BLL.Service.Admin
 {
     public class SysMenuProvider : BaseProvider
     {
-        public CustomJsonResult GetPermissions(string pOperater, Enumeration.BelongSite belongSite)
+        public CustomJsonResult GetPermissions(string operater, Enumeration.BelongSite belongSite)
         {
             var ret = new RetSysMenuGetPermissions();
 
@@ -26,21 +26,25 @@ namespace Lumos.BLL.Service.Admin
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
         }
 
-        public CustomJsonResult GetDetails(string pOperater, string pMenuId)
+        public CustomJsonResult GetDetails(string operater, string id)
         {
             var ret = new RetSysMenuGetDetails();
 
-            var menu = CurrentDb.SysMenu.Where(m => m.Id == pMenuId).FirstOrDefault();
+            var sysMenu = CurrentDb.SysMenu.Where(m => m.Id == id).FirstOrDefault();
+            if (sysMenu == null)
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "数据为空", ret);
+            }
 
-            ret.MenuId = menu.Id;
-            ret.Name = menu.Name;
-            ret.Url = menu.Url;
-            ret.Description = menu.Description;
+            ret.Id = sysMenu.Id;
+            ret.Name = sysMenu.Name;
+            ret.Url = sysMenu.Url;
+            ret.Description = sysMenu.Description;
 
-            var sysMenuPermission = CurrentDb.SysMenuPermission.Where(u => u.MenuId == pMenuId).ToList();
-            var permissionIdIds = (from p in sysMenuPermission select p.PermissionId).ToArray();
+            var sysMenuPermission = CurrentDb.SysMenuPermission.Where(u => u.MenuId == id).ToList();
+            var sysPermissionIds = (from p in sysMenuPermission select p.PermissionId).ToArray();
 
-            ret.PermissionIds = permissionIdIds;
+            ret.PermissionIds = sysPermissionIds;
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
         }
@@ -51,15 +55,15 @@ namespace Lumos.BLL.Service.Admin
             return query.ToList().Concat(query.ToList().SelectMany(t => GetFatherList(list, t.PId)));
         }
 
-        public CustomJsonResult Add(string pOperater, RopSysMenuAdd rop)
+        public CustomJsonResult Add(string operater, RopSysMenuAdd rop)
         {
             CustomJsonResult result = new CustomJsonResult();
             using (TransactionScope ts = new TransactionScope())
             {
-                var allMenus = CurrentDb.SysMenu.Where(m => m.BelongSite == rop.BelongSite).ToList();
-                var fatheMenus = GetFatherList(allMenus, rop.PMenuId).ToList();
-                int dept = fatheMenus.Count;
-                var isExists = allMenus.Where(m => m.Name == rop.Name && m.Dept == dept).FirstOrDefault();
+                var sysMenus = CurrentDb.SysMenu.Where(m => m.BelongSite == rop.BelongSite).ToList();
+                var sysMenusGetFather = GetFatherList(sysMenus, rop.PId).ToList();
+                int dept = sysMenusGetFather.Count;
+                var isExists = sysMenus.Where(m => m.Name == rop.Name && m.Dept == dept).FirstOrDefault();
                 if (isExists != null)
                 {
                     return new CustomJsonResult(ResultType.Failure, "该名称在同一级别已经存在");
@@ -70,9 +74,9 @@ namespace Lumos.BLL.Service.Admin
                 sysMenu.Name = rop.Name;
                 sysMenu.Url = rop.Url;
                 sysMenu.Description = rop.Description;
-                sysMenu.PId = rop.PMenuId;
+                sysMenu.PId = rop.PId;
                 sysMenu.IsCanDelete = true;
-                sysMenu.Creator = pOperater;
+                sysMenu.Creator = operater;
                 sysMenu.CreateTime = DateTime.Now;
                 sysMenu.BelongSite = rop.BelongSite;
                 sysMenu.Dept = dept;
@@ -83,9 +87,9 @@ namespace Lumos.BLL.Service.Admin
 
                 if (rop.PermissionIds != null)
                 {
-                    foreach (var id in rop.PermissionIds)
+                    foreach (var permissionId in rop.PermissionIds)
                     {
-                        CurrentDb.SysMenuPermission.Add(new SysMenuPermission { Id = GuidUtil.New(), MenuId = sysMenu.Id, PermissionId = id, Creator = pOperater, CreateTime = DateTime.Now });
+                        CurrentDb.SysMenuPermission.Add(new SysMenuPermission { Id = GuidUtil.New(), MenuId = sysMenu.Id, PermissionId = permissionId, Creator = operater, CreateTime = DateTime.Now });
                     }
                 }
 
@@ -98,21 +102,21 @@ namespace Lumos.BLL.Service.Admin
         }
 
 
-        public CustomJsonResult Edit(string pOperater, RopSysMenuEdit rop)
+        public CustomJsonResult Edit(string operater, RopSysMenuEdit rop)
         {
             CustomJsonResult result = new CustomJsonResult();
             using (TransactionScope ts = new TransactionScope())
             {
-                var sysMenu = CurrentDb.SysMenu.Where(m => m.Id == rop.MenuId).FirstOrDefault();
+                var sysMenu = CurrentDb.SysMenu.Where(m => m.Id == rop.Id).FirstOrDefault();
                 if (sysMenu == null)
                 {
-                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("找不到选择的数据（{0}）", rop.Name));
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "数据为空");
                 }
 
-                var allMenus = CurrentDb.SysMenu.Where(m => m.BelongSite == sysMenu.BelongSite).ToList();
-                var fatheMenus = GetFatherList(allMenus, sysMenu.PId).ToList();
-                int dept = fatheMenus.Count;
-                var isExists = allMenus.Where(m => m.Name == rop.Name && m.Id != rop.MenuId).FirstOrDefault();
+                var sysMenus = CurrentDb.SysMenu.Where(m => m.BelongSite == sysMenu.BelongSite).ToList();
+                var sysMenusGetFather = GetFatherList(sysMenus, sysMenu.PId).ToList();
+                int dept = sysMenusGetFather.Count;
+                var isExists = sysMenus.Where(m => m.Name == rop.Name && m.Id != rop.Id).FirstOrDefault();
                 if (isExists != null)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("保存失败，该名称({0})已被同一级别使用", rop.Name));
@@ -121,22 +125,23 @@ namespace Lumos.BLL.Service.Admin
                 sysMenu.Name = rop.Name;
                 sysMenu.Url = rop.Url;
                 sysMenu.Description = rop.Description;
-                sysMenu.Mender = pOperater;
+                sysMenu.Mender = operater;
                 sysMenu.MendTime = DateTime.Now;
                 sysMenu.Dept = dept;
 
-                var sysMenuPermission = CurrentDb.SysMenuPermission.Where(r => r.MenuId == rop.MenuId).ToList();
-                foreach (var m in sysMenuPermission)
+                var sysMenuPermissions = CurrentDb.SysMenuPermission.Where(r => r.MenuId == rop.Id).ToList();
+
+                foreach (var sysMenuPermission in sysMenuPermissions)
                 {
-                    CurrentDb.SysMenuPermission.Remove(m);
+                    CurrentDb.SysMenuPermission.Remove(sysMenuPermission);
                 }
 
 
                 if (rop.PermissionIds != null)
                 {
-                    foreach (var id in rop.PermissionIds)
+                    foreach (var permissionId in rop.PermissionIds)
                     {
-                        CurrentDb.SysMenuPermission.Add(new SysMenuPermission { Id = GuidUtil.New(), MenuId = sysMenu.Id, PermissionId = id, Creator = pOperater, CreateTime = DateTime.Now });
+                        CurrentDb.SysMenuPermission.Add(new SysMenuPermission { Id = GuidUtil.New(), MenuId = sysMenu.Id, PermissionId = permissionId, Creator = operater, CreateTime = DateTime.Now });
                     }
                 }
 
@@ -150,18 +155,18 @@ namespace Lumos.BLL.Service.Admin
         }
 
 
-        public CustomJsonResult Delete(string pOperater, string[] pMenuIds)
+        public CustomJsonResult Delete(string operater, string[] ids)
         {
             CustomJsonResult result = new CustomJsonResult();
 
             using (TransactionScope ts = new TransactionScope())
             {
-                if (pMenuIds == null || pMenuIds.Length == 0)
+                if (ids == null || ids.Length == 0)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "请选择要删除的数据");
                 }
 
-                foreach (var id in pMenuIds)
+                foreach (var id in ids)
                 {
                     var sysMenu = CurrentDb.SysMenu.Where(m => m.Id == id).FirstOrDefault();
 
@@ -173,6 +178,7 @@ namespace Lumos.BLL.Service.Admin
                     CurrentDb.SysMenu.Remove(sysMenu);
 
                     var sysRoleMenus = CurrentDb.SysRoleMenu.Where(r => r.MenuId == id).ToList();
+
                     foreach (var sysRoleMenu in sysRoleMenus)
                     {
                         CurrentDb.SysRoleMenu.Remove(sysRoleMenu);
@@ -192,7 +198,7 @@ namespace Lumos.BLL.Service.Admin
             return result;
         }
 
-        public CustomJsonResult EditSort(string pOperater, RopSysMenuEditSort rop)
+        public CustomJsonResult EditSort(string operater, RopSysMenuEditSort rop)
         {
             if (rop != null)
             {

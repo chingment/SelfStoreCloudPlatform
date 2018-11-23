@@ -38,26 +38,26 @@ namespace WebAdmin.Controllers.Sys
         }
 
 
-        public CustomJsonResult GetDetails(string menuId)
+        public CustomJsonResult GetDetails(string id)
         {
-            return AdminServiceFactory.SysMenu.GetDetails(this.CurrentUserId, menuId);
+            return AdminServiceFactory.SysMenu.GetDetails(this.CurrentUserId, id);
         }
 
-        public CustomJsonResult GetAll(string pMenuId, Enumeration.BelongSite belongSite)
+        public CustomJsonResult GetAll(Enumeration.BelongSite belongSite)
         {
-            SysMenu[] arr;
-            if (pMenuId == "0")
-            {
-                arr = CurrentDb.SysMenu.Where(m => m.BelongSite == belongSite).OrderByDescending(m => m.Priority).ToArray();
-            }
-            else
-            {
-                arr = CurrentDb.SysMenu.Where(m => m.PId == pMenuId && m.BelongSite == belongSite).OrderByDescending(m => m.Priority).ToArray();
-            }
-
+            var arr = CurrentDb.SysMenu.Where(m => m.BelongSite == belongSite).OrderByDescending(m => m.Priority).ToArray();
             object json = ConvertToZTreeJson(arr, "id", "pid", "name", "menu");
             return Json(ResultType.Success, json);
         }
+
+        public CustomJsonResult GetByPId(string pId)
+        {
+            var arr = CurrentDb.SysMenu.Where(m => m.PId == pId).OrderByDescending(m => m.Priority).ToArray();
+            object json = ConvertToZTreeJson(arr, "id", "pid", "name", "menu");
+            return Json(ResultType.Success, json);
+        }
+
+
 
 
         [HttpPost]
@@ -75,9 +75,9 @@ namespace WebAdmin.Controllers.Sys
         }
 
         [HttpPost]
-        public CustomJsonResult Delete(string[] menuIds)
+        public CustomJsonResult Delete(string[] ids)
         {
-            return AdminServiceFactory.SysMenu.Delete(this.CurrentUserId, menuIds);
+            return AdminServiceFactory.SysMenu.Delete(this.CurrentUserId,ids);
         }
 
         [HttpPost]

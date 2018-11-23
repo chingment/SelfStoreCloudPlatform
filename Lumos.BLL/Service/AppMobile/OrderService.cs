@@ -16,7 +16,7 @@ namespace Lumos.BLL.Service.AppMobile
     public class OrderService : BaseProvider
     {
 
-        public CustomJsonResult Reserve(string pOperater, string pClientId, RopOrderReserve rop)
+        public CustomJsonResult Reserve(string operater, string clientId, RopOrderReserve rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 
@@ -25,14 +25,14 @@ namespace Lumos.BLL.Service.AppMobile
             bizRop.StoreId = rop.StoreId;
             bizRop.PayTimeout = rop.PayTimeout;
             bizRop.ReserveMode = Enumeration.ReserveMode.Online;
-            bizRop.ClientId = pClientId;
+            bizRop.ClientId = clientId;
 
             foreach (var item in rop.Skus)
             {
                 bizRop.Skus.Add(new Biz.RopOrderReserve.Sku() { CartId = item.CartId, Id = item.Id, Quantity = item.Quantity, ReceptionMode = item.ReceptionMode });
             }
 
-            var bizResult = BizFactory.Order.Reserve(pOperater, bizRop);
+            var bizResult = BizFactory.Order.Reserve(operater, bizRop);
 
             if (bizResult.Result == ResultType.Success)
             {
@@ -268,11 +268,11 @@ namespace Lumos.BLL.Service.AppMobile
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
 
-        public CustomJsonResult GetJsApiPaymentPms(string pOperater, string pClientId, AppInfoConfig appInfo, RupOrderGetJsApiPaymentPms rup)
+        public CustomJsonResult GetJsApiPaymentPms(string operater, string clientId, AppInfoConfig appInfo, RupOrderGetJsApiPaymentPms rup)
         {
             var result = new CustomJsonResult();
 
-            var wxUserInfo = CurrentDb.WxUserInfo.Where(m => m.ClientId == pClientId).FirstOrDefault();
+            var wxUserInfo = CurrentDb.WxUserInfo.Where(m => m.ClientId == clientId).FirstOrDefault();
 
             if (wxUserInfo == null)
             {

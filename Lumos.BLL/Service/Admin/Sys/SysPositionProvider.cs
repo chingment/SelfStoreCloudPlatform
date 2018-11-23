@@ -10,23 +10,23 @@ namespace Lumos.BLL.Service.Admin
 {
     public class SysPositionProvider : BaseProvider
     {
-        public CustomJsonResult GetDetails(string pOperater, string pPositionId)
+        public CustomJsonResult GetDetails(string operater, string id)
         {
             var ret = new RetSysPositionGetDetails();
-            var position = CurrentDb.SysPosition.Where(m => m.Id == pPositionId).FirstOrDefault();
-            if (position != null)
+            var sysPosition = CurrentDb.SysPosition.Where(m => m.Id == id).FirstOrDefault();
+            if (sysPosition != null)
             {
-                var roleIds = CurrentDb.SysPositionRole.Where(x => x.PositionId == pPositionId).Select(x => x.RoleId).ToArray();
+                var sysRoleIds = CurrentDb.SysPositionRole.Where(x => x.PositionId == id).Select(x => x.RoleId).ToArray();
 
-                ret.Name = position.Name ?? "";
-
-                ret.RoleIds = roleIds;
+                ret.Id = sysPosition.Id ?? "";
+                ret.Name = sysPosition.Name ?? "";
+                ret.RoleIds = sysRoleIds;
             }
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
         }
 
-        public CustomJsonResult Add(string pOperater, RopSysPositionAdd rop)
+        public CustomJsonResult Add(string operater, RopSysPositionAdd rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 
@@ -36,7 +36,7 @@ namespace Lumos.BLL.Service.Admin
                 position.Id = GuidUtil.New();
                 position.OrganizationId = rop.OrganizationId;
                 position.Name = rop.Name;
-                position.Creator = pOperater;
+                position.Creator = operater;
                 position.CreateTime = DateTime.Now;
                 position.IsCanDelete = true;
                 CurrentDb.SysPosition.Add(position);
@@ -47,7 +47,7 @@ namespace Lumos.BLL.Service.Admin
                     {
                         foreach (string roleId in rop.RoleIds)
                         {
-                            CurrentDb.SysPositionRole.Add(new SysPositionRole { Id = GuidUtil.New(), PositionId = position.Id, RoleId = roleId, Creator = pOperater, CreateTime = DateTime.Now });
+                            CurrentDb.SysPositionRole.Add(new SysPositionRole { Id = GuidUtil.New(), PositionId = position.Id, RoleId = roleId, Creator = operater, CreateTime = DateTime.Now });
                         }
                     }
                 }
@@ -61,21 +61,21 @@ namespace Lumos.BLL.Service.Admin
             return result;
         }
 
-        public CustomJsonResult Edit(string pOperater, RopSysPositionEdit rop)
+        public CustomJsonResult Edit(string operater, RopSysPositionEdit rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 
             using (TransactionScope ts = new TransactionScope())
             {
-                var sysPosition = CurrentDb.SysPosition.Where(m => m.Id == rop.PositionId).FirstOrDefault();
+                var sysPosition = CurrentDb.SysPosition.Where(m => m.Id == rop.Id).FirstOrDefault();
 
                 sysPosition.Name = rop.Name;
                 sysPosition.MendTime = DateTime.Now;
-                sysPosition.Mender = pOperater;
+                sysPosition.Mender = operater;
                 CurrentDb.SaveChanges();
 
 
-                var sysPositionRoles = CurrentDb.SysPositionRole.Where(m => m.PositionId == rop.PositionId).ToList();
+                var sysPositionRoles = CurrentDb.SysPositionRole.Where(m => m.PositionId == rop.Id).ToList();
 
                 foreach (var sysPositionRole in sysPositionRoles)
                 {
@@ -89,7 +89,7 @@ namespace Lumos.BLL.Service.Admin
                     {
                         foreach (string roleId in rop.RoleIds)
                         {
-                            CurrentDb.SysPositionRole.Add(new SysPositionRole { Id = GuidUtil.New(), PositionId = sysPosition.Id, RoleId = roleId, Creator = pOperater, CreateTime = DateTime.Now });
+                            CurrentDb.SysPositionRole.Add(new SysPositionRole { Id = GuidUtil.New(), PositionId = sysPosition.Id, RoleId = roleId, Creator = operater, CreateTime = DateTime.Now });
                         }
                     }
                 }
@@ -104,19 +104,19 @@ namespace Lumos.BLL.Service.Admin
 
         }
 
-        public CustomJsonResult Delete(string pOperater, string[] pPositionIds)
+        public CustomJsonResult Delete(string operater, string[] ids)
         {
             CustomJsonResult result = new CustomJsonResult();
 
             using (TransactionScope ts = new TransactionScope())
             {
-                if (pPositionIds == null || pPositionIds.Length == 0)
+                if (ids == null || ids.Length == 0)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "请选择要删除的数据");
                 }
 
 
-                foreach (var id in pPositionIds)
+                foreach (var id in ids)
                 {
                     var sysPosition = CurrentDb.SysPosition.Where(m => m.Id == id).FirstOrDefault();
                     if (sysPosition != null)
@@ -127,7 +127,8 @@ namespace Lumos.BLL.Service.Admin
                         }
 
                         sysPosition.IsDelete = true;
-
+                        sysPosition.Mender = operater;
+                        sysPosition.MendTime = this.DateTime;
                         CurrentDb.SaveChanges();
                     }
                 }

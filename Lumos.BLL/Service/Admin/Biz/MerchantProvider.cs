@@ -11,13 +11,13 @@ namespace Lumos.BLL.Service.Admin
 {
     public class MerchantProvider : BaseProvider
     {
-        public CustomJsonResult GetDetails(string pOperater, string merchantId)
+        public CustomJsonResult GetDetails(string operater, string id)
         {
             var ret = new RetMerchantGetDetails();
-            var sysMerchantUser = CurrentDb.SysMerchantUser.Where(m => m.Id == merchantId).FirstOrDefault();
+            var sysMerchantUser = CurrentDb.SysMerchantUser.Where(m => m.Id == id).FirstOrDefault();
             if (sysMerchantUser != null)
             {
-                ret.MerchantId = sysMerchantUser.Id ?? ""; ;
+                ret.Id = sysMerchantUser.Id ?? ""; ;
                 ret.UserName = sysMerchantUser.UserName ?? ""; ;
                 ret.MerchantName = sysMerchantUser.MerchantName ?? ""; ;
                 ret.ContactAddress = sysMerchantUser.ContactAddress ?? "";
@@ -28,7 +28,7 @@ namespace Lumos.BLL.Service.Admin
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
         }
 
-        public CustomJsonResult Add(string pOperater, RopMerchantAdd rop)
+        public CustomJsonResult Add(string operater, RopMerchantAdd rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 
@@ -53,7 +53,7 @@ namespace Lumos.BLL.Service.Admin
                 sysMerchatUser.SecurityStamp = Guid.NewGuid().ToString();
                 sysMerchatUser.RegisterTime = this.DateTime;
                 sysMerchatUser.CreateTime = this.DateTime;
-                sysMerchatUser.Creator = pOperater;
+                sysMerchatUser.Creator = operater;
                 sysMerchatUser.Status = Enumeration.UserStatus.Normal;
                 sysMerchatUser.BelongSite = Enumeration.BelongSite.Merchant;
                 CurrentDb.SysMerchantUser.Add(sysMerchatUser);
@@ -63,7 +63,7 @@ namespace Lumos.BLL.Service.Admin
                 merchantConfig.Id = GuidUtil.New();
                 merchantConfig.MerchantId = sysMerchatUser.Id;
                 merchantConfig.CreateTime = this.DateTime;
-                merchantConfig.Creator = pOperater;
+                merchantConfig.Creator = operater;
                 merchantConfig.ApiHost = "http://demo.api.term.17fanju.com";
                 merchantConfig.ApiKey = "fanju";
                 merchantConfig.ApiSecret = "7460e6512f1940f68c00fe1fdb2b7eb1";
@@ -79,17 +79,17 @@ namespace Lumos.BLL.Service.Admin
             return result;
         }
 
-        public CustomJsonResult Edit(string pOperater, RopMerchantEdit rop)
+        public CustomJsonResult Edit(string operater, RopMerchantEdit rop)
         {
             CustomJsonResult result = new CustomJsonResult();
             using (TransactionScope ts = new TransactionScope())
             {
-                var sysMerchantUser = CurrentDb.SysMerchantUser.Where(m => m.Id == rop.MerchantId).FirstOrDefault();
+                var sysMerchantUser = CurrentDb.SysMerchantUser.Where(m => m.Id == rop.Id).FirstOrDefault();
                 sysMerchantUser.ContactName = rop.ContactName;
                 sysMerchantUser.ContactPhone = rop.ContactPhone;
                 sysMerchantUser.ContactAddress = rop.ContactAddress;
                 sysMerchantUser.MendTime = this.DateTime;
-                sysMerchantUser.Mender = pOperater;
+                sysMerchantUser.Mender = operater;
 
                 if (!string.IsNullOrEmpty(rop.Password))
                 {
@@ -106,13 +106,13 @@ namespace Lumos.BLL.Service.Admin
         }
 
 
-        public CustomJsonResult BindOnMachine(string pOperater, string pMerchantId, string pMachineId)
+        public CustomJsonResult BindOnMachine(string operater, string merchantId, string machineId)
         {
             CustomJsonResult result = new CustomJsonResult();
 
             using (TransactionScope ts = new TransactionScope())
             {
-                var lMachine = CurrentDb.Machine.Where(m => m.Id == pMachineId).FirstOrDefault();
+                var lMachine = CurrentDb.Machine.Where(m => m.Id == machineId).FirstOrDefault();
 
                 if (lMachine.IsUse)
                 {
@@ -121,25 +121,25 @@ namespace Lumos.BLL.Service.Admin
 
                 lMachine.IsUse = true;
                 lMachine.MendTime = this.DateTime;
-                lMachine.Mender = pOperater;
+                lMachine.Mender = operater;
 
-                var lMerchantMachine = CurrentDb.MerchantMachine.Where(m => m.MerchantId == pMerchantId && m.MachineId == pMachineId).FirstOrDefault();
+                var lMerchantMachine = CurrentDb.MerchantMachine.Where(m => m.MerchantId == merchantId && m.MachineId == machineId).FirstOrDefault();
                 if (lMerchantMachine == null)
                 {
                     lMerchantMachine = new MerchantMachine();
                     lMerchantMachine.Id = GuidUtil.New();
-                    lMerchantMachine.MerchantId = pMerchantId;
-                    lMerchantMachine.MachineId = pMachineId;
+                    lMerchantMachine.MerchantId = merchantId;
+                    lMerchantMachine.MachineId = machineId;
                     lMerchantMachine.IsBind = true;
                     lMerchantMachine.CreateTime = this.DateTime;
-                    lMerchantMachine.Creator = pOperater;
+                    lMerchantMachine.Creator = operater;
                     CurrentDb.MerchantMachine.Add(lMerchantMachine);
                 }
                 else
                 {
                     lMerchantMachine.IsBind = true;
                     lMerchantMachine.MendTime = this.DateTime;
-                    lMerchantMachine.Mender = pOperater;
+                    lMerchantMachine.Mender = operater;
                 }
 
                 lMerchantMachine.LogoImgUrl = "http://file.17fanju.com/Upload/machTmp/tmp/LogoImg.png";
@@ -154,13 +154,13 @@ namespace Lumos.BLL.Service.Admin
             return result;
         }
 
-        public CustomJsonResult BindOffMachine(string pOperater, string pMerchantId, string pMachineId)
+        public CustomJsonResult BindOffMachine(string operater, string merchantId, string machineId)
         {
             CustomJsonResult result = new CustomJsonResult();
 
             using (TransactionScope ts = new TransactionScope())
             {
-                var lMerchantMachine = CurrentDb.MerchantMachine.Where(m => m.MerchantId == pMerchantId && m.MachineId == pMachineId).FirstOrDefault();
+                var lMerchantMachine = CurrentDb.MerchantMachine.Where(m => m.MerchantId == merchantId && m.MachineId == machineId).FirstOrDefault();
 
                 if (lMerchantMachine.IsBind == false)
                 {
@@ -170,13 +170,13 @@ namespace Lumos.BLL.Service.Admin
 
                 lMerchantMachine.IsBind = false;
                 lMerchantMachine.MendTime = this.DateTime;
-                lMerchantMachine.Mender = pOperater;
+                lMerchantMachine.Mender = operater;
 
-                var machine = CurrentDb.Machine.Where(m => m.Id == pMachineId).FirstOrDefault();
+                var machine = CurrentDb.Machine.Where(m => m.Id == machineId).FirstOrDefault();
 
                 machine.IsUse = false;
                 machine.MendTime = this.DateTime;
-                machine.Mender = pOperater;
+                machine.Mender = operater;
 
                 CurrentDb.SaveChanges();
                 ts.Complete();

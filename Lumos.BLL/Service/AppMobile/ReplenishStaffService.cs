@@ -10,7 +10,7 @@ namespace Lumos.BLL.Service.AppMobile
 {
     public class ReplenishStaffService : BaseProvider
     {
-        public CustomJsonResult BindMobile(string pOperater, string pClientId, RopReplenishStaffBindMobile rup)
+        public CustomJsonResult BindMobile(string operater, string clientId, RopReplenishStaffBindMobile rup)
         {
             if (!BizFactory.Sms.ReplenishStaffBindMobileCheckValidCode(rup.PhoneNumber, rup.VerifyCode))
             {
@@ -19,7 +19,7 @@ namespace Lumos.BLL.Service.AppMobile
 
 
 
-            var sysUser = CurrentDb.SysUser.Where(m => m.Id == pClientId).FirstOrDefault();
+            var sysUser = CurrentDb.SysUser.Where(m => m.Id == clientId).FirstOrDefault();
 
 
             sysUser.PhoneNumber = rup.PhoneNumber;

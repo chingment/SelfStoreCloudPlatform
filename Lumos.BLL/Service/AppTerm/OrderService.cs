@@ -14,7 +14,7 @@ namespace Lumos.BLL.Service.AppTerm
 
     public class OrderService : BaseProvider
     {
-        public CustomJsonResult Reserve(string pOperater, RopOrderReserve rop)
+        public CustomJsonResult Reserve(string operater, RopOrderReserve rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 
@@ -31,7 +31,7 @@ namespace Lumos.BLL.Service.AppTerm
                 bizRop.Skus.Add(new Biz.RopOrderReserve.Sku() { Id = item.Id, Quantity = item.Quantity, ReceptionMode = Enumeration.ReceptionMode.Machine });
             }
 
-            var bizResult = BizFactory.Order.Reserve(pOperater, bizRop);
+            var bizResult = BizFactory.Order.Reserve(operater, bizRop);
 
             if (bizResult.Result == ResultType.Success)
             {
@@ -72,11 +72,11 @@ namespace Lumos.BLL.Service.AppTerm
             return ret;
         }
 
-        public CustomJsonResult Cancle(string pOperater, RopOrderCancle rop)
+        public CustomJsonResult Cancle(string operater, RopOrderCancle rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 
-            result = BizFactory.Order.Cancle(pOperater, rop.OrderSn, rop.Reason);
+            result = BizFactory.Order.Cancle(operater, rop.OrderSn, rop.Reason);
 
             return result;
         }

@@ -10,13 +10,13 @@ namespace Lumos.BLL.Service.Merch
 {
     public class StoreProvider : BaseProvider
     {
-        public CustomJsonResult GetDetails(string pOperater, string pMerchantId, string pStoreId)
+        public CustomJsonResult GetDetails(string operater, string merchantId, string storeId)
         {
             var ret = new RetStoreGetDetails();
-            var store = CurrentDb.Store.Where(m => m.MerchantId == pMerchantId && m.Id == pStoreId).FirstOrDefault();
+            var store = CurrentDb.Store.Where(m => m.MerchantId == merchantId && m.Id == storeId).FirstOrDefault();
             if (store != null)
             {
-                ret.StoreId = store.Id ?? "";
+                ret.Id = store.Id ?? "";
                 ret.Name = store.Name ?? "";
                 ret.Address = store.Address ?? "";
                 ret.Description = store.Description ?? "";
@@ -26,12 +26,12 @@ namespace Lumos.BLL.Service.Merch
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
         }
 
-        public CustomJsonResult Add(string pOperater, string pMerchantId, RopStoreAdd rop)
+        public CustomJsonResult Add(string operater, string merchantId, RopStoreAdd rop)
         {
             CustomJsonResult result = new CustomJsonResult();
             using (TransactionScope ts = new TransactionScope())
             {
-                var isExistStore = CurrentDb.Store.Where(m => m.MerchantId == pMerchantId && m.Name == rop.Name).FirstOrDefault();
+                var isExistStore = CurrentDb.Store.Where(m => m.MerchantId == merchantId && m.Name == rop.Name).FirstOrDefault();
                 if (isExistStore != null)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "名称已存在,请使用其它");
@@ -39,13 +39,13 @@ namespace Lumos.BLL.Service.Merch
 
                 var store = new Store();
                 store.Id = GuidUtil.New();
-                store.MerchantId = pMerchantId;
+                store.MerchantId = merchantId;
                 store.Name = rop.Name;
                 store.Address = rop.Address;
                 store.Description = rop.Description;
                 store.Status = Enumeration.StoreStatus.Closed;
                 store.CreateTime = this.DateTime;
-                store.Creator = pOperater;
+                store.Creator = operater;
                 CurrentDb.Store.Add(store);
                 CurrentDb.SaveChanges();
 
@@ -56,23 +56,23 @@ namespace Lumos.BLL.Service.Merch
             return result;
         }
 
-        public CustomJsonResult Edit(string pOperater, string pMerchantId, RopStoreEdit rop)
+        public CustomJsonResult Edit(string operater, string merchantId, RopStoreEdit rop)
         {
             CustomJsonResult result = new CustomJsonResult();
             using (TransactionScope ts = new TransactionScope())
             {
 
-                var isExistStore = CurrentDb.Store.Where(m => m.MerchantId == pMerchantId && m.Id != rop.StoreId && m.Name == rop.Name).FirstOrDefault();
+                var isExistStore = CurrentDb.Store.Where(m => m.MerchantId == merchantId && m.Id != rop.Id && m.Name == rop.Name).FirstOrDefault();
                 if (isExistStore != null)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "名称已存在,请使用其它");
                 }
 
-                var store = CurrentDb.Store.Where(m => m.Id == rop.StoreId).FirstOrDefault();
+                var store = CurrentDb.Store.Where(m => m.Id == rop.Id).FirstOrDefault();
 
                 if (rop.Status == Enumeration.StoreStatus.Opened)
                 {
-                    var storeMachineBindCount = CurrentDb.StoreMachine.Where(m => m.StoreId == rop.StoreId && m.IsBind == true).Count();
+                    var storeMachineBindCount = CurrentDb.StoreMachine.Where(m => m.StoreId == rop.Id && m.IsBind == true).Count();
                     if (storeMachineBindCount == 0)
                     {
                         return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "设置为正常状态，必须先在机器管理里绑定一台机器");
@@ -83,7 +83,7 @@ namespace Lumos.BLL.Service.Merch
                 store.Address = rop.Address;
                 store.Status = rop.Status;
                 store.MendTime = this.DateTime;
-                store.Mender = pOperater;
+                store.Mender = operater;
                 CurrentDb.SaveChanges();
                 ts.Complete();
                 result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
@@ -91,41 +91,41 @@ namespace Lumos.BLL.Service.Merch
             return result;
         }
 
-        public CustomJsonResult BindOnMachine(string pOperater, string pStoreId, string[] pMachineIds)
+        public CustomJsonResult BindOnMachine(string operater, string storeId, string[] machineIds)
         {
             CustomJsonResult result = new CustomJsonResult();
             using (TransactionScope ts = new TransactionScope())
             {
-                if (pMachineIds == null)
+                if (machineIds == null)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "没有机器人");
                 }
 
-                if (pMachineIds.Length == 0)
+                if (machineIds.Length == 0)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "没有机器人");
                 }
 
-                var store = CurrentDb.Store.Where(m => m.Id == pStoreId).FirstOrDefault();
+                var store = CurrentDb.Store.Where(m => m.Id == storeId).FirstOrDefault();
 
                 if (store == null)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "没有便利店");
                 }
 
-                foreach (var machineId in pMachineIds)
+                foreach (var machineId in machineIds)
                 {
-                    var storeMachine = CurrentDb.StoreMachine.Where(m => m.StoreId == pStoreId && m.MachineId == machineId).FirstOrDefault();
+                    var storeMachine = CurrentDb.StoreMachine.Where(m => m.StoreId == storeId && m.MachineId == machineId).FirstOrDefault();
                     if (storeMachine == null)
                     {
                         storeMachine = new StoreMachine();
                         storeMachine.Id = GuidUtil.New();
                         storeMachine.MerchantId = store.MerchantId;
                         storeMachine.MachineId = machineId;
-                        storeMachine.StoreId = pStoreId;
+                        storeMachine.StoreId = storeId;
                         storeMachine.IsBind = true;
                         storeMachine.CreateTime = this.DateTime;
-                        storeMachine.Creator = pOperater;
+                        storeMachine.Creator = operater;
                         CurrentDb.StoreMachine.Add(storeMachine);
                         CurrentDb.SaveChanges();
                     }
@@ -135,7 +135,7 @@ namespace Lumos.BLL.Service.Merch
                         storeMachine.MachineName = machine.Name;
                         storeMachine.IsBind = true;
                         storeMachine.MendTime = this.DateTime;
-                        storeMachine.Mender = pOperater;
+                        storeMachine.Mender = operater;
                         CurrentDb.SaveChanges();
                     }
                 }
@@ -146,31 +146,31 @@ namespace Lumos.BLL.Service.Merch
             return result;
         }
 
-        public CustomJsonResult BindOffMachine(string pOperater, string pStoreId, string pMachineId)
+        public CustomJsonResult BindOffMachine(string operater, string storeId, string machineId)
         {
             CustomJsonResult result = new CustomJsonResult();
             using (TransactionScope ts = new TransactionScope())
             {
-                var lStoreMachines = CurrentDb.StoreMachine.Where(m => m.StoreId == pStoreId).ToList();
+                var storeMachines = CurrentDb.StoreMachine.Where(m => m.StoreId == storeId).ToList();
 
-                foreach (var item in lStoreMachines)
+                foreach (var item in storeMachines)
                 {
-                    if (item.MachineId == pMachineId)
+                    if (item.MachineId == machineId)
                     {
                         item.IsBind = false;
                         item.MendTime = this.DateTime;
-                        item.Mender = pOperater;
+                        item.Mender = operater;
                     }
                 }
 
-                var storeMachineBindCount = lStoreMachines.Where(m => m.IsBind == true).Count();
+                var storeMachineBindCount = storeMachines.Where(m => m.IsBind == true).Count();
                 if (storeMachineBindCount == 0)
                 {
-                    var store = CurrentDb.Store.Where(m => m.Id == pStoreId).FirstOrDefault();
+                    var store = CurrentDb.Store.Where(m => m.Id == storeId).FirstOrDefault();
 
                     store.Status = Enumeration.StoreStatus.Closed;
                     store.MendTime = this.DateTime;
-                    store.Mender = pOperater;
+                    store.Mender = operater;
                 }
 
                 CurrentDb.SaveChanges();

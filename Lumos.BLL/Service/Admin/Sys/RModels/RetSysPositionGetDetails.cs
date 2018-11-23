@@ -8,6 +8,7 @@ namespace Lumos.BLL.Service.Admin
 {
     public class RetSysPositionGetDetails
     {
+        public string Id { get; set; }
         public string[] RoleIds { get; set; }
         public string Name { get; set; }
     }

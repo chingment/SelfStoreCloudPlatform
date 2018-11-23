@@ -13,7 +13,7 @@ namespace Lumos.BLL.Service.Merch
             this.Blocks = new List<Block>();
         }
 
-        public string OrderId { get; set; }
+        public string Id { get; set; }
         public string Sn { get; set; }
         public string StoreName { get; set; }
         public string ClientName { get; set; }

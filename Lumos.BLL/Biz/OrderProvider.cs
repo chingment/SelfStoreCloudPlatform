@@ -22,7 +22,7 @@ namespace Lumos.BLL.Biz
     public class OrderProvider : BaseProvider
     {
 
-        public CustomJsonResult<RetOrderReserve> Reserve(string pOperater, RopOrderReserve rop)
+        public CustomJsonResult<RetOrderReserve> Reserve(string operater, RopOrderReserve rop)
         {
             CustomJsonResult<RetOrderReserve> result = new CustomJsonResult<RetOrderReserve>();
 
@@ -161,7 +161,7 @@ namespace Lumos.BLL.Biz
                 order.Status = Enumeration.OrderStatus.WaitPay;
                 order.Source = rop.Source;
                 order.SubmitTime = this.DateTime;
-                order.Creator = pOperater;
+                order.Creator = operater;
                 order.CreateTime = this.DateTime;
 
 
@@ -182,7 +182,7 @@ namespace Lumos.BLL.Biz
                             foreach (var cart in clientCarts)
                             {
                                 cart.Status = Enumeration.CartStatus.Settling;
-                                cart.Mender = pOperater;
+                                cart.Mender = operater;
                                 cart.MendTime = this.DateTime;
                                 CurrentDb.SaveChanges();
                             }
@@ -216,7 +216,7 @@ namespace Lumos.BLL.Biz
                     orderDetails.Quantity = detail.Quantity;
                     orderDetails.ReceptionMode = detail.ReceptionMode;
                     orderDetails.SubmitTime = this.DateTime;
-                    orderDetails.Creator = pOperater;
+                    orderDetails.Creator = operater;
                     orderDetails.CreateTime = this.DateTime;
 
                     //detail.MachineId为空 则为快递商品
@@ -266,7 +266,7 @@ namespace Lumos.BLL.Biz
                         orderDetailsChild.ChargeAmount = detailsChild.ChargeAmount;
                         orderDetailsChild.SubmitTime = this.DateTime;
                         orderDetailsChild.Status = Enumeration.OrderStatus.Submitted;
-                        orderDetailsChild.Creator = pOperater;
+                        orderDetailsChild.Creator = operater;
                         orderDetailsChild.CreateTime = this.DateTime;
                         CurrentDb.OrderDetailsChild.Add(orderDetailsChild);
 
@@ -299,7 +299,7 @@ namespace Lumos.BLL.Biz
                             orderDetailsChildSon.DiscountAmount = detailsChildSon.DiscountAmount;
                             orderDetailsChildSon.ChargeAmount = detailsChildSon.ChargeAmount;
                             orderDetailsChildSon.SubmitTime = this.DateTime;
-                            orderDetailsChildSon.Creator = pOperater;
+                            orderDetailsChildSon.Creator = operater;
                             orderDetailsChildSon.CreateTime = this.DateTime;
                             orderDetailsChildSon.Status = Enumeration.OrderDetailsChildSonStatus.WaitPay;
                             CurrentDb.OrderDetailsChildSon.Add(orderDetailsChildSon);
@@ -313,7 +313,7 @@ namespace Lumos.BLL.Biz
 
                             machineStock.LockQuantity += slotStock.Quantity;
                             machineStock.SellQuantity -= slotStock.Quantity;
-                            machineStock.Mender = pOperater;
+                            machineStock.Mender = operater;
                             machineStock.MendTime = this.DateTime;
 
 
@@ -330,7 +330,7 @@ namespace Lumos.BLL.Biz
                             storeSellStockLog.SellQuantity = machineStock.SellQuantity;
                             storeSellStockLog.ChangeType = Enumeration.MachineStockLogChangeTpye.Lock;
                             storeSellStockLog.ChangeQuantity = slotStock.Quantity;
-                            storeSellStockLog.Creator = pOperater;
+                            storeSellStockLog.Creator = operater;
                             storeSellStockLog.CreateTime = this.DateTime;
                             storeSellStockLog.RemarkByDev = string.Format("预定锁定库存：{0}", slotStock.Quantity);
                             CurrentDb.StoreSellStockLog.Add(storeSellStockLog);
@@ -340,7 +340,7 @@ namespace Lumos.BLL.Biz
 
                 order.PayExpireTime = this.DateTime.AddSeconds(rop.PayTimeout);
 
-                //var ret_UnifiedOrder = SdkFactory.Wx.Instance().UnifiedOrder(pOperater, order.Sn, order.ChargeAmount, "", Common.CommonUtils.GetIP(), "自助商品", order.PayExpireTime.Value);
+                //var ret_UnifiedOrder = SdkFactory.Wx.Instance().UnifiedOrder(operater, order.Sn, order.ChargeAmount, "", Common.CommonUtils.GetIP(), "自助商品", order.PayExpireTime.Value);
 
                 //if (string.IsNullOrEmpty(ret_UnifiedOrder.CodeUrl))
                 //{
@@ -628,45 +628,45 @@ namespace Lumos.BLL.Biz
             }
         }
 
-        public CustomJsonResult PayCompleted(string pOperater, string pOrderSn, DateTime pCompletedTime)
+        public CustomJsonResult PayCompleted(string operater, string orderSn, DateTime completedTime)
         {
             CustomJsonResult result = new CustomJsonResult();
 
             using (TransactionScope ts = new TransactionScope())
             {
-                var order = CurrentDb.Order.Where(m => m.Sn == pOrderSn).FirstOrDefault();
+                var order = CurrentDb.Order.Where(m => m.Sn == orderSn).FirstOrDefault();
 
                 if (order == null)
                 {
-                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("找不到该订单号({0})", pOrderSn));
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("找不到该订单号({0})", orderSn));
                 }
 
                 if (order.Status == Enumeration.OrderStatus.Payed || order.Status == Enumeration.OrderStatus.Completed)
                 {
-                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("订单号({0})已经支付通知成功", pOrderSn));
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("订单号({0})已经支付通知成功", orderSn));
                 }
 
                 if (order.Status != Enumeration.OrderStatus.WaitPay)
                 {
-                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("找不到该订单号({0})", pOrderSn));
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("找不到该订单号({0})", orderSn));
                 }
 
                 order.Status = Enumeration.OrderStatus.Payed;
                 order.PayTime = this.DateTime;
                 order.MendTime = this.DateTime;
-                order.Mender = pOperater;
+                order.Mender = operater;
 
                 CurrentDb.SaveChanges();
                 ts.Complete();
 
 
-                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, string.Format("支付完成通知：订单号({0})通知成功", pOrderSn));
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, string.Format("支付完成通知：订单号({0})通知成功", orderSn));
             }
 
             return result;
         }
 
-        public CustomJsonResult<RetPayResultQuery> PayResultQuery(string pOperater, string orderSn)
+        public CustomJsonResult<RetPayResultQuery> PayResultQuery(string operater, string orderSn)
         {
             var result = new CustomJsonResult<RetPayResultQuery>();
 
@@ -687,19 +687,19 @@ namespace Lumos.BLL.Biz
             return result;
         }
 
-        public CustomJsonResult Cancle(string pOperater, string pOrderSn, string cancelReason)
+        public CustomJsonResult Cancle(string operater, string orderSn, string cancelReason)
         {
             var result = new CustomJsonResult();
 
 
             using (TransactionScope ts = new TransactionScope())
             {
-                var order = CurrentDb.Order.Where(m => m.Sn == pOrderSn).FirstOrDefault();
+                var order = CurrentDb.Order.Where(m => m.Sn == orderSn).FirstOrDefault();
 
                 if (order == null)
                 {
-                    LogUtil.Info(string.Format("该订单号:{0},找不到", pOrderSn));
-                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("该订单号:{0},找不到", pOrderSn));
+                    LogUtil.Info(string.Format("该订单号:{0},找不到", orderSn));
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("该订单号:{0},找不到", orderSn));
                 }
 
                 if (order.Status == Enumeration.OrderStatus.Cancled)
@@ -756,7 +756,7 @@ namespace Lumos.BLL.Biz
 
                         machineStock.LockQuantity -= item.Quantity;
                         machineStock.SellQuantity += item.Quantity;
-                        machineStock.Mender = pOperater;
+                        machineStock.Mender = operater;
                         machineStock.MendTime = this.DateTime;
 
                         var storeSellStockLog = new StoreSellStockLog();
@@ -772,7 +772,7 @@ namespace Lumos.BLL.Biz
                         storeSellStockLog.SellQuantity = machineStock.SellQuantity;
                         storeSellStockLog.ChangeType = Enumeration.MachineStockLogChangeTpye.Lock;
                         storeSellStockLog.ChangeQuantity = item.Quantity;
-                        storeSellStockLog.Creator = pOperater;
+                        storeSellStockLog.Creator = operater;
                         storeSellStockLog.CreateTime = this.DateTime;
                         storeSellStockLog.RemarkByDev = string.Format("取消订单，恢复库存：{0}", item.Quantity);
                         CurrentDb.StoreSellStockLog.Add(storeSellStockLog);

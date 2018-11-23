@@ -11,7 +11,7 @@ namespace Lumos.BLL.Service.AppMobile
 {
     public class ProductSkuService : BaseProvider
     {
-        public List<SkuModel> List(string pOperater, string pClientId, RupProductSkuList rup)
+        public List<SkuModel> List(string operater, string clientId, RupProductSkuList rup)
         {
             var olist = new List<SkuModel>();
 

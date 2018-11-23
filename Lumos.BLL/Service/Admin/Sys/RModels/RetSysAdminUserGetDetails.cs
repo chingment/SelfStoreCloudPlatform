@@ -9,6 +9,7 @@ namespace Lumos.BLL.Service.Admin
 {
     public class RetSysAdminUserGetDetails
     {
+        public string Id { get; set; }
         public string[] RoleIds { get; set; }
         public string UserName { get; set; }
         public string FullName { get; set; }

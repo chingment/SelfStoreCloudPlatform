@@ -9,7 +9,7 @@ namespace Lumos.BLL.Service.AppMobile
 {
     public class StoreService : BaseProvider
     {
-        public List<StoreModel> List(string pOperater, string pClientId, RupStoreList rup)
+        public List<StoreModel> List(string operater, string clientId, RupStoreList rup)
         {
 
             var stores = CurrentDb.Store.Where(m => m.Status == Entity.Enumeration.StoreStatus.Opened).ToList();

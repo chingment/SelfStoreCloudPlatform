@@ -8,7 +8,7 @@ namespace Lumos.BLL.Service.AppTerm
 {
     public class GlobalService : BaseProvider
     {
-        public CustomJsonResult DataSet(string pOperater, RupGlobalDataSet rup)
+        public CustomJsonResult DataSet(string operater, RupGlobalDataSet rup)
         {
             CustomJsonResult result = new CustomJsonResult();
             var ret = new RetGlobalDataSet();
@@ -25,9 +25,9 @@ namespace Lumos.BLL.Service.AppTerm
             ret.BtnPickImgUrl = merchantMachine.BtnPickImgUrl;
 
 
-            ret.Banners = TermServiceFactory.Machine.GetBanners(pOperater, rup.MerchantId, rup.MachineId);
-            ret.ProductKinds = TermServiceFactory.ProductKind.GetKinds(pOperater, rup.MerchantId, rup.MachineId);
-            ret.ProductSkus = TermServiceFactory.Machine.GetProductSkus(pOperater, rup.MerchantId, rup.MachineId);
+            ret.Banners = TermServiceFactory.Machine.GetBanners(operater, rup.MerchantId, rup.MachineId);
+            ret.ProductKinds = TermServiceFactory.ProductKind.GetKinds(operater, rup.MerchantId, rup.MachineId);
+            ret.ProductSkus = TermServiceFactory.Machine.GetProductSkus(operater, rup.MerchantId, rup.MachineId);
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
         }

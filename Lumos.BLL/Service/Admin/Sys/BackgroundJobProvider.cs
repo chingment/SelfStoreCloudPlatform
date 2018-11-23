@@ -10,13 +10,19 @@ namespace Lumos.BLL.Service.Admin
 {
     public class BackgroundJobProvider : BaseProvider
     {
-        public CustomJsonResult GetDetails(string pOperater, string pBackgroundJobId)
+        public CustomJsonResult GetDetails(string operater, string id)
         {
             var ret = new RetBackgroundJobGetDetails();
-            var backgroundJob = CurrentDb.BackgroundJob.Where(m => m.Id == pBackgroundJobId).FirstOrDefault();
+            var backgroundJob = CurrentDb.BackgroundJob.Where(m => m.Id == id).FirstOrDefault();
+
+            if (backgroundJob == null)
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "数据为空", ret);
+            }
+
             if (backgroundJob != null)
             {
-                ret.BackgroundJobId = backgroundJob.Id;
+                ret.Id = backgroundJob.Id;
                 ret.Name = backgroundJob.Name;
                 ret.AssemblyName = backgroundJob.AssemblyName;
                 ret.ClassName = backgroundJob.ClassName;
@@ -29,7 +35,7 @@ namespace Lumos.BLL.Service.Admin
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
         }
 
-        public CustomJsonResult Add(string pOperater, RopBackgroundJobAdd rop)
+        public CustomJsonResult Add(string operater, RopBackgroundJobAdd rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 
@@ -62,7 +68,7 @@ namespace Lumos.BLL.Service.Admin
             backgroundJob.RunCount = 0;
             backgroundJob.Status = Enumeration.BackgroundJobStatus.Stoped;
             backgroundJob.IsDelete = false;
-            backgroundJob.Creator = pOperater;
+            backgroundJob.Creator = operater;
             backgroundJob.CreateTime = DateTime.Now;
 
 
@@ -75,7 +81,7 @@ namespace Lumos.BLL.Service.Admin
             return result;
         }
 
-        public CustomJsonResult Edit(string pOperater, RopBackgroundJobEdit rop)
+        public CustomJsonResult Edit(string operater, RopBackgroundJobEdit rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 
@@ -84,13 +90,17 @@ namespace Lumos.BLL.Service.Admin
                 return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "无效的Cron表达式");
             }
 
-            var backgroundJob = CurrentDb.BackgroundJob.Where(m => m.Id == rop.BackgroundJobId).FirstOrDefault();
-            //backgroundJob.AssemblyName = rop.AssemblyName;
-            //backgroundJob.ClassName = rop.ClassName;
+            var backgroundJob = CurrentDb.BackgroundJob.Where(m => m.Id == rop.Id).FirstOrDefault();
+
+            if (backgroundJob == null)
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "数据为空");
+            }
+
             backgroundJob.CronExpression = rop.CronExpression;
             backgroundJob.CronExpressionDescription = rop.CronExpressionDescription;
             backgroundJob.Description = rop.Description;
-            backgroundJob.Mender = pOperater;
+            backgroundJob.Mender = operater;
             backgroundJob.MendTime = DateTime.Now;
 
             CurrentDb.SaveChanges();
@@ -100,16 +110,16 @@ namespace Lumos.BLL.Service.Admin
             return result;
         }
 
-        public void WriteLog(string pOperater, string pBackgroundJobId, string pJobName, DateTime pExecutionTime, decimal pExecutionDuration, string pRunLog)
+        public void WriteLog(string operater, string backgroundJobId, string jobName, DateTime executionTime, decimal executionDuration, string runLog)
         {
             var backgroundJobLog = new BackgroundJobLog();
             backgroundJobLog.Id = GuidUtil.New();
-            backgroundJobLog.BackgroundJobId = pBackgroundJobId;
-            backgroundJobLog.JobName = pJobName;
-            backgroundJobLog.ExecutionTime = pExecutionTime;
-            backgroundJobLog.ExecutionDuration = pExecutionDuration;
+            backgroundJobLog.BackgroundJobId = backgroundJobId;
+            backgroundJobLog.JobName = jobName;
+            backgroundJobLog.ExecutionTime = executionTime;
+            backgroundJobLog.ExecutionDuration = executionDuration;
             backgroundJobLog.CreateTime = DateTime.Now;
-            backgroundJobLog.RunLog = pRunLog;
+            backgroundJobLog.RunLog = runLog;
             CurrentDb.BackgroundJobLog.Add(backgroundJobLog);
             CurrentDb.SaveChanges();
 
@@ -117,10 +127,10 @@ namespace Lumos.BLL.Service.Admin
         }
 
 
-        public CustomJsonResult SetStartOrStop(string pOperater, string pBackgroundJobId)
+        public CustomJsonResult SetStartOrStop(string operater, string id)
         {
             CustomJsonResult result = new CustomJsonResult();
-            var backgroundJob = CurrentDb.BackgroundJob.Where(m => m.Id == pBackgroundJobId).FirstOrDefault();
+            var backgroundJob = CurrentDb.BackgroundJob.Where(m => m.Id == id).FirstOrDefault();
 
             if (backgroundJob == null)
             {
@@ -129,11 +139,11 @@ namespace Lumos.BLL.Service.Admin
 
             if (backgroundJob.Status == Enumeration.BackgroundJobStatus.Runing)
             {
-                SetStatus(pOperater, pBackgroundJobId, Enumeration.BackgroundJobStatus.Stoping);
+                SetStatus(operater, id, Enumeration.BackgroundJobStatus.Stoping);
             }
             else if (backgroundJob.Status == Enumeration.BackgroundJobStatus.Stoped)
             {
-                SetStatus(pOperater, pBackgroundJobId, Enumeration.BackgroundJobStatus.Starting);
+                SetStatus(operater, id, Enumeration.BackgroundJobStatus.Starting);
             }
 
             result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "设置成功");
@@ -141,13 +151,13 @@ namespace Lumos.BLL.Service.Admin
             return result;
         }
 
-        public CustomJsonResult SetStatus(string pOperater, string pBackgroundJobId, Enumeration.BackgroundJobStatus pStatus)
+        public CustomJsonResult SetStatus(string operater, string id, Enumeration.BackgroundJobStatus status)
         {
             CustomJsonResult result = new CustomJsonResult();
-            var backgroundJob = CurrentDb.BackgroundJob.Where(m => m.Id == pBackgroundJobId).FirstOrDefault();
+            var backgroundJob = CurrentDb.BackgroundJob.Where(m => m.Id == id).FirstOrDefault();
             if (backgroundJob != null)
             {
-                backgroundJob.Status = pStatus;
+                backgroundJob.Status = status;
                 backgroundJob.MendTime = this.DateTime;
                 CurrentDb.SaveChanges();
             }
@@ -157,19 +167,19 @@ namespace Lumos.BLL.Service.Admin
             return result;
         }
 
-        public bool UpdateInfo(string pOperater, string pBackgroundJobId, string pJobName, DateTime pLastRunTime, DateTime pNextRunTime, decimal pExecutionDuration, string pRunLog)
+        public bool UpdateInfo(string operater, string id, string jobName, DateTime lastRunTime, DateTime nextRunTime, decimal executionDuration, string runLog)
         {
-            var backgroundJob = CurrentDb.BackgroundJob.Where(m => m.Id == pBackgroundJobId).FirstOrDefault();
+            var backgroundJob = CurrentDb.BackgroundJob.Where(m => m.Id == id).FirstOrDefault();
             if (backgroundJob != null)
             {
                 backgroundJob.RunCount += 1;
-                backgroundJob.LastRunTime = pLastRunTime;
-                backgroundJob.NextRunTime = pNextRunTime;
+                backgroundJob.LastRunTime = lastRunTime;
+                backgroundJob.NextRunTime = nextRunTime;
                 backgroundJob.MendTime = this.DateTime;
                 CurrentDb.SaveChanges();
             }
 
-            WriteLog(pOperater, pBackgroundJobId, pJobName, this.DateTime, pExecutionDuration, pRunLog);
+            WriteLog(operater, id, jobName, this.DateTime, executionDuration, runLog);
 
             return true;
         }

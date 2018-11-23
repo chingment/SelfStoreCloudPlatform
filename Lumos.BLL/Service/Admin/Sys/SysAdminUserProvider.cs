@@ -12,13 +12,13 @@ namespace Lumos.BLL.Service.Admin
     public class SysAdminUserProvider : BaseProvider
     {
 
-        public CustomJsonResult GetDetails(string pOperater, string userId)
+        public CustomJsonResult GetDetails(string operater, string id)
         {
             var ret = new RetSysAdminUserGetDetails();
-            var sysAdminUser = CurrentDb.SysAdminUser.Where(m => m.Id == userId).FirstOrDefault();
+            var sysAdminUser = CurrentDb.SysAdminUser.Where(m => m.Id == id).FirstOrDefault();
             if (sysAdminUser != null)
             {
-                var roleIds = CurrentDb.SysUserRole.Where(x => x.UserId == userId).Select(x => x.RoleId).ToArray();
+                var roleIds = CurrentDb.SysUserRole.Where(x => x.UserId == id).Select(x => x.RoleId).ToArray();
 
                 ret.UserName = sysAdminUser.UserName ?? ""; ;
                 ret.FullName = sysAdminUser.FullName ?? ""; ;
@@ -30,7 +30,7 @@ namespace Lumos.BLL.Service.Admin
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
         }
 
-        public CustomJsonResult Add(string pOperater, RopSysAdminUserAdd rop)
+        public CustomJsonResult Add(string operater, RopSysAdminUserAdd rop)
         {
             CustomJsonResult result = new CustomJsonResult();
             var isExistUserName = CurrentDb.SysUser.Where(m => m.UserName == rop.UserName).FirstOrDefault();
@@ -52,7 +52,7 @@ namespace Lumos.BLL.Service.Admin
                 sysAdminUser.IsDelete = false;
                 sysAdminUser.IsCanDelete = true;
                 sysAdminUser.Status = Enumeration.UserStatus.Normal;
-                sysAdminUser.Creator = pOperater;
+                sysAdminUser.Creator = operater;
                 sysAdminUser.CreateTime = DateTime.Now;
                 sysAdminUser.RegisterTime = DateTime.Now;
                 sysAdminUser.Status = Enumeration.UserStatus.Normal;
@@ -77,7 +77,7 @@ namespace Lumos.BLL.Service.Admin
                         foreach (string roleId in rop.RoleIds)
                         {
 
-                            CurrentDb.SysUserRole.Add(new SysUserRole { Id = GuidUtil.New(), UserId = sysAdminUser.Id, RoleId = roleId, Creator = pOperater, CreateTime = DateTime.Now, IsCanDelete = true });
+                            CurrentDb.SysUserRole.Add(new SysUserRole { Id = GuidUtil.New(), UserId = sysAdminUser.Id, RoleId = roleId, Creator = operater, CreateTime = DateTime.Now, IsCanDelete = true });
 
                         }
                     }
@@ -92,14 +92,14 @@ namespace Lumos.BLL.Service.Admin
             return result;
         }
 
-        public CustomJsonResult Edit(string pOperater, RopSysStaffUserEdit rop)
+        public CustomJsonResult Edit(string operater, RopSysStaffUserEdit rop)
         {
 
             CustomJsonResult result = new CustomJsonResult();
 
             using (TransactionScope ts = new TransactionScope())
             {
-                var sysAdminUser = CurrentDb.SysAdminUser.Where(m => m.Id == rop.UserId).FirstOrDefault();
+                var sysAdminUser = CurrentDb.SysAdminUser.Where(m => m.Id == rop.Id).FirstOrDefault();
                 if (!string.IsNullOrEmpty(rop.Password))
                 {
                     sysAdminUser.PasswordHash = PassWordHelper.HashPassword(rop.Password);
@@ -108,11 +108,11 @@ namespace Lumos.BLL.Service.Admin
                 sysAdminUser.Email = rop.Email;
                 sysAdminUser.PhoneNumber = rop.PhoneNumber;
                 sysAdminUser.MendTime = DateTime.Now;
-                sysAdminUser.Mender = pOperater;
+                sysAdminUser.Mender = operater;
                 CurrentDb.SaveChanges();
 
 
-                List<SysUserRole> userRoleList = CurrentDb.SysUserRole.Where(m => m.UserId == rop.UserId).ToList();
+                List<SysUserRole> userRoleList = CurrentDb.SysUserRole.Where(m => m.UserId == rop.Id).ToList();
 
                 foreach (var userRole in userRoleList)
                 {
@@ -131,7 +131,7 @@ namespace Lumos.BLL.Service.Admin
                     {
                         foreach (string roleId in rop.RoleIds)
                         {
-                            CurrentDb.SysUserRole.Add(new SysUserRole { Id = GuidUtil.New(), UserId = rop.UserId, RoleId = roleId, Creator = pOperater, CreateTime = DateTime.Now, IsCanDelete = true });
+                            CurrentDb.SysUserRole.Add(new SysUserRole { Id = GuidUtil.New(), UserId = rop.Id, RoleId = roleId, Creator = operater, CreateTime = DateTime.Now, IsCanDelete = true });
                         }
                     }
                 }
@@ -148,16 +148,16 @@ namespace Lumos.BLL.Service.Admin
         }
 
 
-        public CustomJsonResult Delete(string pOperater, string[] pUserIds)
+        public CustomJsonResult Delete(string operater, string[] ids)
         {
-            if (pUserIds == null)
+            if (ids == null)
                 return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "找不到用户");
 
-            if (pUserIds.Length <= 0)
+            if (ids.Length <= 0)
                 return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "找不到用户");
 
 
-            foreach (string userId in pUserIds)
+            foreach (string userId in ids)
             {
                 SysUser user = CurrentDb.SysUser.Find(userId);
 
@@ -167,7 +167,7 @@ namespace Lumos.BLL.Service.Admin
                 }
 
                 user.IsDelete = true;
-                user.Mender = pOperater;
+                user.Mender = operater;
                 user.MendTime = DateTime.Now;
 
 

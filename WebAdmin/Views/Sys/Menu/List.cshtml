@@ -25,7 +25,7 @@
                     return;
                 }
 
-                var url = '/Sys/Menu/Add?belongSite=' + belongSite + '&pMenuId=' + selObj.id + '&pMenuName=' + escape(selObj.name)
+                var url = '/Sys/Menu/Add?belongSite=' + belongSite + '&id=' + selObj.id + '&name=' + escape(selObj.name)
                 var title = '新建';
                 art.dialog.open(url, {
                     id: "openDialog", title: title, width: '700px', height: '480px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '确定', ok: function () {
@@ -51,15 +51,15 @@
                     "确定删除[" + selObj.name + "]节点及其子节点吗？",
                     function () {
                         var id = selObj.id;
-                        var menuIds = [];
+                        var ids = [];
                         var nodes = tree_Menus.getSelectedNodeFollowChildren();
                         $.each(nodes, function (i, n) {
-                            menuIds.push(n.id);
+                            ids.push(n.id);
                         });
 
                         $.lumos.postJson({
                             url: "/Sys/Menu/Delete",
-                            data: { menuIds: menuIds },
+                            data: { ids: ids },
                             success: function (d) {
 
                                 if (d.result == $.lumos.resultType.success) {
@@ -92,7 +92,7 @@
                     return;
                 }
 
-                var url = '/Sys/Menu/Sort?belongSite=' + belongSite + '&pMenuId=' + selObj.id + '&pMenuName=' + escape(selObj.name);
+                var url = '/Sys/Menu/Sort?id=' + selObj.id;
                 var title = '排序';
                 art.dialog.open(url, {
                     id: "openDialog", title: title, width: '650px', height: '400px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
@@ -139,7 +139,7 @@
                 return false;
 
             art.dialog.confirm('确定要保存？', function () {
-                var menuId = selObj.id;
+                var id = selObj.id;
                 var name = $("#txt_Name").val();
                 var url = $("#txt_Url").val();
                 var description = $("#txt_Description").val();
@@ -151,7 +151,7 @@
 
                 $.lumos.postJson({
                     url: "/Sys/Menu/Edit",
-                    data: { menuId: menuId, name: name, url: url, description: description, permissionIds: permissionIds },
+                    data: { id: id, name: name, url: url, description: description, permissionIds: permissionIds },
                     isUseHandling: true,
                     success: function (d) {
                         $.lumos.tips(d.message);
@@ -171,7 +171,7 @@
 
             $.lumos.getJson({
                 url: "/Sys/Menu/GetAll",
-                urlParams: { pMenuId: "0", belongSite: belongSite },
+                urlParams: { belongSite: belongSite },
                 success: function (d) {
 
                     var obj = d.data;
@@ -214,7 +214,7 @@
 
                                 $.lumos.getJson({
                                     url: "/Sys/Menu/GetDetails",
-                                    urlParams: { menuId: treeNode.id },
+                                    urlParams: { id: treeNode.id },
                                     success: function (d) {
                                         if (d.result == $.lumos.resultType.success) {
                                             var data = d.data;

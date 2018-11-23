@@ -12,13 +12,13 @@ namespace Lumos.BLL.Service.Merch
 {
     public class ProductSubjectProvider : BaseProvider
     {
-        public CustomJsonResult GetDetails(string pOperater, string pMerchantId, string pSubjectId)
+        public CustomJsonResult GetDetails(string operater, string merchantId, string id)
         {
             var ret = new RetProductSubjectGetDetails();
-            var productKind = CurrentDb.ProductSubject.Where(m => m.MerchantId == pMerchantId && m.Id == pSubjectId).FirstOrDefault();
+            var productKind = CurrentDb.ProductSubject.Where(m => m.MerchantId == merchantId && m.Id == id).FirstOrDefault();
             if (productKind != null)
             {
-                ret.SubjectId = productKind.Id ?? "";
+                ret.Id = productKind.Id ?? "";
                 ret.Name = productKind.Name ?? "";
                 ret.MainImg = productKind.MainImg ?? "";
                 ret.IconImg = productKind.IconImg ?? "";
@@ -30,13 +30,13 @@ namespace Lumos.BLL.Service.Merch
         }
 
 
-        public CustomJsonResult Add(string pOperater, string pMerchantId, RopProductSubjectAdd rop)
+        public CustomJsonResult Add(string operater, string merchantId, RopProductSubjectAdd rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 
             using (TransactionScope ts = new TransactionScope())
             {
-                var isExistProductSubject = CurrentDb.ProductSubject.Where(m => m.MerchantId == pMerchantId && m.Name == rop.Name).FirstOrDefault();
+                var isExistProductSubject = CurrentDb.ProductSubject.Where(m => m.MerchantId == merchantId && m.Name == rop.Name).FirstOrDefault();
                 if (isExistProductSubject != null)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "名称已存在");
@@ -44,13 +44,13 @@ namespace Lumos.BLL.Service.Merch
 
                 var productSubject = new ProductSubject();
                 productSubject.Id = GuidUtil.New();
-                productSubject.MerchantId = pMerchantId;
+                productSubject.MerchantId = merchantId;
                 productSubject.Name = rop.Name;
                 productSubject.MainImg = rop.MainImg;
                 productSubject.IconImg = rop.IconImg;
                 productSubject.Description = rop.Description;
                 productSubject.Status = Enumeration.ProductSubjectStatus.Valid;
-                productSubject.Creator = pOperater;
+                productSubject.Creator = operater;
                 productSubject.CreateTime = DateTime.Now;
                 CurrentDb.ProductSubject.Add(productSubject);
                 CurrentDb.SaveChanges();
@@ -61,11 +61,11 @@ namespace Lumos.BLL.Service.Merch
             return result;
         }
 
-        public CustomJsonResult Edit(string pOperater, string pMerchantId, RopProductSubjectEdit rop)
+        public CustomJsonResult Edit(string operater, string merchantId, RopProductSubjectEdit rop)
         {
-            var productSubject = CurrentDb.ProductSubject.Where(m => m.Id == rop.SubjectId).FirstOrDefault();
+            var productSubject = CurrentDb.ProductSubject.Where(m => m.Id == rop.Id).FirstOrDefault();
 
-            var isExistlProductSubject = CurrentDb.ProductSubject.Where(m => m.MerchantId == pMerchantId && m.Id != productSubject.Id && m.Name == rop.Name).FirstOrDefault();
+            var isExistlProductSubject = CurrentDb.ProductSubject.Where(m => m.MerchantId == merchantId && m.Id != productSubject.Id && m.Name == rop.Name).FirstOrDefault();
             if (isExistlProductSubject != null)
             {
                 return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "名称已存在");
@@ -77,7 +77,7 @@ namespace Lumos.BLL.Service.Merch
             productSubject.IconImg = rop.IconImg;
             productSubject.Status = rop.Status;
             productSubject.Description = rop.Description;
-            productSubject.Mender = pOperater;
+            productSubject.Mender = operater;
             productSubject.MendTime = DateTime.Now;
             CurrentDb.SaveChanges();
 
@@ -85,11 +85,11 @@ namespace Lumos.BLL.Service.Merch
 
         }
 
-        public CustomJsonResult Delete(string pOperater, string pMerchantId, string[] pKindIds)
+        public CustomJsonResult Delete(string operater, string merchantId, string[] ids)
         {
-            if (pKindIds != null)
+            if (ids != null)
             {
-                foreach (var id in pKindIds)
+                foreach (var id in ids)
                 {
                     var productSubject = CurrentDb.ProductSubject.Where(m => m.Id == id).FirstOrDefault();
                     if (productSubject != null)

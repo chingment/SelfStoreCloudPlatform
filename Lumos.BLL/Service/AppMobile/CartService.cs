@@ -11,12 +11,12 @@ namespace Lumos.BLL.Service.AppMobile
 {
     public class CartService : BaseProvider
     {
-        public CartPageModel GetPageData(string pOperater, string pClientId, string pStoreId)
+        public CartPageModel GetPageData(string operater, string clientId, string storeId)
         {
             var pageModel = new CartPageModel();
 
 
-            var carts = CurrentDb.ClientCart.Where(m => m.ClientId == pClientId && m.StoreId == pStoreId && m.Status == Enumeration.CartStatus.WaitSettle).ToList();
+            var carts = CurrentDb.ClientCart.Where(m => m.ClientId == clientId && m.StoreId == storeId && m.Status == Enumeration.CartStatus.WaitSettle).ToList();
 
 
             var skus = new List<CartSkuModel>();

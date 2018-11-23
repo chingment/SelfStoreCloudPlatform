@@ -14,7 +14,7 @@ namespace Lumos.BLL.Service.Merch
             this.Skus = new List<Sku>();
         }
 
-        public string Order2StockOutId { get; set; }
+        public string Id { get; set; }
         public string Sn { get; set; }
         public string StockOutTime { get; set; }
         public string WarehouseName { get; set; }

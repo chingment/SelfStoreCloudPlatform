@@ -12,13 +12,13 @@ namespace Lumos.BLL.Service.Merch
 {
     public class ProductKindProvider : BaseProvider
     {
-        public CustomJsonResult GetDetails(string pOperater, string pMerchantId, string pKindId)
+        public CustomJsonResult GetDetails(string operater, string merchantId, string id)
         {
             var ret = new RetProductKindGetDetails();
-            var productKind = CurrentDb.ProductKind.Where(m => m.MerchantId == pMerchantId && m.Id == pKindId).FirstOrDefault();
+            var productKind = CurrentDb.ProductKind.Where(m => m.MerchantId == merchantId && m.Id == id).FirstOrDefault();
             if (productKind != null)
             {
-                ret.KindId = productKind.Id ?? "";
+                ret.Id = productKind.Id ?? "";
                 ret.Name = productKind.Name ?? "";
                 ret.MainImg = productKind.MainImg ?? "";
                 ret.IconImg = productKind.IconImg ?? "";
@@ -30,13 +30,13 @@ namespace Lumos.BLL.Service.Merch
         }
 
 
-        public CustomJsonResult Add(string pOperater, string pMerchantId, RopProductKindAdd rop)
+        public CustomJsonResult Add(string operater, string merchantId, RopProductKindAdd rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 
             using (TransactionScope ts = new TransactionScope())
             {
-                var isExistProductKind = CurrentDb.ProductKind.Where(m => m.MerchantId == pMerchantId && m.Name == rop.Name).FirstOrDefault();
+                var isExistProductKind = CurrentDb.ProductKind.Where(m => m.MerchantId == merchantId && m.Name == rop.Name).FirstOrDefault();
                 if (isExistProductKind != null)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "名称已存在");
@@ -45,14 +45,14 @@ namespace Lumos.BLL.Service.Merch
                 var productKind = new ProductKind();
 
                 productKind.Id = GuidUtil.New();
-                productKind.MerchantId = pMerchantId;
-                productKind.PId = rop.PKindId;
+                productKind.MerchantId = merchantId;
+                productKind.PId = rop.PId;
                 productKind.Name = rop.Name;
                 productKind.MainImg = rop.MainImg;
                 productKind.IconImg = rop.IconImg;
                 productKind.Description = rop.Description;
                 productKind.Status = Enumeration.ProductKindStatus.Valid;
-                productKind.Creator = pOperater;
+                productKind.Creator = operater;
                 productKind.CreateTime = DateTime.Now;
                 int depth = 0;
                 GetDepth(productKind.PId, ref depth);
@@ -67,23 +67,23 @@ namespace Lumos.BLL.Service.Merch
         }
 
 
-        private void GetDepth(string pPId, ref int pLevel)
+        private void GetDepth(string pId, ref int level)
         {
 
-            var l_productKind = CurrentDb.ProductKind.Where(m => m.Id == pPId).FirstOrDefault();
+            var l_productKind = CurrentDb.ProductKind.Where(m => m.Id == pId).FirstOrDefault();
             if (l_productKind != null)
             {
-                pLevel += 1;
+                level += 1;
 
-                GetDepth(l_productKind.PId, ref pLevel);
+                GetDepth(l_productKind.PId, ref level);
             }
         }
 
-        public CustomJsonResult Edit(string pOperater, string pMerchantId, RopProductKindEdit rop)
+        public CustomJsonResult Edit(string operater, string merchantId, RopProductKindEdit rop)
         {
-            var productKind = CurrentDb.ProductKind.Where(m => m.Id == rop.KindId).FirstOrDefault();
+            var productKind = CurrentDb.ProductKind.Where(m => m.Id == rop.Id).FirstOrDefault();
 
-            var isExistProductKind = CurrentDb.ProductKind.Where(m => m.MerchantId == pMerchantId && m.Id != productKind.Id && m.Name == rop.Name).FirstOrDefault();
+            var isExistProductKind = CurrentDb.ProductKind.Where(m => m.MerchantId == merchantId && m.Id != productKind.Id && m.Name == rop.Name).FirstOrDefault();
             if (isExistProductKind != null)
             {
                 return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "名称已存在");
@@ -95,7 +95,7 @@ namespace Lumos.BLL.Service.Merch
             productKind.IconImg = rop.IconImg;
             productKind.Status = rop.Status;
             productKind.Description = rop.Description;
-            productKind.Mender = pOperater;
+            productKind.Mender = operater;
             productKind.MendTime = DateTime.Now;
             int depth = 0;
             GetDepth(productKind.PId, ref depth);
@@ -106,22 +106,22 @@ namespace Lumos.BLL.Service.Merch
 
         }
 
-        public IEnumerable<ProductKind> GetProductKind(string pPId)
+        public IEnumerable<ProductKind> GetProductKind(string pId)
         {
             var query = from c in CurrentDb.ProductKind
-                        where c.PId == pPId
+                        where c.PId == pId
                         select c;
 
             return query.ToList().Concat(query.ToList().SelectMany(t => GetProductKind(t.Id)));
         }
 
-        public CustomJsonResult Delete(string pOperater, string pMerchantId, string[] pKindIds)
+        public CustomJsonResult Delete(string operater, string merchantId, string[] ids)
         {
-            if (pKindIds != null)
+            if (ids != null)
             {
-                foreach (var id in pKindIds)
+                foreach (var id in ids)
                 {
-                    var productKind = CurrentDb.ProductKind.Where(m => m.MerchantId == pMerchantId && m.Id == id).FirstOrDefault();
+                    var productKind = CurrentDb.ProductKind.Where(m => m.MerchantId == merchantId && m.Id == id).FirstOrDefault();
                     if (productKind != null)
                     {
                         productKind.IsDelete = true;

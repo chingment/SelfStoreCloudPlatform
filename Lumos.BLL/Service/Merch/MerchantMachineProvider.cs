@@ -11,25 +11,25 @@ namespace Lumos.BLL.Service.Merch
 {
     public class MerchantMachineProvider : BaseProvider
     {
-        public CustomJsonResult Edit(string pOperater, string pMerchantId, RopMerchantMachineEdit rop)
+        public CustomJsonResult Edit(string operater, string merchantId, RopMerchantMachineEdit rop)
         {
             var l_MerchantMachine = CurrentDb.MerchantMachine.Where(m => m.Id == rop.MerchantMachineId).FirstOrDefault();
             if (l_MerchantMachine != null)
             {
                 //l_MerchantMachine.MachineName = rop.MachineName;
-                l_MerchantMachine.Mender = pOperater;
+                l_MerchantMachine.Mender = operater;
                 l_MerchantMachine.MendTime = DateTime.Now;
                 CurrentDb.SaveChanges();
             }
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
         }
 
-        public CustomJsonResult GetDetails(string pOperater, string pMerchantId, string pMerchantMachineId)
+        public CustomJsonResult GetDetails(string operater, string merchantId, string merchantMachineId)
         {
 
             var ret = new RetMerchantMachineGetDetails();
 
-            var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.Id == pMerchantMachineId).FirstOrDefault();
+            var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.Id == merchantMachineId).FirstOrDefault();
             if (merchantMachine != null)
             {
                 var machine = CurrentDb.Machine.Where(m => m.Id == merchantMachine.MachineId).FirstOrDefault();
@@ -48,7 +48,7 @@ namespace Lumos.BLL.Service.Merch
 
                         var skus = from u in CurrentDb.StoreSellStock
                                    where
-                                   u.MerchantId == pMerchantId &&
+                                   u.MerchantId == merchantId &&
                                    u.StoreId == ret.StoreId &&
                                    u.ChannelId == ret.MachineId &&
                                    u.ChannelType == Enumeration.ChannelType.Machine

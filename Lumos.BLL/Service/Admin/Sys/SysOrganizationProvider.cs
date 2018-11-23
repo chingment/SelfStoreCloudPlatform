@@ -12,13 +12,13 @@ namespace Lumos.BLL.Service.Admin
 {
     public class SysOrganizationProvider : BaseProvider
     {
-        public CustomJsonResult GetDetails(string pOperater, string pOrganizationId)
+        public CustomJsonResult GetDetails(string operater, string id)
         {
             var ret = new RetSysOrganizationGetDetails();
-            var organization = CurrentDb.SysOrganization.Where(m => m.Id == pOrganizationId).FirstOrDefault();
+            var organization = CurrentDb.SysOrganization.Where(m => m.Id == id).FirstOrDefault();
             if (organization != null)
             {
-                ret.OrganizationId = organization.Id ?? "";
+                ret.Id = organization.Id ?? "";
                 ret.Name = organization.Name ?? "";
                 ret.Description = organization.Description ?? "";
                 ret.Status = organization.Status;
@@ -27,7 +27,7 @@ namespace Lumos.BLL.Service.Admin
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
         }
 
-        public CustomJsonResult Add(string pOperater, RopSysOrganizationAdd rop)
+        public CustomJsonResult Add(string operater, RopSysOrganizationAdd rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 
@@ -41,7 +41,7 @@ namespace Lumos.BLL.Service.Admin
                 organization.Name = rop.Name;
                 organization.Description = rop.Description;
                 organization.Status = Enumeration.SysOrganizationStatus.Valid;
-                organization.Creator = pOperater;
+                organization.Creator = operater;
                 organization.CreateTime = DateTime.Now;
                 organization.IsCanDelete = true;
                 CurrentDb.SysOrganization.Add(organization);
@@ -53,14 +53,14 @@ namespace Lumos.BLL.Service.Admin
             return result;
         }
 
-        public CustomJsonResult Edit(string pOperater, RopSysOrganizationEdit rop)
+        public CustomJsonResult Edit(string operater, RopSysOrganizationEdit rop)
         {
-            var organization = CurrentDb.SysOrganization.Where(m => m.Id == rop.OrganizationId).FirstOrDefault();
+            var organization = CurrentDb.SysOrganization.Where(m => m.Id == rop.Id).FirstOrDefault();
 
             organization.Name = rop.Name;
             organization.Status = rop.Status;
             organization.Description = rop.Description;
-            organization.Mender = pOperater;
+            organization.Mender = operater;
             organization.MendTime = DateTime.Now;
             CurrentDb.SaveChanges();
 
@@ -68,19 +68,19 @@ namespace Lumos.BLL.Service.Admin
 
         }
 
-        public CustomJsonResult Delete(string pOperater, string[] pOrganizationIds)
+        public CustomJsonResult Delete(string operater, string[] ids)
         {
             CustomJsonResult result = new CustomJsonResult();
 
             using (TransactionScope ts = new TransactionScope())
             {
-                if (pOrganizationIds == null || pOrganizationIds.Length == 0)
+                if (ids == null || ids.Length == 0)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "请选择要删除的数据");
                 }
 
 
-                foreach (var id in pOrganizationIds)
+                foreach (var id in ids)
                 {
                     var organization = CurrentDb.SysOrganization.Where(m => m.Id == id).FirstOrDefault();
                     if (organization != null)

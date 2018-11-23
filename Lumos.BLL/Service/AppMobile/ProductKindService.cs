@@ -8,13 +8,13 @@ namespace Lumos.BLL.Service.AppMobile
 {
     public class ProductKindService : BaseProvider
     {
-        public ProductKindPageModel GetPageData(string pOperater, string pClientId, string pStoreId)
+        public ProductKindPageModel GetPageData(string operater, string clientId, string storeId)
         {
             var pageModel = new ProductKindPageModel();
 
             var productParentKindModels = new List<ProductParentKindModel>();
 
-            var store = CurrentDb.Store.Where(m => m.Id == pStoreId).FirstOrDefault();
+            var store = CurrentDb.Store.Where(m => m.Id == storeId).FirstOrDefault();
 
             var productKinds = CurrentDb.ProductKind.Where(m => m.MerchantId == store.MerchantId && m.Status == Entity.Enumeration.ProductKindStatus.Valid && m.IsDelete == false).ToList();
             var top = productKinds.Where(m => m.PId == GuidUtil.Empty()).FirstOrDefault();

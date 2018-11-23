@@ -10,13 +10,13 @@ namespace Lumos.BLL.Service.Merch
 {
     public class WarehouseProvider : BaseProvider
     {
-        public CustomJsonResult GetDetails(string pOperater, string pMerchantId, string pWarehouseId)
+        public CustomJsonResult GetDetails(string operater, string merchantId, string id)
         {
             var ret = new RetWarehouseGetDetails();
-            var warehouse = CurrentDb.Warehouse.Where(m => m.MerchantId == pMerchantId && m.Id == pWarehouseId).FirstOrDefault();
+            var warehouse = CurrentDb.Warehouse.Where(m => m.MerchantId == merchantId && m.Id == id).FirstOrDefault();
             if (warehouse != null)
             {
-                ret.WarehouseId = warehouse.Id ?? "";
+                ret.Id = warehouse.Id ?? "";
                 ret.Name = warehouse.Name ?? "";
                 ret.Address = warehouse.Address ?? "";
                 ret.Description = warehouse.Description ?? "";
@@ -25,24 +25,24 @@ namespace Lumos.BLL.Service.Merch
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
         }
 
-        public CustomJsonResult Add(string pOperater, string pMerchantId, RopWarehouseAdd rop)
+        public CustomJsonResult Add(string operater, string merchantId, RopWarehouseAdd rop)
         {
             CustomJsonResult result = new CustomJsonResult();
             using (TransactionScope ts = new TransactionScope())
             {
-                var existObject = CurrentDb.Warehouse.Where(m => m.MerchantId == pMerchantId && m.Name == rop.Name).FirstOrDefault();
+                var existObject = CurrentDb.Warehouse.Where(m => m.MerchantId == merchantId && m.Name == rop.Name).FirstOrDefault();
                 if (existObject != null)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "名称已存在,请使用其它");
                 }
                 var warehouse = new Warehouse();
                 warehouse.Id = GuidUtil.New();
-                warehouse.MerchantId = pMerchantId;
+                warehouse.MerchantId = merchantId;
                 warehouse.Name = rop.Name;
                 warehouse.Address = rop.Address;
                 warehouse.Description = rop.Description;
                 warehouse.CreateTime = this.DateTime;
-                warehouse.Creator = pOperater;
+                warehouse.Creator = operater;
                 CurrentDb.Warehouse.Add(warehouse);
                 CurrentDb.SaveChanges();
 
@@ -53,14 +53,14 @@ namespace Lumos.BLL.Service.Merch
             return result;
         }
 
-        public CustomJsonResult Edit(string pOperater, string pMerchantId, RopWarehouseEdit rop)
+        public CustomJsonResult Edit(string operater, string merchantId, RopWarehouseEdit rop)
         {
             CustomJsonResult result = new CustomJsonResult();
             using (TransactionScope ts = new TransactionScope())
             {
-                var warehouse = CurrentDb.Warehouse.Where(m => m.Id == rop.WarehouseId && m.MerchantId == pMerchantId).FirstOrDefault();
+                var warehouse = CurrentDb.Warehouse.Where(m => m.Id == rop.Id && m.MerchantId == merchantId).FirstOrDefault();
 
-                var isExistWarehouse = CurrentDb.Warehouse.Where(m => m.MerchantId == pMerchantId && m.Id != warehouse.Id && m.Name == rop.Name).FirstOrDefault();
+                var isExistWarehouse = CurrentDb.Warehouse.Where(m => m.MerchantId == merchantId && m.Id != warehouse.Id && m.Name == rop.Name).FirstOrDefault();
                 if (isExistWarehouse != null)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "名称已存在,请使用其它");
@@ -70,7 +70,7 @@ namespace Lumos.BLL.Service.Merch
                 warehouse.Address = rop.Address;
                 warehouse.Description = rop.Description;
                 warehouse.MendTime = this.DateTime;
-                warehouse.Mender = pOperater;
+                warehouse.Mender = operater;
                 CurrentDb.SaveChanges();
                 ts.Complete();
                 result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");

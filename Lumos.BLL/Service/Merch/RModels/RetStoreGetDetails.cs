@@ -12,7 +12,7 @@ namespace Lumos.BLL.Service.Merch
         public string Address { get; set; }
         public string Description { get; set; }
 
-        public string StoreId { get; set; }
+        public string Id { get; set; }
 
         public Lumos.Entity.Enumeration.StoreStatus Status { get; set; }
     }

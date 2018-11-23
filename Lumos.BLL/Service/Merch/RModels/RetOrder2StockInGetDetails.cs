@@ -13,7 +13,7 @@ namespace Lumos.BLL.Service.Merch
             this.Skus = new List<Sku>();
         }
 
-        public string Order2StockInId { get; set; }
+        public string Id { get; set; }
         public string Sn { get; set; }
         public string StockInTime { get; set; }
         public string WarehouseName { get; set; }
