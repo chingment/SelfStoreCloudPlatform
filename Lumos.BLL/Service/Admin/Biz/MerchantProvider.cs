@@ -17,15 +17,16 @@ namespace Lumos.BLL.Service.Admin
             var sysMerchantUser = CurrentDb.SysMerchantUser.Where(m => m.Id == id).FirstOrDefault();
             if (sysMerchantUser == null)
             {
-                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "数据为空", ret);
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "数据为空");
             }
 
             var merchantInfo = CurrentDb.MerchantInfo.Where(m => m.MerchantId == id).FirstOrDefault();
 
             if (merchantInfo == null)
             {
-                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "数据为空", ret);
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "数据为空");
             }
+
 
             ret.Id = sysMerchantUser.Id ?? ""; ;
             ret.UserName = sysMerchantUser.UserName ?? "";
@@ -78,6 +79,25 @@ namespace Lumos.BLL.Service.Admin
                 merchantInfo.CreateTime = this.DateTime;
                 merchantInfo.Creator = operater;
                 CurrentDb.MerchantInfo.Add(merchantInfo);
+
+
+                var sysRole = CurrentDb.SysRole.Where(m => m.BelongSite == Enumeration.BelongSite.Merchant && m.IsCanDelete == false).FirstOrDefault();
+                if (sysRole == null)
+                {
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "初始角色未指定");
+                }
+
+
+                var sysUserRole = new SysUserRole();
+                sysUserRole.Id = GuidUtil.New();
+                sysUserRole.RoleId = sysRole.Id;
+                sysUserRole.UserId = sysMerchatUser.Id;
+                sysUserRole.CreateTime = this.DateTime;
+                sysUserRole.Creator = operater;
+                sysUserRole.IsCanDelete = false;
+                CurrentDb.SysUserRole.Add(sysUserRole);
+
+
                 CurrentDb.SaveChanges();
                 ts.Complete();
 
