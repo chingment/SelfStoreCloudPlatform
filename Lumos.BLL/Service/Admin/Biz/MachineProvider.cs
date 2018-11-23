@@ -15,28 +15,32 @@ namespace Lumos.BLL.Service.Admin
         {
             var ret = new RetMachineGetDetails();
             var machine = CurrentDb.Machine.Where(m => m.Id == id).FirstOrDefault();
-            if (machine != null)
-            {
-                ret.Id = machine.Id ?? ""; ;
-                ret.Name = machine.Name ?? ""; ;
-                ret.DeviceId = machine.DeviceId ?? ""; ;
-                ret.MacAddress = machine.MacAddress ?? "";
-                ret.IsUse = machine.IsUse;
 
-                var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.MachineId == machine.Id && m.IsBind == true).FirstOrDefault();
-                if (merchantMachine != null)
+            if (machine == null)
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "数据为空");
+            }
+
+            ret.Id = machine.Id ?? ""; ;
+            ret.Name = machine.Name ?? ""; ;
+            ret.DeviceId = machine.DeviceId ?? ""; ;
+            ret.MacAddress = machine.MacAddress ?? "";
+            ret.IsUse = machine.IsUse;
+
+            var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.MachineId == machine.Id && m.IsBind == true).FirstOrDefault();
+            if (merchantMachine != null)
+            {
+                var sysMerchantUser = CurrentDb.SysMerchantUser.Where(m => m.Id == merchantMachine.MerchantId).FirstOrDefault();
+                if (sysMerchantUser != null)
                 {
-                    var sysMerchantUser = CurrentDb.SysMerchantUser.Where(m => m.Id == merchantMachine.MerchantId).FirstOrDefault();
-                    if (sysMerchantUser != null)
-                    {
-                        ret.Merchant.Id = sysMerchantUser.Id;
-                        ret.Merchant.Name = sysMerchantUser.MerchantName ?? "";
-                        ret.Merchant.ContactName = sysMerchantUser.ContactName ?? "";
-                        ret.Merchant.ContactPhone = sysMerchantUser.ContactPhone ?? "";
-                        ret.Merchant.ContactAddress = sysMerchantUser.ContactAddress ?? "";
-                    }
+                    ret.Merchant.Id = sysMerchantUser.Id;
+                    ret.Merchant.Name = sysMerchantUser.MerchantName ?? "";
+                    ret.Merchant.ContactName = sysMerchantUser.ContactName ?? "";
+                    ret.Merchant.ContactPhone = sysMerchantUser.ContactPhone ?? "";
+                    ret.Merchant.ContactAddress = sysMerchantUser.ContactAddress ?? "";
                 }
             }
+
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
         }
@@ -45,11 +49,11 @@ namespace Lumos.BLL.Service.Admin
         {
             CustomJsonResult result = new CustomJsonResult();
 
-            var lPosMachine = CurrentDb.Machine.Where(m => m.DeviceId == rop.DeviceId).FirstOrDefault();
-            if (lPosMachine != null)
-                return new CustomJsonResult(ResultType.Failure, "该P设备ID已经登记");
+            var machine = CurrentDb.Machine.Where(m => m.DeviceId == rop.DeviceId).FirstOrDefault();
+            if (machine != null)
+                return new CustomJsonResult(ResultType.Failure, "该设备ID已经登记");
 
-            var machine = new Machine();
+            machine = new Machine();
             machine.Id = GuidUtil.New();
             machine.Name = rop.Name;
             machine.DeviceId = rop.DeviceId;
@@ -59,7 +63,7 @@ namespace Lumos.BLL.Service.Admin
             CurrentDb.Machine.Add(machine);
             CurrentDb.SaveChanges();
 
-            return new CustomJsonResult(ResultType.Success, "登记成功");
+            return new CustomJsonResult(ResultType.Success, "操作成功");
         }
 
         public CustomJsonResult Edit(string operater, RopMachineEdit rop)
@@ -68,7 +72,7 @@ namespace Lumos.BLL.Service.Admin
 
             var machine = CurrentDb.Machine.Where(m => m.Id == rop.Id).FirstOrDefault();
             if (machine == null)
-                return new CustomJsonResult(ResultType.Failure, "不存在");
+                return new CustomJsonResult(ResultType.Failure, "数据为空");
 
             machine.Name = rop.Name;
             machine.MacAddress = rop.MacAddress;
@@ -76,7 +80,7 @@ namespace Lumos.BLL.Service.Admin
             machine.Mender = operater;
             CurrentDb.SaveChanges();
 
-            return new CustomJsonResult(ResultType.Success, "保存成功");
+            return new CustomJsonResult(ResultType.Success, "操作成功");
         }
 
 

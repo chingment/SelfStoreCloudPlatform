@@ -7,10 +7,11 @@
     <script type="text/javascript">
 
         var id = $.lumos.getUrlParamValue("id");
+
         $(this).ready(function () {
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
-            $("#txt_MacAddress").formValidator().inputValidator({ min: 1, max: 100, onError: "Mac地址不能为空，且不超过100个字符" });
-            $("#txt_Name").formValidator().inputValidator({ min: 1, max: 100, onError: "名称不能为空，且不超过100个字符" });
+            $("#txt_MacAddress").formValidator().inputValidator({ min: 1, max: 100, onError: "Mac地址须填，且不超过100个字符" });
+            $("#txt_Name").formValidator().inputValidator({ min: 1, max: 100, onError: "名称须填，且不超过100个字符" });
 
             initData();
         });
@@ -22,11 +23,11 @@
         function edit() {
             var isValid = $.formValidator.pageIsValid();
             if (!isValid)
-                return false;
+                return;
 
             art.dialog.confirm('确定要保存？', function () {
-                var macAddress = $("#txy_MacAddress").val();
                 var name = $("#txt_Name").val();
+                var macAddress = $("#txy_MacAddress").val();
                 $.lumos.postJson({
                     url: "/Biz/Machine/Edit",
                     data: { id: id, macAddress: macAddress, name: name },
@@ -42,7 +43,6 @@
                 });
             });
 
-            return false;
         }
 
         function getDetails() {
@@ -62,7 +62,6 @@
             });
         }
 
-        //-->
     </script>
 }
 
