@@ -23,15 +23,6 @@ namespace WebAdmin.Controllers.Sys
             return View();
         }
 
-        public ViewResult AddPosition()
-        {
-            return View();
-        }
-
-        public ViewResult EditPosition()
-        {
-            return View();
-        }
 
         public CustomJsonResult GetAll(string pId)
         {
@@ -91,5 +82,6 @@ namespace WebAdmin.Controllers.Sys
         {
             return AdminServiceFactory.SysOrganization.Delete(this.CurrentUserId, organizationIds);
         }
+
     }
 }

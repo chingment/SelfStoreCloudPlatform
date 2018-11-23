@@ -27,7 +27,6 @@ namespace Lumos.BLL.Service.Admin
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
         }
 
-
         public CustomJsonResult Add(string pOperater, RopSysOrganizationAdd rop)
         {
             CustomJsonResult result = new CustomJsonResult();

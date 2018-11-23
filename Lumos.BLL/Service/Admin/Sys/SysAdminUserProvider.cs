@@ -136,11 +136,11 @@ namespace Lumos.BLL.Service.Admin
                     }
                 }
 
+                CurrentDb.SaveChanges();
+                ts.Complete();
 
                 result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
 
-                CurrentDb.SaveChanges();
-                ts.Complete();
             }
             return result;
 

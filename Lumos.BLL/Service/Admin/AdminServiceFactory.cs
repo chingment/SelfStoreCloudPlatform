@@ -64,6 +64,14 @@ namespace Lumos.BLL.Service.Admin
             }
         }
 
+        public static SysPositionProvider SysPosition
+        {
+            get
+            {
+                return new SysPositionProvider();
+            }
+        }
+
         public static SysItemCacheUpdateTimeProvider SysItemCacheUpdateTime
         {
             get

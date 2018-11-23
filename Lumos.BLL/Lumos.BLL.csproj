@@ -114,7 +114,10 @@
     <Compile Include="Service\Admin\Biz\RModels\RupMachineGetList.cs" />
     <Compile Include="Service\Admin\Biz\RModels\RupMerchantGetList.cs" />
     <Compile Include="Service\Admin\Sys\BackgroundJobProvider.cs" />
-    <Compile Include="Service\Admin\Sys\RupSysPositionGetList.cs" />
+    <Compile Include="Service\Admin\Sys\RModels\RetSysPositionGetDetails.cs" />
+    <Compile Include="Service\Admin\Sys\RModels\RopSysPositionAdd.cs" />
+    <Compile Include="Service\Admin\Sys\RModels\RopSysPositionEdit.cs" />
+    <Compile Include="Service\Admin\Sys\RModels\RupSysPositionGetList.cs" />
     <Compile Include="Service\Admin\Sys\SysOrganizationProvider.cs" />
     <Compile Include="Service\Admin\Sys\RModels\RetBackgroundJobGetDetails.cs" />
     <Compile Include="Service\Admin\Sys\RModels\RetSysOrganizationGetDetails.cs" />
@@ -122,6 +125,7 @@
     <Compile Include="Service\Admin\Sys\RModels\RopBackgroundJobEdit.cs" />
     <Compile Include="Service\Admin\Sys\RModels\RopSysOrganizationAdd.cs" />
     <Compile Include="Service\Admin\Sys\RModels\RopSysOrganizationEdit.cs" />
+    <Compile Include="Service\Admin\Sys\SysPositionProvider.cs" />
     <Compile Include="Service\AppMobile\CartService.cs" />
     <Compile Include="Service\AppMobile\CouponService.cs" />
     <Compile Include="Service\AppMobile\IndexService.cs" />

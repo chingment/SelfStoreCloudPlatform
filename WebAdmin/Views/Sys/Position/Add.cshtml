@@ -5,6 +5,10 @@
 @section scripts{
     <script type="text/javascript">
 
+
+        var organizationId = $.lumos.getUrlParamValue("organizationId");
+        var organizationName = $.lumos.getUrlParamValue("organizationName");
+
         var tree_Roles;
         $(this).ready(function () {
 
@@ -16,8 +20,9 @@
         });
 
         function initData() {
-
+            $('#lbl_OrganizationName').text(organizationName);
             loadRoles();
+
         }
 
 
@@ -59,16 +64,11 @@
                         roleIds.push(n.id);
                     });
 
-
-                    var userName = $("#txt_UserName").val();
-                    var password = $("#txt_Password").val();
-                    var fullName = $("#txt_FullName").val();
-                    var email = $("#txt_Email").val();
-                    var phoneNumber = $("#txt_PhoneNumber").val();
+                    var name = $("#txt_Name").val();
 
                     $.lumos.postJson({
-                        url: "/Sys/AdminUser/Add",
-                        data: { userName: userName, password: password, fullName: fullName, email: email, phoneNumber: phoneNumber, roleIds: roleIds },
+                        url: "/Sys/Organization/AddPosition",
+                        data: { name: name, organizationId: organizationId,roleIds: roleIds },
                         isUseHandling: true,
                         success: function (d) {
                             if (d.result == $.lumos.resultType.success) {
@@ -101,6 +101,14 @@
         </div>
     </div>
     <table class="f-tb" cellpadding="0" cellspacing="1">
+        <tr>
+            <td class="f-tb-t">
+                所属机构：
+            </td>
+            <td class="f-tb-c">
+                <span id="lbl_OrganizationName"></span>
+            </td>
+        </tr>
         <tr>
             <td class="f-tb-t">
                 名称：

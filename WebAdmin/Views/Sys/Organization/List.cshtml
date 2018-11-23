@@ -128,7 +128,7 @@
                     return;
                 }
 
-                var url = '/Sys/Organization/AddPosition';
+                var url = '/Sys/Organization/AddPosition?organizationId=' + selNode.id + '&organizationName=' + escape(selNode.name)
                 var title = '添加';
                 art.dialog.open(url, {
                     id: "openDialog", title: title, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '确定', ok: function () {
