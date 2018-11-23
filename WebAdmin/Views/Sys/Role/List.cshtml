@@ -11,6 +11,7 @@
         var tree_Menus;
         var list_RoleUsers;
         var cur_RoleId;
+        var belongSite = $.lumos.getUrlParamValue("belongSite");
         $(this).ready(function () {
 
 
@@ -41,7 +42,7 @@
             });
 
             $("#btn_add").click(function () {
-                var url = '/Sys/Role/Add';
+                var url = '/Sys/Role/Add?belongSite=' + belongSite;
                 var title = '新建';
                 art.dialog.open(url, {
                     id: "openDialog", title: title, width: '650px', height: '350px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '确定', ok: function () {
@@ -218,7 +219,7 @@
         function loadMenus() {
             $.lumos.getJson({
                 url: "/Sys/Menu/GetAll",
-                urlParams: { pMenuId: "0" },
+                urlParams: { pMenuId: "0", belongSite: belongSite },
                 success: function (d) {
 
                     var zNodes = d.data;

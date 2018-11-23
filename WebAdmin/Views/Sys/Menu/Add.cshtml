@@ -7,7 +7,7 @@
 
         var pMenuId = $.lumos.getUrlParamValue("pMenuId");
         var pMenuName = $.lumos.getUrlParamValue("pMenuName");
-
+        var belongSite = $.lumos.getUrlParamValue("belongSite");
         $(this).ready(function () {
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { } });
             $("#txt_Name").formValidator({ onShow: "&nbsp;", onFocus: "不能为空,且不超过20个字符", onCorrect: "&nbsp;" }).inputValidator({ min: 1, max: 20, empty: { leftEmpty: false, emptyError: "不能为空" }, onError: "不能为空,且不超过20个字符" });
@@ -27,6 +27,7 @@
         function loadPermissions() {
             $.lumos.getJson({
                 url: "/Sys/Menu/GetPermissions",
+                urlParams: { belongSite: belongSite },
                 isUseHandling: true,
                 success: function (d) {
                     if (d.result == $.lumos.resultType.success) {
@@ -66,7 +67,7 @@
                     $.lumos.postJson({
                         url: "/Sys/Menu/Add",
                         isUseHandling: true,
-                        data: { pMenuId: pMenuId, name: name, url: url, description: description, permissionIds: permissionIds },
+                        data: { pMenuId: pMenuId, name: name, url: url, description: description, permissionIds: permissionIds, belongSite: belongSite },
                         success: function (d) {
                             if (d.result == $.lumos.resultType.success) {
                                 $.lumos.parentDialog.refresh(1);

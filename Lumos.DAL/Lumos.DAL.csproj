@@ -68,7 +68,7 @@
     <Compile Include="AuthorizeRelay\PermissionCodeAttribute.cs" />
     <Compile Include="AuthorizeRelay\QueryParam.cs" />
     <Compile Include="ContextFactory.cs" />
-    <Compile Include="AuthorizeRelay\PermissionCode.cs" />
+    <Compile Include="AuthorizeRelay\AdminPermissionCode.cs" />
     <Compile Include="DatabaseFactory\DatabaseFactory.cs" />
     <Compile Include="DatabaseFactory\DatabaseParameter.cs" />
     <Compile Include="DatabaseFactory\DBOptionBySqlSentenceProvider.cs" />

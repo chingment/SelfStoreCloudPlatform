@@ -7,7 +7,7 @@ namespace System
     /// <summary>
     /// 权限代码
     /// </summary>
-    public class PermissionCode
+    public class AdminPermissionCode
     {
         public const string 所有用户管理 = "Sys1000";
         public const string 后台用户管理 = "Sys2000";

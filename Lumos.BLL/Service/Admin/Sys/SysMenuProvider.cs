@@ -9,11 +9,18 @@ namespace Lumos.BLL.Service.Admin
 {
     public class SysMenuProvider : BaseProvider
     {
-        public CustomJsonResult GetPermissions(string pOperater)
+        public CustomJsonResult GetPermissions(string pOperater, Enumeration.BelongSite belongSite)
         {
             var ret = new RetSysMenuGetPermissions();
 
-            ret.Permissions = AdminServiceFactory.AuthorizeRelay.GetPermissionList(new PermissionCode());
+            if (belongSite == Enumeration.BelongSite.Admin)
+            {
+                ret.Permissions = AdminServiceFactory.AuthorizeRelay.GetPermissionList(typeof(AdminPermissionCode));
+            }
+            else if (belongSite == Enumeration.BelongSite.Merchant)
+            {
+                ret.Permissions = AdminServiceFactory.AuthorizeRelay.GetPermissionList(typeof(MchPermissionCode));
+            }
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
         }
@@ -48,6 +55,7 @@ namespace Lumos.BLL.Service.Admin
             sysMenu.IsCanDelete = true;
             sysMenu.Creator = pOperater;
             sysMenu.CreateTime = DateTime.Now;
+            sysMenu.BelongSite = rop.BelongSite;
             CurrentDb.SysMenu.Add(sysMenu);
             CurrentDb.SaveChanges();
 
@@ -70,6 +78,7 @@ namespace Lumos.BLL.Service.Admin
         {
 
             var sysMenu = CurrentDb.SysMenu.Where(m => m.Id == rop.MenuId).FirstOrDefault();
+
 
             sysMenu.Name = rop.Name;
             sysMenu.Url = rop.Url;

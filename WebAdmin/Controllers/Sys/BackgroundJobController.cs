@@ -13,7 +13,7 @@ using System.Web.Mvc;
 
 namespace WebAdmin.Controllers.Sys
 {
-    [OwnAuthorize(PermissionCode.后台任务管理)]
+    [OwnAuthorize(AdminPermissionCode.后台任务管理)]
     public class BackgroundJobController : OwnBaseController
     {
 

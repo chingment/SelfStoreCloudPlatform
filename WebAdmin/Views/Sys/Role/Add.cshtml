@@ -6,6 +6,7 @@
 @section scripts{
     <script type="text/javascript">
 
+        var belongSite = $.lumos.getUrlParamValue("belongSite");
         $(this).ready(function () {
 
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { } });
@@ -24,7 +25,7 @@
                     $.lumos.postJson({
                         url: "/Sys/Role/Add",
                         isUseHandling: true,
-                        data: { name: name, description: description },
+                        data: { name: name, description: description, belongSite: belongSite },
                         success: function (d) {
                             if (d.result == $.lumos.resultType.success) {
                                 $.lumos.parentDialog.refresh(1);

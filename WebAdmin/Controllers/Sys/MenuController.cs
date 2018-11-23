@@ -13,7 +13,7 @@ using System.Web.Mvc;
 
 namespace WebAdmin.Controllers.Sys
 {
-    [OwnAuthorize(PermissionCode.菜单管理)]
+    [OwnAuthorize(AdminPermissionCode.菜单管理)]
     public class MenuController : OwnBaseController
     {
 
@@ -32,9 +32,9 @@ namespace WebAdmin.Controllers.Sys
             return View();
         }
 
-        public CustomJsonResult GetPermissions()
+        public CustomJsonResult GetPermissions(Enumeration.BelongSite belongSite)
         {
-            return AdminServiceFactory.SysMenu.GetPermissions(this.CurrentUserId);
+            return AdminServiceFactory.SysMenu.GetPermissions(this.CurrentUserId, belongSite);
         }
 
 
@@ -43,16 +43,16 @@ namespace WebAdmin.Controllers.Sys
             return AdminServiceFactory.SysMenu.GetDetails(this.CurrentUserId, menuId);
         }
 
-        public CustomJsonResult GetAll(string pMenuId)
+        public CustomJsonResult GetAll(string pMenuId, Enumeration.BelongSite belongSite)
         {
             SysMenu[] arr;
             if (pMenuId == "0")
             {
-                arr = CurrentDb.SysMenu.OrderByDescending(m => m.Priority).ToArray();
+                arr = CurrentDb.SysMenu.Where(m => m.BelongSite == belongSite).OrderByDescending(m => m.Priority).ToArray();
             }
             else
             {
-                arr = CurrentDb.SysMenu.Where(m => m.PId == pMenuId).OrderByDescending(m => m.Priority).ToArray();
+                arr = CurrentDb.SysMenu.Where(m => m.PId == pMenuId && m.BelongSite == belongSite).OrderByDescending(m => m.Priority).ToArray();
             }
 
             object json = ConvertToZTreeJson(arr, "id", "pid", "name", "menu");

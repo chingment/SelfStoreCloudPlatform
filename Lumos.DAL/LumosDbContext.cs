@@ -166,41 +166,6 @@ namespace Lumos.DAL
         {
             base.Seed(context);
         }
-
-        public List<SysPermission> GetPermissionList(PermissionCode permission)
-        {
-            Type t = permission.GetType();
-            List<SysPermission> list = new List<SysPermission>();
-            list = GetPermissionList(t, list);
-            return list;
-        }
-
-        private List<SysPermission> GetPermissionList(Type t, List<SysPermission> list)
-        {
-            if (t.Name != "Object")
-            {
-                System.Reflection.FieldInfo[] properties = t.GetFields();
-                foreach (System.Reflection.FieldInfo property in properties)
-                {
-                    string pId = "0";
-                    object[] typeAttributes = property.GetCustomAttributes(false);
-                    foreach (PermissionCodeAttribute attribute in typeAttributes)
-                    {
-                        pId = attribute.PId;
-                    }
-                    object id = property.GetValue(null);
-                    string name = property.Name;
-                    SysPermission model = new SysPermission();
-                    model.Id = id.ToString();
-                    model.Name = name;
-                    model.PId = pId;
-                    list.Add(model);
-                }
-                list = GetPermissionList(t.BaseType, list);
-            }
-            return list;
-        }
-
     }
 
 }

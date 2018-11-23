@@ -24,6 +24,7 @@ namespace Lumos.BLL.Service.Admin
             sysRole.Name = rop.Name;
             sysRole.Description = rop.Description;
             sysRole.PId = GuidUtil.Empty();
+            sysRole.BelongSite = rop.BelongSite;
             sysRole.CreateTime = DateTime.Now;
             sysRole.Creator = pOperater;
             sysRole.IsCanDelete = true;

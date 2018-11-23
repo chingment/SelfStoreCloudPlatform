@@ -13,7 +13,7 @@ using System.Web.Mvc;
 
 namespace WebAdmin.Controllers.Sys
 {
-    [OwnAuthorize(PermissionCode.角色管理)]
+    [OwnAuthorize(AdminPermissionCode.角色管理)]
     public class RoleController : OwnBaseController
     {
         #region 视图

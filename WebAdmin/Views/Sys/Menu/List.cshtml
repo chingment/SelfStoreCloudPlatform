@@ -9,11 +9,12 @@
         var tree_Menus;
         var tab_Main;
         var cur_MenuId;
+        var belongSite = $.lumos.getUrlParamValue("belongSite");
         $(this).ready(function () {
 
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { } });
             $("#txt_Name").formValidator({ onShow: "&nbsp;", onFocus: "不超过20个字符", onCorrect: "&nbsp;", empty: false, onEmpty: "不能为空" }).inputValidator({ min: 1, max: 20, empty: { leftEmpty: false, emptyError: "不能为空" }, onError: "不超过20个字符" });
-            $("#txy_Url").formValidator({ onShow: "&nbsp;", onFocus: "不超过200个字符", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 200, onError: "不超过200个字符" });
+            $("#txt_Url").formValidator({ onShow: "&nbsp;", onFocus: "不超过200个字符", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 200, onError: "不超过200个字符" });
             $("#txt_Description").formValidator({ onShow: "&nbsp;", onFocus: "不超过500个字符", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 500, onError: "不超过500个字符" });
 
             tab_Main = $("#tab_Main").tab();
@@ -24,7 +25,7 @@
                     return;
                 }
 
-                var url = '/Sys/Menu/Add?pMenuId=' + selObj.id + '&pMenuName=' + escape(selObj.name)
+                var url = '/Sys/Menu/Add?belongSite=' + belongSite + '&pMenuId=' + selObj.id + '&pMenuName=' + escape(selObj.name)
                 var title = '新建';
                 art.dialog.open(url, {
                     id: "openDialog", title: title, width: '700px', height: '480px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '确定', ok: function () {
@@ -157,7 +158,7 @@
 
             $.lumos.getJson({
                 url: "/Sys/Menu/GetAll",
-                urlParams: { pMenuId: "0" },
+                urlParams: { pMenuId: "0", belongSite: belongSite },
                 success: function (d) {
 
                     var obj = d.data;
@@ -246,6 +247,7 @@
         function loadPermissions() {
             $.lumos.getJson({
                 url: "/Sys/Menu/GetPermissions",
+                urlParams: { belongSite: belongSite },
                 isUseHandling: true,
                 success: function (d) {
                     if (d.result == $.lumos.resultType.success) {
