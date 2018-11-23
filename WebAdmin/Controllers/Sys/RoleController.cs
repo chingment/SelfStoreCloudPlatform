@@ -60,7 +60,7 @@ namespace WebAdmin.Controllers.Sys
         [HttpPost]
         public CustomJsonResult SaveMenu(string id, string[] menuIds)
         {
-            return AdminServiceFactory.SysRole.SaveRoleMenu(this.CurrentUserId, id, menuIds);
+            return AdminServiceFactory.SysRole.SaveMenus(this.CurrentUserId, id, menuIds);
         }
 
 

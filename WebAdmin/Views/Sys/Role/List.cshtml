@@ -28,9 +28,6 @@
                             getDetails();
                             break;
                         case 1:
-                            list_RoleUsers.loadData();
-                            break;
-                        case 2:
                             getDetails();
                             break;
                     }
@@ -59,14 +56,14 @@
                     "确定删除[" + selObj.name + "]节点及其子节点吗？",
                          function () {
                              var id = selObj.id;
-                             var roleIds = [];
+                             var ids = [];
                              var nodes = tree_Roles.getSelectedNodeFollowChildren();
                              $.each(nodes, function (i, n) {
-                                 roleIds.push(n.id);
+                                 ids.push(n.id);
                              });
                              $.lumos.postJson({
                                  url: "/Sys/Role/Delete",
-                                 data: { roleIds: roleIds },
+                                 data: { ids: ids },
                                  success: function (d) {
                                      $.lumos.tips(d.message);
                                      if (d.result == $.lumos.resultType.success) {
@@ -96,9 +93,9 @@
                         menuIds.push(nodes[key].id);
                     }
                     $.lumos.postJson({
-                        url: "/Sys/Role/SaveRoleMenu",
+                        url: "/Sys/Role/SaveMenu",
                         isUseHandling: true,
-                        data: { roleId: cur_RoleId, menuIds: menuIds },
+                        data: { id: cur_RoleId, menuIds: menuIds },
                         success: function (d) {
                             $.lumos.tips(d.message);
                         }
@@ -160,7 +157,7 @@
         function loadMenus() {
             $.lumos.getJson({
                 url: "/Sys/Menu/GetAll",
-                urlParams: { pMenuId: "0", belongSite: belongSite },
+                urlParams: { belongSite: belongSite },
                 success: function (d) {
 
                     var zNodes = d.data;
@@ -188,12 +185,13 @@
         }
 
         function getDetails() {
-        
+
             $.lumos.getJson({
                 url: "/Sys/Role/GetDetails",
-                urlParams: { roleId: cur_RoleId },
+                urlParams: { id: cur_RoleId },
                 isUseHandling: true,
                 success: function (d) {
+               
                     if (d.result == $.lumos.resultType.success) {
                         var data = d.data;
                         $("#txt_Name").val(data.name);
@@ -204,6 +202,7 @@
                         for (var k = 0; k < checkedNodes.length; k++) {
                             tree_Menus.checkNode(checkedNodes[k]);
                         }
+
 
                         $.each(data.menuIds, function (i, n) {
                             var node = tree_Menus.getNodeByParam("id", n);
@@ -233,7 +232,7 @@
                     $.lumos.postJson({
                         url: "/Sys/Role/Edit",
                         isUseHandling: true,
-                        data: { roleId: cur_RoleId, name: name, description: description },
+                        data: { id: cur_RoleId, name: name, description: description },
                         success: function (d) {
                             $.lumos.tips(d.message);
                             if (d.result == $.lumos.resultType.success) {
@@ -259,9 +258,6 @@
             switch (type) {
                 case 1:
                     loadRoles()
-                    break;
-                case 2:
-                    list_RoleUsers.loadData('c');
                     break;
             }
         }
