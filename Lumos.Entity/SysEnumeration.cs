@@ -36,7 +36,7 @@ namespace Lumos.Entity
             Disable = 2
         }
 
-        public enum UserType
+        public enum BelongSite
         {
             Unknow = 0,
             Admin = 1,

@@ -55,7 +55,7 @@ namespace Lumos.BLL.Service.Admin
                 sysMerchatUser.CreateTime = this.DateTime;
                 sysMerchatUser.Creator = pOperater;
                 sysMerchatUser.Status = Enumeration.UserStatus.Normal;
-                sysMerchatUser.Type = Enumeration.UserType.Merchant;
+                sysMerchatUser.BelongSite = Enumeration.BelongSite.Merchant;
                 CurrentDb.SysMerchantUser.Add(sysMerchatUser);
                 CurrentDb.SaveChanges();
 

@@ -38,7 +38,7 @@ namespace Lumos.BLL.Biz
                             sysClientUser.RegisterTime = this.DateTime;
                             sysClientUser.CreateTime = this.DateTime;
                             sysClientUser.Creator = pOperater;
-                            sysClientUser.Type = Enumeration.UserType.Client;
+                            sysClientUser.BelongSite = Enumeration.BelongSite.Client;
                             sysClientUser.Status = Enumeration.UserStatus.Normal;
                             CurrentDb.SysClientUser.Add(sysClientUser);
                             CurrentDb.SaveChanges();

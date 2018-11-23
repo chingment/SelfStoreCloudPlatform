@@ -48,7 +48,7 @@ namespace Lumos.BLL.Service.Admin
                 sysAdminUser.PasswordHash = PassWordHelper.HashPassword(rop.Password);
                 sysAdminUser.Email = rop.Email;
                 sysAdminUser.PhoneNumber = rop.PhoneNumber;
-                sysAdminUser.Type = Enumeration.UserType.Admin;
+                sysAdminUser.BelongSite = Enumeration.BelongSite.Admin;
                 sysAdminUser.IsDelete = false;
                 sysAdminUser.IsCanDelete = true;
                 sysAdminUser.Status = Enumeration.UserStatus.Normal;

@@ -47,7 +47,7 @@ namespace Lumos.BLL.Biz
         {
             var tran = RedisManager.Db.CreateTransaction();
 
-            var sysUsers = CurrentDb.SysUser.Where(m => m.Type == Enumeration.UserType.Merchant).ToList();
+            var sysUsers = CurrentDb.SysUser.Where(m => m.BelongSite == Enumeration.BelongSite.Merchant).ToList();
 
             foreach (var user in sysUsers)
             {

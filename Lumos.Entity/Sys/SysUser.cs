@@ -45,7 +45,7 @@ namespace Lumos.Entity
         public DateTime CreateTime { get; set; }
         public string Mender { get; set; }
         public DateTime? MendTime { get; set; }
-        public Enumeration.UserType Type { get; set; }
+        public Enumeration.BelongSite BelongSite { get; set; }
 
         public bool IsCanDelete { get; set; }
 
