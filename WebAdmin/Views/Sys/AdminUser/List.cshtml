@@ -45,8 +45,10 @@
                         url: "/Sys/AdminUser/Delete",
                         data: { userIds: userIds },
                         success: function (d) {
-                            listTable.loadData(0);
                             $.lumos.tips(d.message);
+                            if (d.result == $.lumos.resultType.success) {
+                                listTable.loadData(0);
+                            }
                         }
                     });
                 },
@@ -63,8 +65,6 @@
             }
         });
 
-
-
         $("#btn_Add").click(function () {
             var url = '/Sys/AdminUser/Add';
             var title = '新建';
@@ -75,8 +75,6 @@
                 }
             });
         });
-
-
 
     });
 
@@ -113,7 +111,6 @@
 
         <div class="filter" style="float:right">
             <input type="button" class="btn btn-add" id="btn_Add" value="新建" />
-            <input type="button" class="btn btn-sure" id="btn_Add" value="删除" multiple="true" operate="delete" style="margin-left:0px;margin-right:0px;" />
         </div>
     </div>
     <div class="list">
@@ -121,7 +118,7 @@
             <thead>
                 <tr>
                     <th style="width:15%" class="no">
-                        <input type="checkbox" name="list_table_ckb" childname="list_table_ckb_child" />
+                        序号
                     </th>
                     <th style="width:15%">
                         用户名

@@ -23,6 +23,16 @@ namespace WebAdmin.Controllers.Sys
             return View();
         }
 
+        public ViewResult AddPosition()
+        {
+            return View();
+        }
+
+        public ViewResult EditPosition()
+        {
+            return View();
+        }
+
         public CustomJsonResult GetAll(string pId)
         {
 
@@ -44,7 +54,6 @@ namespace WebAdmin.Controllers.Sys
 
 
             string name = rup.Name.ToSearchString();
-
 
 
             var list = (from u in CurrentDb.SysPosition

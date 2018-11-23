@@ -1099,6 +1099,8 @@
     <Content Include="Views\Sys\Organization\Add.cshtml" />
     <Content Include="Views\Sys\Organization\List.cshtml" />
     <Content Include="Views\Sys\Organization\Sort.cshtml" />
+    <Content Include="Views\Sys\Organization\AddPosition.cshtml" />
+    <Content Include="Views\Sys\Organization\EditPosition.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>
@@ -1120,6 +1122,7 @@
     <Folder Include="Scripts\ckeditor\samples\plugins\magicline\" />
     <Folder Include="Scripts\ckeditor\samples\plugins\toolbar\" />
     <Folder Include="Scripts\ckeditor\samples\plugins\wysiwygarea\" />
+    <Folder Include="Views\EditPosition\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

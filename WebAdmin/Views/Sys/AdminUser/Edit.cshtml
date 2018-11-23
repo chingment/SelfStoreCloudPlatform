@@ -5,14 +5,14 @@
 
 @section scripts{
     <script type="text/javascript">
-
         var userId = $.lumos.getUrlParamValue("userId");
         var tree_Roles;
         $(this).ready(function () {
-            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { } });
-            $("#txt_FullName").formValidator({ onShow: "&nbsp;", onFocus: "不超过50个字", onCorrect: "&nbsp;" }).inputValidator({ min: 1, max: 50, empty: { leftEmpty: false, emptyError: "不能有空格" }, onError: "不超过50个字符" }).defaultPassed();
-            $("#txt_Email").formValidator({ onShow: "&nbsp;", onFocus: "邮箱格式且不超过100个字符", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 100, onError: "邮箱格式且不超过100个字符" }).regexValidator({ regExp: regexEnum.email, onError: "邮箱格式且不超过100个字符" });
-            $("#txt_PhoneNumber").formValidator({ onShow: "&nbsp;", onFocus: "手机号码格式", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).regexValidator({ regExp: regexEnum.mobile, onError: "手机号码格式" });
+
+            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
+            $("#txt_FullName").formValidator().inputValidator({ min: 1, max: 50, onError: "姓名不能为空，且不超过50个字符" });
+            $("#txt_Email").formValidator().regexValidator({ min: 0, max: 100, regExp: regexEnum.email, onError: "邮箱格式且不超过100个字符" });
+            $("#txt_PhoneNumber").formValidator().regexValidator({ min: 0, max: 100, regExp: regexEnum.mobile, onError: "手机号码格式" });
 
             $("#abtn-editPwd").toggle(function () {
                 $("#lbl_Password").hide();
@@ -91,109 +91,113 @@
 
         function edit() {
             var isValid = $.formValidator.pageIsValid();
-            if (isValid) {
-                art.dialog.confirm('确定要保存？', function () {
+            if (!isValid)
+                return false;
 
-                    var tree_RolesByChecked = tree_Roles.getCheckedNodes(true);
-                    var roleIds = [];
-                    $.each(tree_RolesByChecked, function (i, n) {
-                        roleIds.push(n.id);
-                    });
+            art.dialog.confirm('确定要保存？', function () {
 
-                    var userName = $("#txt_UserName").val();
-                    var password = $("#txt_Password").val();
-                    var fullName = $("#txt_FullName").val();
-                    var email = $("#txt_Email").val();
-                    var phoneNumber = $("#txt_PhoneNumber").val();
-
-                    $.lumos.postJson({
-                        url: "/Sys/AdminUser/Edit",
-                        isUseHandling: true,
-                        data: { userId: userId, userName: userName, password: password, fullName: fullName, email: email, phoneNumber: phoneNumber, roleIds: roleIds },
-                        success: function (d) {
-                            if (d.result == $.lumos.resultType.success) {
-                                $.lumos.parentDialog.refresh(2);
-                                $.lumos.tips(d.message);
-                            }
-                            else {
-                                $.lumos.tips(d.message);
-                            }
-                        }
-                    });
+                var tree_RolesByChecked = tree_Roles.getCheckedNodes(true);
+                var roleIds = [];
+                $.each(tree_RolesByChecked, function (i, n) {
+                    roleIds.push(n.id);
                 });
-            }
+
+                var userName = $("#txt_UserName").val();
+                var password = $("#txt_Password").val();
+                var fullName = $("#txt_FullName").val();
+                var email = $("#txt_Email").val();
+                var phoneNumber = $("#txt_PhoneNumber").val();
+
+                $.lumos.postJson({
+                    url: "/Sys/AdminUser/Edit",
+                    isUseHandling: true,
+                    data: { userId: userId, userName: userName, password: password, fullName: fullName, email: email, phoneNumber: phoneNumber, roleIds: roleIds },
+                    success: function (d) {
+                        if (d.result == $.lumos.resultType.success) {
+                            $.lumos.parentDialog.refresh(2);
+                            $.lumos.tips(d.message);
+                        }
+                        else {
+                            $.lumos.tips(d.message);
+                        }
+                    }
+                });
+            });
+
             return false;
         }
-
-        //-->
     </script>
 }
+
 <div class="gbr-row gbr-dialog">
+    <div class="gbr-row-title clearfix">
+        <div class="pull-left">
+            <h5>基本信息</h5>
+        </div>
+        <div class="pull-right f-tb1-item-pull-right">
+            <h6></h6>
+        </div>
+    </div>
+    <table class="f-tb" cellpadding="0" cellspacing="1">
+        <tr>
+            <td class="f-tb-t">
+                <span class="required-symbol">*</span>用户名：
+            </td>
+            <td class="f-tb-c">
+                <label id="lbl_UserName"></label>
+            </td>
+        </tr>
+        <tr>
+            <td class="f-tb-t">
+                <span class="required-symbol">*</span>密码：
+            </td>
+            <td class="f-tb-c">
+                <label id="lbl_Password">******</label>
 
-        <table class="f-tb" cellpadding="0" cellspacing="1">
-            <tr>
-                <td class="f-tb-t">
-                    用户名：
-                </td>
-                <td class="f-tb-c">
-                    <label id="lbl_UserName"></label>
-                </td>
-            </tr>
-            <tr>
-                <td class="f-tb-t">
-                    密码：
-                </td>
-                <td class="f-tb-c">
-                    <label id="lbl_Password">******</label>
-
-                    <input id="txt_Password" class="input-control" autocomplete="off" type="password" style="width: 150px;display:none;" />
-                    <a class="a-btn" id="abtn-editPwd" href="javascript:void(0)">修改</a>
-                    <span id="txt_PasswordTip"></span>
-                </td>
-            </tr>
-            <tr>
-                <td class="f-tb-t">
-                    姓名：
-                </td>
-                <td class="f-tb-c">
-                    <input name="txt_FullName" class="input-control" type="text" id="txt_FullName" value="" style="width: 150px;" autocomplete="off" />
-                    <span id="txt_FullNameTip"></span>
-                </td>
-            </tr>
-            <tr>
-                <td class="f-tb-t">
-                    E-mail：
-                </td>
-                <td class="f-tb-c">
-                    <input id="txt_Email" class="input-control" type="text" value="" style="width: 150px;" autocomplete="off" />
-                    <span id="txt_EmailTip"></span>
-                </td>
-            </tr>
-            <tr>
-                <td class="f-tb-t">
-                    手机：
-                </td>
-                <td class="f-tb-c">
-                    <input id="txt_PhoneNumber" class="input-control" type="text" value="" style="width: 150px;" autocomplete="off" />
-                    <span id="txt_PhoneNumberTip"></span>
-                </td>
-            </tr>
-            <tr>
-                <td class="f-tb-t">
-                    角色：
-                </td>
-                <td class="f-tb-c">
-                    <ul id="tree_Roles" class="ztree"></ul>
-                </td>
-            </tr>
-            <tr style="display:none">
-                <td class="f-tb-t"></td>
-                <td class="f-tb-c">
-                    <input type="submit" name="btn_Submit" id="btn_Submit" value="保存" class="btn btn-save" />
-                    <input type="button" name="btn_Cancle" id="btn_Cancle" value="关闭" class="btn btn-close dialog-close" />
-                </td>
-            </tr>
-        </table>
+                <input id="txt_Password" class="input-control" autocomplete="off" type="password" style="width: 150px;display:none;" />
+                <a class="a-btn" id="abtn-editPwd" href="javascript:void(0)">修改</a>
+            </td>
+        </tr>
+        <tr>
+            <td class="f-tb-t">
+                <span class="required-symbol">*</span>姓名：
+            </td>
+            <td class="f-tb-c">
+                <input name="txt_FullName" class="input-control" type="text" id="txt_FullName" value="" style="width: 150px;" autocomplete="off" />
+            </td>
+        </tr>
+        <tr>
+            <td class="f-tb-t">
+                E-mail：
+            </td>
+            <td class="f-tb-c">
+                <input id="txt_Email" class="input-control" type="text" value="" style="width: 150px;" autocomplete="off" />
+            </td>
+        </tr>
+        <tr>
+            <td class="f-tb-t">
+                手机：
+            </td>
+            <td class="f-tb-c">
+                <input id="txt_PhoneNumber" class="input-control" type="text" value="" style="width: 150px;" autocomplete="off" />
+            </td>
+        </tr>
+        <tr>
+            <td class="f-tb-t">
+                角色：
+            </td>
+            <td class="f-tb-c">
+                <ul id="tree_Roles" class="ztree"></ul>
+            </td>
+        </tr>
+        <tr style="display:none">
+            <td class="f-tb-t"></td>
+            <td class="f-tb-c">
+                <input type="submit" name="btn_Submit" id="btn_Submit" value="保存" class="btn btn-save" />
+                <input type="button" name="btn_Cancle" id="btn_Cancle" value="关闭" class="btn btn-close dialog-close" />
+            </td>
+        </tr>
+    </table>
 
 </div>
 

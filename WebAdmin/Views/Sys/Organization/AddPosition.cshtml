@@ -1,0 +1,129 @@
+﻿@{
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section scripts{
+    <script type="text/javascript">
+
+        var tree_Roles;
+        $(this).ready(function () {
+
+            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
+            $("#txt_Name").formValidator().inputValidator({ min: 1, max: 50, onError: "不能为空，且不超过50个字符" });
+
+
+            initData();
+        });
+
+        function initData() {
+
+            loadRoles();
+        }
+
+
+        function loadRoles() {
+
+            $.lumos.getJson({
+                url: "/Sys/Role/GetAll",
+                isUseHandling: true,
+                success: function (d) {
+                    if (d.result == $.lumos.resultType.success) {
+                        var roles = d.data;
+                        tree_Roles = $.fn.zTree.init($("#tree_Roles"), {
+                            view: {
+                                selectedMulti: false
+                            },
+                            check: {
+                                enable: true,
+                                chkboxType: { "Y": "s", "N": "s" }
+                            },
+                            data: {
+                                simpleData: {
+                                    enable: true
+                                }
+                            }
+                        }, roles);
+                    }
+                }
+            });
+        }
+
+        function add() {
+
+            var isValid = $.formValidator.pageIsValid();
+            if (isValid) {
+                art.dialog.confirm('确定要新建？', function (e) {
+                    var tree_RolesByChecked = tree_Roles.getCheckedNodes(true);
+                    var roleIds = [];
+                    $.each(tree_RolesByChecked, function (i, n) {
+                        roleIds.push(n.id);
+                    });
+
+
+                    var userName = $("#txt_UserName").val();
+                    var password = $("#txt_Password").val();
+                    var fullName = $("#txt_FullName").val();
+                    var email = $("#txt_Email").val();
+                    var phoneNumber = $("#txt_PhoneNumber").val();
+
+                    $.lumos.postJson({
+                        url: "/Sys/AdminUser/Add",
+                        data: { userName: userName, password: password, fullName: fullName, email: email, phoneNumber: phoneNumber, roleIds: roleIds },
+                        isUseHandling: true,
+                        success: function (d) {
+                            if (d.result == $.lumos.resultType.success) {
+                                $.lumos.parentDialog.refresh(1);
+                                $.lumos.tips(d.message, true);
+                            }
+                            else {
+                                $.lumos.tips(d.message);
+                            }
+                        }
+                    });
+                });
+            }
+            return false;
+        }
+
+
+    </script>
+}
+
+
+
+<div class="gbr-row gbr-dialog">
+    <div class="gbr-row-title clearfix">
+        <div class="pull-left">
+            <h5>基本信息</h5>
+        </div>
+        <div class="pull-right f-tb1-item-pull-right">
+            <h6></h6>
+        </div>
+    </div>
+    <table class="f-tb" cellpadding="0" cellspacing="1">
+        <tr>
+            <td class="f-tb-t">
+                名称：
+            </td>
+            <td class="f-tb-c">
+                <input id="txt_Name" class="input-control" type="text" style="width: 150px;" autocomplete="off" />
+            </td>
+        </tr>
+        <tr>
+            <td class="f-tb-t">
+                角色：
+            </td>
+            <td class="f-tb-c">
+                <ul id="tree_Roles" class="ztree"></ul>
+            </td>
+        </tr>
+        <tr style="display:none">
+            <td class="f-tb-t"></td>
+            <td class="f-tb-c">
+                <input type="submit" name="btn_Submit" id="btn_Submit" value="确定" class="btn btn-sure" />
+                <input type="button" name="btn_Cancle" id="btn_Cancle" value="关闭" class="btn btn-close dialog-close" />
+            </td>
+        </tr>
+    </table>
+</div>
+

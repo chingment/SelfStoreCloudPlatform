@@ -213,7 +213,7 @@ function trimLeft(s) {
                     // 更改pig
 
                     var prevObj = $($(tip).prev())[0];
-          
+
                     if (typeof prevObj != 'undefined') {
                         var tagName = prevObj.tagName;
                         if (tagName == 'TEXTAREA') {
@@ -718,12 +718,26 @@ function trimLeft(s) {
             var srcTag = $("#" + id).get(0).tagName;
             var elem = $("#" + id).get(0);
             var isValid;
+            var minLen = setting.min;
+
+            var isCanEmpty = false;
+            if (elem.settings[0].empty) {
+                isCanEmpty = elem.settings[0].empty;
+            }
+
+            if (typeof minLen != "undefined") {
+                if (minLen == 0) {
+                    isCanEmpty = true;
+                }
+            }
+
             //如果有输入正则表达式，就进行表达式校验
-            if (elem.settings[0].empty && $.trim(elem.value) == "") {
+            if (isCanEmpty && $.trim(elem.value) == "") {
                 returnObj.valLen = 0;
                 setting.isValid = true;
             }
             else {
+
                 var regexArray = setting.regExp;
                 setting.isValid = false;
                 if ((typeof regexArray) == "string") regexArray = [regexArray];
@@ -893,8 +907,7 @@ function trimLeft(s) {
             switch (setting.operateor) {
                 case "=":
 
-                    if (!setting.isUseLeftRightEmptySize)
-                    {
+                    if (!setting.isUseLeftRightEmptySize) {
                         curvalue = curvalue.replace(/(^\s*)|(\s*$)/g, "");
                         ls_data = ls_data.replace(/(^\s*)|(\s*$)/g, "");
                     }
@@ -1528,7 +1541,7 @@ var compareValidator_setting =
     operateor: "=",
     onError: "输入错误",
     validateType: "compareValidator",
-    isUseLeftRightEmptySize:false
+    isUseLeftRightEmptySize: false
 };
 
 var regexValidator_setting =
