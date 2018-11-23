@@ -81,7 +81,7 @@
                     return;
                 }
 
-                var url = '/Sys/Menu/Sort?pMenuId=' + selObj.id + '&pMenuName=' + escape(selObj.name);
+                var url = '/Sys/Menu/Sort?belongSite=' + belongSite + '&pMenuId=' + selObj.id + '&pMenuName=' + escape(selObj.name);
                 var title = '排序';
                 art.dialog.open(url, {
                     id: "openDialog", title: title, width: '650px', height: '400px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {

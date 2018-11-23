@@ -38,6 +38,7 @@
         }
 
         var pMenuId = $.lumos.getUrlParamValue("pMenuId");
+        var belongSite = $.lumos.getUrlParamValue("belongSite");
         $(this).ready(function () {
             loadMenus();
         });
@@ -92,7 +93,7 @@ function () {
 
             $.lumos.getJson({
                 url: "/Sys/Menu/GetAll",
-                urlParams:{pMenuId:pMenuId},
+                urlParams: { pMenuId: pMenuId, belongSite: belongSite },
                 success: function (d) {
                     var obj = eval(d.data);
                      $.fn.zTree.init($("#treemenu"), setting, obj);
