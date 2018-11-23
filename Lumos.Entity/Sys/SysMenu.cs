@@ -35,5 +35,7 @@ namespace Lumos.Entity
         public bool IsCanDelete { get; set; }
 
         public Enumeration.BelongSite BelongSite { get; set; }
+
+        public int Dept { get; set; }
     }
 }

@@ -105,7 +105,7 @@ namespace WebMobile
 
         public static List<SysMenu> GetMenus()
         {
-            return AdminServiceFactory.AuthorizeRelay.GetUserMenus(GetCurrentUserId());
+            return AdminServiceFactory.AuthorizeRelay.GetUserMenus(GetCurrentUserId(), Enumeration.BelongSite.Client);
         }
 
         public static bool IsInPermission(string[] permissions)

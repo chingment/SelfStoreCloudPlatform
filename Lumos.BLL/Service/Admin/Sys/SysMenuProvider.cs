@@ -44,8 +44,17 @@ namespace Lumos.BLL.Service.Admin
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
         }
 
+        public static IEnumerable<SysMenu> GetFatherList(IList<SysMenu> list, string pId)
+        {
+            var query = list.Where(p => p.Id == pId).ToList();
+            return query.ToList().Concat(query.ToList().SelectMany(t => GetFatherList(list, t.PId)));
+        }
+
         public CustomJsonResult Add(string pOperater, RopSysMenuAdd rop)
         {
+            var allMenus = CurrentDb.SysMenu.Where(m => m.BelongSite == rop.BelongSite).ToList();
+            var fatheMenus = GetFatherList(allMenus, rop.PMenuId).ToList();
+
             var sysMenu = new SysMenu();
             sysMenu.Id = GuidUtil.New();
             sysMenu.Name = rop.Name;
@@ -56,8 +65,13 @@ namespace Lumos.BLL.Service.Admin
             sysMenu.Creator = pOperater;
             sysMenu.CreateTime = DateTime.Now;
             sysMenu.BelongSite = rop.BelongSite;
+            sysMenu.Dept = fatheMenus.Count;
+
             CurrentDb.SysMenu.Add(sysMenu);
             CurrentDb.SaveChanges();
+
+
+
 
             if (rop.PermissionIds != null)
             {
@@ -77,14 +91,18 @@ namespace Lumos.BLL.Service.Admin
         public CustomJsonResult Edit(string pOperater, RopSysMenuEdit rop)
         {
 
+
             var sysMenu = CurrentDb.SysMenu.Where(m => m.Id == rop.MenuId).FirstOrDefault();
 
+            var allMenus = CurrentDb.SysMenu.Where(m => m.BelongSite == sysMenu.BelongSite).ToList();
+            var fatheMenus = GetFatherList(allMenus, sysMenu.PId).ToList();
 
             sysMenu.Name = rop.Name;
             sysMenu.Url = rop.Url;
             sysMenu.Description = rop.Description;
             sysMenu.Mender = pOperater;
             sysMenu.MendTime = DateTime.Now;
+            sysMenu.Dept = fatheMenus.Count;
 
             var sysMenuPermission = CurrentDb.SysMenuPermission.Where(r => r.MenuId == rop.MenuId).ToList();
             foreach (var m in sysMenuPermission)
@@ -97,7 +115,7 @@ namespace Lumos.BLL.Service.Admin
             {
                 foreach (var id in rop.PermissionIds)
                 {
-                    CurrentDb.SysMenuPermission.Add(new SysMenuPermission { Id = GuidUtil.New(), MenuId =sysMenu.Id, PermissionId = id, Creator = pOperater, CreateTime = DateTime.Now });
+                    CurrentDb.SysMenuPermission.Add(new SysMenuPermission { Id = GuidUtil.New(), MenuId = sysMenu.Id, PermissionId = id, Creator = pOperater, CreateTime = DateTime.Now });
                 }
             }
 
@@ -105,7 +123,7 @@ namespace Lumos.BLL.Service.Admin
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "保存成功");
 
-  
+
         }
 
 

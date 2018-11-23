@@ -74,9 +74,8 @@ namespace WebAdmin.Controllers
             {
                 ret.UserName = OwnRequest.GetUserNameWithSymbol();
 
-                string pId = "00000000000000000000000000000001";
                 var menus = OwnRequest.GetMenus();
-                var menuLevel1 = from c in menus where c.PId == pId select c;
+                var menuLevel1 = from c in menus where c.Dept == 1 select c;
                 foreach (var menuLevel1Child in menuLevel1)
                 {
                     var menuModel1 = new IndexModel.MenuModel();
