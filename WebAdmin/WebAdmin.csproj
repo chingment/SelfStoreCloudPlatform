@@ -162,6 +162,7 @@
     <Compile Include="Controllers\Sys\BackgroundJobController.cs" />
     <Compile Include="Controllers\Sys\MachineKeyController.cs" />
     <Compile Include="Controllers\Sys\MenuController.cs" />
+    <Compile Include="Controllers\Sys\OrganizationController.cs" />
     <Compile Include="Controllers\Sys\PermissionController.cs" />
     <Compile Include="Controllers\Sys\RoleController.cs" />
     <Compile Include="Controllers\Sys\AdminUserController.cs" />
@@ -1095,6 +1096,9 @@
     <Content Include="Views\Sys\BackgroundJob\Add.cshtml" />
     <Content Include="Views\Sys\BackgroundJob\Edit.cshtml" />
     <Content Include="Views\Sys\BackgroundJob\ListByLog.cshtml" />
+    <Content Include="Views\Sys\Organization\Add.cshtml" />
+    <Content Include="Views\Sys\Organization\List.cshtml" />
+    <Content Include="Views\Sys\Organization\Sort.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

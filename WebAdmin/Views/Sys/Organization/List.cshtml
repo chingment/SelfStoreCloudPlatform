@@ -1,0 +1,299 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts{
+    <script type="text/javascript">
+
+        var num = 0;
+        var maxMum = 2;
+        var tree_Organizations;
+        var tab_Main;
+        var cur_OrganizationId;
+        $(this).ready(function () {
+
+            tab_Main = $("#tab_Main").tab({
+                click: function (index) {
+                    var selObj = getSelectedNode();
+                    if (selObj == null) {
+                        return false;
+                    }
+
+                    switch (index) {
+                        case 0:
+                            getDetails();
+                            break;
+                        case 1:
+                            list_Users.loadData();
+                            break;
+                    }
+
+
+                    return true;
+                }
+            });
+
+            loadOrganizations();
+
+            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
+
+            $("#txt_Name").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 20, empty: { leftEmpty: false, emptyError: "不能为空" }, onError: "名称不能超过20个字符" });
+            $("#sel_Status").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择状态" });
+            $("#txt_Description").formValidator({ onShow: "", onFocus: "不超过500个字符", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 500, onError: "不超过500个字符" });
+
+            $("#btn_add").click(function () {
+                var selObj = getSelectedNode();
+                if (selObj == null) {
+                    return;
+                }
+
+                var url = '/Organization/Add?pOrganizationId=' + selObj.id + '&pOrganizationName=' + escape(selObj.name)
+                var title = '新建';
+                art.dialog.open(url, {
+                    id: "openDialog", title: title, width: '700px', height: '480px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '确定', ok: function () {
+                        this.iframe.contentWindow.add();
+                        return false;
+                    }
+                });
+            });
+
+            $("#btn_delete").click(function () {
+
+                var selObj = getSelectedNode();
+                if (selObj == null) {
+                    return;
+                }
+
+                art.dialog.confirm(
+                    "确定删除[" + selObj.name + "]节点及其子节点吗？",
+                         function () {
+                             var id = selObj.id;
+                             var organizationIds = [];
+                             var nodes = tree_Organizations.getSelectedNodeFollowChildren();
+                             $.each(nodes, function (i, n) {
+                                 subjectIds.push(n.id);
+                             });
+
+                             $.lumos.postJson({
+                                 url: "/Organization/Delete",
+                                 data: { organizationIds: organizationIds },
+                                 success: function (d) {
+                                     $.lumos.tips(d.message);
+                                     loadSubjects();
+                                 }
+                             });
+
+                             return true;
+                         });
+
+
+                return false;
+            });
+
+            $("#btn_sort").click(function () {
+                var selObj = getSelectedNode();
+                if (selObj == null) {
+                    return;
+                }
+
+                if (typeof selObj.children == "undefined") {
+                    $.lumos.tips("该节点没有子节点！");
+                    return;
+                }
+
+
+                var url = '/Organization/Sort?id=' + selObj.id + '&pName=' + escape(selObj.name);
+                var title = '排序';
+                art.dialog.open(url, {
+                    id: "openDialog", title: title, width: '650px', height: '400px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
+                        this.iframe.contentWindow.edit();
+                        return false;
+                    }
+                });
+
+            });
+        });
+
+        function getSelectedNode() {
+            var selObj = tree_Organizations.getSelectedNodes();
+            if ($.lumos.isNullOrEmpty(selObj)) {
+                $.lumos.tips("请在左边树形结构选中节点信息");
+                return null;
+            }
+            return selObj[0];
+        }
+
+        function getChildNodeGrade(treeNode) {
+            var p = treeNode.getParentNode();
+            if (p != null) {
+                num += 1;
+                getChildNodeGrade(p);
+            }
+        }
+
+        function getDetails() {
+   
+            $.lumos.postJson({
+                data: { organizationId: cur_OrganizationId },
+                url: "/Organization/GetDetails",
+                success: function (d) {
+                  
+                    if (d.result == $.lumos.resultType.success) {
+                        var data = d.data;
+                        $("#txt_Name").val(data.name);
+                        $("#txt_Name").defaultPassed();
+                        $("#txt_Description").val(data.description);
+                        $("#txt_Description").defaultPassed();
+                        $("#sel_Status").find("option[value='" + data.status + "']").attr("selected", true);
+                        $("#sel_Status").trigger("chosen:updated");
+                    }
+                }
+            });
+        }
+
+        function loadOrganizations(id) {
+
+            $.lumos.postJson({
+                url: "/Organization/GetTreeList?pId=0",
+                success: function (d) {
+                    var obj = eval(d.data);
+                    tree_Organizations = $.fn.zTree.init($("#tree_Organizations"), {
+                        view: {
+                            showLine: true,
+                            selectedMulti: false
+                        },
+                        data: {
+                            simpleData: { enable: true }
+                        },
+                        callback: {
+                            onClick: function treeNodeOnClick(event, treeId, treeNode, clickFlag) {
+
+                                cur_OrganizationId = treeNode.id;
+                                $("input[name='OrganizationId']").val(cur_OrganizationId);
+
+                                /*最大支持几级菜单由maxMum决定 可修改这个值*/
+                                num = 0;
+                                getChildNodeGrade(treeNode);
+                                if (num >= maxMum) {
+                                    $("#btn_add").attr("disabled", true);
+                                }
+                                else {
+                                    $("#btn_add").attr("disabled", false);
+                                }
+
+
+                                tab_Main.click();
+
+
+                            }
+                        }
+                    }, obj);
+                    var node = tree_Organizations.getNodeByParam("id", id, null);
+                    tree_Organizations.selectNode(node);
+                }
+            });
+
+        }
+
+        function eidt() {
+
+            var selObj = getSelectedNode();
+            if (selObj == null) {
+                return false;
+            }
+            var isValid = $.formValidator.pageIsValid();
+            if (isValid) {
+                art.dialog.confirm(
+         '确定要保存？',
+         function () {
+             var id = selObj.id;
+
+             var name = $('#txt_Name').val();
+             var description = $("#txt_Description").val();
+             var status = $("#sel_Status").val();
+
+             $.lumos.postJson({
+                 url: "/Organization/Edit",
+                 data: { organizationId: cur_OrganizationId, name: name, description: description, status: status },
+                 success: function (d) {
+                     $.lumos.tips(d.message);
+                     loadOrganizations(id);
+                 }
+             });
+         });
+            }
+            return false;
+        }
+
+        function refresh(type) {
+            switch (type) {
+                case 1:
+                    loadOrganizations(cur_OrganizationId)
+                    break;
+            }
+        }
+
+        //-->
+    </script>
+}
+
+
+<dl class="tree-tab">
+    <dd class="tree-tab-left">
+        <ul id="tree_Organizations" class="ztree"></ul>
+    </dd>
+    <dd class="tree-tab-right">
+        <div class="tab" id="tab_Main">
+            <div class="tab-item">
+                <ul>
+                    <li class="item first selected"><a class="a-btn-info" href="javascript:void(0)">基本信息</a></li>
+                </ul>
+            </div>
+            <div class="tab-content">
+                <div class="subcontent" style="display:block">
+                    <div class="f-btn-area" style="margin-bottom:5px;">
+                        <input type="button" class="btn btn-open" id="btn_add" value="新建" />
+                        <input type="button" class="btn btn-delete" id="btn_delete" value="删除" />
+                        @*<input type="button" class="btn btn-open" id="btn_sort" value="排序" />*@
+                    </div>
+                    <form name="form1" method="post" id="form1">
+
+                        <table class="f-tb" cellpadding="0" cellspacing="1">
+                            <tr>
+                                <td class="f-tb-t" style="width:50px">
+                                    <span class="required-symbol">*</span>名称：
+                                </td>
+                                <td class="f-tb-c">
+                                    <input type="text" autocomplete="off" value="" id="txt_Name" style="width: 250px;" class="input-control" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="f-tb-t" style="width:50px;">
+                                    <span class="required-symbol">*</span>状态：
+                                </td>
+                                <td class="f-tb-c">
+                                    @(Html.initEnumeration<Lumos.Entity.Enumeration.OrganizationStatus>(Lumos.Entity.Enumeration.InputType.Select, "sel.Status", new { @class = "select-control", defaulttext = "请选择", hidevalue = new Lumos.Entity.Enumeration.OrganizationStatus[] { Lumos.Entity.Enumeration.OrganizationStatus.Unknow } }))
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="f-tb-t">
+                                    备注：
+                                </td>
+                                <td class="f-tb-c">
+                                    <textarea rows="5" cols="42" id="txt_Description" class="input-control"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="f-tb-t"></td>
+                                <td class="f-tb-c">
+                                    <input type="button" onclick="eidt()" name="btn_Save" value="保存" id="btn_Save" class="btn btn-sure" />
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </dd>
+</dl>

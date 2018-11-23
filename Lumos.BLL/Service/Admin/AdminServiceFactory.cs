@@ -56,6 +56,14 @@ namespace Lumos.BLL.Service.Admin
             }
         }
 
+        public static SysOrganizationProvider SysOrganization
+        {
+            get
+            {
+                return new SysOrganizationProvider();
+            }
+        }
+
         public static SysItemCacheUpdateTimeProvider SysItemCacheUpdateTime
         {
             get

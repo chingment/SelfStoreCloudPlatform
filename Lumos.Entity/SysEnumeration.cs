@@ -154,5 +154,15 @@ namespace Lumos.Entity
             [Remark("停止中")]
             Stoping = 4
         }
+
+        public enum SysOrganizationStatus
+        {
+            [Remark("未知")]
+            Unknow = 0,
+            [Remark("正常")]
+            Valid = 1,
+            [Remark("停用")]
+            Invalid = 2
+        }
     }
 }

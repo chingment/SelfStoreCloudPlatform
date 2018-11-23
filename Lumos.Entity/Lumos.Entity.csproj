@@ -90,6 +90,7 @@
     <Compile Include="Biz\Warehouse.cs" />
     <Compile Include="Biz\WarehouseStock.cs" />
     <Compile Include="Biz\WarehouseStockLog.cs" />
+    <Compile Include="Sys\SysOrganization.cs" />
     <Compile Include="Sys\SysClientUser.cs" />
     <Compile Include="Sys\SysMerchatUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
