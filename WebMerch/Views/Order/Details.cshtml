@@ -48,7 +48,7 @@
 @section scripts{
     <script type="text/javascript">
 
-        var orderId = $.lumos.getUrlParamValue("orderId");
+        var id = $.lumos.getUrlParamValue("id");
 
         $(document).ready(function () {
             initData();
@@ -61,7 +61,7 @@
         function getDetails() {
             $.lumos.getJson({
                 url: "/Order/GetDetails",
-                urlParams: { orderId: orderId },
+                urlParams: { id: id },
                 isUseHandling: true,
                 success: function (d) {
                     if (d.result == $.lumos.resultType.success) {
@@ -174,7 +174,7 @@
                 {{each(k,item2) item.skus}}
                 <tr>
                     <td class="no">${k+1}</td>
-                    <td class="overflow" title="">${item2.productSkuName}</td>
+                    <td class="overflow" title="">${item2.name}</td>
                     <td class="overflow" title="">${item2.quantity}</td>
                     <td class="overflow" title="">${item2.originalAmount}</td>
                     <td class="overflow" title="">${item2.discountAmount}</td>

@@ -45,7 +45,7 @@ namespace Lumos.BLL.Service.Merch
                 {
                     var blockSku = new RetOrderGetDetails.BlockSku();
 
-                    blockSku.ProductSkuName = item2.ProductSkuName;
+                    blockSku.Name = item2.ProductSkuName;
                     blockSku.Quantity = item2.Quantity;
                     blockSku.ChargeAmount = item2.ChargeAmount.ToF2Price();
                     blockSku.DiscountAmount = item2.DiscountAmount.ToF2Price();

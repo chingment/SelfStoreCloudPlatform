@@ -77,9 +77,9 @@ namespace WebMerch.Controllers
             return View();
         }
 
-        public CustomJsonResult GetDetails(string orderId)
+        public CustomJsonResult GetDetails(string id)
         {
-            return MerchServiceFactory.Order.GetDetails(this.CurrentUserId, this.CurrentUserId, orderId);
+            return MerchServiceFactory.Order.GetDetails(this.CurrentUserId, this.CurrentUserId, id);
         }
     }
 }

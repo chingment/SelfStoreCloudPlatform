@@ -28,9 +28,9 @@
         $(document).ready(function () {
             addRowSku();
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
-            $("#txt_StockOutTime").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 50, onError: "请选择日期" });
-            $("#sel_WarehouseId").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择仓库" });
-            $("#sel_TargetId").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择" });
+            $("#txt_StockOutTime").formValidator().inputValidator({ min: 1, max: 50, onError: "请选择日期" });
+            $("#sel_WarehouseId").formValidator().inputValidator({ min: 1, max: 500, onError: "请选择仓库" });
+            $("#sel_TargetId").formValidator().inputValidator({ min: 1, max: 500, onError: "请选择" });
 
 
 

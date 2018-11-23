@@ -45,7 +45,7 @@ namespace Lumos.BLL.Service.Merch
             {
                 this.BlockSubSkus = new List<BlockSubSku>();
             }
-            public string ProductSkuName { get; set; }
+            public string Name { get; set; }
             public int Quantity { get; set; }
             public string ChargeAmount { get; set; }
             public string DiscountAmount { get; set; }

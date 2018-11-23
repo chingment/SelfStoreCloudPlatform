@@ -24,7 +24,7 @@
 @section scripts{
     <script type="text/javascript">
 
-        var order2StockInId = $.lumos.getUrlParamValue("order2StockInId");
+        var id = $.lumos.getUrlParamValue("id");
 
         $(document).ready(function () {
             initData();
@@ -38,7 +38,7 @@
         function getDetails() {
             $.lumos.getJson({
                 url: "/Order2StockIn/GetDetails",
-                urlParams: { order2StockInId: order2StockInId },
+                urlParams: { id: id },
                 isUseHandling: true,
                 success: function (d) {
                     if (d.result == $.lumos.resultType.success) {

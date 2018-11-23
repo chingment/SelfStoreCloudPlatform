@@ -27,9 +27,9 @@ namespace WebMerch.Controllers
             return View();
         }
 
-        public CustomJsonResult GetDetails(string order2StockInId)
+        public CustomJsonResult GetDetails(string id)
         {
-            return MerchServiceFactory.Order2StockIn.GetDetails(this.CurrentUserId, this.CurrentUserId, order2StockInId);
+            return MerchServiceFactory.Order2StockIn.GetDetails(this.CurrentUserId, this.CurrentUserId, id);
         }
 
         [HttpPost]

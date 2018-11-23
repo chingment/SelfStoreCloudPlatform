@@ -75,9 +75,9 @@ namespace WebMerch.Controllers
             return Json(ResultType.Success, pageEntity, "");
         }
 
-        public CustomJsonResult GetDetails(string storeId)
+        public CustomJsonResult GetDetails(string id)
         {
-            return MerchServiceFactory.Store.GetDetails(this.CurrentUserId, this.CurrentUserId, storeId);
+            return MerchServiceFactory.Store.GetDetails(this.CurrentUserId, this.CurrentUserId, id);
         }
 
         [HttpPost]
