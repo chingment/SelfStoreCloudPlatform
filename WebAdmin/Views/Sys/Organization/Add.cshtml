@@ -9,10 +9,9 @@
         var pOrganizationName = $.lumos.getUrlParamValue("pOrganizationName");
 
         $(this).ready(function () {
-            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { } });
-            $("#txt_Name").formValidator({ onShow: "&nbsp;", onFocus: "不能为空,且不超过20个字符", onCorrect: "&nbsp;" }).inputValidator({ min: 1, max: 20, empty: { leftEmpty: false, emptyError: "不能为空" }, onError: "不能为空,且不超过20个字符" });
-            $("#txt_Url").formValidator({ onShow: "&nbsp;", onFocus: "不超过200个字符", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 200, onError: "不超过200个字符" });
-            $("#txt_Description").formValidator({ onShow: "&nbsp;", onFocus: "不超过500个字符", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 500, onError: "不超过500个字符" });
+            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
+            $("#txt_Name").formValidator().inputValidator({ min: 1, max: 20, onError: "名称须填,且不能超过20个字符" });
+            $("#txt_Description").formValidator().inputValidator({ min: 0, max: 500, onError: "描述不能超过500个字符" });
 
             initData();
         });
@@ -78,7 +77,6 @@
             </td>
             <td class="f-tb-c">
                 <input type="text" autocomplete="off" id="txt_Name" style="width:250px;" class="input-control" />
-                <span id="txt_NameTip"></span>
             </td>
         </tr>
         <tr>
@@ -87,7 +85,6 @@
             </td>
             <td class="f-tb-c">
                 <textarea rows="5" cols="46" id="txt_Description" class="input-control"></textarea>
-                <span id="txt_DescriptionTip"></span>
             </td>
         </tr>
         <tr style="display:none">

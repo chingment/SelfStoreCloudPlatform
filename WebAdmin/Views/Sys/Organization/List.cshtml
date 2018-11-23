@@ -39,9 +39,9 @@
 
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
 
-            $("#txt_Name").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 20, empty: { leftEmpty: false, emptyError: "不能为空" }, onError: "名称不能超过20个字符" });
-            $("#sel_Status").formValidator({ onShow: "", onFocus: "", onCorrect: "" }).inputValidator({ min: 1, max: 500, onError: "请选择状态" });
-            $("#txt_Description").formValidator({ onShow: "", onFocus: "不超过500个字符", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 500, onError: "不超过500个字符" });
+            $("#txt_Name").formValidator().inputValidator({ min: 1, max: 20, onError: "名称须填,且不能超过20个字符" });
+            $("#sel_Status").formValidator().inputValidator({ min: 1, max: 500, onError: "请选择状态" });
+            $("#txt_Description").formValidator().inputValidator({ min: 0, max: 500, onError: "描述不能超过500个字符" });
 
             $("#btn_add").click(function () {
                 var selObj = getSelectedNode();
@@ -120,7 +120,7 @@
                 if (selObj == null) {
                     return;
                 }
-               
+
                 var url = '/Sys/Organization/AddPosition';
                 var title = '添加';
                 art.dialog.open(url, {
@@ -324,7 +324,7 @@
                 <ul>
                     <li class="item first selected"><a class="a-btn-info" href="javascript:void(0)">基本信息</a></li>
                     <li class="item"><a class="a-btn-info" href="javascript:void(0)">关联职位</a></li>
-                 </ul>
+                </ul>
             </div>
             <div class="tab-content">
                 <div class="subcontent" style="display:block">
@@ -336,6 +336,14 @@
                     <form name="form1" method="post" id="form1">
 
                         <table class="f-tb" cellpadding="0" cellspacing="1">
+                            <tr>
+                                <td class="f-tb-t">
+                                    上级名称：
+                                </td>
+                                <td class="f-tb-c">
+                                    <label id="lbl_PName">/</label>
+                                </td>
+                            </tr>
                             <tr>
                                 <td class="f-tb-t" style="width:50px">
                                     <span class="required-symbol">*</span>名称：
@@ -349,7 +357,7 @@
                                     <span class="required-symbol">*</span>状态：
                                 </td>
                                 <td class="f-tb-c">
-                                    @(Html.initEnumeration<Lumos.Entity.Enumeration.SysOrganizationStatus>(Lumos.Entity.Enumeration.InputType.Select, "sel.Status", new { @class = "select-control", defaulttext = "请选择", hidevalue = new Lumos.Entity.Enumeration.SysOrganizationStatus[] { Lumos.Entity.Enumeration.SysOrganizationStatus.Unknow } }))
+                                    @(Html.initEnumeration<Lumos.Entity.Enumeration.SysOrganizationStatus>(Lumos.Entity.Enumeration.InputType.Select, "sel.Status", new { @class = "chosen-select", defaulttext = "请选择", style = "width:100px", hidevalue = new Lumos.Entity.Enumeration.SysOrganizationStatus[] { Lumos.Entity.Enumeration.SysOrganizationStatus.Unknow } }))
                                 </td>
                             </tr>
                             <tr>
@@ -387,7 +395,7 @@
                                 <thead>
                                     <tr>
                                         <th style="width:15%" class="no">
-                                           序号
+                                            序号
                                         </th>
                                         <th style="width:15%">
                                             名称

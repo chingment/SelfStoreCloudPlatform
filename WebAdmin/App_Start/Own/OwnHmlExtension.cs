@@ -42,11 +42,17 @@ namespace System.Web
                 defaulttext = HtmlAttributes["defaulttext"].ToString();
             }
 
+            var style = "";
+            if (HtmlAttributes["style"] != null)
+            {
+                style = "style=\"" + HtmlAttributes["style"].ToString() + "\"";
+            }
+
             if (inputType == Enumeration.InputType.Select)
             {
                 int i = 0;
                 string id = name.Replace(".", "_");
-                sb.Append("<select name=\"" + name + "\" id=\"" + id + "\"  " + classname + ">");
+                sb.Append("<select name=\"" + name + "\" id=\"" + id + "\"  " + classname + " " + style + " >");
                 if (defaulttext != "")
                 {
                     sb.Append("<option value=\"\"  >" + defaulttext + "</option>");
