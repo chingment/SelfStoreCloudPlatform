@@ -115,6 +115,7 @@
         function loadRoles() {
             $.lumos.getJson({
                 url: "/Sys/Role/GetAll",
+                urlParams: { belongSite: belongSite },
                 success: function (d) {
                     if (d.result == $.lumos.resultType.success) {
                         var data = d.data;

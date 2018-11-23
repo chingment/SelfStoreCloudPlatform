@@ -63,7 +63,7 @@ namespace Lumos.BLL.Service.Admin
                 var sysMenus = CurrentDb.SysMenu.Where(m => m.BelongSite == rop.BelongSite).ToList();
                 var sysMenusGetFather = GetFatherList(sysMenus, rop.PId).ToList();
                 int dept = sysMenusGetFather.Count;
-                var isExists = sysMenus.Where(m => m.Name == rop.Name && m.Dept == dept).FirstOrDefault();
+                var isExists = sysMenus.Where(m => m.PId == rop.PId && m.Name == rop.Name && m.Dept == dept).FirstOrDefault();
                 if (isExists != null)
                 {
                     return new CustomJsonResult(ResultType.Failure, "该名称在同一级别已经存在");

@@ -36,9 +36,9 @@ namespace WebAdmin.Controllers.Sys
 
         #region 方法
 
-        public CustomJsonResult GetAll()
+        public CustomJsonResult GetAll(Enumeration.BelongSite belongSite)
         {
-            object obj = Newtonsoft.Json.JsonConvert.DeserializeObject(ConvertToZTreeJson2(CurrentDb.SysRole.ToArray(), "id", "pid", "name", "role"));
+            object obj = Newtonsoft.Json.JsonConvert.DeserializeObject(ConvertToZTreeJson2(CurrentDb.SysRole.Where(m => m.BelongSite == belongSite).ToArray(), "id", "pid", "name", "role"));
             return Json(ResultType.Success, obj);
         }
 
