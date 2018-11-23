@@ -50,7 +50,7 @@
             },
             operate: {
                 "edit": function (obj) {
-                    var url = '/Sys/BackgroundJob/Edit?backgroundJobId=' + obj.id;
+                    var url = '/Sys/BackgroundJob/Edit?id=' + obj.id;
                     var title = '修改';
                     art.dialog.open(url, {
                         id: "openDialog", title: title, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
@@ -67,7 +67,7 @@
 
                         $.lumos.postJson({
                             url: "/Sys/BackgroundJob/SetStartOrStop",
-                            data: { backgroundJobId: obj.id },
+                            data: { id: obj.id },
                             success: function (d) {
                                 listTable.loadData(0);
                                 $.lumos.tips(d.message);

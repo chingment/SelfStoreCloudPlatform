@@ -6,7 +6,7 @@
 @section scripts{
     <script type="text/javascript">
 
-        var backgroundJobId = $.lumos.getUrlParamValue("backgroundJobId");
+        var id = $.lumos.getUrlParamValue("id");
         $(this).ready(function () {
 
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
@@ -27,7 +27,7 @@
 
             $.lumos.getJson({
                 url: "/Sys/BackgroundJob/GetDetails",
-                urlParams: { backgroundJobId: backgroundJobId },
+                urlParams: { id: id },
                 isUseHandling: true,
                 success: function (d) {
                     if (d.result == $.lumos.resultType.success) {
@@ -62,7 +62,7 @@
                 $.lumos.postJson({
                     url: "/Sys/BackgroundJob/Edit",
                     isUseHandling: true,
-                    data: { backgroundJobId: backgroundJobId, assemblyName: assemblyName, className: className, description: description, jobArgs: jobArgs, cronExpression: cronExpression, cronExpressionDescription: cronExpressionDescription },
+                    data: { id: id, assemblyName: assemblyName, className: className, description: description, jobArgs: jobArgs, cronExpression: cronExpression, cronExpressionDescription: cronExpressionDescription },
                     success: function (d) {
                         if (d.result == $.lumos.resultType.success) {
                             $.lumos.parentDialog.refresh(2);

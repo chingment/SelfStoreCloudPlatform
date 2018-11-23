@@ -116,9 +116,9 @@ namespace WebAdmin.Controllers.Sys
             return Json(ResultType.Success, pageEntity, "");
         }
 
-        public CustomJsonResult GetDetails(string backgroundJobId)
+        public CustomJsonResult GetDetails(string id)
         {
-            return AdminServiceFactory.BackgroundJob.GetDetails(this.CurrentUserId, backgroundJobId);
+            return AdminServiceFactory.BackgroundJob.GetDetails(this.CurrentUserId, id);
         }
 
         [HttpPost]
@@ -135,9 +135,9 @@ namespace WebAdmin.Controllers.Sys
         }
 
         [HttpPost]
-        public CustomJsonResult SetStartOrStop(string backgroundJobId)
+        public CustomJsonResult SetStartOrStop(string id)
         {
-            return AdminServiceFactory.BackgroundJob.SetStartOrStop(this.CurrentUserId, backgroundJobId);
+            return AdminServiceFactory.BackgroundJob.SetStartOrStop(this.CurrentUserId, id);
         }
     }
 }
