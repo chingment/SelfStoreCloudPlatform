@@ -115,9 +115,16 @@
 
             });
 
+            $("#btn_add_position").click(function () {
+                var selObj = getSelectedNode();
+                if (selObj == null) {
+                    return;
+                }
+                $.lumos.openDialog('/Sys/Organization/AddPosition?organizationId=' + selObj.id, '添加', '650px', '520px');
+            });
 
             list_OrganizationPositions = $("#list_table_OrganizationPositions").loadDataTable({
-                url: "/Sys/Organization/GetOrganizationPositionList",
+                url: "/Sys/Organization/GetPositionList",
                 pageIndex: 0,
                 searchParams: $("#form2").serializeArray(),
                 searchButtonId: "btn_Search",
@@ -353,10 +360,10 @@
                                 </span>
                             </div>
                             <div class="filter"><input type="button" class="btn btn-search" id="btn_Search" value="查询" /> </div>
-                            <div class="filter" style="float:right"><input type="button" class="btn btn-add" id="btn_add_roleuser" value="添加" /></div>
+                            <div class="filter" style="float:right"><input type="button" class="btn btn-add" id="btn_add_position" value="添加" /></div>
                         </div>
                         <div class="list">
-                            <table id="list_table_roleuser" class="list-tb" cellpadding="0" cellspacing="0">
+                            <table id="list_table_OrganizationPositions" class="list-tb" cellpadding="0" cellspacing="0">
                                 <thead>
                                     <tr>
                                         <th style="width:15%" class="no">
