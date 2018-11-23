@@ -10,12 +10,12 @@
 
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
 
-            $("#txt_Name").formValidator().inputValidator({ min: 1, max: 100, onError: "名称须填，且不超过100个字符" });
-            $("#txt_AssemblyName").formValidator().inputValidator({ min: 1, max: 100, onError: "程序集须填，且不超过100个字符" });
-            $("#txt_ClassName").formValidator().inputValidator({ min: 1, max: 100, onError: "类名须填，且不超过100个字符" });
-            $("#txt_Description").formValidator().inputValidator({ min: 1, max: 100, onError: "描述须填，且不超过100个字符" });
-            $("#txt_CronExpression").formValidator().inputValidator({ min: 1, max: 100, onError: "Cron表达式须填，且不超过100个字符" });
-            $("#txt_CronExpressionDescription").formValidator().inputValidator({ min: 1, max: 100, onError: "Cron表达式描述须填，且不超过100个字符" });
+            $("#txt_Name").formValidator().inputValidator({ min: 1, max: 100, onError: "名称须填，且不能超过100个字符" });
+            $("#txt_AssemblyName").formValidator().inputValidator({ min: 1, max: 100, onError: "程序集须填，且不能超过100个字符" });
+            $("#txt_ClassName").formValidator().inputValidator({ min: 1, max: 100, onError: "类名须填，且不能超过100个字符" });
+            $("#txt_Description").formValidator().inputValidator({ min: 1, max: 100, onError: "描述须填，且不能超过100个字符" });
+            $("#txt_CronExpression").formValidator().inputValidator({ min: 1, max: 100, onError: "Cron表达式须填，且不能超过100个字符" });
+            $("#txt_CronExpressionDescription").formValidator().inputValidator({ min: 1, max: 100, onError: "Cron表达式描述须填，且不能超过100个字符" });
 
 
         });
@@ -24,34 +24,35 @@
         function add() {
 
             var isValid = $.formValidator.pageIsValid();
-            if (isValid) {
+            if (!isValid)
+                return false;
 
-                art.dialog.confirm('确定要新建？', function (e) {
+            art.dialog.confirm('确定要新建？', function (e) {
 
-                    var name = $("#txt_Name").val();
-                    var assemblyName = $("#txt_AssemblyName").val();
-                    var className = $("#txt_ClassName").val();
-                    var description = $("#txt_Description").val();
-                    var jobArgs = $("#txt_JobArgs").val();
-                    var cronExpression = $("#txt_CronExpression").val();
-                    var cronExpressionDescription = $("#txt_CronExpressionDescription").val();
+                var name = $("#txt_Name").val();
+                var assemblyName = $("#txt_AssemblyName").val();
+                var className = $("#txt_ClassName").val();
+                var description = $("#txt_Description").val();
+                var jobArgs = $("#txt_JobArgs").val();
+                var cronExpression = $("#txt_CronExpression").val();
+                var cronExpressionDescription = $("#txt_CronExpressionDescription").val();
 
-                    $.lumos.postJson({
-                        url: "/Sys/BackgroundJob/Add",
-                        data: { name: name, assemblyName: assemblyName, className: className, description: description, jobArgs: jobArgs, cronExpression: cronExpression, cronExpressionDescription: cronExpressionDescription },
-                        isUseHandling: true,
-                        success: function (d) {
-                            if (d.result == $.lumos.resultType.success) {
-                                $.lumos.parentDialog.refresh(1);
-                                $.lumos.tips(d.message, true);
-                            }
-                            else {
-                                $.lumos.tips(d.message);
-                            }
+                $.lumos.postJson({
+                    url: "/Sys/BackgroundJob/Add",
+                    data: { name: name, assemblyName: assemblyName, className: className, description: description, jobArgs: jobArgs, cronExpression: cronExpression, cronExpressionDescription: cronExpressionDescription },
+                    isUseHandling: true,
+                    success: function (d) {
+                        if (d.result == $.lumos.resultType.success) {
+                            $.lumos.parentDialog.refresh(1);
+                            $.lumos.tips(d.message, true);
                         }
-                    });
+                        else {
+                            $.lumos.tips(d.message);
+                        }
+                    }
                 });
-            }
+            });
+
             return false;
         }
 

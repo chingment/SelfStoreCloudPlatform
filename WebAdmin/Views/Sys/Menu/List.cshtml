@@ -12,10 +12,10 @@
         var belongSite = $.lumos.getUrlParamValue("belongSite");
         $(this).ready(function () {
 
-            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { } });
-            $("#txt_Name").formValidator({ onShow: "&nbsp;", onFocus: "不超过20个字符", onCorrect: "&nbsp;", empty: false, onEmpty: "不能为空" }).inputValidator({ min: 1, max: 20, empty: { leftEmpty: false, emptyError: "不能为空" }, onError: "不超过20个字符" });
-            $("#txt_Url").formValidator({ onShow: "&nbsp;", onFocus: "不超过200个字符", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 200, onError: "不超过200个字符" });
-            $("#txt_Description").formValidator({ onShow: "&nbsp;", onFocus: "不超过500个字符", onCorrect: "&nbsp;", empty: true, onEmpty: "&nbsp;" }).inputValidator({ min: 0, max: 500, onError: "不超过500个字符" });
+            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
+            $("#txt_Name").formValidator().inputValidator({ min: 1, max: 20, onError: "名称须填,且不能超过20个字符" });
+            $("#txt_Url").formValidator().inputValidator({ min: 0, max: 200, onError: "网页路径不能超过200个字符" });
+            $("#txt_Description").formValidator().inputValidator({ min: 0, max: 500, onError: "描述不能超过500个字符" });
 
             tab_Main = $("#tab_Main").tab();
 
@@ -61,8 +61,19 @@
                             url: "/Sys/Menu/Delete",
                             data: { menuIds: menuIds },
                             success: function (d) {
+
+                                if (d.result == $.lumos.resultType.success) {
+                                    loadMenus(id);
+                                }
+
                                 $.lumos.tips(d.message);
-                                loadMenus(id);
+
+                                $("#lbl_PName").text("");
+                                $("#txt_Name").val("");
+                                $("#txt_Url").val("");
+                                $("#txt_Description").val("");
+                                $("input[name='permissionId']").attr("checked", false);
+
                             }
                         });
                         return true;
@@ -124,31 +135,33 @@
                 return false;
             }
             var isValid = $.formValidator.pageIsValid();
-            if (isValid) {
-                art.dialog.confirm('确定要保存？', function () {
-                    var menuId = selObj.id;
-                    var name = $("#txt_Name").val();
-                    var url = $("#txt_Url").val();
-                    var description = $("#txt_Description").val();
-                    var permissionIds = [];
-                    $('input:checkbox[name=permissionId]:checked').each(function (k) {
-                        var val = $(this).val();
-                        permissionIds.push(val)
-                    })
+            if (!isValid)
+                return false;
 
-                    $.lumos.postJson({
-                        url: "/Sys/Menu/Edit",
-                        data: { menuId: menuId, name: name, url: url, description: description, permissionIds: permissionIds },
-                        isUseHandling: true,
-                        success: function (d) {
-                            $.lumos.tips(d.message);
-                            if (d.result == $.lumos.resultType.success) {
-                                loadMenus(id);
-                            }
+            art.dialog.confirm('确定要保存？', function () {
+                var menuId = selObj.id;
+                var name = $("#txt_Name").val();
+                var url = $("#txt_Url").val();
+                var description = $("#txt_Description").val();
+                var permissionIds = [];
+                $('input:checkbox[name=permissionId]:checked').each(function (k) {
+                    var val = $(this).val();
+                    permissionIds.push(val)
+                })
+
+                $.lumos.postJson({
+                    url: "/Sys/Menu/Edit",
+                    data: { menuId: menuId, name: name, url: url, description: description, permissionIds: permissionIds },
+                    isUseHandling: true,
+                    success: function (d) {
+                        $.lumos.tips(d.message);
+                        if (d.result == $.lumos.resultType.success) {
+                            loadMenus(menuId);
                         }
-                    });
+                    }
                 });
-            }
+            });
+
 
 
             return false;
@@ -208,18 +221,14 @@
                                             $("#lbl_PName").text(parentName);
                                             var data = d.data;
                                             $("#txt_Name").val(data.name);
-                                            $("#txt_Name").defaultPassed();
                                             $("#txt_Url").val(data.url);
                                             $("#txt_Description").val(data.description);
-                                            $("#txt_Description").defaultPassed();
-
                                             $("input[name='permissionId']").attr("checked", false);
 
                                             var permissionIds = data.permissionIds;
                                             for (var i = 0; i < permissionIds.length; i++) {
                                                 $("input[name='permissionId'][value='" + permissionIds[i] + "']").attr("checked", true);
                                             }
-
                                         }
                                     }
                                 });
@@ -310,11 +319,10 @@
                             </tr>
                             <tr>
                                 <td class="f-tb-t">
-                                    名称：
+                                    <span class="required-symbol">*</span>名称：
                                 </td>
                                 <td class="f-tb-c">
                                     <input type="text" autocomplete="off" id="txt_Name" style="width: 250px;" class="input-control" />
-                                    <span id="txt_NameTip"></span>
                                 </td>
                             </tr>
                             <tr class="tr_url">
@@ -323,7 +331,6 @@
                                 </td>
                                 <td class="f-tb-c">
                                     <input type="text" autocomplete="off" id="txt_Url" class="input-control" style="width: 350px;" />
-                                    <span id="txt_UrlTip"></span>
                                 </td>
                             </tr>
                             <tr>
@@ -340,7 +347,6 @@
                                 </td>
                                 <td class="f-tb-c">
                                     <textarea rows="5" cols="46" id="txt_Description" class="input-control"></textarea>
-                                    <span id="txt_DescriptionTip"></span>
                                 </td>
                             </tr>
                             <tr>
