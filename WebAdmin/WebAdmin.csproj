@@ -163,7 +163,6 @@
     <Compile Include="Controllers\Sys\MachineKeyController.cs" />
     <Compile Include="Controllers\Sys\MenuController.cs" />
     <Compile Include="Controllers\Sys\OrganizationController.cs" />
-    <Compile Include="Controllers\Sys\PermissionController.cs" />
     <Compile Include="Controllers\Sys\PositionController.cs" />
     <Compile Include="Controllers\Sys\RoleController.cs" />
     <Compile Include="Controllers\Sys\AdminUserController.cs" />

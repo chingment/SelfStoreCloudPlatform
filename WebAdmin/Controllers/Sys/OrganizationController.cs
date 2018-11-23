@@ -24,7 +24,7 @@ namespace WebAdmin.Controllers.Sys
         }
 
 
-        public CustomJsonResult GetAll(string pId)
+        public CustomJsonResult GetAll()
         {
 
             var arr = CurrentDb.SysOrganization.Where(m => m.BelongSite == Enumeration.BelongSite.Admin && m.IsDelete == false).OrderByDescending(m => m.Priority).ToArray();
@@ -34,35 +34,11 @@ namespace WebAdmin.Controllers.Sys
 
         }
 
-        public CustomJsonResult GetDetails(string organizationId)
+        public CustomJsonResult GetDetails(string id)
         {
-            return AdminServiceFactory.SysOrganization.GetDetails(this.CurrentUserId, organizationId);
+            return AdminServiceFactory.SysOrganization.GetDetails(this.CurrentUserId, id);
         }
 
-
-        public CustomJsonResult GetPositionList(RupSysPositionGetList rup)
-        {
-
-
-            string name = rup.Name.ToSearchString();
-
-
-            var list = (from u in CurrentDb.SysPosition
-                        where u.OrganizationId == rup.OrganizationId &&
-                            (name.Length == 0 || u.Name.Contains(name)) &&
-                              u.IsDelete == false
-                        select new { u.Id, u.Name, u.CreateTime }).Distinct();
-
-            int total = list.Count();
-
-            int pageIndex = rup.PageIndex;
-            int pageSize = 10;
-            list = list.OrderBy(r => r.CreateTime).Skip(pageSize * (pageIndex)).Take(pageSize);
-
-            PageEntity pageEntity = new PageEntity { PageSize = pageSize, TotalRecord = total, Rows = list };
-
-            return Json(ResultType.Success, pageEntity);
-        }
 
         [HttpPost]
         [OwnNoResubmit]

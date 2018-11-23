@@ -79,9 +79,9 @@ namespace WebAdmin.Controllers.Sys
 
 
         [HttpPost]
-        public CustomJsonResult Delete(string[] roleIds)
+        public CustomJsonResult Delete(string[] ids)
         {
-            return AdminServiceFactory.SysRole.Delete(this.CurrentUserId, roleIds);
+            return AdminServiceFactory.SysRole.Delete(this.CurrentUserId, ids);
         }
 
         #endregion

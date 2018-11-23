@@ -69,8 +69,6 @@ namespace Lumos.BLL.Service.Admin
 
                 foreach (var id in ids)
                 {
-                    var roleUsers = CurrentDb.SysUserRole.Where(u => u.RoleId == id).Distinct();
-
                     var roleMenus = CurrentDb.SysRoleMenu.Where(u => u.RoleId == id).Distinct();
 
 
@@ -81,10 +79,13 @@ namespace Lumos.BLL.Service.Admin
                         return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("所选角色（{0}）不允许删除", role.Name));
                     }
 
+                    var sysPositionRole = CurrentDb.SysPositionRole.Where(m => m.RoleId == id).FirstOrDefault();
 
-                    foreach (var user in roleUsers)
+                    if (sysPositionRole != null)
                     {
-                        CurrentDb.SysUserRole.Remove(user);
+                        var sysPosition = CurrentDb.SysPermission.Where(m => m.Id == sysPositionRole.PositionId).FirstOrDefault();
+
+                        return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("所选角色（{0}）已被职位({1})关联,请先从职位中移除", role.Name, sysPosition.Name));
                     }
 
                     foreach (var menu in roleMenus)

@@ -21,10 +21,32 @@ namespace WebAdmin.Controllers.Sys
         {
             return View();
         }
-
-        public CustomJsonResult GetDetails(string positionId)
+        public CustomJsonResult GetList(RupSysPositionGetList rup)
         {
-            return AdminServiceFactory.SysPosition.GetDetails(this.CurrentUserId, positionId);
+            string name = rup.Name.ToSearchString();
+
+
+            var list = (from u in CurrentDb.SysPosition
+                        where u.OrganizationId == rup.OrganizationId &&
+                            (name.Length == 0 || u.Name.Contains(name)) &&
+                              u.IsDelete == false
+                        select new { u.Id, u.Name, u.CreateTime }).Distinct();
+
+            int total = list.Count();
+
+            int pageIndex = rup.PageIndex;
+            int pageSize = 10;
+            list = list.OrderBy(r => r.CreateTime).Skip(pageSize * (pageIndex)).Take(pageSize);
+
+            PageEntity pageEntity = new PageEntity { PageSize = pageSize, TotalRecord = total, Rows = list };
+
+            return Json(ResultType.Success, pageEntity);
+        }
+
+
+        public CustomJsonResult GetDetails(string id)
+        {
+            return AdminServiceFactory.SysPosition.GetDetails(this.CurrentUserId, id);
         }
 
         [HttpPost]
@@ -37,6 +59,12 @@ namespace WebAdmin.Controllers.Sys
         public CustomJsonResult Edit(RopSysPositionEdit rop)
         {
             return AdminServiceFactory.SysPosition.Edit(this.CurrentUserId, rop);
+        }
+
+        [HttpPost]
+        public CustomJsonResult Delete(string[] ids)
+        {
+            return AdminServiceFactory.SysPosition.Delete(this.CurrentUserId, ids);
         }
     }
 }

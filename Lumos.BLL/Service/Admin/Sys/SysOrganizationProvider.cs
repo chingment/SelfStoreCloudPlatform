@@ -16,13 +16,18 @@ namespace Lumos.BLL.Service.Admin
         {
             var ret = new RetSysOrganizationGetDetails();
             var organization = CurrentDb.SysOrganization.Where(m => m.Id == id).FirstOrDefault();
-            if (organization != null)
+
+            if (organization == null)
             {
-                ret.Id = organization.Id ?? "";
-                ret.Name = organization.Name ?? "";
-                ret.Description = organization.Description ?? "";
-                ret.Status = organization.Status;
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "操作失败", ret);
             }
+
+
+            ret.Id = organization.Id ?? "";
+            ret.Name = organization.Name ?? "";
+            ret.Description = organization.Description ?? "";
+            ret.Status = organization.Status;
+
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }

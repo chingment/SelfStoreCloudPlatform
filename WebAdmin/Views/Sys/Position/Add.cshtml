@@ -13,8 +13,7 @@
         $(this).ready(function () {
 
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
-            $("#txt_Name").formValidator().inputValidator({ min: 1, max: 50, onError: "不能为空，且不超过50个字符" });
-
+            $("#txt_Name").formValidator().inputValidator({ min: 1, max: 50, onError: "名称须填，且不能超过50个字符" });
 
             initData();
         });
@@ -56,32 +55,34 @@
         function add() {
 
             var isValid = $.formValidator.pageIsValid();
-            if (isValid) {
-                art.dialog.confirm('确定要新建？', function (e) {
-                    var tree_RolesByChecked = tree_Roles.getCheckedNodes(true);
-                    var roleIds = [];
-                    $.each(tree_RolesByChecked, function (i, n) {
-                        roleIds.push(n.id);
-                    });
+            if (!isValid)
+                return false;
 
-                    var name = $("#txt_Name").val();
-
-                    $.lumos.postJson({
-                        url: "/Sys/Organization/AddPosition",
-                        data: { name: name, organizationId: organizationId,roleIds: roleIds },
-                        isUseHandling: true,
-                        success: function (d) {
-                            if (d.result == $.lumos.resultType.success) {
-                                $.lumos.parentDialog.refresh(1);
-                                $.lumos.tips(d.message, true);
-                            }
-                            else {
-                                $.lumos.tips(d.message);
-                            }
-                        }
-                    });
+            art.dialog.confirm('确定要新建？', function (e) {
+                var tree_RolesByChecked = tree_Roles.getCheckedNodes(true);
+                var roleIds = [];
+                $.each(tree_RolesByChecked, function (i, n) {
+                    roleIds.push(n.id);
                 });
-            }
+
+                var name = $("#txt_Name").val();
+
+                $.lumos.postJson({
+                    url: "/Sys/Position/Add",
+                    data: { name: name, organizationId: organizationId, roleIds: roleIds },
+                    isUseHandling: true,
+                    success: function (d) {
+                        if (d.result == $.lumos.resultType.success) {
+                            $.lumos.parentDialog.refresh(1);
+                            $.lumos.tips(d.message, true);
+                        }
+                        else {
+                            $.lumos.tips(d.message);
+                        }
+                    }
+                });
+            });
+
             return false;
         }
 

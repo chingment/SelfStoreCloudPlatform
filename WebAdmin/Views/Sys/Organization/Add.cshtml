@@ -5,8 +5,8 @@
 @section scripts{
     <script type="text/javascript">
 
-        var pOrganizationId = $.lumos.getUrlParamValue("pOrganizationId");
-        var pOrganizationName = $.lumos.getUrlParamValue("pOrganizationName");
+        var pId = $.lumos.getUrlParamValue("id");
+        var pName = $.lumos.getUrlParamValue("name");
 
         $(this).ready(function () {
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
@@ -17,7 +17,7 @@
         });
 
         function initData() {
-            $('#lbl_POrganizationName').text(pOrganizationName);
+            $('#lbl_PName').text(pName);
         }
 
 
@@ -34,7 +34,7 @@
                 $.lumos.postJson({
                     url: "/Sys/Organization/Add",
                     isUseHandling: true,
-                    data: { pId: pOrganizationId, name: name, description: description },
+                    data: { pId: pId, name: name, description: description },
                     success: function (d) {
                         if (d.result == $.lumos.resultType.success) {
                             $.lumos.parentDialog.refresh(1);
@@ -68,7 +68,7 @@
                 上级名称：
             </td>
             <td class="f-tb-c">
-                <label id="lbl_POrganizationName"></label>
+                <label id="lbl_PName"></label>
             </td>
         </tr>
         <tr>

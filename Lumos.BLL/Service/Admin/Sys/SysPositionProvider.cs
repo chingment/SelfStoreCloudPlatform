@@ -16,11 +16,13 @@ namespace Lumos.BLL.Service.Admin
             var sysPosition = CurrentDb.SysPosition.Where(m => m.Id == id).FirstOrDefault();
             if (sysPosition != null)
             {
+                var sysOrganization = CurrentDb.SysOrganization.Where(m => m.Id == sysPosition.OrganizationId).FirstOrDefault();
                 var sysRoleIds = CurrentDb.SysPositionRole.Where(x => x.PositionId == id).Select(x => x.RoleId).ToArray();
 
                 ret.Id = sysPosition.Id ?? "";
                 ret.Name = sysPosition.Name ?? "";
                 ret.RoleIds = sysRoleIds;
+                ret.OrganizationName = sysOrganization.Name;
             }
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);

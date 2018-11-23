@@ -10,10 +10,10 @@
         var mainTree_num = 0;
         var mainTree_maxNodeNum = 2;
         var mainTree_listPositions;
-
+        var mainTab;
         $(this).ready(function () {
 
-            $("#tab_Main").tab({
+            mainTab = $("#tab_Main").tab({
                 click: function (index) {
 
                     var selNode = getMainTreeSelNode();
@@ -21,9 +21,11 @@
                         return false;
                     }
 
+                    $("input[name='OrganizationId']").val(selNode.id);
+
                     switch (index) {
                         case 0:
-                            getDetails();
+                            getMainTreeSelNodeDetails();
                             break;
                         case 1:
                             mainTree_listPositions.loadData();
@@ -48,7 +50,7 @@
                     return;
                 }
 
-                var url = '/Sys/Organization/Add?pOrganizationId=' + selNode.id + '&pOrganizationName=' + escape(selNode.name)
+                var url = '/Sys/Organization/Add?id=' + selNode.id + '&name=' + escape(selNode.name)
                 var title = '新建';
                 art.dialog.open(url, {
                     id: "openDialog", title: title, width: '700px', height: '480px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '确定', ok: function () {
@@ -128,7 +130,7 @@
                     return;
                 }
 
-                var url = '/Sys/Organization/AddPosition?organizationId=' + selNode.id + '&organizationName=' + escape(selNode.name)
+                var url = '/Sys/Position/Add?organizationId=' + selNode.id + '&organizationName=' + escape(selNode.name)
                 var title = '添加';
                 art.dialog.open(url, {
                     id: "openDialog", title: title, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '确定', ok: function () {
@@ -174,7 +176,7 @@
             });
 
             mainTree_listPositions = $("#list_positions").loadDataTable({
-                url: "/Sys/Organization/GetPositionList",
+                url: "/Sys/Position/GetList",
                 pageIndex: 0,
                 searchParams: $("#form2").serializeArray(),
                 searchButtonId: "btn_Search",
@@ -199,25 +201,25 @@
                         if (selNode == null) {
                             return;
                         }
-                        var positionIds = [];
+                        var ids = [];
                         $.each(keys, function (i, n) {
-                            positionIds.push(n.id);
+                            ids.push(n.id);
                         });
 
                         $.lumos.postJson({
-                            url: "/Sys/Organization/RemovePosition",
-                            data: { organizationId: cur_OrganizationId, positionIds: positionIds },
+                            url: "/Sys/Position/Delete",
+                            data: { ids: ids },
                             success: function (d) {
                                 $.lumos.tips(d.message);
                                 if (d.result == $.lumos.resultType.success) {
-                                    list_OrganizationPositions.loadData(0);
+                                    mainTree_listPositions.loadData(0);
                                 }
                             }
                         });
 
                     },
                     "edit": function (obj) {
-                        var url = '/Sys/Organization/EditPosition?organizationId=' + obj.id;
+                        var url = '/Sys/Position/Edit?id=' + obj.id;
                         var title = '修改';
                         art.dialog.open(url, {
                             id: "openDialog", title: title, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
@@ -260,8 +262,6 @@
                 parentName = selNode.getParentNode().name;
             }
 
-            $("input[name='OrganizationId']").val(selNode.id);
-
             /*最大支持几级菜单由maxMum决定 可修改这个值*/
             num = 0;
             getChildNodeGrade(selNode);
@@ -272,9 +272,9 @@
                 $("#btn_add").attr("disabled", false);
             }
 
-            $.lumos.postJson({
-                data: { organizationId: selNode.id },
+            $.lumos.getJson({
                 url: "/Sys/Organization/GetDetails",
+                urlParams: { id: selNode.id },
                 success: function (d) {
 
                     if (d.result == $.lumos.resultType.success) {
@@ -292,7 +292,7 @@
         function mainTreeLoadData(selId) {
 
             $.lumos.postJson({
-                url: "/Sys/Organization/GetAll?pId=0",
+                url: "/Sys/Organization/GetAll",
                 success: function (d) {
                     var obj = eval(d.data);
                     mainTree = $.fn.zTree.init($("#maintree"), {
@@ -305,7 +305,7 @@
                         },
                         callback: {
                             onClick: function treeNodeOnClick(event, treeId, treeNode, clickFlag) {
-                                getMainTreeSelNodeDetails();
+                                mainTab.click();
                             }
                         }
                     }, obj);

@@ -11,5 +11,7 @@ namespace Lumos.BLL.Service.Admin
         public string Id { get; set; }
         public string[] RoleIds { get; set; }
         public string Name { get; set; }
+
+        public string OrganizationName { get; set; }
     }
 }
