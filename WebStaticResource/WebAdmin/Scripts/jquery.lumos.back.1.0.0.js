@@ -877,6 +877,7 @@
 
         //构造分页
         function getPagination(totalrecord, pagesize, pageindex) {
+           
             var l_pageIndex = parseInt(pageindex);
             var l_totalRecord = parseInt(totalrecord);
             var l_pageSize = parseInt(pagesize);
@@ -884,6 +885,7 @@
             var l_paginationInfo = "<div class=\"pagination-info\"><span> 共有" + l_totalRecord + "条，每页显示：" + l_pageSize + "条 </span></div>";
             l_pagination += l_paginationInfo;
 
+ 
             var l_pageCount = Math.ceil(l_totalRecord / l_pageSize)//页数
 
 
@@ -927,6 +929,7 @@
                 l_paginationIndex += '<li page-index="' + i + '"><a>' + (i + 1) + '</a> </li>';
             }
 
+      
 
             l_paginationIndex += ' <li class="active" ><span>' + (l_pageIndex + 1) + '</span></li>';
 
@@ -963,7 +966,7 @@
                 l_paginationIndex += '<li class="disabled" page-index="0"><a>›</a></li>';
             }
 
-
+        
 
             if (l_pageSize > 1 && (l_pageIndex != l_pageCount - 1) && l_pageCount > 0) {
                 l_paginationIndex += '<li  page-index="' + (l_pageCount - 1) + '"><a>»</a></li>';

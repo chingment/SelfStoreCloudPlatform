@@ -39,12 +39,12 @@ namespace WebAdmin.Controllers.Biz
             return View();
         }
 
-        public CustomJsonResult GetDetails(string merchantId)
+        public CustomJsonResult GetDetails(string id)
         {
-            return AdminServiceFactory.Merchant.GetDetails(this.CurrentUserId, merchantId);
+            return AdminServiceFactory.Merchant.GetDetails(this.CurrentUserId, id);
         }
 
-        public CustomJsonResult GetList(RupMachineGetList rup)
+        public CustomJsonResult GetList(RupMerchantGetList rup)
         {
             string name = rup.Name.ToSearchString();
             var query = (from m in CurrentDb.SysMerchantUser

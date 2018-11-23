@@ -9,7 +9,7 @@
         var id = $.lumos.getUrlParamValue("id");
         var list_machine;
         $(this).ready(function () {
-            $('input[name=MerchantId]').val(merchantId);
+            $('input[name=MerchantId]').val(id);
             $.formValidator.initConfig({ formID: "form_merchant", onError: function (msg) { $.lumos.tips(msg); } });
             $("#txt_Password").formValidator().regexValidator({ regExp: regexEnum.password, onError: "密码由6到20个数字、英文字母或下划线组成" });
             $("#txt_Password").attr("disabled", true).unFormValidator(true);

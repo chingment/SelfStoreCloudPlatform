@@ -47,7 +47,7 @@ namespace Lumos.BLL.Service.Admin
 
             var lPosMachine = CurrentDb.Machine.Where(m => m.DeviceId == rop.DeviceId).FirstOrDefault();
             if (lPosMachine != null)
-                return new CustomJsonResult(ResultType.Failure, "该POS机设备ID已经登记");
+                return new CustomJsonResult(ResultType.Failure, "该P设备ID已经登记");
 
             var machine = new Machine();
             machine.Id = GuidUtil.New();

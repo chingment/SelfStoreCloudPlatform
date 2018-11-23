@@ -6,7 +6,7 @@
 <script type="text/javascript">
 
     var listTable;
-    var merchantId = $.lumos.getUrlParamValue("merchantId");
+    var id = $.lumos.getUrlParamValue("id");
     $(document).ready(function () {
 
 
@@ -39,7 +39,7 @@
                             $.lumos.postJson({
                                 isUseHandling: true,
                                 url: "/Biz/Merchant/BindOnMachine",
-                                data: { merchantId: merchantId, machineId: obj.id },
+                                data: { merchantId: id, machineId: obj.id },
                                 success: function (d) {
                                     if (d.result == $.lumos.resultType.success) {
                                         $.lumos.parentDialog.refresh(1);
