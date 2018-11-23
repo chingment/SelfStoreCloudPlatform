@@ -216,15 +216,13 @@
                                     url: "/Sys/Menu/GetDetails",
                                     urlParams: { menuId: treeNode.id },
                                     success: function (d) {
-
                                         if (d.result == $.lumos.resultType.success) {
-                                            $("#lbl_PName").text(parentName);
                                             var data = d.data;
+                                            $("#lbl_PName").text(parentName);
                                             $("#txt_Name").val(data.name);
                                             $("#txt_Url").val(data.url);
                                             $("#txt_Description").val(data.description);
                                             $("input[name='permissionId']").attr("checked", false);
-
                                             var permissionIds = data.permissionIds;
                                             for (var i = 0; i < permissionIds.length; i++) {
                                                 $("input[name='permissionId'][value='" + permissionIds[i] + "']").attr("checked", true);
@@ -232,7 +230,6 @@
                                         }
                                     }
                                 });
-
                             }
                         },
                         async: {

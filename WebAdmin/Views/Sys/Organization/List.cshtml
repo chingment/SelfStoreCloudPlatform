@@ -244,7 +244,13 @@
                         callback: {
                             onClick: function treeNodeOnClick(event, treeId, treeNode, clickFlag) {
 
+                                var parentName = "/";
+                                if (treeNode.getParentNode() != null) {
+                                    parentName = treeNode.getParentNode().name;
+                                }
+
                                 cur_OrganizationId = treeNode.id;
+
                                 $("input[name='OrganizationId']").val(cur_OrganizationId);
 
                                 /*最大支持几级菜单由maxMum决定 可修改这个值*/
