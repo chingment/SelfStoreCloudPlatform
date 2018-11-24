@@ -51,7 +51,7 @@ namespace WebMobile.Controllers
             }
 
             UserInfo userInfo = new UserInfo();
-            userInfo.UserId = result.User.Id;
+            userInfo.UserId = result.User.UserId;
             userInfo.UserName = result.User.UserName;
 
             string accessToken = GuidUtil.New();

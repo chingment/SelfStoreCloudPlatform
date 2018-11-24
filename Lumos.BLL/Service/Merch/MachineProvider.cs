@@ -30,47 +30,54 @@ namespace Lumos.BLL.Service.Merch
             var ret = new RetMachineGetDetails();
 
 
-            var machine = CurrentDb.Machine.Where(m => m.Id == id).FirstOrDefault();
-            var storeMachine = CurrentDb.StoreMachine.Where(m => m.MerchantId == merchantId && m.MachineId == id && m.IsBind == true).FirstOrDefault();
-            if (storeMachine != null)
+            var machine = CurrentDb.Machine.Where(m => m.MerchantId == merchantId && m.Id == id).FirstOrDefault();
+            if (machine != null)
             {
                 ret.Id = id;
                 ret.DeviceId = machine.DeviceId;
-                ret.Name = storeMachine.MachineName;
+                ret.Name = machine.Name;
 
-                var store = CurrentDb.Store.Where(m => m.Id == storeMachine.StoreId).FirstOrDefault();
-                if (store != null)
+                var storeMachine = CurrentDb.StoreMachine.Where(m => m.MerchantId == merchantId && m.MachineId == id && m.IsBind == true).FirstOrDefault();
+                if (storeMachine == null)
                 {
-                    ret.Store.Id = store.Id;
-                    ret.Store.Name = store.Name;
-                    ret.Store.Address = store.Address;
-
-                    var skus = from u in CurrentDb.StoreSellStock
-                               where
-                               u.MerchantId == merchantId &&
-                               u.StoreId == store.Id &&
-                               u.ChannelId == id &&
-                               u.ChannelType == Enumeration.ChannelType.Machine
-                               select new { u.Id, u.SlotId, u.ProductSkuId, u.ProductSkuName, u.Quantity, u.LockQuantity, u.SellQuantity, u.SalePrice, u.SalePriceByVip };
-
-                    List<object> olist = new List<object>();
-                    foreach (var item in skus)
+                    ret.Store.Name = "未绑定店铺";
+                }
+                else
+                {
+                    var store = CurrentDb.Store.Where(m => m.Id == storeMachine.StoreId).FirstOrDefault();
+                    if (store != null)
                     {
-                        var skuModel = BizFactory.ProductSku.GetModel(item.ProductSkuId);
-                        if (skuModel != null)
+                        ret.Store.Id = store.Id;
+                        ret.Store.Name = store.Name;
+                        ret.Store.Address = store.Address;
+
+                        var skus = from u in CurrentDb.StoreSellStock
+                                   where
+                                   u.MerchantId == merchantId &&
+                                   u.StoreId == store.Id &&
+                                   u.ChannelId == id &&
+                                   u.ChannelType == Enumeration.ChannelType.Machine
+                                   select new { u.Id, u.SlotId, u.ProductSkuId, u.ProductSkuName, u.Quantity, u.LockQuantity, u.SellQuantity, u.SalePrice, u.SalePriceByVip };
+
+                        List<object> olist = new List<object>();
+                        foreach (var item in skus)
                         {
-                            ret.Skus.Add(new RetMachineGetDetails.SkuModel
+                            var skuModel = BizFactory.ProductSku.GetModel(item.ProductSkuId);
+                            if (skuModel != null)
                             {
-                                Id = skuModel.Id,
-                                Name = skuModel.Name,
-                                ImgUrl = skuModel.ImgUrl,
-                                SlotId = item.SlotId,
-                                Quantity = item.Quantity,
-                                LockQuantity = item.LockQuantity,
-                                SellQuantity = item.SellQuantity,
-                                SalePrice = item.SalePrice,
-                                SalePriceByVip = item.SalePriceByVip
-                            });
+                                ret.Skus.Add(new RetMachineGetDetails.SkuModel
+                                {
+                                    Id = skuModel.Id,
+                                    Name = skuModel.Name,
+                                    ImgUrl = skuModel.ImgUrl,
+                                    SlotId = item.SlotId,
+                                    Quantity = item.Quantity,
+                                    LockQuantity = item.LockQuantity,
+                                    SellQuantity = item.SellQuantity,
+                                    SalePrice = item.SalePrice,
+                                    SalePriceByVip = item.SalePriceByVip
+                                });
+                            }
                         }
                     }
                 }

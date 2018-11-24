@@ -27,6 +27,8 @@ namespace Lumos.Entity
 
         public string MerchantId { get; set; }
 
+        public string StoreId { get; set; }
+
         public string LogoImgUrl { get; set; }
 
         public string BtnBuyImgUrl { get; set; }

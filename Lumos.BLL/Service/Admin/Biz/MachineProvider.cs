@@ -111,10 +111,10 @@ namespace Lumos.BLL.Service.Admin
                 machineBindLog.Id = GuidUtil.New();
                 machineBindLog.MerchantId = merchantId;
                 machineBindLog.MachineId = id;
+                machineBindLog.StoreId = null;
                 machineBindLog.BindType = Enumeration.MachineBindType.On;
                 machineBindLog.CreateTime = this.DateTime;
                 machineBindLog.Creator = operater;
-
                 CurrentDb.MachineBindLog.Add(machineBindLog);
                 CurrentDb.SaveChanges();
                 ts.Complete();

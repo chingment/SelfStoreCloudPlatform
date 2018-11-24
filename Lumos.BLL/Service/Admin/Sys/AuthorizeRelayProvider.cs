@@ -41,23 +41,23 @@ namespace Lumos.BLL.Service.Admin
                 case Enumeration.LoginResultTip.UserPasswordIncorrect:
                     loginHis.Description = "登录失败,密码错误";
                     loginHis.Result = Enumeration.LoginResult.Failure;
-                    loginHis.UserId = result.User.Id;
+                    loginHis.UserId = result.User.UserId;
                     break;
                 case Enumeration.LoginResultTip.UserDisabled:
                     loginHis.Description = "登录失败,帐号被禁用";
                     loginHis.Result = Enumeration.LoginResult.Failure;
-                    loginHis.UserId = result.User.Id;
+                    loginHis.UserId = result.User.UserId;
                     break;
                 case Enumeration.LoginResultTip.UserDeleted:
                     loginHis.Description = "登录失败,帐号已删除";
                     loginHis.Result = Enumeration.LoginResult.Failure;
-                    loginHis.UserId = result.User.Id;
+                    loginHis.UserId = result.User.UserId;
                     break;
                 case Enumeration.LoginResultTip.VerifyPass:
                     loginHis.Description = "登录成功";
                     loginHis.Result = Enumeration.LoginResult.Success;
-                    loginHis.UserId = result.User.Id;
-                    loginHis.Creator = result.User.Id;
+                    loginHis.UserId = result.User.UserId;
+                    loginHis.Creator = result.User.UserId;
                     break;
             }
 

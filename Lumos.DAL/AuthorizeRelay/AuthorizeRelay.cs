@@ -5,14 +5,25 @@ using Lumos.Entity;
 using System.Reflection;
 using System.Transactions;
 
+
 namespace Lumos.DAL.AuthorizeRelay
 {
+
+    public class LoginUserInfo
+    {
+        public string UserId { get; set; }
+
+        public string UserName { get; set; }
+
+        public Enumeration.BelongSite BelongSite { get; set; }
+    }
+
     public class LoginResult
     {
 
         private Enumeration.LoginResult _ResultType;
         private Enumeration.LoginResultTip _ResultTip;
-        private SysUser _User;
+        private LoginUserInfo _User;
 
         public Enumeration.LoginResult ResultType
         {
@@ -32,7 +43,7 @@ namespace Lumos.DAL.AuthorizeRelay
         }
 
 
-        public SysUser User
+        public LoginUserInfo User
         {
             get
             {
@@ -51,7 +62,7 @@ namespace Lumos.DAL.AuthorizeRelay
             this._ResultTip = pTip;
         }
 
-        public LoginResult(Enumeration.LoginResult pType, Enumeration.LoginResultTip pTip, SysUser pUser)
+        public LoginResult(Enumeration.LoginResult pType, Enumeration.LoginResultTip pTip, LoginUserInfo pUser)
         {
             this._ResultType = pType;
             this._ResultTip = pTip;
@@ -116,24 +127,30 @@ namespace Lumos.DAL.AuthorizeRelay
             {
                 var lastUserInfo = CloneObject(user) as SysUser;
 
+
+                var loginUserInfo = new LoginUserInfo();
+                loginUserInfo.UserId = user.Id;
+                loginUserInfo.UserName = user.UserName;
+                loginUserInfo.BelongSite = user.BelongSite;
+
                 bool isFlag = PassWordHelper.VerifyHashedPassword(user.PasswordHash, pPassword);
 
                 if (!isFlag)
                 {
-                    result = new LoginResult(Enumeration.LoginResult.Failure, Enumeration.LoginResultTip.UserPasswordIncorrect, lastUserInfo);
+                    result = new LoginResult(Enumeration.LoginResult.Failure, Enumeration.LoginResultTip.UserPasswordIncorrect, loginUserInfo);
                 }
                 else
                 {
 
                     if (user.Status == Enumeration.UserStatus.Disable)
                     {
-                        result = new LoginResult(Enumeration.LoginResult.Failure, Enumeration.LoginResultTip.UserDisabled, lastUserInfo);
+                        result = new LoginResult(Enumeration.LoginResult.Failure, Enumeration.LoginResultTip.UserDisabled, loginUserInfo);
                     }
                     else
                     {
                         if (user.IsDelete)
                         {
-                            result = new LoginResult(Enumeration.LoginResult.Failure, Enumeration.LoginResultTip.UserDeleted, lastUserInfo);
+                            result = new LoginResult(Enumeration.LoginResult.Failure, Enumeration.LoginResultTip.UserDeleted, loginUserInfo);
                         }
                         else
                         {
@@ -141,7 +158,7 @@ namespace Lumos.DAL.AuthorizeRelay
                             user.LastLoginIp = pLoginIp;
                             _db.SaveChanges();
 
-                            result = new LoginResult(Enumeration.LoginResult.Success, Enumeration.LoginResultTip.VerifyPass, lastUserInfo);
+                            result = new LoginResult(Enumeration.LoginResult.Success, Enumeration.LoginResultTip.VerifyPass, loginUserInfo);
 
                         }
                     }

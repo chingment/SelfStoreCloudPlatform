@@ -5,7 +5,6 @@ namespace Lumos.Session
 {
     public class UserInfo
     {
-        //public string Token { get; set; }
 
         public string UserId { get; set; }
 
@@ -14,5 +13,6 @@ namespace Lumos.Session
         public string WxOpenId { get; set; }
 
         public string WxAccessToken { get; set; }
+
     }
 }

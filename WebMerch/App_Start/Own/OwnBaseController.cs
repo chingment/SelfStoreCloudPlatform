@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 using Lumos.Web.Mvc;
 using Lumos.DAL;
+using System.Linq;
 
 namespace WebMerch
 {
@@ -13,6 +14,7 @@ namespace WebMerch
     [ValidateInput(false)]
     public abstract class OwnBaseController : BaseController
     {
+        private string _merchantId = "";
 
         public override string CurrentUserId
         {
@@ -21,6 +23,22 @@ namespace WebMerch
                 return OwnRequest.GetCurrentUserId();
             }
         }
+
+        public string CurrentMerchantId
+        {
+            get
+            {
+                return OwnRequest.GetCurrentUserId();
+            }
+        }
+
+        public OwnBaseController()
+        {
+
+           
+        }
+
+
 
         private LumosDbContext _currentDb;
 

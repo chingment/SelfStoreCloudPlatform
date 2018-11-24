@@ -71,8 +71,7 @@ namespace WebSSO.Controllers
 
             string host = "";
             string returnUrl = "";
-
-
+            string merchantId = "";
             switch (result.User.BelongSite)
             {
                 case Enumeration.BelongSite.Admin:
@@ -81,6 +80,7 @@ namespace WebSSO.Controllers
                     returnUrl = string.Format("{0}", host);
                     break;
                 case Enumeration.BelongSite.Merchant:
+
                     host = System.Configuration.ConfigurationManager.AppSettings["custom:WebMerchUrl"];
                     //returnUrl = string.Format("{0}?returnUrl={1}", host, model.ReturnUrl);
                     returnUrl = string.Format("{0}", host);
@@ -89,7 +89,7 @@ namespace WebSSO.Controllers
 
 
             UserInfo userInfo = new UserInfo();
-            userInfo.UserId = result.User.Id;
+            userInfo.UserId = result.User.UserId;
             userInfo.UserName = result.User.UserName;
 
             string token = GuidUtil.New();

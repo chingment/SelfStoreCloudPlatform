@@ -34,13 +34,15 @@ namespace WebMerch.Controllers
             string deviceId = rup.DeviceId.ToSearchString();
 
             var query = (from m in CurrentDb.Machine
+                         join s in CurrentDb.Store on m.StoreId equals s.Id into temp
+                         from tt in temp.DefaultIfEmpty()
                          where
                                  (deviceId.Length == 0 || m.DeviceId.Contains(deviceId))
                                  &&
                                  m.MerchantId == this.CurrentUserId
                                  &&
                                  m.IsUse == true
-                         select new { m.Id, m.Name, m.DeviceId, m.MacAddress, m.IsUse, m.CreateTime });
+                         select new { m.Id, m.Name, m.DeviceId, m.MacAddress, m.StoreId, m.CreateTime });
 
             int total = query.Count();
 
@@ -55,17 +57,8 @@ namespace WebMerch.Controllers
             {
                 string machineName = item.Name;
                 string storeName = "未绑定便利店";
-                var storeMachine = CurrentDb.StoreMachine.Where(m => m.MachineId == item.Id && m.IsBind == true).FirstOrDefault();
-                if (storeMachine != null)
-                {
-                    machineName = storeMachine.MachineName;
 
-                    var store = CurrentDb.Store.Where(m => m.Id == storeMachine.StoreId).FirstOrDefault();
-                    if (store != null)
-                    {
-                        storeName = store.Name;
-                    }
-                }
+                ///string l_merchantName = item. == false ? "未绑定商户" : item.MerchantName;
 
                 //todo 未实现状态值
 
