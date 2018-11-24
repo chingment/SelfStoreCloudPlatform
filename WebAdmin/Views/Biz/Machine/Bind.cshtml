@@ -31,7 +31,7 @@
                 $.lumos.postJson({
                     url: "/Biz/Machine/Bind",
                     isUseHandling: true,
-                    data: { machineId: id, merchantId: merchantId },
+                    data: { id: id, merchantId: merchantId },
                     success: function (d) {
                         if (d.result == $.lumos.resultType.success) {
                             $.lumos.parentDialog.refresh(2);
@@ -48,7 +48,7 @@
 
         function getMerchantDetails(obj) {
             merchantId = obj.id;
-            $('#lbl_Merchant_Name').text(obj.merchantName);
+            $('#lbl_Merchant_Name').text(obj.name);
             $('#lbl_Merchant_ContactName').text(obj.contactName);
             $('#lbl_Merchant_ContactPhone').text(obj.contactPhone);
             $('#lbl_Merchant_ContactAddress').text(obj.contactAddress);

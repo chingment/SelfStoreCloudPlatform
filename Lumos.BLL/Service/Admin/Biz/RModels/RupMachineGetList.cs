@@ -15,5 +15,8 @@ namespace Lumos.BLL.Service.Admin
         public string StoreId { get; set; }
 
         public string MerchantId { get; set; }
+
+
+        public string MerchantName { get; set; }
     }
 }

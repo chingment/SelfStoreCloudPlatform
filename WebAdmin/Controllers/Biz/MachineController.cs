@@ -52,12 +52,14 @@ namespace WebAdmin.Controllers.Biz
         public CustomJsonResult GetList(RupMachineGetList rup)
         {
             string deviceId = rup.DeviceId.ToSearchString();
+            string merchantName = rup.MerchantName.ToSearchString();
 
             var query = (from p in CurrentDb.Machine
                          join a in CurrentDb.MerchantInfo on p.MerchantId equals a.MerchantId into temp
                          from tt in temp.DefaultIfEmpty()
                          where
-                                 (deviceId.Length == 0 || p.DeviceId.Contains(deviceId))
+                                 (merchantName.Length == 0 || tt.Name.Contains(merchantName)) &&
+                                    (deviceId.Length == 0 || p.DeviceId.Contains(deviceId))
                          select new { p.Id, p.Name, p.DeviceId, p.MacAddress, p.IsUse, p.CreateTime, p.MerchantId, MerchantName = tt.Name });
 
             int total = query.Count();
@@ -72,14 +74,14 @@ namespace WebAdmin.Controllers.Biz
 
             foreach (var item in list)
             {
-                string merchantName = item.IsUse == false ? "未绑定商户" : item.MerchantName;
+                string l_merchantName = item.IsUse == false ? "未绑定商户" : item.MerchantName;
 
                 olist.Add(new
                 {
                     Id = item.Id,
                     Name = item.Name,
                     MerchantId = item.MerchantId,
-                    MerchantName = merchantName,
+                    MerchantName = l_merchantName,
                     DeviceId = item.DeviceId,
                     IsUse = item.IsUse,
                     MacAddress = item.MacAddress,
@@ -108,16 +110,16 @@ namespace WebAdmin.Controllers.Biz
         }
 
         [HttpPost]
-        public CustomJsonResult Bind(string merchantId, string machineId)
+        public CustomJsonResult Bind(string id, string merchantId)
         {
-            var machine = CurrentDb.Machine.Where(m => m.Id == machineId).FirstOrDefault();
+            var machine = CurrentDb.Machine.Where(m => m.Id == id).FirstOrDefault();
             if (machine.IsUse)
             {
-                return AdminServiceFactory.Machine.BindOffMerchant(this.CurrentUserId, merchantId, machineId);
+                return AdminServiceFactory.Machine.BindOffMerchant(this.CurrentUserId, id, merchantId);
             }
             else
             {
-                return AdminServiceFactory.Machine.BindOnMerchant(this.CurrentUserId, merchantId, machineId);
+                return AdminServiceFactory.Machine.BindOnMerchant(this.CurrentUserId, id, merchantId);
             }
 
         }
