@@ -41,14 +41,10 @@
             $(".uploadimg").initUploadImage();
             $("#tab1").tab();
             $('.chosen-select').chosen({ search_contains: true });
+
             $('#btn_select_mrchUser').live('click', function () {
-                var dialogtitle = "选择";
-                var l_title = $(this).attr("dialog-title")
-                if (typeof l_title != 'undefined') {
-                    dialogtitle = l_title;
-                }
                 art.dialog.open('/Biz/Merchant/ListBySelect', {
-                    id: "openDialog565", title: l_title, width: '600px', height: '480px', lock: true, drag: false, cancelVal: '关闭', cancel: true
+                    id: "openDialog565", title: "选择", width: '600px', height: '550px', lock: true, drag: false, cancelVal: '关闭', cancel: true
                 });
 
             });
