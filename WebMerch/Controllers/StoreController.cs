@@ -144,7 +144,6 @@ namespace WebMerch.Controllers
             }
 
             var query = (from u in CurrentDb.Machine
-                         join p in CurrentDb.MerchantMachine on u.Id equals p.MachineId
                          where
                                 !(from d2 in CurrentDb.StoreMachine
                                   where d2.MerchantId == this.CurrentUserId &&
@@ -152,8 +151,8 @@ namespace WebMerch.Controllers
                                   select d2.MachineId).Contains(u.Id)
                          &&
                          (name.Length == 0 || u.Name.Contains(name))
-                         && p.MerchantId == this.CurrentUserId
-                         && p.IsBind == true
+                         && u.MerchantId == this.CurrentUserId
+                         && u.IsUse == true
                          select new { u.Id, u.Name, u.DeviceId }).Distinct();
 
             int total = query.Count();

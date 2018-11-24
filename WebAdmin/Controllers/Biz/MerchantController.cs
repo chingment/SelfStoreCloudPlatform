@@ -102,16 +102,14 @@ namespace WebAdmin.Controllers.Biz
 
             string deviceId = rup.DeviceId.ToSearchString();
 
-            var list = (from mp in CurrentDb.MerchantMachine
-                        join m in CurrentDb.MerchantInfo on mp.MerchantId equals m.MerchantId
-                        join p in CurrentDb.Machine on mp.MachineId equals p.Id
+            var list = (from p in CurrentDb.Machine
+                        join m in CurrentDb.MerchantInfo on p.MerchantId equals m.MerchantId
                         where
-                        mp.MerchantId == rup.MerchantId &&
+                        p.MerchantId == rup.MerchantId &&
                         p.IsUse == true &&
-                        mp.IsBind == true &&
                                (deviceId.Length == 0 || p.DeviceId.Contains(deviceId))
 
-                        select new { mp.Id, mp.MerchantId, mp.MachineId, MerchantName = m.Name, p.DeviceId, MachineName = p.Name, p.MacAddress });
+                        select new { p.Id, p.MerchantId, MerchantName = m.Name, p.DeviceId, MachineName = p.Name, p.MacAddress });
 
             int total = list.Count();
 

@@ -362,5 +362,15 @@ namespace Lumos.Entity
             [Remark("首页Banner")]
             IndexBanner = 1,
         }
+
+        public enum MachineBindType
+        {
+            [Remark("未知")]
+            Unknow = 0,
+            [Remark("绑定")]
+            On = 1,
+            [Remark("解绑")]
+            Off = 2,
+        }
     }
 }

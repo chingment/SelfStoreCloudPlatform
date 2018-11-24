@@ -71,16 +71,13 @@ namespace Lumos.BLL.Service.AppTerm
                 return new CustomJsonResult(ResultType.Failure, "设备未配置商户");
             }
 
-
-            var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.MachineId == machine.Id & m.IsBind == true).FirstOrDefault();
-
-            if (merchantMachine == null)
+            if (!machine.IsUse )
             {
                 return new CustomJsonResult(ResultType.Failure, "设备未绑定商户");
             }
 
 
-            var storeMachine = CurrentDb.StoreMachine.Where(m => m.MerchantId == merchantMachine.MerchantId && m.MachineId == merchantMachine.MachineId && m.IsBind == true).FirstOrDefault();
+            var storeMachine = CurrentDb.StoreMachine.Where(m => m.MerchantId == machine.MerchantId && m.MachineId == machine.Id && m.IsBind == true).FirstOrDefault();
 
             if (storeMachine == null)
             {
@@ -101,7 +98,7 @@ namespace Lumos.BLL.Service.AppTerm
                 return new CustomJsonResult(ResultType.Failure, "店铺不存在");
             }
 
-            var merchantInfo = CurrentDb.MerchantInfo.Where(m => m.MerchantId == merchantMachine.MerchantId).FirstOrDefault();
+            var merchantInfo = CurrentDb.MerchantInfo.Where(m => m.MerchantId == machine.MerchantId).FirstOrDefault();
             if (merchantInfo == null)
             {
                 return new CustomJsonResult(ResultType.Failure, "已绑定商户，却找不到商户信息");

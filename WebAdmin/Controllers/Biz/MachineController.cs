@@ -74,16 +74,16 @@ namespace WebAdmin.Controllers.Biz
                 string merchantId = "";
                 string merchantName = "未绑定商户";
                 bool isBind = false;
-                var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.MachineId == item.Id && m.IsBind == true).FirstOrDefault();
-                if (merchantMachine != null)
-                {
-                    var merchantInfo = CurrentDb.MerchantInfo.Where(m => m.MerchantId == merchantMachine.MerchantId).FirstOrDefault();
-                    if (merchantInfo != null)
-                    {
-                        merchantName = merchantInfo.Name;
-                        isBind = true;
-                    }
-                }
+                //var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.MachineId == item.Id && m.IsBind == true).FirstOrDefault();
+                //if (merchantMachine != null)
+                //{
+                //    var merchantInfo = CurrentDb.MerchantInfo.Where(m => m.MerchantId == merchantMachine.MerchantId).FirstOrDefault();
+                //    if (merchantInfo != null)
+                //    {
+                //        merchantName = merchantInfo.Name;
+                //        isBind = true;
+                //    }
+                //}
 
                 olist.Add(new
                 {

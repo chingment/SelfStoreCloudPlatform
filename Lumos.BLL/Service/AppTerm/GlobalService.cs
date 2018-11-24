@@ -13,16 +13,16 @@ namespace Lumos.BLL.Service.AppTerm
             CustomJsonResult result = new CustomJsonResult();
             var ret = new RetGlobalDataSet();
 
-            var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.MerchantId == rup.MerchantId && m.MachineId == rup.MachineId && m.IsBind == true).FirstOrDefault();
+            var machine = CurrentDb.Machine.Where(m => m.MerchantId == rup.MerchantId && m.Id == rup.MachineId && m.IsUse == true).FirstOrDefault();
 
-            if (merchantMachine == null)
+            if (machine == null)
             {
                 return new CustomJsonResult(ResultType.Failure, "设备未绑定商户");
             }
 
-            ret.LogoImgUrl = merchantMachine.LogoImgUrl;
-            ret.BtnBuyImgUrl = merchantMachine.BtnBuyImgUrl;
-            ret.BtnPickImgUrl = merchantMachine.BtnPickImgUrl;
+            ret.LogoImgUrl = machine.LogoImgUrl;
+            ret.BtnBuyImgUrl = machine.BtnBuyImgUrl;
+            ret.BtnPickImgUrl = machine.BtnPickImgUrl;
 
 
             ret.Banners = TermServiceFactory.Machine.GetBanners(operater, rup.MerchantId, rup.MachineId);

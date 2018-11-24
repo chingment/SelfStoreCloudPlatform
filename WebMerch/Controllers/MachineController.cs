@@ -33,15 +33,14 @@ namespace WebMerch.Controllers
         {
             string deviceId = rup.DeviceId.ToSearchString();
 
-            var query = (from mp in CurrentDb.MerchantMachine
-                         join p in CurrentDb.Machine on mp.MachineId equals p.Id
+            var query = (from m in CurrentDb.Machine
                          where
-                                 (deviceId.Length == 0 || p.DeviceId.Contains(deviceId))
+                                 (deviceId.Length == 0 || m.DeviceId.Contains(deviceId))
                                  &&
-                                 mp.MerchantId == this.CurrentUserId
+                                 m.MerchantId == this.CurrentUserId
                                  &&
-                                 mp.IsBind == true
-                         select new { p.Id, p.Name, p.DeviceId, p.MacAddress, p.IsUse, p.CreateTime });
+                                 m.IsUse == true
+                         select new { m.Id, m.Name, m.DeviceId, m.MacAddress, m.IsUse, m.CreateTime });
 
             int total = query.Count();
 

@@ -13,71 +13,69 @@ namespace Lumos.BLL.Service.Merch
     {
         public CustomJsonResult Edit(string operater, string merchantId, RopMachineEdit rop)
         {
-            var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.MerchantId == merchantId && m.MachineId == rop.Id).FirstOrDefault();
-            if (merchantMachine != null)
+            var machine = CurrentDb.Machine.Where(m => m.MerchantId == merchantId && m.Id == rop.Id).FirstOrDefault();
+            if (machine != null)
             {
                 //l_MerchantMachine.ma = rop.Name;
-                merchantMachine.Mender = operater;
-                merchantMachine.MendTime = DateTime.Now;
+                machine.Mender = operater;
+                machine.MendTime = DateTime.Now;
                 CurrentDb.SaveChanges();
             }
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
         }
 
-        public CustomJsonResult GetDetails(string operater, string merchantId, string machineId)
+        public CustomJsonResult GetDetails(string operater, string merchantId, string id)
         {
 
             var ret = new RetMachineGetDetails();
 
-            var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.MerchantId == merchantId && m.MachineId == machineId).FirstOrDefault();
-            if (merchantMachine != null)
+
+            var machine = CurrentDb.Machine.Where(m => m.Id == id).FirstOrDefault();
+            var storeMachine = CurrentDb.StoreMachine.Where(m => m.MerchantId == merchantId && m.MachineId == id && m.IsBind == true).FirstOrDefault();
+            if (storeMachine != null)
             {
-                var machine = CurrentDb.Machine.Where(m => m.Id == merchantMachine.MachineId).FirstOrDefault();
-                var storeMachine = CurrentDb.StoreMachine.Where(m => m.MerchantId == merchantMachine.MerchantId && m.MachineId == merchantMachine.MachineId && m.IsBind == true).FirstOrDefault();
-                if (storeMachine != null)
+                ret.Id = id;
+                ret.DeviceId = machine.DeviceId;
+                ret.Name = storeMachine.MachineName;
+
+                var store = CurrentDb.Store.Where(m => m.Id == storeMachine.StoreId).FirstOrDefault();
+                if (store != null)
                 {
-                    ret.Id = merchantMachine.MachineId;
-                    ret.DeviceId = machine.DeviceId;
-                    ret.Name = storeMachine.MachineName;
+                    ret.Store.Id = store.Id;
+                    ret.Store.Name = store.Name;
+                    ret.Store.Address = store.Address;
 
-                    var store = CurrentDb.Store.Where(m => m.Id == storeMachine.StoreId).FirstOrDefault();
-                    if (store != null)
+                    var skus = from u in CurrentDb.StoreSellStock
+                               where
+                               u.MerchantId == merchantId &&
+                               u.StoreId == store.Id &&
+                               u.ChannelId == id &&
+                               u.ChannelType == Enumeration.ChannelType.Machine
+                               select new { u.Id, u.SlotId, u.ProductSkuId, u.ProductSkuName, u.Quantity, u.LockQuantity, u.SellQuantity, u.SalePrice, u.SalePriceByVip };
+
+                    List<object> olist = new List<object>();
+                    foreach (var item in skus)
                     {
-                        ret.Store.Id = store.Id;
-                        ret.Store.Name = store.Name;
-                        ret.Store.Address = store.Address;
-
-                        var skus = from u in CurrentDb.StoreSellStock
-                                   where
-                                   u.MerchantId == merchantId &&
-                                   u.StoreId == store.Id &&
-                                   u.ChannelId == machineId &&
-                                   u.ChannelType == Enumeration.ChannelType.Machine
-                                   select new { u.Id, u.SlotId, u.ProductSkuId, u.ProductSkuName, u.Quantity, u.LockQuantity, u.SellQuantity, u.SalePrice, u.SalePriceByVip };
-
-                        List<object> olist = new List<object>();
-                        foreach (var item in skus)
+                        var skuModel = BizFactory.ProductSku.GetModel(item.ProductSkuId);
+                        if (skuModel != null)
                         {
-                            var skuModel = BizFactory.ProductSku.GetModel(item.ProductSkuId);
-                            if (skuModel != null)
+                            ret.Skus.Add(new RetMachineGetDetails.SkuModel
                             {
-                                ret.Skus.Add(new RetMachineGetDetails.SkuModel
-                                {
-                                    Id = skuModel.Id,
-                                    Name = skuModel.Name,
-                                    ImgUrl = skuModel.ImgUrl,
-                                    SlotId = item.SlotId,
-                                    Quantity = item.Quantity,
-                                    LockQuantity = item.LockQuantity,
-                                    SellQuantity = item.SellQuantity,
-                                    SalePrice = item.SalePrice,
-                                    SalePriceByVip = item.SalePriceByVip
-                                });
-                            }
+                                Id = skuModel.Id,
+                                Name = skuModel.Name,
+                                ImgUrl = skuModel.ImgUrl,
+                                SlotId = item.SlotId,
+                                Quantity = item.Quantity,
+                                LockQuantity = item.LockQuantity,
+                                SellQuantity = item.SellQuantity,
+                                SalePrice = item.SalePrice,
+                                SalePriceByVip = item.SalePriceByVip
+                            });
                         }
                     }
                 }
             }
+
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
     }

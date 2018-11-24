@@ -25,5 +25,13 @@ namespace Lumos.Entity
         public float Lng { get; set; }
         public string JPushRegId { get; set; }
 
+        public string MerchantId { get; set; }
+
+        public string LogoImgUrl { get; set; }
+
+        public string BtnBuyImgUrl { get; set; }
+
+        public string BtnPickImgUrl { get; set; }
+
     }
 }
