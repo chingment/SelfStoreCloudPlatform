@@ -4,12 +4,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Lumos.Entity
 {
-    [Table("MerchantInfo")]
-    public class MerchantInfo
+    [Table("Merchant")]
+    public class Merchant
     {
         [Key]
         public string Id { get; set; }
-        public string MerchantId { get; set; }
         public string Name { get; set; }
         public string ContactName { get; set; }
         public string ContactPhone { get; set; }

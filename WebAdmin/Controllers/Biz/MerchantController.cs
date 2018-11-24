@@ -47,8 +47,8 @@ namespace WebAdmin.Controllers.Biz
         public CustomJsonResult GetList(RupMerchantGetList rup)
         {
             string name = rup.Name.ToSearchString();
-            var query = (from m in CurrentDb.MerchantInfo
-                         join u in CurrentDb.SysMerchantUser on m.MerchantId equals u.Id
+            var query = (from m in CurrentDb.Merchant
+                         join u in CurrentDb.SysMerchantUser on m.Id equals u.Id
                          where
                                  (name.Length == 0 || m.Name.Contains(name))
                          select new { m.Id, u.UserName, m.Name, m.ContactName, m.ContactAddress, m.ContactPhone, m.CreateTime });
@@ -103,7 +103,7 @@ namespace WebAdmin.Controllers.Biz
             string deviceId = rup.DeviceId.ToSearchString();
 
             var list = (from p in CurrentDb.Machine
-                        join m in CurrentDb.MerchantInfo on p.MerchantId equals m.MerchantId
+                        join m in CurrentDb.Merchant on p.MerchantId equals m.Id
                         where
                         p.MerchantId == rup.MerchantId &&
                         p.IsUse == true &&

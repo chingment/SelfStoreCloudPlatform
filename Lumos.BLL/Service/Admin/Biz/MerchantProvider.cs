@@ -20,9 +20,9 @@ namespace Lumos.BLL.Service.Admin
                 return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "数据为空");
             }
 
-            var merchantInfo = CurrentDb.MerchantInfo.Where(m => m.MerchantId == id).FirstOrDefault();
+            var merchant = CurrentDb.Merchant.Where(m => m.Id == id).FirstOrDefault();
 
-            if (merchantInfo == null)
+            if (merchant == null)
             {
                 return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "数据为空");
             }
@@ -30,10 +30,10 @@ namespace Lumos.BLL.Service.Admin
 
             ret.Id = sysMerchantUser.Id ?? ""; ;
             ret.UserName = sysMerchantUser.UserName ?? "";
-            ret.Name = merchantInfo.Name ?? "";
-            ret.ContactAddress = merchantInfo.ContactAddress ?? "";
-            ret.ContactName = merchantInfo.ContactName ?? "";
-            ret.ContactPhone = merchantInfo.ContactPhone ?? "";
+            ret.Name = merchant.Name ?? "";
+            ret.ContactAddress = merchant.ContactAddress ?? "";
+            ret.ContactName = merchant.ContactName ?? "";
+            ret.ContactPhone = merchant.ContactPhone ?? "";
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
         }
@@ -65,20 +65,19 @@ namespace Lumos.BLL.Service.Admin
                 CurrentDb.SysMerchantUser.Add(sysMerchatUser);
                 CurrentDb.SaveChanges();
 
-                var merchantInfo = new MerchantInfo();
-                merchantInfo.Id = sysMerchatUser.Id;
-                merchantInfo.MerchantId = sysMerchatUser.Id;
-                merchantInfo.Name = rop.Name;
-                merchantInfo.ContactName = rop.ContactName;
-                merchantInfo.ContactPhone = rop.ContactPhone;
-                merchantInfo.ContactAddress = rop.ContactAddress;
-                merchantInfo.ApiHost = "http://demo.api.term.17fanju.com";
-                merchantInfo.ApiKey = "fanju";
-                merchantInfo.ApiSecret = "7460e6512f1940f68c00fe1fdb2b7eb1";
-                merchantInfo.PayTimeout = 120;
-                merchantInfo.CreateTime = this.DateTime;
-                merchantInfo.Creator = operater;
-                CurrentDb.MerchantInfo.Add(merchantInfo);
+                var merchant = new Merchant();
+                merchant.Id = sysMerchatUser.Id;
+                merchant.Name = rop.Name;
+                merchant.ContactName = rop.ContactName;
+                merchant.ContactPhone = rop.ContactPhone;
+                merchant.ContactAddress = rop.ContactAddress;
+                merchant.ApiHost = "http://demo.api.term.17fanju.com";
+                merchant.ApiKey = "fanju";
+                merchant.ApiSecret = "7460e6512f1940f68c00fe1fdb2b7eb1";
+                merchant.PayTimeout = 120;
+                merchant.CreateTime = this.DateTime;
+                merchant.Creator = operater;
+                CurrentDb.Merchant.Add(merchant);
 
 
                 var sysRole = CurrentDb.SysRole.Where(m => m.BelongSite == Enumeration.BelongSite.Merchant && m.IsCanDelete == false).FirstOrDefault();
@@ -120,18 +119,18 @@ namespace Lumos.BLL.Service.Admin
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "数据为空");
                 }
 
-                var merchantInfo = CurrentDb.MerchantInfo.Where(m => m.MerchantId == rop.Id).FirstOrDefault();
+                var merchant = CurrentDb.Merchant.Where(m => m.Id == rop.Id).FirstOrDefault();
 
-                if (merchantInfo == null)
+                if (merchant == null)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "数据为空");
                 }
 
-                merchantInfo.ContactName = rop.ContactName;
-                merchantInfo.ContactPhone = rop.ContactPhone;
-                merchantInfo.ContactAddress = rop.ContactAddress;
-                merchantInfo.MendTime = this.DateTime;
-                merchantInfo.Mender = operater;
+                merchant.ContactName = rop.ContactName;
+                merchant.ContactPhone = rop.ContactPhone;
+                merchant.ContactAddress = rop.ContactAddress;
+                merchant.MendTime = this.DateTime;
+                merchant.Mender = operater;
 
                 if (!string.IsNullOrEmpty(rop.Password))
                 {

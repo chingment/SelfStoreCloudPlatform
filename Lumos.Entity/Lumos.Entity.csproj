@@ -70,7 +70,7 @@
     <Compile Include="Biz\Order2StockOutDetails.cs" />
     <Compile Include="Biz\StoreSellStock.cs" />
     <Compile Include="Biz\StoreSellStockLog.cs" />
-    <Compile Include="Biz\MerchantInfo.cs" />
+    <Compile Include="Biz\Merchant.cs" />
     <Compile Include="Biz\Order.cs" />
     <Compile Include="Biz\Order2StockIn.cs" />
     <Compile Include="Biz\OrderDetailsChild.cs" />

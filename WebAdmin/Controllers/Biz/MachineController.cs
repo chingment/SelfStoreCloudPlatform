@@ -55,7 +55,7 @@ namespace WebAdmin.Controllers.Biz
             string merchantName = rup.MerchantName.ToSearchString();
 
             var query = (from p in CurrentDb.Machine
-                         join a in CurrentDb.MerchantInfo on p.MerchantId equals a.MerchantId into temp
+                         join a in CurrentDb.Merchant on p.MerchantId equals a.Id into temp
                          from tt in temp.DefaultIfEmpty()
                          where
                                  (merchantName.Length == 0 || tt.Name.Contains(merchantName)) &&

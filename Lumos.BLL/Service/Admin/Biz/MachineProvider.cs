@@ -28,10 +28,10 @@ namespace Lumos.BLL.Service.Admin
             ret.IsUse = machine.IsUse;
 
 
-            var merchantInfo = CurrentDb.MerchantInfo.Where(m => m.MerchantId == machine.MerchantId).FirstOrDefault();
+            var merchantInfo = CurrentDb.Merchant.Where(m => m.Id == machine.MerchantId).FirstOrDefault();
             if (merchantInfo != null)
             {
-                ret.Merchant.Id = merchantInfo.MerchantId;
+                ret.Merchant.Id = merchantInfo.Id;
                 ret.Merchant.Name = merchantInfo.Name ?? "";
                 ret.Merchant.ContactName = merchantInfo.ContactName ?? "";
                 ret.Merchant.ContactPhone = merchantInfo.ContactPhone ?? "";

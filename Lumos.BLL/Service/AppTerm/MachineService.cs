@@ -98,22 +98,21 @@ namespace Lumos.BLL.Service.AppTerm
                 return new CustomJsonResult(ResultType.Failure, "店铺不存在");
             }
 
-            var merchantInfo = CurrentDb.MerchantInfo.Where(m => m.MerchantId == machine.MerchantId).FirstOrDefault();
-            if (merchantInfo == null)
-            {
+            var merchant = CurrentDb.Merchant.Where(m => m.Id == machine.MerchantId).FirstOrDefault();
+            if (merchant == null) { 
                 return new CustomJsonResult(ResultType.Failure, "已绑定商户，却找不到商户信息");
             }
 
             var ret = new RetMachineApiConfig();
             ret.MerchantId = storeMachine.MerchantId;
-            ret.MerchantName = merchantInfo.Name;
+            ret.MerchantName = merchant.Name;
             ret.StoreId = storeMachine.StoreId;
             ret.StoreName = store.Name;
             ret.MachineId = storeMachine.MachineId;
-            ret.ApiHost = merchantInfo.ApiHost;
-            ret.ApiKey = merchantInfo.ApiKey;
-            ret.ApiSecret = merchantInfo.ApiSecret;
-            ret.PayTimeout = merchantInfo.PayTimeout;
+            ret.ApiHost = merchant.ApiHost;
+            ret.ApiKey = merchant.ApiKey;
+            ret.ApiSecret = merchant.ApiSecret;
+            ret.PayTimeout = merchant.PayTimeout;
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
