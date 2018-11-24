@@ -36,7 +36,7 @@
             },
             operate: {
                 "details": function (obj) {
-                    var url = '/Order2StockOut/Details?order2StockOutId=' + obj.id;
+                    var url = '/Order2StockOut/Details?id=' + obj.id;
                     var title = '查看';
                     var dialog = art.dialog.open(url, {
                         id: "openDialog", title: title, width: '800px', height: '600px', lock: true, drag: false, cancelVal: '关闭', cancel: true
