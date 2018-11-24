@@ -14,5 +14,7 @@ namespace Lumos.Session
 
         public string WxAccessToken { get; set; }
 
+        public string MerchantId { get; set; }
+
     }
 }

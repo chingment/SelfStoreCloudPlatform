@@ -33,7 +33,7 @@ namespace WebMerch.Controllers
             var query = (from u in CurrentDb.MerchantReplenishStaff
                          join p in CurrentDb.SysUser on u.UserId equals p.Id
                          where (phoneNumber.Length == 0 || p.PhoneNumber.Contains(phoneNumber))
-                         && u.MerchantId == this.CurrentUserId
+                         && u.MerchantId == this.CurrentMerchantId
                          select new { p.Id, p.Nickname, p.HeadImgUrl, p.PhoneNumber, u.CreateTime });
 
             int total = query.Count();
@@ -106,7 +106,7 @@ namespace WebMerch.Controllers
         [HttpPost]
         public CustomJsonResult Add(string userId)
         {
-            var merchantReplenishStaff = CurrentDb.MerchantReplenishStaff.Where(m => m.MerchantId == this.CurrentUserId && m.UserId == userId).FirstOrDefault();
+            var merchantReplenishStaff = CurrentDb.MerchantReplenishStaff.Where(m => m.MerchantId == this.CurrentMerchantId && m.UserId == userId).FirstOrDefault();
 
             if (merchantReplenishStaff != null)
             {
@@ -129,7 +129,7 @@ namespace WebMerch.Controllers
         [HttpPost]
         public CustomJsonResult Remove(string userId)
         {
-            var merchantReplenishStaff = CurrentDb.MerchantReplenishStaff.Where(m => m.MerchantId == this.CurrentUserId && m.UserId == userId).FirstOrDefault();
+            var merchantReplenishStaff = CurrentDb.MerchantReplenishStaff.Where(m => m.MerchantId == this.CurrentMerchantId && m.UserId == userId).FirstOrDefault();
 
             if (merchantReplenishStaff == null)
             {

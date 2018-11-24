@@ -30,7 +30,7 @@ namespace WebMerch.Controllers
 
         public CustomJsonResult GetDetails(string id)
         {
-            return MerchServiceFactory.Warehouse.GetDetails(this.CurrentUserId, this.CurrentUserId, id);
+            return MerchServiceFactory.Warehouse.GetDetails(this.CurrentUserId, this.CurrentMerchantId, id);
         }
 
         [HttpPost]
@@ -45,7 +45,7 @@ namespace WebMerch.Controllers
             var query = (from u in CurrentDb.Warehouse
                          where (name.Length == 0 || u.Name.Contains(name))
                          &&
-                         u.MerchantId == this.CurrentUserId
+                         u.MerchantId == this.CurrentMerchantId
                          select new { u.Id, u.Name, u.Address, u.CreateTime });
 
             int total = query.Count();
@@ -79,13 +79,13 @@ namespace WebMerch.Controllers
         [HttpPost]
         public CustomJsonResult Add(RopWarehouseAdd rop)
         {
-            return MerchServiceFactory.Warehouse.Add(this.CurrentUserId, this.CurrentUserId, rop);
+            return MerchServiceFactory.Warehouse.Add(this.CurrentUserId, this.CurrentMerchantId, rop);
         }
 
         [HttpPost]
         public CustomJsonResult Edit(RopWarehouseEdit rop)
         {
-            return MerchServiceFactory.Warehouse.Edit(this.CurrentUserId, this.CurrentUserId, rop);
+            return MerchServiceFactory.Warehouse.Edit(this.CurrentUserId, this.CurrentMerchantId, rop);
         }
     }
 }

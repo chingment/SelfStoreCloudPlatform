@@ -29,7 +29,7 @@ namespace WebMerch.Controllers
 
         public CustomJsonResult GetDetails(string id)
         {
-            return MerchServiceFactory.Order2StockOut.GetDetails(this.CurrentUserId, this.CurrentUserId, id);
+            return MerchServiceFactory.Order2StockOut.GetDetails(this.CurrentUserId, this.CurrentMerchantId, id);
         }
 
         [HttpPost]
@@ -44,7 +44,7 @@ namespace WebMerch.Controllers
             var query = (from u in CurrentDb.Order2StockOut
                          where (sn.Length == 0 || u.Sn.Contains(sn))
                          &&
-                         u.MerchantId == this.CurrentUserId
+                         u.MerchantId == this.CurrentMerchantId
                          select new { u.Id, u.Sn, u.TargetType, u.TargetName, u.Quantity, u.StockOutTime, u.CreateTime });
 
             int total = query.Count();
@@ -79,7 +79,7 @@ namespace WebMerch.Controllers
         [HttpPost]
         public CustomJsonResult Add(RopOrder2StockOutAdd rop)
         {
-            return MerchServiceFactory.Order2StockOut.Add(this.CurrentUserId, this.CurrentUserId, rop);
+            return MerchServiceFactory.Order2StockOut.Add(this.CurrentUserId, this.CurrentMerchantId, rop);
         }
     }
 }

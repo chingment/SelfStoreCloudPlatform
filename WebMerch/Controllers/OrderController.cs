@@ -34,7 +34,7 @@ namespace WebMerch.Controllers
                         (rup.OrderStatus == Enumeration.OrderStatus.Unknow || o.Status == rup.OrderStatus) &&
                         (rup.OrderSn == null || o.Sn.Contains(rup.OrderSn))
                         &&
-                        o.MerchantId == this.CurrentUserId
+                        o.MerchantId == this.CurrentMerchantId
                         select new { o.Sn, o.Id, o.ClientId, o.ClientName, o.StoreName, o.Source, o.SubmitTime, o.ChargeAmount, o.DiscountAmount, o.OriginalAmount, o.CreateTime };
 
             int total = query.GroupBy(p => p.Sn).Select(o => o.FirstOrDefault()).Count();
@@ -79,7 +79,7 @@ namespace WebMerch.Controllers
 
         public CustomJsonResult GetDetails(string id)
         {
-            return MerchServiceFactory.Order.GetDetails(this.CurrentUserId, this.CurrentUserId, id);
+            return MerchServiceFactory.Order.GetDetails(this.CurrentUserId, this.CurrentMerchantId, id);
         }
     }
 }

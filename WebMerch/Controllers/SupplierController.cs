@@ -29,7 +29,7 @@ namespace WebMerch.Controllers
 
         public CustomJsonResult GetDetails(string id)
         {
-            return MerchServiceFactory.Company.GetDetails(this.CurrentUserId, this.CurrentUserId, id);
+            return MerchServiceFactory.Company.GetDetails(this.CurrentUserId, this.CurrentMerchantId, id);
         }
 
         [HttpPost]
@@ -44,7 +44,7 @@ namespace WebMerch.Controllers
             var query = (from u in CurrentDb.Company
                          where (name.Length == 0 || u.Name.Contains(name)) &&
                          u.Class == Enumeration.CompanyClass.Supplier
-                         && u.MerchantId == this.CurrentUserId
+                         && u.MerchantId == this.CurrentMerchantId
                          select new { u.Id, u.Name, u.Address, u.CreateTime });
 
             int total = query.Count();
@@ -79,13 +79,13 @@ namespace WebMerch.Controllers
         public CustomJsonResult Add(RopCompanyAdd rop)
         {
             rop.Class = Lumos.Entity.Enumeration.CompanyClass.Supplier;
-            return MerchServiceFactory.Company.Add(this.CurrentUserId, this.CurrentUserId, rop);
+            return MerchServiceFactory.Company.Add(this.CurrentUserId, this.CurrentMerchantId, rop);
         }
 
         [HttpPost]
         public CustomJsonResult Edit(RopCompanyEdit rop)
         {
-            return MerchServiceFactory.Company.Edit(this.CurrentUserId, this.CurrentUserId, rop);
+            return MerchServiceFactory.Company.Edit(this.CurrentUserId, this.CurrentMerchantId, rop);
         }
     }
 }

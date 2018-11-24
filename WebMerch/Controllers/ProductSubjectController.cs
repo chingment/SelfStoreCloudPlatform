@@ -28,7 +28,7 @@ namespace WebMerch.Controllers
 
         public CustomJsonResult GetAll()
         {
-            var arr = CurrentDb.ProductSubject.Where(m => m.MerchantId == this.CurrentUserId && m.IsDelete == false).OrderByDescending(m => m.Priority).ToArray();
+            var arr = CurrentDb.ProductSubject.Where(m => m.MerchantId == this.CurrentMerchantId && m.IsDelete == false).OrderByDescending(m => m.Priority).ToArray();
             object json = ConvertToZTreeJson(arr, "id", "pid", "name", "menu");
             return Json(ResultType.Success, json);
 
@@ -36,7 +36,7 @@ namespace WebMerch.Controllers
 
         public CustomJsonResult GetDetails(string id)
         {
-            return MerchServiceFactory.ProductSubject.GetDetails(this.CurrentUserId, this.CurrentUserId, id);
+            return MerchServiceFactory.ProductSubject.GetDetails(this.CurrentUserId, this.CurrentMerchantId, id);
         }
 
 
@@ -44,7 +44,7 @@ namespace WebMerch.Controllers
         [OwnNoResubmit]
         public CustomJsonResult Add(RopProductSubjectAdd rop)
         {
-            return MerchServiceFactory.ProductSubject.Add(this.CurrentUserId, this.CurrentUserId, rop);
+            return MerchServiceFactory.ProductSubject.Add(this.CurrentUserId, this.CurrentMerchantId, rop);
         }
 
 
@@ -52,13 +52,13 @@ namespace WebMerch.Controllers
         [HttpPost]
         public CustomJsonResult Edit(RopProductSubjectEdit rop)
         {
-            return MerchServiceFactory.ProductSubject.Edit(this.CurrentUserId, this.CurrentUserId, rop);
+            return MerchServiceFactory.ProductSubject.Edit(this.CurrentUserId, this.CurrentMerchantId, rop);
         }
 
         [HttpPost]
         public CustomJsonResult Delete(string[] ids)
         {
-            return MerchServiceFactory.ProductSubject.Delete(this.CurrentUserId, this.CurrentUserId, ids);
+            return MerchServiceFactory.ProductSubject.Delete(this.CurrentUserId, this.CurrentMerchantId, ids);
         }
 
         public CustomJsonResult GetProductSkuList(RupProductSkuGetList rup)
@@ -71,7 +71,7 @@ namespace WebMerch.Controllers
                          where
                          c.ProductSubjectId == rup.SubjectId &&
    (name.Length == 0 || p.Name.Contains(name))
-   && p.MerchantId == this.CurrentUserId
+   && p.MerchantId == this.CurrentMerchantId
                          select new { p.Id, c.ProductSubjectId, p.Name, p.CreateTime, p.KindNames, p.SubjectNames, p.DispalyImgUrls, p.SalePrice, p.ShowPrice });
 
             int total = query.Count();

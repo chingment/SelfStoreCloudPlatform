@@ -26,7 +26,7 @@ namespace WebMerch.Controllers
 
         public CustomJsonResult GetDetails(string id)
         {
-            return MerchServiceFactory.Machine.GetDetails(this.CurrentUserId, this.CurrentUserId, id);
+            return MerchServiceFactory.Machine.GetDetails(this.CurrentUserId, this.CurrentMerchantId, id);
         }
 
         public CustomJsonResult GetList(RupMachineGetList rup)
@@ -39,7 +39,7 @@ namespace WebMerch.Controllers
                          where
                                  (deviceId.Length == 0 || m.DeviceId.Contains(deviceId))
                                  &&
-                                 m.MerchantId == this.CurrentUserId
+                                 m.MerchantId == this.CurrentMerchantId
                                  &&
                                  m.IsUse == true
                          select new { m.Id, m.Name, m.DeviceId, m.MacAddress, m.StoreId, m.CreateTime });
@@ -83,7 +83,7 @@ namespace WebMerch.Controllers
         [HttpPost]
         public CustomJsonResult Edit(RopMachineEdit rop)
         {
-            return MerchServiceFactory.Machine.Edit(this.CurrentUserId, this.CurrentUserId, rop);
+            return MerchServiceFactory.Machine.Edit(this.CurrentUserId, this.CurrentMerchantId, rop);
         }
     }
 }

@@ -33,19 +33,19 @@ namespace WebMerch.Controllers
 
         public CustomJsonResult GetDetails(string id)
         {
-            return MerchServiceFactory.ProductSku.GetDetails(this.CurrentUserId, this.CurrentUserId, id);
+            return MerchServiceFactory.ProductSku.GetDetails(this.CurrentUserId, this.CurrentMerchantId, id);
         }
 
         [HttpPost]
         public CustomJsonResult Add(RopProducSkuAdd rop)
         {
-            return MerchServiceFactory.ProductSku.Add(this.CurrentUserId, this.CurrentUserId, rop);
+            return MerchServiceFactory.ProductSku.Add(this.CurrentUserId, this.CurrentMerchantId, rop);
         }
 
         [HttpPost]
         public CustomJsonResult Edit(RopProducSkuEdit rop)
         {
-            return MerchServiceFactory.ProductSku.Edit(this.CurrentUserId, this.CurrentUserId, rop);
+            return MerchServiceFactory.ProductSku.Edit(this.CurrentUserId, this.CurrentMerchantId, rop);
         }
 
         [HttpPost]
@@ -62,7 +62,7 @@ namespace WebMerch.Controllers
             var query = (from u in CurrentDb.ProductSku
                          where (rup.Name == null || u.Name.Contains(rup.Name))
                          &&
-                         u.MerchantId == this.CurrentUserId
+                         u.MerchantId == this.CurrentMerchantId
                          select new { u.Id, u.Name, u.CreateTime, u.KindNames, u.SubjectNames, u.SalePrice, u.ShowPrice, u.DispalyImgUrls });
 
             int total = query.Count();
@@ -142,7 +142,7 @@ namespace WebMerch.Controllers
         [HttpPost]
         public CustomJsonResult EditBySalePrice(RopProductSkuEditSalePrice rop)
         {
-            return MerchServiceFactory.ProductSku.EditBySalePrice(this.CurrentUserId, this.CurrentUserId, rop);
+            return MerchServiceFactory.ProductSku.EditBySalePrice(this.CurrentUserId, this.CurrentMerchantId, rop);
         }
 
         [HttpPost]

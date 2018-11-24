@@ -23,9 +23,18 @@ namespace WebMerch
             return userInfo.UserId;
         }
 
+        public static string GetCurrentMerchantId()
+        {
+            var userInfo = GetUserInfo();
+            if (userInfo == null)
+                return "0";
+
+            return userInfo.MerchantId;
+        }
+
         public static UserInfo GetUserInfo()
         {
-     
+
             UserInfo userInfo = SSOUtil.GetUserInfo(GetAccessToken());
 
             return userInfo;

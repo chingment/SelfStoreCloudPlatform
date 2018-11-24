@@ -16,6 +16,8 @@ namespace Lumos.DAL.AuthorizeRelay
         public string UserName { get; set; }
 
         public Enumeration.BelongSite BelongSite { get; set; }
+
+        public string MerchantId { get; set; }
     }
 
     public class LoginResult
@@ -132,6 +134,19 @@ namespace Lumos.DAL.AuthorizeRelay
                 loginUserInfo.UserId = user.Id;
                 loginUserInfo.UserName = user.UserName;
                 loginUserInfo.BelongSite = user.BelongSite;
+
+                switch (user.BelongSite)
+                {
+                    case Enumeration.BelongSite.Merchant:
+
+                        var sysMerchantUser = _db.SysMerchantUser.Where(m => m.Id == user.Id).FirstOrDefault();
+                        if (sysMerchantUser != null)
+                        {
+                            loginUserInfo.MerchantId = sysMerchantUser.MerchantId;
+                        }
+
+                        break;
+                }
 
                 bool isFlag = PassWordHelper.VerifyHashedPassword(user.PasswordHash, pPassword);
 

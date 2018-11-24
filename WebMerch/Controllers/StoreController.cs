@@ -38,7 +38,7 @@ namespace WebMerch.Controllers
 
             var query = (from u in CurrentDb.Store
                          where (name.Length == 0 || u.Name.Contains(name))
-                         && u.MerchantId == this.CurrentUserId
+                         && u.MerchantId == this.CurrentMerchantId
                          select new { u.Id, u.Name, u.Address, u.Status, u.CreateTime });
 
             int total = query.Count();
@@ -71,19 +71,19 @@ namespace WebMerch.Controllers
 
         public CustomJsonResult GetDetails(string id)
         {
-            return MerchServiceFactory.Store.GetDetails(this.CurrentUserId, this.CurrentUserId, id);
+            return MerchServiceFactory.Store.GetDetails(this.CurrentUserId, this.CurrentMerchantId, id);
         }
 
         [HttpPost]
         public CustomJsonResult Add(RopStoreAdd rop)
         {
-            return MerchServiceFactory.Store.Add(this.CurrentUserId, this.CurrentUserId, rop);
+            return MerchServiceFactory.Store.Add(this.CurrentUserId, this.CurrentMerchantId, rop);
         }
 
         [HttpPost]
         public CustomJsonResult Edit(RopStoreEdit rop)
         {
-            return MerchServiceFactory.Store.Edit(this.CurrentUserId, this.CurrentUserId, rop);
+            return MerchServiceFactory.Store.Edit(this.CurrentUserId, this.CurrentMerchantId, rop);
         }
 
         public CustomJsonResult GetMachineList(RupMachineGetList rup)
