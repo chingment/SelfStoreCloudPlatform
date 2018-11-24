@@ -67,6 +67,7 @@ namespace Lumos.BLL.Service.Admin
 
                 var merchant = new Merchant();
                 merchant.Id = sysMerchatUser.Id;
+                merchant.UserId = sysMerchatUser.Id;
                 merchant.Name = rop.Name;
                 merchant.ContactName = rop.ContactName;
                 merchant.ContactPhone = rop.ContactPhone;
@@ -79,13 +80,11 @@ namespace Lumos.BLL.Service.Admin
                 merchant.Creator = operater;
                 CurrentDb.Merchant.Add(merchant);
 
-
                 var sysRole = CurrentDb.SysRole.Where(m => m.BelongSite == Enumeration.BelongSite.Merchant && m.IsCanDelete == false).FirstOrDefault();
                 if (sysRole == null)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "初始角色未指定");
                 }
-
 
                 var sysUserRole = new SysUserRole();
                 sysUserRole.Id = GuidUtil.New();
