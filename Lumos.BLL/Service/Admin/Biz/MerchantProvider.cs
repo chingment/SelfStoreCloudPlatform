@@ -54,7 +54,7 @@ namespace Lumos.BLL.Service.Admin
 
                 var sysMerchatUser = new SysMerchantUser();
                 sysMerchatUser.Id = GuidUtil.New();
-                sysMerchatUser.UserName = rop.UserName;
+                sysMerchatUser.UserName = string.Format("M{0}", rop.UserName);
                 sysMerchatUser.PasswordHash = PassWordHelper.HashPassword(rop.Password);
                 sysMerchatUser.SecurityStamp = Guid.NewGuid().ToString();
                 sysMerchatUser.RegisterTime = this.DateTime;
@@ -94,6 +94,32 @@ namespace Lumos.BLL.Service.Admin
                 sysUserRole.Creator = operater;
                 sysUserRole.IsCanDelete = false;
                 CurrentDb.SysUserRole.Add(sysUserRole);
+
+
+                var productKind = new ProductKind();
+                productKind.Id = GuidUtil.New();
+                productKind.MerchantId = merchant.Id;
+                productKind.Name = "我的品类";
+                productKind.PId = GuidUtil.Empty();
+                productKind.Depth = 0;
+                productKind.Status = Enumeration.ProductKindStatus.Valid;
+                productKind.Priority = 0;
+                productKind.IsDelete = false;
+                productKind.CreateTime = this.DateTime;
+                productKind.Creator = operater;
+                CurrentDb.ProductKind.Add(productKind);
+
+
+                var productSubject = new ProductSubject();
+                productSubject.Id = GuidUtil.New();
+                productSubject.MerchantId = merchant.Id;
+                productSubject.Name = "精选专栏";
+                productSubject.Status = Enumeration.ProductSubjectStatus.Valid;
+                productSubject.Priority = 0;
+                productSubject.IsDelete = false;
+                productSubject.CreateTime = this.DateTime;
+                productSubject.Creator = operater;
+                CurrentDb.ProductSubject.Add(productSubject);
 
 
                 CurrentDb.SaveChanges();

@@ -200,7 +200,8 @@ namespace System.Web
         {
 
             LumosDbContext dbContext = new LumosDbContext();
-            var productKind = dbContext.ProductKind.Where(m => m.IsDelete == false).ToList();
+            string merchantId = OwnRequest.GetCurrentMerchantId();
+            var productKind = dbContext.ProductKind.Where(m => m.MerchantId == merchantId).Where(m => m.IsDelete == false).ToList();
             StringBuilder sb = new StringBuilder();
 
             string id = name.Replace('.', '_');
@@ -247,8 +248,10 @@ namespace System.Web
 
         public static MvcHtmlString initWarehouse(this HtmlHelper helper, string name, string selectval = null)
         {
+            string merchantId = OwnRequest.GetCurrentMerchantId();
+
             LumosDbContext dbContext = new LumosDbContext();
-            var warehouse = dbContext.Warehouse.ToList();
+            var warehouse = dbContext.Warehouse.Where(m => m.MerchantId == merchantId).ToList();
             StringBuilder sb = new StringBuilder();
 
             string id = name.Replace('.', '_');
@@ -284,8 +287,10 @@ namespace System.Web
 
         public static MvcHtmlString initProductSubject(this HtmlHelper helper, string name, string selectval = null)
         {
+            string merchantId = OwnRequest.GetCurrentMerchantId();
+
             LumosDbContext dbContext = new LumosDbContext();
-            var productSubject = dbContext.ProductSubject.Where(m => m.IsDelete == false).ToList();
+            var productSubject = dbContext.ProductSubject.Where(m => m.IsDelete == false && m.MerchantId == merchantId).ToList();
             StringBuilder sb = new StringBuilder();
 
             string id = name.Replace('.', '_');
@@ -321,9 +326,10 @@ namespace System.Web
 
         public static MvcHtmlString initCompany(this HtmlHelper helper, Enumeration.CompanyClass cl, string name, string selectval = null)
         {
+            string merchantId = OwnRequest.GetCurrentMerchantId();
 
             LumosDbContext dbContext = new LumosDbContext();
-            var company = dbContext.Company.Where(m => m.Class == cl).ToList();
+            var company = dbContext.Company.Where(m => m.Class == cl && m.MerchantId == merchantId).ToList();
             StringBuilder sb = new StringBuilder();
 
             string id = name.Replace('.', '_');
@@ -359,9 +365,10 @@ namespace System.Web
 
         public static MvcHtmlString initOrder2StockOutTarget(this HtmlHelper helper, string name, string selectval = null)
         {
+            string merchantId = OwnRequest.GetCurrentMerchantId();
 
             LumosDbContext dbContext = new LumosDbContext();
-            var store = dbContext.Store.ToList();
+            var store = dbContext.Store.Where(m => m.MerchantId == merchantId).ToList();
             StringBuilder sb = new StringBuilder();
 
             string id = name.Replace('.', '_');

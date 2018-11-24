@@ -36,6 +36,8 @@ namespace WebMerch.Controllers
         [HttpPost]
         public CustomJsonResult GetList(RupWarehouseGetList rup)
         {
+            string merchantId = OwnRequest.GetCurrentMerchantId();
+
             string name = "";
             if (rup.Name != null)
             {
