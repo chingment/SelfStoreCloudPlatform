@@ -64,6 +64,7 @@
     <Compile Include="Biz\BizProcessesAuditDetails.cs" />
     <Compile Include="Biz\Machine.cs" />
     <Compile Include="Biz\MachineBindLog.cs" />
+    <Compile Include="Biz\MerchantMachine.cs" />
     <Compile Include="Biz\MerchantReplenishStaff.cs" />
     <Compile Include="Biz\Order2StockOut.cs" />
     <Compile Include="Biz\Order2StockOutDetails.cs" />

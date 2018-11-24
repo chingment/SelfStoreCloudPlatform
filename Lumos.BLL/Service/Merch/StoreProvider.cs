@@ -10,10 +10,10 @@ namespace Lumos.BLL.Service.Merch
 {
     public class StoreProvider : BaseProvider
     {
-        public CustomJsonResult GetDetails(string operater, string merchantId, string storeId)
+        public CustomJsonResult GetDetails(string operater, string merchantId, string id)
         {
             var ret = new RetStoreGetDetails();
-            var store = CurrentDb.Store.Where(m => m.MerchantId == merchantId && m.Id == storeId).FirstOrDefault();
+            var store = CurrentDb.Store.Where(m => m.MerchantId == merchantId && m.Id == id).FirstOrDefault();
             if (store != null)
             {
                 ret.Id = store.Id ?? "";
@@ -69,15 +69,6 @@ namespace Lumos.BLL.Service.Merch
                 }
 
                 var store = CurrentDb.Store.Where(m => m.Id == rop.Id).FirstOrDefault();
-
-                if (rop.Status == Enumeration.StoreStatus.Opened)
-                {
-                    var storeMachineBindCount = CurrentDb.StoreMachine.Where(m => m.StoreId == rop.Id && m.IsBind == true).Count();
-                    if (storeMachineBindCount == 0)
-                    {
-                        return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "设置为正常状态，必须先在机器管理里绑定一台机器");
-                    }
-                }
 
                 store.Name = rop.Name;
                 store.Address = rop.Address;

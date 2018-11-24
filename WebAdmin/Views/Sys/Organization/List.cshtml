@@ -37,7 +37,6 @@
             mainTreeLoadData();
 
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
-
             $("#txt_Name").formValidator().inputValidator({ min: 1, max: 20, onError: "名称须填,且不能超过20个字符" });
             $("#sel_Status").formValidator().inputValidator({ min: 1, max: 500, onError: "请选择状态" });
             $("#txt_Description").formValidator().inputValidator({ min: 0, max: 500, onError: "描述不能超过500个字符" });
@@ -261,7 +260,6 @@
             });
 
         }
-
 
         function refresh(type) {
 

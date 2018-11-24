@@ -7,18 +7,14 @@
     <script type="text/javascript">
 
         var id = $.lumos.getUrlParamValue("id");
-        var list_machine;
         $(document).ready(function () {
-
-            $('input[name=StoreId]').val(storeId);
-
+            $('input[name=StoreId]').val(id);
             $.formValidator.initConfig({ formID: "form_store", onError: function (msg) { $.lumos.tips(msg); } });
-            $("#txt_Name").formValidator().inputValidator({ min: 1, max: 50, onError: "名称不能为空,且不超过50个字符" });
-            $("#txt_Address").formValidator().inputValidator({ min: 1, max: 100, onError: "地址不能为空,且不超过100个字符" });
+            $("#txt_Name").formValidator().inputValidator({ min: 1, max: 50, onError: "名称须填,且不超过50个字符" });
+            $("#txt_Address").formValidator().inputValidator({ min: 1, max: 100, onError: "地址须填,且不超过100个字符" });
 
-
-            list_machine = $("#list_machine").loadDataTable({
-                url: "/Store/GetMachineListByBind",
+            $("#list_machine").loadDataTable({
+                url: "/Store/GetMachineList",
                 pageIndex: 0,
                 searchParams: $("#form_machine").serializeArray(),
                 searchButtonId: "btn_Search",
@@ -32,46 +28,11 @@
                     l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
                     l_StrRows += "<td class=\"overflow tipitem\" title=\"" + p_row.deviceId + "\"   >" + p_row.deviceId + "</td>";
                     l_StrRows += "<td class=\"overflow\" title=\"" + p_row.name + "\">" + p_row.name + "</td>";
-                    l_StrRows += "<td class=\"operation\">";
-                    l_StrRows += l_Strlimt;
-                    l_StrRows += "</td>";
                     l_StrRows += "</tr>";
                     return l_StrRows;
-                },
-                operate:
-                    {
-                        "bindoff": function (obj) {
-
-                            alert(storeId)
-                            alert(obj.id)
-                            art.dialog.confirm("确定要解绑,数据会被清除，慎重操作？", function () {
-
-                                $.lumos.postJson({
-                                    isUseHandling: true,
-                                    url: "/Store/BindOffMachine",
-                                    data: { storeId: id, machineId: obj.id },
-                                    success: function (d) {
-                                        list_machine.loadData(0);
-                                        $.lumos.tips(d.message);
-                                    }
-                                });
-                            });
-
-
-                        }
-                    }
-
+                }
             });
 
-            $("#btn_add_machine").click(function () {
-
-                var url = '/Store/MachineListByBindable?storeId=' + storeId;
-                var title = '选择绑定';
-                art.dialog.open(url, {
-                    id: "openDialog333", title: title, width: '600px', height: '400px', lock: true, drag: false, cancelVal: '关闭', cancel: true
-                });
-
-            });
 
             initData();
         });
@@ -85,9 +46,8 @@
             var isValid = $.formValidator.pageIsValid();
             if (!isValid)
                 return false;
-            art.dialog.confirm(
-           '确定要保存基本信息？',
-            function () {
+
+            art.dialog.confirm('确定要保存基本信息？', function () {
 
                 var name = $("#txt_Name").val();
                 var address = $("#txt_Address").val();
@@ -113,10 +73,9 @@
 
             $.lumos.getJson({
                 url: "/Store/GetDetails",
-                urlParams: { storeId: storeId },
+                urlParams: { id: id },
                 isUseHandling: true,
                 success: function (d) {
-
                     if (d.result == $.lumos.resultType.success) {
                         var data = d.data;
                         $('#txt_Name').val(data.name);
@@ -126,15 +85,6 @@
                 }
             });
         }
-
-
-        function refresh(type) {
-            switch (type) {
-                case 1:
-                    list_machine.loadData(0)
-                    break;
-            }
-        }
     </script>
 }
 
@@ -143,7 +93,7 @@
         <div class="tab-item">
             <ul>
                 <li class="item first selected"><a class="a-btn-info" href="javascript:void(0)">基本信息</a></li>
-                <li class="item"><a class="a-btn-info" href="javascript:void(0)">机器管理</a></li>
+                <li class="item"><a class="a-btn-info" href="javascript:void(0)">机器信息</a></li>
             </ul>
         </div>
         <div class="tab-content">
@@ -175,7 +125,7 @@
                                 </span>
                             </td>
                         </tr>
-                        <tr>
+                        <tr style="display:none">
                             <td class="f-tb-t"></td>
                             <td class="f-tb-c">
                                 <input type="button" value="保存" class="btn btn-sure" onclick="return edit();" />
@@ -187,19 +137,7 @@
             <div class="subcontent">
 
                 <form id="form_machine" name="form_machine">
-                    <input id="Id" name="StoreId" type="hidden" value="" />
-                    <div class="search-bar">
-                        <div class="filter">
-                            <span class="filter-label">名称：</span>
-                            <span class="filter-input">
-                                <input type="text" class="input-control" name="Name" style="width:120px;" />
-                            </span>
-                        </div>
-
-                        <div class="filter"><input type="button" class="btn btn-search" id="btn_Search" value="查询" /> </div>
-
-                        <div class="filter" style="float:right"><input type="button" class="btn btn-add" id="btn_add_machine" value="选择绑定" /> </div>
-                    </div>
+                    <input name="StoreId" type="hidden" value="" />
                     <div class="list">
                         <table id="list_machine" class="list-tb" cellpadding="0" cellspacing="0">
                             <thead>
@@ -210,18 +148,15 @@
                                     <th style="width:40%">
                                         设备ID
                                     </th>
-                                    <th style="width:40%">
+                                    <th style="width:50%">
                                         名称
-                                    </th>
-                                    <th style="width:10%" class="operation">
-                                        操作
                                     </th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
                             <tfoot>
                                 <tr>
-                                    <td colspan="4">
+                                    <td colspan="3">
                                         <div class="pull-left">
                                             <span class="load-tip"></span>
                                         </div>

@@ -27,12 +27,6 @@ namespace WebMerch.Controllers
             return View();
         }
 
-        public ViewResult MachineListByBindable()
-        {
-            return View();
-        }
-
-
         [HttpPost]
         public CustomJsonResult GetList(RupStoreGetList rup)
         {
@@ -92,7 +86,7 @@ namespace WebMerch.Controllers
             return MerchServiceFactory.Store.Edit(this.CurrentUserId, this.CurrentUserId, rop);
         }
 
-        public CustomJsonResult GetMachineListByBind(RupMachineGetList rup)
+        public CustomJsonResult GetMachineList(RupMachineGetList rup)
         {
 
             string name = "";
@@ -133,6 +127,7 @@ namespace WebMerch.Controllers
 
             return Json(ResultType.Success, pageEntity);
         }
+
 
         public CustomJsonResult GetMachineListByBindable(RupMachineGetList rup)
         {
