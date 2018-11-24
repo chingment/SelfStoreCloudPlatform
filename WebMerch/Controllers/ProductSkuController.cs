@@ -149,7 +149,7 @@ namespace WebMerch.Controllers
         public CustomJsonResult Search(RupProductSkuGetList rup)
         {
 
-            var list = BizFactory.ProductSku.Search(this.CurrentUserId, rup.Name);
+            var list = BizFactory.ProductSku.Search(this.CurrentMerchantId, rup.Name);
 
             List<object> olist = new List<object>();
 

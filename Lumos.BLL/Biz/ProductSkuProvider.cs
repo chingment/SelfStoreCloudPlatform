@@ -47,11 +47,11 @@ namespace Lumos.BLL.Biz
         {
             var tran = RedisManager.Db.CreateTransaction();
 
-            var sysUsers = CurrentDb.SysUser.Where(m => m.BelongSite == Enumeration.BelongSite.Merchant).ToList();
+            var merchants = CurrentDb.Merchant.ToList();
 
-            foreach (var user in sysUsers)
+            foreach (var merchant in merchants)
             {
-                var productSkus = CurrentDb.ProductSku.Where(m => m.MerchantId == user.Id).ToList();
+                var productSkus = CurrentDb.ProductSku.Where(m => m.MerchantId == merchant.Id).ToList();
 
                 foreach (var sku in productSkus)
                 {

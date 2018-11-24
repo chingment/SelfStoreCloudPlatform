@@ -4,6 +4,7 @@ using Lumos;
 using System.Linq;
 using System.Collections.Generic;
 using Lumos.BLL.Service.Admin;
+using Lumos.BLL.Biz;
 
 namespace WebMerch.Controllers
 {
@@ -12,9 +13,9 @@ namespace WebMerch.Controllers
 
         public ViewResult Index()
         {
-            //BizFactory.ProductSku.InitSearchCache();
+            BizFactory.ProductSku.InitSearchCache();
 
-  
+
             //var tran = RedisManager.Db.CreateTransaction();
 
             //var productSkus = CurrentDb.ProductSku.Where(m => m.BarCode != null).ToList();
