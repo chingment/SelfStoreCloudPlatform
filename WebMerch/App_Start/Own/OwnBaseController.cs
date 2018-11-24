@@ -28,14 +28,14 @@ namespace WebMerch
         {
             get
             {
-                return OwnRequest.GetCurrentUserId();
+                return OwnRequest.GetCurrentMerchantId();
             }
         }
 
         public OwnBaseController()
         {
 
-           
+
         }
 
 
