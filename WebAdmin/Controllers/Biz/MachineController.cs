@@ -54,9 +54,11 @@ namespace WebAdmin.Controllers.Biz
             string deviceId = rup.DeviceId.ToSearchString();
 
             var query = (from p in CurrentDb.Machine
+                         join a in CurrentDb.MerchantInfo on p.MerchantId equals a.MerchantId into temp
+                         from tt in temp.DefaultIfEmpty()
                          where
                                  (deviceId.Length == 0 || p.DeviceId.Contains(deviceId))
-                         select new { p.Id, p.Name, p.DeviceId, p.MacAddress, p.IsUse, p.CreateTime });
+                         select new { p.Id, p.Name, p.DeviceId, p.MacAddress, p.IsUse, p.CreateTime, p.MerchantId, MerchantName = tt.Name });
 
             int total = query.Count();
 
@@ -70,32 +72,18 @@ namespace WebAdmin.Controllers.Biz
 
             foreach (var item in list)
             {
-
-                string merchantId = "";
-                string merchantName = "未绑定商户";
-                bool isBind = false;
-                //var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.MachineId == item.Id && m.IsBind == true).FirstOrDefault();
-                //if (merchantMachine != null)
-                //{
-                //    var merchantInfo = CurrentDb.MerchantInfo.Where(m => m.MerchantId == merchantMachine.MerchantId).FirstOrDefault();
-                //    if (merchantInfo != null)
-                //    {
-                //        merchantName = merchantInfo.Name;
-                //        isBind = true;
-                //    }
-                //}
+                string merchantName = item.IsUse == false ? "未绑定商户" : item.MerchantName;
 
                 olist.Add(new
                 {
                     Id = item.Id,
                     Name = item.Name,
-                    MerchantId = merchantId,
+                    MerchantId = item.MerchantId,
                     MerchantName = merchantName,
-                    item.DeviceId,
-                    item.IsUse,
-                    isBind,
-                    item.MacAddress,
-                    item.CreateTime
+                    DeviceId = item.DeviceId,
+                    IsUse = item.IsUse,
+                    MacAddress = item.MacAddress,
+                    CreateTime = item.CreateTime.ToUnifiedFormatDateTime()
                 });
 
 
