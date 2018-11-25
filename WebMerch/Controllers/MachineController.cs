@@ -24,6 +24,11 @@ namespace WebMerch.Controllers
             return View();
         }
 
+        public ViewResult ListByBind()
+        {
+            return View();
+        }
+
         public CustomJsonResult GetDetails(string id)
         {
             return MerchServiceFactory.Machine.GetDetails(this.CurrentUserId, this.CurrentMerchantId, id);
@@ -40,8 +45,6 @@ namespace WebMerch.Controllers
                                  (deviceId.Length == 0 || m.DeviceId.Contains(deviceId))
                                  &&
                                  m.MerchantId == this.CurrentMerchantId
-                                 &&
-                                 m.IsUse == true
                          select new { m.Id, m.Name, m.DeviceId, m.MacAddress, m.StoreId, m.CreateTime });
 
             int total = query.Count();
@@ -55,11 +58,8 @@ namespace WebMerch.Controllers
             List<object> olist = new List<object>();
             foreach (var item in list)
             {
-                string machineName = item.Name;
                 string storeName = "未绑定便利店";
-
-                ///string l_merchantName = item. == false ? "未绑定商户" : item.MerchantName;
-
+                bool isUse = item.StoreId == null ? false : true;
                 //todo 未实现状态值
 
                 olist.Add(new
@@ -67,7 +67,8 @@ namespace WebMerch.Controllers
                     Id = item.Id,
                     Name = item.Name,
                     DeviceId = item.DeviceId,
-                    storeName = storeName,
+                    StoreName = storeName,
+                    IsUse = isUse,
                     CreateTime = item.CreateTime.ToUnifiedFormatDateTime(),
                     Status = "",
                     StatusName = ""
@@ -79,6 +80,7 @@ namespace WebMerch.Controllers
 
             return Json(ResultType.Success, pageEntity, "");
         }
+
 
         [HttpPost]
         public CustomJsonResult Edit(RopMachineEdit rop)

@@ -62,7 +62,7 @@ namespace Lumos.BLL.Biz
                     sku.SimpleCode = simpleCode;
                     CurrentDb.SaveChanges();
 
-                    tran.HashSetAsync("search_productskus_u_" + user.Id, "barcode:" + sku.BarCode + ",name:" + sku.Name + ",simplecode:" + simpleCode, Newtonsoft.Json.JsonConvert.SerializeObject(sku), StackExchange.Redis.When.Always);
+                    tran.HashSetAsync("search_productskus_u_" + merchant.Id, "barcode:" + sku.BarCode + ",name:" + sku.Name + ",simplecode:" + simpleCode, Newtonsoft.Json.JsonConvert.SerializeObject(sku), StackExchange.Redis.When.Always);
                 }
             }
 

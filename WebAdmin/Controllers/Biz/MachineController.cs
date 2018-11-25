@@ -60,7 +60,7 @@ namespace WebAdmin.Controllers.Biz
                          where
                                  (merchantName.Length == 0 || tt.Name.Contains(merchantName)) &&
                                     (deviceId.Length == 0 || p.DeviceId.Contains(deviceId))
-                         select new { p.Id, p.Name, p.DeviceId, p.MacAddress, p.IsUse, p.CreateTime, p.MerchantId, MerchantName = tt.Name });
+                         select new { p.Id, p.Name, p.DeviceId, p.MacAddress, p.CreateTime, p.MerchantId, MerchantName = tt.Name });
 
             int total = query.Count();
 
@@ -74,7 +74,7 @@ namespace WebAdmin.Controllers.Biz
 
             foreach (var item in list)
             {
-                string l_merchantName = item.IsUse == false ? "未绑定商户" : item.MerchantName;
+                string l_merchantName = string.IsNullOrEmpty(item.MerchantId) ? "未绑定商户" : item.MerchantName;
 
                 olist.Add(new
                 {
@@ -83,7 +83,6 @@ namespace WebAdmin.Controllers.Biz
                     MerchantId = item.MerchantId,
                     MerchantName = l_merchantName,
                     DeviceId = item.DeviceId,
-                    IsUse = item.IsUse,
                     MacAddress = item.MacAddress,
                     CreateTime = item.CreateTime.ToUnifiedFormatDateTime()
                 });
@@ -110,10 +109,9 @@ namespace WebAdmin.Controllers.Biz
         }
 
         [HttpPost]
-        public CustomJsonResult Bind(string id, string merchantId)
+        public CustomJsonResult Bind(string id, Enumeration.MachineBindType bindType, string merchantId)
         {
-            var machine = CurrentDb.Machine.Where(m => m.Id == id).FirstOrDefault();
-            if (machine.IsUse)
+            if (bindType == Enumeration.MachineBindType.Off)
             {
                 return AdminServiceFactory.Machine.BindOffMerchant(this.CurrentUserId, id, merchantId);
             }

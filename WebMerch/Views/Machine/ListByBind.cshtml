@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "";
+    ViewBag.Title = "List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -9,38 +9,37 @@
 
     $(document).ready(function () {
         listTable = $("#list_table").loadDataTable({
-            url: "/Biz/Machine/GetList",
+            url: "/Machine/GetList",
             pageIndex: 0,
             searchParams: $("#form1").serializeArray(),
             searchButtonId: "btn_Search",
             containerId: "form1",
             rowDataCombie: function (p_index, p_row) {
-
+                var l_Strlimt = "";
+                l_Strlimt += "@Html.IsInPermission("<a href=\\\"javascript:void(0)\\\" operate=\\\"edit\\\"   class=\\\"a-btn a-btn-edit\\\"  >查看</a>")";
                 var l_StrRows = "";
                 l_StrRows += "<tr>";
                 l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
                 l_StrRows += "<td class=\"overflow tipitem\" title=\"" + p_row.deviceId + "\"   >" + p_row.deviceId + "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.name + "\"   >" + p_row.name + "</td>";
-                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.merchantName + "\"   >" + p_row.merchantName + "</td>";
-                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.createTime + "\">" + p_row.createTime + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.storeName + "\">" + p_row.storeName + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.statusName + "\">" + p_row.statusName + "</td>";
                 l_StrRows += "<td class=\"operation\">";
-
-                l_StrRows += "<a href=\"javascript:void(0)\" operate=\"edit\"  class=\"a-btn a-btn-edit\"  >" + (p_row.isUse == true ? "解绑" : "绑定") + "</a>";
-
+                l_StrRows += l_Strlimt;
                 l_StrRows += "</td>";
                 l_StrRows += "</tr>";
                 return l_StrRows;
             },
             operate: {
                 "edit": function (obj) {
-                    var okVal = obj.isUse == true ? "解绑" : "绑定";
-                    var url = '/Biz/Machine/Bind?id=' + obj.id;
+
+                    var url = '/Machine/Edit?id=' + obj.id;
+                    var title = '设置';
                     art.dialog.open(url, {
-                        id: "openDialog", title: okVal, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: okVal, ok: function () {
-                            this.iframe.contentWindow.bind();
-                            return false;
-                        }
+                        id: "openDialog", title: title, width: '80%', height: '80%', lock: true, drag: false, cancelVal: '关闭', cancel: true
                     });
+
+
                 }
             }
         });
@@ -48,33 +47,16 @@
     });
 
 
-    function refresh(type) {
-        switch (type) {
-            case 1:
-                listTable.loadData();
-                break;
-            case 2:
-                listTable.loadData('c');
-                break;
-        }
-    }
 
 
 </script>
 
 <form id="form1" name="form1">
-
     <div class="search-bar">
         <div class="filter">
             <span class="filter-label">设备ID：</span>
             <span class="filter-input">
                 <input type="text" class="input-control" name="DeviceId" style="width:120px;" />
-            </span>
-        </div>
-        <div class="filter">
-            <span class="filter-label">商户名称：</span>
-            <span class="filter-input">
-                <input type="text" class="input-control" name="MerchantName" style="width:120px;" />
             </span>
         </div>
         <div class="filter"><input type="button" class="btn btn-search" id="btn_Search" value="查询" /> </div>
@@ -95,13 +77,13 @@
                     <th style="width:20%">
                         名称
                     </th>
-                    <th style="width:20%">
-                        商户名称
+                    <th style="width:30%">
+                        所属于便利店
                     </th>
                     <th style="width:10%">
-                        绑定状态
+                        状态
                     </th>
-                    <th style="width:10%" class="operation">
+                    <th style="width:15%" class="operation">
                         操作
                     </th>
                 </tr>

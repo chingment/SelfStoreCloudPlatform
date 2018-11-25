@@ -13,7 +13,7 @@ namespace Lumos.BLL.Service.AppTerm
             CustomJsonResult result = new CustomJsonResult();
             var ret = new RetGlobalDataSet();
 
-            var machine = CurrentDb.Machine.Where(m => m.MerchantId == rup.MerchantId && m.Id == rup.MachineId && m.IsUse == true).FirstOrDefault();
+            var machine = CurrentDb.Machine.Where(m => m.MerchantId == rup.MerchantId && m.Id == rup.MachineId).FirstOrDefault();
 
             if (machine == null)
             {

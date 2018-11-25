@@ -11,7 +11,7 @@ namespace WebMerch
 {
     public static class OwnRequest
     {
-        public const string SESSION_NAME = "SessionName";
+        public const string SESSION_NAME = "Session_WebMerch";
 
 
         public static string GetCurrentUserId()

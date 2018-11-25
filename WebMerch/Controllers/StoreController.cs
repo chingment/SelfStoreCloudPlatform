@@ -146,8 +146,7 @@ namespace WebMerch.Controllers
                                   select d2.MachineId).Contains(u.Id)
                          &&
                          (name.Length == 0 || u.Name.Contains(name))
-                         && u.MerchantId == this.CurrentUserId
-                         && u.IsUse == true
+                         && u.MerchantId == this.CurrentMerchantId
                          select new { u.Id, u.Name, u.DeviceId }).Distinct();
 
             int total = query.Count();

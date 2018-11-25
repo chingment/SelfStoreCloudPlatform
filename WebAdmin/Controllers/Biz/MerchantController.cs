@@ -106,8 +106,7 @@ namespace WebAdmin.Controllers.Biz
                         join m in CurrentDb.Merchant on p.MerchantId equals m.Id
                         where
                         p.MerchantId == rup.MerchantId &&
-                        p.IsUse == true &&
-                               (deviceId.Length == 0 || p.DeviceId.Contains(deviceId))
+                        (deviceId.Length == 0 || p.DeviceId.Contains(deviceId))
 
                         select new { p.Id, p.MerchantId, MerchantName = m.Name, p.DeviceId, MachineName = p.Name, p.MacAddress });
 

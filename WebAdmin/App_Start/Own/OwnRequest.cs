@@ -11,7 +11,7 @@ namespace WebAdmin
 {
     public static class OwnRequest
     {
-        public const string SESSION_NAME = "SessionName";
+        public const string SESSION_NAME = "Session_WebAdmin";
 
 
         public static string GetCurrentUserId()

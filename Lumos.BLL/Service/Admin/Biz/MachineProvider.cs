@@ -25,7 +25,6 @@ namespace Lumos.BLL.Service.Admin
             ret.Name = machine.Name ?? ""; ;
             ret.DeviceId = machine.DeviceId ?? ""; ;
             ret.MacAddress = machine.MacAddress ?? "";
-            ret.IsUse = machine.IsUse;
 
 
             var merchantInfo = CurrentDb.Merchant.Where(m => m.Id == machine.MerchantId).FirstOrDefault();
@@ -90,15 +89,12 @@ namespace Lumos.BLL.Service.Admin
             {
                 var machine = CurrentDb.Machine.Where(m => m.Id == id).FirstOrDefault();
 
-                if (machine.IsUse)
+                if (!string.IsNullOrEmpty(machine.MerchantId))
                 {
-                    return new CustomJsonResult(ResultType.Failure, "该设备已经被绑定，未被解绑");
+                    return new CustomJsonResult(ResultType.Failure, "该设备已经被绑定");
                 }
 
-                machine.IsUse = true;
                 machine.MerchantId = merchantId;
-                machine.MendTime = this.DateTime;
-                machine.Mender = operater;
                 machine.LogoImgUrl = "http://file.17fanju.com/Upload/machTmp/tmp/LogoImg.png";
                 machine.BtnBuyImgUrl = "http://file.17fanju.com/Upload/machTmp/tmp/BtnBuyImg.png";
                 machine.BtnPickImgUrl = "http://file.17fanju.com/Upload/machTmp/tmp/BtnPickImg.png";
@@ -107,7 +103,6 @@ namespace Lumos.BLL.Service.Admin
 
 
                 var machineBindLog = new MachineBindLog();
-
                 machineBindLog.Id = GuidUtil.New();
                 machineBindLog.MerchantId = merchantId;
                 machineBindLog.MachineId = id;
@@ -117,6 +112,8 @@ namespace Lumos.BLL.Service.Admin
                 machineBindLog.Creator = operater;
                 CurrentDb.MachineBindLog.Add(machineBindLog);
                 CurrentDb.SaveChanges();
+
+
                 ts.Complete();
                 result = new CustomJsonResult(ResultType.Success, "绑定成功");
             }
@@ -132,13 +129,13 @@ namespace Lumos.BLL.Service.Admin
             {
                 var machine = CurrentDb.Machine.Where(m => m.Id == id).FirstOrDefault();
 
-                if (machine.IsUse == false)
+                if (string.IsNullOrEmpty(machine.MerchantId))
                 {
                     return new CustomJsonResult(ResultType.Failure, "该设备已经被解绑");
                 }
 
-                machine.IsUse = false;
                 machine.MerchantId = null;
+                machine.StoreId = null;
                 machine.MendTime = this.DateTime;
                 machine.Mender = operater;
 

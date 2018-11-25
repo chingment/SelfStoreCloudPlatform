@@ -66,17 +66,6 @@ namespace Lumos.BLL.Service.AppTerm
                 return new CustomJsonResult(ResultType.Failure, "设备未入库登记");
             }
 
-            if (!machine.IsUse)
-            {
-                return new CustomJsonResult(ResultType.Failure, "设备未配置商户");
-            }
-
-            if (!machine.IsUse )
-            {
-                return new CustomJsonResult(ResultType.Failure, "设备未绑定商户");
-            }
-
-
             var storeMachine = CurrentDb.StoreMachine.Where(m => m.MerchantId == machine.MerchantId && m.MachineId == machine.Id && m.IsBind == true).FirstOrDefault();
 
             if (storeMachine == null)
@@ -99,7 +88,8 @@ namespace Lumos.BLL.Service.AppTerm
             }
 
             var merchant = CurrentDb.Merchant.Where(m => m.Id == machine.MerchantId).FirstOrDefault();
-            if (merchant == null) { 
+            if (merchant == null)
+            {
                 return new CustomJsonResult(ResultType.Failure, "已绑定商户，却找不到商户信息");
             }
 
