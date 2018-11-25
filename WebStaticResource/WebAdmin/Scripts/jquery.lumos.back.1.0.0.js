@@ -1871,6 +1871,23 @@
             _click(index, key);
         }
 
+        this.treeIsSelectedNode = function () {
+            var treeObj = $.fn.zTree.getZTreeObj(_treeId);
+            var selNode = treeObj.getSelectedNodes();
+            if ($.lumos.isNullOrEmpty(selNode)) {
+                $.lumos.tips("请在左边树形结构选中节点信息");
+                return false;
+            }
+
+            return true;
+        }
+
+        this.treeGetSelectedNode = function () {
+            var treeObj = $.fn.zTree.getZTreeObj(_treeId);
+            var selNode = treeObj.getSelectedNodes();
+            return selNode[0];
+        }
+
         return this;
 
     }

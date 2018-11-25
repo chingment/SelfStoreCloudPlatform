@@ -11,7 +11,7 @@
         var mainTree_maxNodeNum = 2;
         var mainTree_listPositions;
         var mainTab;
- 
+
         $(this).ready(function () {
 
             mainTab = $("#tab_Main").tab({
@@ -34,10 +34,12 @@
             $("#txt_Description").formValidator().inputValidator({ min: 0, max: 500, onError: "描述不能超过500个字符" });
 
             $("#maintree_add_node").click(function () {
-                var selNode = getMainTreeSelNode();
-                if (selNode == null) {
+
+                if (!mainTab.treeIsSelectedNode()) {
                     return;
                 }
+
+                var selNode = mainTab.treeGetSelectedNode();
 
                 var url = '/Sys/Organization/Add?pId=' + selNode.id + '&pName=' + escape(selNode.name)
                 var title = '新建';
@@ -51,10 +53,11 @@
 
             $("#maintree_delete_node").click(function () {
 
-                var selNode = getMainTreeSelNode();
-                if (selNode == null) {
+                if (!mainTab.treeIsSelectedNode()) {
                     return;
                 }
+
+                var selNode = mainTab.treeGetSelectedNode();
 
                 art.dialog.confirm(
                     "确定删除[" + selNode.name + "]节点及其子节点吗？",
@@ -91,10 +94,12 @@
             });
 
             $("#maintree_sort_node").click(function () {
-                var selNode = getMainTreeSelNode();
-                if (selNode == null) {
+
+                if (!mainTab.treeIsSelectedNode()) {
                     return;
                 }
+
+                var selNode = mainTab.treeGetSelectedNode();
 
                 if (typeof selNode.children == "undefined") {
                     $.lumos.tips("该节点没有子节点！");
@@ -114,10 +119,11 @@
             });
 
             $("#maintree_add_position").click(function () {
-                var selNode = getMainTreeSelNode();
-                if (selNode == null) {
+                if (!mainTab.treeIsSelectedNode()) {
                     return;
                 }
+
+                var selNode = mainTab.treeGetSelectedNode();
 
                 var url = '/Sys/Position/Add?organizationId=' + selNode.id + '&organizationName=' + escape(selNode.name)
                 var title = '添加';
@@ -132,11 +138,12 @@
 
             $("#maintree_eidt_node").click(function () {
 
-
-                var selNode = getMainTreeSelNode();
-                if (selNode == null) {
-                    return false;
+                if (!mainTab.treeIsSelectedNode()) {
+                    return;
                 }
+
+                var selNode = mainTab.treeGetSelectedNode();
+
                 var isValid = $.formValidator.pageIsValid();
                 if (!isValid)
                     return false;
@@ -166,15 +173,6 @@
 
         });
 
-        function getMainTreeSelNode() {
-
-            var selNode = mainTree.getSelectedNodes();
-            if ($.lumos.isNullOrEmpty(selNode)) {
-                $.lumos.tips("请在左边树形结构选中节点信息");
-                return null;
-            }
-            return selNode[0];
-        }
 
         function getChildNodeGrade(treeNode) {
             var p = treeNode.getParentNode();
@@ -186,10 +184,11 @@
 
         function getMainTreeSelNodeDetails() {
 
-            var selNode = getMainTreeSelNode();
-            if (selNode == null) {
+            if (!mainTab.treeIsSelectedNode()) {
                 return;
             }
+
+            var selNode = mainTab.treeGetSelectedNode();
 
             var parentName = "/";
             if (selNode.getParentNode() != null) {
@@ -199,6 +198,7 @@
             /*最大支持几级菜单由maxMum决定 可修改这个值*/
             num = 0;
             getChildNodeGrade(selNode);
+
             if (num >= mainTree_maxNodeNum) {
                 $("#btn_add").attr("disabled", true);
             }
@@ -337,7 +337,7 @@
                     </form>
                 </div>
                 <div class="subcontent">
-                   xdd
+                    xdd
                 </div>
             </div>
         </div>
