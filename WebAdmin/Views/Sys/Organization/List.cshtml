@@ -11,25 +11,17 @@
         var mainTree_maxNodeNum = 2;
         var mainTree_listPositions;
         var mainTab;
-        var mainTree_curId;
+ 
         $(this).ready(function () {
 
             mainTab = $("#tab_Main").tab({
-                click: function (index) {
-
-                    var selNode = getMainTreeSelNode();
-                    if (selNode == null) {
-                        return false;
-                    }
-
-                    mainTree_curId = selNode.id;
-
+                treeId: "maintree",
+                click: function (index, key) {
                     switch (index) {
                         case 0:
                             getMainTreeSelNodeDetails();
                             break;
                     }
-
                     return true;
                 }
             });
@@ -175,6 +167,7 @@
         });
 
         function getMainTreeSelNode() {
+
             var selNode = mainTree.getSelectedNodes();
             if ($.lumos.isNullOrEmpty(selNode)) {
                 $.lumos.tips("请在左边树形结构选中节点信息");
@@ -232,11 +225,13 @@
 
         function mainTreeLoadData() {
 
+            var maintree = $("#maintree")
+
             $.lumos.getJson({
                 url: "/Sys/Organization/GetAll",
                 success: function (d) {
-                    var obj = eval(d.data);
-                    mainTree = $.fn.zTree.init($("#maintree"), {
+                    var data = d.data;
+                    mainTree = $.fn.zTree.init(maintree, {
                         view: {
                             showLine: true,
                             selectedMulti: false
@@ -246,13 +241,14 @@
                         },
                         callback: {
                             onClick: function treeNodeOnClick(event, treeId, treeNode, clickFlag) {
-                                mainTab.click();
+                                mainTab.refresh(treeNode.id);
                             }
                         }
-                    }, obj);
+                    }, data);
 
-                    if (typeof mainTree_curId != "undefined") {
-                        var node = mainTree.getNodeByParam("id", mainTree_curId, null);
+
+                    if (typeof $(maintree).data("curId") != "undefined") {
+                        var node = mainTree.getNodeByParam("id", $(maintree).data("curId"), null);
                         mainTree.selectNode(node);
                     }
 
@@ -286,6 +282,7 @@
             <div class="tab-item">
                 <ul>
                     <li class="item first selected"><a class="a-btn-info" href="javascript:void(0)">基本信息</a></li>
+                    <li class="item"><a class="a-btn-info" href="javascript:void(0)">关联菜单</a></li>
                 </ul>
             </div>
             <div class="tab-content">
@@ -338,6 +335,9 @@
                             </tr>
                         </table>
                     </form>
+                </div>
+                <div class="subcontent">
+                   xdd
                 </div>
             </div>
         </div>

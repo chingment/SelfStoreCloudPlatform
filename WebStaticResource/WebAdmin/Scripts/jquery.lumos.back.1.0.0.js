@@ -1318,7 +1318,7 @@
 
         this.loadData = function (index) {
             var pageIndex = $(_thisTable).data('currentPageIndex');
-     
+
             if (typeof index != 'undefined') {
                 if (index != "c") {
                     pageIndex = index;
@@ -1809,8 +1809,8 @@
         }, opts || {});
 
         var _click = opts.click;
-
-
+        var _treeId = opts.treeId;
+        //alert(_treeId)
 
         var _tabs = $(this);
 
@@ -1825,19 +1825,32 @@
                 $(_tabitems).eq(index).addClass("selected");
                 $(_tabcontents).hide();
                 $(_tabcontents).eq(index).show();
-                $(_tabs).attr("index", index);
+                $(_tabs).data("index", index);
             }
 
             $(_tabitems).unbind('click').click(function () {
 
+                var key;
+                var treeObj = $.fn.zTree.getZTreeObj(_treeId);
+                if (typeof treeObj != "undefined") {
+                    var selNode = treeObj.getSelectedNodes();
+                    if ($.lumos.isNullOrEmpty(selNode)) {
+                        $.lumos.tips("请在左边树形结构选中节点信息");
+                        return null;
+                    }
+
+                    key = selNode[0].id;
+                }
+
                 var index = $(this).index();
-                var isflag = _click(index);
+                var isflag = _click(index, key);
                 if (!isflag)
                     return
                 var disabled = $(this).hasClass("disabled");
                 if (!disabled) {
                     showitem(index);
                 }
+
             });
 
             $(_tabitems).each(function () {
@@ -1848,16 +1861,15 @@
                     showitem(index);
                 }
             });
-
-
-
-
         });
 
-        this.click = function () {
-            var index = parseInt($(_tabs).attr("index"));
-            _click(index);
-        };
+
+        this.refresh = function (key) {
+            var index = parseInt($(_tabs).data("index"));
+            $(_tabs).data("key", key);
+            $('#' + _treeId).data("curId", key);
+            _click(index, key);
+        }
 
         return this;
 
