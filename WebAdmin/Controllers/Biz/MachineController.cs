@@ -74,16 +74,19 @@ namespace WebAdmin.Controllers.Biz
 
             foreach (var item in list)
             {
-                string l_merchantName = string.IsNullOrEmpty(item.MerchantId) ? "未绑定商户" : item.MerchantName;
-
+                bool l_isBindMerchant = string.IsNullOrEmpty(item.MerchantId) ? false : true;
+                string l_merchantName = string.IsNullOrEmpty(item.MerchantId) ? "未绑定" : item.MerchantName;
+                string l_statusName = "";
                 olist.Add(new
                 {
                     Id = item.Id,
                     Name = item.Name,
                     MerchantId = item.MerchantId,
                     MerchantName = l_merchantName,
+                    IsBindMerchant = l_isBindMerchant,
                     DeviceId = item.DeviceId,
                     MacAddress = item.MacAddress,
+                    StatusName = l_statusName,
                     CreateTime = item.CreateTime.ToUnifiedFormatDateTime()
                 });
 

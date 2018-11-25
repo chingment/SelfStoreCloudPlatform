@@ -26,10 +26,11 @@ namespace Lumos.BLL.Service.Admin
             ret.DeviceId = machine.DeviceId ?? ""; ;
             ret.MacAddress = machine.MacAddress ?? "";
 
-
             var merchantInfo = CurrentDb.Merchant.Where(m => m.Id == machine.MerchantId).FirstOrDefault();
             if (merchantInfo != null)
             {
+                ret.IsBindMerchant = true;
+
                 ret.Merchant.Id = merchantInfo.Id;
                 ret.Merchant.Name = merchantInfo.Name ?? "";
                 ret.Merchant.ContactName = merchantInfo.ContactName ?? "";

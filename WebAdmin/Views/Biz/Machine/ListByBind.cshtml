@@ -21,19 +21,17 @@
                 l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
                 l_StrRows += "<td class=\"overflow tipitem\" title=\"" + p_row.deviceId + "\"   >" + p_row.deviceId + "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.name + "\"   >" + p_row.name + "</td>";
-                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.merchantName + "\"   >" + p_row.merchantName + "</td>";
-                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.createTime + "\">" + p_row.createTime + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.merchantName + "\">" + p_row.merchantName + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.statusName + "\">" + p_row.statusName + "</td>";
                 l_StrRows += "<td class=\"operation\">";
-
-                l_StrRows += "<a href=\"javascript:void(0)\" operate=\"edit\"  class=\"a-btn a-btn-edit\"  >" + (p_row.isUse == true ? "解绑" : "绑定") + "</a>";
-
+                l_StrRows += "<a href=\"javascript:void(0)\" operate=\"edit\"  class=\"a-btn a-btn-edit\"  >" + (p_row.isBindMerchant == true ? "解绑" : "绑定") + "</a>";
                 l_StrRows += "</td>";
                 l_StrRows += "</tr>";
                 return l_StrRows;
             },
             operate: {
                 "edit": function (obj) {
-                    var okVal = obj.isUse == true ? "解绑" : "绑定";
+                    var okVal = obj.isBindMerchant == true ? "解绑" : "绑定";
                     var url = '/Biz/Machine/Bind?id=' + obj.id;
                     art.dialog.open(url, {
                         id: "openDialog", title: okVal, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: okVal, ok: function () {
@@ -96,10 +94,10 @@
                         名称
                     </th>
                     <th style="width:20%">
-                        商户名称
+                        所属商户
                     </th>
                     <th style="width:10%">
-                        绑定状态
+                        状态
                     </th>
                     <th style="width:10%" class="operation">
                         操作

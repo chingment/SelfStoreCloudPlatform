@@ -8,7 +8,7 @@
 
         var id = $.lumos.getUrlParamValue("id");
         var merchantId = null;
-        var isUse = false;
+        var isBindMerchant = false;
         $(this).ready(function () {
             initData();
         });
@@ -24,14 +24,22 @@
                 return;
             }
 
-            var opName = (isUse == false ? "绑定" : "解绑");
+            var bindType;
+            var opTip = "";
+            if (isBindMerchant) {
+                bindType = 2;
+                opTip = "确定要解绑机器";
+            }
+            else {
+                bindType = 1;
+                opTip = "确定要绑定机器";
+            }
 
-            art.dialog.confirm('确定要' + opName + '？', function () {
-
+            art.dialog.confirm(opTip, function () {
                 $.lumos.postJson({
                     url: "/Biz/Machine/Bind",
                     isUseHandling: true,
-                    data: { id: id, merchantId: merchantId },
+                    data: { id: id, bindType: bindType, merchantId: merchantId },
                     success: function (d) {
                         if (d.result == $.lumos.resultType.success) {
                             $.lumos.parentDialog.refresh(2);
@@ -67,9 +75,9 @@
                         $("#lbl_MacAddress").text(data.macAddress);
                         $("#lbl_Name").text(data.name);
 
-                        isUse = data.isUse;
+                        isBindMerchant = data.isBindMerchant;
 
-                        if (!data.isUse) {
+                        if (!data.isBindMerchant) {
                             $('#btn_select_mrchUser').show();
                         }
 

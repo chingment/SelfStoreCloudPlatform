@@ -12,7 +12,7 @@ namespace Lumos.BLL.Service.Admin
         private string _name = "";
         private string _deviceId = "";
         private string _macAddress = "";
-        private bool _isUse = false;
+        private bool _isBindMerchant = false;
 
         public RetMachineGetDetails()
         {
@@ -67,16 +67,16 @@ namespace Lumos.BLL.Service.Admin
                 _macAddress = value;
             }
         }
-        public bool IsUse
+        public bool IsBindMerchant
         {
             get
             {
 
-                return _isUse;
+                return _isBindMerchant;
             }
             set
             {
-                _isUse = value;
+                _isBindMerchant = value;
             }
         }
         public MerchantModel Merchant { get; set; }
