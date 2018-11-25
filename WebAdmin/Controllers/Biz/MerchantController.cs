@@ -34,11 +34,6 @@ namespace WebAdmin.Controllers.Biz
             return View();
         }
 
-        public ViewResult MachineListByBindable()
-        {
-            return View();
-        }
-
         public CustomJsonResult GetDetails(string id)
         {
             return AdminServiceFactory.Merchant.GetDetails(this.CurrentUserId, id);
@@ -97,7 +92,7 @@ namespace WebAdmin.Controllers.Biz
         }
 
 
-        public CustomJsonResult GetMachineListByBinded(RupMachineGetList rup)
+        public CustomJsonResult GetMachineList(RupMachineGetList rup)
         {
 
             string deviceId = rup.DeviceId.ToSearchString();

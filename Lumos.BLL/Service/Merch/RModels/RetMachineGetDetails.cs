@@ -12,7 +12,7 @@ namespace Lumos.BLL.Service.Merch
         private string _name = "";
         private string _deviceId = "";
         private string _macAddress = "";
-        private bool _isUse = false;
+        private bool _isBindStore = false;
         private string _status = "";
         private string _statusName = "";
         public RetMachineGetDetails()
@@ -69,16 +69,16 @@ namespace Lumos.BLL.Service.Merch
                 _macAddress = value;
             }
         }
-        public bool IsUse
+        public bool IsBindStore
         {
             get
             {
 
-                return _isUse;
+                return _isBindStore;
             }
             set
             {
-                _isUse = value;
+                _isBindStore = value;
             }
         }
 
@@ -113,10 +113,45 @@ namespace Lumos.BLL.Service.Merch
         public StoreModel Store { get; set; }
 
         public class StoreModel {
+            private string _id = "";
+            private string _name = "";
+            private string _address = "";
+            public string Id
+            {
+                get
+                {
 
-            public string Id { get; set; }
-            public string Name { get; set; }
-            public string Address { get; set; }
+                    return _id;
+                }
+                set
+                {
+                    _id = value;
+                }
+            }
+            public string Name
+            {
+                get
+                {
+
+                    return _name;
+                }
+                set
+                {
+                    _name = value;
+                }
+            }
+            public string Address
+            {
+                get
+                {
+
+                    return _address;
+                }
+                set
+                {
+                    _address = value;
+                }
+            }
         }
 
         public class SkuModel

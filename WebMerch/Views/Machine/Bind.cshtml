@@ -18,14 +18,14 @@
 
         function bind() {
 
-            if ($.lumos.isNullOrEmpty(data.merchant.id)) {
-                $.lumos.tips('请选择商户');
+            if ($.lumos.isNullOrEmpty(data.store.id)) {
+                $.lumos.tips('请选择店铺');
                 return;
             }
 
             var bindType;
             var opTip = "";
-            if (data.isBindMerchant) {
+            if (data.isBindStore) {
                 bindType = 2;
                 opTip = "确定要解绑机器";
             }
@@ -36,9 +36,9 @@
 
             art.dialog.confirm(opTip, function () {
                 $.lumos.postJson({
-                    url: "/Biz/Machine/Bind",
+                    url: "/Machine/Bind",
                     isUseHandling: true,
-                    data: { id: id, bindType: bindType, merchantId: data.merchant.id },
+                    data: { id: id, bindType: bindType, storeId: data.store.id },
                     success: function (d) {
                         if (d.result == $.lumos.resultType.success) {
                             $.lumos.parentDialog.refresh(2);
@@ -53,33 +53,33 @@
             return false;
         }
 
-        function getMerchantDetails(obj) {
-            data.merchant.id = obj.id;
-            $('#lbl_Merchant_Name').text(obj.name);
-            $('#lbl_Merchant_ContactName').text(obj.contactName);
-            $('#lbl_Merchant_ContactPhone').text(obj.contactPhone);
-            $('#lbl_Merchant_ContactAddress').text(obj.contactAddress);
+        function getStoreDetails(obj) {
+            data.store.id = obj.id;
+            $('#lbl_Store_Name').text(obj.name);
+            $('#lbl_Store_Address').text(obj.address);
         }
 
         function getDetails() {
-
             $.lumos.getJson({
-                url: "/Biz/Machine/GetDetails",
+                url: "/Machine/GetDetails",
                 urlParams: { id: id },
                 isUseHandling: true,
                 success: function (d) {
                     if (d.result == $.lumos.resultType.success) {
+
                         data = d.data;
+
                         $('#lbl_DeviceId').text(data.deviceId);
                         $("#lbl_MacAddress").text(data.macAddress);
                         $("#lbl_Name").text(data.name);
-                        if (!data.isBindMerchant) {
-                            $('#btn_select_mrchUser').show();
+
+                        if (!data.isBindStore) {
+                            $('#btn_select_store').show();
                         }
-                        $("#lbl_Merchant_Name").text(data.merchant.name);
-                        $("#lbl_Merchant_ContactPhone").text(data.merchant.contactPhone);
-                        $("#lbl_Merchant_ContactName").text(data.merchant.contactName);
-                        $("#lbl_Merchant_ContactAddress").text(data.merchant.contactAddress);
+
+                        $("#lbl_Store_Name").text(data.store.name);
+                        $("#lbl_Store_Address").text(data.store.address);
+                        ;
                     }
                 }
             });
@@ -113,7 +113,7 @@
     </table>
     <div class="gbr-row-title clearfix">
         <div class="pull-left">
-            <h5>商户信息</h5>
+            <h5>便利店信息</h5>
         </div>
         <div class="pull-right f-tb1-item-pull-right">
             <h6></h6>
@@ -123,38 +123,22 @@
     <table class="f-tb" cellpadding="0" cellspacing="1" style="width:100%">
         <tr>
             <td class="f-tb-t">
-                商户名称：
+                名称：
             </td>
             <td class="f-tb-c">
 
-                <span id="lbl_Merchant_Name"></span>
+                <span id="lbl_Store_Name"></span>
 
-                <input type="button" class="btn" id="btn_select_mrchUser" value="选择" dialog-title="选择" style="display:none" />
+                <input type="button" class="btn" id="btn_select_store" value="选择" dialog-title="选择" style="display:none" />
 
             </td>
         </tr>
         <tr>
             <td class="f-tb-t">
-                联系人：
+                地址：
             </td>
             <td class="f-tb-c">
-                <span id="lbl_Merchant_ContactName"></span>
-            </td>
-        </tr>
-        <tr>
-            <td class="f-tb-t">
-                联系电话：
-            </td>
-            <td class="f-tb-c">
-                <span id="lbl_Merchant_ContactPhone"></span>
-            </td>
-        </tr>
-        <tr>
-            <td class="f-tb-t">
-                联系地址：
-            </td>
-            <td class="f-tb-c">
-                <span id="lbl_Merchant_ContactAddress"></span>
+                <span id="lbl_Store_Address"></span>
             </td>
         </tr>
     </table>

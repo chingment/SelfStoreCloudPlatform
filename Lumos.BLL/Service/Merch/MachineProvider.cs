@@ -40,10 +40,13 @@ namespace Lumos.BLL.Service.Merch
                 var storeMachine = CurrentDb.StoreMachine.Where(m => m.MerchantId == merchantId && m.MachineId == id && m.IsBind == true).FirstOrDefault();
                 if (storeMachine == null)
                 {
-                    ret.Store.Name = "未绑定店铺";
+                    ret.Store.Name = "未绑定";
+                    ret.IsBindStore = false;
                 }
                 else
                 {
+                    ret.IsBindStore = true;
+
                     var store = CurrentDb.Store.Where(m => m.Id == storeMachine.StoreId).FirstOrDefault();
                     if (store != null)
                     {
@@ -84,6 +87,102 @@ namespace Lumos.BLL.Service.Merch
             }
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
+        }
+
+
+
+        public CustomJsonResult BindOnStore(string operater, string merchantId, string id, string storeId)
+        {
+            CustomJsonResult result = new CustomJsonResult();
+            using (TransactionScope ts = new TransactionScope())
+            {
+                var machine = CurrentDb.Machine.Where(m => m.MerchantId == merchantId && m.Id == id).FirstOrDefault();
+
+                if (machine == null)
+                {
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "数据为空");
+                }
+
+                var store = CurrentDb.Store.Where(m => m.MerchantId == merchantId && m.Id == storeId).FirstOrDefault();
+
+                if (store == null)
+                {
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "没有便利店");
+                }
+
+                machine.StoreId = storeId;
+                machine.MendTime = this.DateTime;
+                machine.Mender = operater;
+
+                var storeMachine = CurrentDb.StoreMachine.Where(m => m.MerchantId == merchantId && m.StoreId == storeId && m.MachineId == id).FirstOrDefault();
+                if (storeMachine == null)
+                {
+                    storeMachine = new StoreMachine();
+                    storeMachine.Id = GuidUtil.New();
+                    storeMachine.MerchantId = store.MerchantId;
+                    storeMachine.StoreId = store.Id;
+                    storeMachine.MachineId = id;
+                    storeMachine.MachineName = machine.Name;
+                    storeMachine.IsBind = true;
+                    storeMachine.CreateTime = this.DateTime;
+                    storeMachine.Creator = operater;
+                    CurrentDb.StoreMachine.Add(storeMachine);
+                    CurrentDb.SaveChanges();
+                }
+                else
+                {
+                    storeMachine.MachineName = machine.Name;
+                    storeMachine.IsBind = true;
+                    storeMachine.MendTime = this.DateTime;
+                    storeMachine.Mender = operater;
+                    CurrentDb.SaveChanges();
+                }
+
+
+                ts.Complete();
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
+            }
+            return result;
+        }
+
+        public CustomJsonResult BindOffStore(string operater, string merchantId, string id, string storeId)
+        {
+            CustomJsonResult result = new CustomJsonResult();
+            using (TransactionScope ts = new TransactionScope())
+            {
+                var machine = CurrentDb.Machine.Where(m => m.MerchantId == merchantId && m.StoreId == storeId && m.Id == id).FirstOrDefault();
+
+                if (machine == null)
+                {
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "数据为空");
+                }
+
+                var store = CurrentDb.Store.Where(m => m.MerchantId == merchantId && m.Id == storeId).FirstOrDefault();
+
+                if (store == null)
+                {
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "数据为空");
+                }
+
+                var storeMachine = CurrentDb.StoreMachine.Where(m => m.MerchantId == merchantId && m.StoreId == storeId && m.MachineId == id).FirstOrDefault();
+                if (storeMachine == null)
+                {
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "数据为空");
+                }
+
+                machine.StoreId = null;
+                machine.MendTime = this.DateTime;
+                machine.Mender = operater;
+
+                storeMachine.IsBind = false;
+                storeMachine.MendTime = this.DateTime;
+                storeMachine.Mender = operater;
+                CurrentDb.SaveChanges();
+
+                ts.Complete();
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
+            }
+            return result;
         }
     }
 }

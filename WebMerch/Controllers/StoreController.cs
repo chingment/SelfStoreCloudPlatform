@@ -16,6 +16,10 @@ namespace WebMerch.Controllers
         {
             return View();
         }
+        public ViewResult ListBySelect()
+        {
+            return View();
+        }
 
         public ViewResult Add()
         {
@@ -100,7 +104,7 @@ namespace WebMerch.Controllers
                          where
                          (name.Length == 0 || u.Name.Contains(name))
                          && p.IsBind == true
-                         && p.MerchantId == this.CurrentUserId
+                         && p.MerchantId == this.CurrentMerchantId
                          select new { u.Id, Name = p.MachineName, u.DeviceId }).Distinct();
 
             int total = query.Count();
@@ -128,62 +132,5 @@ namespace WebMerch.Controllers
             return Json(ResultType.Success, pageEntity);
         }
 
-
-        public CustomJsonResult GetMachineListByBindable(RupMachineGetList rup)
-        {
-
-            string name = "";
-            if (rup.Name != null)
-            {
-                name = rup.Name.ToSearchString();
-            }
-
-            var query = (from u in CurrentDb.Machine
-                         where
-                                !(from d2 in CurrentDb.StoreMachine
-                                  where d2.MerchantId == this.CurrentUserId &&
-                                  d2.IsBind == true
-                                  select d2.MachineId).Contains(u.Id)
-                         &&
-                         (name.Length == 0 || u.Name.Contains(name))
-                         && u.MerchantId == this.CurrentMerchantId
-                         select new { u.Id, u.Name, u.DeviceId }).Distinct();
-
-            int total = query.Count();
-
-            int pageIndex = rup.PageIndex;
-            int pageSize = 10;
-            query = query.OrderBy(r => r.Id).Skip(pageSize * (pageIndex)).Take(pageSize);
-
-            var list = query.ToList();
-
-            List<object> olist = new List<object>();
-            foreach (var item in list)
-            {
-                olist.Add(new
-                {
-                    item.Id,
-                    item.Name,
-                    item.DeviceId
-                });
-
-            }
-
-            PageEntity pageEntity = new PageEntity { PageSize = pageSize, TotalRecord = total, Rows = olist };
-
-            return Json(ResultType.Success, pageEntity);
-        }
-
-        [HttpPost]
-        public CustomJsonResult BindOnMachine(string storeId, string[] machineIds)
-        {
-            return MerchServiceFactory.Store.BindOnMachine(this.CurrentUserId, storeId, machineIds);
-        }
-
-        [HttpPost]
-        public CustomJsonResult BindOffMachine(string storeId, string machineId)
-        {
-            return MerchServiceFactory.Store.BindOffMachine(this.CurrentUserId, storeId, machineId);
-        }
     }
 }

@@ -15,8 +15,6 @@
             searchButtonId: "btn_Search",
             containerId: "form1",
             rowDataCombie: function (p_index, p_row) {
-                var l_Strlimt = "";
-                l_Strlimt += "@Html.IsInPermission("<a href=\\\"javascript:void(0)\\\" operate=\\\"edit\\\"   class=\\\"a-btn a-btn-edit\\\"  >查看</a>")";
                 var l_StrRows = "";
                 l_StrRows += "<tr>";
                 l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
@@ -25,7 +23,7 @@
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.storeName + "\">" + p_row.storeName + "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.statusName + "\">" + p_row.statusName + "</td>";
                 l_StrRows += "<td class=\"operation\">";
-                l_StrRows += l_Strlimt;
+                l_StrRows += "<a href=\"javascript:void(0)\" operate=\"edit\"  class=\"a-btn a-btn-edit\"  >" + (p_row.isBindStore == true ? "解绑" : "绑定") + "</a>";
                 l_StrRows += "</td>";
                 l_StrRows += "</tr>";
                 return l_StrRows;
@@ -33,12 +31,14 @@
             operate: {
                 "edit": function (obj) {
 
-                    var url = '/Machine/Edit?id=' + obj.id;
-                    var title = '设置';
+                    var okVal = obj.isBindStore == true ? "解绑" : "绑定";
+                    var url = '/Machine/Bind?id=' + obj.id;
                     art.dialog.open(url, {
-                        id: "openDialog", title: title, width: '80%', height: '80%', lock: true, drag: false, cancelVal: '关闭', cancel: true
+                        id: "openDialog", title: okVal, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: okVal, ok: function () {
+                            this.iframe.contentWindow.bind();
+                            return false;
+                        }
                     });
-
 
                 }
             }
@@ -46,6 +46,16 @@
 
     });
 
+    function refresh(type) {
+        switch (type) {
+            case 1:
+                listTable.loadData();
+                break;
+            case 2:
+                listTable.loadData('c');
+                break;
+        }
+    }
 
 
 

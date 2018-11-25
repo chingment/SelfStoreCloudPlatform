@@ -204,7 +204,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Machine\List.cshtml" />
     <Content Include="Views\Machine\Edit.cshtml" />
-    <Content Include="Views\Store\MachineListByBindable.cshtml" />
     <Content Include="Views\Store\Edit.cshtml" />
     <Content Include="Views\Store\List.cshtml" />
     <Content Include="Views\ProductSku\Add.cshtml" />
@@ -233,6 +232,8 @@
     <Content Include="Views\Order2StockOut\List.cshtml" />
     <Content Include="Views\ProductKind\Add.cshtml" />
     <Content Include="Views\Machine\ListByBind.cshtml" />
+    <Content Include="Views\Machine\Bind.cshtml" />
+    <Content Include="Views\Store\ListBySelect.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

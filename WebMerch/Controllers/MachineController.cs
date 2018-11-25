@@ -24,6 +24,11 @@ namespace WebMerch.Controllers
             return View();
         }
 
+        public ViewResult Bind()
+        {
+            return View();
+        }
+
         public ViewResult ListByBind()
         {
             return View();
@@ -45,7 +50,7 @@ namespace WebMerch.Controllers
                                  (deviceId.Length == 0 || m.DeviceId.Contains(deviceId))
                                  &&
                                  m.MerchantId == this.CurrentMerchantId
-                         select new { m.Id, m.Name, m.DeviceId, m.MacAddress, m.StoreId, m.CreateTime });
+                         select new { m.Id, m.Name, m.DeviceId, m.MacAddress, m.StoreId, m.CreateTime, StoreName = tt.Name });
 
             int total = query.Count();
 
@@ -58,8 +63,10 @@ namespace WebMerch.Controllers
             List<object> olist = new List<object>();
             foreach (var item in list)
             {
-                string storeName = "未绑定便利店";
-                bool isUse = item.StoreId == null ? false : true;
+                bool l_IsBindStore = string.IsNullOrEmpty(item.StoreId) ? false : true;
+                string l_StoreName = string.IsNullOrEmpty(item.StoreId) ? "未绑定" : item.StoreName;
+                string l_Status = "";
+                string l_StatusName = "";
                 //todo 未实现状态值
 
                 olist.Add(new
@@ -67,11 +74,11 @@ namespace WebMerch.Controllers
                     Id = item.Id,
                     Name = item.Name,
                     DeviceId = item.DeviceId,
-                    StoreName = storeName,
-                    IsUse = isUse,
+                    StoreName = l_StoreName,
+                    IsBindStore = l_IsBindStore,
                     CreateTime = item.CreateTime.ToUnifiedFormatDateTime(),
-                    Status = "",
-                    StatusName = ""
+                    Status = l_Status,
+                    StatusName = l_StatusName
                 });
 
             }
@@ -86,6 +93,19 @@ namespace WebMerch.Controllers
         public CustomJsonResult Edit(RopMachineEdit rop)
         {
             return MerchServiceFactory.Machine.Edit(this.CurrentUserId, this.CurrentMerchantId, rop);
+        }
+
+        [HttpPost]
+        public CustomJsonResult Bind(string id, Enumeration.MachineBindType bindType, string storeId)
+        {
+            if (bindType == Enumeration.MachineBindType.Off)
+            {
+                return MerchServiceFactory.Machine.BindOffStore(this.CurrentUserId, this.CurrentMerchantId, id, storeId);
+            }
+            else
+            {
+                return MerchServiceFactory.Machine.BindOnStore(this.CurrentUserId, this.CurrentMerchantId, id, storeId);
+            }
         }
     }
 }

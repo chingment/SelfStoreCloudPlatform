@@ -31,12 +31,10 @@
             },
             operate: {
                 "selectin": function (obj) {
-                    art.dialog.confirm(
-'确定要选择商户【' + obj.name + '】？',
-function () {
-    $.lumos.parentDialog.getMerchantDetails(obj);
-    art.dialog.close();
-});
+                    art.dialog.confirm('确定要选择商户【' + obj.name + '】？', function () {
+                        $.lumos.parentDialog.getMerchantDetails(obj);
+                        art.dialog.close();
+                    });
                 }
             }
         });
