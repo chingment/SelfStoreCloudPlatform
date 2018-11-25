@@ -116,7 +116,7 @@ namespace Lumos.BLL.Service.Admin
                 var sysMenus = CurrentDb.SysMenu.Where(m => m.BelongSite == sysMenu.BelongSite).ToList();
                 var sysMenusGetFather = GetFatherList(sysMenus, sysMenu.PId).ToList();
                 int dept = sysMenusGetFather.Count;
-                var isExists = sysMenus.Where(m => m.Name == rop.Name && m.Id != rop.Id).FirstOrDefault();
+                var isExists = sysMenus.Where(m => m.PId == sysMenu.PId && m.Name == rop.Name && m.Id != rop.Id).FirstOrDefault();
                 if (isExists != null)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("保存失败，该名称({0})已被同一级别使用", rop.Name));

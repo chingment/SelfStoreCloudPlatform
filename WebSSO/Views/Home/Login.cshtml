@@ -129,7 +129,7 @@
                     }
                 }
             }).done(function (d) {
-
+                //alert(JSON.stringify(d))
                 if (d.result == $.lumos.resultType.success) {
                     $(msgObj).text("");
                     window.location.href = d.data.url;
