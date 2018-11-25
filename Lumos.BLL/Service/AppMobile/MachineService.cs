@@ -58,9 +58,11 @@ namespace Lumos.BLL.Service.AppMobile
                 return new CustomJsonResult(ResultType.Success, ResultCode.Success, "", ret);
             }
 
-            var machine = CurrentDb.StoreMachine.Where(m => m.StoreId == rup.StoreId && m.MerchantId == rup.MerchantId && m.MachineId == rup.MachineId && m.IsBind == true).FirstOrDefault();
+            var machine = CurrentDb.Machine.Where(m => m.Id == rup.MachineId).FirstOrDefault();
 
-            if (machine == null)
+            var storeMachine = CurrentDb.StoreMachine.Where(m => m.StoreId == rup.StoreId && m.MerchantId == rup.MerchantId && m.MachineId == rup.MachineId && m.IsBind == true).FirstOrDefault();
+
+            if (storeMachine == null)
             {
                 ret.Result = RetOperateResult.ResultType.Failure;
                 ret.Remarks = "";
@@ -92,7 +94,7 @@ namespace Lumos.BLL.Service.AppMobile
 
             ret.Fields.Add(new RetOperateResult.Field() { Name = "商户", Value = merchant.Name });
             ret.Fields.Add(new RetOperateResult.Field() { Name = "店铺", Value = store.Name });
-            ret.Fields.Add(new RetOperateResult.Field() { Name = "机器编码", Value = machine.MachineName });
+            ret.Fields.Add(new RetOperateResult.Field() { Name = "机器编码", Value = machine.DeviceId });
 
 
 

@@ -27,11 +27,11 @@
             var opTip = "";
             if (data.isBindMerchant) {
                 bindType = 2;
-                opTip = "确定要解绑机器";
+                opTip = "确定要将机器解绑商户【" + data.merchant.name + "】，请慎重操作？";
             }
             else {
                 bindType = 1;
-                opTip = "确定要绑定机器";
+                opTip = "确定要将机器绑定商户【" + data.merchant.name + "】,请慎重操作？";
             }
 
             art.dialog.confirm(opTip, function () {
@@ -55,6 +55,7 @@
 
         function getMerchantDetails(obj) {
             data.merchant.id = obj.id;
+            data.merchant.name = obj.name;
             $('#lbl_Merchant_Name').text(obj.name);
             $('#lbl_Merchant_ContactName').text(obj.contactName);
             $('#lbl_Merchant_ContactPhone').text(obj.contactPhone);

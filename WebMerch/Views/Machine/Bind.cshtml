@@ -27,11 +27,11 @@
             var opTip = "";
             if (data.isBindStore) {
                 bindType = 2;
-                opTip = "确定要解绑机器";
+                opTip = "确定要将机器解绑店铺【" + data.store.name + "】，请慎重操作？";
             }
             else {
                 bindType = 1;
-                opTip = "确定要绑定机器";
+                opTip = "确定要将机器绑定店铺【" + data.store.name + "】,请慎重操作？";
             }
 
             art.dialog.confirm(opTip, function () {

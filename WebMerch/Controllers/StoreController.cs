@@ -105,7 +105,7 @@ namespace WebMerch.Controllers
                          (name.Length == 0 || u.Name.Contains(name))
                          && p.IsBind == true
                          && p.MerchantId == this.CurrentMerchantId
-                         select new { u.Id, Name = p.MachineName, u.DeviceId }).Distinct();
+                         select new { u.Id, u.Name, u.DeviceId }).Distinct();
 
             int total = query.Count();
 

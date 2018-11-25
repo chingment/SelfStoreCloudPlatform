@@ -122,7 +122,6 @@ namespace Lumos.BLL.Service.Merch
                     storeMachine.MerchantId = store.MerchantId;
                     storeMachine.StoreId = store.Id;
                     storeMachine.MachineId = id;
-                    storeMachine.MachineName = machine.Name;
                     storeMachine.IsBind = true;
                     storeMachine.CreateTime = this.DateTime;
                     storeMachine.Creator = operater;
@@ -131,7 +130,6 @@ namespace Lumos.BLL.Service.Merch
                 }
                 else
                 {
-                    storeMachine.MachineName = machine.Name;
                     storeMachine.IsBind = true;
                     storeMachine.MendTime = this.DateTime;
                     storeMachine.Mender = operater;
