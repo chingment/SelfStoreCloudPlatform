@@ -6,27 +6,20 @@
 @section scripts{
     <script type="text/javascript">
 
-        var num = 0;
-        var maxMum = 2;
-        var tree_Subjects;
-        var list_ProductSkus;
-        var tab_Main;
-        var cur_SubjectId;
+        var mainTree_Id = "maintree";
+        var mainTree_RproductSkus;
+        var mainTab;
         $(this).ready(function () {
 
-            tab_Main = $("#tab_Main").tab({
-                click: function (index) {
-                    var selObj = getSelectedNode();
-                    if (selObj == null) {
-                        return false;
-                    }
-
+            mainTab = $("#tab_Main").tab({
+                treeId: mainTree_Id,
+                click: function (index, key) {
                     switch (index) {
                         case 0:
-                            getDetails();
+                            getMainTreeSelNodeDetails();
                             break;
                         case 1:
-                            list_ProductSkus.loadData();
+                            mainTree_RproductSkus.loadData();
                             break;
                     }
 
@@ -35,7 +28,6 @@
                 }
             });
 
-            loadSubjects();
 
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
             $("#txt_Name").formValidator().inputValidator({ min: 1, max: 20, onError: "名称须填，且不能超过20个字符" });
@@ -44,7 +36,7 @@
             $("#sel_Status").formValidator().inputValidator({ min: 1, max: 500, onError: "请选择状态" });
             $("#txt_Description").formValidator().inputValidator({ min: 0, max: 500, onError: "描述不能超过500个字符" });
 
-            $("#btn_add").click(function () {
+            $("#maintree_add_node").click(function () {
                 var url = '/ProductSubject/Add';
                 var title = '新建';
                 art.dialog.open(url, {
@@ -56,29 +48,26 @@
 
             });
 
-            $("#btn_delete").click(function () {
+            $("#maintree_delete_node").click(function () {
 
-                var selObj = getSelectedNode();
-                if (selObj == null) {
+                var selNode = mainTab.treeGetSelectedNode();
+                if (selNode == null) {
+                    $.lumos.tips("请在左边树形结构选中节点信息");
                     return;
                 }
 
                 art.dialog.confirm(
-                    "确定删除[" + selObj.name + "]节点及其子节点吗？",
+                    "确定删除[" + selNode.name + "]节点及其子节点吗？",
                          function () {
-                             var id = selObj.id;
-                             var ids = [];
-                             var nodes = tree_Subjects.getSelectedNodeFollowChildren();
-                             $.each(nodes, function (i, n) {
-                                 ids.push(n.id);
-                             });
-
+                             var id = selNode.id;
                              $.lumos.postJson({
                                  url: "/ProductSubject/Delete",
-                                 data: { ids: ids },
+                                 data: { ids: id },
                                  success: function (d) {
                                      $.lumos.tips(d.message);
-                                     loadSubjects();
+                                     if (d.result == $.lumos.resultType.success) {
+                                         mainTreeLoadData();
+                                     }
                                  }
                              });
 
@@ -89,19 +78,55 @@
                 return false;
             });
 
-            $("#btn_sort").click(function () {
-                var selObj = getSelectedNode();
-                if (selObj == null) {
+            $("#maintree_eidt_node").click(function () {
+
+                var selNode = mainTab.treeGetSelectedNode();
+                if (selNode == null) {
+                    $.lumos.tips("请在左边树形结构选中节点信息");
                     return;
                 }
 
-                if (typeof selObj.children == "undefined") {
+                var isValid = $.formValidator.pageIsValid();
+                if (!isValid)
+                    return false;
+
+                art.dialog.confirm('确定要保存？', function () {
+                    var id = selNode.id;
+                    var name = $('#txt_Name').val();
+                    var mainImg = $("#txt_MainImg").val();
+                    var iconImg = $("#txt_IconImg").val();
+                    var description = $("#txt_Description").val();
+                    var status = $("#sel_Status").val();
+                    $.lumos.postJson({
+                        url: "/ProductSubject/Edit",
+                        data: { id: id, name: name, mainImg: mainImg, iconImg: iconImg, description: description, status: status },
+                        success: function (d) {
+                            $.lumos.tips(d.message);
+                            if (d.result == $.lumos.resultType.success) {
+                                mainTreeLoadData();
+                            }
+                        }
+                    });
+                });
+
+                return false;
+
+            });
+
+            $("#maintree_sort_node").click(function () {
+                var selNode = mainTab.treeGetSelectedNode();
+                if (selNode == null) {
+                    $.lumos.tips("请在左边树形结构选中节点信息");
+                    return;
+                }
+
+                if (typeof selNode.children == "undefined") {
                     $.lumos.tips("该节点没有子节点！");
                     return;
                 }
 
 
-                var url = '/ProductSubject/Sort?id=' + selObj.id + '&pName=' + escape(selObj.name);
+                var url = '/ProductSubject/Sort?pId=' + selNode.id + '&pName=' + escape(selNode.name);
                 var title = '排序';
                 art.dialog.open(url, {
                     id: "openDialog", title: title, width: '650px', height: '400px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
@@ -112,7 +137,7 @@
 
             });
 
-            list_ProductSkus = $("#list_table_product").loadDataTable({
+            mainTree_RproductSkus = $("#list_table_product").loadDataTable({
                 url: "/ProductSubject/GetProductSkuList",
                 pageIndex: 0,
                 searchParams: $("#form2").serializeArray(),
@@ -137,7 +162,7 @@
                     "edit": function (obj) {
 
                         var url = '/ProductSku/Edit?id=' + obj.id;
-                        var title = '商品信息修改';
+                        var title = '修改';
                         var dialog = art.dialog.open(url, {
                             id: "openDialog", title: title, width: '800px', height: '600px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
                                 this.iframe.contentWindow.edit();
@@ -151,14 +176,6 @@
 
         });
 
-        function getSelectedNode() {
-            var selObj = tree_Subjects.getSelectedNodes();
-            if ($.lumos.isNullOrEmpty(selObj)) {
-                $.lumos.tips("请在左边树形结构选中节点信息");
-                return null;
-            }
-            return selObj[0];
-        }
 
         function getChildNodeGrade(treeNode) {
             var p = treeNode.getParentNode();
@@ -168,10 +185,11 @@
             }
         }
 
-        function getDetails() {
-
+        function getMainTreeSelNodeDetails() {
+            var selNode = mainTab.treeGetSelectedNode();
+            var id = selNode.id;
             $.lumos.postJson({
-                data: { id: cur_SubjectId },
+                data: { id: id },
                 url: "/ProductSubject/GetDetails",
                 success: function (d) {
 
@@ -190,81 +208,34 @@
             });
         }
 
-        function loadSubjects(id) {
+        function menuTreeLoadData() {
 
             $.lumos.getJson({
                 url: "/ProductSubject/GetAll",
                 success: function (d) {
-                    var obj = eval(d.data);
-                    tree_Subjects = $.fn.zTree.init($("#tree_Subjects"), {
-                        view: {
-                            showLine: true,
-                            selectedMulti: false
-                        },
-                        data: {
-                            simpleData: { enable: true }
-                        },
-                        callback: {
-                            onClick: function treeNodeOnClick(event, treeId, treeNode, clickFlag) {
-
-                                cur_SubjectId = treeNode.id;
-                                $("input[name='SubjectId']").val(cur_SubjectId);
-
-                                /*最大支持几级菜单由maxMum决定 可修改这个值*/
-                                num = 0;
-                                getChildNodeGrade(treeNode);
-                                if (num >= maxMum) {
-                                    $("#btn_add").attr("disabled", true);
+                    if (d.result == $.lumos.resultType.success) {
+                        var data = d.data;
+                        $.fn.zTree.init($("#" + mainTree_Id), {
+                            view: {
+                                showLine: true,
+                                selectedMulti: false
+                            },
+                            data: {
+                                simpleData: { enable: true }
+                            },
+                            callback: {
+                                onClick: function treeNodeOnClick(event, treeId, treeNode, clickFlag) {
+                                    mainTab.refresh(treeNode.id);
                                 }
-                                else {
-                                    $("#btn_add").attr("disabled", false);
-                                }
-
-
-                                tab_Main.click();
-
-
                             }
-                        }
-                    }, obj);
-                    var node = tree_Subjects.getNodeByParam("id", id, null);
-                    tree_Subjects.selectNode(node);
+                        }, data);
+                    }
                 }
             });
 
         }
 
-        function eidt() {
 
-            var selObj = getSelectedNode();
-            if (selObj == null) {
-                return false;
-            }
-            var isValid = $.formValidator.pageIsValid();
-            if (!isValid)
-                return false;
-
-            art.dialog.confirm('确定要保存？', function () {
-                var id = selObj.id;
-
-                var name = $('#txt_Name').val();
-                var mainImg = $("#txt_MainImg").val();
-                var iconImg = $("#txt_IconImg").val();
-                var description = $("#txt_Description").val();
-                var status = $("#sel_Status").val();
-
-                $.lumos.postJson({
-                    url: "/ProductSubject/Edit",
-                    data: { id: cur_SubjectId, name: name, mainImg: mainImg, iconImg: iconImg, description: description, status: status },
-                    success: function (d) {
-                        $.lumos.tips(d.message);
-                        loadSubjects(id);
-                    }
-                });
-            });
-
-            return false;
-        }
 
         function refresh(type) {
 
@@ -286,7 +257,7 @@
 
 <dl class="tree-tab">
     <dd class="tree-tab-left">
-        <ul id="tree_Subjects" class="ztree"></ul>
+        <ul id="maintree" class="ztree"></ul>
     </dd>
     <dd class="tree-tab-right">
         <div class="tab" id="tab_Main">
@@ -294,15 +265,14 @@
                 <ul>
                     <li class="item first selected"><a class="a-btn-info" href="javascript:void(0)">基本信息</a></li>
                     <li class="item"><a class="a-btn-info" href="javascript:void(0)">关联商品</a></li>
-                    @*<li class="item"><a class="a-btn-info" href="javascript:void(0)">关联广告</a></li>*@
                 </ul>
             </div>
             <div class="tab-content">
                 <div class="subcontent" style="display:block">
                     <div class="f-btn-area" style="margin-bottom:5px;">
-                        <input type="button" class="btn btn-open" id="btn_add" value="新建" />
-                        <input type="button" class="btn btn-delete" id="btn_delete" value="删除" />
-                        @*<input type="button" class="btn btn-open" id="btn_sort" value="排序" />*@
+                        <input type="button" class="btn btn-open" id="maintree_add_node" value="新建" />
+                        <input type="button" class="btn btn-delete" id="maintree_delete_node" value="删除" />
+                        @*<input type="button" class="btn btn-open" id="maintree_sort_node" value="排序" />*@
                     </div>
                     <form name="form1" method="post" id="form1">
 
@@ -376,7 +346,7 @@
                             <tr>
                                 <td class="f-tb-t"></td>
                                 <td class="f-tb-c">
-                                    <input type="button" onclick="eidt()" name="btn_Save" value="保存" id="btn_Save" class="btn btn-sure" />
+                                    <input type="button"  name="btn_Save" value="保存" id="maintree_eidt_node" class="btn btn-sure" />
                                 </td>
                             </tr>
                         </table>
@@ -384,8 +354,7 @@
                 </div>
                 <div class="subcontent">
                     <form id="form2" name="form2">
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" name="SubjectId" id="Model_ProductSubject_Id2" value="" />
+                        <input type="hidden" name="SubjectId"  value="" />
                         <div class="search-bar">
                             <div class="filter">
                                 <span class="filter-label">商品名称：</span>
@@ -440,14 +409,6 @@
                                     </tr>
                                 </tfoot>
                             </table>
-                        </div>
-                    </form>
-                </div>
-                <div class="subcontent">
-                    <form id="form3" name="form3">
-                        <ul id="rolemenu_tree" class="ztree"></ul>
-                        <div class="f-btn-area" style="margin-bottom:5px; text-align:center">
-                            <input type="button" class="btn btn-sure" id="btn_save_rolemenu" value="保存" style="margin-right:5px;" />
                         </div>
                     </form>
                 </div>
