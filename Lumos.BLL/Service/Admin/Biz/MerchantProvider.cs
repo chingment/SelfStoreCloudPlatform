@@ -82,7 +82,7 @@ namespace Lumos.BLL.Service.Admin
                 merchant.Creator = operater;
                 CurrentDb.Merchant.Add(merchant);
 
-                var sysRole = CurrentDb.SysRole.Where(m => m.BelongSite == Enumeration.BelongSite.Merchant && m.IsCanDelete == false).FirstOrDefault();
+                var sysRole = CurrentDb.SysRole.Where(m => m.BelongSite == Enumeration.BelongSite.Merchant && m.Dept == 0).FirstOrDefault();
                 if (sysRole == null)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "初始角色未指定");

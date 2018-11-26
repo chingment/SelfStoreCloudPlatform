@@ -28,7 +28,6 @@ namespace Lumos.BLL.Service.Admin
             sysRole.BelongSite = rop.BelongSite;
             sysRole.CreateTime = DateTime.Now;
             sysRole.Creator = operater;
-            sysRole.IsCanDelete = true;
             CurrentDb.SysRole.Add(sysRole);
             CurrentDb.SaveChanges();
 
@@ -68,7 +67,7 @@ namespace Lumos.BLL.Service.Admin
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "请选择要删除的数据");
                 }
 
-                if (!sysRole.IsCanDelete)
+                if (sysRole.Dept == 0)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("所选角色（{0}）不允许删除", sysRole.Name));
                 }

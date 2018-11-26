@@ -87,7 +87,6 @@ namespace Lumos.BLL.Service.Admin
                 organization.Status = Enumeration.SysOrganizationStatus.Valid;
                 organization.Creator = operater;
                 organization.CreateTime = DateTime.Now;
-                organization.IsCanDelete = true;
                 organization.Dept = dept;
                 CurrentDb.SysOrganization.Add(organization);
                 CurrentDb.SaveChanges();
@@ -145,7 +144,7 @@ namespace Lumos.BLL.Service.Admin
                 foreach (var sysOrganization in sysOrganizations)
                 {
 
-                    if (!sysOrganization.IsCanDelete)
+                    if (sysOrganization.Dept==0)
                     {
                         return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("所选机构（{0}）不允许删除", sysOrganization.Name));
                     }

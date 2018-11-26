@@ -99,7 +99,6 @@ namespace Lumos.BLL.Service.Admin
                 sysMenu.Url = rop.Url;
                 sysMenu.Description = rop.Description;
                 sysMenu.PId = rop.PId;
-                sysMenu.IsCanDelete = true;
                 sysMenu.Creator = operater;
                 sysMenu.CreateTime = DateTime.Now;
                 sysMenu.BelongSite = rop.BelongSite;
@@ -198,7 +197,7 @@ namespace Lumos.BLL.Service.Admin
                 foreach (var sysMenu in sysMenus)
                 {
 
-                    if (!sysMenu.IsCanDelete)
+                    if (sysMenu.Dept==0)
                     {
                         return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("所选菜单（{0}）不允许删除", sysMenu.Name));
                     }
