@@ -6,36 +6,33 @@
 @section scripts{
     <script type="text/javascript">
 
-        var tab_Main;
-        var tree_Roles;
-        var tree_Menus;
-        var cur_RoleId;
+
+        var mainTree_Id = "maintree";
+        var mainTree_Rmenus;
+        var mainTab;
         var belongSite = $.lumos.getUrlParamValue("belongSite");
         $(this).ready(function () {
 
-            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
-            $("#txt_Name").formValidator().inputValidator({ min: 1, max: 20, onError: "名称须填，且不能超过20个字符" });
-            $("#txt_Description").formValidator().inputValidator({ min: 0, max: 500, onError: "备注不能超过500个字符" });
-
-            tab_Main = $("#tab_Main").tab({
-                click: function (index) {
-                    var selObj = getSelectedNode();
-                    if (selObj == null) {
-                        return false;
-                    }
+            mainTab = $("#tab_Main").tab({
+                treeId: mainTree_Id,
+                click: function (index, key) {
                     switch (index) {
                         case 0:
-                            getDetails();
+                            getMainTreeSelNodeDetails();
                             break;
                         case 1:
-                            getDetails();
+                            getMainTreeSelNodeDetails();
                             break;
                     }
                     return true;
                 }
             });
 
-            $("#btn_add").click(function () {
+            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
+            $("#txt_Name").formValidator().inputValidator({ min: 1, max: 20, onError: "名称须填，且不能超过20个字符" });
+            $("#txt_Description").formValidator().inputValidator({ min: 0, max: 500, onError: "备注不能超过500个字符" });
+
+            $("#maintree_add_node").click(function () {
                 var url = '/Sys/Role/Add?belongSite=' + belongSite;
                 var title = '新建';
                 art.dialog.open(url, {
@@ -47,29 +44,27 @@
 
             });
 
-            $("#btn_delete").click(function () {
-                var selObj = getSelectedNode();
-                if (selObj == null) {
+            $("#maintree_delete_node").click(function () {
+
+                var selNode = mainTab.treeGetSelectedNode();
+                if (selNode == null) {
+                    $.lumos.tips("请在左边树形结构选中节点信息");
                     return;
                 }
+
                 art.dialog.confirm(
-                    "确定删除[" + selObj.name + "]节点及其子节点吗？",
+                    "确定删除[" + selNode.name + "]节点及其子节点吗？",
                          function () {
-                             var id = selObj.id;
-                             var ids = [];
-                             var nodes = tree_Roles.getSelectedNodeFollowChildren();
-                             $.each(nodes, function (i, n) {
-                                 ids.push(n.id);
-                             });
+                             var id = selNode.id;
                              $.lumos.postJson({
                                  url: "/Sys/Role/Delete",
-                                 data: { ids: ids },
+                                 data: { id: id },
                                  success: function (d) {
                                      $.lumos.tips(d.message);
                                      if (d.result == $.lumos.resultType.success) {
                                          $("#txt_Name").val("");
                                          $("#txt_Description").val("");
-                                         loadRoles();
+                                         mainTreeLoadData();
                                      }
                                  }
                              });
@@ -78,24 +73,65 @@
                 return false;
             });
 
-            $("#btn_save_rolemenu").click(function () {
+            $("#maintree_eidt_node").click(function () {
 
-                var selObj = getSelectedNode();
-                if (selObj == null) {
+                var selNode = mainTab.treeGetSelectedNode();
+                if (selNode == null) {
+                    $.lumos.tips("请在左边树形结构选中节点信息");
+                    return;
+                }
+
+                var isValid = $.formValidator.pageIsValid();
+                if (!isValid)
+                    return false;
+
+                art.dialog.confirm('确定要保存？', function () {
+
+                    var id = selNode.id;
+                    var name = $('#txt_Name').val();
+                    var description = $("#txt_Description").val();
+                    $.lumos.postJson({
+                        url: "/Sys/Role/Edit",
+                        isUseHandling: true,
+                        data: { id: id, name: name, description: description },
+                        success: function (d) {
+                            $.lumos.tips(d.message);
+                            if (d.result == $.lumos.resultType.success) {
+                                mainTreeLoadData();
+                            }
+                        }
+                    });
+
+                });
+
+                return false;
+
+            });
+
+            $("#maintree_save_menus").click(function () {
+
+                var selNode = mainTab.treeGetSelectedNode();
+                if (selNode == null) {
+                    $.lumos.tips("请在左边树形结构选中节点信息");
                     return;
                 }
 
                 art.dialog.confirm('确定要保存？', function () {
 
-                    var nodes = tree_Menus.getCheckedNodes(true);
+                    var id = selNode.id;
+
+                    var nodes = mainTree_Rmenus.getCheckedNodes(true);
+
                     var menuIds = [];
+
                     for (var key in nodes) {
                         menuIds.push(nodes[key].id);
                     }
+
                     $.lumos.postJson({
                         url: "/Sys/Role/SaveMenu",
                         isUseHandling: true,
-                        data: { id: cur_RoleId, menuIds: menuIds },
+                        data: { id: id, menuIds: menuIds },
                         success: function (d) {
                             $.lumos.tips(d.message);
                         }
@@ -104,22 +140,19 @@
                 return false;
             });
 
-            initData();
+            mainTreeLoadData();
+            menuTreeLoadData();
         });
 
-        function initData() {
-            loadRoles();
-            loadMenus();
-        }
 
-        function loadRoles() {
+        function mainTreeLoadData() {
             $.lumos.getJson({
                 url: "/Sys/Role/GetAll",
                 urlParams: { belongSite: belongSite },
                 success: function (d) {
                     if (d.result == $.lumos.resultType.success) {
                         var data = d.data;
-                        tree_Roles = $.fn.zTree.init($("#tree_Roles"), {
+                        $.fn.zTree.init($("#" + mainTree_Id), {
                             view: {
                                 showLine: true,
                                 selectedMulti: false
@@ -129,40 +162,63 @@
                             },
                             callback: {
                                 onClick: function treeNodeOnClick(event, treeId, treeNode, clickFlag) {
-                                    cur_RoleId = treeNode.id;
-                                    $("#txt_PName").defaultPassed();
-                                    $("#txt_Name").defaultPassed();
-                                    $('input[name=RoleId').val(cur_RoleId);
-                                    var parentName = "/";
-                                    if (treeNode.getParentNode() != null) {
-                                        parentName = treeNode.getParentNode().name;
-                                        $(".a-btn-del").show();
-                                    }
-                                    else {
-                                        $(".a-btn-del").hide();
-                                    }
-
-
-                                    tab_Main.click();
+                                    mainTab.refresh(treeNode.id);
                                 }
                             }
                         }, data);
-                        var node = tree_Roles.getNodeByParam("id", 0, null);
-                        tree_Roles.selectNode(node);
                     }
-
                 }
             });
         }
 
-        function loadMenus() {
+        function getMainTreeSelNodeDetails() {
+
+            var selNode = mainTab.treeGetSelectedNode();
+            var id = selNode.id;
+            $.lumos.getJson({
+                url: "/Sys/Role/GetDetails",
+                urlParams: { id: id },
+                isUseHandling: true,
+                success: function (d) {
+
+                    if (d.result == $.lumos.resultType.success) {
+                        var data = d.data;
+
+                        $("#txt_Name").val(data.name);
+                        $("#txt_Description").val(data.description);
+
+                        var checkedNodes = mainTree_Rmenus.getCheckedNodes();
+                        for (var k = 0; k < checkedNodes.length; k++) {
+                            mainTree_Rmenus.checkNode(checkedNodes[k]);
+                        }
+
+                        $.each(data.menuIds, function (i, n) {
+                            var node = mainTree_Rmenus.getNodeByParam("id", n);
+                            mainTree_Rmenus.checkNode(node);
+                        });
+                    }
+                    else {
+                        $.lumos.tips(d.message);
+                    }
+                }
+            });
+        }
+
+        function refresh(type) {
+            switch (type) {
+                case 1:
+                    mainTreeLoadData()
+                    break;
+            }
+        }
+
+        function menuTreeLoadData() {
             $.lumos.getJson({
                 url: "/Sys/Menu/GetAll",
                 urlParams: { belongSite: belongSite },
                 success: function (d) {
-
-                    var zNodes = d.data;
-                    tree_Menus = $.fn.zTree.init($("#tree_Menus"), {
+                    var data = d.data;
+                    mainTree_Rmenus = $.fn.zTree.init($("#tree_Menus"), {
                         view: {
                             selectedMulti: false
                         },
@@ -178,89 +234,10 @@
                             }
 
                         }
-                    }, zNodes);
-
+                    }, data);
                 }
             });
 
-        }
-
-        function getDetails() {
-
-            $.lumos.getJson({
-                url: "/Sys/Role/GetDetails",
-                urlParams: { id: cur_RoleId },
-                isUseHandling: true,
-                success: function (d) {
-               
-                    if (d.result == $.lumos.resultType.success) {
-                        var data = d.data;
-                        $("#txt_Name").val(data.name);
-                        $("#txt_Description").val(data.description);
-
-
-                        var checkedNodes = tree_Menus.getCheckedNodes();
-                        for (var k = 0; k < checkedNodes.length; k++) {
-                            tree_Menus.checkNode(checkedNodes[k]);
-                        }
-
-
-                        $.each(data.menuIds, function (i, n) {
-                            var node = tree_Menus.getNodeByParam("id", n);
-                            tree_Menus.checkNode(node);
-                        });
-                    }
-                    else {
-                        $.lumos.tips(d.message);
-                    }
-                }
-            });
-        }
-
-        function edit() {
-
-            var selObj = getSelectedNode();
-            if (selObj == null) {
-                return false;
-            }
-
-            var isValid = $.formValidator.pageIsValid();
-            if (isValid) {
-                art.dialog.confirm('确定要保存？', function () {
-
-                    var name = $('#txt_Name').val();
-                    var description = $("#txt_Description").val();
-                    $.lumos.postJson({
-                        url: "/Sys/Role/Edit",
-                        isUseHandling: true,
-                        data: { id: cur_RoleId, name: name, description: description },
-                        success: function (d) {
-                            $.lumos.tips(d.message);
-                            if (d.result == $.lumos.resultType.success) {
-                                loadRoles(id);
-                            }
-                        }
-                    });
-                });
-            }
-            return false;
-        }
-
-        function getSelectedNode() {
-            var selObj = tree_Roles.getSelectedNodes();
-            if ($.lumos.isNullOrEmpty(selObj)) {
-                $.lumos.tips("请在左边树形结构选中节点信息");
-                return null;
-            }
-            return selObj[0];
-        }
-
-        function refresh(type) {
-            switch (type) {
-                case 1:
-                    loadRoles()
-                    break;
-            }
         }
 
     </script>
@@ -269,7 +246,7 @@
 
 <dl class="tree-tab">
     <dd class="tree-tab-left">
-        <ul id="tree_Roles" class="ztree"></ul>
+        <ul id="maintree" class="ztree"></ul>
     </dd>
     <dd class="tree-tab-right">
         <div class="tab" id="tab_Main">
@@ -282,8 +259,8 @@
             <div class="tab-content">
                 <div class="subcontent">
                     <div class="f-btn-area" style="margin-bottom:5px;">
-                        <input type="button" class="btn btn-open" id="btn_add" value="新建" />
-                        <input type="button" class="btn btn-delete" id="btn_delete" value="删除" />
+                        <input type="button" class="btn btn-open" id="maintree_add_node" value="新建" />
+                        <input type="button" class="btn btn-delete" id="maintree_delete_node" value="删除" />
                     </div>
                     <form name="form1" method="post" id="form1">
                         <table class="f-tb" cellpadding="0" cellspacing="1">
@@ -306,7 +283,7 @@
                             <tr>
                                 <td class="f-tb-t"></td>
                                 <td class="f-tb-c">
-                                    <input type="button" onclick="return edit()" name="btn_Save" value="保存" id="btn_Save" class="btn btn-sure" />
+                                    <input type="button" name="btn_Save" value="保存" id="maintree_eidt_node" class="btn btn-sure" />
                                 </td>
                             </tr>
                         </table>
@@ -316,7 +293,7 @@
                     <form id="form3" name="form3">
                         <ul id="tree_Menus" class="ztree"></ul>
                         <div class="f-btn-area" style="margin-bottom:5px; text-align:center">
-                            <input type="button" class="btn btn-sure" id="btn_save_rolemenu" value="保存" style="margin-right:5px;" />
+                            <input type="button" class="btn btn-sure" id="maintree_save_menus" value="保存" style="margin-right:5px;" />
                         </div>
                     </form>
                 </div>

@@ -1832,7 +1832,8 @@
 
                 var key;
                 var treeObj = $.fn.zTree.getZTreeObj(_treeId);
-                if (typeof treeObj != "undefined") {
+
+                if (typeof treeObj != "undefined" && treeObj != null) {
                     var selNode = treeObj.getSelectedNodes();
                     if ($.lumos.isNullOrEmpty(selNode)) {
                         $.lumos.tips("请在左边树形结构选中节点信息");
@@ -1867,24 +1868,27 @@
         this.refresh = function (key) {
             var index = parseInt($(_tabs).data("index"));
             $(_tabs).data("key", key);
-            $('#' + _treeId).data("curId", key);
             _click(index, key);
         }
 
-        this.treeIsSelectedNode = function () {
-            var treeObj = $.fn.zTree.getZTreeObj(_treeId);
-            var selNode = treeObj.getSelectedNodes();
-            if ($.lumos.isNullOrEmpty(selNode)) {
-                $.lumos.tips("请在左边树形结构选中节点信息");
-                return false;
-            }
-
-            return true;
-        }
 
         this.treeGetSelectedNode = function () {
+            if ($.lumos.isNullOrEmpty(_treeId)) {
+                return null;
+            }
+
             var treeObj = $.fn.zTree.getZTreeObj(_treeId);
+            if (typeof treeObj == "undefined")
+                return null;
+
             var selNode = treeObj.getSelectedNodes();
+
+            if (typeof selNode == "undefined")
+                return null;
+
+            if (typeof selNode[0] == "undefined")
+                return null;
+
             return selNode[0];
         }
 

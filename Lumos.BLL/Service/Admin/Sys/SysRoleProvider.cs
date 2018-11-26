@@ -55,42 +55,35 @@ namespace Lumos.BLL.Service.Admin
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
         }
 
-        public CustomJsonResult Delete(string operater, string[] ids)
+        public CustomJsonResult Delete(string operater, string id)
         {
             CustomJsonResult result = new CustomJsonResult();
 
             using (TransactionScope ts = new TransactionScope())
             {
-                if (ids == null || ids.Length == 0)
+
+                var sysRole = CurrentDb.SysRole.Where(m => m.Id == id).FirstOrDefault();
+                if (sysRole == null)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "请选择要删除的数据");
                 }
 
-
-                foreach (var id in ids)
+                if (!sysRole.IsCanDelete)
                 {
-                    var roleMenus = CurrentDb.SysRoleMenu.Where(u => u.RoleId == id).Distinct();
-
-
-                    var role = CurrentDb.SysRole.Find(id);
-
-                    if (!role.IsCanDelete)
-                    {
-                        return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("所选角色（{0}）不允许删除", role.Name));
-                    }
-
-
-                    foreach (var menu in roleMenus)
-                    {
-                        CurrentDb.SysRoleMenu.Remove(menu);
-                    }
-
-
-                    CurrentDb.SysRole.Remove(role);
-                    CurrentDb.SaveChanges();
-
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("所选角色（{0}）不允许删除", sysRole.Name));
                 }
 
+
+
+                var sysRoleMenus = CurrentDb.SysRoleMenu.Where(u => u.RoleId == id).Distinct();
+
+                foreach (var sysRoleMenu in sysRoleMenus)
+                {
+                    CurrentDb.SysRoleMenu.Remove(sysRoleMenu);
+                }
+
+
+                CurrentDb.SysRole.Remove(sysRole);
 
 
                 CurrentDb.SaveChanges();

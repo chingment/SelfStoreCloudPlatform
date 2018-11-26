@@ -6,16 +6,14 @@
 @section scripts{
     <script type="text/javascript">
 
-        var mainTree;
-        var mainTree_num = 0;
-        var mainTree_maxNodeNum = 2;
-        var mainTree_listPositions;
+        var mainTree_Id = "maintree";
+        var mainTree_ListPositions;
         var mainTab;
 
         $(this).ready(function () {
 
             mainTab = $("#tab_Main").tab({
-                treeId: "maintree",
+                treeId: mainTree_Id,
                 click: function (index, key) {
                     switch (index) {
                         case 0:
@@ -35,11 +33,11 @@
 
             $("#maintree_add_node").click(function () {
 
-                if (!mainTab.treeIsSelectedNode()) {
+                var selNode = mainTab.treeGetSelectedNode();
+                if (selNode == null) {
+                    $.lumos.tips("请在左边树形结构选中节点信息");
                     return;
                 }
-
-                var selNode = mainTab.treeGetSelectedNode();
 
                 var url = '/Sys/Organization/Add?pId=' + selNode.id + '&pName=' + escape(selNode.name)
                 var title = '新建';
@@ -53,39 +51,31 @@
 
             $("#maintree_delete_node").click(function () {
 
-                if (!mainTab.treeIsSelectedNode()) {
+                var selNode = mainTab.treeGetSelectedNode();
+                if (selNode == null) {
+                    $.lumos.tips("请在左边树形结构选中节点信息");
                     return;
                 }
-
-                var selNode = mainTab.treeGetSelectedNode();
 
                 art.dialog.confirm(
                     "确定删除[" + selNode.name + "]节点及其子节点吗？",
                          function () {
-
-                             var ids = [];
-                             var nodes = mainTree.getSelectedNodeFollowChildren();
-                             $.each(nodes, function (i, n) {
-                                 ids.push(n.id);
-                             });
-
+                             var id = selNode.id;
                              $.lumos.postJson({
                                  url: "/Sys/Organization/Delete",
-                                 data: { ids: ids },
+                                 data: { id: id },
                                  success: function (d) {
                                      $.lumos.tips(d.message);
                                      if (d.result == $.lumos.resultType.success) {
-                                         mainTreeLoadData();
-
                                          $("#lbl_PName").text("/");
                                          $("#txt_Name").val("");
                                          $("#txt_Description").val("");
                                          $("#sel_Status").find("option").attr("selected", false);
                                          $("#sel_Status").trigger("chosen:updated");
+                                         mainTreeLoadData();
                                      }
                                  }
                              });
-
                              return true;
                          });
 
@@ -93,13 +83,48 @@
                 return false;
             });
 
-            $("#maintree_sort_node").click(function () {
+            $("#maintree_eidt_node").click(function () {
 
-                if (!mainTab.treeIsSelectedNode()) {
+                var selNode = mainTab.treeGetSelectedNode();
+                if (selNode == null) {
+                    $.lumos.tips("请在左边树形结构选中节点信息");
                     return;
                 }
 
+                var isValid = $.formValidator.pageIsValid();
+                if (!isValid)
+                    return false;
+
+                art.dialog.confirm('确定要保存？', function () {
+
+                    var id = selNode.id;
+                    var name = $('#txt_Name').val();
+                    var description = $("#txt_Description").val();
+                    var status = $("#sel_Status").val();
+
+                    $.lumos.postJson({
+                        url: "/Sys/Organization/Edit",
+                        data: { id: id, name: name, description: description, status: status },
+                        success: function (d) {
+                            $.lumos.tips(d.message);
+                            if (d.result == $.lumos.resultType.success) {
+                                mainTreeLoadData();
+                            }
+                        }
+                    });
+                });
+
+                return false;
+
+            });
+
+            $("#maintree_sort_node").click(function () {
+
                 var selNode = mainTab.treeGetSelectedNode();
+                if (selNode == null) {
+                    $.lumos.tips("请在左边树形结构选中节点信息");
+                    return;
+                }
 
                 if (typeof selNode.children == "undefined") {
                     $.lumos.tips("该节点没有子节点！");
@@ -119,11 +144,13 @@
             });
 
             $("#maintree_add_position").click(function () {
-                if (!mainTab.treeIsSelectedNode()) {
-                    return;
-                }
+
 
                 var selNode = mainTab.treeGetSelectedNode();
+                if (selNode == null) {
+                    $.lumos.tips("请在左边树形结构选中节点信息");
+                    return;
+                }
 
                 var url = '/Sys/Position/Add?organizationId=' + selNode.id + '&organizationName=' + escape(selNode.name)
                 var title = '添加';
@@ -136,79 +163,24 @@
 
             });
 
-            $("#maintree_eidt_node").click(function () {
-
-                if (!mainTab.treeIsSelectedNode()) {
-                    return;
-                }
-
-                var selNode = mainTab.treeGetSelectedNode();
-
-                var isValid = $.formValidator.pageIsValid();
-                if (!isValid)
-                    return false;
-
-                art.dialog.confirm('确定要保存？', function () {
-
-                    var id = selNode.id;
-                    var name = $('#txt_Name').val();
-                    var description = $("#txt_Description").val();
-                    var status = $("#sel_Status").val();
-
-                    $.lumos.postJson({
-                        url: "/Sys/Organization/Edit",
-                        data: { id: id, name: name, description: description, status: status },
-                        success: function (d) {
-                            $.lumos.tips(d.message);
-                            if (d.result == $.lumos.resultType.success) {
-                                mainTreeLoadData(organizationId);
-                            }
-                        }
-                    });
-                });
-
-                return false;
-
-            });
 
         });
 
 
-        function getChildNodeGrade(treeNode) {
-            var p = treeNode.getParentNode();
-            if (p != null) {
-                num += 1;
-                getChildNodeGrade(p);
-            }
-        }
-
         function getMainTreeSelNodeDetails() {
-
-            if (!mainTab.treeIsSelectedNode()) {
-                return;
-            }
 
             var selNode = mainTab.treeGetSelectedNode();
 
             var parentName = "/";
+
             if (selNode.getParentNode() != null) {
                 parentName = selNode.getParentNode().name;
             }
 
-            /*最大支持几级菜单由maxMum决定 可修改这个值*/
-            num = 0;
-            getChildNodeGrade(selNode);
-
-            if (num >= mainTree_maxNodeNum) {
-                $("#btn_add").attr("disabled", true);
-            }
-            else {
-                $("#btn_add").attr("disabled", false);
-            }
-
+            var id = selNode.id;
             $.lumos.getJson({
                 url: "/Sys/Organization/GetDetails",
-                urlParams: { id: selNode.id },
+                urlParams: { id: id },
                 success: function (d) {
 
                     if (d.result == $.lumos.resultType.success) {
@@ -225,13 +197,12 @@
 
         function mainTreeLoadData() {
 
-            var maintree = $("#maintree")
 
             $.lumos.getJson({
                 url: "/Sys/Organization/GetAll",
                 success: function (d) {
                     var data = d.data;
-                    mainTree = $.fn.zTree.init(maintree, {
+                    $.fn.zTree.init($("#" + mainTree_Id), {
                         view: {
                             showLine: true,
                             selectedMulti: false
@@ -245,13 +216,6 @@
                             }
                         }
                     }, data);
-
-
-                    if (typeof $(maintree).data("curId") != "undefined") {
-                        var node = mainTree.getNodeByParam("id", $(maintree).data("curId"), null);
-                        mainTree.selectNode(node);
-                    }
-
                 }
             });
 

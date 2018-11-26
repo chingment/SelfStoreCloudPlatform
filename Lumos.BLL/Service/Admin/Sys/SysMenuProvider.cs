@@ -155,20 +155,38 @@ namespace Lumos.BLL.Service.Admin
         }
 
 
-        public CustomJsonResult Delete(string operater, string[] ids)
+        private IEnumerable<SysMenu> GetSons(string pId)
+        {
+            var sysMenus = CurrentDb.SysMenu.ToList();
+            var sysMenu = sysMenus.Where(p => p.Id == pId).ToList();
+            var list2 = sysMenu.Concat(GetSonList(sysMenus, pId));
+            return list2;
+        }
+
+        private IEnumerable<SysMenu> GetSonList(IList<SysMenu> list, string pId)
+        {
+            var query = list.Where(p => p.PId == pId).ToList();
+            return query.ToList().Concat(query.ToList().SelectMany(t => GetSonList(list, t.Id)));
+        }
+
+
+        public CustomJsonResult Delete(string operater, string id)
         {
             CustomJsonResult result = new CustomJsonResult();
 
             using (TransactionScope ts = new TransactionScope())
             {
-                if (ids == null || ids.Length == 0)
+
+                var sysMenus = GetSons(id).ToList();
+
+                if (sysMenus.Count == 0)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "请选择要删除的数据");
                 }
 
-                foreach (var id in ids)
+
+                foreach (var sysMenu in sysMenus)
                 {
-                    var sysMenu = CurrentDb.SysMenu.Where(m => m.Id == id).FirstOrDefault();
 
                     if (!sysMenu.IsCanDelete)
                     {
@@ -177,14 +195,19 @@ namespace Lumos.BLL.Service.Admin
 
                     CurrentDb.SysMenu.Remove(sysMenu);
 
-                    var sysRoleMenus = CurrentDb.SysRoleMenu.Where(r => r.MenuId == id).ToList();
+                    var sysRoleMenus = CurrentDb.SysRoleMenu.Where(r => r.MenuId == sysMenu.Id).ToList();
 
                     foreach (var sysRoleMenu in sysRoleMenus)
                     {
                         CurrentDb.SysRoleMenu.Remove(sysRoleMenu);
                     }
 
-                    CurrentDb.SaveChanges();
+                    var sysMenuPermissions = CurrentDb.SysMenuPermission.Where(r => r.MenuId == sysMenu.Id).ToList();
+
+                    foreach (var sysMenuPermission in sysMenuPermissions)
+                    {
+                        CurrentDb.SysMenuPermission.Remove(sysMenuPermission);
+                    }
 
                 }
 
