@@ -54,7 +54,7 @@ namespace WebAdmin.Controllers.Sys
         }
 
         [HttpPost]
-        public CustomJsonResult Delete(string[] id)
+        public CustomJsonResult Delete(string id)
         {
             return AdminServiceFactory.SysOrganization.Delete(this.CurrentUserId, id);
         }

@@ -12,6 +12,37 @@ namespace Lumos.BLL.Service.Admin
 {
     public class SysOrganizationProvider : BaseProvider
     {
+
+        private List<SysOrganization> GetFathers(Enumeration.BelongSite belongSite, string id)
+        {
+            var sysOrganizations = CurrentDb.SysOrganization.Where(m => m.BelongSite == belongSite).ToList();
+
+            var list = new List<SysOrganization>();
+            var list2 = list.Concat(GetFatherList(sysOrganizations, id));
+            return list2.ToList();
+        }
+
+
+        public IEnumerable<SysOrganization> GetFatherList(IList<SysOrganization> list, string pId)
+        {
+            var query = list.Where(p => p.Id == pId).ToList();
+            return query.ToList().Concat(query.ToList().SelectMany(t => GetFatherList(list, t.PId)));
+        }
+
+        private List<SysOrganization> GetSons(string id)
+        {
+            var sysOrganizations = CurrentDb.SysOrganization.ToList();
+            var sysOrganization = sysOrganizations.Where(p => p.Id == id).ToList();
+            var list2 = sysOrganization.Concat(GetSonList(sysOrganizations, id));
+            return list2.ToList();
+        }
+
+        private IEnumerable<SysOrganization> GetSonList(IList<SysOrganization> list, string pId)
+        {
+            var query = list.Where(p => p.PId == pId).ToList();
+            return query.ToList().Concat(query.ToList().SelectMany(t => GetSonList(list, t.Id)));
+        }
+
         public CustomJsonResult GetDetails(string operater, string id)
         {
             var ret = new RetSysOrganizationGetDetails();
@@ -38,6 +69,14 @@ namespace Lumos.BLL.Service.Admin
 
             using (TransactionScope ts = new TransactionScope())
             {
+                var fathter = GetFathers(rop.BelongSite, rop.PId);
+                int dept = fathter.Count;
+                var isExists = CurrentDb.SysOrganization.Where(m => m.PId == rop.PId && m.Name == rop.Name && m.Dept == dept).FirstOrDefault();
+                if (isExists != null)
+                {
+                    return new CustomJsonResult(ResultType.Failure, "该名称在同一级别已经存在");
+                }
+
                 var organization = new SysOrganization();
                 organization.Id = GuidUtil.New();
                 organization.MerchantId = null;
@@ -49,6 +88,7 @@ namespace Lumos.BLL.Service.Admin
                 organization.Creator = operater;
                 organization.CreateTime = DateTime.Now;
                 organization.IsCanDelete = true;
+                organization.Dept = dept;
                 CurrentDb.SysOrganization.Add(organization);
                 CurrentDb.SaveChanges();
                 ts.Complete();
@@ -60,7 +100,21 @@ namespace Lumos.BLL.Service.Admin
 
         public CustomJsonResult Edit(string operater, RopSysOrganizationEdit rop)
         {
+
             var organization = CurrentDb.SysOrganization.Where(m => m.Id == rop.Id).FirstOrDefault();
+            if (organization == null)
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "数据为空");
+            }
+
+            var fathter = GetFathers(organization.BelongSite, organization.PId);
+            int dept = fathter.Count;
+            var isExists = CurrentDb.SysOrganization.Where(m => m.PId == organization.PId && m.Name == rop.Name && m.Dept == dept && m.Id != rop.Id).FirstOrDefault();
+            if (isExists != null)
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("保存失败，该名称({0})已被同一级别使用", rop.Name));
+            }
+
 
             organization.Name = rop.Name;
             organization.Status = rop.Status;
@@ -73,32 +127,31 @@ namespace Lumos.BLL.Service.Admin
 
         }
 
-        public CustomJsonResult Delete(string operater, string[] ids)
+        public CustomJsonResult Delete(string operater, string id)
         {
             CustomJsonResult result = new CustomJsonResult();
 
             using (TransactionScope ts = new TransactionScope())
             {
-                if (ids == null || ids.Length == 0)
+                var sysOrganizations = GetSons(id).ToList();
+
+                if (sysOrganizations.Count == 0)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "请选择要删除的数据");
                 }
 
 
-                foreach (var id in ids)
+
+                foreach (var sysOrganization in sysOrganizations)
                 {
-                    var organization = CurrentDb.SysOrganization.Where(m => m.Id == id).FirstOrDefault();
-                    if (organization != null)
+
+                    if (!sysOrganization.IsCanDelete)
                     {
-                        if (!organization.IsCanDelete)
-                        {
-                            return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("所选机构（{0}）不允许删除", organization.Name));
-                        }
-
-                        organization.IsDelete = true;
-
-                        CurrentDb.SaveChanges();
+                        return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("所选机构（{0}）不允许删除", sysOrganization.Name));
                     }
+
+                    sysOrganization.IsDelete = true;
+
                 }
 
 

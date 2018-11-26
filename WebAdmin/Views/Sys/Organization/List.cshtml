@@ -9,7 +9,7 @@
         var mainTree_Id = "maintree";
         var mainTree_ListPositions;
         var mainTab;
-
+        var belongSite = $.lumos.getUrlParamValue("belongSite");
         $(this).ready(function () {
 
             mainTab = $("#tab_Main").tab({
@@ -39,7 +39,7 @@
                     return;
                 }
 
-                var url = '/Sys/Organization/Add?pId=' + selNode.id + '&pName=' + escape(selNode.name)
+                var url = '/Sys/Organization/Add?belongSite=' + belongSite + '&pId=' + selNode.id + '&pName=' + escape(selNode.name)
                 var title = '新建';
                 art.dialog.open(url, {
                     id: "openDialog", title: title, width: '700px', height: '480px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '确定', ok: function () {
@@ -200,6 +200,7 @@
 
             $.lumos.getJson({
                 url: "/Sys/Organization/GetAll",
+                urlParams: { belongSite: belongSite },
                 success: function (d) {
                     var data = d.data;
                     $.fn.zTree.init($("#" + mainTree_Id), {
