@@ -45,7 +45,7 @@ namespace Lumos.BLL.Service.AppMobile
 
             var pdAreaModel = new PdAreaModel();
 
-            var productSubjects = CurrentDb.ProductSubject.Where(m => m.MerchantId == store.MerchantId & m.IsDelete == false).ToList();
+            var productSubjects = CurrentDb.ProductSubject.Where(m => m.MerchantId == store.MerchantId & m.IsDelete == false && m.Dept == 1).ToList();
 
             foreach (var productSubject in productSubjects)
             {
