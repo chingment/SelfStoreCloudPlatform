@@ -5,6 +5,8 @@
 
 @section scripts{
     <script type="text/javascript">
+        var num = 0;
+        var maxMum = 2;
 
         var mainTree_Id = "maintree";
         var mainTree_RproductSkus;
@@ -166,7 +168,26 @@
         }
 
         function getMainTreeSelNodeDetails() {
+
             var selNode = mainTab.treeGetSelectedNode();
+
+            /*最大支持几级菜单由maxMum决定 可修改这个值*/
+            num = 0;
+            getChildNodeGrade(selNode);
+            if (num == 0) {
+                $('#maintree_delete_node').attr("disabled", "disabled");
+                $('#maintree_add_node').removeAttr("disabled");
+            }
+            else if (num >= maxMum) {
+                $('#maintree_add_node').attr("disabled", "disabled");
+                $('#maintree_delete_node').removeAttr("disabled");
+            }
+            else {
+                $('#maintree_delete_node').removeAttr("disabled");
+                $('#maintree_add_node').removeAttr("disabled");
+            }
+
+
             var id = selNode.id;
             $.lumos.getJson({
                 url: "/ProductKind/GetDetails",
@@ -397,3 +418,4 @@
         </div>
     </dd>
 </dl>
+<div class="help-tips">提示：最大支持三级节点</div>

@@ -79,7 +79,6 @@ namespace Lumos.BLL.Service.Admin
 
                 var organization = new SysOrganization();
                 organization.Id = GuidUtil.New();
-                organization.MerchantId = null;
                 organization.BelongSite = Enumeration.BelongSite.Admin;
                 organization.PId = rop.PId;
                 organization.Name = rop.Name;

@@ -13,8 +13,6 @@ namespace Lumos.Entity
         public string PId { get; set; }
         [MaxLength(128)]
         public string Name { get; set; }
-        [MaxLength(128)]
-        public string MerchantId { get; set; }
         [MaxLength(512)]
         public string Description { get; set; }
         public bool IsDelete { get; set; }
@@ -24,9 +22,7 @@ namespace Lumos.Entity
         public DateTime CreateTime { get; set; }
         public string Mender { get; set; }
         public DateTime? MendTime { get; set; }
-
         public Enumeration.BelongSite BelongSite { get; set; }
-
         public int Dept { get; set; }
     }
 }
