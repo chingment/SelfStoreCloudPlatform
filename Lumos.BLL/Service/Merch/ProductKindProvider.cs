@@ -137,29 +137,52 @@ namespace Lumos.BLL.Service.Merch
             using (TransactionScope ts = new TransactionScope())
             {
 
-                var prodouctKinds = GetSons(merchantId, id).ToList();
+                var prodouctKind = CurrentDb.ProductKind.Where(m => m.Id == id).FirstOrDefault();
 
-                if (prodouctKinds.Count == 0)
+                if (prodouctKind == null)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "请选择要删除的数据");
                 }
 
+                if (prodouctKind.Dept == 0)
+                {
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("所选（{0}）不允许删除", prodouctKind.Name));
+                }
 
-                foreach (var prodouctKind in prodouctKinds)
+                var sons = GetSons(merchantId, id).ToList();
+
+
+                foreach (var son in sons)
                 {
 
-                    if (prodouctKind.Dept == 0)
-                    {
-                        return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("所选菜单（{0}）不允许删除", prodouctKind.Name));
-                    }
+                    CurrentDb.ProductKind.Remove(son);
 
-                    CurrentDb.ProductKind.Remove(prodouctKind);
-
-                    var productKindSkus = CurrentDb.ProductKindSku.Where(m => m.ProductKindId == prodouctKind.Id).ToList();
+                    var productKindSkus = CurrentDb.ProductKindSku.Where(m => m.ProductKindId == son.Id).ToList();
 
                     foreach (var productKindSku in productKindSkus)
                     {
                         CurrentDb.ProductKindSku.Remove(productKindSku);
+                        CurrentDb.SaveChanges();
+
+                        var productSku = CurrentDb.ProductSku.Where(m => m.Id == productKindSku.ProductSkuId).FirstOrDefault();
+                        if (productSku != null)
+                        {
+                            var kindIds = CurrentDb.ProductKindSku.Where(m => m.ProductSkuId == productKindSku.ProductSkuId).Select(m => m.ProductKindId).ToArray();
+                            if (kindIds != null && kindIds.Length > 0)
+                            {
+                                var productKinds = CurrentDb.ProductKind.Where(m => kindIds.Contains(m.Id)).ToList();
+                                productSku.KindIds = string.Join(",", productKinds.Select(m => m.Id).ToArray());
+                                productSku.KindNames = string.Join(",", productKinds.Select(m => m.Name).ToArray());
+
+                            }
+                            else
+                            {
+                                productSku.KindIds = null;
+                                productSku.KindNames = null;
+                            }
+
+                            CurrentDb.SaveChanges();
+                        }
                     }
 
 

@@ -137,37 +137,60 @@ namespace Lumos.BLL.Service.Merch
             using (TransactionScope ts = new TransactionScope())
             {
 
-                //var prodouctKinds = GetSons(merchantId, id).ToList();
+                var productSubject = CurrentDb.ProductSubject.Where(m => m.Id == id).FirstOrDefault();
 
-                //if (prodouctKinds.Count == 0)
-                //{
-                //    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "请选择要删除的数据");
-                //}
+                if (productSubject == null)
+                {
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "请选择要删除的数据");
+                }
 
+                if (productSubject.Dept == 0)
+                {
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("所选（{0}）不允许删除", productSubject.Name));
+                }
 
-                //foreach (var prodouctKind in prodouctKinds)
-                //{
-
-                //    if (prodouctKind.Dept == 0)
-                //    {
-                //        return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("所选菜单（{0}）不允许删除", prodouctKind.Name));
-                //    }
-
-                //    CurrentDb.ProductKind.Remove(prodouctKind);
-
-                //    var productKindSkus = CurrentDb.ProductKindSku.Where(m => m.ProductKindId == prodouctKind.Id).ToList();
-
-                //    foreach (var productKindSku in productKindSkus)
-                //    {
-                //        CurrentDb.ProductKindSku.Remove(productKindSku);
-                //    }
+                var sons = GetSons(merchantId, id).ToList();
 
 
-                //}
+                foreach (var son in sons)
+                {
+
+                    CurrentDb.ProductSubject.Remove(son);
+
+                    var productSubjectSkus = CurrentDb.ProductSubjectSku.Where(m => m.ProductSubjectId == son.Id).ToList();
+
+                    foreach (var productSubjectSku in productSubjectSkus)
+                    {
+                        CurrentDb.ProductSubjectSku.Remove(productSubjectSku);
+                        CurrentDb.SaveChanges();
+
+                        var productSku = CurrentDb.ProductSku.Where(m => m.Id == productSubjectSku.ProductSkuId).FirstOrDefault();
+                        if (productSku != null)
+                        {
+                            var subjectIds = CurrentDb.ProductSubjectSku.Where(m => m.ProductSkuId == productSubjectSku.ProductSkuId).Select(m => m.ProductSubjectId).ToArray();
+                            if (subjectIds != null && subjectIds.Length > 0)
+                            {
+                                var productSubjects = CurrentDb.ProductSubject.Where(m => subjectIds.Contains(m.Id)).ToList();
+                                productSku.SubjectIds = string.Join(",", productSubjects.Select(m => m.Id).ToArray());
+                                productSku.SubjectNames = string.Join(",", productSubjects.Select(m => m.Name).ToArray());
+
+                            }
+                            else
+                            {
+                                productSku.SubjectIds = null;
+                                productSku.SubjectNames = null;
+                            }
+
+                            CurrentDb.SaveChanges();
+                        }
+                    }
 
 
-                //CurrentDb.SaveChanges();
-                //ts.Complete();
+                }
+
+
+                CurrentDb.SaveChanges();
+                ts.Complete();
 
                 result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
             }
