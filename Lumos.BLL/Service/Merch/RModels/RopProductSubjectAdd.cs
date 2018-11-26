@@ -8,7 +8,7 @@ namespace Lumos.BLL.Service.Merch
 {
     public class RopProductSubjectAdd
     {
-
+        public string PId { get; set; }
         public string Name { get; set; }
 
         public string IconImg { get; set; }

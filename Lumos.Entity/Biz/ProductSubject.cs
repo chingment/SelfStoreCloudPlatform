@@ -13,6 +13,8 @@ namespace Lumos.Entity
         public string Name { get; set; }
         [MaxLength(128)]
         public string MerchantId { get; set; }
+
+        public string PId { get; set; }
         public string IconImg { get; set; }
         public string MainImg { get; set; }
         [MaxLength(512)]

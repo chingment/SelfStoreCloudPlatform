@@ -11,9 +11,10 @@
         var mainTab;
         $(this).ready(function () {
 
-            tab_Main = $("#tab_Main").tab({
-                click: function (index) {
-                    switch (index, key) {
+            mainTab = $("#tab_Main").tab({
+                treeId: mainTree_Id,
+                click: function (index, key) {
+                    switch (index) {
                         case 0:
                             getMainTreeSelNodeDetails();
                             break;
@@ -152,6 +153,7 @@
                 }
             });
 
+            mainTreeLoadData();
         });
 
 
@@ -186,12 +188,13 @@
             });
         }
 
-        function menuTreeLoadData() {
+        function mainTreeLoadData() {
 
             $.lumos.getJson({
                 url: "/ProductKind/GetAll",
                 success: function (d) {
                     if (d.result == $.lumos.resultType.success) {
+
                         var data = d.data;
                         $.fn.zTree.init($("#" + mainTree_Id), {
                             view: {
@@ -217,7 +220,7 @@
 
             switch (type) {
                 case 1:
-                    loadKinds(cur_KindId)
+                    mainTreeLoadData()
                     break;
                 case 2:
                     break;

@@ -37,7 +37,14 @@
             $("#txt_Description").formValidator().inputValidator({ min: 0, max: 500, onError: "描述不能超过500个字符" });
 
             $("#maintree_add_node").click(function () {
-                var url = '/ProductSubject/Add';
+
+                var selNode = mainTab.treeGetSelectedNode();
+                if (selNode == null) {
+                    $.lumos.tips("请在左边树形结构选中节点信息");
+                    return;
+                }
+
+                var url = '/ProductSubject/Add?pId=' + selNode.id + '&pName=' + escape(selNode.name);
                 var title = '新建';
                 art.dialog.open(url, {
                     id: "openDialog", title: title, width: '650px', height: '450px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '确定', ok: function () {
@@ -62,7 +69,7 @@
                              var id = selNode.id;
                              $.lumos.postJson({
                                  url: "/ProductSubject/Delete",
-                                 data: { ids: id },
+                                 data: { id: id },
                                  success: function (d) {
                                      $.lumos.tips(d.message);
                                      if (d.result == $.lumos.resultType.success) {
@@ -174,6 +181,7 @@
                 }
             });
 
+            mainTreeLoadData();
         });
 
 
@@ -208,7 +216,7 @@
             });
         }
 
-        function menuTreeLoadData() {
+        function mainTreeLoadData() {
 
             $.lumos.getJson({
                 url: "/ProductSubject/GetAll",
@@ -241,7 +249,7 @@
 
             switch (type) {
                 case 1:
-                    loadSubjects(cur_SubjectId)
+                    mainTreeLoadData()
                     break;
                 case 2:
                     break;
@@ -346,7 +354,7 @@
                             <tr>
                                 <td class="f-tb-t"></td>
                                 <td class="f-tb-c">
-                                    <input type="button"  name="btn_Save" value="保存" id="maintree_eidt_node" class="btn btn-sure" />
+                                    <input type="button" name="btn_Save" value="保存" id="maintree_eidt_node" class="btn btn-sure" />
                                 </td>
                             </tr>
                         </table>
@@ -354,7 +362,7 @@
                 </div>
                 <div class="subcontent">
                     <form id="form2" name="form2">
-                        <input type="hidden" name="SubjectId"  value="" />
+                        <input type="hidden" name="SubjectId" value="" />
                         <div class="search-bar">
                             <div class="filter">
                                 <span class="filter-label">商品名称：</span>

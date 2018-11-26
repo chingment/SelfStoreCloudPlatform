@@ -114,8 +114,9 @@ namespace Lumos.BLL.Service.Admin
 
                 var productSubject = new ProductSubject();
                 productSubject.Id = GuidUtil.New();
+                productSubject.PId = GuidUtil.Empty();
                 productSubject.MerchantId = merchant.Id;
-                productSubject.Name = "精选专栏";
+                productSubject.Name = "我的栏目";
                 productSubject.Status = Enumeration.ProductSubjectStatus.Valid;
                 productSubject.Priority = 0;
                 productSubject.IsDelete = false;

@@ -44,6 +44,7 @@ namespace Lumos.BLL.Service.Merch
 
                 var productSubject = new ProductSubject();
                 productSubject.Id = GuidUtil.New();
+                productSubject.PId = rop.PId;
                 productSubject.MerchantId = merchantId;
                 productSubject.Name = rop.Name;
                 productSubject.MainImg = rop.MainImg;
