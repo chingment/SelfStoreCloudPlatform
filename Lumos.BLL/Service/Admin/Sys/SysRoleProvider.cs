@@ -123,6 +123,13 @@ namespace Lumos.BLL.Service.Admin
                     {
                         CurrentDb.SysRoleMenu.Remove(sysRoleMenu);
                     }
+
+                    var sysUserRoles = CurrentDb.SysUserRole.Where(r => r.RoleId == son.Id).ToList();
+
+                    foreach (var sysUserRole in sysUserRoles)
+                    {
+                        CurrentDb.SysUserRole.Remove(sysUserRole);
+                    }
                 }
 
                 CurrentDb.SaveChanges();

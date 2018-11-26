@@ -208,7 +208,7 @@ namespace System.Web
             sb.Append("<select multiple='multiple' id=\"" + id + "\" name=\"" + name + "\" data-placeholder=\"请选择\" class=\"chosen-select\"  style=\"width: 325px;\" >");
 
 
-            var p_category = productKind.Where(m => m.PId == GuidUtil.Empty()).ToList();
+            var p_category = productKind.Where(m => m.Dept == 0).ToList();
 
             string[] arr_selectval = null;
 
@@ -285,17 +285,59 @@ namespace System.Web
             return new MvcHtmlString(sb.ToString());
         }
 
+        //public static MvcHtmlString initProductSubject(this HtmlHelper helper, string name, string selectval = null)
+        //{
+        //    string merchantId = OwnRequest.GetCurrentMerchantId();
+
+        //    LumosDbContext dbContext = new LumosDbContext();
+        //    var productSubject = dbContext.ProductSubject.Where(m => m.IsDelete == false && m.MerchantId == merchantId).ToList();
+        //    StringBuilder sb = new StringBuilder();
+
+        //    string id = name.Replace('.', '_');
+        //    sb.Append("<select multiple='multiple' id=\"" + id + "\" data-placeholder=\"请选择\" name =\"" + name + "\" class=\"chosen-select\" style=\"width: 325px;\" >");
+        //    sb.Append("<option value=\"-1\"></option>");
+
+        //    string[] arr_selectval = null;
+
+        //    if (selectval != null)
+        //    {
+        //        arr_selectval = selectval.Split(',');
+        //    }
+
+        //    foreach (var m in productSubject)
+        //    {
+        //        string selected = "";
+
+        //        if (selectval != null)
+        //        {
+        //            if (arr_selectval.Contains(m.Id.ToString()))
+        //            {
+        //                selected = "selected";
+        //            }
+        //        }
+
+        //        sb.Append("<option value=\"" + m.Id + "\"  " + selected + "   >&nbsp;" + m.Name + "</option>");
+
+        //    }
+
+        //    sb.Append("</select>");
+        //    return new MvcHtmlString(sb.ToString());
+        //}
+
+
         public static MvcHtmlString initProductSubject(this HtmlHelper helper, string name, string selectval = null)
         {
-            string merchantId = OwnRequest.GetCurrentMerchantId();
 
             LumosDbContext dbContext = new LumosDbContext();
-            var productSubject = dbContext.ProductSubject.Where(m => m.IsDelete == false && m.MerchantId == merchantId).ToList();
+            string merchantId = OwnRequest.GetCurrentMerchantId();
+            var productSubject = dbContext.ProductSubject.Where(m => m.MerchantId == merchantId).Where(m => m.IsDelete == false).ToList();
             StringBuilder sb = new StringBuilder();
 
             string id = name.Replace('.', '_');
-            sb.Append("<select multiple='multiple' id=\"" + id + "\" data-placeholder=\"请选择\" name =\"" + name + "\" class=\"chosen-select\" style=\"width: 325px;\" >");
-            sb.Append("<option value=\"-1\"></option>");
+            sb.Append("<select multiple='multiple' id=\"" + id + "\" name=\"" + name + "\" data-placeholder=\"请选择\" class=\"chosen-select\"  style=\"width: 325px;\" >");
+
+
+            var p_category = productSubject.Where(m => m.Dept == 0).ToList();
 
             string[] arr_selectval = null;
 
@@ -304,8 +346,16 @@ namespace System.Web
                 arr_selectval = selectval.Split(',');
             }
 
-            foreach (var m in productSubject)
+            foreach (var m in p_category)
             {
+
+                string disabled = "";
+
+                if (m.Dept == 0)
+                {
+                    disabled = "disabled";
+                }
+
                 string selected = "";
 
                 if (selectval != null)
@@ -316,8 +366,9 @@ namespace System.Web
                     }
                 }
 
-                sb.Append("<option value=\"" + m.Id + "\"  " + selected + "   >&nbsp;" + m.Name + "</option>");
+                sb.Append("<option value=\"" + m.Id + "\"  " + disabled + " " + selected + "   >&nbsp;" + m.Name + "</option>");
 
+                GetProductSubjectNodes(sb, productSubject, m.Id, 1, arr_selectval);
             }
 
             sb.Append("</select>");
@@ -440,6 +491,47 @@ namespace System.Web
                 sb.Append("<option value=\"" + m.Id + "\" " + disabled + " " + selected + "  >" + _s + m.Name + "</option>");
 
                 GetProductKindNodes(sb, productKind, m.Id, nLevel, arr_selectval);
+            }
+        }
+
+        private static void GetProductSubjectNodes(StringBuilder sb, List<ProductSubject> productSubject, string pId, int nLevel, string[] arr_selectval)
+        {
+
+            var catalogList = productSubject.Where(m => m.PId == pId).ToList();
+
+            string _s = "";
+            for (int i = 0; i <= nLevel; i++)
+            {
+                _s += "&nbsp;&nbsp;";
+            }
+            _s += "&nbsp;&nbsp;";
+            nLevel += 1;
+
+
+
+            foreach (var m in catalogList)
+            {
+
+
+                string disabled = "";
+
+                if (m.Dept == 0)
+                {
+                    disabled = "disabled";
+                }
+
+                string selected = "";
+                if (arr_selectval != null)
+                {
+                    if (arr_selectval.Contains(m.Id.ToString()))
+                    {
+                        selected = "selected";
+                    }
+                }
+
+                sb.Append("<option value=\"" + m.Id + "\" " + disabled + " " + selected + "  >" + _s + m.Name + "</option>");
+
+                GetProductSubjectNodes(sb, productSubject, m.Id, nLevel, arr_selectval);
             }
         }
 
