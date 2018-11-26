@@ -55,6 +55,20 @@ namespace Lumos.BLL.Service.Admin
             return query.ToList().Concat(query.ToList().SelectMany(t => GetFatherList(list, t.PId)));
         }
 
+        private List<SysMenu> GetSons(string id)
+        {
+            var sysMenus = CurrentDb.SysMenu.ToList();
+            var sysMenu = sysMenus.Where(p => p.Id == id).ToList();
+            var list2 = sysMenu.Concat(GetSonList(sysMenus, id));
+            return list2.ToList();
+        }
+
+        private IEnumerable<SysMenu> GetSonList(IList<SysMenu> list, string pId)
+        {
+            var query = list.Where(p => p.PId == pId).ToList();
+            return query.ToList().Concat(query.ToList().SelectMany(t => GetSonList(list, t.Id)));
+        }
+
         public CustomJsonResult Add(string operater, RopSysMenuAdd rop)
         {
             CustomJsonResult result = new CustomJsonResult();
@@ -152,21 +166,6 @@ namespace Lumos.BLL.Service.Admin
             }
 
             return result;
-        }
-
-
-        private IEnumerable<SysMenu> GetSons(string pId)
-        {
-            var sysMenus = CurrentDb.SysMenu.ToList();
-            var sysMenu = sysMenus.Where(p => p.Id == pId).ToList();
-            var list2 = sysMenu.Concat(GetSonList(sysMenus, pId));
-            return list2;
-        }
-
-        private IEnumerable<SysMenu> GetSonList(IList<SysMenu> list, string pId)
-        {
-            var query = list.Where(p => p.PId == pId).ToList();
-            return query.ToList().Concat(query.ToList().SelectMany(t => GetSonList(list, t.Id)));
         }
 
 
