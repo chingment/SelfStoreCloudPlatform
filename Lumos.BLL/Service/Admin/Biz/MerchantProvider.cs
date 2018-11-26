@@ -103,7 +103,7 @@ namespace Lumos.BLL.Service.Admin
                 productKind.MerchantId = merchant.Id;
                 productKind.Name = "我的品类";
                 productKind.PId = GuidUtil.Empty();
-                productKind.Depth = 0;
+                productKind.Dept = 0;
                 productKind.Status = Enumeration.ProductKindStatus.Valid;
                 productKind.Priority = 0;
                 productKind.IsDelete = false;

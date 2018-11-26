@@ -56,14 +56,14 @@ namespace WebMerch.Controllers
         }
 
         [HttpPost]
-        public CustomJsonResult Delete(string[] ids)
+        public CustomJsonResult Delete(string id)
         {
-            return MerchServiceFactory.ProductKind.Delete(this.CurrentUserId, this.CurrentMerchantId, ids);
+            return MerchServiceFactory.ProductKind.Delete(this.CurrentUserId, this.CurrentMerchantId, id);
         }
 
         public CustomJsonResult GetProductSkuList(RupProductSkuGetList rup)
         {
-            var kinds = MerchServiceFactory.ProductKind.GetProductKind(rup.KindId);
+            var kinds = MerchServiceFactory.ProductKind.GetSons(this.CurrentMerchantId, rup.KindId);
 
             string[] kindIds = kinds.Select(m => m.Id).ToArray();
 

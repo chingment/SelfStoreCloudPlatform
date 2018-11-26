@@ -56,9 +56,9 @@ namespace WebMerch.Controllers
         }
 
         [HttpPost]
-        public CustomJsonResult Delete(string[] ids)
+        public CustomJsonResult Delete(string id)
         {
-            return MerchServiceFactory.ProductSubject.Delete(this.CurrentUserId, this.CurrentMerchantId, ids);
+            return MerchServiceFactory.ProductSubject.Delete(this.CurrentUserId, this.CurrentMerchantId, id);
         }
 
         public CustomJsonResult GetProductSkuList(RupProductSkuGetList rup)

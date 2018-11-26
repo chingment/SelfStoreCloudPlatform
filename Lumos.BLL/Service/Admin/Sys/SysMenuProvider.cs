@@ -60,7 +60,7 @@ namespace Lumos.BLL.Service.Admin
         }
 
 
-        public IEnumerable<SysMenu> GetFatherList(IList<SysMenu> list, string pId)
+        private IEnumerable<SysMenu> GetFatherList(IList<SysMenu> list, string pId)
         {
             var query = list.Where(p => p.Id == pId).ToList();
             return query.ToList().Concat(query.ToList().SelectMany(t => GetFatherList(list, t.PId)));

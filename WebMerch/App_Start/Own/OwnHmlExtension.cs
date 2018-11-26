@@ -222,7 +222,7 @@ namespace System.Web
 
                 string disabled = "";
 
-                if (m.Depth < 2)
+                if (m.Dept < 2)
                 {
                     disabled = "disabled";
                 }
@@ -423,7 +423,7 @@ namespace System.Web
 
                 string disabled = "";
 
-                if (m.Depth < 2)
+                if (m.Dept < 2)
                 {
                     disabled = "disabled";
                 }

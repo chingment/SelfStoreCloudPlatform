@@ -85,30 +85,52 @@ namespace Lumos.BLL.Service.Merch
 
         }
 
-        public CustomJsonResult Delete(string operater, string merchantId, string[] ids)
+        public CustomJsonResult Delete(string operater, string merchantId, string id)
         {
-            if (ids != null)
+
+
+            CustomJsonResult result = new CustomJsonResult();
+
+            using (TransactionScope ts = new TransactionScope())
             {
-                foreach (var id in ids)
-                {
-                    var productSubject = CurrentDb.ProductSubject.Where(m => m.Id == id).FirstOrDefault();
-                    if (productSubject != null)
-                    {
-                        productSubject.IsDelete = true;
 
-                        var productSubjectSkus = CurrentDb.ProductSubjectSku.Where(m => m.ProductSubjectId == id).ToList();
+                //var prodouctKinds = GetSons(merchantId, id).ToList();
 
-                        foreach (var productKindSku in productSubjectSkus)
-                        {
-                            CurrentDb.ProductSubjectSku.Remove(productKindSku);
-                        }
+                //if (prodouctKinds.Count == 0)
+                //{
+                //    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "请选择要删除的数据");
+                //}
 
-                        CurrentDb.SaveChanges();
-                    }
-                }
+
+                //foreach (var prodouctKind in prodouctKinds)
+                //{
+
+                //    if (prodouctKind.Dept == 0)
+                //    {
+                //        return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("所选菜单（{0}）不允许删除", prodouctKind.Name));
+                //    }
+
+                //    CurrentDb.ProductKind.Remove(prodouctKind);
+
+                //    var productKindSkus = CurrentDb.ProductKindSku.Where(m => m.ProductKindId == prodouctKind.Id).ToList();
+
+                //    foreach (var productKindSku in productKindSkus)
+                //    {
+                //        CurrentDb.ProductKindSku.Remove(productKindSku);
+                //    }
+
+
+                //}
+
+
+                //CurrentDb.SaveChanges();
+                //ts.Complete();
+
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
             }
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
+
+            return result;
         }
 
     }
