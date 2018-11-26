@@ -28,5 +28,7 @@ namespace Lumos.Entity
         public int Dept { get; set; }
 
         public Enumeration.BelongSite BelongSite { get; set; }
+
+        public int Priority { get; set; }
     }
 }

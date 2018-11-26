@@ -186,32 +186,32 @@ namespace Lumos.BLL.Service.Admin
             using (TransactionScope ts = new TransactionScope())
             {
 
-                var sysMenus = GetSons(id).ToList();
-
-                if (sysMenus.Count == 0)
+                var sysMenu = CurrentDb.SysMenu.Where(m => m.Id == id).FirstOrDefault();
+                if (sysMenu == null)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "请选择要删除的数据");
                 }
 
+                if (sysMenu.Dept == 0)
+                {
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("所选菜单（{0}）不允许删除", sysMenu.Name));
+                }
 
-                foreach (var sysMenu in sysMenus)
+                var sons = GetSons(id).ToList();
+
+                foreach (var son in sons)
                 {
 
-                    if (sysMenu.Dept==0)
-                    {
-                        return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("所选菜单（{0}）不允许删除", sysMenu.Name));
-                    }
+                    CurrentDb.SysMenu.Remove(son);
 
-                    CurrentDb.SysMenu.Remove(sysMenu);
-
-                    var sysRoleMenus = CurrentDb.SysRoleMenu.Where(r => r.MenuId == sysMenu.Id).ToList();
+                    var sysRoleMenus = CurrentDb.SysRoleMenu.Where(r => r.MenuId == son.Id).ToList();
 
                     foreach (var sysRoleMenu in sysRoleMenus)
                     {
                         CurrentDb.SysRoleMenu.Remove(sysRoleMenu);
                     }
 
-                    var sysMenuPermissions = CurrentDb.SysMenuPermission.Where(r => r.MenuId == sysMenu.Id).ToList();
+                    var sysMenuPermissions = CurrentDb.SysMenuPermission.Where(r => r.MenuId == son.Id).ToList();
 
                     foreach (var sysMenuPermission in sysMenuPermissions)
                     {

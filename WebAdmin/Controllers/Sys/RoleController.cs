@@ -38,8 +38,9 @@ namespace WebAdmin.Controllers.Sys
 
         public CustomJsonResult GetAll(Enumeration.BelongSite belongSite)
         {
-            object obj = Newtonsoft.Json.JsonConvert.DeserializeObject(ConvertToZTreeJson2(CurrentDb.SysRole.Where(m => m.BelongSite == belongSite).ToArray(), "id", "pid", "name", "role"));
-            return Json(ResultType.Success, obj);
+            var arr = CurrentDb.SysRole.Where(m => m.BelongSite == belongSite).OrderByDescending(m => m.Priority).ToArray();
+            object json = ConvertToZTreeJson(arr, "id", "pid", "name", "role");
+            return Json(ResultType.Success, json);
         }
 
         public CustomJsonResult GetDetails(string id)

@@ -9,6 +9,7 @@ namespace Lumos.BLL.Service.Admin
 {
     public class RopSysRoleAdd
     {
+        public string PId { get; set; }
         public Enumeration.BelongSite BelongSite { get; set; }
 
         public string Name { get; set; }

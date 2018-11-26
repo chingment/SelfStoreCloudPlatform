@@ -33,7 +33,14 @@
             $("#txt_Description").formValidator().inputValidator({ min: 0, max: 500, onError: "备注不能超过500个字符" });
 
             $("#maintree_add_node").click(function () {
-                var url = '/Sys/Role/Add?belongSite=' + belongSite;
+
+                var selNode = mainTab.treeGetSelectedNode();
+                if (selNode == null) {
+                    $.lumos.tips("请在左边树形结构选中节点信息");
+                    return;
+                }
+
+                var url = '/Sys/Role/Add?belongSite=' + belongSite + '&pId=' + selNode.id + '&pName=' + escape(selNode.name)
                 var title = '新建';
                 art.dialog.open(url, {
                     id: "openDialog", title: title, width: '650px', height: '350px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '确定', ok: function () {
@@ -174,6 +181,14 @@
         function getMainTreeSelNodeDetails() {
 
             var selNode = mainTab.treeGetSelectedNode();
+
+
+            var parentName = "/";
+            if (selNode.getParentNode() != null) {
+                parentName = selNode.getParentNode().name;
+            }
+
+
             var id = selNode.id;
             $.lumos.getJson({
                 url: "/Sys/Role/GetDetails",
@@ -183,7 +198,7 @@
 
                     if (d.result == $.lumos.resultType.success) {
                         var data = d.data;
-
+                        $("#lbl_PName").text(parentName);
                         $("#txt_Name").val(data.name);
                         $("#txt_Description").val(data.description);
 
@@ -264,6 +279,14 @@
                     </div>
                     <form name="form1" method="post" id="form1">
                         <table class="f-tb" cellpadding="0" cellspacing="1">
+                            <tr>
+                                <td class="f-tb-t">
+                                    上级名称：
+                                </td>
+                                <td class="f-tb-c">
+                                    <label id="lbl_PName">/</label>
+                                </td>
+                            </tr>
                             <tr>
                                 <td class="f-tb-t">
                                     <span class="required-symbol">*</span>名称：

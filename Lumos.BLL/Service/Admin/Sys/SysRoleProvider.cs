@@ -10,22 +10,54 @@ namespace Lumos.BLL.Service.Admin
 {
     public class SysRoleProvider : BaseProvider
     {
+
+        private List<SysRole> GetFathers(Enumeration.BelongSite belongSite, string id)
+        {
+            var sysRoles = CurrentDb.SysRole.Where(m => m.BelongSite == belongSite).ToList();
+
+            var list = new List<SysRole>();
+            var list2 = list.Concat(GetFatherList(sysRoles, id));
+            return list2.ToList();
+        }
+
+        private IEnumerable<SysRole> GetFatherList(IList<SysRole> list, string pId)
+        {
+            var query = list.Where(p => p.Id == pId).ToList();
+            return query.ToList().Concat(query.ToList().SelectMany(t => GetFatherList(list, t.PId)));
+        }
+
+        private List<SysRole> GetSons(string id)
+        {
+            var sysRoles = CurrentDb.SysRole.ToList();
+            var sysRole = sysRoles.Where(p => p.Id == id).ToList();
+            var list2 = sysRole.Concat(GetSonList(sysRoles, id));
+            return list2.ToList();
+        }
+
+        private IEnumerable<SysRole> GetSonList(IList<SysRole> list, string pId)
+        {
+            var query = list.Where(p => p.PId == pId).ToList();
+            return query.ToList().Concat(query.ToList().SelectMany(t => GetSonList(list, t.Id)));
+        }
+
         public CustomJsonResult Add(string operater, RopSysRoleAdd rop)
         {
 
-
-            var isExistName = CurrentDb.SysRole.Where(m => m.Name == rop.Name).FirstOrDefault();
-
-            if (isExistName != null)
+            var fathter = GetFathers(rop.BelongSite, rop.PId);
+            int dept = fathter.Count;
+            var isExists = CurrentDb.SysRole.Where(m => m.PId == rop.PId && m.Name == rop.Name && m.Dept == dept).FirstOrDefault();
+            if (isExists != null)
             {
-                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("添加失败，名称({0})已被使用", rop.Name));
+                return new CustomJsonResult(ResultType.Failure, "该名称在同一级别已经存在");
             }
+
             var sysRole = new SysRole();
             sysRole.Id = GuidUtil.New();
             sysRole.Name = rop.Name;
             sysRole.Description = rop.Description;
-            sysRole.PId = GuidUtil.Empty();
+            sysRole.PId = rop.PId;
             sysRole.BelongSite = rop.BelongSite;
+            sysRole.Dept = dept;
             sysRole.CreateTime = DateTime.Now;
             sysRole.Creator = operater;
             CurrentDb.SysRole.Add(sysRole);
@@ -37,13 +69,19 @@ namespace Lumos.BLL.Service.Admin
 
         public CustomJsonResult Edit(string operater, RopSysRoleEdit rop)
         {
-            var isExistRoleName = CurrentDb.SysRole.Where(m => m.Name == rop.Name && m.Id != rop.Id).FirstOrDefault();
-            if (isExistRoleName != null)
+            var sysRole = CurrentDb.SysRole.Where(m => m.Id == rop.Id).FirstOrDefault();
+            if (sysRole == null)
             {
-                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("保存失败，名称({0})已被使用", rop.Name));
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "数据为空");
             }
 
-            var sysRole = CurrentDb.SysRole.Where(m => m.Id == rop.Id).FirstOrDefault();
+            var fathter = GetFathers(sysRole.BelongSite, sysRole.PId);
+            int dept = fathter.Count;
+            var isExists = CurrentDb.SysRole.Where(m => m.PId == sysRole.PId && m.Name == rop.Name && m.Dept == dept && m.Id != rop.Id).FirstOrDefault();
+            if (isExists != null)
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("保存失败，该名称({0})已被同一级别使用", rop.Name));
+            }
 
             sysRole.Name = rop.Name;
             sysRole.Description = rop.Description;
@@ -60,8 +98,8 @@ namespace Lumos.BLL.Service.Admin
 
             using (TransactionScope ts = new TransactionScope())
             {
-
                 var sysRole = CurrentDb.SysRole.Where(m => m.Id == id).FirstOrDefault();
+
                 if (sysRole == null)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "请选择要删除的数据");
@@ -73,17 +111,19 @@ namespace Lumos.BLL.Service.Admin
                 }
 
 
+                var sons = GetSons(id).ToList();
 
-                var sysRoleMenus = CurrentDb.SysRoleMenu.Where(u => u.RoleId == id).Distinct();
-
-                foreach (var sysRoleMenu in sysRoleMenus)
+                foreach (var son in sons)
                 {
-                    CurrentDb.SysRoleMenu.Remove(sysRoleMenu);
+                    CurrentDb.SysRole.Remove(son);
+
+                    var sysRoleMenus = CurrentDb.SysRoleMenu.Where(r => r.RoleId == son.Id).ToList();
+
+                    foreach (var sysRoleMenu in sysRoleMenus)
+                    {
+                        CurrentDb.SysRoleMenu.Remove(sysRoleMenu);
+                    }
                 }
-
-
-                CurrentDb.SysRole.Remove(sysRole);
-
 
                 CurrentDb.SaveChanges();
                 ts.Complete();
@@ -95,7 +135,6 @@ namespace Lumos.BLL.Service.Admin
 
 
         }
-
 
         public CustomJsonResult GetDetails(string operater, string id)
         {
