@@ -17,7 +17,7 @@ namespace Lumos.BLL.Service.AppMobile
             var store = CurrentDb.Store.Where(m => m.Id == storeId).FirstOrDefault();
 
             var productKinds = CurrentDb.ProductKind.Where(m => m.MerchantId == store.MerchantId && m.Status == Entity.Enumeration.ProductKindStatus.Valid && m.IsDelete == false).ToList();
-            var top = productKinds.Where(m => m.PId == GuidUtil.Empty()).FirstOrDefault();
+            var top = productKinds.Where(m => m.Dept == 0).FirstOrDefault();
             var productParentKinds = productKinds.Where(m => m.PId == top.Id).ToList();
             foreach (var item in productParentKinds)
             {

@@ -19,10 +19,11 @@ namespace Lumos.BLL.Service.AppTerm
 
             if (productKinds.Count > 0)
             {
-                var productTopKind = productKinds.Where(m => m.PId == GuidUtil.Empty()).FirstOrDefault();
+                var productTopKind = productKinds.Where(m => m.Dept == 0).FirstOrDefault();
 
                 if (productTopKind != null)
                 {
+                    
                     var productParentKinds = productKinds.Where(m => m.PId == productTopKind.Id).ToList();
 
                     foreach (var productParentKind in productParentKinds)
