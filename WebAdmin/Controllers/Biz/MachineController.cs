@@ -91,8 +91,6 @@ namespace WebAdmin.Controllers.Biz
                     StatusName = l_StatusName,
                     CreateTime = item.CreateTime.ToUnifiedFormatDateTime()
                 });
-
-
             }
 
             PageEntity pageEntity = new PageEntity { PageSize = pageSize, TotalRecord = total, Rows = olist };

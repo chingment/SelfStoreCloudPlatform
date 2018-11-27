@@ -54,12 +54,15 @@ namespace WebAdmin.Controllers.Biz
             int pageSize = 10;
             query = query.OrderByDescending(r => r.CreateTime).Skip(pageSize * (pageIndex)).Take(pageSize);
 
-            List<object> list = new List<object>();
 
-            foreach (var item in query)
+            var list = query.ToList();
+
+            List<object> olist = new List<object>();
+
+            foreach (var item in list)
             {
 
-                list.Add(new
+                olist.Add(new
                 {
                     item.Id,
                     item.UserName,
@@ -97,21 +100,40 @@ namespace WebAdmin.Controllers.Biz
 
             string deviceId = rup.DeviceId.ToSearchString();
 
-            var list = (from p in CurrentDb.Machine
-                        join m in CurrentDb.Merchant on p.MerchantId equals m.Id
-                        where
-                        p.MerchantId == rup.MerchantId &&
-                        (deviceId.Length == 0 || p.DeviceId.Contains(deviceId))
+            var query = (from p in CurrentDb.Machine
+                         join m in CurrentDb.Merchant on p.MerchantId equals m.Id
+                         where
+                         p.MerchantId == rup.MerchantId &&
+                         (deviceId.Length == 0 || p.DeviceId.Contains(deviceId))
 
-                        select new { p.Id, p.MerchantId, MerchantName = m.Name, p.DeviceId, MachineName = p.Name, p.MacAddress });
+                         select new { p.Id, p.MerchantId, MerchantName = m.Name, p.DeviceId, MachineName = p.Name, p.MacAddress });
 
-            int total = list.Count();
+            int total = query.Count();
 
             int pageIndex = rup.PageIndex;
             int pageSize = 10;
-            list = list.OrderBy(r => r.Id).Skip(pageSize * (pageIndex)).Take(pageSize);
+            query = query.OrderBy(r => r.Id).Skip(pageSize * (pageIndex)).Take(pageSize);
 
-            PageEntity pageEntity = new PageEntity { PageSize = pageSize, TotalRecord = total, Rows = list };
+
+            var list = query.ToList();
+
+            List<object> olist = new List<object>();
+
+            foreach (var item in list)
+            {
+                olist.Add(new
+                {
+                    Id = item.Id,
+                    MerchantId = item.MerchantId,
+                    MerchantName = item.MerchantName,
+                    DeviceId = item.DeviceId,
+                    MachineName = item.MachineName,
+                    MacAddress = item.MacAddress,
+                });
+            }
+
+
+            PageEntity pageEntity = new PageEntity { PageSize = pageSize, TotalRecord = total, Rows = olist };
 
             return Json(ResultType.Success, pageEntity);
         }

@@ -10,6 +10,7 @@ using Lumos.DAL;
 using Lumos.BLL;
 using Lumos;
 using Lumos.BLL.Service.Admin;
+using System.Collections.Generic;
 
 namespace WebAdmin.Controllers.Sys
 {
@@ -42,19 +43,39 @@ namespace WebAdmin.Controllers.Sys
 
         public CustomJsonResult GetList(RupSysAdminUserGetList rup)
         {
-            var list = (from u in CurrentDb.SysAdminUser
-                        where (rup.UserName == null || u.UserName.Contains(rup.UserName)) &&
-                        (rup.FullName == null || u.FullName.Contains(rup.FullName)) &&
-                        u.IsDelete == false
-                        select new { u.Id, u.UserName, u.FullName, u.Email, u.PhoneNumber, u.CreateTime, u.IsDelete });
+            var query = (from u in CurrentDb.SysAdminUser
+                         where (rup.UserName == null || u.UserName.Contains(rup.UserName)) &&
+                         (rup.FullName == null || u.FullName.Contains(rup.FullName)) &&
+                         u.IsDelete == false
+                         select new { u.Id, u.UserName, u.FullName, u.Email, u.PhoneNumber, u.CreateTime, u.IsDelete });
 
-            int total = list.Count();
+            int total = query.Count();
 
             int pageIndex = rup.PageIndex;
             int pageSize = 10;
-            list = list.OrderByDescending(r => r.CreateTime).Skip(pageSize * (pageIndex)).Take(pageSize);
+            query = query.OrderByDescending(r => r.CreateTime).Skip(pageSize * (pageIndex)).Take(pageSize);
 
-            PageEntity pageEntity = new PageEntity { PageSize = pageSize, TotalRecord = total, Rows = list };
+            var list = query.ToList();
+
+            List<object> olist = new List<object>();
+
+            foreach (var item in list)
+            {
+
+                olist.Add(new
+                {
+                    Id = item.Id,
+                    UserName = item.UserName,
+                    FullName = item.FullName,
+                    Email = item.Email,
+                    PhoneNumber = item.PhoneNumber,
+                    CreateTime = item.CreateTime.ToUnifiedFormatDateTime(),
+                    IsDelete = item.IsDelete
+                });
+            }
+
+
+            PageEntity pageEntity = new PageEntity { PageSize = pageSize, TotalRecord = total, Rows = olist };
 
             return Json(ResultType.Success, pageEntity, "");
         }
@@ -62,19 +83,39 @@ namespace WebAdmin.Controllers.Sys
 
         public CustomJsonResult GetSelectList(RupSysAdminUserGetList rup)
         {
-            var list = (from u in CurrentDb.SysAdminUser
-                        where (rup.UserName == null || u.UserName.Contains(rup.UserName)) &&
-                        (rup.FullName == null || u.FullName.Contains(rup.FullName)) &&
-                        u.IsDelete == false
-                        select new { u.Id, u.UserName, u.FullName, u.Email, u.PhoneNumber, u.CreateTime, u.IsDelete });
+            var query = (from u in CurrentDb.SysAdminUser
+                         where (rup.UserName == null || u.UserName.Contains(rup.UserName)) &&
+                         (rup.FullName == null || u.FullName.Contains(rup.FullName)) &&
+                         u.IsDelete == false
+                         select new { u.Id, u.UserName, u.FullName, u.Email, u.PhoneNumber, u.CreateTime, u.IsDelete });
 
-            int total = list.Count();
+            int total = query.Count();
 
             int pageIndex = rup.PageIndex;
             int pageSize = 10;
-            list = list.OrderByDescending(r => r.CreateTime).Skip(pageSize * (pageIndex)).Take(pageSize);
+            query = query.OrderByDescending(r => r.CreateTime).Skip(pageSize * (pageIndex)).Take(pageSize);
 
-            PageEntity pageEntity = new PageEntity { PageSize = pageSize, TotalRecord = total, Rows = list };
+
+            var list = query.ToList();
+
+            List<object> olist = new List<object>();
+
+            foreach (var item in list)
+            {
+
+                olist.Add(new
+                {
+                    Id = item.Id,
+                    UserName = item.UserName,
+                    FullName = item.FullName,
+                    Email = item.Email,
+                    PhoneNumber = item.PhoneNumber,
+                    CreateTime = item.CreateTime.ToUnifiedFormatDateTime(),
+                    IsDelete = item.IsDelete
+                });
+            }
+
+            PageEntity pageEntity = new PageEntity { PageSize = pageSize, TotalRecord = total, Rows = olist };
 
             return Json(ResultType.Success, pageEntity, "");
         }

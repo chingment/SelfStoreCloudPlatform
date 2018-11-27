@@ -38,9 +38,13 @@ namespace Lumos.Entity
 
         public enum BelongSite
         {
+            [Remark("未知")]
             Unknow = 0,
+            [Remark("管理端")]
             Admin = 1,
+            [Remark("商户端")]
             Merchant = 2,
+            [Remark("客户端")]
             Client = 3,
         }
 
