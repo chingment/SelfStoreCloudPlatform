@@ -91,9 +91,20 @@
         }
 
         function edit() {
+
+            var password = $("#txt_Password").val();
+
             var isValid = $.formValidator.pageIsValid();
             if (!isValid)
                 return false;
+
+            if (password != "") {
+                var isFlag = password.match(regexEnum.password);
+                if (isFlag == null) {
+                    $.lumos.tips('密码由6到20个数字、英文字母或下划线组成');
+                    return;
+                }
+            }
 
             art.dialog.confirm('确定要保存？', function () {
 
@@ -104,7 +115,6 @@
                 });
 
                 var userName = $("#txt_UserName").val();
-                var password = $("#txt_Password").val();
                 var fullName = $("#txt_FullName").val();
                 var email = $("#txt_Email").val();
                 var phoneNumber = $("#txt_PhoneNumber").val();
@@ -142,7 +152,7 @@
     <table class="f-tb" cellpadding="0" cellspacing="1">
         <tr>
             <td class="f-tb-t">
-                <span class="required-symbol">*</span>用户名：
+                用户名：
             </td>
             <td class="f-tb-c">
                 <label id="lbl_UserName"></label>

@@ -52,7 +52,7 @@ namespace WebAdmin.Controllers.Sys
         {
             var roleMenus = AdminServiceFactory.SysRole.GetMenus(this.CurrentUserId, id);
             var isCheckedIds = from p in roleMenus select p.Id;
-            object obj = Newtonsoft.Json.JsonConvert.DeserializeObject(ConvertToZTreeJson(CurrentDb.SysMenu.OrderBy(m => m.Priority).ToArray(), "id", "pid", "name", "menu", isCheckedIds.ToArray()));
+            object obj = ConvertToZTreeJson(CurrentDb.SysMenu.OrderBy(m => m.Priority).ToArray(), "id", "pid", "name", "menu", isCheckedIds.ToArray());
             return Json(ResultType.Success, obj);
 
         }

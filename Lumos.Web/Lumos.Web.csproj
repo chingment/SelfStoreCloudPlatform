@@ -72,6 +72,7 @@
     <Compile Include="Mvc\BaseStatisticsTrackerAttribute.cs" />
     <Compile Include="Mvc\MonitorLog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ZTreeNode.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lumos.Common\Lumos.Common.csproj">

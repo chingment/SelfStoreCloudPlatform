@@ -101,12 +101,11 @@ namespace WebMerch.Controllers
         {
             var query = (from u in CurrentDb.StoreSellStock
                          where u.ProductSkuId == rup.Id
-
+                         && u.MerchantId == this.CurrentMerchantId
                          &&
                          (from d in CurrentDb.StoreMachine
                           where d.IsBind == true
                           select d.StoreId).Contains(u.StoreId)
-
                          select new { u.StoreId, u.ProductSkuId, u.SalePrice }).Distinct();
 
             int total = query.Count();
