@@ -265,7 +265,10 @@
     <Content Include="WebAdmin\Scripts\jquery.resizeEnd.js" />
     <Content Include="WebAdmin\Scripts\jquery.tmpl.min.js" />
     <Content Include="WebAdmin\Scripts\Jquery.tree\jquery.ztree.core-3.2.js" />
+    <Content Include="WebAdmin\Scripts\Jquery.tree\jquery.ztree.core.js" />
     <Content Include="WebAdmin\Scripts\Jquery.tree\jquery.ztree.excheck-3.2.js" />
+    <Content Include="WebAdmin\Scripts\Jquery.tree\jquery.ztree.excheck.js" />
+    <Content Include="WebAdmin\Scripts\Jquery.tree\jquery.ztree.exedit.js" />
     <Content Include="WebAdmin\Scripts\Jquery.tree\zTreeStyle.css" />
     <Content Include="WebAdmin\Scripts\Jquery.tree\zTreeStyle1.css" />
     <Content Include="WebAdmin\Scripts\json2.js" />

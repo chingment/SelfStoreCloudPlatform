@@ -4,6 +4,8 @@
 }
 @section scripts{
     <script type="text/javascript">
+
+
         var num = 0;
         var maxMum = 2;
 
@@ -118,29 +120,6 @@
                 return false;
             })
 
-            $("#maintree_sort_node").click(function () {
-                var selNode = mainTab.treeGetSelectedNode();
-                if (selNode == null) {
-                    $.lumos.tips("请在左边树形结构选中节点信息");
-                    return;
-                }
-
-                if (typeof selNode.children == "undefined") {
-                    $.lumos.tips("该节点没有子节点！");
-                    return;
-                }
-
-                var url = '/Sys/Menu/Sort?id=' + selNode.id;
-                var title = '排序';
-                art.dialog.open(url, {
-                    id: "openDialog", title: title, width: '650px', height: '400px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
-                        this.iframe.contentWindow.edit();
-                        return false;
-                    }
-                });
-
-            });
-
             mainTreeLoadData();
             loadPermissions();
 
@@ -165,6 +144,17 @@
                     if (d.result == $.lumos.resultType.success) {
                         var data = d.data;
                         $.fn.zTree.init($("#" + mainTree_Id), {
+                            edit: {
+                                enable: true,
+                                showRemoveBtn: false,
+                                showRenameBtn: false,
+                                drag: {
+                                    prev: true,
+                                    next: false,
+                                    inner: false
+                                }
+
+                            },
                             view: {
                                 showLine: true,
                                 selectedMulti: false
@@ -175,6 +165,54 @@
                             callback: {
                                 onClick: function treeNodeOnClick(event, treeId, treeNode, clickFlag) {
                                     mainTab.refresh(treeNode.id);
+                                },
+                                beforeDrag: function (treeId, treeNodes) {
+                                    for (var i = 0, l = treeNodes.length; i < l; i++) {
+                                        dragId = treeNodes[i].pId;
+                                        if (treeNodes[i].drag === false) {
+                                            return false;
+                                        }
+                                    }
+
+                                    return true;
+                                },
+                                beforeDrop: function (treeId, treeNodes, targetNode, moveType, isCopy) {
+                                    if (treeNodes[0].level == 0) {
+                                        return false;
+                                    }
+                                    if (targetNode.pId == dragId) {
+                                        return true;
+                                    } else {
+                                        $.lumos.tips('只能进行同级排序！')
+                                        return false;
+                                    }
+                                },
+                                onDrag: function () {
+                                    //console.log("拖拽中");
+                                    return true;
+                                },
+                                onDrop: function (event, treeId, treeNodes, targetNode, moveType, isCopy) {
+
+                                    if (treeNodes[0].pId == dragId && targetNode.pId == dragId) {
+                                        var updateNode = getPeerNodes(targetNode);
+                                        var dics = [];
+                                        for (var i = 0; i < updateNode.length; i++) {
+                                            dics.push({ id: updateNode[i].id, priority: i + 1 });
+                                        }
+
+                                        $.lumos.postJson({
+                                            url: "/Sys/Menu/EditSort",
+                                            isUseHandling: false,
+                                            data: { dics: dics },
+                                            success: function (d) {
+                                                $.lumos.parentDialog.refresh(1);
+                                            }
+                                        });
+
+                                    } else {
+                                        return false;
+                                    }
+                                    return true;
                                 }
                             }
                         }, data);
@@ -263,6 +301,21 @@
                     break;
             }
         }
+
+        var dragId;
+        function getPeerNodes(targetNode) {
+            if (targetNode == null) {
+                return null;
+            } else {
+                if (targetNode.getParentNode() != null) {
+                    return targetNode.getParentNode().children;
+                }
+                return null;
+            }
+
+        }
+
+
     </script>
 }
 
@@ -282,7 +335,6 @@
                 <div class="subcontent">
                     <div class="f-btn-area">
                         <input type="button" class="btn btn-open" id="maintree_add_node" value="新建" />
-                        <input type="button" class="btn btn-open" id="maintree_sort_node" value="排序" />
                         <input type="button" class="btn btn-delete" id="maintree_delete_node" value="删除" />
                     </div>
                     <table class="f-tb" cellpadding="0" cellspacing="1">

@@ -45,20 +45,17 @@ namespace WebAdmin.Controllers.Sys
 
         public CustomJsonResult GetAll(Enumeration.BelongSite belongSite)
         {
-            var arr = CurrentDb.SysMenu.Where(m => m.BelongSite == belongSite).OrderByDescending(m => m.Priority).ToArray();
+            var arr = CurrentDb.SysMenu.Where(m => m.BelongSite == belongSite).OrderBy(m => m.Priority).ToArray();
             object json = ConvertToZTreeJson(arr, "id", "pid", "name", "menu");
             return Json(ResultType.Success, json);
         }
 
         public CustomJsonResult GetByPId(string pId)
         {
-            var arr = CurrentDb.SysMenu.Where(m => m.PId == pId).OrderByDescending(m => m.Priority).ToArray();
+            var arr = CurrentDb.SysMenu.Where(m => m.PId == pId).OrderBy(m => m.Priority).ToArray();
             object json = ConvertToZTreeJson(arr, "id", "pid", "name", "menu");
             return Json(ResultType.Success, json);
         }
-
-
-
 
         [HttpPost]
         [OwnNoResubmit]

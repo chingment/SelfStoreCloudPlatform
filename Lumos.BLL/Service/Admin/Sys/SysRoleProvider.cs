@@ -235,5 +235,29 @@ namespace Lumos.BLL.Service.Admin
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
         }
+
+        public CustomJsonResult EditSort(string operater, RopSysRoleEditSort rop)
+        {
+            if (rop != null)
+            {
+                if (rop.Dics != null)
+                {
+                    foreach (var item in rop.Dics)
+                    {
+                        string id = item.Id;
+                        int priority = item.Priority;
+                        var sysRole = CurrentDb.SysRole.Where(m => m.Id == id).FirstOrDefault();
+                        if (sysRole != null)
+                        {
+                            sysRole.Priority = priority;
+                            CurrentDb.SaveChanges();
+                        }
+                    }
+                }
+            }
+
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
+
+        }
     }
 }

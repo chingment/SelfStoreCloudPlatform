@@ -143,7 +143,7 @@ namespace Lumos.BLL.Service.Admin
                 foreach (var sysOrganization in sysOrganizations)
                 {
 
-                    if (sysOrganization.Dept==0)
+                    if (sysOrganization.Dept == 0)
                     {
                         return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("所选机构（{0}）不允许删除", sysOrganization.Name));
                     }
@@ -162,5 +162,28 @@ namespace Lumos.BLL.Service.Admin
             return result;
         }
 
+        public CustomJsonResult EditSort(string operater, RopSysOrganizationEditSort rop)
+        {
+            if (rop != null)
+            {
+                if (rop.Dics != null)
+                {
+                    foreach (var item in rop.Dics)
+                    {
+                        string id = item.Id;
+                        int priority = item.Priority;
+                        var sysOrganization = CurrentDb.SysOrganization.Where(m => m.Id == id).FirstOrDefault();
+                        if (sysOrganization != null)
+                        {
+                            sysOrganization.Priority = priority;
+                            CurrentDb.SaveChanges();
+                        }
+                    }
+                }
+            }
+
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
+
+        }
     }
 }

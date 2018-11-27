@@ -1171,7 +1171,6 @@
     <Content Include="Views\Shared\MessageBox.cshtml" />
     <Content Include="Views\Sys\Menu\Add.cshtml" />
     <Content Include="Views\Sys\Menu\List.cshtml" />
-    <Content Include="Views\Sys\Menu\Sort.cshtml" />
     <Content Include="Views\Sys\Role\Add.cshtml" />
     <Content Include="Views\Sys\Role\List.cshtml" />
     <Content Include="Views\Sys\AdminUser\Add.cshtml" />

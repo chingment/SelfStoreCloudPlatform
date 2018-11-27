@@ -201,7 +201,7 @@ namespace Lumos.DAL.AuthorizeRelay
 
             if (model != null)
             {
-                listMenu = model.OrderByDescending(m => m.Priority).ToList();
+                listMenu = model.OrderBy(m => m.Priority).ToList();
             }
             return listMenu;
         }

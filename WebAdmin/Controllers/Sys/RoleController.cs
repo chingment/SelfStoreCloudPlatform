@@ -38,7 +38,7 @@ namespace WebAdmin.Controllers.Sys
 
         public CustomJsonResult GetAll(Enumeration.BelongSite belongSite)
         {
-            var arr = CurrentDb.SysRole.Where(m => m.BelongSite == belongSite).OrderByDescending(m => m.Priority).ToArray();
+            var arr = CurrentDb.SysRole.Where(m => m.BelongSite == belongSite).OrderBy(m => m.Priority).ToArray();
             object json = ConvertToZTreeJson(arr, "id", "pid", "name", "role");
             return Json(ResultType.Success, json);
         }
@@ -52,7 +52,7 @@ namespace WebAdmin.Controllers.Sys
         {
             var roleMenus = AdminServiceFactory.SysRole.GetMenus(this.CurrentUserId, id);
             var isCheckedIds = from p in roleMenus select p.Id;
-            object obj = Newtonsoft.Json.JsonConvert.DeserializeObject(ConvertToZTreeJson(CurrentDb.SysMenu.OrderByDescending(m => m.Priority).ToArray(), "id", "pid", "name", "menu", isCheckedIds.ToArray()));
+            object obj = Newtonsoft.Json.JsonConvert.DeserializeObject(ConvertToZTreeJson(CurrentDb.SysMenu.OrderBy(m => m.Priority).ToArray(), "id", "pid", "name", "menu", isCheckedIds.ToArray()));
             return Json(ResultType.Success, obj);
 
         }
@@ -83,6 +83,12 @@ namespace WebAdmin.Controllers.Sys
         public CustomJsonResult Delete(string id)
         {
             return AdminServiceFactory.SysRole.Delete(this.CurrentUserId, id);
+        }
+
+        [HttpPost]
+        public CustomJsonResult EditSort(RopSysRoleEditSort rop)
+        {
+            return AdminServiceFactory.SysRole.EditSort(this.CurrentUserId, rop);
         }
 
         #endregion

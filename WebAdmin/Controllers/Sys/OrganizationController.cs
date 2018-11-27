@@ -59,5 +59,10 @@ namespace WebAdmin.Controllers.Sys
             return AdminServiceFactory.SysOrganization.Delete(this.CurrentUserId, id);
         }
 
+        [HttpPost]
+        public CustomJsonResult EditSort(RopSysOrganizationEditSort rop)
+        {
+            return AdminServiceFactory.SysOrganization.EditSort(this.CurrentUserId, rop);
+        }
     }
 }

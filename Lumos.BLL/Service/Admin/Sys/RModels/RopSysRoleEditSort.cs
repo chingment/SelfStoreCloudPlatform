@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.Admin
 {
-    public class RopSysMenuEditSort
+    public class RopSysRoleEditSort
     {
         public List<Dic> Dics { get; set; }
 

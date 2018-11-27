@@ -238,12 +238,12 @@ namespace Lumos.BLL.Service.Admin
                 {
                     foreach (var item in rop.Dics)
                     {
-                        string menuId = item.MenuId;
+                        string id = item.Id;
                         int priority = item.Priority;
-                        SysMenu model = CurrentDb.SysMenu.Where(m => m.Id == menuId).FirstOrDefault();
-                        if (model != null)
+                        var sysMenu = CurrentDb.SysMenu.Where(m => m.Id == id).FirstOrDefault();
+                        if (sysMenu != null)
                         {
-                            model.Priority = priority;
+                            sysMenu.Priority = priority;
                             CurrentDb.SaveChanges();
                         }
                     }
