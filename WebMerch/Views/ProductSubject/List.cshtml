@@ -244,6 +244,16 @@
                     if (d.result == $.lumos.resultType.success) {
                         var data = d.data;
                         $.fn.zTree.init($("#" + mainTree_Id), {
+                            edit: {
+                                enable: true,
+                                showRemoveBtn: false,
+                                showRenameBtn: false,
+                                drag: {
+                                    prev: true,
+                                    next: false,
+                                    inner: false
+                                }
+                            },
                             view: {
                                 showLine: true,
                                 selectedMulti: false
@@ -254,6 +264,54 @@
                             callback: {
                                 onClick: function treeNodeOnClick(event, treeId, treeNode, clickFlag) {
                                     mainTab.refresh(treeNode.id);
+                                },
+                                beforeDrag: function (treeId, treeNodes) {
+                                    for (var i = 0, l = treeNodes.length; i < l; i++) {
+                                        dragId = treeNodes[i].pId;
+                                        if (treeNodes[i].drag === false) {
+                                            return false;
+                                        }
+                                    }
+
+                                    return true;
+                                },
+                                beforeDrop: function (treeId, treeNodes, targetNode, moveType, isCopy) {
+                                    if (treeNodes[0].level == 0) {
+                                        return false;
+                                    }
+                                    if (targetNode.pId == dragId) {
+                                        return true;
+                                    } else {
+                                        $.lumos.tips('只能进行同级排序！')
+                                        return false;
+                                    }
+                                },
+                                onDrag: function () {
+                                    //console.log("拖拽中");
+                                    return true;
+                                },
+                                onDrop: function (event, treeId, treeNodes, targetNode, moveType, isCopy) {
+
+                                    if (treeNodes[0].pId == dragId && targetNode.pId == dragId) {
+                                        var updateNode = getPeerNodes(targetNode);
+                                        var dics = [];
+                                        for (var i = 0; i < updateNode.length; i++) {
+                                            dics.push({ id: updateNode[i].id, priority: i + 1 });
+                                        }
+
+                                        $.lumos.postJson({
+                                            url: "ProductSubject/EditSort",
+                                            isUseHandling: false,
+                                            data: { dics: dics },
+                                            success: function (d) {
+                                                $.lumos.parentDialog.refresh(1);
+                                            }
+                                        });
+
+                                    } else {
+                                        return false;
+                                    }
+                                    return true;
                                 }
                             }
                         }, data);
@@ -276,7 +334,18 @@
             }
         }
 
+        var dragId;
+        function getPeerNodes(targetNode) {
+            if (targetNode == null) {
+                return null;
+            } else {
+                if (targetNode.getParentNode() != null) {
+                    return targetNode.getParentNode().children;
+                }
+                return null;
+            }
 
+        }
 
         //-->
     </script>

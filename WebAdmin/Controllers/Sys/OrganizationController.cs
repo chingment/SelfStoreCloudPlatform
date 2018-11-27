@@ -27,7 +27,7 @@ namespace WebAdmin.Controllers.Sys
         public CustomJsonResult GetAll()
         {
 
-            var arr = CurrentDb.SysOrganization.Where(m => m.BelongSite == Enumeration.BelongSite.Admin && m.IsDelete == false).OrderByDescending(m => m.Priority).ToArray();
+            var arr = CurrentDb.SysOrganization.Where(m => m.BelongSite == Enumeration.BelongSite.Admin && m.IsDelete == false).OrderBy(m => m.Priority).ToArray();
 
             object json = ConvertToZTreeJson(arr, "id", "pid", "name", "menu");
             return Json(ResultType.Success, json);

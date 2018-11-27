@@ -1096,7 +1096,6 @@
     <Content Include="Views\Sys\BackgroundJob\ListByLog.cshtml" />
     <Content Include="Views\Sys\Organization\Add.cshtml" />
     <Content Include="Views\Sys\Organization\List.cshtml" />
-    <Content Include="Views\Sys\Organization\Sort.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

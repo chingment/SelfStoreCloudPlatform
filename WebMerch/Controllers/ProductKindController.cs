@@ -110,5 +110,12 @@ namespace WebMerch.Controllers
 
             return Json(ResultType.Success, pageEntity);
         }
+
+
+        [HttpPost]
+        public CustomJsonResult EditSort(RopProductKindEditSort rop)
+        {
+            return MerchServiceFactory.ProductKind.EditSort(this.CurrentUserId, this.CurrentMerchantId, rop);
+        }
     }
 }

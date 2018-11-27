@@ -250,9 +250,11 @@
     <Compile Include="Service\Merch\RModels\RopProducSkuEdit.cs" />
     <Compile Include="Service\Merch\RModels\RopProductKindAdd.cs" />
     <Compile Include="Service\Merch\RModels\RopProductKindEdit.cs" />
+    <Compile Include="Service\Merch\RModels\RopProductKindEditSort.cs" />
     <Compile Include="Service\Merch\RModels\RopProductSkuEditSalePrice.cs" />
     <Compile Include="Service\Merch\RModels\RopProductSubjectAdd.cs" />
     <Compile Include="Service\Merch\RModels\RopProductSubjectEdit.cs" />
+    <Compile Include="Service\Merch\RModels\RopProductSubjectEditSort.cs" />
     <Compile Include="Service\Merch\RModels\RopReplenishStaffBindMobile.cs" />
     <Compile Include="Service\Merch\RModels\RopStoreAdd.cs" />
     <Compile Include="Service\Merch\RModels\RopStoreEdit.cs" />

@@ -167,5 +167,11 @@ namespace WebMerch.Controllers
 
             return Json(ResultType.Success, olist, "");
         }
+
+        [HttpPost]
+        public CustomJsonResult EditSort(RopProductSubjectEditSort rop)
+        {
+            return MerchServiceFactory.ProductSubject.EditSort(this.CurrentUserId, this.CurrentMerchantId, rop);
+        }
     }
 }

@@ -199,5 +199,29 @@ namespace Lumos.BLL.Service.Merch
 
         }
 
+        public CustomJsonResult EditSort(string operater, string merchantId, RopProductKindEditSort rop)
+        {
+            if (rop != null)
+            {
+                if (rop.Dics != null)
+                {
+                    foreach (var item in rop.Dics)
+                    {
+                        string id = item.Id;
+                        int priority = item.Priority;
+                        var sysRole = CurrentDb.ProductKind.Where(m => m.MerchantId == merchantId && m.Id == id).FirstOrDefault();
+                        if (sysRole != null)
+                        {
+                            sysRole.Priority = priority;
+                            CurrentDb.SaveChanges();
+                        }
+                    }
+                }
+            }
+
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
+
+        }
+
     }
 }
