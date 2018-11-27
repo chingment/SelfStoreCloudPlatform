@@ -28,7 +28,7 @@ namespace WebMerch.Controllers
 
         public CustomJsonResult GetAll()
         {
-            var arr = CurrentDb.ProductSubject.Where(m => m.MerchantId == this.CurrentMerchantId && m.IsDelete == false).OrderByDescending(m => m.Priority).ToArray();
+            var arr = CurrentDb.ProductSubject.Where(m => m.MerchantId == this.CurrentMerchantId && m.IsDelete == false).OrderBy(m => m.Priority).ToArray();
             object json = ConvertToZTreeJson(arr, "id", "pid", "name", "menu");
             return Json(ResultType.Success, json);
 

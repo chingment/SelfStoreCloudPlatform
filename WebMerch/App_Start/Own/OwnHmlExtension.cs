@@ -201,7 +201,7 @@ namespace System.Web
 
             LumosDbContext dbContext = new LumosDbContext();
             string merchantId = OwnRequest.GetCurrentMerchantId();
-            var productKind = dbContext.ProductKind.Where(m => m.MerchantId == merchantId).Where(m => m.IsDelete == false).ToList();
+            var productKind = dbContext.ProductKind.Where(m => m.MerchantId == merchantId).Where(m => m.IsDelete == false).OrderBy(m => m.Priority).ToList();
             StringBuilder sb = new StringBuilder();
 
             string id = name.Replace('.', '_');
@@ -330,7 +330,7 @@ namespace System.Web
 
             LumosDbContext dbContext = new LumosDbContext();
             string merchantId = OwnRequest.GetCurrentMerchantId();
-            var productSubject = dbContext.ProductSubject.Where(m => m.MerchantId == merchantId).Where(m => m.IsDelete == false).ToList();
+            var productSubject = dbContext.ProductSubject.Where(m => m.MerchantId == merchantId).Where(m => m.IsDelete == false).OrderBy(m => m.Priority).ToList();
             StringBuilder sb = new StringBuilder();
 
             string id = name.Replace('.', '_');
