@@ -1,10 +1,14 @@
 ﻿using Lumos.Common;
 using System;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.IO;
 using System.Text;
 using Lumos;
+using Lumos.BLL;
+using System.Collections.Generic;
+using Lumos.Entity;
 
 namespace WebMerch.Controllers
 {
@@ -131,7 +135,7 @@ namespace WebMerch.Controllers
             {
                 rm.Result = ResultType.Exception;
                 rm.Message = "上传图片发生异常..";
-                LogUtil.Error("",ex);
+                LogUtil.Error("", ex);
 
             }
             return rm;
@@ -152,6 +156,143 @@ namespace WebMerch.Controllers
             Session[name] = code;   //Session 取出验证码
             Response.End();
             return null;
+        }
+
+        public CustomJsonResult GetSelectFields(string type)
+        {
+            if (type == null)
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "类型为空");
+
+            var result = new CustomJsonResult();
+
+            var fields = new List<FieldModel>();
+
+            type = type.ToLower();
+
+            switch (type)
+            {
+                case "warehouse":
+                    #region warehouse
+                    var warehouses = CurrentDb.Warehouse.Where(m => m.MerchantId == this.CurrentMerchantId).ToList();
+
+                    foreach (var item in warehouses)
+                    {
+                        fields.Add(new FieldModel(item.Name, item.Id));
+                    }
+
+                    #endregion
+                    break;
+                case "stockouttarget":
+                    #region sysorganization
+                    var stores = CurrentDb.Store.Where(m => m.MerchantId == this.CurrentMerchantId).ToList();
+                    foreach (var item in stores)
+                    {
+                        fields.Add(new FieldModel(string.Format("[店铺]{0}", item.Name), item.Id, 2));
+                    }
+                    #endregion 
+                    break;
+                case "supplier":
+                    #region sysorganization
+                    var suppliers = CurrentDb.Company.Where(m => m.Class == Lumos.Entity.Enumeration.CompanyClass.Supplier && m.MerchantId == this.CurrentMerchantId).ToList();
+
+                    foreach (var item in suppliers)
+                    {
+                        fields.Add(new FieldModel(item.Name, item.Id));
+                    }
+                    #endregion 
+                    break;
+                case "recipientmode":
+                    #region recipientmode
+                    Enumeration.ReceptionMode[] models = new Enumeration.ReceptionMode[2] { Enumeration.ReceptionMode.Machine, Enumeration.ReceptionMode.Express };
+
+                    foreach (Enumeration.ReceptionMode t in models)
+                    {
+                        string strKey = Convert.ToInt32(t).ToString();
+                        Enum en = (Enum)Enum.Parse(t.GetType(), strKey);
+                        string strValue = en.GetCnName();
+                        fields.Add(new FieldModel(strValue, strKey));
+
+                    }
+                    #endregion
+                    break;
+                case "productkind":
+                    var productKinds = CurrentDb.ProductKind.Where(m => m.MerchantId == this.CurrentMerchantId).Where(m => m.IsDelete == false).OrderBy(m => m.Priority).ToList();
+
+                    foreach (var item in productKinds)
+                    {
+                        var field = new FieldModel();
+                        field.Name = item.Name;
+                        field.Value = item.Id;
+                        field.PValue = item.PId;
+                        field.Dept = item.Dept;
+                        if (item.Dept <= 1)
+                        {
+                            field.Disabled = true;
+                        }
+                        else
+                        {
+                            field.Disabled = false;
+                        }
+                        fields.Add(field);
+                    }
+
+                    break;
+                case "productkindstatus":
+                    #region productkindstatus
+                    foreach (Enumeration.ProductKindStatus t in Enum.GetValues(typeof(Enumeration.ProductKindStatus)))
+                    {
+                        string strKey = Convert.ToInt32(t).ToString();
+                        Enum en = (Enum)Enum.Parse(t.GetType(), strKey);
+                        string strValue = en.GetCnName();
+                        if (strKey != "0")
+                        {
+                            fields.Add(new FieldModel(strValue, strKey));
+                        }
+                    }
+                    #endregion
+                    break;
+                case "productsubject":
+                    var productSubjects = CurrentDb.ProductSubject.Where(m => m.MerchantId == this.CurrentMerchantId).Where(m => m.IsDelete == false).OrderBy(m => m.Priority).ToList();
+
+                    foreach (var item in productSubjects)
+                    {
+                        var field = new FieldModel();
+                        field.Name = item.Name;
+                        field.Value = item.Id;
+                        field.PValue = item.PId;
+                        field.Dept = item.Dept;
+                        if (item.Dept <= 0)
+                        {
+                            field.Disabled = true;
+                        }
+                        else
+                        {
+                            field.Disabled = false;
+                        }
+                        fields.Add(field);
+                    }
+                    break;
+                case "productsubjectstatus":
+                    #region
+                    foreach (Enumeration.ProductSubjectStatus t in Enum.GetValues(typeof(Enumeration.ProductSubjectStatus)))
+                    {
+                        string strKey = Convert.ToInt32(t).ToString();
+                        Enum en = (Enum)Enum.Parse(t.GetType(), strKey);
+                        string strValue = en.GetCnName();
+                        if (strKey != "0")
+                        {
+                            fields.Add(new FieldModel(strValue, strKey));
+                        }
+                    }
+                    #endregion
+                    break;
+
+            }
+
+
+
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", fields);
+
         }
     }
 }

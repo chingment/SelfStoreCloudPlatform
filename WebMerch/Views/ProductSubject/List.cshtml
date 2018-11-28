@@ -39,6 +39,8 @@
             $("#sel_Status").formValidator().inputValidator({ min: 1, max: 500, onError: "请选择状态" });
             $("#txt_Description").formValidator().inputValidator({ min: 0, max: 500, onError: "描述不能超过500个字符" });
 
+            $('#sel_Status').myChosen({ urlParams: { type: "productsubjectstatus" } });
+
             $("#maintree_add_node").click(function () {
 
                 var selNode = mainTab.treeGetSelectedNode();
@@ -429,7 +431,9 @@
                                     <span class="required-symbol">*</span>状态：
                                 </td>
                                 <td class="f-tb-c">
-                                    @(Html.initEnumeration<Lumos.Entity.Enumeration.ProductSubjectStatus>(Lumos.Entity.Enumeration.InputType.Select, "sel.Status", new { @class = "select-control", defaulttext = "请选择", hidevalue = new Lumos.Entity.Enumeration.ProductSubjectStatus[] { Lumos.Entity.Enumeration.ProductSubjectStatus.Unknow } }))
+                                    <select id="sel_Status" data-placeholder="请选择" class="chosen-select">
+                                        <option value="-1"></option>
+                                    </select>
                                 </td>
                             </tr>
                             <tr>

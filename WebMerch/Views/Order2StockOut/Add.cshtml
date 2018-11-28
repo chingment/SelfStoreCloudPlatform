@@ -29,10 +29,12 @@
             addRowSku();
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
             $("#txt_StockOutTime").formValidator().inputValidator({ min: 1, max: 50, onError: "请选择日期" });
-            $("#sel_WarehouseId").formValidator().inputValidator({ min: 1, max: 500, onError: "请选择仓库" });
-            $("#sel_TargetId").formValidator().inputValidator({ min: 1, max: 500, onError: "请选择" });
+            $("#sel_Warehouses").formValidator().inputValidator({ min: 1, max: 500, onError: "请选择仓库" });
+            $("#sel_Targets").formValidator().inputValidator({ min: 1, max: 500, onError: "请选择" });
 
 
+            $('#sel_Warehouses').myChosen({ urlParams: { type: "Warehouse" } });
+            $('#sel_Targets').myChosen({ urlParams: { type: "stockouttarget" } });
 
             $('.deleteRowSku').live("click", function () {
                 var _this = $(this);
@@ -96,10 +98,10 @@
             function () {
 
                 var stockOutTime = $("#txt_StockOutTime").val();
-                var warehouseId = $("#sel_WarehouseId").val();
-                var targetId = $("#sel_TargetId").find("option:selected").val();
-                var targetName = $("#sel_TargetId").find("option:selected").attr("name");
-                var targetType = $("#sel_TargetId").find("option:selected").attr("type");
+                var warehouseId = $("#sel_Warehouses").val();
+                var targetId = $("#sel_Targets").find("option:selected").val();
+                var targetName = $("#sel_Targets").find("option:selected").attr("name");
+                var targetType = $("#sel_Targets").find("option:selected").attr("type");
                 var description = $("#txt_Description").val()
 
                 $.lumos.postJson({
@@ -182,13 +184,17 @@
                 仓库<span class="required-symbol">*</span>：
             </td>
             <td class="f-tb-c">
-                @Html.initWarehouse("sel.WarehouseId")
+                <select id="sel_Warehouses" data-placeholder="请选择" class="chosen-select">
+                    <option value="-1"></option>
+                </select>
             </td>
             <td class="f-tb-t" style="width:50px">
                 目的处<span class="required-symbol">*</span>：
             </td>
             <td class="f-tb-c">
-                @Html.initOrder2StockOutTarget("sel.TargetId")
+                <select id="sel_Targets" data-placeholder="请选择" class="chosen-select">
+                    <option value="-1"></option>
+                </select>
             </td>
         </tr>
         <tr>

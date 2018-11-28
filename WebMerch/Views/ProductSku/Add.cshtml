@@ -32,6 +32,11 @@
             $("#dispalyImgs_ImgUrl_0").formValidator().inputValidator({ min: 1, max: 500, onError: "请上传商品封面图片" });
             $("#txt_BriefInfo").formValidator().inputValidator({ min: 1, max: 100, onError: "商品简短描述不能为空,且不超过100个字符" });
 
+            $("#sel_Kinds").myChosen({ urlParams: { type: "productkind" }, max_selected_options: 2 });
+            $("#sel_Subjects").myChosen({ urlParams: { type: "productsubject" }, max_selected_options: 3 });
+            $('#sel_RecipientModes').myChosen({ urlParams: { type: "RecipientMode" }, max_selected_options: 2 });
+
+
         });
 
         function add() {
@@ -196,7 +201,9 @@
                 所属模块<span class="required-symbol">*</span>：
             </td>
             <td class="f-tb-c">
-                @Html.initProductKind("sel.Kinds")
+                <select multiple='multiple' id="sel_Kinds" name="sel.Kinds" data-placeholder="请选择" class="chosen-select" style="width:250px">
+                    <option value="-1"></option>
+                </select>
             </td>
         </tr>
         <tr>
@@ -204,13 +211,17 @@
                 所属栏目：
             </td>
             <td class="f-tb-c">
-                @Html.initProductSubject("sel.Subjects")
+                <select multiple='multiple' id="sel_Subjects" name="sel.Subjects"  data-placeholder="请选择" class="chosen-select" style="width:250px">
+                    <option value="-1"></option>
+                </select>
             </td>
         </tr>
         <tr>
             <td class="f-tb-t" style="width:50px">收货模式<span class="required-symbol">*</span>：</td>
             <td class="f-tb-c">
-                @Html.initRecipientMode("sel.RecipientModes")
+                <select multiple='multiple' id="sel_RecipientModes" name="sel.RecipientModes"  data-placeholder="请选择" class="chosen-select" style="width:250px">
+                    <option value="-1"></option>
+                </select>
             </td>
         </tr>
         <tr>

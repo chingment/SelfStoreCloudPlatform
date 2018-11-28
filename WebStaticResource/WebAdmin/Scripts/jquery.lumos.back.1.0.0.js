@@ -1969,7 +1969,8 @@
         opts = $.extend({
             url: "/Common/GetSelectFields",
             urlParams: null,
-            selectedValue: null
+            selectedValue: null,
+            max_selected_options: 1
         }, opts || {});
 
         var _this = $(this);
@@ -1977,7 +1978,7 @@
         var _url = opts.url;
         var _urlParams = opts.urlParams;
         var _selectedValue = opts.selectedValue;
-
+        var _max_selected_options = opts.max_selected_options;
 
         function getPValue(data) {
 
@@ -1985,9 +1986,15 @@
             if (!isArr)
                 return null;
 
-            if (typeof data[0].pValue == "undefined" || data[0].pValue == null) {
+            if (data.length == 0)
+                return null;
+
+            if (typeof (data[0].pValue) == "undefined") {
                 return null;
             }
+
+            if (data[0].pValue == null)
+                return null;
 
             function find(id) {
                 var isFlag = false;
@@ -2026,11 +2033,33 @@
                             selected = "selected";
                         }
                     }
+                    else
+                    {
+                        var index = $.inArray(data[i].value, _selectedValue);
+                        if (index >= 0) {
+                            selected = "selected";
+                        }
+                    }
 
-                    html += "<option value='" + data[i].value + "' " + selected + "  >" + data[i].name + "</option>";
+                    var disabled = "";
+
+                    if (data[i].disabled == true) {
+                        disabled = "disabled";
+                    }
+
+                    html += "<option name" + data[i].name + " type=" + data[i].type + " value='" + data[i].value + "' " + selected + " " + disabled + "  >" + getDept(data[i].dept) + data[i].name + "</option>";
                     toTree(data, data[i].value, _selectedValue);
                 }
             }
+        }
+
+        function getDept(dept) {
+            var nll = "";
+            for (var i = 0; i < dept; i++) {
+                nll += "&nbsp;&nbsp;&nbsp;&nbsp;";
+            }
+
+            return nll;
         }
 
         function toSingle(data, _selectedValue) {
@@ -2043,8 +2072,20 @@
                         selected = "selected";
                     }
                 }
+                else {
+                    var index = $.inArray(data[i].value, _selectedValue);
+                    if (index >= 0) {
+                        selected = "selected";
+                    }
+                }
 
-                html += "<option value='" + data[i].value + "' " + selected + " >" + data[i].name + "</option>";
+                var disabled = "";
+
+                if (data[i].disabled == true) {
+                    disabled = "disabled";
+                }
+
+                html += "<option name" + data[i].name + " type=" + data[i].type + " value='" + data[i].value + "' " + selected + " " + disabled + " >" + getDept(data[i].dept) + data[i].name + "</option>";
             }
         }
 
@@ -2059,14 +2100,16 @@
                     //alert(getPValue(d.data))
                     var data = d.data;
                     var topId = getPValue(data);
+
                     if (topId == null) {
+
                         toSingle(data, _selectedValue);
                     }
                     else {
                         toTree(data, topId, _selectedValue);
                     }
                     $(_this).append(html);
-                    $(_this).chosen({ search_contains: true });
+                    $(_this).chosen({ search_contains: true, max_selected_options: _max_selected_options });
 
                 }
             }

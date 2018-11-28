@@ -29,8 +29,8 @@
 
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
             $("#txt_Name").formValidator().inputValidator({ min: 1, max: 50, onError: "商品名称不能为空,且不超过50个字符" });
-            $("#sel_Kinds").formValidator().inputValidator({ min: 1, max: 2, onError: "请选择所属模块,最多选择2个" });
-            $("#sel_Subjects").formValidator().inputValidator({ min: 1, max: 3, onError: "请选择所属栏目,最多选择3个" });
+            $("#sel_Kinds").formValidator().inputValidator({ min: 1, max: 50, onError: "请选择所属模块,最多选择2个" });
+            $("#sel_Subjects").formValidator().inputValidator({ min: 1, max: 50, onError: "请选择所属栏目,最多选择3个" });
             $("#sel_RecipientModes").formValidator().inputValidator({ min: 1, max: 2, onError: "请选择收货模式，至少选择一种" });
             $("#txt_ShowPrice").formValidator().inputValidator({ min: 1, max: 50, onError: "市场价不能为空,且不超过50个字符" });
             $("#txt_ShowPrice").decimalInput(2);
@@ -76,6 +76,8 @@
                 var detailsDes = CKEDITOR.instances.txt_DetailsDes.getData();
                 var dispalyImgUrls = $('#list_GoodsPic').val2ImgArr();
 
+
+
                 $.lumos.postJson({
                     isUseHandling: true,
                     url: "/ProductSku/Edit",
@@ -113,9 +115,9 @@
                     if (d.result == $.lumos.resultType.success) {
                         var data = d.data;
                         $('#txt_Name').val(data.name);
-                        $('#sel_Kinds').val2Arr(data.kindIds);
-                        $('#sel_Subjects').val2Arr(data.subjectIds);
-                        $('#sel_RecipientModes').val2Arr(data.recipientModeIds);
+                        $("#sel_Kinds").myChosen({ urlParams: { type: "productkind" }, max_selected_options: 2, selectedValue: data.kindIds });
+                        $("#sel_Subjects").myChosen({ urlParams: { type: "productsubject" }, max_selected_options: 3, selectedValue: data.subjectIds });
+                        $('#sel_RecipientModes').myChosen({ urlParams: { type: "RecipientMode" }, max_selected_options: 2, selectedValue: data.recipientModeIds });
                         $('#txt_ShowPrice').val(data.showPrice);
                         $('#txt_SalePrice').val(data.salePrice);
                         $('#txt_BriefInfo').val(data.briefInfo);
@@ -245,7 +247,9 @@
                 所属模块<span class="required-symbol">*</span>：
             </td>
             <td class="f-tb-c">
-                @Html.initProductKind("sel.Kinds")
+                <select multiple='multiple' id="sel_Kinds" name="sel.Kinds" data-placeholder="请选择" class="chosen-select" style="width:250px">
+                    <option value="-1"></option>
+                </select>
             </td>
         </tr>
         <tr>
@@ -253,13 +257,17 @@
                 所属栏目<span class="required-symbol">*</span>：
             </td>
             <td class="f-tb-c">
-                @Html.initProductSubject("sel.Subjects")
+                <select multiple='multiple' id="sel_Subjects" name="sel.Subjects" data-placeholder="请选择" class="chosen-select" style="width:250px">
+                    <option value="-1"></option>
+                </select>
             </td>
         </tr>
         <tr>
             <td class="f-tb-t" style="width:50px">收货模式<span class="required-symbol">*</span>：</td>
             <td class="f-tb-c">
-                @Html.initRecipientMode("sel.RecipientModes")
+                <select multiple='multiple' id="sel_RecipientModes" name="sel.RecipientModes"  data-placeholder="请选择" class="chosen-select" style="width:250px">
+                    <option value="-1"></option>
+                </select>
             </td>
         </tr>
         <tr>

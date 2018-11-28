@@ -29,10 +29,11 @@
             addRowSku();
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
             $("#txt_StockInTime").formValidator().inputValidator({ min: 1, max: 50, onError: "请选择日期" });
-            $("#sel_WarehouseId").formValidator().inputValidator({ min: 1, max: 500, onError: "请选择仓库" });
-            $("#sel_SupplierId").formValidator().inputValidator({ min: 1, max: 500, onError: "请选择供应商" });
+            $("#sel_Warehouses").formValidator().inputValidator({ min: 1, max: 500, onError: "请选择仓库" });
+            $("#sel_Suppliers").formValidator().inputValidator({ min: 1, max: 500, onError: "请选择供应商" });
 
-
+            $('#sel_Warehouses').myChosen({ urlParams: { type: "Warehouse" } });
+            $('#sel_Suppliers').myChosen({ urlParams: { type: "Supplier" } });
 
             $('.deleteRowSku').live("click", function () {
                 var _this = $(this);
@@ -101,8 +102,8 @@
             function () {
 
                 var stockInTime = $("#txt_StockInTime").val();
-                var warehouseId = $("#sel_WarehouseId").val();
-                var supplierId = $("#sel_SupplierId").val();
+                var warehouseId = $("#sel_Warehouses").val();
+                var supplierId = $("#sel_Suppliers").val();
                 var description = $("#txt_Description").val()
 
                 $.lumos.postJson({
@@ -182,13 +183,17 @@
                 仓库<span class="required-symbol">*</span>：
             </td>
             <td class="f-tb-c">
-                @Html.initWarehouse("sel.WarehouseId")
+                <select id="sel_Warehouses" data-placeholder="请选择" class="chosen-select">
+                    <option value="-1"></option>
+                </select>
             </td>
             <td class="f-tb-t" style="width:50px">
                 供应商<span class="required-symbol">*</span>：
             </td>
             <td class="f-tb-c">
-                @Html.initCompany(Lumos.Entity.Enumeration.CompanyClass.Supplier, "sel.SupplierId")
+                <select id="sel_Suppliers" data-placeholder="请选择" class="chosen-select">
+                    <option value="-1"></option>
+                </select>
             </td>
         </tr>
         <tr>
