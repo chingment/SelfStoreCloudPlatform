@@ -9,7 +9,6 @@ namespace Lumos.Entity
     {
         [Key]
         public string Id { get; set; }
-
         public string PId { get; set; }
         [MaxLength(128)]
         public string Name { get; set; }
@@ -22,7 +21,6 @@ namespace Lumos.Entity
         public DateTime CreateTime { get; set; }
         public string Mender { get; set; }
         public DateTime? MendTime { get; set; }
-        public Enumeration.BelongSite BelongSite { get; set; }
         public int Dept { get; set; }
     }
 }

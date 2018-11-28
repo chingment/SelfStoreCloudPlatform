@@ -214,5 +214,56 @@ namespace System.Web
             sb.Append("</select>");
             return new MvcHtmlString(sb.ToString());
         }
+
+        public static MvcHtmlString initOrganization(this HtmlHelper helper, string name, string selectval = null)
+        {
+
+            LumosDbContext dbContext = new LumosDbContext();
+            var sysOrganization = dbContext.SysOrganization.Where(m => m.IsDelete == false).OrderBy(m => m.Priority).ToList();
+            StringBuilder sb = new StringBuilder();
+
+            string id = name.Replace('.', '_');
+            sb.Append("<select id=\"" + id + "\" name=\"" + name + "\" data-placeholder=\"请选择\" class=\"chosen-select\"  style=\"width: 325px;\" >");
+
+
+            var p_category = sysOrganization.Where(m => m.Dept == 0).ToList();
+
+            string[] arr_selectval = null;
+
+            if (selectval != null)
+            {
+                arr_selectval = selectval.Split(',');
+            }
+
+            foreach (var m in p_category)
+            {
+                sb.Append("<option value=\"" + m.Id + "\"   >&nbsp;" + m.Name + "</option>");
+
+                GetOrganizationNodes(sb, sysOrganization, m.Id, 1, arr_selectval);
+            }
+
+            sb.Append("</select>");
+            return new MvcHtmlString(sb.ToString());
+        }
+
+        private static void GetOrganizationNodes(StringBuilder sb, List<SysOrganization> sysOrganization, string pId, int nLevel, string[] arr_selectval)
+        {
+
+            var catalogList = sysOrganization.Where(m => m.PId == pId).ToList();
+
+            string _s = "";
+            for (int i = 0; i <= nLevel; i++)
+            {
+                _s += "&nbsp;&nbsp;";
+            }
+            _s += "&nbsp;&nbsp;";
+            nLevel += 1;
+
+            foreach (var m in catalogList)
+            {
+                sb.Append("<option value=\"" + m.Id + "\"   >" + _s + m.Name + "</option>");
+                GetOrganizationNodes(sb, sysOrganization, m.Id, nLevel, arr_selectval);
+            }
+        }
     }
 }

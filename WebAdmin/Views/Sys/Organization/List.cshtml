@@ -9,7 +9,6 @@
         var mainTree_Id = "maintree";
         var mainTree_RPositions;
         var mainTab;
-        var belongSite = $.lumos.getUrlParamValue("belongSite");
         $(this).ready(function () {
 
             mainTab = $("#tab_Main").tab({
@@ -157,7 +156,7 @@
                     return;
                 }
 
-                var url = '/Sys/Position/Add?organizationId=' + selNode.id + '&organizationName=' + escape(selNode.name)
+                var url = '/Sys/Position/Add';
                 var title = '添加';
                 art.dialog.open(url, {
                     id: "openDialog", title: title, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '确定', ok: function () {

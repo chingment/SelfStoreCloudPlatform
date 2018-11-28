@@ -80,7 +80,6 @@ namespace WebAdmin.Controllers.Sys
             return Json(ResultType.Success, pageEntity, "");
         }
 
-
         public CustomJsonResult GetSelectList(RupSysAdminUserGetList rup)
         {
             var query = (from u in CurrentDb.SysAdminUser
@@ -119,8 +118,6 @@ namespace WebAdmin.Controllers.Sys
 
             return Json(ResultType.Success, pageEntity, "");
         }
-
-
 
         public CustomJsonResult GetDetails(string id)
         {

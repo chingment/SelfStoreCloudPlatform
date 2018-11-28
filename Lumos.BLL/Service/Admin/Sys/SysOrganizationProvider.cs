@@ -13,9 +13,9 @@ namespace Lumos.BLL.Service.Admin
     public class SysOrganizationProvider : BaseProvider
     {
 
-        private List<SysOrganization> GetFathers(Enumeration.BelongSite belongSite, string id)
+        private List<SysOrganization> GetFathers(string id)
         {
-            var sysOrganizations = CurrentDb.SysOrganization.Where(m => m.BelongSite == belongSite).ToList();
+            var sysOrganizations = CurrentDb.SysOrganization.ToList();
 
             var list = new List<SysOrganization>();
             var list2 = list.Concat(GetFatherList(sysOrganizations, id));
@@ -69,7 +69,7 @@ namespace Lumos.BLL.Service.Admin
 
             using (TransactionScope ts = new TransactionScope())
             {
-                var fathter = GetFathers(rop.BelongSite, rop.PId);
+                var fathter = GetFathers(rop.PId);
                 int dept = fathter.Count;
                 var isExists = CurrentDb.SysOrganization.Where(m => m.PId == rop.PId && m.Name == rop.Name && m.Dept == dept).FirstOrDefault();
                 if (isExists != null)
@@ -79,7 +79,6 @@ namespace Lumos.BLL.Service.Admin
 
                 var organization = new SysOrganization();
                 organization.Id = GuidUtil.New();
-                organization.BelongSite = Enumeration.BelongSite.Admin;
                 organization.PId = rop.PId;
                 organization.Name = rop.Name;
                 organization.Description = rop.Description;
@@ -105,7 +104,7 @@ namespace Lumos.BLL.Service.Admin
                 return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "数据为空");
             }
 
-            var fathter = GetFathers(organization.BelongSite, organization.PId);
+            var fathter = GetFathers(organization.PId);
             int dept = fathter.Count;
             var isExists = CurrentDb.SysOrganization.Where(m => m.PId == organization.PId && m.Name == rop.Name && m.Dept == dept && m.Id != rop.Id).FirstOrDefault();
             if (isExists != null)

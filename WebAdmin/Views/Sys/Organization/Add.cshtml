@@ -7,7 +7,6 @@
 
         var pId = $.lumos.getUrlParamValue("pId");
         var pName = $.lumos.getUrlParamValue("pName");
-        var belongSite = $.lumos.getUrlParamValue("belongSite");
         $(this).ready(function () {
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
             $("#txt_Name").formValidator().inputValidator({ min: 1, max: 20, onError: "名称须填,且不能超过20个字符" });
@@ -34,7 +33,7 @@
                 $.lumos.postJson({
                     url: "/Sys/Organization/Add",
                     isUseHandling: true,
-                    data: { pId: pId, name: name, description: description, belongSite: belongSite },
+                    data: { pId: pId, name: name, description: description },
                     success: function (d) {
                         if (d.result == $.lumos.resultType.success) {
                             $.lumos.parentDialog.refresh(1);
