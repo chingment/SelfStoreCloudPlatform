@@ -10,7 +10,7 @@
         $(this).ready(function () {
 
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
-            $("#txt_Name").formValidator().inputValidator({ min: 1, max: 50, onError: "名称须填，且不能超过50个字符" });
+           
             $("#txt_Description").formValidator().inputValidator({ min: 0, max: 500, onError: "描述不能超过500个字符" });
 
             initData();
@@ -59,8 +59,8 @@
                     if (d.result == $.lumos.resultType.success) {
                         var data = d.data;
 
-                        $("#lbl_OrganizationName").text(data.organizationName);
-                        $('#txt_Name').val(data.name);
+
+                        $('#lbl_Name').text(data.name);
 
                         if (data.roleIds != null) {
                             if (data.roleIds.length > 0) {
@@ -89,13 +89,12 @@
                     roleIds.push(n.id);
                 });
 
-                var name = $("#txt_Name").val();
                 var description = $("#txt_Description").val();
 
                 $.lumos.postJson({
                     url: "/Sys/Position/Edit",
                     isUseHandling: true,
-                    data: { id: id, name: name, description: description,roleIds: roleIds },
+                    data: { id: id, description: description,roleIds: roleIds },
                     success: function (d) {
                         if (d.result == $.lumos.resultType.success) {
                             $.lumos.parentDialog.refresh(2);
@@ -125,18 +124,10 @@
     <table class="f-tb" cellpadding="0" cellspacing="1">
         <tr>
             <td class="f-tb-t">
-                上级名称：
-            </td>
-            <td class="f-tb-c">
-                <label id="lbl_OrganizationName"></label>
-            </td>
-        </tr>
-        <tr>
-            <td class="f-tb-t">
                 名称：
             </td>
             <td class="f-tb-c">
-                <input type="text" autocomplete="off" id="txt_Name" style="width:250px;" class="input-control" />
+                <label id="lbl_Name"></label>
             </td>
         </tr>
         <tr>

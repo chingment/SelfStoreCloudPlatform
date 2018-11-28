@@ -1,0 +1,115 @@
+﻿@{
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<script type="text/javascript">
+
+    var belongSite = $.lumos.getUrlParamValue("belongSite");
+    var listTable;
+
+    $(document).ready(function () {
+
+        $('input[name=BelongSite]').val(belongSite);
+
+        listTable = $("#list_table").loadDataTable({
+            url: "/Sys/Position/GetList",
+            pageIndex: 0,
+            searchParams: $("#form1").serializeArray(),
+            searchButtonId: "btn_Search",
+            containerId: "form1",
+            rowDataCombie: function (p_index, p_row) {
+                var l_Strlimt = "";
+                l_Strlimt += "@Html.IsInPermission("<a href=\\\"javascript:void(0)\\\" operate=\\\"edit\\\"   class=\\\"a-btn a-btn-edit\\\"  >修改</a>")";
+                var l_StrRows = "";
+                l_StrRows += "<tr>";
+                l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
+                l_StrRows += "<td class=\"overflow tipitem\" title=\"" + p_row.name + "\"   >" + p_row.name + "</td>";
+                l_StrRows += "<td class=\"operation\">";
+                l_StrRows += l_Strlimt;
+                l_StrRows += "</td>";
+                l_StrRows += "</tr>";
+                return l_StrRows;
+            },
+            operate: {
+                "edit": function (obj) {
+       
+                    var url = '/Sys/Position/Edit?id=' + obj.id;
+                    var title = '修改';
+                    art.dialog.open(url, {
+                        id: "openDialog", title: title, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
+                            this.iframe.contentWindow.edit();
+                            return false;
+                        }
+                    });
+                }
+            }
+        });
+    });
+
+    function refresh(type) {
+        switch (type) {
+            case 1:
+                listTable.loadData();
+                break;
+            case 2:
+                listTable.loadData("c");
+                break;
+        }
+    }
+
+
+</script>
+
+<form id="form1" name="form1">
+    <input type="hidden" class="input-control" name="BelongSite" />
+    <div class="search-bar">
+        <div class="filter">
+            <span class="filter-label">名称：</span>
+            <span class="filter-input">
+                <input type="text" class="input-control" name="Name" style="width:120px;" />
+            </span>
+        </div>
+        <div class="filter"><input type="button" class="btn btn-search" id="btn_Search" value="查询" /> </div>
+    </div>
+    <div class="list">
+        <table id="list_table" class="list-tb" cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <th style="width:5%" class="no">
+                        序号
+                    </th>
+                    <th style="width:90%">
+                        名称
+                    </th>
+                    <th style="width:5%" class="operation">
+                        操作
+                    </th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3">
+                        <div class="pull-left">
+                            <span class="load-tip"></span>
+                        </div>
+                        <div class="pull-right pagination">
+                            <div class="pagination-info">
+
+                            </div>
+                            <div class="pagination-index">
+
+                            </div>
+                            <div class="pagination-goto">
+
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</form>
+

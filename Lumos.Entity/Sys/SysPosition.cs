@@ -13,8 +13,6 @@ namespace Lumos.Entity
         [MaxLength(128)]
         public string Name { get; set; }
 
-        public string OrganizationId { get; set; }
-
         public string Description { get; set; }
 
         public string Creator { get; set; }
@@ -26,6 +24,8 @@ namespace Lumos.Entity
         public DateTime? MendTime { get; set; }
 
         public bool IsCanDelete { get; set; }
+  
+        public Enumeration.BelongSite BelongSite { get; set; }
 
     }
 }

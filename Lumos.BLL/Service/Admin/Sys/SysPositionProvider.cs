@@ -22,12 +22,6 @@ namespace Lumos.BLL.Service.Admin
                 ret.Name = sysPosition.Name ?? ""; ;
                 ret.RoleIds = roleIds;
 
-                var organization = CurrentDb.SysOrganization.Where(m => m.Id == sysPosition.OrganizationId).FirstOrDefault();
-                {
-                    ret.OrganizationId = organization.Id;
-                    ret.OrganizationName = organization.Name;
-                }
-
             }
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
@@ -36,7 +30,7 @@ namespace Lumos.BLL.Service.Admin
         public CustomJsonResult Add(string operater, RopSysPositionAdd rop)
         {
             CustomJsonResult result = new CustomJsonResult();
-            var isExist = CurrentDb.SysPosition.Where(m => m.Name == rop.Name && m.OrganizationId == rop.OrganizationId).FirstOrDefault();
+            var isExist = CurrentDb.SysPosition.Where(m => m.Name == rop.Name).FirstOrDefault();
             if (isExist != null)
             {
                 return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("该名称（{0}）已被使用", rop.Name));
@@ -47,7 +41,6 @@ namespace Lumos.BLL.Service.Admin
                 var sysPosition = new SysPosition();
                 sysPosition.Id = GuidUtil.New();
                 sysPosition.Name = rop.Name;
-                sysPosition.OrganizationId = rop.OrganizationId;
                 sysPosition.Description = rop.Description;
                 sysPosition.Creator = operater;
                 sysPosition.CreateTime = DateTime.Now;

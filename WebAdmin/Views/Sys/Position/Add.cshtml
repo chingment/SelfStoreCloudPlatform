@@ -5,12 +5,10 @@
 @section scripts{
     <script type="text/javascript">
 
-        var organizationId = $.lumos.getUrlParamValue("organizationId");
-        var organizationName = $.lumos.getUrlParamValue("organizationName");
+
+        var belongSite = $.lumos.getUrlParamValue("belongSite");
         var tree_Roles;
         $(this).ready(function () {
-
-            $("#lbl_OrganizationName").text(organizationName);
 
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
             $("#txt_Name").formValidator().inputValidator({ min: 1, max: 50, onError: "名称须填，且不能超过50个字符" });
@@ -71,7 +69,7 @@
 
                 $.lumos.postJson({
                     url: "/Sys/Position/Add",
-                    data: { organizationId: organizationId, name: name, description: description, roleIds: roleIds },
+                    data: { belongSite: belongSite, name: name, description: description, roleIds: roleIds },
                     isUseHandling: true,
                     success: function (d) {
                         if (d.result == $.lumos.resultType.success) {
@@ -104,14 +102,6 @@
         </div>
     </div>
     <table class="f-tb" cellpadding="0" cellspacing="1">
-        <tr>
-            <td class="f-tb-t">
-                所属机构：
-            </td>
-            <td class="f-tb-c">
-                <label id="lbl_OrganizationName"></label>
-            </td>
-        </tr>
         <tr>
             <td class="f-tb-t">
                 <span class="required-symbol">*</span>名称：

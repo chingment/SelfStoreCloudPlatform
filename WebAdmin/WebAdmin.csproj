@@ -1099,6 +1099,7 @@
     <Content Include="Views\Sys\Organization\List.cshtml" />
     <Content Include="Views\Sys\Position\Add.cshtml" />
     <Content Include="Views\Sys\Position\Edit.cshtml" />
+    <Content Include="Views\Sys\Position\List.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

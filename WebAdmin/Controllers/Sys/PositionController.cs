@@ -14,7 +14,7 @@ using System.Collections.Generic;
 
 namespace WebAdmin.Controllers.Sys
 {
-    [OwnAuthorize(AdminPermissionCode.组织机构管理)]
+    [OwnAuthorize(AdminPermissionCode.职位管理)]
     public class PositionController : OwnBaseController
     {
 
@@ -40,8 +40,7 @@ namespace WebAdmin.Controllers.Sys
         {
             var query = (from u in CurrentDb.SysPosition
                          where (rup.Name == null || u.Name.Contains(rup.Name)) &&
-
-                          u.OrganizationId == rup.OrganizationId
+                          u.BelongSite == rup.BelongSite
                          select new { u.Id, u.Name, u.CreateTime });
 
             int total = query.Count();
@@ -76,11 +75,11 @@ namespace WebAdmin.Controllers.Sys
             return AdminServiceFactory.SysPosition.GetDetails(this.CurrentUserId, id);
         }
 
-        [HttpPost]
-        public CustomJsonResult Add(RopSysPositionAdd rop)
-        {
-            return AdminServiceFactory.SysPosition.Add(this.CurrentUserId, rop);
-        }
+        //[HttpPost]
+        //public CustomJsonResult Add(RopSysPositionAdd rop)
+        //{
+        //    return AdminServiceFactory.SysPosition.Add(this.CurrentUserId, rop);
+        //}
 
         [HttpPost]
         public CustomJsonResult Edit(RopSysPositionEdit rop)
@@ -88,11 +87,11 @@ namespace WebAdmin.Controllers.Sys
             return AdminServiceFactory.SysPosition.Edit(this.CurrentUserId, rop);
         }
 
-        [HttpPost]
-        public CustomJsonResult Delete(string id)
-        {
-            return AdminServiceFactory.SysPosition.Delete(this.CurrentUserId, id);
-        }
+        //[HttpPost]
+        //public CustomJsonResult Delete(string id)
+        //{
+        //    return AdminServiceFactory.SysPosition.Delete(this.CurrentUserId, id);
+        //}
 
     }
 }
