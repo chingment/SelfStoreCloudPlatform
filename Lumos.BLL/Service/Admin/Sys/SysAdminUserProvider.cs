@@ -15,6 +15,8 @@ namespace Lumos.BLL.Service.Admin
         public CustomJsonResult GetDetails(string operater, string id)
         {
             var ret = new RetSysAdminUserGetDetails();
+
+
             var sysAdminUser = CurrentDb.SysAdminUser.Where(m => m.Id == id).FirstOrDefault();
             if (sysAdminUser != null)
             {
@@ -72,7 +74,7 @@ namespace Lumos.BLL.Service.Admin
             return result;
         }
 
-        public CustomJsonResult Edit(string operater, RopSysStaffUserEdit rop)
+        public CustomJsonResult Edit(string operater, RopSysAdminUserEdit rop)
         {
 
             CustomJsonResult result = new CustomJsonResult();

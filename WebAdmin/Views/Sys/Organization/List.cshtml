@@ -44,7 +44,7 @@
                     return;
                 }
 
-                var url = '/Sys/Organization/Add'
+                var url = '/Sys/Organization/Add?pId=' + selNode.id + '&pName=' + escape(selNode.name)
                 var title = '新建';
                 art.dialog.open(url, {
                     id: "openDialog", title: title, width: '700px', height: '480px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '确定', ok: function () {
@@ -75,8 +75,6 @@
                                          $("#lbl_PName").text("/");
                                          $("#txt_Name").val("");
                                          $("#txt_Description").val("");
-                                         $("#sel_Status").find("option").attr("selected", false);
-                                         $("#sel_Status").trigger("chosen:updated");
                                          mainTreeLoadData();
                                      }
                                  }
@@ -382,14 +380,6 @@
                                 </td>
                                 <td class="f-tb-c">
                                     <input type="text" autocomplete="off" value="" id="txt_Name" style="width: 250px;" class="input-control" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="f-tb-t" style="width:50px;">
-                                    <span class="required-symbol">*</span>状态：
-                                </td>
-                                <td class="f-tb-c">
-                                    @(Html.initEnumeration<Lumos.Entity.Enumeration.SysOrganizationStatus>(Lumos.Entity.Enumeration.InputType.Select, "sel.Status", new { @class = "chosen-select", defaulttext = "请选择", style = "width:100px", hidevalue = new Lumos.Entity.Enumeration.SysOrganizationStatus[] { Lumos.Entity.Enumeration.SysOrganizationStatus.Unknow } }))
                                 </td>
                             </tr>
                             <tr>

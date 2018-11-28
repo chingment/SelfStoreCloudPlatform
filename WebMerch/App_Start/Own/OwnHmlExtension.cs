@@ -195,7 +195,6 @@ namespace System.Web
             }
         }
 
-
         public static MvcHtmlString initProductKind(this HtmlHelper helper, string name, string selectval = null)
         {
 

@@ -1,20 +1,14 @@
-﻿using Lumos.Common;
+﻿using Lumos;
+using Lumos.BLL;
+using Lumos.Entity;
+using Lumos.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.IO;
-using System.Net;
-using Newtonsoft.Json;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using Lumos.Entity;
-using Lumos.Web.Mvc;
-using log4net;
 using System.Text;
-using Lumos;
 
 namespace WebAdmin.Controllers
 {
@@ -63,7 +57,7 @@ namespace WebAdmin.Controllers
                     return Content(CkEditorUpLoadCallFunction(CKEditorFuncNum, "远程上传图片发生异常"));
                 }
 
-                ImageUpload imageUpload =rm.Data.ToJsonObject<ImageUpload>();
+                ImageUpload imageUpload = rm.Data.ToJsonObject<ImageUpload>();
 
                 return Content(CkEditorUpLoadCallFunction(CKEditorFuncNum, "", imageUpload.OriginalPath));
             }
@@ -141,7 +135,7 @@ namespace WebAdmin.Controllers
             {
                 rm.Result = ResultType.Exception;
                 rm.Message = "上传图片发生异常..";
-                LogUtil.Error("",ex);
+                LogUtil.Error("", ex);
 
             }
             return rm;
@@ -162,6 +156,57 @@ namespace WebAdmin.Controllers
             Session[name] = code;   //Session 取出验证码
             Response.End();
             return null;
+        }
+
+
+        public CustomJsonResult GetSelectFields(string type)
+        {
+            if (type == null)
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "类型为空");
+
+            var result = new CustomJsonResult();
+
+
+
+            //var sysPositions = CurrentDb.SysPosition.Where(m => m.BelongSite == Enumeration.BelongSite.Admin).ToList();
+
+            //foreach (var item in sysPositions)
+            //{
+            //    ret.ConfigPositions.Add(new FieldModel(item.Name, ((int)item.Id).ToString()));
+            //}
+
+            var fields = new List<FieldModel>();
+
+            type = type.ToLower();
+
+            switch (type)
+            {
+                case "sysposition":
+                    #region sysposition
+                    var sysPositions = CurrentDb.SysPosition.Where(m => m.BelongSite == Enumeration.BelongSite.Admin).ToList();
+
+                    foreach (var item in sysPositions)
+                    {
+                        fields.Add(new FieldModel(item.Name, ((int)item.Id).ToString()));
+                    }
+                    #endregion
+                    break;
+                case "sysorganization":
+                    #region sysorganization
+                    var sysOrganizations = CurrentDb.SysOrganization.Where(m => m.IsDelete == false).OrderBy(m => m.Dept).ToList();
+
+                    foreach (var item in sysOrganizations)
+                    {
+                        fields.Add(new FieldModel(item.FullName, item.Id, item.PId));
+                    }
+                    #endregion 
+                    break;
+            }
+
+
+
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", fields);
+
         }
 
     }

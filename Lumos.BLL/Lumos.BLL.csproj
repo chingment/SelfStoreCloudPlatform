@@ -78,10 +78,11 @@
     </Compile>
     <Compile Include="BaseProvider.cs" />
     <Compile Include="Biz\BizFactory.cs" />
-    <Compile Include="Biz\Models\RetLogin.cs" />
-    <Compile Include="Biz\Models\RetWxUserCheckedUser.cs" />
-    <Compile Include="Biz\Models\RopLogin.cs" />
-    <Compile Include="Biz\Models\RopWxUserCheckedUser.cs" />
+    <Compile Include="Biz\Models\FieldModel.cs" />
+    <Compile Include="Biz\RModels\RetLogin.cs" />
+    <Compile Include="Biz\RModels\RetWxUserCheckedUser.cs" />
+    <Compile Include="Biz\RModels\RopLogin.cs" />
+    <Compile Include="Biz\RModels\RopWxUserCheckedUser.cs" />
     <Compile Include="Biz\Models\SkuModel.cs" />
     <Compile Include="Biz\OrderProvider.cs" />
     <Compile Include="Biz\ProductSkuCacheUtil.cs" />
@@ -99,9 +100,9 @@
     <Compile Include="Service\Admin\Biz\MachineProvider.cs" />
     <Compile Include="Service\Admin\Biz\MerchantProvider.cs" />
     <Compile Include="Factory..cs" />
-    <Compile Include="Biz\Models\RetOperateResult.cs" />
-    <Compile Include="Biz\Models\RupBaseGetList.cs" />
-    <Compile Include="Biz\Models\RupOperateGetResult.cs" />
+    <Compile Include="Biz\RModels\RetOperateResult.cs" />
+    <Compile Include="Biz\RModels\RupBaseGetList.cs" />
+    <Compile Include="Biz\RModels\RupOperateGetResult.cs" />
     <Compile Include="Sdk\SdkFactory.cs" />
     <Compile Include="Sdk\WxConfigByFanJu.cs" />
     <Compile Include="Sdk\WxSdkProvider.cs" />

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.Admin
 {
-    public class RopSysStaffUserEdit
+    public class RopSysAdminUserEdit
     {
         public string Id { get; set; }
 

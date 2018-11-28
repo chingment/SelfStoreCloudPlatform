@@ -11,13 +11,15 @@
             $("#txt_UserName").formValidator().regexValidator({ min: 3, max: 20, regExp: "^[0-9a-zA-Z_]{3,20}$", onError: "用户名须填，且由3到20个数字、英文字母或下划线组成" });
             $("#txt_Password").formValidator().regexValidator({ regExp: regexEnum.password, onError: "密码须填，且由6到20个数字、英文字母或下划线组成" });
             $("#txt_FullName").formValidator().inputValidator({ min: 1, max: 50, onError: "姓名不能为空，且不能超过50个字符" });
-            $("#sel_OrganizationId").formValidator().inputValidator({ min: 1, max: 500, onError: "请选择所属机构" });
-            $("#sel_PositionId").formValidator().inputValidator({ min: 1, max: 500, onError: "请选择职位" });
+            $("#sel_Organizations").formValidator().inputValidator({ min: 1, max: 500, onError: "请选择所属机构" });
+            $("#sel_Positions").formValidator().inputValidator({ min: 1, max: 500, onError: "请选择职位" });
             $("#txt_Email").formValidator().regexValidator({ min: 0, max: 100, regExp: regexEnum.email, onError: "邮箱格式且不能超过100个字符" });
             $("#txt_PhoneNumber").formValidator().regexValidator({ min: 0, max: 100, regExp: regexEnum.mobile, onError: "手机号码格式" });
 
-            loadRoles();
+            $('#sel_Positions').myChosen({ urlParams: { type: "SysPosition" } });
+            $('#sel_Organizations').myChosen({ urlParams: { type: "SysOrganization" } });
         });
+
 
         function add() {
 
@@ -32,8 +34,8 @@
                 var fullName = $("#txt_FullName").val();
                 var email = $("#txt_Email").val();
                 var phoneNumber = $("#txt_PhoneNumber").val();
-                var positionId = $("#sel_PositionId").val();
-                var organizationId = $("#sel_OrganizationId").val();
+                var positionId = $("#sel_Positions").val();
+                var organizationId = $("#sel_Organizations").val();
                 $.lumos.postJson({
                     url: "/Sys/AdminUser/Add",
                     data: { userName: userName, password: password, fullName: fullName, email: email, phoneNumber: phoneNumber, positionId: positionId, organizationId: organizationId },
@@ -99,7 +101,9 @@
                 <span class="required-symbol">*</span>所属机构：
             </td>
             <td class="f-tb-c">
-                @Html.initOrganization("sel.OrganizationId")
+                <select id="sel_Organizations" data-placeholder="请选择" class="chosen-select" >
+                    <option value="-1"></option>
+                </select>
             </td>
         </tr>
         <tr>
@@ -107,7 +111,9 @@
                 <span class="required-symbol">*</span>职位：
             </td>
             <td class="f-tb-c">
-                @Html.initPosition(Lumos.Entity.Enumeration.BelongSite.Admin, "sel.PositionId")
+                <select id="sel_Positions" data-placeholder="请选择" class="chosen-select" >
+                    <option value="-1"></option>
+                </select>
             </td>
         </tr>
         <tr>

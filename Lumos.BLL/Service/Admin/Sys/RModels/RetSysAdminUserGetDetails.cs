@@ -10,6 +10,11 @@ namespace Lumos.BLL.Service.Admin
 {
     public class RetSysAdminUserGetDetails
     {
+        public RetSysAdminUserGetDetails()
+        {
+        
+        }
+
         public string Id { get; set; }
         public Enumeration.SysPositionId PositionId { get; set; }
         public string UserName { get; set; }
@@ -18,5 +23,6 @@ namespace Lumos.BLL.Service.Admin
         public string PhoneNumber { get; set; }
 
         public string OrganizationId { get; set; }
+
     }
 }

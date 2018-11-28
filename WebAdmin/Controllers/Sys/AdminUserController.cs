@@ -131,7 +131,7 @@ namespace WebAdmin.Controllers.Sys
         }
 
         [HttpPost]
-        public CustomJsonResult Edit(RopSysStaffUserEdit rop)
+        public CustomJsonResult Edit(RopSysAdminUserEdit rop)
         {
             return AdminServiceFactory.SysAdminUser.Edit(this.CurrentUserId, rop);
         }

@@ -1936,7 +1936,6 @@
         return v;
     }
 
-
     $.fn.val2ImgArr = function () {
 
         var v = new Array()
@@ -1964,6 +1963,115 @@
         }
 
         return v;
+    }
+
+    $.fn.myChosen = function (opts) {
+        opts = $.extend({
+            url: "/Common/GetSelectFields",
+            urlParams: null,
+            selectedValue: null
+        }, opts || {});
+
+        var _this = $(this);
+
+        var _url = opts.url;
+        var _urlParams = opts.urlParams;
+        var _selectedValue = opts.selectedValue;
+
+
+        function getPValue(data) {
+
+            var isArr = $.isArray(data)
+            if (!isArr)
+                return null;
+
+            if (typeof data[0].pValue == "undefined" || data[0].pValue == null) {
+                return null;
+            }
+
+            function find(id) {
+                var isFlag = false;
+                for (var j = 0; j < data.length; j++) {
+                    if (data[j].value == id) {
+                        isFlag = true;
+                        break;
+                    }
+                }
+
+                return isFlag;
+            }
+
+            var d1 = data;
+            var d2 = data;
+
+            var pValue = "";
+            for (var i = 0; i < d1.length; i++) {
+                if (!find(d1[i].pValue)) {
+                    pValue = d1[i].pValue;
+                }
+            }
+
+            return pValue;
+        }
+
+        var html = "";
+        function toTree(data, pValue, _selectedValue) {
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].pValue == pValue) {
+
+                    var selected = "";
+                    var is_Arr = $.isArray(_selectedValue)
+                    if (!is_Arr) {
+                        if (data[i].value == _selectedValue) {
+                            selected = "selected";
+                        }
+                    }
+
+                    html += "<option value='" + data[i].value + "' " + selected + "  >" + data[i].name + "</option>";
+                    toTree(data, data[i].value, _selectedValue);
+                }
+            }
+        }
+
+        function toSingle(data, _selectedValue) {
+            for (var i = 0; i < data.length; i++) {
+
+                var selected = "";
+                var is_Arr = $.isArray(_selectedValue)
+                if (!is_Arr) {
+                    if (data[i].value == _selectedValue) {
+                        selected = "selected";
+                    }
+                }
+
+                html += "<option value='" + data[i].value + "' " + selected + " >" + data[i].name + "</option>";
+            }
+        }
+
+        $.lumos.getJson({
+            url: "/Common/GetSelectFields",
+            urlParams: _urlParams,
+            isUseHandling: false,
+            success: function (d) {
+
+                if (d.result == $.lumos.resultType.success) {
+                    //alert(JSON.stringify(d.data))
+                    //alert(getPValue(d.data))
+                    var data = d.data;
+                    var topId = getPValue(data);
+                    if (topId == null) {
+                        toSingle(data, _selectedValue);
+                    }
+                    else {
+                        toTree(data, topId, _selectedValue);
+                    }
+                    $(_this).append(html);
+                    $(_this).chosen({ search_contains: true });
+
+                }
+            }
+        });
+
     }
 
 })(jQuery);
