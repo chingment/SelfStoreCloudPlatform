@@ -19,7 +19,7 @@ namespace Lumos.BLL.Service.Admin
 
             var list = new List<SysOrganization>();
             var list2 = list.Concat(GetFatherList(sysOrganizations, id));
-            return list2.ToList();
+            return list2.OrderBy(m => m.Dept).ToList();
         }
 
 
@@ -63,24 +63,34 @@ namespace Lumos.BLL.Service.Admin
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
 
+
         public CustomJsonResult Add(string operater, RopSysOrganizationAdd rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 
             using (TransactionScope ts = new TransactionScope())
             {
-                var fathter = GetFathers(rop.PId);
-                int dept = fathter.Count;
+                var fathters = GetFathers(rop.PId);
+                int dept = fathters.Count;
                 var isExists = CurrentDb.SysOrganization.Where(m => m.PId == rop.PId && m.Name == rop.Name && m.Dept == dept).FirstOrDefault();
                 if (isExists != null)
                 {
                     return new CustomJsonResult(ResultType.Failure, "该名称在同一级别已经存在");
                 }
 
+                string fullName = "";
+                foreach (var item in fathters)
+                {
+                    fullName += item.Name + "-";
+                }
+
+                fullName += rop.Name;
+
                 var organization = new SysOrganization();
                 organization.Id = GuidUtil.New();
                 organization.PId = rop.PId;
                 organization.Name = rop.Name;
+                organization.FullName = fullName;
                 organization.Description = rop.Description;
                 organization.Status = Enumeration.SysOrganizationStatus.Valid;
                 organization.Creator = operater;
@@ -104,16 +114,24 @@ namespace Lumos.BLL.Service.Admin
                 return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "数据为空");
             }
 
-            var fathter = GetFathers(organization.PId);
-            int dept = fathter.Count;
+            var fathters = GetFathers(organization.PId);
+            int dept = fathters.Count;
             var isExists = CurrentDb.SysOrganization.Where(m => m.PId == organization.PId && m.Name == rop.Name && m.Dept == dept && m.Id != rop.Id).FirstOrDefault();
             if (isExists != null)
             {
                 return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("保存失败，该名称({0})已被同一级别使用", rop.Name));
             }
 
+            string fullName = "";
+            foreach (var item in fathters)
+            {
+                fullName += item.Name + "-";
+            }
+
+            fullName += rop.Name;
 
             organization.Name = rop.Name;
+            organization.FullName = fullName;
             organization.Status = rop.Status;
             organization.Description = rop.Description;
             organization.Mender = operater;

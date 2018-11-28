@@ -12,6 +12,9 @@ namespace Lumos.Entity
         public string PId { get; set; }
         [MaxLength(128)]
         public string Name { get; set; }
+
+        public string FullName { get; set; }
+
         [MaxLength(512)]
         public string Description { get; set; }
         public bool IsDelete { get; set; }

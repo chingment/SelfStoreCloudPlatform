@@ -44,7 +44,7 @@
                     return;
                 }
 
-                var url = '/Sys/Organization/Add?belongSite=' + belongSite + '&pId=' + selNode.id + '&pName=' + escape(selNode.name)
+                var url = '/Sys/Organization/Add'
                 var title = '新建';
                 art.dialog.open(url, {
                     id: "openDialog", title: title, width: '700px', height: '480px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '确定', ok: function () {
@@ -239,7 +239,6 @@
 
             $.lumos.getJson({
                 url: "/Sys/Organization/GetAll",
-                urlParams: { belongSite: belongSite },
                 success: function (d) {
                     var data = d.data;
                     $.fn.zTree.init($("#" + mainTree_Id), {
