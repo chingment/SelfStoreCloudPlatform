@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lumos.Entity;
 
 namespace Lumos.BLL.Service.Admin
 {
    public  class RopSysPositionEdit
     {
-        public string Id { get; set; }
+        public Enumeration.SysPositionId Id { get; set; }
         public string[] RoleIds { get; set; }
         public string Name { get; set; }
 

@@ -23,7 +23,7 @@
                             getMainTreeSelNodeDetails();
                             break;
                         case 1:
-                            mainTree_RPositions.loadData();
+                            //mainTree_RPositions.loadData();
                             break;
                     }
                     return true;
@@ -169,7 +169,7 @@
             });
 
 
-            mainTree_RPositions = $("#list_RPosition").loadDataTable({
+            @*mainTree_RPositions = $("#list_RPosition").loadDataTable({
                 url: "/Sys/Position/GetList",
                 pageIndex: 0,
                 searchParams: $("#form2").serializeArray(),
@@ -203,7 +203,7 @@
 
                     }
                 }
-            });
+            });*@
         });
 
 
@@ -325,10 +325,9 @@
             switch (type) {
                 case 1:
                     mainTreeLoadData();
-                    mainTree_RPositions.loadData('c');
                     break;
                 case 2:
-                    mainTree_RPositions.loadData('c');
+                    //mainTree_RPositions.loadData('c');
                     break;
             }
         }
@@ -359,7 +358,7 @@
             <div class="tab-item">
                 <ul>
                     <li class="item first selected"><a class="a-btn-info" href="javascript:void(0)">基本信息</a></li>
-                    <li class="item"><a class="a-btn-info" href="javascript:void(0)">关联职位</a></li>
+                    @*<li class="item"><a class="a-btn-info" href="javascript:void(0)">关联职位</a></li>*@
                 </ul>
             </div>
             <div class="tab-content">

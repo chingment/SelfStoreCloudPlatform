@@ -9,7 +9,7 @@ namespace Lumos.Entity
     {
         public string Id { get; set; }
         [Key, Column(Order = 1)]
-        public string PositionId { get; set; }
+        public Enumeration.SysPositionId PositionId { get; set; }
         [Key, Column(Order = 2)]
         public string RoleId { get; set; }
         public string Creator { get; set; }

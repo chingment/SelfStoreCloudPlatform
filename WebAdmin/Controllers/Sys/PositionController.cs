@@ -70,7 +70,7 @@ namespace WebAdmin.Controllers.Sys
             return Json(ResultType.Success, pageEntity, "");
         }
 
-        public CustomJsonResult GetDetails(string id)
+        public CustomJsonResult GetDetails(Enumeration.SysPositionId id)
         {
             return AdminServiceFactory.SysPosition.GetDetails(this.CurrentUserId, id);
         }

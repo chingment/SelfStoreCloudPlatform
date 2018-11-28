@@ -4,11 +4,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Lumos.Entity
 {
+
+
     [Table("SysPosition")]
     public class SysPosition
     {
         [Key]
-        public string Id { get; set; }
+        public Enumeration.SysPositionId Id { get; set; }
 
         [MaxLength(128)]
         public string Name { get; set; }
@@ -24,7 +26,7 @@ namespace Lumos.Entity
         public DateTime? MendTime { get; set; }
 
         public bool IsCanDelete { get; set; }
-  
+
         public Enumeration.BelongSite BelongSite { get; set; }
 
     }

@@ -10,7 +10,7 @@ namespace Lumos.BLL.Service.Admin
 {
     public class SysPositionProvider : BaseProvider
     {
-        public CustomJsonResult GetDetails(string operater, string id)
+        public CustomJsonResult GetDetails(string operater, Enumeration.SysPositionId id)
         {
             var ret = new RetSysPositionGetDetails();
             var sysPosition = CurrentDb.SysPosition.Where(m => m.Id == id).FirstOrDefault();
@@ -39,7 +39,7 @@ namespace Lumos.BLL.Service.Admin
             using (TransactionScope ts = new TransactionScope())
             {
                 var sysPosition = new SysPosition();
-                sysPosition.Id = GuidUtil.New();
+                //sysPosition.Id = GuidUtil.New();
                 sysPosition.Name = rop.Name;
                 sysPosition.Description = rop.Description;
                 sysPosition.Creator = operater;
