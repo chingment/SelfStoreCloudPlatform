@@ -5,21 +5,6 @@ namespace Lumos.BLL.Service.Admin
 {
     public class SysUserProvider : BaseProvider
     {
-        public string GetFullName(string id)
-        {
-            if (id == null)
-                return "";
-
-            string fullName = "";
-            var user = CurrentDb.SysUser.Where(m => m.Id == id).FirstOrDefault();
-            if (user != null)
-            {
-                fullName = user.FullName;
-            }
-
-            return fullName;
-        }
-
         public CustomJsonResult GetDetails(string operater, string id)
         {
             var ret = new RetSysUserGetDetails();

@@ -7,7 +7,7 @@
     <script type="text/javascript">
 
         var mainTree_Id = "maintree";
-        var mainTree_ListPositions;
+        var mainTree_RPositions;
         var mainTab;
         var belongSite = $.lumos.getUrlParamValue("belongSite");
         $(this).ready(function () {
@@ -15,9 +15,15 @@
             mainTab = $("#tab_Main").tab({
                 treeId: mainTree_Id,
                 click: function (index, key) {
+
+                    $("input[name=OrganizationId]").val(key);
+
                     switch (index) {
                         case 0:
                             getMainTreeSelNodeDetails();
+                            break;
+                        case 1:
+                            mainTree_RPositions.loadData();
                             break;
                     }
                     return true;
@@ -145,7 +151,6 @@
 
             $("#maintree_add_position").click(function () {
 
-
                 var selNode = mainTab.treeGetSelectedNode();
                 if (selNode == null) {
                     $.lumos.tips("请在左边树形结构选中节点信息");
@@ -164,6 +169,41 @@
             });
 
 
+            mainTree_RPositions = $("#list_RPosition").loadDataTable({
+                url: "/Sys/Position/GetList",
+                pageIndex: 0,
+                searchParams: $("#form2").serializeArray(),
+                searchButtonId: "btn_Search",
+                containerId: "form2",
+                rowDataCombie: function (p_index, p_row) {
+                    var l_Strlimt = "";
+                    l_Strlimt += "@Html.IsInPermission("<a href=\\\"javascript:void(0)\\\" operate=\\\"edit\\\"  class=\\\"a-btn\\\" >编辑</a>")";
+                    var l_StrRows = "";
+                    l_StrRows += "<tr>";
+                    l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
+                    l_StrRows += "<td class=\"overflow tipitem\" title=\"" + p_row.name + "\"   >" + p_row.name + "</td>";
+                    l_StrRows += "<td class=\"operation\">";
+                    l_StrRows += l_Strlimt;
+                    l_StrRows += "</td>";
+                    l_StrRows += "</tr>";
+                    return l_StrRows;
+                },
+                operate: {
+                    "edit": function (obj) {
+
+                        var url = '/Sys/Position/Edit?id=' + obj.id;
+                        var title = '修改';
+                        var dialog = art.dialog.open(url, {
+                            id: "openDialog", title: title, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
+                                this.iframe.contentWindow.edit();
+                                return false;
+                            }
+                        });
+
+
+                    }
+                }
+            });
         });
 
 
@@ -284,10 +324,11 @@
 
             switch (type) {
                 case 1:
-                    mainTreeLoadData()
+                    mainTreeLoadData();
+                    mainTree_RPositions.loadData('c');
                     break;
                 case 2:
-                    mainTree_listPositions.loadData('c');
+                    mainTree_RPositions.loadData('c');
                     break;
             }
         }
@@ -372,7 +413,57 @@
                     </form>
                 </div>
                 <div class="subcontent">
-                    xdd
+                    <form id="form2" name="form2">
+                        <input type="hidden" name="OrganizationId" />
+                        <div class="search-bar">
+                            <div class="filter">
+                                <span class="filter-label">名称：</span>
+                                <span class="filter-input">
+                                    <input type="text" class="input-control" name="UserName" style="width:120px;" />
+                                </span>
+                            </div>
+                            <div class="filter"><input type="button" class="btn btn-search" id="btn_Search" value="查询" /> </div>
+                            <div class="filter"><input type="button" class="btn btn-add" id="maintree_add_position" value="添加" /></div>
+                        </div>
+                        <div class="list">
+                            <table id="list_RPosition" class="list-tb" cellpadding="0" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th style="width:5%" class="no">
+                                            序号
+                                        </th>
+                                        <th style="width:90%">
+                                            名称
+                                        </th>
+                                        <th style="width:5%" class="operation">
+                                            操作
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="3">
+                                            <div class="pull-left">
+                                                <span class="load-tip"></span>
+                                            </div>
+                                            <div class="pull-right pagination">
+                                                <div class="pagination-info">
+
+                                                </div>
+                                                <div class="pagination-index">
+
+                                                </div>
+                                                <div class="pagination-goto">
+
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
