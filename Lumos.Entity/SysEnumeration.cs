@@ -176,6 +176,8 @@ namespace Lumos.Entity
             Unknow = 0,
             [Remark("管理端管理员职位")]
             AdminAdministrator = 100,
+            [Remark("管理端初级运营")]
+            AdminJuniorOperators = 101,
             [Remark("商户端管理员职位")]
             MerchantAdministrator = 200
         }

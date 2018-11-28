@@ -18,13 +18,11 @@ namespace Lumos.BLL.Service.Admin
             var sysAdminUser = CurrentDb.SysAdminUser.Where(m => m.Id == id).FirstOrDefault();
             if (sysAdminUser != null)
             {
-                var roleIds = CurrentDb.SysUserRole.Where(x => x.UserId == id).Select(x => x.RoleId).ToArray();
-
                 ret.UserName = sysAdminUser.UserName ?? ""; ;
                 ret.FullName = sysAdminUser.FullName ?? ""; ;
                 ret.Email = sysAdminUser.Email ?? ""; ;
                 ret.PhoneNumber = sysAdminUser.PhoneNumber ?? "";
-                ret.RoleIds = roleIds;
+                ret.PositionId = sysAdminUser.PositionId;
             }
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
@@ -52,36 +50,16 @@ namespace Lumos.BLL.Service.Admin
                 sysAdminUser.IsDelete = false;
                 sysAdminUser.IsCanDelete = true;
                 sysAdminUser.Status = Enumeration.UserStatus.Normal;
-                sysAdminUser.Creator = operater;
-                sysAdminUser.CreateTime = DateTime.Now;
                 sysAdminUser.RegisterTime = DateTime.Now;
                 sysAdminUser.Status = Enumeration.UserStatus.Normal;
                 sysAdminUser.SecurityStamp = Guid.NewGuid().ToString().Replace("-", "");
-
+                sysAdminUser.PositionId = rop.PositionId;
+                sysAdminUser.Creator = operater;
+                sysAdminUser.CreateTime = DateTime.Now;
 
                 CurrentDb.SysAdminUser.Add(sysAdminUser);
-
-
                 CurrentDb.SaveChanges();
 
-                List<SysUserRole> userRoleList = CurrentDb.SysUserRole.Where(m => m.UserId == sysAdminUser.Id).ToList();
-                foreach (var userRole in userRoleList)
-                {
-                    CurrentDb.SysUserRole.Remove(userRole);
-                }
-
-                if (rop.RoleIds != null)
-                {
-                    if (rop.RoleIds.Length > 0)
-                    {
-                        foreach (string roleId in rop.RoleIds)
-                        {
-
-                            CurrentDb.SysUserRole.Add(new SysUserRole { Id = GuidUtil.New(), UserId = sysAdminUser.Id, RoleId = roleId, Creator = operater, CreateTime = DateTime.Now, IsCanDelete = true });
-
-                        }
-                    }
-                }
 
                 result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
 
@@ -109,34 +87,9 @@ namespace Lumos.BLL.Service.Admin
                 sysAdminUser.PhoneNumber = rop.PhoneNumber;
                 sysAdminUser.MendTime = DateTime.Now;
                 sysAdminUser.Mender = operater;
+                sysAdminUser.PositionId = rop.PositionId;
                 CurrentDb.SaveChanges();
 
-
-                List<SysUserRole> userRoleList = CurrentDb.SysUserRole.Where(m => m.UserId == rop.Id).ToList();
-
-                foreach (var userRole in userRoleList)
-                {
-                    if (!userRole.IsCanDelete)
-                    {
-                        var role = CurrentDb.SysRole.Where(m => m.Id == userRole.Id).FirstOrDefault();
-                        return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("不能去掉用户（{0}）的角色（{1}）", sysAdminUser.UserName, role.Name));
-                    }
-
-                    CurrentDb.SysUserRole.Remove(userRole);
-                }
-
-                if (rop.RoleIds != null)
-                {
-                    if (rop.RoleIds.Length > 0)
-                    {
-                        foreach (string roleId in rop.RoleIds)
-                        {
-                            CurrentDb.SysUserRole.Add(new SysUserRole { Id = GuidUtil.New(), UserId = rop.Id, RoleId = roleId, Creator = operater, CreateTime = DateTime.Now, IsCanDelete = true });
-                        }
-                    }
-                }
-
-                CurrentDb.SaveChanges();
                 ts.Complete();
 
                 result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");

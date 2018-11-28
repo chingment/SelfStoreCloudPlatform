@@ -187,6 +187,18 @@ namespace Lumos.DAL.AuthorizeRelay
         public List<SysMenu> GetUserMenus(string pUserId, Enumeration.BelongSite belongSite)
         {
             List<SysMenu> listMenu = new List<SysMenu>();
+            //var model =
+            //    from menu in _db.SysMenu
+            //    where
+            //    (from rolemenu in _db.SysRoleMenu
+            //     where
+            //     (from userrole in _db.SysUserRole where rolemenu.RoleId == userrole.RoleId && userrole.UserId == pUserId select userrole.RoleId)
+            //     .Contains(rolemenu.RoleId)
+            //     select rolemenu.MenuId).Contains(menu.Id)
+            //     && menu.BelongSite == belongSite
+            //    select menu;
+
+
             var model =
                 from menu in _db.SysMenu
                 where
@@ -197,7 +209,6 @@ namespace Lumos.DAL.AuthorizeRelay
                  select rolemenu.MenuId).Contains(menu.Id)
                  && menu.BelongSite == belongSite
                 select menu;
-
 
             if (model != null)
             {

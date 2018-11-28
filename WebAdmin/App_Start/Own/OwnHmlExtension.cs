@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.Text;
 using System.Security.Cryptography;
 using WebAdmin;
+using Lumos.DAL;
 
 namespace System.Web
 {
@@ -188,5 +189,30 @@ namespace System.Web
             }
         }
 
+        public static MvcHtmlString initPosition(this HtmlHelper helper, Enumeration.BelongSite belongSite, string name)
+        {
+
+            LumosDbContext dbContext = new LumosDbContext();
+            var sysPosition = dbContext.SysPosition.Where(m => m.BelongSite == belongSite).ToList();
+            StringBuilder sb = new StringBuilder();
+
+            string id = name.Replace('.', '_');
+            sb.Append("<select  id=\"" + id + "\" data-placeholder=\"请选择\" name =\"" + name + "\" class=\"chosen-select\" style=\"width: 190px\" >");
+            sb.Append("<option value=\"-1\"></option>");
+
+
+
+
+            foreach (var m in sysPosition)
+            {
+                string selected = "";
+
+                sb.Append("<option value=\"" + (int)m.Id + "\"  " + selected + "   >&nbsp;" + m.Name + "</option>");
+
+            }
+
+            sb.Append("</select>");
+            return new MvcHtmlString(sb.ToString());
+        }
     }
 }
