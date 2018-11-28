@@ -224,7 +224,7 @@ namespace System.Web
 
             string id = name.Replace('.', '_');
             sb.Append("<select id=\"" + id + "\" name=\"" + name + "\" data-placeholder=\"请选择\" class=\"chosen-select\"  style=\"width: 325px;\" >");
-
+            sb.Append("<option value=\"-1\"></option>");
 
             var p_category = sysOrganization.Where(m => m.Dept == 0).ToList();
 

@@ -23,6 +23,7 @@ namespace Lumos.BLL.Service.Admin
                 ret.Email = sysAdminUser.Email ?? ""; ;
                 ret.PhoneNumber = sysAdminUser.PhoneNumber ?? "";
                 ret.PositionId = sysAdminUser.PositionId;
+                ret.OrganizationId = sysAdminUser.OrganizationId;
             }
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
@@ -54,6 +55,7 @@ namespace Lumos.BLL.Service.Admin
                 sysAdminUser.Status = Enumeration.UserStatus.Normal;
                 sysAdminUser.SecurityStamp = Guid.NewGuid().ToString().Replace("-", "");
                 sysAdminUser.PositionId = rop.PositionId;
+                sysAdminUser.OrganizationId = rop.OrganizationId;
                 sysAdminUser.Creator = operater;
                 sysAdminUser.CreateTime = DateTime.Now;
 
@@ -88,6 +90,7 @@ namespace Lumos.BLL.Service.Admin
                 sysAdminUser.MendTime = DateTime.Now;
                 sysAdminUser.Mender = operater;
                 sysAdminUser.PositionId = rop.PositionId;
+                sysAdminUser.OrganizationId = rop.OrganizationId;
                 CurrentDb.SaveChanges();
 
                 ts.Complete();

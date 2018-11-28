@@ -21,5 +21,7 @@ namespace Lumos.BLL.Service.Admin
         public string PhoneNumber { get; set; }
 
         public Enumeration.SysPositionId PositionId { get; set; }
+
+        public string OrganizationId { get; set; }
     }
 }
