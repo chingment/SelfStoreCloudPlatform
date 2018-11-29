@@ -115,7 +115,6 @@
     <Compile Include="Service\Admin\Biz\RModels\RupMachineGetList.cs" />
     <Compile Include="Service\Admin\Biz\RModels\RupMerchantGetList.cs" />
     <Compile Include="Service\Admin\Sys\BackgroundJobProvider.cs" />
-    <Compile Include="Service\Admin\Sys\RModels\RetSysAdminUserGetHomeIndexData.cs" />
     <Compile Include="Service\Admin\Sys\RModels\RetSysPositionGetDetails.cs" />
     <Compile Include="Service\Admin\Sys\RModels\RopSysPositionAdd.cs" />
     <Compile Include="Service\Admin\Sys\RModels\RopSysPositionEdit.cs" />
