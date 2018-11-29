@@ -2033,8 +2033,7 @@
                             selected = "selected";
                         }
                     }
-                    else
-                    {
+                    else {
                         var index = $.inArray(data[i].value, _selectedValue);
                         if (index >= 0) {
                             selected = "selected";
@@ -2047,7 +2046,7 @@
                         disabled = "disabled";
                     }
 
-                    html += "<option name" + data[i].name + " type=" + data[i].type + " value='" + data[i].value + "' " + selected + " " + disabled + "  >" + getDept(data[i].dept) + data[i].name + "</option>";
+                    html += "<option name='" + data[i].name + "' type='" + data[i].type + "' value='" + data[i].value + "' " + selected + " " + disabled + "  >" + getDept(data[i].dept) + data[i].name + "</option>";
                     toTree(data, data[i].value, _selectedValue);
                 }
             }
@@ -2085,8 +2084,12 @@
                     disabled = "disabled";
                 }
 
-                html += "<option name" + data[i].name + " type=" + data[i].type + " value='" + data[i].value + "' " + selected + " " + disabled + " >" + getDept(data[i].dept) + data[i].name + "</option>";
+                html += "<option name='" + data[i].name + "' type='" + data[i].type + "' value='" + data[i].value + "' " + selected + " " + disabled + " >" + getDept(data[i].dept) + data[i].name + "</option>";
             }
+        }
+
+        if (_max_selected_options > 1) {
+            $(_this).attr("multiple", "multiple");
         }
 
         $.lumos.getJson({
@@ -2109,11 +2112,8 @@
                         toTree(data, topId, _selectedValue);
                     }
                     $(_this).append(html);
-                    if (_max_selected_options > 1)
-                    {
-                        $(_this).attr("multiple", "multiple");
-                    }
-                    $(_this).chosen({ search_contains: true, max_selected_options: _max_selected_options });
+
+                    $(_this).chosen({ data: data, search_contains: true, max_selected_options: _max_selected_options });
 
                 }
             }

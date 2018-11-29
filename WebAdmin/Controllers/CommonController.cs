@@ -197,7 +197,12 @@ namespace WebAdmin.Controllers
 
                     foreach (var item in sysOrganizations)
                     {
-                        fields.Add(new FieldModel(item.FullName, item.Id, item.PId));
+                        var field = new FieldModel();
+                        field.Value = item.Id;
+                        field.PValue = item.PId;
+                        field.Name = item.Name;
+                        field.Dept = item.Dept;
+                        fields.Add(field);
                     }
                     #endregion 
                     break;
