@@ -97,7 +97,14 @@ namespace Lumos.BLL.Service.Merch
             }
         }
 
-    
+        public static UserProvider User
+        {
+            get
+            {
+                return new UserProvider();
+            }
+        }
+
 
     }
 }

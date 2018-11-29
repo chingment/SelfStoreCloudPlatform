@@ -100,7 +100,9 @@ namespace WebAdmin
 
         public static bool IsInPermission(string[] permissions)
         {
-            List<string> listPermissions = AdminServiceFactory.AuthorizeRelay.GetUserPermissions(GetCurrentUserId());
+            var userId = GetCurrentUserId();
+
+            List<string> listPermissions = AdminServiceFactory.SysAdminUser.GetPermissions(userId, userId);
             if (listPermissions == null)
                 return false;
             if (listPermissions.Count < 1)

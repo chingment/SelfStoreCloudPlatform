@@ -184,29 +184,6 @@ namespace Lumos.DAL.AuthorizeRelay
             return result;
         }
 
-        public List<string> GetUserPermissions(string pUserId)
-        {
-            List<string> list = new List<string>();
-
-            var model = (from sysMenuPermission in _db.SysMenuPermission
-                         where
-                             (from sysRoleMenu in _db.SysRoleMenu
-                              where
-                              (from userrole in _db.SysUserRole where sysRoleMenu.RoleId == userrole.RoleId && userrole.UserId == pUserId select userrole.RoleId)
-                              .Contains(sysRoleMenu.RoleId)
-                              select sysRoleMenu.MenuId).Contains(sysMenuPermission.MenuId)
-                         select sysMenuPermission.PermissionId).Distinct();
-
-
-
-
-            if (model != null)
-            {
-                list = model.ToList();
-            }
-            return list;
-        }
-
         public CustomJsonResult ChangePassword(string operater, string userId, string oldpassword, string newpassword)
         {
 

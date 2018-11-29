@@ -2,6 +2,7 @@
 using System.Web;
 using System.Web.Mvc;
 using Lumos.Web;
+using Lumos;
 
 namespace WebMerch
 {
@@ -9,6 +10,19 @@ namespace WebMerch
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, Inherited = true, AllowMultiple = true)]
     public class OwnAuthorizeAttribute : ActionFilterAttribute
     {
+        public string[] _permissions;
+
+        public OwnAuthorizeAttribute(params string[] permissions)
+        {
+            if (permissions != null)
+            {
+                if (permissions.Length > 0)
+                {
+                    _permissions = permissions;
+                }
+            }
+
+        }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -62,6 +76,35 @@ namespace WebMerch
                 }
 
                 return;
+            }
+
+            if (_permissions != null)
+            {
+                MessageBox messageBox = new MessageBox();
+                messageBox.No = Guid.NewGuid().ToString();
+                messageBox.Type = MessageBoxTip.Warn;
+                messageBox.Title = "温馨提示";
+                messageBox.Content = "您没有权限";
+
+                bool isHasPermission = OwnRequest.IsInPermission(_permissions);
+
+                if (!isHasPermission)
+                {
+                    if (isAjaxRequest)
+                    {
+                        CustomJsonResult jsonResult = new CustomJsonResult(ResultType.Exception, ResultCode.Exception, messageBox.Title, messageBox);
+                        //jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+                        filterContext.Result = jsonResult;
+                        filterContext.Result.ExecuteResult(filterContext);
+                        filterContext.HttpContext.Response.End();
+                    }
+                    else
+                    {
+                        filterContext.Result = new ViewResult { ViewName = "MessageBox", MasterName = "_Layout", ViewData = new ViewDataDictionary { Model = messageBox } };
+                    }
+
+                    return;
+                }
             }
 
             OwnRequest.Postpone();

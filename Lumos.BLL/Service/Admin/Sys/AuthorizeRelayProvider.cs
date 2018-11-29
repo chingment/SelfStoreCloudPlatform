@@ -73,10 +73,6 @@ namespace Lumos.BLL.Service.Admin
             return result;
         }
 
-        public List<string> GetUserPermissions(string userId)
-        {
-            return _authorizeRelay.GetUserPermissions(userId);
-        }
 
         public CustomJsonResult ChangePassword(string operater, string userId, string oldpassword, string newpassword)
         {

@@ -1,5 +1,6 @@
 ﻿using Lumos.BLL;
 using Lumos.BLL.Service.Admin;
+using Lumos.BLL.Service.Merch;
 using Lumos.Entity;
 using Lumos.Session;
 using System;
@@ -101,7 +102,11 @@ namespace WebMerch
 
         public static bool IsInPermission(string[] permissions)
         {
-            List<string> listPermissions = AdminServiceFactory.AuthorizeRelay.GetUserPermissions(GetCurrentUserId());
+            var userInfo = GetUserInfo();
+            if (userInfo == null)
+                return false;
+
+            List<string> listPermissions = MerchServiceFactory.User.GetPermissions(userInfo.UserId, userInfo.MerchantId, userInfo.UserId);
             if (listPermissions == null)
                 return false;
             if (listPermissions.Count < 1)

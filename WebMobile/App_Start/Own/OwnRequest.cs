@@ -97,42 +97,6 @@ namespace WebMobile
             return userName;
         }
 
-        public static bool IsInMenu(string url)
-        {
-
-            return true;
-        }
-
-
-        public static bool IsInPermission(string[] permissions)
-        {
-            List<string> listPermissions = AdminServiceFactory.AuthorizeRelay.GetUserPermissions(GetCurrentUserId());
-            if (listPermissions == null)
-                return false;
-            if (listPermissions.Count < 1)
-                return false;
-
-            bool isHas = false;
-            foreach (var permission in listPermissions)
-            {
-                foreach (var m in permissions)
-                {
-                    if (permission.Trim() == m.Trim())
-                    {
-                        isHas = true;
-                        break;
-                    }
-                }
-                if (isHas)
-                {
-                    break;
-                }
-            }
-
-            return isHas;
-        }
-
-
         public static void Postpone()
         {
 

@@ -61,6 +61,7 @@ namespace Lumos.BLL.Service.Admin
                 sysMerchatUser.RegisterTime = this.DateTime;
                 sysMerchatUser.Status = Enumeration.UserStatus.Normal;
                 sysMerchatUser.BelongSite = Enumeration.BelongSite.Merchant;
+                sysMerchatUser.PositionId = Enumeration.SysPositionId.MerchantAdministrator;
                 sysMerchatUser.CreateTime = this.DateTime;
                 sysMerchatUser.Creator = operater;
                 sysMerchatUser.MerchantId = merchantId;
@@ -87,16 +88,6 @@ namespace Lumos.BLL.Service.Admin
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "初始角色未指定");
                 }
-
-                var sysUserRole = new SysUserRole();
-                sysUserRole.Id = GuidUtil.New();
-                sysUserRole.RoleId = sysRole.Id;
-                sysUserRole.UserId = sysMerchatUser.Id;
-                sysUserRole.CreateTime = this.DateTime;
-                sysUserRole.Creator = operater;
-                sysUserRole.IsCanDelete = false;
-                CurrentDb.SysUserRole.Add(sysUserRole);
-
 
                 var productKind = new ProductKind();
                 productKind.Id = GuidUtil.New();

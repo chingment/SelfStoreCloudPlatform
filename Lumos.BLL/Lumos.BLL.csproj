@@ -280,6 +280,7 @@
     <Compile Include="Service\Merch\RModels\RupSupplierGetList.cs" />
     <Compile Include="Service\Merch\RModels\RupWarehouseGetList.cs" />
     <Compile Include="Service\Merch\StoreProvider.cs" />
+    <Compile Include="Service\Merch\UserProvider.cs" />
     <Compile Include="Service\Merch\WarehouseProvider.cs" />
     <Compile Include="SnUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

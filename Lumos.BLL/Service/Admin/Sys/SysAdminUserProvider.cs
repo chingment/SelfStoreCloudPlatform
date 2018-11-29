@@ -140,5 +140,35 @@ namespace Lumos.BLL.Service.Admin
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
         }
+
+
+        public List<string> GetPermissions(string operater, string id)
+        {
+            List<string> list = new List<string>();
+
+
+            var adminUser = CurrentDb.SysAdminUser.Where(m => m.Id == id).FirstOrDefault();
+            if (adminUser == null)
+                return list;
+
+
+            var model = (from sysMenuPermission in CurrentDb.SysMenuPermission
+                         where
+                             (from sysRoleMenu in CurrentDb.SysRoleMenu
+                              where
+                              (from sysPositionRole in CurrentDb.SysPositionRole
+                               where sysPositionRole.PositionId == adminUser.PositionId
+                               select sysPositionRole.RoleId)
+                              .Contains(sysRoleMenu.RoleId)
+                              select sysRoleMenu.MenuId).Contains(sysMenuPermission.MenuId)
+                         select sysMenuPermission.PermissionId).Distinct();
+
+            if (model != null)
+            {
+                list = model.ToList();
+            }
+
+            return list;
+        }
     }
 }

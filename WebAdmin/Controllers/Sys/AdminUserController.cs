@@ -142,5 +142,6 @@ namespace WebAdmin.Controllers.Sys
             return AdminServiceFactory.SysAdminUser.Delete(this.CurrentUserId, ids);
         }
 
+
     }
 }
