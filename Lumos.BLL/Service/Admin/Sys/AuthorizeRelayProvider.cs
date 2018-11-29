@@ -73,11 +73,6 @@ namespace Lumos.BLL.Service.Admin
             return result;
         }
 
-        public List<SysMenu> GetUserMenus(string userId,Enumeration.BelongSite belongSite)
-        {
-            return _authorizeRelay.GetUserMenus(userId, belongSite);
-        }
-
         public List<string> GetUserPermissions(string userId)
         {
             return _authorizeRelay.GetUserPermissions(userId);

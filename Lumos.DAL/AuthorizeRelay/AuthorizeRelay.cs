@@ -184,39 +184,6 @@ namespace Lumos.DAL.AuthorizeRelay
             return result;
         }
 
-        public List<SysMenu> GetUserMenus(string pUserId, Enumeration.BelongSite belongSite)
-        {
-            List<SysMenu> listMenu = new List<SysMenu>();
-            //var model =
-            //    from menu in _db.SysMenu
-            //    where
-            //    (from rolemenu in _db.SysRoleMenu
-            //     where
-            //     (from userrole in _db.SysUserRole where rolemenu.RoleId == userrole.RoleId && userrole.UserId == pUserId select userrole.RoleId)
-            //     .Contains(rolemenu.RoleId)
-            //     select rolemenu.MenuId).Contains(menu.Id)
-            //     && menu.BelongSite == belongSite
-            //    select menu;
-
-
-            var model =
-                from menu in _db.SysMenu
-                where
-                (from rolemenu in _db.SysRoleMenu
-                 where
-                 (from userrole in _db.SysUserRole where rolemenu.RoleId == userrole.RoleId && userrole.UserId == pUserId select userrole.RoleId)
-                 .Contains(rolemenu.RoleId)
-                 select rolemenu.MenuId).Contains(menu.Id)
-                 && menu.BelongSite == belongSite
-                select menu;
-
-            if (model != null)
-            {
-                listMenu = model.OrderBy(m => m.Priority).ToList();
-            }
-            return listMenu;
-        }
-
         public List<string> GetUserPermissions(string pUserId)
         {
             List<string> list = new List<string>();

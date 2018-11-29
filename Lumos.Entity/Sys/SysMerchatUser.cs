@@ -8,5 +8,7 @@ namespace Lumos.Entity
     public class SysMerchantUser : SysUser
     {
         public string MerchantId { get; set; }
+
+        public Enumeration.SysPositionId PositionId { get; set; }
     }
 }

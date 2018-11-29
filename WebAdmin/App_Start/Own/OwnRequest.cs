@@ -97,10 +97,6 @@ namespace WebAdmin
             return userName;
         }
 
-        public static List<SysMenu> GetMenus()
-        {
-            return AdminServiceFactory.AuthorizeRelay.GetUserMenus(GetCurrentUserId(),Enumeration.BelongSite.Admin);
-        }
 
         public static bool IsInPermission(string[] permissions)
         {

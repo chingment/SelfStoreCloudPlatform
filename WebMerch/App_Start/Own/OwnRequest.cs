@@ -98,10 +98,6 @@ namespace WebMerch
             return true;
         }
 
-        public static List<SysMenu> GetMenus()
-        {
-            return AdminServiceFactory.AuthorizeRelay.GetUserMenus(GetCurrentUserId(), Enumeration.BelongSite.Merchant);
-        }
 
         public static bool IsInPermission(string[] permissions)
         {
