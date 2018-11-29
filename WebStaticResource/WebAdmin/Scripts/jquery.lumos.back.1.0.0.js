@@ -2109,6 +2109,10 @@
                         toTree(data, topId, _selectedValue);
                     }
                     $(_this).append(html);
+                    if (_max_selected_options > 1)
+                    {
+                        $(_this).attr("multiple", "multiple");
+                    }
                     $(_this).chosen({ search_contains: true, max_selected_options: _max_selected_options });
 
                 }

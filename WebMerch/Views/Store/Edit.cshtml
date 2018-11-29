@@ -121,7 +121,7 @@
                             <td class="f-tb-t">状态：</td>
                             <td class="f-tb-c">
                                 <span>
-                                    @(Html.initEnumeration<Lumos.Entity.Enumeration.StoreStatus>(Lumos.Entity.Enumeration.InputType.Radio, "rd_Status", new { @class = "select-control", defaulttext = "请选择", hidevalue = new Lumos.Entity.Enumeration.StoreStatus[] { Lumos.Entity.Enumeration.StoreStatus.Unknow } }))
+                                    <input type="radio" name="rd_Status" id="rd_Status1" value="1"><label for="rd_Status1">正常</label> <input type="radio" name="rd_Status" id="rd_Status2" value="2" ><label for="rd_Status2">关闭</label>
                                 </span>
                             </td>
                         </tr>

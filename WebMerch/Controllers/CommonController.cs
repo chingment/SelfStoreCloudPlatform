@@ -216,6 +216,7 @@ namespace WebMerch.Controllers
                     #endregion
                     break;
                 case "productkind":
+                    #region 
                     var productKinds = CurrentDb.ProductKind.Where(m => m.MerchantId == this.CurrentMerchantId).Where(m => m.IsDelete == false).OrderBy(m => m.Priority).ToList();
 
                     foreach (var item in productKinds)
@@ -235,7 +236,7 @@ namespace WebMerch.Controllers
                         }
                         fields.Add(field);
                     }
-
+                    #endregion
                     break;
                 case "productkindstatus":
                     #region productkindstatus
@@ -252,6 +253,7 @@ namespace WebMerch.Controllers
                     #endregion
                     break;
                 case "productsubject":
+                    #region productsubject
                     var productSubjects = CurrentDb.ProductSubject.Where(m => m.MerchantId == this.CurrentMerchantId).Where(m => m.IsDelete == false).OrderBy(m => m.Priority).ToList();
 
                     foreach (var item in productSubjects)
@@ -271,6 +273,7 @@ namespace WebMerch.Controllers
                         }
                         fields.Add(field);
                     }
+                    #endregion
                     break;
                 case "productsubjectstatus":
                     #region
