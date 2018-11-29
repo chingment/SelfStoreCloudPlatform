@@ -39,15 +39,11 @@ namespace WebMerch.Controllers
             return MerchServiceFactory.ProductKind.GetDetails(this.CurrentUserId, this.CurrentMerchantId, id);
         }
 
-
         [HttpPost]
-        [OwnNoResubmit]
         public CustomJsonResult Add(RopProductKindAdd rop)
         {
             return MerchServiceFactory.ProductKind.Add(this.CurrentUserId, this.CurrentMerchantId, rop);
         }
-
-
 
         [HttpPost]
         public CustomJsonResult Edit(RopProductKindEdit rop)

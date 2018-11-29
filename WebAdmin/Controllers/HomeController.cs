@@ -32,7 +32,6 @@ namespace WebAdmin.Controllers
             return View();
         }
 
-
         public ViewResult ChangePassword()
         {
             return View();
@@ -62,14 +61,11 @@ namespace WebAdmin.Controllers
 
         }
 
-
         public CustomJsonResult GetIndexData()
         {
             var ret = new IndexModel();
-
             ret.Title = OwnWebSettingUtils.GetWebName();
             ret.IsLogin = OwnRequest.IsLogin();
-
             if (ret.IsLogin)
             {
                 ret.UserName = OwnRequest.GetUserNameWithSymbol();
@@ -106,7 +102,6 @@ namespace WebAdmin.Controllers
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
-
 
         public class IndexModel
         {

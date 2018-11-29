@@ -41,7 +41,6 @@ namespace WebAdmin.Controllers.Sys
 
 
         [HttpPost]
-        [OwnNoResubmit]
         public CustomJsonResult Add(RopSysOrganizationAdd rop)
         {
             return AdminServiceFactory.SysOrganization.Add(this.CurrentUserId, rop);

@@ -105,7 +105,6 @@ namespace Lumos.BLL.Service.Admin
 
         }
 
-
         public CustomJsonResult Delete(string operater, string[] ids)
         {
             if (ids == null)
@@ -170,5 +169,11 @@ namespace Lumos.BLL.Service.Admin
 
             return list;
         }
+
+
+        //public CustomJsonResult GetHomeIndexData(string operater, string id)
+        //{
+         
+        //}
     }
 }

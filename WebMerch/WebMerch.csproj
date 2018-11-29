@@ -182,7 +182,6 @@
     <Compile Include="App_Start\Own\OwnBaseController.cs" />
     <Compile Include="App_Start\Own\OwnExceptionAttribute.cs" />
     <Compile Include="App_Start\Own\OwnHmlExtension.cs" />
-    <Compile Include="App_Start\Own\OwnNoResubmitAttribute.cs" />
     <Compile Include="App_Start\Own\OwnStaticResource.cs" />
     <Compile Include="App_Start\Own\OwnStatisticsTrackerAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

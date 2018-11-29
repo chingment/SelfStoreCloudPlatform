@@ -41,7 +41,6 @@ namespace WebMerch.Controllers
 
 
         [HttpPost]
-        [OwnNoResubmit]
         public CustomJsonResult Add(RopProductSubjectAdd rop)
         {
             return MerchServiceFactory.ProductSubject.Add(this.CurrentUserId, this.CurrentMerchantId, rop);

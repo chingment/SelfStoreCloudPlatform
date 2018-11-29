@@ -151,7 +151,6 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\Own\OwnRequest.cs" />
-    <Compile Include="App_Start\Own\OwnResponse.cs" />
     <Compile Include="App_Start\Own\OwnStatisticsTrackerAttribute.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\Biz\MachineController.cs" />
@@ -175,7 +174,6 @@
     <Compile Include="App_Start\Own\OwnBaseController.cs" />
     <Compile Include="App_Start\Own\OwnExceptionAttribute.cs" />
     <Compile Include="App_Start\Own\OwnHmlExtension.cs" />
-    <Compile Include="App_Start\Own\OwnNoResubmitAttribute.cs" />
     <Compile Include="App_Start\Own\OwnStaticResource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -1121,7 +1119,6 @@
     <Folder Include="Scripts\ckeditor\samples\plugins\magicline\" />
     <Folder Include="Scripts\ckeditor\samples\plugins\toolbar\" />
     <Folder Include="Scripts\ckeditor\samples\plugins\wysiwygarea\" />
-    <Folder Include="Views\Positions\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

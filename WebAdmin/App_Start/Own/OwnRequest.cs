@@ -13,7 +13,6 @@ namespace WebAdmin
     {
         public const string SESSION_NAME = "Session_WebAdmin";
 
-
         public static string GetCurrentUserId()
         {
             var userInfo = GetUserInfo();
@@ -36,11 +35,6 @@ namespace WebAdmin
                 return null;
 
             userInfo = SSOUtil.GetUserInfo(token.Value);
-
-            //userInfo = new UserInfo();
-            //userInfo.Token = "1";
-            //userInfo.UserId = 1000;
-            //userInfo.UserName = "admin";
 
             return userInfo;
         }
@@ -96,7 +90,6 @@ namespace WebAdmin
 
             return userName;
         }
-
 
         public static bool IsInPermission(string[] permissions)
         {

@@ -58,7 +58,6 @@ namespace WebAdmin.Controllers.Sys
         }
 
         [HttpPost]
-        [OwnNoResubmit]
         public CustomJsonResult Add(RopSysMenuAdd rop)
         {
             return AdminServiceFactory.SysMenu.Add(this.CurrentUserId, rop);
