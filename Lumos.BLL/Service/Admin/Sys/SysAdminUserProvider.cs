@@ -140,7 +140,6 @@ namespace Lumos.BLL.Service.Admin
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
         }
 
-
         public List<string> GetPermissions(string operater, string id)
         {
             List<string> list = new List<string>();
@@ -170,10 +169,5 @@ namespace Lumos.BLL.Service.Admin
             return list;
         }
 
-
-        //public CustomJsonResult GetHomeIndexData(string operater, string id)
-        //{
-         
-        //}
     }
 }

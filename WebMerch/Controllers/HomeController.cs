@@ -29,10 +29,6 @@ namespace WebMerch.Controllers
             return View();
         }
 
-        /// <summary>
-        /// 退出方法
-        /// </summary>
-        /// <returns></returns>
         [HttpPost]
         public CustomJsonResult LogOff()
         {
@@ -99,7 +95,6 @@ namespace WebMerch.Controllers
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
-
 
         public class IndexModel
         {
