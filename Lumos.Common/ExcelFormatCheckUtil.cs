@@ -48,14 +48,10 @@ namespace Lumos.Common
 
             foreach (var cell in _checkCell)
             {
-                var iCell = rowTitle.GetCell(cell.Index);
-                if (iCell == null)
+                var iCell = rowTitle.GetCell(cell.Index) == null ? "" : rowTitle.GetCell(cell.Index).ToString().Trim();
+                if (iCell != cell.Title)
                 {
-                    _errorPoint.Add(string.Format("标题栏（{0}）不存在,", cell.Title));
-                }
-                else if (cell.ToString().Trim() != cell.Title)
-                {
-                    _errorPoint.Add(string.Format("标题栏（{0}）不存在,", cell.Title));
+                    _errorPoint.Add(string.Format("标题:{0},位置:{1},与模板不对应", cell.Title, (cell.Index + 1)));
                 }
             }
 
@@ -72,15 +68,18 @@ namespace Lumos.Common
             for (int i = 1; i < rowCount; i++)
             {
                 IRow row = _sheet.GetRow(i);
-                for (int j = 0; i < cellCount; j++)
+                for (int j = 0; j < cellCount; j++)
                 {
                     string value = row.GetCell(j) == null ? "" : row.GetCell(j).ToString();
                     var checkCell = _checkCell[j];
                     if (checkCell.ValueType == ExcelCellValueType.String)
                     {
-                        if (value.Length <= checkCell.MinLength || value.Length > checkCell.MaxLength)
+                        if (checkCell.MinLength >= 1)
                         {
-                            _errorPoint.Add(string.Format("第{0}行的{1}的长度不符合要求,格式为{2}-{3}个字符", i, checkCell.Title, checkCell.MinLength, checkCell.MinLength));
+                            if (value.Length <= checkCell.MinLength || value.Length > checkCell.MaxLength)
+                            {
+                                _errorPoint.Add(string.Format("第{0}行的{1}的长度不符合要求,格式为{2}-{3}个字符", i, checkCell.Title, checkCell.MinLength, checkCell.MinLength));
+                            }
                         }
                     }
                 }

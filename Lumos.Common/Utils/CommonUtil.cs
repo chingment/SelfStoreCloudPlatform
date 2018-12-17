@@ -223,6 +223,11 @@ namespace Lumos.Common
             {
                 if (strDate.Trim() != "")
                 {
+                    if (CommonUtil.IsDateTime(strDate))
+                    {
+                        strDate = DateTime.Parse(strDate).ToShortDateString();
+                    }
+
                     d = DateTime.Parse(strDate + " 00:00:00.000");
                 }
             }
@@ -241,6 +246,11 @@ namespace Lumos.Common
             {
                 if (strDate.Trim() != "")
                 {
+                    if (CommonUtil.IsDateTime(strDate))
+                    {
+                        strDate = DateTime.Parse(strDate).ToShortDateString();
+                    }
+
                     d = DateTime.Parse(strDate + " 23:59:59");
                 }
             }
@@ -852,6 +862,17 @@ namespace Lumos.Common
             return info;
         }
         #endregion
+
+        public static string GetLastString(string str, int num)
+        {
+            int count = 0;
+            if (str.Length > num)
+            {
+                count = str.Length - num;
+                str = str.Substring(count, num);
+            }
+            return str;
+        }
     }
 
 

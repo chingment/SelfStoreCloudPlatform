@@ -29,7 +29,8 @@ namespace Lumos
         Exception = 3000,
         AlreadyExist = 4001,
         HasBind = 4002,
-        NoBind = 4003
+        NoBind = 4003,
+        FormImperfect = 4004
     }
 
 

@@ -50,7 +50,7 @@ namespace Lumos.Redis
         /// 入栈
         /// </summary>
         /// <param name="t"></param>
-        public void Push(T t)
+        protected void Push(T t)
         {
             Push(MessageQueueKeyName, t);
         }

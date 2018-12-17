@@ -7,7 +7,19 @@
             failure: 2,
             exception: 3,
         },
-
+        operateType: {
+            add: "1",
+            update: "2",
+            del: "3",
+            save: "4",
+            submit: "5",
+            pass: "6",
+            reject: "7",
+            refuse: "8",
+            cancle: "9",
+            search: "101",
+            exportExcel: "102"
+        },
         isNullOrEmpty: function (obj) {
             if (obj == null) {
                 return true;
@@ -857,7 +869,8 @@
             success: function (data) { },
             refreshInterval: 0,
             isShowLoading: true,
-            useEmptyRow: false
+            useEmptyRow: false,
+            pageSize: 10
         }, opts || {});
 
         var _thisTable = $(this); //当前table
@@ -870,7 +883,7 @@
         var _refreshInterval = opts.refreshInterval;
         var _isShowLoading = opts.isShowLoading;
         var _useEmptyRow = opts.useEmptyRow;
-
+        var _pageSize = opts.pageSize;
         if (_searchParams == null) {
             _searchParams = new Array();
         }
@@ -1020,7 +1033,7 @@
                     field.value = currentPageIndex
                 }
                 else if (field.name == "PageSize") {
-                    field.value = 10;
+                    field.value = _pageSize;
                 }
                 else {
 
@@ -1174,7 +1187,7 @@
             });
         }
 
-        _searchParams.push({ name: "PageSize", value: 10 });
+        _searchParams.push({ name: "PageSize", value: _pageSize });
         _searchParams.push({ name: "PageIndex", value: 0 });
 
 
@@ -1217,7 +1230,7 @@
         });
 
         //处理查询按钮
-        $("#" + _searchButtonId).live("click", function () {
+        $(_container).find("#" + _searchButtonId).live("click", function () {
             _searchParams = opts.searchParams;
 
             getList(0, _searchParams, true);
@@ -1749,15 +1762,6 @@
         }
     }
 
-    $.fn.openDialog = function (url, title, iwidth, iheight) {
-
-        var _this = $(this);
-        $(_this).on("click", function () {
-            lumos.openDialog(url, title, iwidth, iheight);
-            return false;
-        })
-    }
-
     $.fn.multiSelect = function () {
 
         var _this = $(this);
@@ -1969,6 +1973,7 @@
         opts = $.extend({
             url: "/Common/GetSelectFields",
             urlParams: null,
+            isUseUrl: true,
             selectedValue: null,
             max_selected_options: 1
         }, opts || {});
@@ -1979,6 +1984,7 @@
         var _urlParams = opts.urlParams;
         var _selectedValue = opts.selectedValue;
         var _max_selected_options = opts.max_selected_options;
+        var _isUseUrl = opts.isUseUrl;
 
         function getPValue(data) {
 
@@ -2092,33 +2098,98 @@
             $(_this).attr("multiple", "multiple");
         }
 
-        $.lumos.getJson({
-            url: "/Common/GetSelectFields",
-            urlParams: _urlParams,
-            isUseHandling: false,
-            success: function (d) {
+        if (_isUseUrl) {
+            $.lumos.getJson({
+                url: "/Common/GetSelectFields",
+                urlParams: _urlParams,
+                isUseHandling: false,
+                success: function (d) {
 
-                if (d.result == $.lumos.resultType.success) {
-                    //alert(JSON.stringify(d.data))
-                    //alert(getPValue(d.data))
-                    var data = d.data;
-                    var topId = getPValue(data);
+                    if (d.result == $.lumos.resultType.success) {
+                        //alert(JSON.stringify(d.data))
+                        //alert(getPValue(d.data))
+                        var data = d.data;
+                        var topId = getPValue(data);
 
-                    if (topId == null) {
+                        if (topId == null) {
 
-                        toSingle(data, _selectedValue);
+                            toSingle(data, _selectedValue);
+                        }
+                        else {
+                            toTree(data, topId, _selectedValue);
+                        }
+                        $(_this).append(html);
+
+                        $(_this).chosen({ data: data, search_contains: true, max_selected_options: _max_selected_options });
+
                     }
-                    else {
-                        toTree(data, topId, _selectedValue);
-                    }
-                    $(_this).append(html);
-
-                    $(_this).chosen({ data: data, search_contains: true, max_selected_options: _max_selected_options });
-
                 }
+            });
+        }
+        else {
+
+            $(_this).find("option[value=" + _selectedValue + "]").attr("selected", "selected");
+            $(_this).chosen({ data: null, search_contains: true, max_selected_options: _max_selected_options });
+        }
+
+    }
+
+    $.fn.myBtnSwitch = function (opts) {
+
+        var _this = $(this);
+
+
+        //var objs
+
+        // alert($(_this).attr("id"))
+        $(_this).live('click', function () {
+
+            var l_this = $(this)
+
+
+            var _move = $(l_this).find(".move");
+
+            if (l_this.attr("data-state") == "on") {
+                _move.animate({
+                    left: "1"
+                }, 300, function () {
+                    l_this.attr("data-state", "off");
+                });
+            } else if (l_this.attr("data-state") == "off") {
+                var left = $(_move).parent().width() - $(_move).width() - 2;
+                _move.animate({
+                    left: left
+                }, 300, function () {
+                    $(l_this).attr("data-state", "on");
+                });
+
             }
+
+
         });
 
     }
 
+    $.fn.myBtnCheck = function (opts) {
+
+        var _this = $(this);
+
+
+        //var objs
+
+        // alert($(_this).attr("id"))
+        $(_this).live('click', function () {
+
+            var l_this = $(this)
+
+            if (l_this.attr("data-state") == "on") {
+                l_this.attr("data-state", "off");
+            } else if (l_this.attr("data-state") == "off") {
+                $(l_this).attr("data-state", "on");
+            }
+
+
+        });
+
+    }
 })(jQuery);
