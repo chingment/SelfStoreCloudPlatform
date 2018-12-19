@@ -61,12 +61,23 @@
         }
 
         function edit() {
+
+            var password = $(".txt_Password").val();
+
             var isValid = $.formValidator.pageIsValid();
             if (!isValid)
                 return;
+
+            if (password != "") {
+                var isFlag = password.match(regexEnum.password);
+                if (isFlag == null) {
+                    $.lumos.tips('密码由6到20个数字、英文字母或下划线组成');
+                    return;
+                }
+            }
+
             art.dialog.confirm('确定要保存？', function () {
 
-                var password = $("#txt_Password").val();
                 var contactName = $("#txt_ContactName").val();
                 var contactPhone = $("#txt_ContactPhone").val();
                 var contactAddress = $("#txt_ContactAddress").val();
@@ -151,7 +162,7 @@
                             </td>
                             <td class="f-tb-c">
                                 <label id="lbl_Password">******</label>
-                                <input class="input-control" autocomplete="off" type="password" id="txt_Password" style="width: 150px;display:none;" />
+                                <input class="input-control txt_Password" autocomplete="off" type="password"  style="width: 150px;display:none;" />
                                 <a class="a-btn" id="abtn-editPwd" href="javascript:void(0)">修改</a>
                             </td>
                         </tr>

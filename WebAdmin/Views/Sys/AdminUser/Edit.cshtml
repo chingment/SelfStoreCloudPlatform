@@ -61,7 +61,7 @@
 
         function edit() {
 
-            var password = $("#txt_Password").val();
+            var password = $(".txt_Password").val();
 
             var isValid = $.formValidator.pageIsValid();
             if (!isValid)
@@ -130,7 +130,7 @@
             <td class="f-tb-c">
                 <label id="lbl_Password">******</label>
 
-                <input id="txt_Password" class="input-control" autocomplete="off" type="password" style="width: 224px;display:none;" />
+                <input  class="input-control txt_Password" autocomplete="off" type="password" style="width: 224px;display:none;" />
                 <a class="a-btn" id="abtn-editPwd" href="javascript:void(0)">修改</a>
             </td>
         </tr>

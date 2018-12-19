@@ -50,7 +50,7 @@
             <dl class="h-entry clearfix">
                 <dt class="h-entry-label">用户名： </dt>
                 <dd class="h-entry-values">
-                    <span class="h-item "><input type="text" id="txt_UserName" autocomplete="off" name="UserName" value="" style="width:180px;" placeholder="请输入登录帐号" /></span>
+                    <span class="h-item "><input type="text"  autocomplete="off"  class="txt_UserName" value="" style="width:180px;" placeholder="请输入登录帐号" /></span>
                     <div class="clear"></div>
                 </dd>
             </dl>
@@ -58,7 +58,7 @@
             <dl class="h-entry">
                 <dt class="h-entry-label">密码：</dt>
                 <dd class="h-entry-values">
-                    <span class="h-item"><input type="password" id="txt_Password" autocomplete="off" name="Password" value="" style="width: 180px;" placeholder="请输入密码" /></span>
+                    <span class="h-item"><input type="password"  autocomplete="off" class="txt_Password"  value="" style="width: 180px;" placeholder="请输入密码" /></span>
                     <div class="clear"></div>
                 </dd>
             </dl>
@@ -85,8 +85,8 @@
         function login() {
             var msgObj = $("#lbl_Message");
             $(msgObj).text("");
-            var userName = $("#txt_UserName").val().replace(/(^\s*)|(\s*$)/g, "");
-            var passWord = $("#txt_Password").val();
+            var userName = $(".txt_UserName").val().replace(/(^\s*)|(\s*$)/g, "");
+            var passWord = $(".txt_Password").val();
             var verifyCode = $("#txt_VerifyCode").val().replace(/(^\s*)|(\s*$)/g, "");
 
             if (userName.length == 0) {
