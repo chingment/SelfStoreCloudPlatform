@@ -51,77 +51,77 @@
 
 
 </script>
+<div class="gbr-row gbr-page">
+    <form id="form1" name="form1">
+        <div class="search-bar">
+            <div class="filter">
+                <span class="filter-label">用户名：</span>
+                <span class="filter-input">
+                    <input type="text" class="input-control" name="UserName" style="width:120px;" />
+                </span>
+            </div>
+            <div class="filter">
+                <span class="filter-label">姓名：</span>
+                <span class="filter-input">
+                    <input type="text" class="input-control" name="FullName" style="width:120px;" />
+                </span>
+            </div>
 
-<form id="form1" name="form1">
-    <div class="search-bar">
-        <div class="filter">
-            <span class="filter-label">用户名：</span>
-            <span class="filter-input">
-                <input type="text" class="input-control" name="UserName" style="width:120px;" />
-            </span>
+            <div class="filter"><input type="button" class="btn btn-search" id="btn_Search" value="查询" /> </div>
+
         </div>
-        <div class="filter">
-            <span class="filter-label">姓名：</span>
-            <span class="filter-input">
-                <input type="text" class="input-control" name="FullName" style="width:120px;" />
-            </span>
+        <div class="list">
+            <table id="list_table" class="list-tb" cellpadding="0" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th style="width:5%" class="no">
+                            序号
+                        </th>
+                        <th style="width:20%">
+                            用户名
+                        </th>
+                        <th style="width:20%">
+                            姓名
+                        </th>
+                        <th style="width:15%">
+                            手机
+                        </th>
+                        <th style="width:10%">
+                            邮箱
+                        </th>
+                        <th style="width:10%">
+                            端口
+                        </th>
+                        <th style="width:10%">
+                            时间
+                        </th>
+                        <th style="width:10%" class="operation">
+                            操作
+                        </th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="8">
+                            <div class="pull-left">
+                                <span class="load-tip"></span>
+                            </div>
+                            <div class="pull-right pagination">
+                                <div class="pagination-info">
+
+                                </div>
+                                <div class="pagination-index">
+
+                                </div>
+                                <div class="pagination-goto">
+
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
         </div>
-
-        <div class="filter"><input type="button" class="btn btn-search" id="btn_Search" value="查询" /> </div>
-
-    </div>
-    <div class="list">
-        <table id="list_table" class="list-tb" cellpadding="0" cellspacing="0">
-            <thead>
-                <tr>
-                    <th style="width:5%" class="no">
-                        序号
-                    </th>
-                    <th style="width:20%">
-                        用户名
-                    </th>
-                    <th style="width:20%">
-                        姓名
-                    </th>
-                    <th style="width:15%">
-                        手机
-                    </th>
-                    <th style="width:10%">
-                        邮箱
-                    </th>
-                    <th style="width:10%">
-                        端口
-                    </th>
-                    <th style="width:10%">
-                        时间
-                    </th>
-                    <th style="width:10%" class="operation">
-                        操作
-                    </th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="8">
-                        <div class="pull-left">
-                            <span class="load-tip"></span>
-                        </div>
-                        <div class="pull-right pagination">
-                            <div class="pagination-info">
-
-                            </div>
-                            <div class="pagination-index">
-
-                            </div>
-                            <div class="pagination-goto">
-
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
-</form>
-
+    </form>
+</div>

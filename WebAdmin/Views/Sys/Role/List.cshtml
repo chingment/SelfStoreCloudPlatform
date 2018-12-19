@@ -353,72 +353,72 @@
     </script>
 }
 
-
-<dl class="tree-tab">
-    <dd class="tree-tab-left">
-        <ul id="maintree" class="ztree"></ul>
-    </dd>
-    <dd class="tree-tab-right">
-        <div class="tab" id="tab_Main">
-            <div class="tab-item">
-                <ul>
-                    <li class="item first selected"><a class="a-btn-info" href="javascript:void(0)">基本信息</a></li>
-                    <li class="item"><a class="a-btn-info" href="javascript:void(0)">关联菜单</a></li>
-                </ul>
-            </div>
-            <div class="tab-content">
-                <div class="subcontent">
-                    <div class="f-btn-area" style="margin-bottom:5px;">
-                        <input type="button" class="btn btn-open" id="maintree_add_node" value="新建" />
-                        <input type="button" class="btn btn-delete" id="maintree_delete_node" value="删除" />
-                    </div>
-                    <form name="form1" method="post" id="form1">
-                        <table class="f-tb" cellpadding="0" cellspacing="1">
-                            <tr>
-                                <td class="f-tb-t">
-                                    上级名称：
-                                </td>
-                                <td class="f-tb-c">
-                                    <label id="lbl_PName">/</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="f-tb-t">
-                                    <span class="required-symbol">*</span>名称：
-                                </td>
-                                <td class="f-tb-c">
-                                    <input id="txt_Name" type="text" autocomplete="off" value="" style="width: 250px;" class="input-control" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="f-tb-t">
-                                    备注：
-                                </td>
-                                <td class="f-tb-c">
-                                    <textarea id="txt_Description" autocomplete="off" rows="5" cols="42" class="input-control"></textarea>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="f-tb-t"></td>
-                                <td class="f-tb-c">
-                                    <input type="button" name="btn_Save" value="保存" id="maintree_eidt_node" class="btn btn-sure" />
-                                </td>
-                            </tr>
-                        </table>
-                    </form>
+<div class="gbr-row gbr-page">
+    <dl class="tree-tab">
+        <dd class="tree-tab-left">
+            <ul id="maintree" class="ztree"></ul>
+        </dd>
+        <dd class="tree-tab-right">
+            <div class="tab" id="tab_Main">
+                <div class="tab-item">
+                    <ul>
+                        <li class="item first selected"><a class="a-btn-info" href="javascript:void(0)">基本信息</a></li>
+                        <li class="item"><a class="a-btn-info" href="javascript:void(0)">关联菜单</a></li>
+                    </ul>
                 </div>
-                <div class="subcontent">
-                    <form id="form3" name="form3">
-                        <ul id="tree_Menus" class="ztree"></ul>
-                        <div class="f-btn-area" style="margin-bottom:5px; text-align:center">
-                            <input type="button" class="btn btn-sure" id="maintree_save_menus" value="保存" style="margin-right:5px;" />
+                <div class="tab-content">
+                    <div class="subcontent">
+                        <div class="f-btn-area" style="margin-bottom:5px;">
+                            <input type="button" class="btn btn-open" id="maintree_add_node" value="新建" />
+                            <input type="button" class="btn btn-delete" id="maintree_delete_node" value="删除" />
                         </div>
-                    </form>
+                        <form name="form1" method="post" id="form1">
+                            <table class="f-tb" cellpadding="0" cellspacing="1">
+                                <tr>
+                                    <td class="f-tb-t">
+                                        上级名称：
+                                    </td>
+                                    <td class="f-tb-c">
+                                        <label id="lbl_PName">/</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="f-tb-t">
+                                        <span class="required-symbol">*</span>名称：
+                                    </td>
+                                    <td class="f-tb-c">
+                                        <input id="txt_Name" type="text" autocomplete="off" value="" style="width: 250px;" class="input-control" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="f-tb-t">
+                                        备注：
+                                    </td>
+                                    <td class="f-tb-c">
+                                        <textarea id="txt_Description" autocomplete="off" rows="5" cols="42" class="input-control"></textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="f-tb-t"></td>
+                                    <td class="f-tb-c">
+                                        <input type="button" name="btn_Save" value="保存" id="maintree_eidt_node" class="btn btn-sure" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                    <div class="subcontent">
+                        <form id="form3" name="form3">
+                            <ul id="tree_Menus" class="ztree"></ul>
+                            <div class="f-btn-area" style="margin-bottom:5px; text-align:center">
+                                <input type="button" class="btn btn-sure" id="maintree_save_menus" value="保存" style="margin-right:5px;" />
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
-    </dd>
-</dl>
-<div class="help-tips">提示：最大支持二级节点</div>
-
+        </dd>
+    </dl>
+    <div class="help-tips">提示：最大支持二级节点</div>
+</div>
 

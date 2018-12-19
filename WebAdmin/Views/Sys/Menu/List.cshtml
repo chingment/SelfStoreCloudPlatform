@@ -318,78 +318,79 @@
     </script>
 }
 
-
-<dl class="tree-tab" id="tree_tab">
-    <dd class="tree-tab-left" id="tree_tab_left">
-        <ul id="maintree" class="ztree"></ul>
-    </dd>
-    <dd class="tree-tab-right" id="tree_tab_right">
-        <div class="tab" id="tab_Main">
-            <div class="tab-item">
-                <ul>
-                    <li class="item first selected"><a href="javascript:void(0)">基本信息</a></li>
-                </ul>
-            </div>
-            <div class="tab-content">
-                <div class="subcontent">
-                    <div class="f-btn-area">
-                        <input type="button" class="btn btn-open" id="maintree_add_node" value="新建" />
-                        <input type="button" class="btn btn-delete" id="maintree_delete_node" value="删除" />
+<div class="gbr-row gbr-page">
+    <dl class="tree-tab" id="tree_tab">
+        <dd class="tree-tab-left" id="tree_tab_left">
+            <ul id="maintree" class="ztree"></ul>
+        </dd>
+        <dd class="tree-tab-right" id="tree_tab_right">
+            <div class="tab" id="tab_Main">
+                <div class="tab-item">
+                    <ul>
+                        <li class="item first selected"><a href="javascript:void(0)">基本信息</a></li>
+                    </ul>
+                </div>
+                <div class="tab-content">
+                    <div class="subcontent">
+                        <div class="f-btn-area">
+                            <input type="button" class="btn btn-open" id="maintree_add_node" value="新建" />
+                            <input type="button" class="btn btn-delete" id="maintree_delete_node" value="删除" />
+                        </div>
+                        <table class="f-tb" cellpadding="0" cellspacing="1">
+                            <tr>
+                                <td class="f-tb-t">
+                                    上级名称：
+                                </td>
+                                <td class="f-tb-c">
+                                    <label id="lbl_PName">/</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="f-tb-t">
+                                    <span class="required-symbol">*</span>名称：
+                                </td>
+                                <td class="f-tb-c">
+                                    <input type="text" autocomplete="off" id="txt_Name" style="width: 250px;" class="input-control" />
+                                </td>
+                            </tr>
+                            <tr class="tr_url">
+                                <td class="f-tb-t">
+                                    网页路径：
+                                </td>
+                                <td class="f-tb-c">
+                                    <input type="text" autocomplete="off" id="txt_Url" class="input-control" style="width: 350px;" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="f-tb-t">
+                                    权限：
+                                </td>
+                                <td class="f-tb-c">
+                                    <div id="list_Permission"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="f-tb-t">
+                                    备注：
+                                </td>
+                                <td class="f-tb-c">
+                                    <textarea rows="5" cols="46" id="txt_Description" class="input-control"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="f-tb-t">
+                                    &nbsp;
+                                </td>
+                                <td class="f-tb-c">
+                                    <input type="button" value="保存" id="maintree_eidt_node" class="btn btn-sure" />
+                                </td>
+                            </tr>
+                        </table>
                     </div>
-                    <table class="f-tb" cellpadding="0" cellspacing="1">
-                        <tr>
-                            <td class="f-tb-t">
-                                上级名称：
-                            </td>
-                            <td class="f-tb-c">
-                                <label id="lbl_PName">/</label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="f-tb-t">
-                                <span class="required-symbol">*</span>名称：
-                            </td>
-                            <td class="f-tb-c">
-                                <input type="text" autocomplete="off" id="txt_Name" style="width: 250px;" class="input-control" />
-                            </td>
-                        </tr>
-                        <tr class="tr_url">
-                            <td class="f-tb-t">
-                                网页路径：
-                            </td>
-                            <td class="f-tb-c">
-                                <input type="text" autocomplete="off" id="txt_Url" class="input-control" style="width: 350px;" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="f-tb-t">
-                                权限：
-                            </td>
-                            <td class="f-tb-c">
-                                <div id="list_Permission"></div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="f-tb-t">
-                                备注：
-                            </td>
-                            <td class="f-tb-c">
-                                <textarea rows="5" cols="46" id="txt_Description" class="input-control"></textarea>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="f-tb-t">
-                                &nbsp;
-                            </td>
-                            <td class="f-tb-c">
-                                <input type="button" value="保存" id="maintree_eidt_node" class="btn btn-sure" />
-                            </td>
-                        </tr>
-                    </table>
                 </div>
             </div>
-        </div>
-    </dd>
-</dl>
-<div class="help-tips">提示：最大支持三级节点</div>
+        </dd>
+    </dl>
+    <div class="help-tips">提示：最大支持三级节点</div>
 
+</div>

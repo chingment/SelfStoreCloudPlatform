@@ -352,169 +352,170 @@
         //-->
     </script>
 }
+<div class="gbr-row gbr-page">
 
+    <dl class="tree-tab">
+        <dd class="tree-tab-left">
+            <ul id="maintree" class="ztree"></ul>
+        </dd>
+        <dd class="tree-tab-right">
+            <div class="tab" id="tab_Main">
+                <div class="tab-item">
+                    <ul>
+                        <li class="item first selected"><a class="a-btn-info" href="javascript:void(0)">基本信息</a></li>
+                        <li class="item"><a class="a-btn-info" href="javascript:void(0)">关联商品</a></li>
+                    </ul>
+                </div>
+                <div class="tab-content">
+                    <div class="subcontent" style="display:block">
+                        <div class="f-btn-area" style="margin-bottom:5px;">
+                            <input type="button" class="btn btn-open" id="maintree_add_node" value="新建" />
+                            <input type="button" class="btn btn-delete" id="maintree_delete_node" value="删除" />
+                            @*<input type="button" class="btn btn-open" id="maintree_sort_node" value="排序" />*@
+                        </div>
+                        <form name="form1" method="post" id="form1">
 
-<dl class="tree-tab">
-    <dd class="tree-tab-left">
-        <ul id="maintree" class="ztree"></ul>
-    </dd>
-    <dd class="tree-tab-right">
-        <div class="tab" id="tab_Main">
-            <div class="tab-item">
-                <ul>
-                    <li class="item first selected"><a class="a-btn-info" href="javascript:void(0)">基本信息</a></li>
-                    <li class="item"><a class="a-btn-info" href="javascript:void(0)">关联商品</a></li>
-                </ul>
-            </div>
-            <div class="tab-content">
-                <div class="subcontent" style="display:block">
-                    <div class="f-btn-area" style="margin-bottom:5px;">
-                        <input type="button" class="btn btn-open" id="maintree_add_node" value="新建" />
-                        <input type="button" class="btn btn-delete" id="maintree_delete_node" value="删除" />
-                        @*<input type="button" class="btn btn-open" id="maintree_sort_node" value="排序" />*@
+                            <table class="f-tb" cellpadding="0" cellspacing="1">
+                                <tr>
+                                    <td class="f-tb-t" style="width:50px">
+                                        <span class="required-symbol">*</span>名称：
+                                    </td>
+                                    <td class="f-tb-c">
+                                        <input type="text" autocomplete="off" value="" id="txt_Name" style="width: 250px;" class="input-control" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="f-tb-t">
+                                        图片：
+                                    </td>
+                                    <td class="f-tb-c">
+
+                                        <table class="f-tb1-detail" style="text-align:center;width:auto">
+                                            <tr style="vertical-align:top">
+                                                <td>
+                                                    <div>
+                                                        <span class="uploadimgbox" upload="true">
+                                                            <span class="uploadimg" inputname="txt_MainImg" path="productkind">
+                                                                <img id="img_MainImg" src="~/Static/default1.jpg" />
+                                                                <span class="uploadimg-click" style="">上传</span>
+                                                                <input id="txt_MainImg" value="" name="txt_MainImg" type="hidden" />
+                                                            </span>
+                                                            <span class="uploadimg-view" style="">预览</span>
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <span><span class="required-symbol">*</span>封面</span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div>
+                                                        <span class="uploadimgbox" upload="true">
+                                                            <span class="uploadimg" inputname="txt_IconImg" path="productkind">
+                                                                <img id="img_IconImg" src="~/Static/default1.jpg" />
+                                                                <span class="uploadimg-click" style="">上传</span>
+                                                                <input id="txt_IconImg" value="" name="txt_IconImg" type="hidden" />
+                                                            </span>
+                                                            <span class="uploadimg-view" style="">预览</span>
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <span><span class="required-symbol">*</span>小图标</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="f-tb-t" style="width:50px;">
+                                        <span class="required-symbol">*</span>状态：
+                                    </td>
+                                    <td class="f-tb-c">
+                                        <select id="sel_Status" data-placeholder="请选择" class="chosen-select">
+                                            <option value="-1"></option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="f-tb-t">
+                                        备注：
+                                    </td>
+                                    <td class="f-tb-c">
+                                        <textarea rows="5" cols="42" id="txt_Description" class="input-control"></textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="f-tb-t"></td>
+                                    <td class="f-tb-c">
+                                        <input type="button" name="btn_Save" value="保存" id="maintree_eidt_node" class="btn btn-sure" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
                     </div>
-                    <form name="form1" method="post" id="form1">
+                    <div class="subcontent">
+                        <form id="form2" name="form2">
+                            <input type="hidden" name="SubjectId" value="" />
+                            <div class="search-bar">
+                                <div class="filter">
+                                    <span class="filter-label">商品名称：</span>
+                                    <span class="filter-input">
+                                        <input type="text" class="input-control" name="Name" style="width:120px;" />
+                                    </span>
+                                </div>
+                                <div class="filter"><input type="button" class="btn btn-search" id="btn_Search" value="查询" /> </div>
 
-                        <table class="f-tb" cellpadding="0" cellspacing="1">
-                            <tr>
-                                <td class="f-tb-t" style="width:50px">
-                                    <span class="required-symbol">*</span>名称：
-                                </td>
-                                <td class="f-tb-c">
-                                    <input type="text" autocomplete="off" value="" id="txt_Name" style="width: 250px;" class="input-control" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="f-tb-t">
-                                    图片：
-                                </td>
-                                <td class="f-tb-c">
+                                <div class="filter" style="float:right">  </div>
+                            </div>
+                            <div class="list">
+                                <table id="list_table_product" class="list-tb" cellpadding="0" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:10%" class="no">
+                                                序号
+                                            </th>
+                                            <th style="width:20%">
+                                                图片
+                                            </th>
+                                            <th style="width:30%">
+                                                名称
+                                            </th>
+                                            <th style="width:30%">
+                                                栏目
+                                            </th>
+                                            <th style="width:10%" class="operation">
+                                                操作
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="5">
+                                                <div class="pull-left">
+                                                    <span class="load-tip"></span>
+                                                </div>
+                                                <div class="pull-right pagination">
+                                                    <div class="pagination-info">
 
-                                    <table class="f-tb1-detail" style="text-align:center;width:auto">
-                                        <tr style="vertical-align:top">
-                                            <td>
-                                                <div>
-                                                    <span class="uploadimgbox" upload="true">
-                                                        <span class="uploadimg" inputname="txt_MainImg" path="productkind">
-                                                            <img id="img_MainImg" src="~/Static/default1.jpg" />
-                                                            <span class="uploadimg-click" style="">上传</span>
-                                                            <input id="txt_MainImg" value="" name="txt_MainImg" type="hidden" />
-                                                        </span>
-                                                        <span class="uploadimg-view" style="">预览</span>
-                                                    </span>
-                                                </div>
-                                                <div>
-                                                    <span><span class="required-symbol">*</span>封面</span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div>
-                                                    <span class="uploadimgbox" upload="true">
-                                                        <span class="uploadimg" inputname="txt_IconImg" path="productkind">
-                                                            <img id="img_IconImg" src="~/Static/default1.jpg" />
-                                                            <span class="uploadimg-click" style="">上传</span>
-                                                            <input id="txt_IconImg" value="" name="txt_IconImg" type="hidden" />
-                                                        </span>
-                                                        <span class="uploadimg-view" style="">预览</span>
-                                                    </span>
-                                                </div>
-                                                <div>
-                                                    <span><span class="required-symbol">*</span>小图标</span>
+                                                    </div>
+                                                    <div class="pagination-index">
+
+                                                    </div>
+                                                    <div class="pagination-goto">
+
+                                                    </div>
                                                 </div>
                                             </td>
                                         </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="f-tb-t" style="width:50px;">
-                                    <span class="required-symbol">*</span>状态：
-                                </td>
-                                <td class="f-tb-c">
-                                    <select id="sel_Status" data-placeholder="请选择" class="chosen-select">
-                                        <option value="-1"></option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="f-tb-t">
-                                    备注：
-                                </td>
-                                <td class="f-tb-c">
-                                    <textarea rows="5" cols="42" id="txt_Description" class="input-control"></textarea>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="f-tb-t"></td>
-                                <td class="f-tb-c">
-                                    <input type="button" name="btn_Save" value="保存" id="maintree_eidt_node" class="btn btn-sure" />
-                                </td>
-                            </tr>
-                        </table>
-                    </form>
-                </div>
-                <div class="subcontent">
-                    <form id="form2" name="form2">
-                        <input type="hidden" name="SubjectId" value="" />
-                        <div class="search-bar">
-                            <div class="filter">
-                                <span class="filter-label">商品名称：</span>
-                                <span class="filter-input">
-                                    <input type="text" class="input-control" name="Name" style="width:120px;" />
-                                </span>
+                                    </tfoot>
+                                </table>
                             </div>
-                            <div class="filter"><input type="button" class="btn btn-search" id="btn_Search" value="查询" /> </div>
-
-                            <div class="filter" style="float:right">  </div>
-                        </div>
-                        <div class="list">
-                            <table id="list_table_product" class="list-tb" cellpadding="0" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th style="width:10%" class="no">
-                                            序号
-                                        </th>
-                                        <th style="width:20%">
-                                            图片
-                                        </th>
-                                        <th style="width:30%">
-                                            名称
-                                        </th>
-                                        <th style="width:30%">
-                                            栏目
-                                        </th>
-                                        <th style="width:10%" class="operation">
-                                            操作
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td colspan="5">
-                                            <div class="pull-left">
-                                                <span class="load-tip"></span>
-                                            </div>
-                                            <div class="pull-right pagination">
-                                                <div class="pagination-info">
-
-                                                </div>
-                                                <div class="pagination-index">
-
-                                                </div>
-                                                <div class="pagination-goto">
-
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
-    </dd>
-</dl>
-<div class="help-tips">提示：最大支持二级节点</div>
+        </dd>
+    </dl>
+    <div class="help-tips">提示：最大支持二级节点</div>
+</div>

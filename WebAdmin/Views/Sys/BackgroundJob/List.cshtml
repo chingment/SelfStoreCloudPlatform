@@ -109,78 +109,79 @@
 
 
 </script>
-
-<form id="form1" name="form1">
-    <div class="search-bar">
-        <div class="filter">
-            <span class="filter-label">名称：</span>
-            <span class="filter-input">
-                <input type="text" class="input-control" name="Name" style="width:120px;" />
-            </span>
+<div class="gbr-row gbr-page">
+    <form id="form1" name="form1">
+        <div class="search-bar">
+            <div class="filter">
+                <span class="filter-label">名称：</span>
+                <span class="filter-input">
+                    <input type="text" class="input-control" name="Name" style="width:120px;" />
+                </span>
+            </div>
+            <div class="filter"><input type="button" class="btn btn-search" id="btn_Search" value="查询" /> </div>
+            <div class="filter" style="float:right">
+                <input type="button" class="btn btn-add" id="btn_Add" value="新建" />
+            </div>
         </div>
-        <div class="filter"><input type="button" class="btn btn-search" id="btn_Search" value="查询" /> </div>
-        <div class="filter" style="float:right">
-            <input type="button" class="btn btn-add" id="btn_Add" value="新建" />
+        <div class="list">
+            <table id="list_table" class="list-tb" cellpadding="0" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th style="width:5%" class="no">
+                            序号
+                        </th>
+                        <th style="width:10%">
+                            名称
+                        </th>
+                        <th style="width:15%">
+                            描述
+                        </th>
+                        <th style="width:20%">
+                            类名
+                        </th>
+                        <th style="width:10%">
+                            最后运行时间
+                        </th>
+                        <th style="width:10%">
+                            下次运行时间
+                        </th>
+                        <th style="width:10%">
+                            Cron表达式
+                        </th>
+                        <th style="width:10%">
+                            Cron表达式描述
+                        </th>
+                        <th style="width:5%">
+                            状态
+                        </th>
+                        <th style="width:5%" class="operation">
+                            操作
+                        </th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="10">
+                            <div class="pull-left">
+                                <span class="load-tip"></span>
+                            </div>
+                            <div class="pull-right pagination">
+                                <div class="pagination-info">
+
+                                </div>
+                                <div class="pagination-index">
+
+                                </div>
+                                <div class="pagination-goto">
+
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
         </div>
-    </div>
-    <div class="list">
-        <table id="list_table" class="list-tb" cellpadding="0" cellspacing="0">
-            <thead>
-                <tr>
-                    <th style="width:5%" class="no">
-                        序号
-                    </th>
-                    <th style="width:10%">
-                        名称
-                    </th>
-                    <th style="width:15%">
-                        描述
-                    </th>
-                    <th style="width:20%">
-                        类名
-                    </th>
-                    <th style="width:10%">
-                        最后运行时间
-                    </th>
-                    <th style="width:10%">
-                        下次运行时间
-                    </th>
-                    <th style="width:10%">
-                        Cron表达式
-                    </th>
-                    <th style="width:10%">
-                        Cron表达式描述
-                    </th>
-                    <th style="width:5%">
-                        状态
-                    </th>
-                    <th style="width:5%" class="operation">
-                        操作
-                    </th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="10">
-                        <div class="pull-left">
-                            <span class="load-tip"></span>
-                        </div>
-                        <div class="pull-right pagination">
-                            <div class="pagination-info">
+    </form>
 
-                            </div>
-                            <div class="pagination-index">
-
-                            </div>
-                            <div class="pagination-goto">
-
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
-</form>
-
+</div>

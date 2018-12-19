@@ -343,116 +343,117 @@
 
     </script>
 }
+<div class="gbr-row gbr-page">
 
-
-<dl class="tree-tab">
-    <dd class="tree-tab-left">
-        <ul id="maintree" class="ztree"></ul>
-    </dd>
-    <dd class="tree-tab-right">
-        <div class="tab" id="tab_Main">
-            <div class="tab-item">
-                <ul>
-                    <li class="item first selected"><a class="a-btn-info" href="javascript:void(0)">基本信息</a></li>
-                    @*<li class="item"><a class="a-btn-info" href="javascript:void(0)">关联职位</a></li>*@
-                </ul>
-            </div>
-            <div class="tab-content">
-                <div class="subcontent" style="display:block">
-                    <div class="f-btn-area" style="margin-bottom:5px;">
-                        <input type="button" class="btn btn-open" id="maintree_add_node" value="新建" />
-                        <input type="button" class="btn btn-delete" id="maintree_delete_node" value="删除" />
-                    </div>
-                    <form name="form1" method="post" id="form1">
-
-                        <table class="f-tb" cellpadding="0" cellspacing="1">
-                            <tr>
-                                <td class="f-tb-t">
-                                    上级名称：
-                                </td>
-                                <td class="f-tb-c">
-                                    <label id="lbl_PName">/</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="f-tb-t" style="width:50px">
-                                    <span class="required-symbol">*</span>名称：
-                                </td>
-                                <td class="f-tb-c">
-                                    <input type="text" autocomplete="off" value="" id="txt_Name" style="width: 250px;" class="input-control" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="f-tb-t">
-                                    备注：
-                                </td>
-                                <td class="f-tb-c">
-                                    <textarea rows="5" cols="42" id="txt_Description" class="input-control"></textarea>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="f-tb-t"></td>
-                                <td class="f-tb-c">
-                                    <input type="button" value="保存" id="maintree_eidt_node" class="btn btn-sure" />
-                                </td>
-                            </tr>
-                        </table>
-                    </form>
+    <dl class="tree-tab">
+        <dd class="tree-tab-left">
+            <ul id="maintree" class="ztree"></ul>
+        </dd>
+        <dd class="tree-tab-right">
+            <div class="tab" id="tab_Main">
+                <div class="tab-item">
+                    <ul>
+                        <li class="item first selected"><a class="a-btn-info" href="javascript:void(0)">基本信息</a></li>
+                        @*<li class="item"><a class="a-btn-info" href="javascript:void(0)">关联职位</a></li>*@
+                    </ul>
                 </div>
-                <div class="subcontent">
-                    <form id="form2" name="form2">
-                        <input type="hidden" name="OrganizationId" />
-                        <div class="search-bar">
-                            <div class="filter">
-                                <span class="filter-label">名称：</span>
-                                <span class="filter-input">
-                                    <input type="text" class="input-control" name="UserName" style="width:120px;" />
-                                </span>
-                            </div>
-                            <div class="filter"><input type="button" class="btn btn-search" id="btn_Search" value="查询" /> </div>
-                            <div class="filter"><input type="button" class="btn btn-add" id="maintree_add_position" value="添加" /></div>
+                <div class="tab-content">
+                    <div class="subcontent" style="display:block">
+                        <div class="f-btn-area" style="margin-bottom:5px;">
+                            <input type="button" class="btn btn-open" id="maintree_add_node" value="新建" />
+                            <input type="button" class="btn btn-delete" id="maintree_delete_node" value="删除" />
                         </div>
-                        <div class="list">
-                            <table id="list_RPosition" class="list-tb" cellpadding="0" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th style="width:5%" class="no">
-                                            序号
-                                        </th>
-                                        <th style="width:90%">
-                                            名称
-                                        </th>
-                                        <th style="width:5%" class="operation">
-                                            操作
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td colspan="3">
-                                            <div class="pull-left">
-                                                <span class="load-tip"></span>
-                                            </div>
-                                            <div class="pull-right pagination">
-                                                <div class="pagination-info">
+                        <form name="form1" method="post" id="form1">
 
-                                                </div>
-                                                <div class="pagination-index">
-
-                                                </div>
-                                                <div class="pagination-goto">
-
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tfoot>
+                            <table class="f-tb" cellpadding="0" cellspacing="1">
+                                <tr>
+                                    <td class="f-tb-t">
+                                        上级名称：
+                                    </td>
+                                    <td class="f-tb-c">
+                                        <label id="lbl_PName">/</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="f-tb-t" style="width:50px">
+                                        <span class="required-symbol">*</span>名称：
+                                    </td>
+                                    <td class="f-tb-c">
+                                        <input type="text" autocomplete="off" value="" id="txt_Name" style="width: 250px;" class="input-control" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="f-tb-t">
+                                        备注：
+                                    </td>
+                                    <td class="f-tb-c">
+                                        <textarea rows="5" cols="42" id="txt_Description" class="input-control"></textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="f-tb-t"></td>
+                                    <td class="f-tb-c">
+                                        <input type="button" value="保存" id="maintree_eidt_node" class="btn btn-sure" />
+                                    </td>
+                                </tr>
                             </table>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
+                    <div class="subcontent">
+                        <form id="form2" name="form2">
+                            <input type="hidden" name="OrganizationId" />
+                            <div class="search-bar">
+                                <div class="filter">
+                                    <span class="filter-label">名称：</span>
+                                    <span class="filter-input">
+                                        <input type="text" class="input-control" name="UserName" style="width:120px;" />
+                                    </span>
+                                </div>
+                                <div class="filter"><input type="button" class="btn btn-search" id="btn_Search" value="查询" /> </div>
+                                <div class="filter"><input type="button" class="btn btn-add" id="maintree_add_position" value="添加" /></div>
+                            </div>
+                            <div class="list">
+                                <table id="list_RPosition" class="list-tb" cellpadding="0" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:5%" class="no">
+                                                序号
+                                            </th>
+                                            <th style="width:90%">
+                                                名称
+                                            </th>
+                                            <th style="width:5%" class="operation">
+                                                操作
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="3">
+                                                <div class="pull-left">
+                                                    <span class="load-tip"></span>
+                                                </div>
+                                                <div class="pull-right pagination">
+                                                    <div class="pagination-info">
+
+                                                    </div>
+                                                    <div class="pagination-index">
+
+                                                    </div>
+                                                    <div class="pagination-goto">
+
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
-    </dd>
-</dl>
+        </dd>
+    </dl>
+</div>
