@@ -101,72 +101,75 @@
 
 </script>
 
-<form id="form1" name="form1">
-    <div class="search-bar">
-        <div class="filter">
-            <span class="filter-label">名称：</span>
-            <span class="filter-input">
-                <input type="text" class="input-control" id="txt_Name" name="Name" style="width:120px;" autocomplete="off" />
-            </span>
+<div>
+    <form id="form1" name="form1">
+        <div class="search-bar">
+            <div class="filter">
+                <span class="filter-label">名称：</span>
+                <span class="filter-input">
+                    <input type="text" class="input-control" id="txt_Name" name="Name" style="width:120px;" autocomplete="off" />
+                </span>
+            </div>
+            <div class="filter"><input type="button" class="btn btn-search" id="btn_Search" value="查询" /> </div>
+
+            <div class="filter" style="float:right">
+                <input type="button" class="btn btn-add" id="btn_Add" value="新建" />
+            </div>
         </div>
-        <div class="filter"><input type="button" class="btn btn-search" id="btn_Search" value="查询" /> </div>
+        <div class="list">
+            <table id="list_table" class="list-tb" cellpadding="0" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th style="width:5%" class="no">
+                            序号
+                        </th>
+                        <th style="width:10%">
+                            图片
+                        </th>
+                        <th style="width:15%">
+                            名称
+                        </th>
+                        <th style="width:15%">
+                            模块
+                        </th>
+                        <th style="width:15%">
+                            栏目
+                        </th>
+                        <th style="width:10%">
+                            销售价
+                        </th>
+                        <th style="width:10%">
+                            展示价
+                        </th>
+                        <th style="width:10%" class="operation">
+                            操作
+                        </th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="8">
+                            <div class="pull-left">
+                                <span class="load-tip"></span>
+                            </div>
+                            <div class="pull-right pagination">
+                                <div class="pagination-info">
 
-        <div class="filter" style="float:right">
-            <input type="button" class="btn btn-add" id="btn_Add" value="新建" />
+                                </div>
+                                <div class="pagination-index">
+
+                                </div>
+                                <div class="pagination-goto">
+
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
         </div>
-    </div>
-    <div class="list">
-        <table id="list_table" class="list-tb" cellpadding="0" cellspacing="0">
-            <thead>
-                <tr>
-                    <th style="width:5%" class="no">
-                        序号
-                    </th>
-                    <th style="width:10%">
-                        图片
-                    </th>
-                    <th style="width:15%">
-                        名称
-                    </th>
-                    <th style="width:15%">
-                        模块
-                    </th>
-                    <th style="width:15%">
-                        栏目
-                    </th>
-                    <th style="width:10%">
-                        销售价
-                    </th>
-                    <th style="width:10%">
-                        展示价
-                    </th>
-                    <th style="width:10%" class="operation">
-                        操作
-                    </th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="8">
-                        <div class="pull-left">
-                            <span class="load-tip"></span>
-                        </div>
-                        <div class="pull-right pagination">
-                            <div class="pagination-info">
+    </form>
 
-                            </div>
-                            <div class="pagination-index">
-
-                            </div>
-                            <div class="pagination-goto">
-
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
-</form>
+</div>
 

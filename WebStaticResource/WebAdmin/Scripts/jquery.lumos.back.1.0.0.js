@@ -1520,7 +1520,7 @@
             }
 
 
-            var p_d = art.dialog({
+            var p_d = window.top.art.dialog({
                 title: '图片上传',
                 content: '正在上传图片...请稍后！',
                 cancel: false,
@@ -1617,7 +1617,7 @@
     }
 
     $.fn.decimalInput = function (num) {
-
+       
         //获取当前光标在文本框的位置
         function getCurPosition(domObj) {
             var position = 0;

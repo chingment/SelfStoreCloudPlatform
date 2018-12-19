@@ -198,6 +198,7 @@ namespace Lumos.BLL.Service.Merch
                 productSku.SalePrice = rop.SalePrice;
                 productSku.BriefInfo = rop.BriefInfo;
                 productSku.DetailsDes = rop.DetailsDes;
+                productSku.DispalyImgUrls = rop.DispalyImgUrls.ToJsonString();
                 productSku.Mender = operater;
                 productSku.MendTime = this.DateTime;
 
