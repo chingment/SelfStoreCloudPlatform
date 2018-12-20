@@ -2097,7 +2097,7 @@
         if (_max_selected_options > 1) {
             $(_this).attr("multiple", "multiple");
         }
-
+     
         if (_isUseUrl) {
             $.lumos.getJson({
                 url: "/Common/GetSelectFields",
@@ -2118,9 +2118,11 @@
                         else {
                             toTree(data, topId, _selectedValue);
                         }
+                        $(_this).html('<option value=""></option>');
                         $(_this).append(html);
 
                         $(_this).chosen({ data: data, search_contains: true, max_selected_options: _max_selected_options });
+                        $(_this).trigger("chosen:updated");
 
                     }
                 }
