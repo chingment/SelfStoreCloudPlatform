@@ -35,7 +35,7 @@ namespace WebMerch.Controllers
                         (rup.OrderSn == null || o.Sn.Contains(rup.OrderSn))
                         &&
                         o.MerchantId == this.CurrentMerchantId
-                        select new { o.Sn, o.Id, o.ClientId, o.ClientName, o.StoreName, o.Source, o.SubmitTime, o.ChargeAmount, o.DiscountAmount, o.OriginalAmount, o.CreateTime };
+                        select new { o.Sn, o.Id, o.ClientId, o.ClientName, o.StoreName, o.Source, o.SubmitTime, o.ChargeAmount, o.DiscountAmount, o.OriginalAmount, o.CreateTime, o.Quantity };
 
             int total = query.GroupBy(p => p.Sn).Select(o => o.FirstOrDefault()).Count();
 
@@ -62,6 +62,7 @@ namespace WebMerch.Controllers
                     ChargeAmount = item.ChargeAmount.ToF2Price(),
                     DiscountAmount = item.DiscountAmount.ToF2Price(),
                     OriginalAmount = item.OriginalAmount.ToF2Price(),
+                    Quantity = item.Quantity,
                     CreateTime = item.CreateTime,
                     SourceName = item.Source.GetCnName()
                 });

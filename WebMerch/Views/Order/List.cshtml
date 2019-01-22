@@ -33,11 +33,11 @@
 
                 l_StrRows += " </td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.sourceName + "\">" + p_row.sourceName + "</td>";
-                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.submitTime + "\">" + p_row.submitTime + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.quantity + "\">" + p_row.quantity + "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.chargeAmount + "\">" + p_row.chargeAmount + "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.discountAmount + "\">" + p_row.discountAmount + "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.originalAmount + "\">" + p_row.originalAmount + "</td>";
-                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.createTime + "\">" + p_row.createTime + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.submitTime + "\">" + p_row.submitTime + "</td>";
                 l_StrRows += "<td class=\"operation\">";
                 l_StrRows += "<a href=\"javascript:void(0)\" operate=\"detail\"   class=\"a-btn a-btn-edit\"  >查看</a>";
                 l_StrRows += "</td>";
@@ -119,7 +119,8 @@
                             下单方式
                         </th>
                         <th style="width:10%">
-                            下单时间
+                            数量
+                        </th>
                         <th style="width:5%">
                             支付金额
                         </th>
@@ -130,7 +131,7 @@
                             原金额
                         </th>
                         <th style="width:10%">
-                            创建时间
+                            下单时间
                         </th>
                         <th style="width:5%" class="operation">
                             操作
