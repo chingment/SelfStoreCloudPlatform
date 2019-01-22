@@ -1,7 +1,7 @@
 ﻿using Lumos;
 using Lumos.BLL.Service.AppTerm;
-using System.Web.Mvc;
-
+using System.Web;
+using System.Web.Http;
 
 namespace WebApiTerm.Controllers
 {
@@ -18,7 +18,7 @@ namespace WebApiTerm.Controllers
         }
 
         [HttpPost]
-        public OwnApiHttpResponse<RetOrderPayResultQuery> PayResulyQuery(RupOrderPayResultQuery rup)
+        public OwnApiHttpResponse<RetOrderPayResultQuery> PayResultQuery(RupOrderPayResultQuery rup)
         {
             IResult<RetOrderPayResultQuery> result = TermServiceFactory.Order.PayResultQuery(rup.MerchantId, rup);
             return new OwnApiHttpResponse<RetOrderPayResultQuery>(result);
@@ -28,6 +28,13 @@ namespace WebApiTerm.Controllers
         public OwnApiHttpResponse Cancle(RopOrderCancle rop)
         {
             IResult result = TermServiceFactory.Order.Cancle(rop.MerchantId, rop);
+            return new OwnApiHttpResponse(result);
+        }
+
+        [HttpGet]
+        public OwnApiHttpResponse SkuStatusQuery([FromUri]RupOrderSkuStatusQuery rup)
+        {
+            IResult result = TermServiceFactory.Order.SkuStatusQuery(rup.MerchantId, rup);
             return new OwnApiHttpResponse(result);
         }
     }

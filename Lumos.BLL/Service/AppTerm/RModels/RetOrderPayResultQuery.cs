@@ -11,5 +11,23 @@ namespace Lumos.BLL.Service.AppTerm
         public string OrderSn { get; set; }
 
         public Entity.Enumeration.OrderStatus Status { get; set; }
+
+        public List<SkuModel> Skus { get; set; }
+
+        public class SkuModel
+        {
+
+            public string Id { get; set; }
+
+            public string Name { get; set; }
+
+            public string SlotId { get; set; }
+
+            public int Quantity { get; set; }
+
+            public string Status { get; set; }
+
+            public string StatusName { get; set; }
+        }
     }
 }

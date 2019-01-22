@@ -203,6 +203,7 @@
     <Compile Include="Service\AppTerm\RModels\RupMachineGetSlotSkuStock.cs" />
     <Compile Include="Service\AppTerm\RModels\RupMachineLoginResultQuery.cs" />
     <Compile Include="Service\AppTerm\RModels\RupOrderPayResultQuery.cs" />
+    <Compile Include="Service\AppTerm\RModels\RupOrderSkuStatusQuery.cs" />
     <Compile Include="Service\AppTerm\TermServiceFactory.cs" />
     <Compile Include="Service\Admin\Sys\RModels\RetSysMenuGetDetails.cs" />
     <Compile Include="Service\Admin\Sys\RModels\RetSysMenuGetPermissions.cs" />

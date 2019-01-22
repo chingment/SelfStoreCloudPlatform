@@ -81,5 +81,14 @@ namespace Lumos.BLL.Service.AppTerm
             return result;
         }
 
+        public CustomJsonResult SkuStatusQuery(string operater, RupOrderSkuStatusQuery rup)
+        {
+            CustomJsonResult result = new CustomJsonResult();
+
+            //result = BizFactory.Order.Cancle(operater, rop.OrderSn, rop.Reason);
+
+            return result;
+        }
+
     }
 }
