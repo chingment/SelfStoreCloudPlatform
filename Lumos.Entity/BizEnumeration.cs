@@ -234,7 +234,7 @@ namespace Lumos.Entity
             [Remark("待支付")]
             WaitPay = 2000,
             [Remark("已支付")]
-            Payed = 30000,
+            Payed = 3000,
             [Remark("待取货")]
             WaitPick = 3001,
             [Remark("已取货")]

@@ -101,8 +101,8 @@ namespace WebApiTerm.Controllers
             string machineId = "00000000000000000000000000000006";
             string storeId = "516d47426402446ea8daa4ee255b2717";
             model.Add("获取机器接口配置信息", MachineApiConfig(deviceId));
-            //model.Add("获取全局数据", GlobalDataSet(merchantId, machineId, DateTime.Now));
-            //model.Add("预定商品", OrderReserve(merchantId, storeId, machineId));
+            model.Add("获取全局数据", GlobalDataSet(merchantId, machineId, DateTime.Now));
+            model.Add("预定商品", OrderReserve(merchantId, storeId, machineId));
 
 
             //HttpUtil http = new HttpUtil();
@@ -144,7 +144,7 @@ namespace WebApiTerm.Controllers
             headers.Add("timestamp", timespan.ToString());
             headers.Add("sign", signStr);
             HttpUtil http = new HttpUtil();
-            string result = http.HttpGet("" + host + "/api/Global/DataSet?merchantId=" + merchantId + "&machineId=" + machineId + "&datetime=" + HttpUtility.UrlEncode(datetime.ToUnifiedFormatDateTime(), UTF8Encoding.UTF8).ToUpper(), headers);
+            string result = http.HttpGet("" + host + "/api/Global/DataSet?merchantId=" + merchantId + "&machineId=" + machineId + "&datetime=" + datetime.ToUnifiedFormatDateTime(), headers);
 
             return result;
 
@@ -158,10 +158,10 @@ namespace WebApiTerm.Controllers
             pms.StoreId = storeId;
             pms.MachineId = machineId;
             pms.PayTimeout = 10;
-            pms.Skus.Add(new RopOrderReserve.Sku() { Id = "1", Quantity = 1 });
-            pms.Skus.Add(new RopOrderReserve.Sku() { Id = "1", Quantity = 1 });
-            pms.Skus.Add(new RopOrderReserve.Sku() { Id = "3", Quantity = 1 });
-            pms.Skus.Add(new RopOrderReserve.Sku() { Id = "4", Quantity = 1 });
+            pms.Skus.Add(new RopOrderReserve.Sku() { Id = "3cbddffaf84148279bd91551db238ca3", Quantity = 1 });
+            pms.Skus.Add(new RopOrderReserve.Sku() { Id = "44b2d4ae88e24b76a8a744f582214513", Quantity = 1 });
+            pms.Skus.Add(new RopOrderReserve.Sku() { Id = "e8bb8685ed8d483fa60225fc750f3a79", Quantity = 1 });
+
 
             string a1 = JsonConvert.SerializeObject(pms);
 

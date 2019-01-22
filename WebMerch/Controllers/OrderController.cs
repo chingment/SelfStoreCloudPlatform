@@ -63,7 +63,7 @@ namespace WebMerch.Controllers
                     DiscountAmount = item.DiscountAmount.ToF2Price(),
                     OriginalAmount = item.OriginalAmount.ToF2Price(),
                     CreateTime = item.CreateTime,
-                    Source = item.Source
+                    SourceName = item.Source.GetCnName()
                 });
             }
 

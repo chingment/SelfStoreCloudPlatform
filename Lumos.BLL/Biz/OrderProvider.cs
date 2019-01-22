@@ -53,7 +53,8 @@ namespace Lumos.BLL.Biz
                 {
                     skusByStock = CurrentDb.StoreSellStock.Where(m => m.StoreId == rop.StoreId && m.ChannelType == Enumeration.ChannelType.Machine && m.ChannelId == rop.ChannelId && skuIds.Contains(m.ProductSkuId)).ToList();
                 }
-                else {
+                else
+                {
                     skusByStock = CurrentDb.StoreSellStock.Where(m => m.StoreId == rop.StoreId && skuIds.Contains(m.ProductSkuId)).ToList();
                 }
 
@@ -139,9 +140,10 @@ namespace Lumos.BLL.Biz
 
                     if (!string.IsNullOrEmpty(tips))
                     {
-                        tips = tips.Substring(0, tips.Length - 1) + ",";
+                        tips = tips.Substring(0, tips.Length - 1);
                     }
-                    return new CustomJsonResult<RetOrderReserve>(ResultType.Failure, ResultCode.Failure, tips + "库存不足", null);
+
+                    return new CustomJsonResult<RetOrderReserve>(ResultType.Failure, ResultCode.Failure, "库存不足," + tips, null);
                 }
 
                 var store = CurrentDb.Store.Where(m => m.Id == rop.StoreId).FirstOrDefault();
@@ -208,6 +210,7 @@ namespace Lumos.BLL.Biz
                     orderDetails.StoreId = rop.StoreId;
                     orderDetails.ChannelType = detail.ChannelType;
                     orderDetails.ChannelId = detail.ChannelId;
+                    orderDetails.ChannelName = "";//todo 若 ChannelType 为1 则机器昵称，2为自取
                     orderDetails.OrderId = order.Id;
                     orderDetails.OrderSn = order.Sn;
                     orderDetails.OriginalAmount = detail.OriginalAmount;
@@ -265,7 +268,7 @@ namespace Lumos.BLL.Biz
                         orderDetailsChild.DiscountAmount = detailsChild.DiscountAmount;
                         orderDetailsChild.ChargeAmount = detailsChild.ChargeAmount;
                         orderDetailsChild.SubmitTime = this.DateTime;
-                        orderDetailsChild.Status = Enumeration.OrderStatus.Submitted;
+                        orderDetailsChild.Status = Enumeration.OrderStatus.WaitPay;
                         orderDetailsChild.Creator = operater;
                         orderDetailsChild.CreateTime = this.DateTime;
                         CurrentDb.OrderDetailsChild.Add(orderDetailsChild);
@@ -313,7 +316,7 @@ namespace Lumos.BLL.Biz
 
                             machineStock.LockQuantity += slotStock.Quantity;
                             machineStock.SellQuantity -= slotStock.Quantity;
-                           
+
                             machineStock.Mender = operater;
                             machineStock.MendTime = this.DateTime;
 

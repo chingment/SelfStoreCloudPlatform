@@ -21,6 +21,7 @@
                 l_StrRows += "<tr>";
                 l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.sn + "\">" + p_row.sn + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.storeName + "\">" + p_row.storeName + "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.nickname + "\">";
 
                 if (p_row.clientId != "") {
@@ -31,8 +32,7 @@
                 }
 
                 l_StrRows += " </td>";
-                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.storeName + "\">" + p_row.storeName + "</td>";
-                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.source + "\">" + p_row.source + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.sourceName + "\">" + p_row.sourceName + "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.submitTime + "\">" + p_row.submitTime + "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.chargeAmount + "\">" + p_row.chargeAmount + "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.discountAmount + "\">" + p_row.discountAmount + "</td>";
@@ -110,13 +110,13 @@
                             订单号
                         </th>
                         <th style="width:10%">
+                            店铺
+                        </th>
+                        <th style="width:10%">
                             下单用户
                         </th>
                         <th style="width:10%">
                             下单方式
-                        </th>
-                        <th style="width:10%">
-                            店铺
                         </th>
                         <th style="width:10%">
                             下单时间
