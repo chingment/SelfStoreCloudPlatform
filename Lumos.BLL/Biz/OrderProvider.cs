@@ -313,6 +313,7 @@ namespace Lumos.BLL.Biz
 
                             machineStock.LockQuantity += slotStock.Quantity;
                             machineStock.SellQuantity -= slotStock.Quantity;
+                           
                             machineStock.Mender = operater;
                             machineStock.MendTime = this.DateTime;
 
@@ -655,6 +656,11 @@ namespace Lumos.BLL.Biz
                 order.PayTime = this.DateTime;
                 order.MendTime = this.DateTime;
                 order.Mender = operater;
+
+
+
+
+
 
                 CurrentDb.SaveChanges();
                 ts.Complete();

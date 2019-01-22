@@ -41,6 +41,7 @@ namespace WebMerch.Controllers
 
         public CustomJsonResult GetList(RupMachineGetList rup)
         {
+            string a = this.CurrentMerchantId;
             string deviceId = rup.DeviceId.ToSearchString();
 
             var query = (from m in CurrentDb.Machine

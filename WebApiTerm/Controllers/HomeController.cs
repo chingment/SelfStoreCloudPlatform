@@ -100,14 +100,14 @@ namespace WebApiTerm.Controllers
             string merchantId = "d1e8ad564c0f4516b2de95655a4146c7";
             string machineId = "00000000000000000000000000000006";
             string storeId = "516d47426402446ea8daa4ee255b2717";
-            //model.Add("获取机器接口配置信息", MachineApiConfig(deviceId));
+            model.Add("获取机器接口配置信息", MachineApiConfig(deviceId));
             //model.Add("获取全局数据", GlobalDataSet(merchantId, machineId, DateTime.Now));
-            model.Add("预定商品", OrderReserve(merchantId, storeId, machineId));
+            //model.Add("预定商品", OrderReserve(merchantId, storeId, machineId));
 
 
-            HttpUtil http = new HttpUtil();
+            //HttpUtil http = new HttpUtil();
 
-            http.HttpUploadFile(host+ "/Api/Global/PostFile", "d:\\a.txt");
+            //http.HttpUploadFile(host+ "/Api/Global/PostFile", "d:\\a.txt");
 
             return View(model);
         }
