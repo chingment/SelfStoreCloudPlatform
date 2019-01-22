@@ -97,6 +97,10 @@ a:hover {
     font-weight: bold;
 }
 
+input[disabled=disabled]{
+    background-color:darkgray;
+}
+
 .icon_navmenu_level1_common {
     /*background-image: url(images/icon_navmenu_level1_common.png);*/
     display: inline-block;
@@ -128,6 +132,7 @@ a:hover {
 
 .h-form-container .h-entry {
     line-height: 20px;
+    overflow:hidden;
 }
 
 .h-form-container .h-line {
@@ -826,6 +831,7 @@ span.img-verify-change:hover {
     line-height: 50px;
     font-size: 12px;
     border-bottom: 1px solid #3f3f3f;
+    overflow:hidden;
 }
 
 .gbr-header > .wrapper > .content {
@@ -848,10 +854,16 @@ span.img-verify-change:hover {
     text-align: center;
 }
 
+.gbr-header .content-left li{
+    float:left;
+}
+
 .gbr-header .content-right {
     float: right;
     border-left: 1px solid #1f1f1f;
     border-right: 1px solid #3f3f3f;
+    position: absolute;
+    right: 0
 }
 
 .gbr-header .icon_top_currency {
@@ -906,6 +918,10 @@ span.img-verify-change:hover {
 
 .gbr-page{
    padding: 5px 5px;
+}
+
+.link{
+    cursor:pointer;
 }
 
 /*左边主菜单   start*/

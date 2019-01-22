@@ -474,7 +474,7 @@
             }
 
             //window.top.tips(message);
-            art.dialog.tips(message);
+            art.dialog.tips(message,2);
             return false;
         },
 
@@ -1617,7 +1617,7 @@
     }
 
     $.fn.decimalInput = function (num) {
-       
+
         //获取当前光标在文本框的位置
         function getCurPosition(domObj) {
             var position = 0;
@@ -1975,7 +1975,8 @@
             urlParams: null,
             isUseUrl: true,
             selectedValue: null,
-            max_selected_options: 1
+            max_selected_options: 1,
+            data:null
         }, opts || {});
 
         var _this = $(this);
@@ -1985,6 +1986,7 @@
         var _selectedValue = opts.selectedValue;
         var _max_selected_options = opts.max_selected_options;
         var _isUseUrl = opts.isUseUrl;
+        var _data = opts.data;
 
         function getPValue(data) {
 
@@ -2052,7 +2054,7 @@
                         disabled = "disabled";
                     }
 
-                    html += "<option name='" + data[i].name + "' type='" + data[i].type + "' value='" + data[i].value + "' " + selected + " " + disabled + "  >" + getDept(data[i].dept) + data[i].name + "</option>";
+                    html += "<option name='" + data[i].name + "' type='" + data[i].type + "' value='" + data[i].value + "' " + selected + " " + disabled + " ext='" + JSON.stringify(data[i].ext) + "'  >" + getDept(data[i].dept) + data[i].name + "</option>";
                     toTree(data, data[i].value, _selectedValue);
                 }
             }
@@ -2090,14 +2092,14 @@
                     disabled = "disabled";
                 }
 
-                html += "<option name='" + data[i].name + "' type='" + data[i].type + "' value='" + data[i].value + "' " + selected + " " + disabled + " >" + getDept(data[i].dept) + data[i].name + "</option>";
+                html += "<option name='" + data[i].name + "' type='" + data[i].type + "' value='" + data[i].value + "' " + selected + " " + disabled + " ext='" + JSON.stringify(data[i].ext) + "' >" + getDept(data[i].dept) + data[i].name + "</option>";
             }
         }
 
         if (_max_selected_options > 1) {
             $(_this).attr("multiple", "multiple");
         }
-     
+
         if (_isUseUrl) {
             $.lumos.getJson({
                 url: "/Common/GetSelectFields",
@@ -2118,7 +2120,10 @@
                         else {
                             toTree(data, topId, _selectedValue);
                         }
-                        $(_this).html('<option value=""></option>');
+                        console.log(html)
+                        $(_this).html("");
+                        var placeholder = $(_this).attr("data-placeholder");
+                        $(_this).append('<option value="">' + placeholder + '</option>');
                         $(_this).append(html);
 
                         $(_this).chosen({ data: data, search_contains: true, max_selected_options: _max_selected_options });
@@ -2130,8 +2135,17 @@
         }
         else {
 
+            if (_data != null) {
+                for (var i = 0; i < _data.length; i++) {
+                    $(_this).append('<option value="' + _data[i].value + '">' + _data[i].name + '</option>');
+                }
+            }
+
+
             $(_this).find("option[value=" + _selectedValue + "]").attr("selected", "selected");
-            $(_this).chosen({ data: null, search_contains: true, max_selected_options: _max_selected_options });
+
+
+            $(_this).chosen({ data: _data, search_contains: true, max_selected_options: _max_selected_options });
         }
 
     }

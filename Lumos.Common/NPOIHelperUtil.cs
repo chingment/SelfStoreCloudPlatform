@@ -17,26 +17,33 @@ namespace Lumos.Common
                 if (cell == null)
                     return value;
 
-                switch (cell.CellType)
+                value = cell.ToString().Trim();
+
+                if(CommonUtil.IsDateTime(value))
                 {
-                    case CellType.String:
-                        value = cell.ToString().Trim();
-                        break;
-                    case CellType.Numeric:
-                        if (cell.DateCellValue != null)
-                        {
-                            value = cell.DateCellValue.ToUnifiedFormatDateTime();
-                        }
-                        else
-                        {
-                            value = cell.ToString().Trim();
-                        }
-                        break;
+                    value = cell.DateCellValue.ToUnifiedFormatDateTime();
                 }
+
+                //switch (cell.CellType)
+                //{
+                //    case CellType.String:
+                //        value = cell.ToString().Trim();
+                //        break;
+                //    case CellType.Numeric:
+                //        if (cell.DateCellValue != null)
+                //        {
+                //            value = cell.DateCellValue.ToUnifiedFormatDateTime();
+                //        }
+                //        else
+                //        {
+                //            value = cell.ToString().Trim();
+                //        }
+                //        break;
+                //}
 
                 return value;
             }
-            catch
+            catch(Exception ex)
             {
                 return value;
             }

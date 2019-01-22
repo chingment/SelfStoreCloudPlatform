@@ -84,6 +84,8 @@
     <Content Include="WebAdmin\Content\base\images\onLoad.gif" />
     <Content Include="WebAdmin\Content\base\images\onShow.gif" />
     <Content Include="WebAdmin\Content\base\images\onSuccess.gif" />
+    <Content Include="WebAdmin\Content\base\images\telphone_call.png" />
+    <Content Include="WebAdmin\Content\base\images\telphone_hangup.png" />
     <Content Include="WebAdmin\Content\base\images\tree_icon_menu.ico" />
     <Content Include="WebAdmin\Content\base\images\tree_icon_menus.ico" />
     <Content Include="WebAdmin\Content\base\images\tree_icon_opfun.ico" />
@@ -92,6 +94,9 @@
     <Content Include="WebAdmin\Content\base\images\tree_icon_orgs.png" />
     <Content Include="WebAdmin\Content\base\images\tree_icon_role.ico" />
     <Content Include="WebAdmin\Content\base\images\tree_icon_roles.ico" />
+    <Content Include="WebAdmin\Content\base\images\workStatus_0.png" />
+    <Content Include="WebAdmin\Content\base\images\workStatus_1.png" />
+    <Content Include="WebAdmin\Content\base\images\workStatus_2.png" />
     <Content Include="WebAdmin\Content\base\images\zTreeStandard.gif" />
     <Content Include="WebAdmin\Content\base\images\zTreeStandard.png" />
     <Content Include="WebAdmin\Content\base\images\zTreeStandard2.gif" />
@@ -1069,7 +1074,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>5990</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

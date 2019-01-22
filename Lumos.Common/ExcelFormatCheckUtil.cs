@@ -49,7 +49,7 @@ namespace Lumos.Common
             foreach (var cell in _checkCell)
             {
                 var iCell = rowTitle.GetCell(cell.Index) == null ? "" : rowTitle.GetCell(cell.Index).ToString().Trim();
-                if (iCell != cell.Title)
+                if (iCell != cell.Title.Trim())
                 {
                     _errorPoint.Add(string.Format("标题:{0},位置:{1},与模板不对应", cell.Title, (cell.Index + 1)));
                 }
