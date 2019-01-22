@@ -2123,7 +2123,11 @@
                         console.log(html)
                         $(_this).html("");
                         var placeholder = $(_this).attr("data-placeholder");
-                        $(_this).append('<option value="">' + placeholder + '</option>');
+
+                        if (_max_selected_options <= 1) {
+                            $(_this).append('<option value="">' + placeholder + '</option>');
+                        }
+
                         $(_this).append(html);
 
                         $(_this).chosen({ data: data, search_contains: true, max_selected_options: _max_selected_options });
