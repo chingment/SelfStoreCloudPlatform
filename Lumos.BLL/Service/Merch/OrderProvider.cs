@@ -24,7 +24,7 @@ namespace Lumos.BLL.Service.Merch
             ret.Status = (int)order.Status;
             ret.StatusName = order.Status.GetCnName();
             ret.StoreName = order.StoreName;
-            ret.ClientName = order.ClientName;
+            ret.ClientUserName = order.ClientUserName;
             ret.ClientUserId = order.ClientUserId;
             ret.ChargeAmount = order.ChargeAmount.ToF2Price();
             ret.DiscountAmount = order.DiscountAmount.ToF2Price();

@@ -30,12 +30,12 @@ namespace WebMerch.Controllers
                             //from gci in wx.DefaultIfEmpty()
 
                         where
-                        (rup.Nickname == null || o.ClientName.Contains(rup.Nickname)) &&
+                        (rup.Nickname == null || o.ClientUserName.Contains(rup.Nickname)) &&
                         (rup.OrderStatus == Enumeration.OrderStatus.Unknow || o.Status == rup.OrderStatus) &&
                         (rup.OrderSn == null || o.Sn.Contains(rup.OrderSn))
                         &&
                         o.MerchantId == this.CurrentMerchantId
-                        select new { o.Sn, o.Id, o.ClientUserId, o.ClientName, o.StoreName, o.Source, o.SubmitTime, o.ChargeAmount, o.DiscountAmount, o.OriginalAmount, o.CreateTime, o.Quantity };
+                        select new { o.Sn, o.Id, o.ClientUserId, o.ClientUserName, o.StoreName, o.Source, o.SubmitTime, o.ChargeAmount, o.DiscountAmount, o.OriginalAmount, o.CreateTime, o.Quantity };
 
             int total = query.GroupBy(p => p.Sn).Select(o => o.FirstOrDefault()).Count();
 
@@ -55,8 +55,8 @@ namespace WebMerch.Controllers
                 {
                     Id = item.Id,
                     Sn = item.Sn,
-                    ClientName = item.ClientName,
-                    ClientId = item.ClientUserId,
+                    ClientUserName = item.ClientUserName,
+                    ClientUserId = item.ClientUserId,
                     StoreName = item.StoreName,
                     SubmitTime = item.SubmitTime.ToUnifiedFormatDateTime(),
                     ChargeAmount = item.ChargeAmount.ToF2Price(),

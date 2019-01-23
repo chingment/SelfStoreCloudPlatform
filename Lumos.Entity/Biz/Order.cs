@@ -11,7 +11,7 @@ namespace Lumos.Entity
         public string AppId { get; set; }
         public string Sn { get; set; }
         public string ClientUserId { get; set; }
-        public string ClientName { get; set; }
+        public string ClientUserName { get; set; }
         public string MerchantId { get; set; }
         public string StoreId { get; set; }
         public string StoreName { get; set; }

@@ -25,10 +25,10 @@
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.nickname + "\">";
 
                 if (p_row.clientId != "") {
-                    l_StrRows += "<a userid=" + p_row.clientId + " href=\"javascript:void(0)\" class=\"open-user-details\" >" + p_row.clientName + "</a>";
+                    l_StrRows += "<a userid=" + p_row.clientUserId + " href=\"javascript:void(0)\" class=\"open-user-details\" >" + p_row.clientUserName + "</a>";
                 }
                 else {
-                    l_StrRows += p_row.clientName;
+                    l_StrRows += p_row.clientUserName;
                 }
 
                 l_StrRows += " </td>";
