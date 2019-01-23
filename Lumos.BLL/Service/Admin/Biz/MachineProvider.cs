@@ -179,6 +179,7 @@ namespace Lumos.BLL.Service.Admin
                     return new CustomJsonResult(ResultType.Failure, "该数据为空");
                 }
 
+
                 machine.MerchantId = null;
                 machine.StoreId = null;
                 machine.MendTime = this.DateTime;
