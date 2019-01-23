@@ -12,49 +12,6 @@ namespace Lumos.BLL.Service.AppTerm
 {
     public class MachineService : BaseProvider
     {
-
-        //private void test()
-        //{
-
-        //    string useriId = "ca66ca85c5bf435581ecd2380554ecfe";
-        //    //string merchantId = "d1e8ad564c0f4516b2de95655a4146c7";
-        //    string machineId = "00000000000000000000000000000006";
-        //    string storeId = "00000000000000000000000000000006";
-        //    var machineStocks = CurrentDb.MachineStock.Where(m => m.MerchantId == useriId  && m.MachineId == machineId).ToList();
-
-        //    foreach (var item in machineStocks)
-        //    {
-        //        CurrentDb.MachineStock.Remove(item);
-        //        CurrentDb.SaveChanges();
-        //    }
-
-
-        //    var productSkus = CurrentDb.ProductSku.ToList();
-
-        //    foreach (var item in productSkus)
-        //    {
-        //        var machineStock = new MachineStock();
-
-        //        machineStock.Id = GuidUtil.New();
-        //        machineStock.UserId = useriId;
-        //        machineStock.MachineId = machineId;
-        //        machineStock.StoreId = storeId;
-        //        machineStock.SlotId = GuidUtil.New();
-        //        machineStock.ProductSkuId = item.Id;
-        //        machineStock.Quantity = 2;
-        //        machineStock.SellQuantity = 1;
-        //        machineStock.LockQuantity = 1;
-        //        machineStock.IsOffSell = false;
-        //        machineStock.CreateTime = DateTime.Now;
-        //        machineStock.Creator = machineId;
-
-        //        CurrentDb.MachineStock.Add(machineStock);
-        //        CurrentDb.SaveChanges();
-
-        //    }
-
-        //}
-
         public CustomJsonResult ApiConfig(string operater, string deviceId)
         {
             CustomJsonResult result = new CustomJsonResult();
@@ -90,11 +47,9 @@ namespace Lumos.BLL.Service.AppTerm
 
 
             var ret = new RetMachineApiConfig();
-            ret.MerchantId = storeMachine.MerchantId;
+            ret.AccessToken = storeMachine.Id;
             ret.MerchantName = merchant.Name;
-            ret.StoreId = storeMachine.StoreId;
             ret.StoreName = store.Name;
-            ret.MachineId = storeMachine.MachineId;
             ret.ApiHost = merchant.ApiHost;
             ret.ApiKey = merchant.ApiKey;
             ret.ApiSecret = merchant.ApiSecret;
@@ -221,7 +176,6 @@ namespace Lumos.BLL.Service.AppTerm
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "更新成功");
         }
 
-
         public CustomJsonResult LoginResultQuery(string operater, RupMachineLoginResultQuery rup)
         {
             var key = string.Format("machineLoginResult:{0}", rup.Token);
@@ -261,7 +215,5 @@ namespace Lumos.BLL.Service.AppTerm
                 return new CustomJsonResult(ResultType.Success, ResultCode.Success, "登录成功", ret);
             }
         }
-
-
     }
 }

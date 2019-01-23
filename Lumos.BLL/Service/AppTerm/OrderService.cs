@@ -81,7 +81,25 @@ namespace Lumos.BLL.Service.AppTerm
             return result;
         }
 
-        public CustomJsonResult SkuStatusQuery(string operater, RupOrderSkuStatusQuery rup)
+        public CustomJsonResult GetPickupList(string operater, RupOrderGetPickupList rup)
+        {
+            CustomJsonResult result = new CustomJsonResult();
+
+            //result = BizFactory.Order.Cancle(operater, rop.OrderSn, rop.Reason);
+
+            return result;
+        }
+
+        public CustomJsonResult PickupStatusQuery(string operater, RupOrderPickupStatusQuery rup)
+        {
+            CustomJsonResult result = new CustomJsonResult();
+
+            //result = BizFactory.Order.Cancle(operater, rop.OrderSn, rop.Reason);
+
+            return result;
+        }
+
+        public CustomJsonResult PickupStatusNotify(string operater, RopOrderPickupStatusNotify rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 

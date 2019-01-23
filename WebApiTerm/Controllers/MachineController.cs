@@ -20,7 +20,6 @@ namespace WebApiTerm.Controllers
         {
             IResult result = TermServiceFactory.Machine.GetSlotSkusStock(rup.MerchantId, rup.MerchantId, rup.MachineId);
             return new OwnApiHttpResponse(result);
-
         }
 
 
