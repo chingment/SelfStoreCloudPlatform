@@ -26,8 +26,6 @@ namespace Lumos.BLL.Service.AppTerm
             ret.LogoImgUrl = machine.LogoImgUrl;
             ret.BtnBuyImgUrl = machine.BtnBuyImgUrl;
             ret.BtnPickImgUrl = machine.BtnPickImgUrl;
-
-
             ret.Banners = TermServiceFactory.Machine.GetBanners(tk.UserId, tk.MerchantId, tk.StoreId, tk.MachineId);
             ret.ProductKinds = TermServiceFactory.ProductKind.GetKinds(tk.UserId, tk.MerchantId, tk.StoreId, tk.MachineId);
             ret.ProductSkus = TermServiceFactory.Machine.GetProductSkus(tk.UserId, tk.MerchantId, tk.StoreId, tk.MachineId);
