@@ -120,6 +120,7 @@ namespace Lumos.BLL.Service.Admin
                 {
                     merchantMachine = new MerchantMachine();
                     merchantMachine.Id = GuidUtil.New();
+                    merchantMachine.UserId = merchant.UserId;
                     merchantMachine.MerchantId = merchantId;
                     merchantMachine.MachineId = id;
                     merchantMachine.isBind = true;
@@ -136,6 +137,7 @@ namespace Lumos.BLL.Service.Admin
 
                 var machineBindLog = new MachineBindLog();
                 machineBindLog.Id = GuidUtil.New();
+                machineBindLog.UserId = merchant.UserId;
                 machineBindLog.MerchantId = merchantId;
                 machineBindLog.MachineId = id;
                 machineBindLog.StoreId = null;
@@ -179,6 +181,7 @@ namespace Lumos.BLL.Service.Admin
                     return new CustomJsonResult(ResultType.Failure, "该数据为空");
                 }
 
+                machine.UserId = null;
                 machine.MerchantId = null;
                 machine.StoreId = null;
                 machine.MendTime = this.DateTime;
@@ -192,8 +195,9 @@ namespace Lumos.BLL.Service.Admin
 
                 var machineBindLog = new MachineBindLog();
                 machineBindLog.Id = GuidUtil.New();
-                machineBindLog.MerchantId = merchantId;
-                machineBindLog.MachineId = id;
+                machineBindLog.UserId = merchantMachine.UserId;
+                machineBindLog.MerchantId = merchantMachine.MerchantId;
+                machineBindLog.MachineId = merchantMachine.MachineId;
                 machineBindLog.BindType = Enumeration.MachineBindType.Off;
                 machineBindLog.CreateTime = this.DateTime;
                 machineBindLog.Creator = operater;

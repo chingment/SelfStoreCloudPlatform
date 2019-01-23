@@ -22,6 +22,8 @@ namespace Lumos.Entity
         public float Lat { get; set; }
         public float Lng { get; set; }
         public string JPushRegId { get; set; }
+
+        public string UserId { get; set; }
         public string MerchantId { get; set; }
         public string StoreId { get; set; }
         public string LogoImgUrl { get; set; }
