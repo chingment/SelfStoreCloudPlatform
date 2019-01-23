@@ -10,9 +10,9 @@ namespace WebApiTerm.Controllers
     {
 
         [HttpPost]
-        public OwnApiHttpResponse Reserve(RopOrderReserve rop)
+        public OwnApiHttpResponse Reserve([FromUri]RupOrderReserve rup , [FromBody]RopOrderReserve rop)
         {
-            IResult result = TermServiceFactory.Order.Reserve(rop.MerchantId, rop);
+            IResult result = TermServiceFactory.Order.Reserve(rup, rop);
             return new OwnApiHttpResponse(result);
 
         }

@@ -180,6 +180,7 @@
     <Compile Include="Service\AppMobile\RModels\RupStoreList.cs" />
     <Compile Include="Service\AppMobile\StoreService.cs" />
     <Compile Include="Service\AppMobile\UserDeliveryAddressService.cs" />
+    <Compile Include="Service\AppTerm\BaseService.cs" />
     <Compile Include="Service\AppTerm\GlobalService.cs" />
     <Compile Include="Service\AppTerm\Models\ProductChildKindModel.cs" />
     <Compile Include="Service\AppTerm\Models\ProductParentKindModel.cs" />
@@ -206,6 +207,7 @@
     <Compile Include="Service\AppTerm\RModels\RupOrderGetPickupList.cs" />
     <Compile Include="Service\AppTerm\RModels\RupOrderPayResultQuery.cs" />
     <Compile Include="Service\AppTerm\RModels\RupOrderPickupStatusQuery.cs" />
+    <Compile Include="Service\AppTerm\RModels\RupOrderReserve.cs" />
     <Compile Include="Service\AppTerm\RModels\RupOrderSkuStatusQuery.cs" />
     <Compile Include="Service\AppTerm\TermServiceFactory.cs" />
     <Compile Include="Service\Admin\Sys\RModels\RetSysMenuGetDetails.cs" />

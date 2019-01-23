@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.AppTerm
 {
-    public class ProductKindService : BaseProvider
+    public class ProductKindService : BaseService
     {
         public List<ProductParentKindModel> GetKinds(string operater, string merchantId, string machineId)
         {

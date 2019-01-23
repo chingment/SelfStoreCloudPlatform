@@ -12,18 +12,20 @@ using System.Transactions;
 namespace Lumos.BLL.Service.AppTerm
 {
 
-    public class OrderService : BaseProvider
+    public class OrderService : BaseService
     {
-        public CustomJsonResult Reserve(string operater, RopOrderReserve rop)
+        public CustomJsonResult Reserve(RupOrderReserve rup, RopOrderReserve rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 
+            var tk = GetTicketInfo(rup.Ticket);
+
             Biz.RopOrderReserve bizRop = new Biz.RopOrderReserve();
             bizRop.Source = Enumeration.OrderSource.Machine;
-            bizRop.StoreId = rop.StoreId;
+            bizRop.StoreId = tk.StoreId;
             bizRop.PayTimeout = rop.PayTimeout;
             bizRop.ReserveMode = Enumeration.ReserveMode.OffLine;
-            bizRop.ChannelId = rop.MachineId;
+            bizRop.ChannelId = tk.MachineId;
             bizRop.ChannelType = Enumeration.ChannelType.Machine;
 
             foreach (var item in rop.Skus)
@@ -31,7 +33,7 @@ namespace Lumos.BLL.Service.AppTerm
                 bizRop.Skus.Add(new Biz.RopOrderReserve.Sku() { Id = item.Id, Quantity = item.Quantity, ReceptionMode = Enumeration.ReceptionMode.Machine });
             }
 
-            var bizResult = BizFactory.Order.Reserve(operater, bizRop);
+            var bizResult = BizFactory.Order.Reserve(tk.MachineId, bizRop);
 
             if (bizResult.Result == ResultType.Success)
             {

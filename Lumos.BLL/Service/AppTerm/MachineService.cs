@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.AppTerm
 {
-    public class MachineService : BaseProvider
+    public class MachineService : BaseService
     {
-        public CustomJsonResult ApiConfig(string operater, string deviceId)
+        public CustomJsonResult ApiConfig(string deviceId)
         {
             CustomJsonResult result = new CustomJsonResult();
 
@@ -47,7 +47,7 @@ namespace Lumos.BLL.Service.AppTerm
 
 
             var ret = new RetMachineApiConfig();
-            ret.AccessToken = storeMachine.Id;
+            ret.Ticket = storeMachine.Id;
             ret.MerchantName = merchant.Name;
             ret.StoreName = store.Name;
             ret.ApiHost = merchant.ApiHost;

@@ -10,7 +10,7 @@ namespace WebApiTerm.Controllers
         [HttpGet]
         public OwnApiHttpResponse DataSet([FromUri]RupGlobalDataSet rup)
         {
-            IResult result = TermServiceFactory.Global.DataSet(rup.MerchantId, rup);
+            IResult result = TermServiceFactory.Global.DataSet(rup);
             return new OwnApiHttpResponse(result);
         }
 

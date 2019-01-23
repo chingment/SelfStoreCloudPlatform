@@ -11,7 +11,7 @@ namespace WebApiTerm.Controllers
         [HttpGet]
         public OwnApiHttpResponse ApiConfig([FromUri]RupMachineApiConfig rup)
         {
-            IResult result = TermServiceFactory.Machine.ApiConfig(GuidUtil.Empty(), rup.DeviceId);
+            IResult result = TermServiceFactory.Machine.ApiConfig(rup.DeviceId);
             return new OwnApiHttpResponse(result);
         }
 

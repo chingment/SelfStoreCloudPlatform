@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.AppTerm
 {
-    public class RupGlobalDataSet
+    public class RupOrderReserve
     {
         public string Ticket { get; set; }
-        public DateTime? Datetime { get; set; }
     }
 }

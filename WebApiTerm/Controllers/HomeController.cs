@@ -97,12 +97,10 @@ namespace WebApiTerm.Controllers
             //host = "http://demo.api.term.17fanju.com";
 
             string deviceId = "000000000000000";
-            string merchantId = "d1e8ad564c0f4516b2de95655a4146c7";
-            string machineId = "00000000000000000000000000000006";
-            string storeId = "516d47426402446ea8daa4ee255b2717";
-            model.Add("获取机器接口配置信息", MachineApiConfig(deviceId));
-            //model.Add("获取全局数据", GlobalDataSet(merchantId, machineId, DateTime.Now));
-            //model.Add("预定商品", OrderReserve(merchantId, storeId, machineId));
+            string ticket = "6cc2ebd28c9a47d9a27bec4b2de3f379";
+            //model.Add("获取机器接口配置信息", MachineApiConfig(deviceId));
+            //model.Add("获取全局数据", GlobalDataSet(ticket, DateTime.Now));
+            model.Add("预定商品", OrderReserve(ticket));
 
 
             //HttpUtil http = new HttpUtil();
@@ -131,11 +129,10 @@ namespace WebApiTerm.Controllers
 
         }
 
-        public string GlobalDataSet(string merchantId, string machineId, DateTime datetime)
+        public string GlobalDataSet(string ticket, DateTime datetime)
         {
             Dictionary<string, string> parames = new Dictionary<string, string>();
-            parames.Add("merchantId", merchantId.ToString());
-            parames.Add("machineId", machineId.ToString());
+            parames.Add("ticket", ticket.ToString());
             parames.Add("datetime", datetime.ToUnifiedFormatDateTime());
             string signStr = Signature.Compute(key, secret, timespan, Signature.GetQueryData(parames));
 
@@ -144,19 +141,16 @@ namespace WebApiTerm.Controllers
             headers.Add("timestamp", timespan.ToString());
             headers.Add("sign", signStr);
             HttpUtil http = new HttpUtil();
-            string result = http.HttpGet("" + host + "/api/Global/DataSet?merchantId=" + merchantId + "&machineId=" + machineId + "&datetime=" + datetime.ToUnifiedFormatDateTime(), headers);
+            string result = http.HttpGet("" + host + "/api/Global/DataSet?ticket=" + ticket + "&datetime=" + datetime.ToUnifiedFormatDateTime(), headers);
 
             return result;
 
         }
 
-        public string OrderReserve(string merchantId, string storeId, string machineId)
+        public string OrderReserve(string ticket)
         {
 
             RopOrderReserve pms = new RopOrderReserve();
-            pms.MerchantId = merchantId;
-            pms.StoreId = storeId;
-            pms.MachineId = machineId;
             pms.PayTimeout = 10;
             pms.Skus.Add(new RopOrderReserve.Sku() { Id = "3cbddffaf84148279bd91551db238ca3", Quantity = 1 });
             pms.Skus.Add(new RopOrderReserve.Sku() { Id = "44b2d4ae88e24b76a8a744f582214513", Quantity = 1 });
@@ -173,7 +167,7 @@ namespace WebApiTerm.Controllers
             headers1.Add("sign", signStr);
 
             HttpUtil http = new HttpUtil();
-            string respon_data4 = http.HttpPostJson("" + host + "/api/Order/Reserve", a1, headers1);
+            string respon_data4 = http.HttpPostJson("" + host + "/api/Order/Reserve?ticket=" + ticket, a1, headers1);
 
             return respon_data4;
 

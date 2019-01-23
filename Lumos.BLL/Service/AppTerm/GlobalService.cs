@@ -6,14 +6,17 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.AppTerm
 {
-    public class GlobalService : BaseProvider
+    public class GlobalService : BaseService
     {
-        public CustomJsonResult DataSet(string operater, RupGlobalDataSet rup)
+        public CustomJsonResult DataSet(RupGlobalDataSet rup)
         {
             CustomJsonResult result = new CustomJsonResult();
+
+            var tk = GetTicketInfo(rup.Ticket);
+
             var ret = new RetGlobalDataSet();
 
-            var machine = CurrentDb.Machine.Where(m => m.MerchantId == rup.MerchantId && m.Id == rup.MachineId).FirstOrDefault();
+            var machine = CurrentDb.Machine.Where(m => m.MerchantId == tk.MerchantId && m.StoreId == tk.StoreId && m.Id == tk.MachineId).FirstOrDefault();
 
             if (machine == null)
             {
@@ -25,9 +28,9 @@ namespace Lumos.BLL.Service.AppTerm
             ret.BtnPickImgUrl = machine.BtnPickImgUrl;
 
 
-            ret.Banners = TermServiceFactory.Machine.GetBanners(operater, rup.MerchantId, rup.MachineId);
-            ret.ProductKinds = TermServiceFactory.ProductKind.GetKinds(operater, rup.MerchantId, rup.MachineId);
-            ret.ProductSkus = TermServiceFactory.Machine.GetProductSkus(operater, rup.MerchantId, rup.MachineId);
+            ret.Banners = TermServiceFactory.Machine.GetBanners(tk.MerchantId, tk.MerchantId, tk.MachineId);
+            ret.ProductKinds = TermServiceFactory.ProductKind.GetKinds(tk.MerchantId, tk.MerchantId, tk.MachineId);
+            ret.ProductSkus = TermServiceFactory.Machine.GetProductSkus(tk.MerchantId, tk.MerchantId, tk.MachineId);
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
