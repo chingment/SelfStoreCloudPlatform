@@ -22,5 +22,7 @@ namespace Lumos.Entity
         public string ApiKey { get; set; }
         public string ApiSecret { get; set; }
         public int PayTimeout { get; set; }
+
+        public string SimpleCode { get; set; }
     }
 }

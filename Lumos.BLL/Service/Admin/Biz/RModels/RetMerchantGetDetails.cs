@@ -15,5 +15,7 @@ namespace Lumos.BLL.Service.Admin
         public string ContactName { get; set; }
         public string ContactPhone { get; set; }
         public string ContactAddress { get; set; }
+
+        public string SimpleCode { get; set; }
     }
 }

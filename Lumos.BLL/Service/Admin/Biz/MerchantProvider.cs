@@ -34,7 +34,7 @@ namespace Lumos.BLL.Service.Admin
             ret.ContactAddress = merchant.ContactAddress ?? "";
             ret.ContactName = merchant.ContactName ?? "";
             ret.ContactPhone = merchant.ContactPhone ?? "";
-
+            ret.SimpleCode = merchant.SimpleCode;
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
         }
 
@@ -50,6 +50,13 @@ namespace Lumos.BLL.Service.Admin
                 if (isExistsSysUser != null)
                 {
                     return new CustomJsonResult(ResultType.Failure, string.Format("该用户名（{0}）已经被使用", rop.UserName));
+                }
+
+                var isExistsSimpleCode = CurrentDb.Merchant.Where(m => m.SimpleCode == rop.SimpleCode).FirstOrDefault();
+
+                if (isExistsSimpleCode != null)
+                {
+                    return new CustomJsonResult(ResultType.Failure, string.Format("该商户代码（{0}）已经被使用", rop.SimpleCode));
                 }
 
                 string merchantId = GuidUtil.New();
@@ -79,6 +86,7 @@ namespace Lumos.BLL.Service.Admin
                 merchant.ApiKey = "fanju";
                 merchant.ApiSecret = "7460e6512f1940f68c00fe1fdb2b7eb1";
                 merchant.PayTimeout = 120;
+                merchant.SimpleCode = rop.SimpleCode;
                 merchant.CreateTime = this.DateTime;
                 merchant.Creator = operater;
                 CurrentDb.Merchant.Add(merchant);
