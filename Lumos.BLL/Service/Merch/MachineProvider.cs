@@ -119,6 +119,7 @@ namespace Lumos.BLL.Service.Merch
                 {
                     storeMachine = new StoreMachine();
                     storeMachine.Id = GuidUtil.New();
+                    storeMachine.UserId = store.UserId;
                     storeMachine.MerchantId = store.MerchantId;
                     storeMachine.StoreId = store.Id;
                     storeMachine.MachineId = id;

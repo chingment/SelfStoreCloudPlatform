@@ -37,8 +37,11 @@ namespace Lumos.BLL.Service.Merch
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "名称已存在,请使用其它");
                 }
 
+                var merchant = CurrentDb.Merchant.Where(m => m.Id == merchantId).FirstOrDefault();
+
                 var store = new Store();
                 store.Id = GuidUtil.New();
+                store.UserId = merchant.UserId;
                 store.MerchantId = merchantId;
                 store.Name = rop.Name;
                 store.Address = rop.Address;
