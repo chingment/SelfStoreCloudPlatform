@@ -43,6 +43,5 @@ namespace Lumos.Entity
 
         public Enumeration.OrderDetailsChildSonStatus Status { get; set; }
 
-
     }
 }

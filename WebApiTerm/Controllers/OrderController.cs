@@ -31,8 +31,24 @@ namespace WebApiTerm.Controllers
             return new OwnApiHttpResponse(result);
         }
 
+
         [HttpGet]
-        public OwnApiHttpResponse SkuStatusQuery([FromUri]RupOrderSkuStatusQuery rup)
+        public OwnApiHttpResponse PickupList([FromUri]RupOrderSkuStatusQuery rup)
+        {
+            IResult result = TermServiceFactory.Order.SkuStatusQuery(rup.MerchantId, rup);
+            return new OwnApiHttpResponse(result);
+        }
+
+        [HttpGet]
+        public OwnApiHttpResponse PickupStatusQuery([FromUri]RupOrderSkuStatusQuery rup)
+        {
+            IResult result = TermServiceFactory.Order.SkuStatusQuery(rup.MerchantId, rup);
+            return new OwnApiHttpResponse(result);
+        }
+
+
+        [HttpGet]
+        public OwnApiHttpResponse PickupStatusNotify([FromUri]RupOrderSkuStatusQuery rup)
         {
             IResult result = TermServiceFactory.Order.SkuStatusQuery(rup.MerchantId, rup);
             return new OwnApiHttpResponse(result);

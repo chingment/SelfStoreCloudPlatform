@@ -236,14 +236,17 @@ namespace Lumos.Entity
             [Remark("已支付")]
             Payed = 3000,
             [Remark("待取货")]
-            WaitPick = 3001,
+            WaitPick = 3010,
+            [Remark("正在取货中")]
+            Picking = 3011,
             [Remark("已取货")]
-            Picked = 3002,
+            Picked = 3012,
             [Remark("已完成")]
             Completed = 4000,
             [Remark("已失效")]
             Cancled = 5000
         }
+
 
         public enum OrderSource
         {
