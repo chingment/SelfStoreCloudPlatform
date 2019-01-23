@@ -17,7 +17,7 @@ namespace Lumos.BLL.Service.Merch
         public string Sn { get; set; }
         public string StoreName { get; set; }
         public string ClientName { get; set; }
-        public string ClientId { get; set; }
+        public string ClientUserId { get; set; }
         public string SourceName { get; set; }
         public string ChargeAmount { get; set; }
         public string DiscountAmount { get; set; }

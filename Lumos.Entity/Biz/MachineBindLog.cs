@@ -9,8 +9,6 @@ namespace Lumos.Entity
     {
         [Key]
         public string Id { get; set; }
-
-        public string UserId { get; set; }
         public string MerchantId { get; set; }
         public string MachineId { get; set; }
         public string StoreId { get; set; }

@@ -20,7 +20,7 @@ namespace Lumos.BLL.Service.Admin
                 return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "数据为空");
             }
 
-            var sysMerchantUser = CurrentDb.SysMerchantUser.Where(m => m.Id == merchant.UserId).FirstOrDefault();
+            var sysMerchantUser = CurrentDb.SysMerchantUser.Where(m => m.Id == merchant.MerchantUserId).FirstOrDefault();
 
             if (merchant == null)
             {
@@ -77,7 +77,7 @@ namespace Lumos.BLL.Service.Admin
 
                 var merchant = new Merchant();
                 merchant.Id = merchantId;
-                merchant.UserId = sysMerchatUser.Id;
+                merchant.MerchantUserId = sysMerchatUser.Id;
                 merchant.Name = rop.Name;
                 merchant.ContactName = rop.ContactName;
                 merchant.ContactPhone = rop.ContactPhone;
@@ -148,7 +148,7 @@ namespace Lumos.BLL.Service.Admin
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "数据为空");
                 }
 
-                var sysMerchantUser = CurrentDb.SysMerchantUser.Where(m => m.Id == merchant.UserId).FirstOrDefault();
+                var sysMerchantUser = CurrentDb.SysMerchantUser.Where(m => m.Id == merchant.MerchantUserId).FirstOrDefault();
                 if (sysMerchantUser == null)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "数据为空");

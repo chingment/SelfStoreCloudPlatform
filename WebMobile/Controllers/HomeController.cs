@@ -83,10 +83,10 @@ namespace WebMobile.Controllers
                         var retWxUserCheckedUser = BizFactory.WxUser.CheckedUser(GuidUtil.New(), ropWxUserCheckedUser);
                         if (retWxUserCheckedUser != null)
                         {
-                            LogUtil.Info("用户Id：" + retWxUserCheckedUser.ClientId);
+                            LogUtil.Info("用户Id：" + retWxUserCheckedUser.ClientUserId);
 
                             UserInfo userInfo = new UserInfo();
-                            userInfo.UserId = retWxUserCheckedUser.ClientId;
+                            userInfo.UserId = retWxUserCheckedUser.ClientUserId;
                             userInfo.WxOpenId = oauth2_Result.openid;
                             userInfo.WxAccessToken = oauth2_Result.access_token;
 
@@ -281,7 +281,7 @@ namespace WebMobile.Controllers
 
                             var wxMsgPushLog = new WxMsgPushLog();
                             wxMsgPushLog.Id = GuidUtil.New();
-                            wxMsgPushLog.UserId = retWxUserCheckedUser.ClientId;
+                            wxMsgPushLog.UserId = retWxUserCheckedUser.ClientUserId;
                             wxMsgPushLog.ToUserName = baseEventMsg.ToUserName;
                             wxMsgPushLog.FromUserName = baseEventMsg.FromUserName;
                             wxMsgPushLog.CreateTime = DateTime.Now;

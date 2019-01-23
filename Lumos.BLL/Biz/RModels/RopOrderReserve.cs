@@ -15,7 +15,7 @@ namespace Lumos.BLL.Biz
         }
 
         public string StoreId { get; set; }
-        public string ClientId { get; set; }
+        public string ClientUserId { get; set; }
         public Enumeration.OrderSource Source { get; set; }
         public Enumeration.ReserveMode ReserveMode { get; set; }
         public string ChannelId { get; set; }

@@ -10,7 +10,7 @@ namespace Lumos.Entity
         [Key]
         public string Id { get; set; }
         public string Sn { get; set; }
-        public string ClientId { get; set; }
+        public string ClientUserId { get; set; }
         public string MerchantId { get; set; }
         public string StoreId { get; set; }
         public string ChannelId { get; set; }

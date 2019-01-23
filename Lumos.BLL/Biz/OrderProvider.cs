@@ -158,7 +158,7 @@ namespace Lumos.BLL.Biz
                 order.MerchantId = store.MerchantId;
                 order.StoreId = rop.StoreId;
                 order.StoreName = store.Name;
-                order.ClientId = rop.ClientId;
+                order.ClientUserId = rop.ClientUserId;
                 order.Quantity = rop.Skus.Sum(m => m.Quantity);
                 order.Status = Enumeration.OrderStatus.WaitPay;
                 order.Source = rop.Source;
@@ -168,15 +168,15 @@ namespace Lumos.BLL.Biz
 
 
                 #region 更改购物车标识
-                LogUtil.Info("ClientId:" + rop.ClientId);
+                LogUtil.Info("ClientId:" + rop.ClientUserId);
 
-                if (!string.IsNullOrEmpty(rop.ClientId))
+                if (!string.IsNullOrEmpty(rop.ClientUserId))
                 {
                     var cartsIds = rop.Skus.Select(m => m.CartId).Distinct().ToArray();
                     if (cartsIds != null)
                     {
                         LogUtil.Info("cartsIds:" + Newtonsoft.Json.JsonConvert.SerializeObject(cartsIds));
-                        var clientCarts = CurrentDb.ClientCart.Where(m => cartsIds.Contains(m.Id) && m.ClientId == rop.ClientId).ToList();
+                        var clientCarts = CurrentDb.ClientCart.Where(m => cartsIds.Contains(m.Id) && m.ClientUserId == rop.ClientUserId).ToList();
                         if (clientCarts != null)
                         {
                             LogUtil.Info("clientCarts.length" + clientCarts.Count);
@@ -205,7 +205,7 @@ namespace Lumos.BLL.Biz
                     var orderDetails = new OrderDetails();
                     orderDetails.Id = GuidUtil.New();
                     orderDetails.Sn = order.Sn + reserveDetails.IndexOf(detail).ToString();
-                    orderDetails.ClientId = rop.ClientId;
+                    orderDetails.ClientUserId = rop.ClientUserId;
                     orderDetails.MerchantId = store.MerchantId;
                     orderDetails.StoreId = rop.StoreId;
                     orderDetails.ChannelType = detail.ChannelType;
@@ -248,7 +248,7 @@ namespace Lumos.BLL.Biz
                         var orderDetailsChild = new OrderDetailsChild();
                         orderDetailsChild.Id = GuidUtil.New();
                         orderDetailsChild.Sn = orderDetails.Sn + detail.Details.IndexOf(detailsChild).ToString();
-                        orderDetailsChild.ClientId = rop.ClientId;
+                        orderDetailsChild.ClientUserId = rop.ClientUserId;
                         orderDetailsChild.MerchantId = store.MerchantId;
                         orderDetailsChild.StoreId = rop.StoreId;
                         orderDetailsChild.ChannelType = detailsChild.ChannelType;
@@ -279,7 +279,7 @@ namespace Lumos.BLL.Biz
 
                             orderDetailsChildSon.Id = detailsChildSon.Id;
                             orderDetailsChildSon.Sn = orderDetailsChild.Sn + detailsChild.Details.IndexOf(detailsChildSon);
-                            orderDetailsChildSon.ClientId = rop.ClientId;
+                            orderDetailsChildSon.ClientUserId = rop.ClientUserId;
                             orderDetailsChildSon.MerchantId = store.MerchantId;
                             orderDetailsChildSon.StoreId = rop.StoreId;
                             orderDetailsChildSon.ChannelType = detailsChildSon.ChannelType;

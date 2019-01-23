@@ -45,7 +45,7 @@ namespace Lumos.BLL.Biz
 
                             wxUserInfo = new WxUserInfo();
                             wxUserInfo.Id = GuidUtil.New();
-                            wxUserInfo.ClientId = sysClientUser.Id;
+                            wxUserInfo.ClientUserId = sysClientUser.Id;
                             wxUserInfo.OpenId = rop.OpenId;
                             wxUserInfo.AccessToken = rop.AccessToken;
                             wxUserInfo.ExpiresIn = rop.ExpiresIn;
@@ -91,7 +91,7 @@ namespace Lumos.BLL.Biz
                         }
                         else
                         {
-                            var sysClientUser = CurrentDb.SysClientUser.Where(m => m.Id == wxUserInfo.ClientId).FirstOrDefault();
+                            var sysClientUser = CurrentDb.SysClientUser.Where(m => m.Id == wxUserInfo.ClientUserId).FirstOrDefault();
 
                             wxUserInfo.AccessToken = rop.AccessToken;
                             wxUserInfo.ExpiresIn = rop.ExpiresIn;
@@ -148,7 +148,7 @@ namespace Lumos.BLL.Biz
                         ret.Province = rop.Province;
                         ret.City = rop.City;
                         ret.Country = rop.Country;
-                        ret.ClientId = wxUserInfo.ClientId;
+                        ret.ClientUserId = wxUserInfo.ClientUserId;
 
 
                     }

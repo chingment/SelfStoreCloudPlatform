@@ -41,7 +41,6 @@ namespace Lumos.BLL.Service.Merch
 
                 var store = new Store();
                 store.Id = GuidUtil.New();
-                store.UserId = merchant.UserId;
                 store.MerchantId = merchantId;
                 store.Name = rop.Name;
                 store.Address = rop.Address;

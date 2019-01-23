@@ -11,13 +11,13 @@ namespace Lumos.BLL.Service.AppMobile
     public class UserDeliveryAddressService : BaseProvider
     {
 
-        public List<UserDeliveryAddressModel> My(string operater, string clientId)
+        public List<UserDeliveryAddressModel> My(string operater, string clientUserId)
         {
             var model = new List<UserDeliveryAddressModel>();
 
             var query = (from o in CurrentDb.ClientDeliveryAddress
                          where
-                         o.ClientId == clientId &&
+                         o.ClientUserId == clientUserId &&
                          o.IsDelete == false
                          select new { o.Id, o.Consignee, o.PhoneNumber, o.Address, o.AreaName, o.AreaCode, o.IsDefault, o.CreateTime }
               );
@@ -47,7 +47,7 @@ namespace Lumos.BLL.Service.AppMobile
         }
 
 
-        public CustomJsonResult Edit(string operater, string clientId, RopUserDeliveryAddressEdit rop)
+        public CustomJsonResult Edit(string operater, string clientUserId, RopUserDeliveryAddressEdit rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 
@@ -56,7 +56,7 @@ namespace Lumos.BLL.Service.AppMobile
             {
                 l_userDeliveryAddress = new ClientDeliveryAddress();
                 l_userDeliveryAddress.Id = GuidUtil.New();
-                l_userDeliveryAddress.ClientId = clientId;
+                l_userDeliveryAddress.ClientUserId = clientUserId;
                 l_userDeliveryAddress.Consignee = rop.Consignee;
                 l_userDeliveryAddress.PhoneNumber = rop.PhoneNumber;
                 l_userDeliveryAddress.AreaName = rop.AreaName;
@@ -83,7 +83,7 @@ namespace Lumos.BLL.Service.AppMobile
 
             if (rop.IsDefault)
             {
-                var list = CurrentDb.ClientDeliveryAddress.Where(m => m.ClientId == clientId).ToList();
+                var list = CurrentDb.ClientDeliveryAddress.Where(m => m.ClientUserId == clientUserId).ToList();
 
 
                 foreach (var item in list)

@@ -57,7 +57,7 @@ namespace WebAppApi.Controllers
             ret.AccessToken = GuidUtil.New();
 
 
-            SSOUtil.SetUserInfo(ret.AccessToken, new UserInfo { UserId = retWxCheckedUser.ClientId, UserName = retWxCheckedUser.Nickname, WxOpenId = retWxCheckedUser.OpenId }, new TimeSpan(30, 0, 0, 0, 0));
+            SSOUtil.SetUserInfo(ret.AccessToken, new UserInfo { UserId = retWxCheckedUser.ClientUserId, UserName = retWxCheckedUser.Nickname, WxOpenId = retWxCheckedUser.OpenId }, new TimeSpan(30, 0, 0, 0, 0));
 
             result = new OwnApiHttpResult() { Result = ResultType.Success, Code = ResultCode.Success, Message = "登录成功", Data = ret };
 

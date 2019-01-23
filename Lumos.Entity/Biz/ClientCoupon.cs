@@ -11,7 +11,8 @@ namespace Lumos.Entity
         public string Id { get; set; }
         [MaxLength(128)]
         public string Sn { get; set; }
-        public string ClientId { get; set; }
+        public string MerchantId { get; set; }
+        public string ClientUserId { get; set; }
         [MaxLength(128)]
         public string Name { get; set; }
         public DateTime? StartTime { get; set; }

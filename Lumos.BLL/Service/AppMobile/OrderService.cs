@@ -16,7 +16,7 @@ namespace Lumos.BLL.Service.AppMobile
     public class OrderService : BaseProvider
     {
 
-        public CustomJsonResult Reserve(string operater, string clientId, RopOrderReserve rop)
+        public CustomJsonResult Reserve(string operater, string clientUserId, RopOrderReserve rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 
@@ -25,7 +25,7 @@ namespace Lumos.BLL.Service.AppMobile
             bizRop.StoreId = rop.StoreId;
             bizRop.PayTimeout = rop.PayTimeout;
             bizRop.ReserveMode = Enumeration.ReserveMode.Online;
-            bizRop.ClientId = clientId;
+            bizRop.ClientUserId = clientUserId;
 
             foreach (var item in rop.Skus)
             {
@@ -51,7 +51,7 @@ namespace Lumos.BLL.Service.AppMobile
 
         }
 
-        public CustomJsonResult Confrim(string operater, string clientId, RopOrderConfirm rop)
+        public CustomJsonResult Confrim(string operater, string clientUserId, RopOrderConfirm rop)
         {
             var result = new CustomJsonResult();
             var ret = new RetOrderConfirm();
@@ -132,7 +132,7 @@ namespace Lumos.BLL.Service.AppMobile
             }
 
 
-            var clientUser = CurrentDb.SysClientUser.Where(m => m.Id == clientId).FirstOrDefault();
+            var clientUser = CurrentDb.SysClientUser.Where(m => m.Id == clientUserId).FirstOrDefault();
             bool isVip = false;
 
             if (clientUser != null)
@@ -164,7 +164,7 @@ namespace Lumos.BLL.Service.AppMobile
                 orderBlock_Express.TagName = "快递商品";
                 orderBlock_Express.Skus = skus_SelfExpress;
                 var shippingAddressModel = new UserDeliveryAddressModel();
-                var shippingAddress = CurrentDb.ClientDeliveryAddress.Where(m => m.ClientId == clientId && m.IsDefault == true).FirstOrDefault();
+                var shippingAddress = CurrentDb.ClientDeliveryAddress.Where(m => m.ClientUserId == clientUserId && m.IsDefault == true).FirstOrDefault();
                 if (shippingAddress != null)
                 {
                     shippingAddressModel.Id = shippingAddress.Id;
@@ -268,11 +268,11 @@ namespace Lumos.BLL.Service.AppMobile
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
 
-        public CustomJsonResult GetJsApiPaymentPms(string operater, string clientId, AppInfoConfig appInfo, RupOrderGetJsApiPaymentPms rup)
+        public CustomJsonResult GetJsApiPaymentPms(string operater, string clientUserId, AppInfoConfig appInfo, RupOrderGetJsApiPaymentPms rup)
         {
             var result = new CustomJsonResult();
 
-            var wxUserInfo = CurrentDb.WxUserInfo.Where(m => m.ClientId == clientId).FirstOrDefault();
+            var wxUserInfo = CurrentDb.WxUserInfo.Where(m => m.ClientUserId == clientUserId).FirstOrDefault();
 
             if (wxUserInfo == null)
             {
@@ -287,7 +287,7 @@ namespace Lumos.BLL.Service.AppMobile
             }
 
             order.AppId = appInfo.AppId;
-            order.ClientId = wxUserInfo.ClientId;
+            order.ClientUserId = wxUserInfo.ClientUserId;
             order.PayExpireTime = this.DateTime.AddMinutes(5);
 
             switch (rup.PayWay)

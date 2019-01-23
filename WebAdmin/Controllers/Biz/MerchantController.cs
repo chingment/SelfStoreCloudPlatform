@@ -43,7 +43,7 @@ namespace WebAdmin.Controllers.Biz
         {
             string name = rup.Name.ToSearchString();
             var query = (from m in CurrentDb.Merchant
-                         join u in CurrentDb.SysMerchantUser on m.UserId equals u.Id
+                         join u in CurrentDb.SysMerchantUser on m.MerchantUserId equals u.Id
                          where
                                  (name.Length == 0 || m.Name.Contains(name))
                          select new { m.Id, u.UserName, m.Name, m.ContactName, m.ContactAddress, m.ContactPhone, m.CreateTime });

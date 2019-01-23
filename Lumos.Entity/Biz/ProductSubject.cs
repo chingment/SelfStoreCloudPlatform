@@ -11,6 +11,7 @@ namespace Lumos.Entity
         public string Id { get; set; }
         [MaxLength(128)]
         public string Name { get; set; }
+
         [MaxLength(128)]
         public string MerchantId { get; set; }
 

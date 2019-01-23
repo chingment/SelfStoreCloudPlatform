@@ -9,6 +9,7 @@ namespace Lumos.Entity
     {
         [Key]
         public string Id { get; set; }
+
         public string ProductKindId { get; set; }
         public string ProductSkuId { get; set; }
         public string Creator { get; set; }
