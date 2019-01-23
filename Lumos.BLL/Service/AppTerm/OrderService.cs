@@ -53,12 +53,13 @@ namespace Lumos.BLL.Service.AppTerm
 
         }
 
-        public CustomJsonResult<RetOrderPayResultQuery> PayResultQuery(string operater, RupOrderPayResultQuery rup)
+        public CustomJsonResult<RetOrderPayResultQuery> PayResultQuery(RupOrderPayResultQuery rup)
         {
             CustomJsonResult<RetOrderPayResultQuery> ret = new CustomJsonResult<RetOrderPayResultQuery>();
 
+            var tk = GetTicketInfo(rup.Ticket);
 
-            var ret_Biz = BizFactory.Order.PayResultQuery(operater, rup.OrderSn);
+            var ret_Biz = BizFactory.Order.PayResultQuery(tk.UserId, rup.OrderSn);
 
             ret.Result = ret_Biz.Result;
             ret.Code = ret_Biz.Code;
@@ -74,11 +75,13 @@ namespace Lumos.BLL.Service.AppTerm
             return ret;
         }
 
-        public CustomJsonResult Cancle(string operater, RopOrderCancle rop)
+        public CustomJsonResult Cancle(RupOrderCancle rup, RopOrderCancle rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 
-            result = BizFactory.Order.Cancle(operater, rop.OrderSn, rop.Reason);
+            var tk = GetTicketInfo(rup.Ticket);
+
+            result = BizFactory.Order.Cancle(tk.UserId, rop.OrderSn, rop.Reason);
 
             return result;
         }

@@ -10,24 +10,24 @@ namespace WebApiTerm.Controllers
     {
 
         [HttpPost]
-        public OwnApiHttpResponse Reserve([FromUri]RupOrderReserve rup , [FromBody]RopOrderReserve rop)
+        public OwnApiHttpResponse Reserve([FromUri]RupOrderReserve rup,[FromBody]RopOrderReserve rop)
         {
             IResult result = TermServiceFactory.Order.Reserve(rup, rop);
             return new OwnApiHttpResponse(result);
 
         }
 
-        [HttpPost]
-        public OwnApiHttpResponse<RetOrderPayResultQuery> PayResultQuery(RupOrderPayResultQuery rup)
+        [HttpGet]
+        public OwnApiHttpResponse<RetOrderPayResultQuery> PayResultQuery([FromUri]RupOrderPayResultQuery rup)
         {
-            IResult<RetOrderPayResultQuery> result = TermServiceFactory.Order.PayResultQuery(rup.MerchantId, rup);
+            IResult<RetOrderPayResultQuery> result = TermServiceFactory.Order.PayResultQuery(rup);
             return new OwnApiHttpResponse<RetOrderPayResultQuery>(result);
         }
 
         [HttpPost]
-        public OwnApiHttpResponse Cancle(RopOrderCancle rop)
+        public OwnApiHttpResponse Cancle([FromUri]RupOrderCancle rup, [FromBody]RopOrderCancle rop)
         {
-            IResult result = TermServiceFactory.Order.Cancle(rop.MerchantId, rop);
+            IResult result = TermServiceFactory.Order.Cancle(rup, rop);
             return new OwnApiHttpResponse(result);
         }
 

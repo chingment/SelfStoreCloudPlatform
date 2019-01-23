@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.AppTerm
 {
-    public class RupOrderPayResultQuery
+    public class RupOrderCancle
     {
         public string Ticket { get; set; }
-        public string OrderSn { get; set; }
     }
 }
