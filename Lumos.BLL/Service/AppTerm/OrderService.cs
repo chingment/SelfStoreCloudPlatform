@@ -78,9 +78,9 @@ namespace Lumos.BLL.Service.AppTerm
         {
             CustomJsonResult result = new CustomJsonResult();
 
-            //var tk = GetTicketInfo(rup.Ticket);
+            var tk = GetTicketInfo(rup.Ticket);
 
-            //result = BizFactory.Order.Cancle(tk.UserId, rop.OrderSn, rop.Reason);
+            result = BizFactory.Order.Cancle(tk.UserId, rop.OrderSn, rop.Reason);
 
             return result;
         }
