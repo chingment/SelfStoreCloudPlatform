@@ -12,11 +12,11 @@ namespace Lumos.BLL.Service.AppTerm
 {
     public class MachineService : BaseService
     {
-        public CustomJsonResult ApiConfig(string deviceId)
+        public CustomJsonResult ApiConfig(RupMachineApiConfig rup)
         {
             CustomJsonResult result = new CustomJsonResult();
 
-            var machine = CurrentDb.Machine.Where(m => m.DeviceId == deviceId).FirstOrDefault();
+            var machine = CurrentDb.Machine.Where(m => m.DeviceId == rup.DeviceId).FirstOrDefault();
 
             if (machine == null)
             {
@@ -58,7 +58,7 @@ namespace Lumos.BLL.Service.AppTerm
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
 
-        public Dictionary<string, ProductSkuModel> GetProductSkus(string operater, string merchantId, string machineId)
+        public Dictionary<string, ProductSkuModel> GetProductSkus(string operater, string merchantId,string storeId, string machineId)
         {
 
             var productSkuModels = new Dictionary<string, ProductSkuModel>();
@@ -96,7 +96,7 @@ namespace Lumos.BLL.Service.AppTerm
             return productSkuModels;
         }
 
-        public List<BannerModel> GetBanners(string operater, string merchantId, string machineId)
+        public List<BannerModel> GetBanners(string operater, string merchantId,string storeId, string machineId)
         {
             var bannerModels = new List<BannerModel>();
 

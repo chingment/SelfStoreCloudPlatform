@@ -33,7 +33,7 @@ namespace Lumos.BLL.Service.AppTerm
                 bizRop.Skus.Add(new Biz.RopOrderReserve.Sku() { Id = item.Id, Quantity = item.Quantity, ReceptionMode = Enumeration.ReceptionMode.Machine });
             }
 
-            var bizResult = BizFactory.Order.Reserve(tk.MachineId, bizRop);
+            var bizResult = BizFactory.Order.Reserve(tk.MerchantId, bizRop);
 
             if (bizResult.Result == ResultType.Success)
             {
@@ -57,20 +57,19 @@ namespace Lumos.BLL.Service.AppTerm
         {
             CustomJsonResult<RetOrderPayResultQuery> ret = new CustomJsonResult<RetOrderPayResultQuery>();
 
-            var tk = GetTicketInfo(rup.Ticket);
 
-            var ret_Biz = BizFactory.Order.PayResultQuery(tk.UserId, rup.OrderSn);
+            //var ret_Biz = BizFactory.Order.PayResultQuery(tk.UserId, rup.OrderSn);
 
-            ret.Result = ret_Biz.Result;
-            ret.Code = ret_Biz.Code;
-            ret.Message = ret_Biz.Message;
+            //ret.Result = ret_Biz.Result;
+            //ret.Code = ret_Biz.Code;
+            //ret.Message = ret_Biz.Message;
 
-            if (ret_Biz.Data != null)
-            {
-                ret.Data = new RetOrderPayResultQuery();
-                ret.Data.OrderSn = ret_Biz.Data.OrderSn;
-                ret.Data.Status = ret_Biz.Data.Status;
-            }
+            //if (ret_Biz.Data != null)
+            //{
+            //    ret.Data = new RetOrderPayResultQuery();
+            //    ret.Data.OrderSn = ret_Biz.Data.OrderSn;
+            //    ret.Data.Status = ret_Biz.Data.Status;
+            //}
 
             return ret;
         }
@@ -79,9 +78,9 @@ namespace Lumos.BLL.Service.AppTerm
         {
             CustomJsonResult result = new CustomJsonResult();
 
-            var tk = GetTicketInfo(rup.Ticket);
+            //var tk = GetTicketInfo(rup.Ticket);
 
-            result = BizFactory.Order.Cancle(tk.UserId, rop.OrderSn, rop.Reason);
+            //result = BizFactory.Order.Cancle(tk.UserId, rop.OrderSn, rop.Reason);
 
             return result;
         }

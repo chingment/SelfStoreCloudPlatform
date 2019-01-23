@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.AppTerm
 {
+
     public class TicketInfo
     {
         public string UserId { get; set; }
@@ -13,7 +14,6 @@ namespace Lumos.BLL.Service.AppTerm
         public string StoreId { get; set; }
         public string MachineId { get; set; }
     }
-
 
     public class BaseService : BaseProvider
     {
@@ -24,7 +24,7 @@ namespace Lumos.BLL.Service.AppTerm
             var storeMachine = CurrentDb.StoreMachine.Where(m => m.Id == ticket && m.IsBind == true).FirstOrDefault();
             if (storeMachine != null)
             {
-                //ticketInfo.UserId = storeMachine.UserId;
+                ticketInfo.UserId = "";
                 ticketInfo.MerchantId = storeMachine.MerchantId;
                 ticketInfo.StoreId = storeMachine.StoreId;
                 ticketInfo.MachineId = storeMachine.MachineId;
