@@ -23,7 +23,20 @@
                 l_StrRows += "<td class=\"overflow tipitem\" title=\"" + p_row.deviceId + "\"   >" + p_row.deviceId + "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.name + "\"   >" + p_row.name + "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.macAddress + "\">" + p_row.macAddress + "</td>";
-                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.merchantName + "\">" + p_row.merchantName + "</td>";
+
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.merchantName + "\">";
+
+                l_StrRows += p_row.merchantName;
+
+                if (p_row.isBindMerchant) {
+                    l_StrRows += "<a href=\"javascript:void(0)\" operate=\"bind\" style=\"margin-left:10px;\" >点击解绑</a>";
+                }
+                else {
+                    l_StrRows += "<a href=\"javascript:void(0)\" operate=\"bind\" style=\"margin-left:10px;\">点击绑定</a>";
+                }
+
+                l_StrRows += "</td>";
+
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.statusName + "\">" + p_row.statusName + "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.createTime + "\">" + p_row.createTime + "</td>";
                 l_StrRows += "<td class=\"operation\">";
@@ -39,6 +52,16 @@
                     art.dialog.open(url, {
                         id: "openDialog", title: title, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '保存', ok: function () {
                             this.iframe.contentWindow.edit();
+                            return false;
+                        }
+                    });
+                },
+                "bind": function (obj) {
+                    var okVal = obj.isBindMerchant == true ? "解绑" : "绑定";
+                    var url = '/Biz/Machine/Bind?id=' + obj.id;
+                    art.dialog.open(url, {
+                        id: "openDialog", title: okVal, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: okVal, ok: function () {
+                            this.iframe.contentWindow.bind();
                             return false;
                         }
                     });

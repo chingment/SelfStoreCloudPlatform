@@ -18,13 +18,7 @@ namespace WebAdmin.Controllers.Biz
 {
     public class MachineController : OwnBaseController
     {
-
         public ViewResult List()
-        {
-            return View();
-        }
-
-        public ViewResult ListByBind()
         {
             return View();
         }

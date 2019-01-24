@@ -1086,7 +1086,6 @@
     <Content Include="Views\Biz\Merchant\Add.cshtml" />
     <Content Include="Views\Biz\Merchant\Edit.cshtml" />
     <Content Include="Views\Biz\Merchant\List.cshtml" />
-    <Content Include="Views\Biz\Machine\ListByBind.cshtml" />
     <Content Include="Views\Biz\Machine\Bind.cshtml" />
     <Content Include="Views\Biz\Merchant\ListBySelect.cshtml" />
     <Content Include="Views\Sys\BackgroundJob\List.cshtml" />
