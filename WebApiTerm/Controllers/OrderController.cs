@@ -31,7 +31,6 @@ namespace WebApiTerm.Controllers
             return new OwnApiHttpResponse(result);
         }
 
-
         [HttpGet]
         public OwnApiHttpResponse GetPickupList([FromUri]RupOrderGetPickupList rup)
         {
@@ -45,7 +44,6 @@ namespace WebApiTerm.Controllers
             IResult result = TermServiceFactory.Order.PickupStatusQuery(rup.MerchantId, rup);
             return new OwnApiHttpResponse(result);
         }
-
 
         [HttpPost]
         public OwnApiHttpResponse PickupStatusNotify([FromBody]RopOrderPickupStatusNotify rop)

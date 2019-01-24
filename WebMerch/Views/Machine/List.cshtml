@@ -22,7 +22,18 @@
                 l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
                 l_StrRows += "<td class=\"overflow tipitem\" title=\"" + p_row.deviceId + "\"   >" + p_row.deviceId + "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.name + "\"   >" + p_row.name + "</td>";
-                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.storeName + "\">" + p_row.storeName + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.storeName + "\">";
+
+                l_StrRows += p_row.storeName;
+
+                if (p_row.isBindStore) {
+                    l_StrRows += "<a href=\"javascript:void(0)\" operate=\"bind\" style=\"margin-left:10px;\" >点击解绑</a>";
+                }
+                else {
+                    l_StrRows += "<a href=\"javascript:void(0)\" operate=\"bind\" style=\"margin-left:10px;\">点击绑定</a>";
+                }
+
+                l_StrRows += "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.statusName + "\">" + p_row.statusName + "</td>";
                 l_StrRows += "<td class=\"operation\">";
                 l_StrRows += l_Strlimt;
@@ -40,13 +51,33 @@
                     });
 
 
+                },
+                "bind": function (obj) {
+
+                    var okVal = obj.isBindStore == true ? "解绑" : "绑定";
+                    var url = '/Machine/Bind?id=' + obj.id;
+                    art.dialog.open(url, {
+                        id: "openDialog", title: okVal, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: okVal, ok: function () {
+                            this.iframe.contentWindow.bind();
+                            return false;
+                        }
+                    });
                 }
             }
         });
 
     });
 
-
+    function refresh(type) {
+        switch (type) {
+            case 1:
+                listTable.loadData();
+                break;
+            case 2:
+                listTable.loadData('c');
+                break;
+        }
+    }
 
 
 </script>
@@ -78,7 +109,7 @@
                             名称
                         </th>
                         <th style="width:30%">
-                            所属于便利店
+                            所属于店铺
                         </th>
                         <th style="width:10%">
                             状态

@@ -40,7 +40,6 @@ namespace Lumos.BLL.Service.Merch
                 var storeMachine = CurrentDb.StoreMachine.Where(m => m.MerchantId == merchantId && m.MachineId == id && m.IsBind == true).FirstOrDefault();
                 if (storeMachine == null)
                 {
-                    ret.Store.Name = "未绑定";
                     ret.IsBindStore = false;
                 }
                 else

@@ -58,7 +58,7 @@ namespace Lumos.BLL.Service.AppTerm
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
 
-        public Dictionary<string, ProductSkuModel> GetProductSkus(string operater, string merchantId,string storeId, string machineId)
+        public Dictionary<string, ProductSkuModel> GetProductSkus(string operater, string merchantId, string storeId, string machineId)
         {
 
             var productSkuModels = new Dictionary<string, ProductSkuModel>();
@@ -96,15 +96,14 @@ namespace Lumos.BLL.Service.AppTerm
             return productSkuModels;
         }
 
-        public List<BannerModel> GetBanners(string operater, string merchantId,string storeId, string machineId)
+        public List<BannerModel> GetBanners(string operater, string merchantId, string storeId, string machineId)
         {
             var bannerModels = new List<BannerModel>();
 
-            var banners = CurrentDb.MachineBanner.Where(m => m.MerchantId == merchantId && m.MachineId == machineId && m.Status == Entity.Enumeration.MachineBannerStatus.Normal).OrderByDescending(m => m.Priority).ToList();
+            var banners = CurrentDb.MachineBanner.Where(m => m.MerchantId == merchantId && m.StoreId == storeId && m.MachineId == machineId && m.Status == Entity.Enumeration.MachineBannerStatus.Normal).OrderByDescending(m => m.Priority).ToList();
 
             foreach (var item in banners)
             {
-
                 bannerModels.Add(new BannerModel { ImgUrl = item.ImgUrl });
             }
 

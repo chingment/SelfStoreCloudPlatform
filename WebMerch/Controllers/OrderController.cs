@@ -24,14 +24,8 @@ namespace WebMerch.Controllers
             var query = from o in CurrentDb.Order
 
 
-                            //join u in CurrentDb.WxUserInfo
-
-                            //on o.ClientId equals u.ClientId into wx
-                            //from gci in wx.DefaultIfEmpty()
-
                         where
                         (rup.Nickname == null || o.ClientUserName.Contains(rup.Nickname)) &&
-                        (rup.OrderStatus == Enumeration.OrderStatus.Unknow || o.Status == rup.OrderStatus) &&
                         (rup.OrderSn == null || o.Sn.Contains(rup.OrderSn))
                         &&
                         o.MerchantId == this.CurrentMerchantId

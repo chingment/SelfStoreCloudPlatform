@@ -11,6 +11,8 @@ namespace Lumos.Entity
         public string Id { get; set; }
 
         public string MerchantId { get; set; }
+
+        public string StoreId { get; set; }
         public string MachineId { get; set; }
         [MaxLength(1024)]
         public string ImgUrl { get; set; }

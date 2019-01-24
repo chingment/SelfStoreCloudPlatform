@@ -74,12 +74,14 @@
                         $("#lbl_Name").text(data.name);
 
                         if (!data.isBindStore) {
+                            $("#lbl_Store_Name").text("请点击选择");
                             $('#btn_select_store').show();
                         }
-
-                        $("#lbl_Store_Name").text(data.store.name);
-                        $("#lbl_Store_Address").text(data.store.address);
-                        ;
+                        else {
+                            $("#lbl_Store_Name").text(data.store.name);
+                            $("#lbl_Store_Address").text(data.store.address);
+                        }
+                        
                     }
                 }
             });
@@ -113,7 +115,7 @@
     </table>
     <div class="gbr-row-title clearfix">
         <div class="pull-left">
-            <h5>便利店信息</h5>
+            <h5>店铺信息</h5>
         </div>
         <div class="pull-right f-tb1-item-pull-right">
             <h6></h6>
