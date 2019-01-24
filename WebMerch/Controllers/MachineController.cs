@@ -96,11 +96,11 @@ namespace WebMerch.Controllers
         {
             if (bindType == Enumeration.MachineBindType.Off)
             {
-                return MerchServiceFactory.Machine.BindOffStore(this.CurrentUserId, this.CurrentMerchantId, id, storeId);
+                return MerchServiceFactory.Machine.BindOffStore(this.CurrentUserId, this.CurrentMerchantId, storeId, id);
             }
             else
             {
-                return MerchServiceFactory.Machine.BindOnStore(this.CurrentUserId, this.CurrentMerchantId, id, storeId);
+                return MerchServiceFactory.Machine.BindOnStore(this.CurrentUserId, this.CurrentMerchantId, storeId, id);
             }
         }
     }

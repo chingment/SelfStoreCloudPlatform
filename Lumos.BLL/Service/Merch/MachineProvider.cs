@@ -88,14 +88,12 @@ namespace Lumos.BLL.Service.Merch
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
 
-
-
-        public CustomJsonResult BindOnStore(string operater, string merchantId, string id, string storeId)
+        public CustomJsonResult BindOnStore(string operater, string merchantId, string storeId, string machineId)
         {
             CustomJsonResult result = new CustomJsonResult();
             using (TransactionScope ts = new TransactionScope())
             {
-                var machine = CurrentDb.Machine.Where(m => m.MerchantId == merchantId && m.Id == id).FirstOrDefault();
+                var machine = CurrentDb.Machine.Where(m => m.MerchantId == merchantId && m.Id == machineId).FirstOrDefault();
 
                 if (machine == null)
                 {
@@ -113,14 +111,14 @@ namespace Lumos.BLL.Service.Merch
                 machine.MendTime = this.DateTime;
                 machine.Mender = operater;
 
-                var storeMachine = CurrentDb.StoreMachine.Where(m => m.MerchantId == merchantId && m.StoreId == storeId && m.MachineId == id).FirstOrDefault();
+                var storeMachine = CurrentDb.StoreMachine.Where(m => m.MerchantId == merchantId && m.StoreId == storeId && m.MachineId == machineId).FirstOrDefault();
                 if (storeMachine == null)
                 {
                     storeMachine = new StoreMachine();
                     storeMachine.Id = GuidUtil.New();
                     storeMachine.MerchantId = store.MerchantId;
                     storeMachine.StoreId = store.Id;
-                    storeMachine.MachineId = id;
+                    storeMachine.MachineId = machineId;
                     storeMachine.IsBind = true;
                     storeMachine.CreateTime = this.DateTime;
                     storeMachine.Creator = operater;
@@ -135,6 +133,18 @@ namespace Lumos.BLL.Service.Merch
                     CurrentDb.SaveChanges();
                 }
 
+                var machineBindLog = new MachineBindLog();
+                machineBindLog.Id = GuidUtil.New();
+                machineBindLog.MerchantId = merchantId;
+                machineBindLog.MachineId = machineId;
+                machineBindLog.StoreId = storeId;
+                machineBindLog.BindType = Enumeration.MachineBindType.On;
+                machineBindLog.CreateTime = this.DateTime;
+                machineBindLog.Creator = operater;
+                machineBindLog.Description = string.Format("机器[{0}]绑定店铺[{1}]", machine.DeviceId, store.Name);
+                CurrentDb.MachineBindLog.Add(machineBindLog);
+                CurrentDb.SaveChanges();
+
 
                 ts.Complete();
                 result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
@@ -142,12 +152,12 @@ namespace Lumos.BLL.Service.Merch
             return result;
         }
 
-        public CustomJsonResult BindOffStore(string operater, string merchantId, string id, string storeId)
+        public CustomJsonResult BindOffStore(string operater, string merchantId, string storeId, string machineId)
         {
             CustomJsonResult result = new CustomJsonResult();
             using (TransactionScope ts = new TransactionScope())
             {
-                var machine = CurrentDb.Machine.Where(m => m.MerchantId == merchantId && m.StoreId == storeId && m.Id == id).FirstOrDefault();
+                var machine = CurrentDb.Machine.Where(m => m.MerchantId == merchantId && m.StoreId == storeId && m.Id == machineId).FirstOrDefault();
 
                 if (machine == null)
                 {
@@ -161,7 +171,7 @@ namespace Lumos.BLL.Service.Merch
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "数据为空");
                 }
 
-                var storeMachine = CurrentDb.StoreMachine.Where(m => m.MerchantId == merchantId && m.StoreId == storeId && m.MachineId == id).FirstOrDefault();
+                var storeMachine = CurrentDb.StoreMachine.Where(m => m.MerchantId == merchantId && m.StoreId == storeId && m.MachineId == machineId).FirstOrDefault();
                 if (storeMachine == null)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "数据为空");
@@ -174,6 +184,18 @@ namespace Lumos.BLL.Service.Merch
                 storeMachine.IsBind = false;
                 storeMachine.MendTime = this.DateTime;
                 storeMachine.Mender = operater;
+                CurrentDb.SaveChanges();
+
+                var machineBindLog = new MachineBindLog();
+                machineBindLog.Id = GuidUtil.New();
+                machineBindLog.MerchantId = merchantId;
+                machineBindLog.MachineId = machineId;
+                machineBindLog.StoreId = storeId;
+                machineBindLog.BindType = Enumeration.MachineBindType.On;
+                machineBindLog.CreateTime = this.DateTime;
+                machineBindLog.Creator = operater;
+                machineBindLog.Description = string.Format("机器[{0}]解绑店铺[{1}]", machine.DeviceId, store.Name);
+                CurrentDb.MachineBindLog.Add(machineBindLog);
                 CurrentDb.SaveChanges();
 
                 ts.Complete();
