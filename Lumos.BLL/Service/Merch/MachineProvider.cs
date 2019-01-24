@@ -191,7 +191,7 @@ namespace Lumos.BLL.Service.Merch
                 machineBindLog.MerchantId = merchantId;
                 machineBindLog.MachineId = machineId;
                 machineBindLog.StoreId = storeId;
-                machineBindLog.BindType = Enumeration.MachineBindType.On;
+                machineBindLog.BindType = Enumeration.MachineBindType.Off;
                 machineBindLog.CreateTime = this.DateTime;
                 machineBindLog.Creator = operater;
                 machineBindLog.Description = string.Format("机器[{0}]解绑店铺[{1}]", machine.DeviceId, store.Name);
