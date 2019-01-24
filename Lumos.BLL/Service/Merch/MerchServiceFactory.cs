@@ -17,6 +17,14 @@ namespace Lumos.BLL.Service.Merch
             }
         }
 
+        public static MachineBannerProvider MachineBanner
+        {
+            get
+            {
+                return new MachineBannerProvider();
+            }
+        }
+
         public static ProductKindProvider ProductKind
         {
             get

@@ -236,6 +236,7 @@
     <Content Include="Views\Store\ListBySelect.cshtml" />
     <Content Include="Views\MachineBanner\List.cshtml" />
     <Content Include="Views\MachineStock\List.cshtml" />
+    <Content Include="Views\MachineBanner\Add.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>
