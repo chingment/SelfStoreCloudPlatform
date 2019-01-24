@@ -35,8 +35,7 @@
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.sourceName + "\">" + p_row.sourceName + "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.quantity + "\">" + p_row.quantity + "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.chargeAmount + "\">" + p_row.chargeAmount + "</td>";
-                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.discountAmount + "\">" + p_row.discountAmount + "</td>";
-                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.originalAmount + "\">" + p_row.originalAmount + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.statusName + "\">" + p_row.statusName + "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.submitTime + "\">" + p_row.submitTime + "</td>";
                 l_StrRows += "<td class=\"operation\">";
                 l_StrRows += "<a href=\"javascript:void(0)\" operate=\"detail\"   class=\"a-btn a-btn-edit\"  >查看</a>";
@@ -72,7 +71,7 @@
                 </span>
             </div>
             <div class="filter">
-                <span class="filter-label">店铺名称：</span>
+                <span class="filter-label">店铺：</span>
                 <span class="filter-input">
                     <input type="text" class="input-control" name="storeName" style="width: 120px;" />
                 </span>
@@ -121,14 +120,11 @@
                         <th style="width:10%">
                             数量
                         </th>
-                        <th style="width:5%">
+                        <th style="width:10%">
                             支付金额
                         </th>
-                        <th style="width:5%">
-                            优惠金额
-                        </th>
                         <th style="width:10%">
-                            原金额
+                            状态
                         </th>
                         <th style="width:10%">
                             下单时间
@@ -141,7 +137,7 @@
                 <tbody></tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="11">
+                        <td colspan="10">
                             <div class="pull-left">
                                 <span class="load-tip"></span>
                             </div>

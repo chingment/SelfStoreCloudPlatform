@@ -29,11 +29,6 @@ namespace WebMerch.Controllers
             return View();
         }
 
-        public ViewResult ListByBind()
-        {
-            return View();
-        }
-
         public CustomJsonResult GetDetails(string id)
         {
             return MerchServiceFactory.Machine.GetDetails(this.CurrentUserId, this.CurrentMerchantId, id);

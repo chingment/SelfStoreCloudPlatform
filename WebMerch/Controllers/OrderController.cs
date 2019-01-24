@@ -13,9 +13,9 @@ namespace WebMerch.Controllers
     public class OrderController : OwnBaseController
     {
         // GET: Order
-        public ActionResult List(Enumeration.OrderStatus status)
+        public ActionResult List()
         {
-            return View(status);
+            return View();
         }
 
         [HttpPost]
@@ -29,7 +29,7 @@ namespace WebMerch.Controllers
                         (rup.OrderSn == null || o.Sn.Contains(rup.OrderSn))
                         &&
                         o.MerchantId == this.CurrentMerchantId
-                        select new { o.Sn, o.Id, o.ClientUserId, o.ClientUserName, o.StoreName, o.Source, o.SubmitTime, o.ChargeAmount, o.DiscountAmount, o.OriginalAmount, o.CreateTime, o.Quantity };
+                        select new { o.Sn, o.Id, o.ClientUserId, o.ClientUserName, o.StoreName, o.Source, o.SubmitTime, o.ChargeAmount, o.DiscountAmount, o.OriginalAmount, o.CreateTime, o.Quantity, o.Status };
 
             int total = query.GroupBy(p => p.Sn).Select(o => o.FirstOrDefault()).Count();
 
@@ -58,6 +58,7 @@ namespace WebMerch.Controllers
                     OriginalAmount = item.OriginalAmount.ToF2Price(),
                     Quantity = item.Quantity,
                     CreateTime = item.CreateTime,
+                    StatusName = item.Status.GetCnName(),
                     SourceName = item.Source.GetCnName()
                 });
             }
