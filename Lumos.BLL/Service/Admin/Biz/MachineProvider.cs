@@ -115,25 +115,6 @@ namespace Lumos.BLL.Service.Admin
                 machine.Mender = operater;
 
 
-                var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.MerchantId == merchantId && m.MachineId == id).FirstOrDefault();
-                if (merchantMachine == null)
-                {
-                    merchantMachine = new MerchantMachine();
-                    merchantMachine.Id = GuidUtil.New();
-                    merchantMachine.MerchantId = merchantId;
-                    merchantMachine.MachineId = id;
-                    merchantMachine.isBind = true;
-                    merchantMachine.CreateTime = this.DateTime;
-                    merchantMachine.Creator = operater;
-                    CurrentDb.MerchantMachine.Add(merchantMachine);
-                }
-                else
-                {
-                    merchantMachine.isBind = true;
-                    merchantMachine.MendTime = this.DateTime;
-                    merchantMachine.Mender = operater;
-                }
-
                 var machineBindLog = new MachineBindLog();
                 machineBindLog.Id = GuidUtil.New();
                 machineBindLog.MerchantId = merchantId;
@@ -179,27 +160,21 @@ namespace Lumos.BLL.Service.Admin
                     return new CustomJsonResult(ResultType.Failure, "该数据为空");
                 }
 
-
-                machine.MerchantId = null;
-                machine.StoreId = null;
-                machine.MendTime = this.DateTime;
-                machine.Mender = operater;
-
-                var merchantMachine = CurrentDb.MerchantMachine.Where(m => m.MerchantId == merchantId && m.MachineId == id).FirstOrDefault();
-
-                merchantMachine.isBind = false;
-                merchantMachine.MendTime = this.DateTime;
-                merchantMachine.Mender = operater;
-
                 var machineBindLog = new MachineBindLog();
                 machineBindLog.Id = GuidUtil.New();
-                machineBindLog.MerchantId = merchantMachine.MerchantId;
-                machineBindLog.MachineId = merchantMachine.MachineId;
+                machineBindLog.MerchantId = machine.MerchantId;
+                machineBindLog.StoreId = machine.StoreId;
+                machineBindLog.MachineId = machine.Id;
                 machineBindLog.BindType = Enumeration.MachineBindType.Off;
                 machineBindLog.CreateTime = this.DateTime;
                 machineBindLog.Creator = operater;
                 machineBindLog.Description = string.Format("机器[{0}]解绑商户[{1}]", machine.DeviceId, merchant.Name);
                 CurrentDb.MachineBindLog.Add(machineBindLog);
+
+                machine.MerchantId = null;
+                machine.StoreId = null;
+                machine.MendTime = this.DateTime;
+                machine.Mender = operater;
 
                 CurrentDb.SaveChanges();
                 ts.Complete();

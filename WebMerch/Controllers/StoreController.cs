@@ -100,11 +100,10 @@ namespace WebMerch.Controllers
             }
 
             var query = (from u in CurrentDb.Machine
-                         join p in CurrentDb.StoreMachine on u.Id equals p.MachineId
                          where
                          (name.Length == 0 || u.Name.Contains(name))
-                         && p.IsBind == true
-                         && p.MerchantId == this.CurrentMerchantId
+                         && u.StoreId == rup.StoreId
+                         && u.MerchantId == this.CurrentMerchantId
                          select new { u.Id, u.Name, u.DeviceId }).Distinct();
 
             int total = query.Count();

@@ -60,17 +60,6 @@ namespace Lumos.BLL.Service.AppMobile
 
             var machine = CurrentDb.Machine.Where(m => m.Id == rup.MachineId).FirstOrDefault();
 
-            var storeMachine = CurrentDb.StoreMachine.Where(m => m.StoreId == rup.StoreId && m.MerchantId == rup.MerchantId && m.MachineId == rup.MachineId && m.IsBind == true).FirstOrDefault();
-
-            if (storeMachine == null)
-            {
-                ret.Result = RetOperateResult.ResultType.Failure;
-                ret.Remarks = "";
-                ret.Message = "机器不存在";
-                ret.IsComplete = true;
-
-                return new CustomJsonResult(ResultType.Success, ResultCode.Success, "", ret);
-            }
 
             var merchantReplenishStaff = CurrentDb.MerchantReplenishStaff.Where(m => m.MerchantId == rup.MerchantId && m.UserId == clientId).FirstOrDefault();
 

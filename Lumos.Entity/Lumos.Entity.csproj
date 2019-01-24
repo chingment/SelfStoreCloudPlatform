@@ -64,7 +64,6 @@
     <Compile Include="Biz\BizProcessesAuditDetails.cs" />
     <Compile Include="Biz\Machine.cs" />
     <Compile Include="Biz\MachineBindLog.cs" />
-    <Compile Include="Biz\MerchantMachine.cs" />
     <Compile Include="Biz\MerchantReplenishStaff.cs" />
     <Compile Include="Biz\Order2StockOut.cs" />
     <Compile Include="Biz\Order2StockOutDetails.cs" />
@@ -86,7 +85,6 @@
     <Compile Include="Biz\ProductSubjectSku.cs" />
     <Compile Include="Biz\Store.cs" />
     <Compile Include="Biz\StoreBanner.cs" />
-    <Compile Include="Biz\StoreMachine.cs" />
     <Compile Include="Biz\Warehouse.cs" />
     <Compile Include="Biz\WarehouseStock.cs" />
     <Compile Include="Biz\WarehouseStockLog.cs" />

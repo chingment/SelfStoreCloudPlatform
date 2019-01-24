@@ -103,8 +103,7 @@ namespace WebMerch.Controllers
                          where u.ProductSkuId == rup.Id
                          && u.MerchantId == this.CurrentMerchantId
                          &&
-                         (from d in CurrentDb.StoreMachine
-                          where d.IsBind == true
+                         (from d in CurrentDb.Machine
                           select d.StoreId).Contains(u.StoreId)
                          select new { u.StoreId, u.ProductSkuId, u.SalePrice }).Distinct();
 

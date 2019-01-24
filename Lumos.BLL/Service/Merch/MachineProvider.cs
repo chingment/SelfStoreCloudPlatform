@@ -37,8 +37,8 @@ namespace Lumos.BLL.Service.Merch
                 ret.DeviceId = machine.DeviceId;
                 ret.Name = machine.Name;
 
-                var storeMachine = CurrentDb.StoreMachine.Where(m => m.MerchantId == merchantId && m.MachineId == id && m.IsBind == true).FirstOrDefault();
-                if (storeMachine == null)
+              
+                if (machine.StoreId == null)
                 {
                     ret.IsBindStore = false;
                 }
@@ -46,7 +46,7 @@ namespace Lumos.BLL.Service.Merch
                 {
                     ret.IsBindStore = true;
 
-                    var store = CurrentDb.Store.Where(m => m.Id == storeMachine.StoreId).FirstOrDefault();
+                    var store = CurrentDb.Store.Where(m => m.Id == machine.StoreId).FirstOrDefault();
                     if (store != null)
                     {
                         ret.Store.Id = store.Id;
@@ -111,28 +111,6 @@ namespace Lumos.BLL.Service.Merch
                 machine.MendTime = this.DateTime;
                 machine.Mender = operater;
 
-                var storeMachine = CurrentDb.StoreMachine.Where(m => m.MerchantId == merchantId && m.StoreId == storeId && m.MachineId == machineId).FirstOrDefault();
-                if (storeMachine == null)
-                {
-                    storeMachine = new StoreMachine();
-                    storeMachine.Id = GuidUtil.New();
-                    storeMachine.MerchantId = store.MerchantId;
-                    storeMachine.StoreId = store.Id;
-                    storeMachine.MachineId = machineId;
-                    storeMachine.IsBind = true;
-                    storeMachine.CreateTime = this.DateTime;
-                    storeMachine.Creator = operater;
-                    CurrentDb.StoreMachine.Add(storeMachine);
-                    CurrentDb.SaveChanges();
-                }
-                else
-                {
-                    storeMachine.IsBind = true;
-                    storeMachine.MendTime = this.DateTime;
-                    storeMachine.Mender = operater;
-                    CurrentDb.SaveChanges();
-                }
-
                 var machineBindLog = new MachineBindLog();
                 machineBindLog.Id = GuidUtil.New();
                 machineBindLog.MerchantId = merchantId;
@@ -171,20 +149,10 @@ namespace Lumos.BLL.Service.Merch
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "数据为空");
                 }
 
-                var storeMachine = CurrentDb.StoreMachine.Where(m => m.MerchantId == merchantId && m.StoreId == storeId && m.MachineId == machineId).FirstOrDefault();
-                if (storeMachine == null)
-                {
-                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "数据为空");
-                }
-
                 machine.StoreId = null;
                 machine.MendTime = this.DateTime;
                 machine.Mender = operater;
 
-                storeMachine.IsBind = false;
-                storeMachine.MendTime = this.DateTime;
-                storeMachine.Mender = operater;
-                CurrentDb.SaveChanges();
 
                 var machineBindLog = new MachineBindLog();
                 machineBindLog.Id = GuidUtil.New();

@@ -27,7 +27,6 @@ namespace Lumos.DAL
 
         public IDbSet<Machine> Machine { get; set; }
         public IDbSet<Merchant> Merchant { get; set; }
-        public IDbSet<MerchantMachine> MerchantMachine { get; set; }
         public IDbSet<MachineBindLog> MachineBindLog { get; set; }
         public IDbSet<MachineBanner> MachineBanner { get; set; }
         public IDbSet<MerchantReplenishStaff> MerchantReplenishStaff { get; set; }
@@ -37,7 +36,6 @@ namespace Lumos.DAL
         public IDbSet<StoreSellStock> StoreSellStock { get; set; }
         public IDbSet<StoreSellStockLog> StoreSellStockLog { get; set; }
         public IDbSet<Store> Store { get; set; }
-        public IDbSet<StoreMachine> StoreMachine { get; set; }
         public IDbSet<Warehouse> Warehouse { get; set; }
         public IDbSet<Company> Company { get; set; }
         public IDbSet<Order2StockIn> Order2StockIn { get; set; }

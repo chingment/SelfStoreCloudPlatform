@@ -21,14 +21,14 @@ namespace Lumos.BLL.Service.AppTerm
         public TicketInfo GetTicketInfo(string ticket)
         {
             var ticketInfo = new TicketInfo();
-            var storeMachine = CurrentDb.StoreMachine.Where(m => m.Id == ticket && m.IsBind == true).FirstOrDefault();
-            if (storeMachine != null)
-            {
-                ticketInfo.UserId = "";
-                ticketInfo.MerchantId = storeMachine.MerchantId;
-                ticketInfo.StoreId = storeMachine.StoreId;
-                ticketInfo.MachineId = storeMachine.MachineId;
-            }
+            //var storeMachine = CurrentDb.StoreMachine.Where(m => m.Id == ticket && m.IsBind == true).FirstOrDefault();
+            //if (storeMachine != null)
+            //{
+            //    ticketInfo.UserId = "";
+            //    ticketInfo.MerchantId = storeMachine.MerchantId;
+            //    ticketInfo.StoreId = storeMachine.StoreId;
+            //    ticketInfo.MachineId = storeMachine.MachineId;
+            //}
             return ticketInfo;
         }
     }

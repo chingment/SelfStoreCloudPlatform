@@ -24,21 +24,14 @@ namespace Lumos.BLL.Service.AppTerm
             }
 
 
-            var storeMachine = CurrentDb.StoreMachine.Where(m => m.MerchantId == machine.MerchantId && m.MachineId == machine.Id && m.IsBind == true).FirstOrDefault();
-
-            if (storeMachine == null)
-            {
-                return new CustomJsonResult(ResultType.Failure, "设备未绑定店铺");
-            }
-
-            var merchant = CurrentDb.Merchant.Where(m => m.Id == storeMachine.MerchantId).FirstOrDefault();
+            var merchant = CurrentDb.Merchant.Where(m => m.Id == machine.MerchantId).FirstOrDefault();
 
             if (merchant == null)
             {
                 return new CustomJsonResult(ResultType.Failure, "商户不存在");
             }
 
-            var store = CurrentDb.Store.Where(m => m.Id == storeMachine.StoreId).FirstOrDefault();
+            var store = CurrentDb.Store.Where(m => m.Id == machine.StoreId).FirstOrDefault();
 
             if (store == null)
             {
@@ -47,7 +40,7 @@ namespace Lumos.BLL.Service.AppTerm
 
 
             var ret = new RetMachineApiConfig();
-            ret.Ticket = storeMachine.Id;
+            ret.Ticket = machine.Id;
             ret.MerchantName = merchant.Name;
             ret.StoreName = store.Name;
             ret.ApiHost = merchant.ApiHost;
