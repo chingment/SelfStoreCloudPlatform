@@ -45,7 +45,9 @@ namespace Lumos.BLL.Service.Admin
             using (TransactionScope ts = new TransactionScope())
             {
 
-                var isExistsSysUser = CurrentDb.SysUser.Where(m => m.UserName == rop.UserName).FirstOrDefault();
+                string userName = string.Format("M{0}", rop.UserName);
+
+                var isExistsSysUser = CurrentDb.SysUser.Where(m => m.UserName == userName).FirstOrDefault();
 
                 if (isExistsSysUser != null)
                 {
@@ -62,7 +64,7 @@ namespace Lumos.BLL.Service.Admin
                 string merchantId = GuidUtil.New();
                 var sysMerchatUser = new SysMerchantUser();
                 sysMerchatUser.Id = GuidUtil.New();
-                sysMerchatUser.UserName = string.Format("M{0}", rop.UserName);
+                sysMerchatUser.UserName = userName;
                 sysMerchatUser.PasswordHash = PassWordHelper.HashPassword(rop.Password);
                 sysMerchatUser.SecurityStamp = Guid.NewGuid().ToString();
                 sysMerchatUser.RegisterTime = this.DateTime;

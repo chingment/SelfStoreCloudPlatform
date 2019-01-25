@@ -54,8 +54,8 @@
                 success: function (d) {
                     if (d.result == $.lumos.resultType.success) {
                         var data = d.data;
-                        $('#lbl_DeviceId').text(data.deviceId);
-                        $("#txy_MacAddress").val(data.macAddress);
+                        $('#lbl_MachineId').text(data.id);
+                        $("#txt_MacAddress").val(data.macAddress);
                         $("#txt_Name").val(data.name);
                     }
                 }
@@ -79,9 +79,9 @@
     <table class="f-tb" cellpadding="0" cellspacing="1" style="width:100%">
         <tr>
             <td class="f-tb-t">设备ID：</td>
-            <td class="f-tb-c"><span id="lbl_DeviceId"></span> </td>
+            <td class="f-tb-c"><span id="lbl_MachineId"></span> </td>
             <td class="f-tb-t"><span class="required-symbol">*</span>Mac地址：</td>
-            <td class="f-tb-c"><input class="input-control" type="text" id="txy_MacAddress" style="width: 150px;" value="" autocomplete="off" /></td>
+            <td class="f-tb-c"><input class="input-control" type="text" id="txt_MacAddress" style="width: 150px;" value="" autocomplete="off" /></td>
         </tr>
         <tr>
             <td class="f-tb-t"><span class="required-symbol">*</span>名称：</td>

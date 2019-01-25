@@ -48,8 +48,7 @@ namespace WebMerch.Controllers
                          join s in CurrentDb.Store on m.StoreId equals s.Id into temp
                          from tt in temp.DefaultIfEmpty()
                          where
-                                 (machineId.Length == 0 || m.Id.Contains(machineId))
-                                 &&
+                               
                                  m.MerchantId == this.CurrentMerchantId
                          select new { m.Id, m.Name, m.MacAddress, m.StoreId, m.CreateTime, StoreName = tt.Name });
 
