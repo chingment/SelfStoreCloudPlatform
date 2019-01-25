@@ -14,11 +14,11 @@ namespace Lumos.BLL.Service.AppTerm
 
     public class OrderService : BaseService
     {
-        public CustomJsonResult Reserve(RupOrderReserve rup, RopOrderReserve rop)
+        public CustomJsonResult Reserve(RopOrderReserve rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 
-            var machine = CurrentDb.Machine.Where(m => m.Id == rup.MachineId).FirstOrDefault();
+            var machine = CurrentDb.Machine.Where(m => m.Id == rop.MachineId).FirstOrDefault();
 
             Biz.RopOrderReserve bizRop = new Biz.RopOrderReserve();
             bizRop.Source = Enumeration.OrderSource.Machine;
@@ -74,7 +74,7 @@ namespace Lumos.BLL.Service.AppTerm
             return ret;
         }
 
-        public CustomJsonResult Cancle(RupOrderCancle rup, RopOrderCancle rop)
+        public CustomJsonResult Cancle(RopOrderCancle rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 

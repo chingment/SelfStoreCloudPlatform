@@ -696,19 +696,19 @@ namespace Lumos.BLL.Biz
             return result;
         }
 
-        public CustomJsonResult Cancle(string operater, string orderSn, string cancelReason)
+        public CustomJsonResult Cancle(string operater, string orderId, string cancelReason)
         {
             var result = new CustomJsonResult();
 
 
             using (TransactionScope ts = new TransactionScope())
             {
-                var order = CurrentDb.Order.Where(m => m.Sn == orderSn).FirstOrDefault();
+                var order = CurrentDb.Order.Where(m => m.Id == orderId).FirstOrDefault();
 
                 if (order == null)
                 {
-                    LogUtil.Info(string.Format("该订单号:{0},找不到", orderSn));
-                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("该订单号:{0},找不到", orderSn));
+                    LogUtil.Info(string.Format("该订单号:{0},找不到", orderId));
+                    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, string.Format("该订单号:{0},找不到", orderId));
                 }
 
                 if (order.Status == Enumeration.OrderStatus.Cancled)

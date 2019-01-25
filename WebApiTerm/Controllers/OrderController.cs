@@ -10,9 +10,9 @@ namespace WebApiTerm.Controllers
     {
 
         [HttpPost]
-        public OwnApiHttpResponse Reserve([FromUri]RupOrderReserve rup, [FromBody]RopOrderReserve rop)
+        public OwnApiHttpResponse Reserve([FromBody]RopOrderReserve rop)
         {
-            IResult result = TermServiceFactory.Order.Reserve(rup, rop);
+            IResult result = TermServiceFactory.Order.Reserve(rop);
             return new OwnApiHttpResponse(result);
 
         }
@@ -25,28 +25,28 @@ namespace WebApiTerm.Controllers
         }
 
         [HttpPost]
-        public OwnApiHttpResponse Cancle([FromUri]RupOrderCancle rup, [FromBody]RopOrderCancle rop)
+        public OwnApiHttpResponse Cancle([FromBody]RopOrderCancle rop)
         {
-            IResult result = TermServiceFactory.Order.Cancle(rup, rop);
+            IResult result = TermServiceFactory.Order.Cancle(rop);
             return new OwnApiHttpResponse(result);
         }
 
         [HttpGet]
-        public OwnApiHttpResponse PickupSkusList([FromUri]RupOrderPickupSkusList rup)
+        public OwnApiHttpResponse PickupSkusList(RupOrderPickupSkusList rup)
         {
             IResult result = TermServiceFactory.Order.PickupSkusList(rup);
             return new OwnApiHttpResponse(result);
         }
 
         [HttpGet]
-        public OwnApiHttpResponse PickupStatusQuery([FromUri]RupOrderPickupStatusQuery rup)
+        public OwnApiHttpResponse PickupStatusQuery(RupOrderPickupStatusQuery rup)
         {
             IResult result = TermServiceFactory.Order.PickupStatusQuery(rup);
             return new OwnApiHttpResponse(result);
         }
 
         [HttpPost]
-        public OwnApiHttpResponse PickupEventNotify([FromBody]RopOrderPickupEventNotify rop)
+        public OwnApiHttpResponse PickupEventNotify(RopOrderPickupEventNotify rop)
         {
             IResult result = TermServiceFactory.Order.PickupEventNotify(rop);
             return new OwnApiHttpResponse(result);

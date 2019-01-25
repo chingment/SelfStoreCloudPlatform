@@ -150,6 +150,7 @@ namespace WebApiTerm.Controllers
         {
 
             RopOrderReserve pms = new RopOrderReserve();
+            pms.MachineId = machineId;
             pms.PayTimeout = 10;
             pms.Skus.Add(new RopOrderReserve.Sku() { Id = "3cbddffaf84148279bd91551db238ca3", Quantity = 1 });
             pms.Skus.Add(new RopOrderReserve.Sku() { Id = "44b2d4ae88e24b76a8a744f582214513", Quantity = 1 });
@@ -166,7 +167,7 @@ namespace WebApiTerm.Controllers
             headers1.Add("sign", signStr);
 
             HttpUtil http = new HttpUtil();
-            string respon_data4 = http.HttpPostJson("" + host + "/api/Order/Reserve?machineId=" + machineId, a1, headers1);
+            string respon_data4 = http.HttpPostJson("" + host + "/api/Order/Reserve", a1, headers1);
 
             return respon_data4;
 
