@@ -8,9 +8,8 @@ namespace Lumos.BLL.Service.Merch
 {
     public class RupMachineGetList:RupBaseGetList
     {
+        public string MachineId { get; set; }
         public string MacAddress { get; set; }
-
-        public string DeviceId { get; set; }
 
         public string StoreId { get; set; }
     }

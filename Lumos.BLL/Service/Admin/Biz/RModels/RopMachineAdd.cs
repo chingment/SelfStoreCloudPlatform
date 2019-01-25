@@ -8,8 +8,8 @@ namespace Lumos.BLL.Service.Admin
 {
     public class RopMachineAdd
     {
+        public string Id { get; set; }
         public string Name { get; set; }
-        public string DeviceId { get; set; }
         public string MacAddress { get; set; }
     }
 }

@@ -34,10 +34,8 @@ namespace Lumos.BLL.Service.Merch
             if (machine != null)
             {
                 ret.Id = id;
-                ret.DeviceId = machine.DeviceId;
                 ret.Name = machine.Name;
 
-              
                 if (machine.StoreId == null)
                 {
                     ret.IsBindStore = false;
@@ -119,7 +117,7 @@ namespace Lumos.BLL.Service.Merch
                 machineBindLog.BindType = Enumeration.MachineBindType.On;
                 machineBindLog.CreateTime = this.DateTime;
                 machineBindLog.Creator = operater;
-                machineBindLog.Description = string.Format("机器[{0}]绑定店铺[{1}]", machine.DeviceId, store.Name);
+                machineBindLog.Description = string.Format("机器[{0}]绑定店铺[{1}]", machine.Id, store.Name);
                 CurrentDb.MachineBindLog.Add(machineBindLog);
                 CurrentDb.SaveChanges();
 
@@ -162,7 +160,7 @@ namespace Lumos.BLL.Service.Merch
                 machineBindLog.BindType = Enumeration.MachineBindType.Off;
                 machineBindLog.CreateTime = this.DateTime;
                 machineBindLog.Creator = operater;
-                machineBindLog.Description = string.Format("机器[{0}]解绑店铺[{1}]", machine.DeviceId, store.Name);
+                machineBindLog.Description = string.Format("机器[{0}]解绑店铺[{1}]", machine.Id, store.Name);
                 CurrentDb.MachineBindLog.Add(machineBindLog);
                 CurrentDb.SaveChanges();
 

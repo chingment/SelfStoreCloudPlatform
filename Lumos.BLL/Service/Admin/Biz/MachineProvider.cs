@@ -23,7 +23,6 @@ namespace Lumos.BLL.Service.Admin
 
             ret.Id = machine.Id ?? ""; ;
             ret.Name = machine.Name ?? ""; ;
-            ret.DeviceId = machine.DeviceId ?? ""; ;
             ret.MacAddress = machine.MacAddress ?? "";
 
             var merchantInfo = CurrentDb.Merchant.Where(m => m.Id == machine.MerchantId).FirstOrDefault();
@@ -47,14 +46,13 @@ namespace Lumos.BLL.Service.Admin
         {
             CustomJsonResult result = new CustomJsonResult();
 
-            var machine = CurrentDb.Machine.Where(m => m.DeviceId == rop.DeviceId).FirstOrDefault();
+            var machine = CurrentDb.Machine.Where(m => m.Id == rop.Id).FirstOrDefault();
             if (machine != null)
                 return new CustomJsonResult(ResultType.Failure, "该设备ID已经登记");
 
             machine = new Machine();
-            machine.Id = GuidUtil.New();
+            machine.Id = rop.Id;
             machine.Name = rop.Name;
-            machine.DeviceId = rop.DeviceId;
             machine.MacAddress = rop.MacAddress;
             machine.CreateTime = this.DateTime;
             machine.Creator = operater;
@@ -123,7 +121,7 @@ namespace Lumos.BLL.Service.Admin
                 machineBindLog.BindType = Enumeration.MachineBindType.On;
                 machineBindLog.CreateTime = this.DateTime;
                 machineBindLog.Creator = operater;
-                machineBindLog.Description = string.Format("机器[{0}]绑定商户[{1}]", machine.DeviceId, merchant.Name);
+                machineBindLog.Description = string.Format("机器[{0}]绑定商户[{1}]", machine.Id, merchant.Name);
                 CurrentDb.MachineBindLog.Add(machineBindLog);
                 CurrentDb.SaveChanges();
 
@@ -168,7 +166,7 @@ namespace Lumos.BLL.Service.Admin
                 machineBindLog.BindType = Enumeration.MachineBindType.Off;
                 machineBindLog.CreateTime = this.DateTime;
                 machineBindLog.Creator = operater;
-                machineBindLog.Description = string.Format("机器[{0}]解绑商户[{1}]", machine.DeviceId, merchant.Name);
+                machineBindLog.Description = string.Format("机器[{0}]解绑商户[{1}]", machine.Id, merchant.Name);
                 CurrentDb.MachineBindLog.Add(machineBindLog);
 
                 machine.MerchantId = null;

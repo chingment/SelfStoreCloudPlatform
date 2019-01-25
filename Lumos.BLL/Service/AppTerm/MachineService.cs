@@ -16,7 +16,7 @@ namespace Lumos.BLL.Service.AppTerm
         {
             CustomJsonResult result = new CustomJsonResult();
 
-            var machine = CurrentDb.Machine.Where(m => m.DeviceId == rup.DeviceId).FirstOrDefault();
+            var machine = CurrentDb.Machine.Where(m => m.Id == rup.DeviceId).FirstOrDefault();
 
             if (machine == null)
             {
@@ -50,7 +50,6 @@ namespace Lumos.BLL.Service.AppTerm
             var ret = new RetMachineApiConfig();
             ret.MachineId = machine.Id;
             ret.MachineName = machine.Name;
-            ret.MachineDeviceId = machine.DeviceId;
             ret.MerchantName = merchant.Name;
             ret.StoreName = store.Name;
             ret.ApiHost = merchant.ApiHost;

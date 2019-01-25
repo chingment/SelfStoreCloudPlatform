@@ -12,8 +12,6 @@ namespace Lumos.Entity
         [MaxLength(128)]
         public string Name { get; set; }
         [MaxLength(128)]
-        public string DeviceId { get; set; }
-        [MaxLength(128)]
         public string MacAddress { get; set; }
         public string Creator { get; set; }
         public DateTime CreateTime { get; set; }

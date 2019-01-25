@@ -10,7 +10,6 @@ namespace Lumos.BLL.Service.Merch
     {
         private string _id = "";
         private string _name = "";
-        private string _deviceId = "";
         private string _macAddress = "";
         private bool _isBindStore = false;
         private string _status = "";
@@ -43,18 +42,6 @@ namespace Lumos.BLL.Service.Merch
             set
             {
                 _name = value;
-            }
-        }
-        public string DeviceId
-        {
-            get
-            {
-
-                return _deviceId;
-            }
-            set
-            {
-                _deviceId = value;
             }
         }
         public string MacAddress

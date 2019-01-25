@@ -10,7 +10,7 @@ namespace Lumos.BLL.Service.Admin
     {
         public string MacAddress { get; set; }
 
-        public string DeviceId { get; set; }
+        public string MachineId { get; set; }
 
         public string StoreId { get; set; }
 

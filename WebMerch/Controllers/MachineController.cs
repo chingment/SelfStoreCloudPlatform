@@ -42,16 +42,16 @@ namespace WebMerch.Controllers
         public CustomJsonResult GetList(RupMachineGetList rup)
         {
 
-            string deviceId = rup.DeviceId.ToSearchString();
+            string machineId = rup.MachineId.ToSearchString();
 
             var query = (from m in CurrentDb.Machine
                          join s in CurrentDb.Store on m.StoreId equals s.Id into temp
                          from tt in temp.DefaultIfEmpty()
                          where
-                                 (deviceId.Length == 0 || m.DeviceId.Contains(deviceId))
+                                 (machineId.Length == 0 || m.Id.Contains(machineId))
                                  &&
                                  m.MerchantId == this.CurrentMerchantId
-                         select new { m.Id, m.Name, m.DeviceId, m.MacAddress, m.StoreId, m.CreateTime, StoreName = tt.Name });
+                         select new { m.Id, m.Name, m.MacAddress, m.StoreId, m.CreateTime, StoreName = tt.Name });
 
             int total = query.Count();
 
@@ -74,7 +74,6 @@ namespace WebMerch.Controllers
                 {
                     Id = item.Id,
                     Name = item.Name,
-                    DeviceId = item.DeviceId,
                     StoreName = l_StoreName,
                     IsBindStore = l_IsBindStore,
                     CreateTime = item.CreateTime.ToUnifiedFormatDateTime(),

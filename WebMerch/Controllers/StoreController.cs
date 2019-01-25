@@ -104,7 +104,7 @@ namespace WebMerch.Controllers
                          (name.Length == 0 || u.Name.Contains(name))
                          && u.StoreId == rup.StoreId
                          && u.MerchantId == this.CurrentMerchantId
-                         select new { u.Id, u.Name, u.DeviceId }).Distinct();
+                         select new { u.Id, u.Name }).Distinct();
 
             int total = query.Count();
 
@@ -120,8 +120,7 @@ namespace WebMerch.Controllers
                 olist.Add(new
                 {
                     item.Id,
-                    item.Name,
-                    item.DeviceId
+                    item.Name
                 });
 
             }

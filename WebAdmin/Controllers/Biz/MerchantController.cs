@@ -98,15 +98,15 @@ namespace WebAdmin.Controllers.Biz
         public CustomJsonResult GetMachineList(RupMachineGetList rup)
         {
 
-            string deviceId = rup.DeviceId.ToSearchString();
+            string machineId = rup.MachineId.ToSearchString();
 
             var query = (from p in CurrentDb.Machine
                          join m in CurrentDb.Merchant on p.MerchantId equals m.Id
                          where
                          p.MerchantId == rup.MerchantId &&
-                         (deviceId.Length == 0 || p.DeviceId.Contains(deviceId))
+                         (machineId.Length == 0 || p.Id.Contains(machineId))
 
-                         select new { p.Id, p.MerchantId, MerchantName = m.Name, p.DeviceId, MachineName = p.Name, p.MacAddress });
+                         select new { p.Id, p.MerchantId, MerchantName = m.Name, MachineName = p.Name, p.MacAddress });
 
             int total = query.Count();
 
@@ -126,7 +126,6 @@ namespace WebAdmin.Controllers.Biz
                     Id = item.Id,
                     MerchantId = item.MerchantId,
                     MerchantName = item.MerchantName,
-                    DeviceId = item.DeviceId,
                     MachineName = item.MachineName,
                     MacAddress = item.MacAddress,
                 });

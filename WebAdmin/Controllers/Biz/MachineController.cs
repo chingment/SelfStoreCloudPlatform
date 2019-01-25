@@ -45,7 +45,7 @@ namespace WebAdmin.Controllers.Biz
 
         public CustomJsonResult GetList(RupMachineGetList rup)
         {
-            string deviceId = rup.DeviceId.ToSearchString();
+            string machineId = rup.MachineId.ToSearchString();
             string merchantName = rup.MerchantName.ToSearchString();
 
             var query = (from p in CurrentDb.Machine
@@ -53,8 +53,8 @@ namespace WebAdmin.Controllers.Biz
                          from tt in temp.DefaultIfEmpty()
                          where
                                  (merchantName.Length == 0 || tt.Name.Contains(merchantName)) &&
-                                    (deviceId.Length == 0 || p.DeviceId.Contains(deviceId))
-                         select new { p.Id, p.Name, p.DeviceId, p.MacAddress, p.CreateTime, p.MerchantId, MerchantName = tt.Name });
+                                    (machineId.Length == 0 || p.Id.Contains(machineId))
+                         select new { p.Id, p.Name, p.MacAddress, p.CreateTime, p.MerchantId, MerchantName = tt.Name });
 
             int total = query.Count();
 
@@ -79,7 +79,6 @@ namespace WebAdmin.Controllers.Biz
                     MerchantId = item.MerchantId,
                     MerchantName = l_MerchantName,
                     IsBindMerchant = l_IsBindMerchant,
-                    DeviceId = item.DeviceId,
                     MacAddress = item.MacAddress,
                     Status = l_Status,
                     StatusName = l_StatusName,

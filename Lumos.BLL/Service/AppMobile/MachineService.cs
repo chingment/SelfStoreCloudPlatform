@@ -83,7 +83,7 @@ namespace Lumos.BLL.Service.AppMobile
 
             ret.Fields.Add(new RetOperateResult.Field() { Name = "商户", Value = merchant.Name });
             ret.Fields.Add(new RetOperateResult.Field() { Name = "店铺", Value = store.Name });
-            ret.Fields.Add(new RetOperateResult.Field() { Name = "机器编码", Value = machine.DeviceId });
+            ret.Fields.Add(new RetOperateResult.Field() { Name = "机器编码", Value = machine.Id });
 
 
 
