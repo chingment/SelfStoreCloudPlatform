@@ -174,17 +174,18 @@ namespace Lumos.Entity
         {
             [Remark("未知")]
             Unknow = 0,
-            [Remark("管理端管理员职位")]
+            [Remark("管理员")]
             AdminAdministrator = 100,
-            [Remark("管理端初级运营")]
+            [Remark("初级运营")]
             AdminJuniorOperators = 101,
-            [Remark("商户端管理员职位")]
+
+            [Remark("管理员")]
             MerchantAdministrator = 200,
-            [Remark("商户端运营主管")]
+            [Remark("运营主管")]
             MerchantOM = 201,
-            [Remark("商户端运营人员")]
+            [Remark("运营人员")]
             MerchantAM = 202,
-            [Remark("商户端补货员")]
+            [Remark("补货员")]
             MerchantRS = 203
         }
 
