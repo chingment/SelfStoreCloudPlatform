@@ -175,6 +175,7 @@
     <Compile Include="Controllers\ProductSkuController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Controllers\ReplenishStaffController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\WarehouseController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -237,6 +238,10 @@
     <Content Include="Views\MachineBanner\List.cshtml" />
     <Content Include="Views\MachineStock\List.cshtml" />
     <Content Include="Views\MachineBanner\Add.cshtml" />
+    <Content Include="Views\User\Add.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
+    <Content Include="Views\User\List.cshtml" />
+    <Content Include="Views\User\ListBySelect.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

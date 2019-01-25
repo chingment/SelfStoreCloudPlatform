@@ -1,0 +1,124 @@
+﻿@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+    var organizationId = $.lumos.getUrlParamValue("organizationId");
+    var isDataAllocater = $.lumos.getUrlParamValue("isDataAllocater") == null ? "False" : $.lumos.getUrlParamValue("isDataAllocater");
+    var listTable;
+    $(document).ready(function () {
+        $("input[name=OrganizationId]").val(organizationId);
+        $("input[name=IsDataAllocater]").val(isDataAllocater);
+        listTable = $("#list_table").loadDataTable({
+            url: "/User/GetList",
+            pageIndex: 0,
+            searchParams: $("#form1").serializeArray(),
+            searchButtonId: "btn_Search",
+            containerId: "form1",
+            rowDataCombie: function (p_index, p_row) {
+                var l_Strlimt = "";
+                l_Strlimt += "@Html.IsInPermission("<a href=\\\"javascript:void(0)\\\" operate=\\\"selectin\\\"   class=\\\"a-btn a-btn-edit\\\"  >选择</a>")";
+                var l_StrRows = "";
+                l_StrRows += "<tr>";
+                l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
+                l_StrRows += "<td class=\"overflow tipitem\" title=\"" + p_row.userName + "\"   >" + p_row.userName + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.fullName + "\">" + p_row.fullName + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.organizationName + "\">" + p_row.organizationName + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.positionName + "\">" + p_row.positionName + "</td>";
+                l_StrRows += "<td class=\"operation\">";
+                l_StrRows += l_Strlimt;
+                l_StrRows += "</td>";
+                l_StrRows += "</tr>";
+                return l_StrRows;
+            },
+            operate: {
+                "selectin": function (obj) {
+                    art.dialog.confirm('确定要选择用户【' + obj.fullName + '】？', function () {
+                        $.lumos.parentDialog.getUserDetails(obj);
+                        art.dialog.close();
+                    });
+                }
+            }
+        });
+
+    });
+
+
+
+
+</script>
+
+<div class="gbr-row gbr-dialog">
+    <form id="form1" name="form1">
+        <input type="hidden" name="OrganizationId" />
+        <input type="hidden" name="IsDataAllocater" value="0" />
+        <div class="search-bar">
+            <div class="filter">
+                <span class="filter-label">用户名：</span>
+                <span class="filter-input">
+                    <input type="text" class="input-control" name="UserName" style="width:120px;" />
+                </span>
+            </div>
+            <div class="filter">
+                <span class="filter-label">姓名：</span>
+                <span class="filter-input">
+                    <input type="text" class="input-control" name="FullName" style="width:120px;" />
+                </span>
+            </div>
+            <div class="filter"><input type="button" class="btn btn-search" id="btn_Search" value="查询" /> </div>
+            <div class="filter" style="float:right">
+
+            </div>
+        </div>
+        <div class="list">
+            <table id="list_table" class="list-tb" cellpadding="0" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th style="width:25px" class="no">
+                            序号
+                        </th>
+                        <th style="width:25%">
+                            用户名
+                        </th>
+                        <th style="width:25%">
+                            姓名
+                        </th>
+                        <th style="width:25%">
+                            所属机构
+                        </th>
+                        <th style="width:25%">
+                            职位
+                        </th>
+                        <th style="width:25px" class="operation">
+                            操作
+                        </th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="6">
+                            <div class="pull-left">
+                                <span class="load-tip"></span>
+                            </div>
+                            <div class="pull-right pagination">
+                                <div class="pagination-info">
+
+                                </div>
+                                <div class="pagination-index">
+
+                                </div>
+                                <div class="pagination-goto">
+
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </form>
+
+</div>
+

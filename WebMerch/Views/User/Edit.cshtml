@@ -1,0 +1,198 @@
+﻿@{
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts{
+    <script type="text/javascript">
+        var id = $.lumos.getUrlParamValue("id");
+        var isTransferData = false;
+        $(this).ready(function () {
+
+            $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
+            $(".txt_Password").formValidator().regexValidator({ regExp: regexEnum.password, onError: "密码由6到20个数字、英文字母或下划线组成" });
+            $(".txt_Password").attr("disabled", true).unFormValidator(true);
+            $("#txt_FullName").formValidator().inputValidator({ min: 1, max: 50, onError: "姓名不能为空，且不能超过50个字符" });
+            $("#sel_Positions").formValidator().inputValidator({ min: 1, max: 500, onError: "请选择职位" });
+            $("#txt_Email").formValidator().regexValidator({ min: 0, max: 100, regExp: regexEnum.email, onError: "邮箱格式且不能超过100个字符" });
+            $("#txt_PhoneNumber").formValidator().regexValidator({ min: 0, max: 100, regExp: regexEnum.mobile, onError: "手机号码格式" });
+            $("#sel_Status").formValidator().inputValidator({ min: 1, max: 500, onError: "请选择状态" });
+
+            $("#abtn-editPwd").toggle(function () {
+                $("#lbl_Password").hide();
+                $(".txt_Password").show();
+                $(".txt_Password").attr("disabled", false).unFormValidator(false);
+                $(this).text("取消");
+            }, function () {
+                $("#lbl_Password").show();
+                $(".txt_Password").hide();
+                $(".txt_Password").val("");
+                $(".txt_Password").attr("disabled", true).unFormValidator(true);
+                $(this).text("修改");
+            });
+
+            getDetails();
+
+        });
+
+
+        function getDetails() {
+
+            $.lumos.getJson({
+                url: "/User/GetDetails",
+                urlParams: { id: id },
+                isUseHandling: true,
+                success: function (d) {
+                    if (d.result == $.lumos.resultType.success) {
+                        var data = d.data;
+
+                        $('#lbl_UserName').text(data.userName);
+                        $("#txt_FullName").val(data.fullName);
+                        $("#txt_Email").val(data.email);
+                        $("#txt_PhoneNumber").val(data.phoneNumber);
+                        $('#sel_Positions').myChosen({ urlParams: { type: "SysPosition"}, selectedValue: data.positionId });
+                        $('#sel_Status').myChosen({ isUseUrl: false, selectedValue: data.status });
+                        
+                    }
+                }
+            });
+        }
+
+        function edit() {
+
+            var isValid = $.formValidator.pageIsValid();
+            if (!isValid)
+                return false;
+
+
+            function sumbit(isReplacePosition) {
+                var password = $(".txt_Password").val();
+                var fullName = $("#txt_FullName").val();
+                var email = $("#txt_Email").val();
+                var phoneNumber = $("#txt_PhoneNumber").val();
+                var positionId = $("#sel_Positions").val();
+                var status = $("#sel_Status").val();
+                $.lumos.postJson({
+                    url: "/User/Edit",
+                    isUseHandling: true,
+                    data: { id: id, password: password, fullName: fullName, email: email, phoneNumber: phoneNumber, positionId: positionId,  status: status },
+                    success: function (d) {
+                        if (d.result == $.lumos.resultType.success) {
+                            $.lumos.parentDialog.refresh(2);
+                            $.lumos.tips(d.message);
+                        }
+                        else {
+                            $.lumos.tips(d.message);
+                        }
+                    }
+                });
+            }
+
+            art.dialog.confirm('确定要保存？', function () {
+
+                sumbit(false)
+
+            });
+
+            return false;
+        }
+
+        function getUserDetails(obj) {
+
+            $("#txt_DataBelongerId").val(obj.id);
+            $('#lbl_DataBelongerName').text(obj.fullName + "(" + obj.userName + ")");
+        }
+    </script>
+}
+
+<input type="password" style="position:absolute;top:-999px;display:none;" />
+
+<div class="gbr-row gbr-dialog">
+    <div class="gbr-row-title clearfix">
+        <div class="pull-left">
+            <h5>基本信息</h5>
+        </div>
+        <div class="pull-right f-tb1-item-pull-right">
+            <h6></h6>
+        </div>
+    </div>
+    <table class="f-tb" cellpadding="0" cellspacing="1">
+        <tr>
+            <td class="f-tb-t" style="width:100px;">
+                用户名：
+            </td>
+            <td class="f-tb-c">
+                <label id="lbl_UserName"></label>
+            </td>
+        </tr>
+        <tr>
+            <td class="f-tb-t">
+                <span class="required-symbol">*</span>密码：
+            </td>
+            <td class="f-tb-c">
+                <label id="lbl_Password">******</label>
+
+                <input class="input-control txt_Password" autocomplete="off" type="password" style="width: 224px;display:none;" />
+                <a class="a-btn" id="abtn-editPwd" href="javascript:void(0)">修改</a>
+            </td>
+        </tr>
+        <tr>
+            <td class="f-tb-t">
+                <span class="required-symbol">*</span>姓名：
+            </td>
+            <td class="f-tb-c">
+                <input name="txt_FullName" class="input-control" type="text" id="txt_FullName" value="" style="width: 224px;" autocomplete="off" />
+            </td>
+        </tr>
+        <tr>
+            <td class="f-tb-t">
+                <span class="required-symbol">*</span>职位：
+            </td>
+            <td class="f-tb-c">
+                <select id="sel_Positions" data-placeholder="请选择" class="chosen-select" style="width:200px"></select>
+            </td>
+        </tr>
+        <tr>
+            <td class="f-tb-t">
+                E-mail：
+            </td>
+            <td class="f-tb-c">
+                <input id="txt_Email" class="input-control" type="text" value="" style="width: 224px;" autocomplete="off" />
+            </td>
+        </tr>
+        <tr>
+            <td class="f-tb-t">
+                手机：
+            </td>
+            <td class="f-tb-c">
+                <input id="txt_PhoneNumber" class="input-control" type="text" value="" style="width: 224px;" autocomplete="off" />
+            </td>
+        </tr>
+        <tr>
+            <td class="f-tb-t">
+                <span class="required-symbol">*</span>状态：
+            </td>
+            <td class="f-tb-c">
+                <select id="sel_Status" data-placeholder="请选择" class="chosen-select" style="width:200px">
+                    <option value="-1"></option>
+                    <option value="1">正常</option>
+                    <option value="2">禁用</option>
+                </select>
+            </td>
+        </tr>
+        <tr style="display:none">
+            <td class="f-tb-t"></td>
+            <td class="f-tb-c">
+                <input type="submit" name="btn_Submit" id="btn_Submit" value="保存" class="btn btn-save" />
+                <input type="button" name="btn_Cancle" id="btn_Cancle" value="关闭" class="btn btn-close dialog-close" />
+            </td>
+        </tr>
+    </table>
+
+</div>
+
+
+
+
+
+
