@@ -96,11 +96,10 @@ namespace WebApiTerm.Controllers
 
             //host = "http://demo.api.term.17fanju.com";
 
-            string deviceId = "000000000000000";
-            string ticket = "6cc2ebd28c9a47d9a27bec4b2de3f379";
-            //model.Add("获取机器接口配置信息", MachineApiConfig(deviceId));
-            //model.Add("获取全局数据", GlobalDataSet(ticket, DateTime.Now));
-            model.Add("预定商品", OrderReserve(ticket));
+            string machineId = "000000000000000";
+            model.Add("获取机器接口配置信息", MachineApiConfig(machineId));
+            model.Add("获取全局数据", GlobalDataSet(machineId, DateTime.Now));
+            model.Add("预定商品", OrderReserve(machineId));
 
 
             //HttpUtil http = new HttpUtil();
@@ -115,7 +114,7 @@ namespace WebApiTerm.Controllers
         public string MachineApiConfig(string deviceId)
         {
             Dictionary<string, string> parames = new Dictionary<string, string>();
-            parames.Add("deviceId", deviceId.ToString());
+            parames.Add("machineId", deviceId.ToString());
             string signStr = Signature.Compute(key, secret, timespan, Signature.GetQueryData(parames));
 
             Dictionary<string, string> headers = new Dictionary<string, string>();
@@ -123,16 +122,16 @@ namespace WebApiTerm.Controllers
             headers.Add("timestamp", timespan.ToString());
             headers.Add("sign", signStr);
             HttpUtil http = new HttpUtil();
-            string result = http.HttpGet("" + host + "/api/Machine/ApiConfig?deviceId=" + deviceId, headers);
+            string result = http.HttpGet("" + host + "/api/Machine/ApiConfig?machineId=" + deviceId, headers);
 
             return result;
 
         }
 
-        public string GlobalDataSet(string ticket, DateTime datetime)
+        public string GlobalDataSet(string machineId, DateTime datetime)
         {
             Dictionary<string, string> parames = new Dictionary<string, string>();
-            parames.Add("ticket", ticket.ToString());
+            parames.Add("machineId", machineId.ToString());
             parames.Add("datetime", datetime.ToUnifiedFormatDateTime());
             string signStr = Signature.Compute(key, secret, timespan, Signature.GetQueryData(parames));
 
@@ -141,13 +140,13 @@ namespace WebApiTerm.Controllers
             headers.Add("timestamp", timespan.ToString());
             headers.Add("sign", signStr);
             HttpUtil http = new HttpUtil();
-            string result = http.HttpGet("" + host + "/api/Global/DataSet?ticket=" + ticket + "&datetime=" + datetime.ToUnifiedFormatDateTime(), headers);
+            string result = http.HttpGet("" + host + "/api/Global/DataSet?machineId=" + machineId + "&datetime=" + datetime.ToUnifiedFormatDateTime(), headers);
 
             return result;
 
         }
 
-        public string OrderReserve(string ticket)
+        public string OrderReserve(string machineId)
         {
 
             RopOrderReserve pms = new RopOrderReserve();
@@ -167,7 +166,7 @@ namespace WebApiTerm.Controllers
             headers1.Add("sign", signStr);
 
             HttpUtil http = new HttpUtil();
-            string respon_data4 = http.HttpPostJson("" + host + "/api/Order/Reserve?ticket=" + ticket, a1, headers1);
+            string respon_data4 = http.HttpPostJson("" + host + "/api/Order/Reserve?machineId=" + machineId, a1, headers1);
 
             return respon_data4;
 

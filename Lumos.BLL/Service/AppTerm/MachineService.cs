@@ -16,7 +16,7 @@ namespace Lumos.BLL.Service.AppTerm
         {
             CustomJsonResult result = new CustomJsonResult();
 
-            var machine = CurrentDb.Machine.Where(m => m.Id == rup.DeviceId).FirstOrDefault();
+            var machine = CurrentDb.Machine.Where(m => m.Id == rup.MachineId).FirstOrDefault();
 
             if (machine == null)
             {

@@ -8,6 +8,6 @@ namespace Lumos.BLL.Service.AppTerm
 {
     public class RupMachineApiConfig
     {
-        public string DeviceId { get; set; }
+        public string MachineId { get; set; }
     }
 }
