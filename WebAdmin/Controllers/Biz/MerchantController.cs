@@ -46,7 +46,7 @@ namespace WebAdmin.Controllers.Biz
                          join u in CurrentDb.SysMerchantUser on m.UserId equals u.Id
                          where
                                  (name.Length == 0 || m.Name.Contains(name))
-                         select new { m.Id, u.UserName, m.Name, m.ContactName, m.ContactAddress, m.ContactPhone, m.CreateTime });
+                         select new { m.Id, u.UserName, m.SimpleCode, m.Name, m.ContactName, m.ContactAddress, m.ContactPhone, m.CreateTime });
 
             int total = query.Count();
 
@@ -66,6 +66,7 @@ namespace WebAdmin.Controllers.Biz
                 {
                     item.Id,
                     item.UserName,
+                    item.SimpleCode,
                     item.Name,
                     item.ContactName,
                     item.ContactPhone,

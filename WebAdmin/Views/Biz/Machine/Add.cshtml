@@ -8,7 +8,7 @@
 
         $(this).ready(function () {
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
-            $("#txt_DeviceId").formValidator().inputValidator({ min: 1, max: 100, onError: "设备ID须填，且不超过100个字符" });
+            $("#txt_Id").formValidator().inputValidator({ min: 1, max: 100, onError: "设备ID须填，且不超过100个字符" });
             $("#txt_MacAddress").formValidator().inputValidator({ min: 1, max: 100, onError: "Mac地址须填，且不超过100个字符" });
             $("#txt_Name").formValidator().inputValidator({ min: 1, max: 100, onError: "名称须填，且不超过100个字符" });
         });
@@ -20,13 +20,13 @@
 
             art.dialog.confirm('确定要登记？', function () {
 
-                var deviceId = $("#txt_DeviceId").val();
+                var id = $("#txt_Id").val();
                 var macAddress = $("#txt_MacAddress").val();
                 var name = $("#txt_Name").val();
 
                 $.lumos.postJson({
                     url: "/Biz/Machine/Add",
-                    data: { deviceId: deviceId, macAddress: macAddress, name: name },
+                    data: { id: id, macAddress: macAddress, name: name },
                     isUseHandling: true,
                     success: function (d) {
                         if (d.result == $.lumos.resultType.success) {
@@ -60,7 +60,7 @@
     <table class="f-tb" cellpadding="0" cellspacing="1" style="width:100%">
         <tr>
             <td class="f-tb-t"><span class="required-symbol">*</span>设备ID：</td>
-            <td class="f-tb-c"><input class="input-control" type="text" id="txt_DeviceId" style="width: 150px;" autocomplete="off" /></td>
+            <td class="f-tb-c"><input class="input-control" type="text" id="txt_Id" style="width: 150px;" autocomplete="off" /></td>
             <td class="f-tb-t"><span class="required-symbol">*</span>Mac地址：</td>
             <td class="f-tb-c"><input class="input-control" type="text" id="txt_MacAddress" style="width: 150px;" autocomplete="off" /></td>
         </tr>

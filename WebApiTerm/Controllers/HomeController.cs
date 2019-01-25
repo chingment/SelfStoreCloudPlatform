@@ -111,10 +111,10 @@ namespace WebApiTerm.Controllers
 
 
 
-        public string MachineApiConfig(string deviceId)
+        public string MachineApiConfig(string machineId)
         {
             Dictionary<string, string> parames = new Dictionary<string, string>();
-            parames.Add("machineId", deviceId.ToString());
+            parames.Add("machineId", machineId.ToString());
             string signStr = Signature.Compute(key, secret, timespan, Signature.GetQueryData(parames));
 
             Dictionary<string, string> headers = new Dictionary<string, string>();
@@ -122,7 +122,7 @@ namespace WebApiTerm.Controllers
             headers.Add("timestamp", timespan.ToString());
             headers.Add("sign", signStr);
             HttpUtil http = new HttpUtil();
-            string result = http.HttpGet("" + host + "/api/Machine/ApiConfig?machineId=" + deviceId, headers);
+            string result = http.HttpGet("" + host + "/api/Machine/ApiConfig?machineId=" + machineId, headers);
 
             return result;
 

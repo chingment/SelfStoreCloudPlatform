@@ -10,7 +10,6 @@ namespace Lumos.BLL.Service.Admin
     {
         private string _Id = "";
         private string _name = "";
-        private string _deviceId = "";
         private string _macAddress = "";
         private bool _isBindMerchant = false;
 
@@ -41,18 +40,6 @@ namespace Lumos.BLL.Service.Admin
             set
             {
                 _name = value;
-            }
-        }
-        public string DeviceId
-        {
-            get
-            {
-
-                return _deviceId;
-            }
-            set
-            {
-                _deviceId = value;
             }
         }
         public string MacAddress

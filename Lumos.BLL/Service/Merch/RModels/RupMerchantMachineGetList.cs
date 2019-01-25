@@ -8,7 +8,7 @@ namespace Lumos.BLL.Service.Merch
 {
     public class RupMerchantMachineGetList : RupBaseGetList
     {
-        public string DeviceId { get; set; }
+        public string MachineId { get; set; }
 
         public string MerchantId { get; set; }
     }

@@ -21,6 +21,7 @@
                 l_StrRows += "<tr>";
                 l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
                 l_StrRows += "<td class=\"overflow tipitem\" title=\"" + p_row.userName + "\"   >" + p_row.userName + "</td>";
+                l_StrRows += "<td class=\"overflow\" title=\"" + p_row.simpleCode + "\"   >" + p_row.simpleCode + "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.name + "\"   >" + p_row.name + "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.contactName + "\">" + p_row.contactName + "</td>";
                 l_StrRows += "<td class=\"overflow\" title=\"" + p_row.contactPhone + "\">" + p_row.contactPhone + "</td>";
@@ -94,25 +95,28 @@
             <table id="list_table" class="list-tb" cellpadding="0" cellspacing="0">
                 <thead>
                     <tr>
-                        <th style="width:5%" class="no">
+                        <th style="width:50px" class="no">
                             序号
                         </th>
                         <th style="width:20%">
                             账号
                         </th>
                         <th style="width:20%">
-                            商户名称
+                            商户代码
                         </th>
                         <th style="width:20%">
+                            商户名称
+                        </th>
+                        <th style="width:10%">
                             联系人
                         </th>
                         <th style="width:10%">
                             联系电话
                         </th>
-                        <th style="width:15%">
+                        <th style="width:20%">
                             创建时间
                         </th>
-                        <th style="width:5%" class="operation">
+                        <th style="width:50px" class="operation">
                             操作
                         </th>
                     </tr>
@@ -120,7 +124,7 @@
                 <tbody></tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="7">
+                        <td colspan="8">
                             <div class="pull-left">
                                 <span class="load-tip"></span>
                             </div>
@@ -142,5 +146,5 @@
         </div>
     </form>
 
-    </div>
+</div>
 
