@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.AppTerm
 {
-    public class RopMachineLogin
+    public class RetMachineLogin
     {
-        public string MachineId { get; set; }
+        public string UserId { get; set; }
+
         public string UserName { get; set; }
-        public string Password { get; set; }
+
+        public string FullName { get; set; }
     }
 }

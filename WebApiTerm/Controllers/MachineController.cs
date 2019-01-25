@@ -30,10 +30,11 @@ namespace WebApiTerm.Controllers
             return new OwnApiHttpResponse(result);
         }
 
+
         [HttpGet]
-        public OwnApiHttpResponse LoginResultQuery(RupMachineLoginResultQuery rup)
+        public OwnApiHttpResponse Login(RopMachineLogin rop)
         {
-            IResult result = TermServiceFactory.Machine.LoginResultQuery(rup);
+            IResult result = TermServiceFactory.Machine.Login(rop);
             return new OwnApiHttpResponse(result);
         }
 

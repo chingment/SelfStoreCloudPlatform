@@ -174,7 +174,6 @@
     <Compile Include="Controllers\ProductKindController.cs" />
     <Compile Include="Controllers\ProductSkuController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
-    <Compile Include="Controllers\ReplenishStaffController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\WarehouseController.cs" />
     <Compile Include="Global.asax.cs">
@@ -227,8 +226,6 @@
     <Content Include="Views\ProductSubject\List.cshtml" />
     <Content Include="Views\Order\Details.cshtml" />
     <Content Include="Views\Order\List.cshtml" />
-    <Content Include="Views\ReplenishStaff\List.cshtml" />
-    <Content Include="Views\ReplenishStaff\Add.cshtml" />
     <Content Include="Views\Order2StockOut\Add.cshtml" />
     <Content Include="Views\Order2StockOut\Details.cshtml" />
     <Content Include="Views\Order2StockOut\List.cshtml" />

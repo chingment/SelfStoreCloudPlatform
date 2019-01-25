@@ -1,5 +1,6 @@
 ﻿using Lumos.BLL.Biz;
 using Lumos.BLL.Service.AppMobile;
+using Lumos.DAL;
 using Lumos.Entity;
 using Lumos.Redis;
 using System;
@@ -175,44 +176,45 @@ namespace Lumos.BLL.Service.AppTerm
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "更新成功");
         }
 
-        public CustomJsonResult LoginResultQuery(RupMachineLoginResultQuery rup)
-        {
-            var key = string.Format("machineLoginResult:{0}", rup.Token);
-
-            var redis = new RedisClient<string>();
-            var token = redis.KGetString(key);
-
-            if (token == null)
-                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "登录失败");
 
 
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "登录成功");
-        }
-
-        public CustomJsonResult LoginByQrCode(RopMachineLoginByQrCode rop)
+        public CustomJsonResult Login(RopMachineLogin rop)
         {
 
-            var ret = new RetOperateResult();
+            var machine = CurrentDb.Machine.Where(m => m.Id == rop.MachineId).FirstOrDefault();
 
-            var key = string.Format("machineLoginResult:{0}", rop.Token.ToLower());
-            var redis = new RedisClient<string>();
-            var isFlag = redis.KSet(key, "true", new TimeSpan(0, 1, 0));
-            if (!isFlag)
+            if (machine == null)
             {
-                ret.Result = RetOperateResult.ResultType.Success;
-                ret.Remarks = "";
-                ret.Message = "登录失败";
-                ret.IsComplete = true;
-                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "登录失败", ret);
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "登录失败，该机器未登记");
             }
-            else
+
+            var sysMerchantUser = CurrentDb.SysMerchantUser.Where(m => m.UserName == rop.UserName).FirstOrDefault();
+
+            if (sysMerchantUser == null)
             {
-                ret.Result = RetOperateResult.ResultType.Success;
-                ret.Remarks = "";
-                ret.Message = "登录成功";
-                ret.IsComplete = true;
-                return new CustomJsonResult(ResultType.Success, ResultCode.Success, "登录成功", ret);
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "登录失败,用户名或密码错误");
             }
+
+            var isPasswordCorrect = PassWordHelper.VerifyHashedPassword(sysMerchantUser.PasswordHash, rop.Password);
+
+            if (!isPasswordCorrect)
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "登录失败,用户名或密码错误");
+            }
+
+            if (sysMerchantUser.MerchantId != machine.MerchantId)
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "帐号与商户不对应");
+            }
+
+            var ret = new RetMachineLogin();
+
+            ret.UserId = sysMerchantUser.Id;
+            ret.UserName = sysMerchantUser.UserName;
+            ret.FullName = sysMerchantUser.FullName;
+
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "登录成功", ret);
+
         }
     }
 }

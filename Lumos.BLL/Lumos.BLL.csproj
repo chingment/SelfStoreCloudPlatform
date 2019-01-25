@@ -193,6 +193,7 @@
     <Compile Include="Service\AppTerm\Models\BannerModel.cs" />
     <Compile Include="Service\AppTerm\RModels\RetGlobalDataSet.cs" />
     <Compile Include="Service\AppTerm\RModels\RetMachineApiConfig.cs" />
+    <Compile Include="Service\AppTerm\RModels\RetMachineLogin.cs" />
     <Compile Include="Service\AppTerm\RModels\RetOrderReserve.cs" />
     <Compile Include="Service\AppTerm\RModels\RetOrderPayResultQuery.cs" />
     <Compile Include="Service\AppTerm\RModels\RopMachineLogin.cs" />
@@ -280,6 +281,7 @@
     <Compile Include="Service\Merch\RModels\RopWarehouseEdit.cs" />
     <Compile Include="Service\Merch\RModels\RupMachineBannerGetList.cs" />
     <Compile Include="Service\Merch\RModels\RupMachineGetList.cs" />
+    <Compile Include="Service\Merch\RModels\RupMachineLogin.cs" />
     <Compile Include="Service\Merch\RModels\RupMachineLoginResultQuery.cs" />
     <Compile Include="Service\Merch\RModels\RupMachineStockGetList.cs" />
     <Compile Include="Service\Merch\RModels\RupMerchantGetList.cs" />
