@@ -18,14 +18,14 @@ namespace Lumos.BLL.Service.AppTerm
         {
             CustomJsonResult result = new CustomJsonResult();
 
-            var tk = GetTicketInfo(rup.Ticket);
+            var machine = CurrentDb.Machine.Where(m => m.Id == rup.MachineId).FirstOrDefault();
 
             Biz.RopOrderReserve bizRop = new Biz.RopOrderReserve();
             bizRop.Source = Enumeration.OrderSource.Machine;
-            bizRop.StoreId = tk.StoreId;
+            bizRop.StoreId = machine.StoreId;
             bizRop.PayTimeout = rop.PayTimeout;
             bizRop.ReserveMode = Enumeration.ReserveMode.OffLine;
-            bizRop.ChannelId = tk.MachineId;
+            bizRop.ChannelId = machine.Id;
             bizRop.ChannelType = Enumeration.ChannelType.Machine;
 
             foreach (var item in rop.Skus)
@@ -33,12 +33,12 @@ namespace Lumos.BLL.Service.AppTerm
                 bizRop.Skus.Add(new Biz.RopOrderReserve.Sku() { Id = item.Id, Quantity = item.Quantity, ReceptionMode = Enumeration.ReceptionMode.Machine });
             }
 
-            var bizResult = BizFactory.Order.Reserve(tk.MerchantId, bizRop);
+            var bizResult = BizFactory.Order.Reserve(machine.MerchantId, bizRop);
 
             if (bizResult.Result == ResultType.Success)
             {
                 RetOrderReserve ret = new RetOrderReserve();
-                ret.OrderSn = bizResult.Data.OrderSn;
+                ret.OrderId = bizResult.Data.OrderId;
                 ret.PayUrl = string.Format("http://mobile.17fanju.com/Order/Confirm?soure=machine&orderId=" + bizResult.Data.OrderId);
 
                 result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
@@ -78,14 +78,13 @@ namespace Lumos.BLL.Service.AppTerm
         {
             CustomJsonResult result = new CustomJsonResult();
 
-            var tk = GetTicketInfo(rup.Ticket);
 
-            result = BizFactory.Order.Cancle(tk.UserId, rop.OrderSn, rop.Reason);
+            result = BizFactory.Order.Cancle(GuidUtil.Empty(), rop.OrderId, rop.Reason);
 
             return result;
         }
 
-        public CustomJsonResult GetPickupList(string operater, RupOrderGetPickupList rup)
+        public CustomJsonResult PickupSkusList(string operater, RupOrderPickupSkusList rup)
         {
             CustomJsonResult result = new CustomJsonResult();
 
@@ -103,7 +102,7 @@ namespace Lumos.BLL.Service.AppTerm
             return result;
         }
 
-        public CustomJsonResult PickupStatusNotify(string operater, RopOrderPickupStatusNotify rop)
+        public CustomJsonResult PickupEventNotify(string operater, RopOrderPickupEventNotify rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 

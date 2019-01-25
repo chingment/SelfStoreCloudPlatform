@@ -8,7 +8,9 @@ namespace Lumos.BLL.Service.AppTerm
 {
     public class RetMachineApiConfig
     {
-        public string Ticket { get; set; }
+        public string MachineId { get; set; }
+        public string MachineName { get; set; }
+        public string MachineDeviceId { get; set; }
         public string MerchantName { get; set; }
         public string StoreName { get; set; }
         public string ApiHost { get; set; }

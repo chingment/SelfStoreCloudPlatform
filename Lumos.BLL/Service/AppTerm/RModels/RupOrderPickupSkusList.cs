@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.AppTerm
 {
-    public class RopOrderPickupStatusNotify
+    public class RupOrderPickupSkusList
     {
-        public string MerchantId { get; set; }
+        public string MachineId { get; set; }
+        public string OrderId { get; set; }
     }
 }

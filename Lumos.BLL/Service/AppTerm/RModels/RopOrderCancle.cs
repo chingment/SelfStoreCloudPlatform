@@ -8,9 +8,8 @@ namespace Lumos.BLL.Service.AppTerm
 {
     public class RopOrderCancle
     {
-        public string MerchantId { get; set; }
 
-        public string OrderSn { get; set; }
+        public string OrderId { get; set; }
 
         public string Reason { get; set; }
     }

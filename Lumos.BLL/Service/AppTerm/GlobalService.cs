@@ -14,21 +14,15 @@ namespace Lumos.BLL.Service.AppTerm
 
             var ret = new RetGlobalDataSet();
 
-            var tk = GetTicketInfo(rup.Ticket);
-
-            var machine = CurrentDb.Machine.Where(m => m.MerchantId == tk.MerchantId && m.StoreId == tk.StoreId && m.Id == tk.MachineId).FirstOrDefault();
-
-            if (machine == null)
-            {
-                return new CustomJsonResult(ResultType.Failure, "设备未绑定商户");
-            }
+            var machine = CurrentDb.Machine.Where(m => m.Id == rup.MachineId).FirstOrDefault();
 
             ret.LogoImgUrl = machine.LogoImgUrl;
             ret.BtnBuyImgUrl = machine.BtnBuyImgUrl;
             ret.BtnPickImgUrl = machine.BtnPickImgUrl;
-            ret.Banners = TermServiceFactory.Machine.GetBanners(tk.UserId, tk.MerchantId, tk.StoreId, tk.MachineId);
-            ret.ProductKinds = TermServiceFactory.ProductKind.GetKinds(tk.UserId, tk.MerchantId, tk.StoreId, tk.MachineId);
-            ret.ProductSkus = TermServiceFactory.Machine.GetProductSkus(tk.UserId, tk.MerchantId, tk.StoreId, tk.MachineId);
+
+            ret.Banners = TermServiceFactory.Machine.GetBanners(machine.MerchantId, machine.MerchantId, machine.StoreId, machine.Id);
+            ret.ProductKinds = TermServiceFactory.ProductKind.GetKinds(machine.MerchantId, machine.MerchantId, machine.StoreId, machine.Id);
+            ret.ProductSkus = TermServiceFactory.Machine.GetProductSkus(machine.MerchantId, machine.MerchantId, machine.StoreId, machine.Id);
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }

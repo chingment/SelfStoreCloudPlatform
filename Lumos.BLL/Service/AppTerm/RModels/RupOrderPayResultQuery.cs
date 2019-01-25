@@ -8,7 +8,7 @@ namespace Lumos.BLL.Service.AppTerm
 {
     public class RupOrderPayResultQuery
     {
-        public string Ticket { get; set; }
-        public string OrderSn { get; set; }
+        public string MachineId { get; set; }
+        public string OrderId { get; set; }
     }
 }

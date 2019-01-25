@@ -14,7 +14,7 @@ namespace Lumos.BLL.Service.AppTerm
 
         }
 
-        public string OrderSn { get; set; }
+        public string OrderId { get; set; }
         public string PayUrl { get; set; }
 
     }

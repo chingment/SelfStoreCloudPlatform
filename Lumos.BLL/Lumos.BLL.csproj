@@ -198,7 +198,7 @@
     <Compile Include="Service\AppTerm\RModels\RopMachineLogin.cs" />
     <Compile Include="Service\AppTerm\RModels\RopMachineUpdateInfo.cs" />
     <Compile Include="Service\AppTerm\RModels\RopOrderCancle.cs" />
-    <Compile Include="Service\AppTerm\RModels\RopOrderPickupStatusNotify.cs" />
+    <Compile Include="Service\AppTerm\RModels\RopOrderPickupEventNotify.cs" />
     <Compile Include="Service\AppTerm\RModels\RopOrderReserve.cs" />
     <Compile Include="Service\AppTerm\RModels\RopUserAuthorize.cs" />
     <Compile Include="Service\AppTerm\RModels\RupGlobalDataSet.cs" />
@@ -206,7 +206,7 @@
     <Compile Include="Service\AppTerm\RModels\RupMachineGetSlotSkuStock.cs" />
     <Compile Include="Service\AppTerm\RModels\RupMachineLoginResultQuery.cs" />
     <Compile Include="Service\AppTerm\RModels\RupOrderCancle.cs" />
-    <Compile Include="Service\AppTerm\RModels\RupOrderGetPickupList.cs" />
+    <Compile Include="Service\AppTerm\RModels\RupOrderPickupSkusList.cs" />
     <Compile Include="Service\AppTerm\RModels\RupOrderPayResultQuery.cs" />
     <Compile Include="Service\AppTerm\RModels\RupOrderPickupStatusQuery.cs" />
     <Compile Include="Service\AppTerm\RModels\RupOrderReserve.cs" />

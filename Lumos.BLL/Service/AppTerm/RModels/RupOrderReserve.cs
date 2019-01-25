@@ -8,6 +8,6 @@ namespace Lumos.BLL.Service.AppTerm
 {
     public class RupOrderReserve
     {
-        public string Ticket { get; set; }
+        public string MachineId { get; set; }
     }
 }

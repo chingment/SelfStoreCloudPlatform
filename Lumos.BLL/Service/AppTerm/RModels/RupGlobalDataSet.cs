@@ -8,7 +8,7 @@ namespace Lumos.BLL.Service.AppTerm
 {
     public class RupGlobalDataSet
     {
-        public string Ticket { get; set; }
+        public string MachineId { get; set; }
         public DateTime? Datetime { get; set; }
     }
 }
