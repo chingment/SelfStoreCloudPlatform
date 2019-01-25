@@ -84,7 +84,7 @@ namespace Lumos.BLL.Service.AppTerm
             return result;
         }
 
-        public CustomJsonResult PickupSkusList(string operater, RupOrderPickupSkusList rup)
+        public CustomJsonResult PickupSkusList(RupOrderPickupSkusList rup)
         {
             CustomJsonResult result = new CustomJsonResult();
 
@@ -93,7 +93,7 @@ namespace Lumos.BLL.Service.AppTerm
             return result;
         }
 
-        public CustomJsonResult PickupStatusQuery(string operater, RupOrderPickupStatusQuery rup)
+        public CustomJsonResult PickupStatusQuery(RupOrderPickupStatusQuery rup)
         {
             CustomJsonResult result = new CustomJsonResult();
 
@@ -102,7 +102,7 @@ namespace Lumos.BLL.Service.AppTerm
             return result;
         }
 
-        public CustomJsonResult PickupEventNotify(string operater, RopOrderPickupEventNotify rop)
+        public CustomJsonResult PickupEventNotify(RopOrderPickupEventNotify rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 

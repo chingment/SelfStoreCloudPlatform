@@ -22,7 +22,7 @@ namespace Lumos.BLL.Service.AppMobile
             bizRop.MachineId = rop.MachineId;
 
 
-            result = TermServiceFactory.Machine.LoginByQrCode(operater, bizRop);
+            result = TermServiceFactory.Machine.LoginByQrCode(bizRop);
 
             return result;
         }

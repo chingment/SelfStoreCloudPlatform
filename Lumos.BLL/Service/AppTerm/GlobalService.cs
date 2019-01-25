@@ -20,9 +20,9 @@ namespace Lumos.BLL.Service.AppTerm
             ret.BtnBuyImgUrl = machine.BtnBuyImgUrl;
             ret.BtnPickImgUrl = machine.BtnPickImgUrl;
 
-            ret.Banners = TermServiceFactory.Machine.GetBanners(machine.MerchantId, machine.MerchantId, machine.StoreId, machine.Id);
-            ret.ProductKinds = TermServiceFactory.ProductKind.GetKinds(machine.MerchantId, machine.MerchantId, machine.StoreId, machine.Id);
-            ret.ProductSkus = TermServiceFactory.Machine.GetProductSkus(machine.MerchantId, machine.MerchantId, machine.StoreId, machine.Id);
+            ret.Banners = TermServiceFactory.Machine.GetBanners(machine.MerchantId, machine.StoreId, machine.Id);
+            ret.ProductKinds = TermServiceFactory.ProductKind.GetKinds(machine.MerchantId, machine.StoreId, machine.Id);
+            ret.ProductSkus = TermServiceFactory.Machine.GetProductSkus(machine.MerchantId, machine.StoreId, machine.Id);
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }

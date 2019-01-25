@@ -18,7 +18,7 @@ namespace WebApiTerm.Controllers
         [HttpGet]
         public OwnApiHttpResponse GetSlotSkuStock([FromUri]RupMachineGetSlotSkuStock rup)
         {
-            IResult result = TermServiceFactory.Machine.GetSlotSkusStock(rup.MerchantId, rup.MerchantId, rup.MachineId);
+            IResult result = TermServiceFactory.Machine.GetSlotSkusStock(rup.MerchantId, rup.MachineId);
             return new OwnApiHttpResponse(result);
         }
 
@@ -26,14 +26,14 @@ namespace WebApiTerm.Controllers
         [HttpPost]
         public OwnApiHttpResponse UpdateInfo([FromBody]RopMachineUpdateInfo rop)
         {
-            IResult result = TermServiceFactory.Machine.UpdateInfo(GuidUtil.Empty(), rop);
+            IResult result = TermServiceFactory.Machine.UpdateInfo(rop);
             return new OwnApiHttpResponse(result);
         }
 
         [HttpGet]
         public OwnApiHttpResponse LoginResultQuery([FromUri]RupMachineLoginResultQuery rup)
         {
-            IResult result = TermServiceFactory.Machine.LoginResultQuery(GuidUtil.Empty(), rup);
+            IResult result = TermServiceFactory.Machine.LoginResultQuery(rup);
             return new OwnApiHttpResponse(result);
         }
 

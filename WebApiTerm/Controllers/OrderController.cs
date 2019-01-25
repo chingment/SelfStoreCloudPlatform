@@ -34,21 +34,21 @@ namespace WebApiTerm.Controllers
         [HttpGet]
         public OwnApiHttpResponse PickupSkusList([FromUri]RupOrderPickupSkusList rup)
         {
-            IResult result = TermServiceFactory.Order.PickupSkusList(rup.MachineId, rup);
+            IResult result = TermServiceFactory.Order.PickupSkusList(rup);
             return new OwnApiHttpResponse(result);
         }
 
         [HttpGet]
         public OwnApiHttpResponse PickupStatusQuery([FromUri]RupOrderPickupStatusQuery rup)
         {
-            IResult result = TermServiceFactory.Order.PickupStatusQuery(rup.MachineId, rup);
+            IResult result = TermServiceFactory.Order.PickupStatusQuery(rup);
             return new OwnApiHttpResponse(result);
         }
 
         [HttpPost]
         public OwnApiHttpResponse PickupEventNotify([FromBody]RopOrderPickupEventNotify rop)
         {
-            IResult result = TermServiceFactory.Order.PickupEventNotify(rop.MachineId, rop);
+            IResult result = TermServiceFactory.Order.PickupEventNotify(rop);
             return new OwnApiHttpResponse(result);
         }
     }

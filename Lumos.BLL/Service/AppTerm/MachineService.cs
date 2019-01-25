@@ -61,7 +61,7 @@ namespace Lumos.BLL.Service.AppTerm
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
 
-        public Dictionary<string, ProductSkuModel> GetProductSkus(string operater, string merchantId, string storeId, string machineId)
+        public Dictionary<string, ProductSkuModel> GetProductSkus(string merchantId, string storeId, string machineId)
         {
 
             var productSkuModels = new Dictionary<string, ProductSkuModel>();
@@ -99,7 +99,7 @@ namespace Lumos.BLL.Service.AppTerm
             return productSkuModels;
         }
 
-        public List<BannerModel> GetBanners(string operater, string merchantId, string storeId, string machineId)
+        public List<BannerModel> GetBanners(string merchantId, string storeId, string machineId)
         {
             var bannerModels = new List<BannerModel>();
 
@@ -113,7 +113,7 @@ namespace Lumos.BLL.Service.AppTerm
             return bannerModels;
         }
 
-        public CustomJsonResult GetSlotSkusStock(string operater, string merchantId, string machineId)
+        public CustomJsonResult GetSlotSkusStock(string merchantId, string machineId)
         {
             var slotProductSkuModels = new List<SlotProductSkuModel>();
 
@@ -144,7 +144,7 @@ namespace Lumos.BLL.Service.AppTerm
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", slotProductSkuModels);
         }
 
-        public CustomJsonResult UpdateInfo(string operater, RopMachineUpdateInfo rop)
+        public CustomJsonResult UpdateInfo(RopMachineUpdateInfo rop)
         {
             var result = new CustomJsonResult();
 
@@ -170,15 +170,13 @@ namespace Lumos.BLL.Service.AppTerm
                 machine.JPushRegId = rop.JPushRegId;
             }
 
-            machine.Mender = operater;
-            machine.MendTime = this.DateTime;
 
             CurrentDb.SaveChanges();
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "更新成功");
         }
 
-        public CustomJsonResult LoginResultQuery(string operater, RupMachineLoginResultQuery rup)
+        public CustomJsonResult LoginResultQuery(RupMachineLoginResultQuery rup)
         {
             var key = string.Format("machineLoginResult:{0}", rup.Token);
 
@@ -192,7 +190,7 @@ namespace Lumos.BLL.Service.AppTerm
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "登录成功");
         }
 
-        public CustomJsonResult LoginByQrCode(string operater, RopMachineLoginByQrCode rop)
+        public CustomJsonResult LoginByQrCode(RopMachineLoginByQrCode rop)
         {
 
             var ret = new RetOperateResult();
