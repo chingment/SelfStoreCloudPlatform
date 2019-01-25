@@ -179,7 +179,13 @@ namespace Lumos.Entity
             [Remark("管理端初级运营")]
             AdminJuniorOperators = 101,
             [Remark("商户端管理员职位")]
-            MerchantAdministrator = 200
+            MerchantAdministrator = 200,
+            [Remark("商户端运营主管")]
+            MerchantOM = 201,
+            [Remark("商户端运营人员")]
+            MerchantAM = 202,
+            [Remark("商户端补货员")]
+            MerchantRS = 203
         }
 
     }

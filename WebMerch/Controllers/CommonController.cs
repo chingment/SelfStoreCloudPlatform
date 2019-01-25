@@ -289,6 +289,15 @@ namespace WebMerch.Controllers
                     }
                     #endregion
                     break;
+                case "sysposition":
+                    #region sysposition
+                    var sysPositions = CurrentDb.SysPosition.Where(m => m.BelongSite == Enumeration.BelongSite.Merchant).ToList();
+                    foreach (var item in sysPositions)
+                    {
+                        fields.Add(new FieldModel(item.Name, ((int)item.Id).ToString()));
+                    }
+                    #endregion
+                    break;
 
             }
 
