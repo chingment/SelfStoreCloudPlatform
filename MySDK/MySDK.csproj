@@ -43,6 +43,9 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Jiguang.JPush">
+      <HintPath>..\packages\JPush\Jiguang.JPush.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\log4net465\log4net.dll</HintPath>
@@ -70,10 +73,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AliCloudApiUtils.cs" />
-    <Compile Include="AliyunSingleSendSmsUtils.cs" />
+    <Compile Include="PushService\IPushService.cs" />
+    <Compile Include="PushService\JPushService.cs" />
+    <Compile Include="PushService\PushServiceUtils.cs" />
+    <Compile Include="Sms\AliCloudApiUtils.cs" />
+    <Compile Include="Sms\AliyunSingleSendSmsUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SmsHelper.cs" />
+    <Compile Include="Sms\SmsHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lumos.Common\Lumos.Common.csproj">

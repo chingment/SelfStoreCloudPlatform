@@ -95,7 +95,7 @@
     <Compile Include="Biz\RModels\RopOrderReserve.cs" />
     <Compile Include="Biz\SmsProvider.cs" />
     <Compile Include="Biz\WxUserProvider.cs" />
-    <Compile Include="DataPush\DataPushUtil.cs" />
+    <Compile Include="PushService\DataPushUtil.cs" />
     <Compile Include="MchPermissionCode.cs" />
     <Compile Include="Service\Admin\AdminServiceFactory.cs" />
     <Compile Include="Service\Admin\Biz\MachineProvider.cs" />
@@ -343,7 +343,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="DataPush\Model\" />
+    <Folder Include="PushService\Model\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
