@@ -184,7 +184,7 @@ namespace Lumos.DAL.AuthorizeRelay
             return result;
         }
 
-        public CustomJsonResult ChangePassword(string operater, string userId, string oldpassword, string newpassword)
+        public CustomJsonResult ChangePassword(string operater, string userId, string oldpassword,string newpassword1, string newpassword2)
         {
 
             var sysUser = _db.SysUser.Where(m => m.Id == userId).FirstOrDefault();
@@ -196,7 +196,7 @@ namespace Lumos.DAL.AuthorizeRelay
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "旧密码不正确");
                 }
 
-                sysUser.PasswordHash = PassWordHelper.HashPassword(newpassword);
+                sysUser.PasswordHash = PassWordHelper.HashPassword(newpassword1);
                 sysUser.Mender = operater;
                 sysUser.MendTime = DateTime.Now;
 

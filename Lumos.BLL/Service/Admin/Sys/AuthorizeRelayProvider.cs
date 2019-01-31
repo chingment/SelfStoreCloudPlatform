@@ -74,9 +74,9 @@ namespace Lumos.BLL.Service.Admin
         }
 
 
-        public CustomJsonResult ChangePassword(string operater, string userId, string oldpassword, string newpassword)
+        public CustomJsonResult ChangePassword(string operater, string userId, string oldpassword,string newpassword1, string newpassword2)
         {
-            return _authorizeRelay.ChangePassword(operater, userId, oldpassword, newpassword);
+            return _authorizeRelay.ChangePassword(operater, userId, oldpassword, newpassword1, newpassword2);
         }
 
         public List<SysPermission> GetPermissionList(Type type)
