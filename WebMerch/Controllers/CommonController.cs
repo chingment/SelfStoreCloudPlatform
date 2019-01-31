@@ -173,7 +173,7 @@ namespace WebMerch.Controllers
             {
                 case "warehouse":
                     #region warehouse
-                    var warehouses = CurrentDb.Warehouse.Where(m => m.MerchantId == this.CurrentMerchantId).ToList();
+                    var warehouses = CurrentDb.ImsWarehouse.Where(m => m.MerchantId == this.CurrentMerchantId).ToList();
 
                     foreach (var item in warehouses)
                     {

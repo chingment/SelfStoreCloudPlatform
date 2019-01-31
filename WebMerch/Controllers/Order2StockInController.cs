@@ -41,7 +41,7 @@ namespace WebMerch.Controllers
                 sn = rup.Sn.ToSearchString();
             }
 
-            var query = (from u in CurrentDb.Order2StockIn
+            var query = (from u in CurrentDb.ImsOrder2StockIn
                          where (sn.Length == 0 || u.Sn.Contains(sn))
                          &&
                          u.MerchantId == this.CurrentMerchantId

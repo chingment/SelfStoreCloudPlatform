@@ -15,7 +15,7 @@ namespace Lumos.BLL.Service.Merch
             var ret = new RetOrder2StockInGetDetails();
 
 
-            var order2StockIn = CurrentDb.Order2StockIn.Where(m => m.Id == id).FirstOrDefault();
+            var order2StockIn = CurrentDb.ImsOrder2StockIn.Where(m => m.Id == id).FirstOrDefault();
 
             if (order2StockIn != null)
             {
@@ -28,7 +28,7 @@ namespace Lumos.BLL.Service.Merch
                 ret.Amount = order2StockIn.Amount;
                 ret.Quantity = order2StockIn.Quantity;
 
-                var order2StockInDetails = CurrentDb.Order2StockInDetails.Where(m => m.Order2StockInId == order2StockIn.Id).ToList();
+                var order2StockInDetails = CurrentDb.ImsOrder2StockInDetails.Where(m => m.Order2StockInId == order2StockIn.Id).ToList();
 
                 foreach (var item in order2StockInDetails)
                 {
@@ -46,10 +46,10 @@ namespace Lumos.BLL.Service.Merch
 
             using (TransactionScope ts = new TransactionScope())
             {
-                var warehouse = CurrentDb.Warehouse.Where(m => m.Id == rop.WarehouseId).FirstOrDefault();
+                var warehouse = CurrentDb.ImsWarehouse.Where(m => m.Id == rop.WarehouseId).FirstOrDefault();
                 var supplier = CurrentDb.Company.Where(m => m.Id == rop.SupplierId).FirstOrDefault();
 
-                var order2StockIn = new Order2StockIn();
+                var order2StockIn = new ImsOrder2StockIn();
                 order2StockIn.Id = GuidUtil.New();
                 order2StockIn.MerchantId = merchantId;
                 order2StockIn.Sn = SnUtil.Build(Enumeration.BizSnType.Order2StockIn, order2StockIn.MerchantId);
@@ -63,14 +63,14 @@ namespace Lumos.BLL.Service.Merch
                 order2StockIn.Description = rop.Description;
                 order2StockIn.Creator = operater;
                 order2StockIn.CreateTime = this.DateTime;
-                CurrentDb.Order2StockIn.Add(order2StockIn);
+                CurrentDb.ImsOrder2StockIn.Add(order2StockIn);
                 CurrentDb.SaveChanges();
 
                 foreach (var sku in rop.Skus)
                 {
                     var productSKu = CurrentDb.ProductSku.Where(m => m.Id == sku.SkuId).FirstOrDefault();
 
-                    var order2StockInDetails = new Order2StockInDetails();
+                    var order2StockInDetails = new ImsOrder2StockInDetails();
                     order2StockInDetails.Id = GuidUtil.New();
                     order2StockInDetails.MerchantId = merchantId;
                     order2StockInDetails.Order2StockInId = order2StockIn.Id;
@@ -86,15 +86,15 @@ namespace Lumos.BLL.Service.Merch
                     order2StockInDetails.ProductSkuName = productSKu.Name;
                     order2StockInDetails.Quantity = sku.Quantity;
                     order2StockInDetails.Amount = sku.Amount;
-                    CurrentDb.Order2StockInDetails.Add(order2StockInDetails);
+                    CurrentDb.ImsOrder2StockInDetails.Add(order2StockInDetails);
                     CurrentDb.SaveChanges();
 
 
-                    var warehouseStock = CurrentDb.WarehouseStock.Where(m => m.MerchantId == merchantId && m.WarehouseId == order2StockIn.WarehouseId && m.ProductSkuId == sku.SkuId).FirstOrDefault();
+                    var warehouseStock = CurrentDb.ImsWarehouseStock.Where(m => m.MerchantId == merchantId && m.WarehouseId == order2StockIn.WarehouseId && m.ProductSkuId == sku.SkuId).FirstOrDefault();
 
                     if (warehouseStock == null)
                     {
-                        warehouseStock = new WarehouseStock();
+                        warehouseStock = new ImsWarehouseStock();
                         warehouseStock.Id = GuidUtil.New();
                         warehouseStock.MerchantId = order2StockInDetails.MerchantId;
                         warehouseStock.WarehouseId = order2StockInDetails.WarehouseId;
@@ -104,7 +104,7 @@ namespace Lumos.BLL.Service.Merch
                         warehouseStock.Quantity = order2StockInDetails.Quantity;
                         warehouseStock.CreateTime = order2StockInDetails.CreateTime;
                         warehouseStock.Creator = order2StockInDetails.Creator;
-                        CurrentDb.WarehouseStock.Add(warehouseStock);
+                        CurrentDb.ImsWarehouseStock.Add(warehouseStock);
                         CurrentDb.SaveChanges();
                     }
                     else
@@ -115,7 +115,7 @@ namespace Lumos.BLL.Service.Merch
                     }
 
 
-                    var warehouseStockLog = new WarehouseStockLog();
+                    var warehouseStockLog = new ImsWarehouseStockLog();
                     warehouseStockLog.Id = GuidUtil.New();
                     warehouseStockLog.MerchantId = order2StockInDetails.MerchantId;
                     warehouseStockLog.WarehouseId = order2StockInDetails.WarehouseId;
@@ -127,7 +127,7 @@ namespace Lumos.BLL.Service.Merch
                     warehouseStockLog.ChangeQuantity = order2StockInDetails.Quantity;
                     warehouseStockLog.CreateTime = order2StockInDetails.CreateTime;
                     warehouseStockLog.Creator = order2StockInDetails.Creator;
-                    CurrentDb.WarehouseStockLog.Add(warehouseStockLog);
+                    CurrentDb.ImsWarehouseStockLog.Add(warehouseStockLog);
                     CurrentDb.SaveChanges();
 
 

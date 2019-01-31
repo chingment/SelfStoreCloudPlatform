@@ -13,7 +13,7 @@ namespace Lumos.BLL.Service.Merch
         public CustomJsonResult GetDetails(string operater, string merchantId, string id)
         {
             var ret = new RetWarehouseGetDetails();
-            var warehouse = CurrentDb.Warehouse.Where(m => m.MerchantId == merchantId && m.Id == id).FirstOrDefault();
+            var warehouse = CurrentDb.ImsWarehouse.Where(m => m.MerchantId == merchantId && m.Id == id).FirstOrDefault();
             if (warehouse != null)
             {
                 ret.Id = warehouse.Id ?? "";
@@ -30,12 +30,12 @@ namespace Lumos.BLL.Service.Merch
             CustomJsonResult result = new CustomJsonResult();
             using (TransactionScope ts = new TransactionScope())
             {
-                var existObject = CurrentDb.Warehouse.Where(m => m.MerchantId == merchantId && m.Name == rop.Name).FirstOrDefault();
+                var existObject = CurrentDb.ImsWarehouse.Where(m => m.MerchantId == merchantId && m.Name == rop.Name).FirstOrDefault();
                 if (existObject != null)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "名称已存在,请使用其它");
                 }
-                var warehouse = new Warehouse();
+                var warehouse = new ImsWarehouse();
                 warehouse.Id = GuidUtil.New();
                 warehouse.MerchantId = merchantId;
                 warehouse.Name = rop.Name;
@@ -43,7 +43,7 @@ namespace Lumos.BLL.Service.Merch
                 warehouse.Description = rop.Description;
                 warehouse.CreateTime = this.DateTime;
                 warehouse.Creator = operater;
-                CurrentDb.Warehouse.Add(warehouse);
+                CurrentDb.ImsWarehouse.Add(warehouse);
                 CurrentDb.SaveChanges();
 
                 ts.Complete();
@@ -58,9 +58,9 @@ namespace Lumos.BLL.Service.Merch
             CustomJsonResult result = new CustomJsonResult();
             using (TransactionScope ts = new TransactionScope())
             {
-                var warehouse = CurrentDb.Warehouse.Where(m => m.Id == rop.Id && m.MerchantId == merchantId).FirstOrDefault();
+                var warehouse = CurrentDb.ImsWarehouse.Where(m => m.Id == rop.Id && m.MerchantId == merchantId).FirstOrDefault();
 
-                var isExistWarehouse = CurrentDb.Warehouse.Where(m => m.MerchantId == merchantId && m.Id != warehouse.Id && m.Name == rop.Name).FirstOrDefault();
+                var isExistWarehouse = CurrentDb.ImsWarehouse.Where(m => m.MerchantId == merchantId && m.Id != warehouse.Id && m.Name == rop.Name).FirstOrDefault();
                 if (isExistWarehouse != null)
                 {
                     return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "名称已存在,请使用其它");

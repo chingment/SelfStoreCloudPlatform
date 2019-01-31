@@ -35,19 +35,21 @@ namespace Lumos.DAL
         public IDbSet<StoreSellStock> StoreSellStock { get; set; }
         public IDbSet<StoreSellStockLog> StoreSellStockLog { get; set; }
         public IDbSet<Store> Store { get; set; }
-        public IDbSet<Warehouse> Warehouse { get; set; }
+   
         public IDbSet<Company> Company { get; set; }
-        public IDbSet<Order2StockIn> Order2StockIn { get; set; }
-        public IDbSet<Order2StockInDetails> Order2StockInDetails { get; set; }
-        public IDbSet<Order2StockOut> Order2StockOut { get; set; }
-        public IDbSet<Order2StockOutDetails> Order2StockOutDetails { get; set; }
+        public IDbSet<ImsOrder2StockIn> ImsOrder2StockIn { get; set; }
+        public IDbSet<ImsOrder2StockInDetails> ImsOrder2StockInDetails { get; set; }
+        public IDbSet<ImsOrder2StockOut> ImsOrder2StockOut { get; set; }
+        public IDbSet<ImsOrder2StockOutDetails> ImsOrder2StockOutDetails { get; set; }
+        public IDbSet<ImsWarehouseStock> ImsWarehouseStock { get; set; }
+        public IDbSet<ImsWarehouseStockLog> ImsWarehouseStockLog { get; set; }
+        public IDbSet<ImsWarehouse> ImsWarehouse { get; set; }
+
         public IDbSet<Order> Order { get; set; }
         public IDbSet<OrderDetails> OrderDetails { get; set; }
         public IDbSet<OrderDetailsChild> OrderDetailsChild { get; set; }
         public IDbSet<OrderDetailsChildSon> OrderDetailsChildSon { get; set; }
         public IDbSet<OrderNotifyLog> OrderNotifyLog { get; set; }
-        public IDbSet<WarehouseStock> WarehouseStock { get; set; }
-        public IDbSet<WarehouseStockLog> WarehouseStockLog { get; set; }
         public IDbSet<WxAutoReply> WxAutoReply { get; set; }
         public IDbSet<WxMsgPushLog> WxMsgPushLog { get; set; }
         public IDbSet<WxUserInfo> WxUserInfo { get; set; }

@@ -44,7 +44,7 @@ namespace WebMerch.Controllers
                 name = rup.Name.ToSearchString();
             }
 
-            var query = (from u in CurrentDb.Warehouse
+            var query = (from u in CurrentDb.ImsWarehouse
                          where (name.Length == 0 || u.Name.Contains(name))
                          &&
                          u.MerchantId == this.CurrentMerchantId
