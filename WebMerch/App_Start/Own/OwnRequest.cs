@@ -18,7 +18,7 @@ namespace WebMerch
         {
             var userInfo = GetUserInfo();
             if (userInfo == null)
-                return "0";
+                return "";
 
             return userInfo.UserId;
         }
@@ -27,7 +27,7 @@ namespace WebMerch
         {
             var userInfo = GetUserInfo();
             if (userInfo == null)
-                return "0";
+                return "";
 
             return userInfo.MerchantId;
         }

@@ -16,7 +16,7 @@ namespace WebMerch
             {
                 strPath = strUrl + strPath;
             }
-
+            
 
             return new MvcHtmlString("<script src=\"" + strPath + "\" type=\"text/javascript\"></script>");
         }
