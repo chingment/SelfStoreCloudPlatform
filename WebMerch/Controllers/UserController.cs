@@ -47,7 +47,7 @@ namespace WebMerch.Controllers
                          (rup.FullName == null || u.FullName.Contains(rup.FullName)) &&
                          u.IsDelete == false &&
                          u.IsCanDelete == true &&
-                         u.MerchantId == this.CurrentMerchantId
+                         u.MerchantId == this.CurrentMerchantId 
                          select new { u.Id, u.UserName, u.FullName, u.PositionId, u.Email, u.PhoneNumber, u.CreateTime, u.IsDelete, u.Status });
 
 

@@ -71,7 +71,6 @@ namespace WebSSO.Controllers
 
             string host = "";
             string returnUrl = "";
-            string merchantId = "";
             switch (result.User.BelongSite)
             {
                 case Enumeration.BelongSite.Admin:

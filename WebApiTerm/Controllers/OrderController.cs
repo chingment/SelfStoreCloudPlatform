@@ -14,7 +14,6 @@ namespace WebApiTerm.Controllers
         {
             IResult result = TermServiceFactory.Order.Reserve(rop);
             return new OwnApiHttpResponse(result);
-
         }
 
         [HttpGet]

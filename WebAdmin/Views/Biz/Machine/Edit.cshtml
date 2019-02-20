@@ -27,7 +27,7 @@
 
             art.dialog.confirm('确定要保存？', function () {
                 var name = $("#txt_Name").val();
-                var macAddress = $("#txy_MacAddress").val();
+                var macAddress = $("#txt_MacAddress").val();
                 $.lumos.postJson({
                     url: "/Biz/Machine/Edit",
                     data: { id: id, macAddress: macAddress, name: name },
