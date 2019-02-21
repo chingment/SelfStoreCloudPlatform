@@ -31,7 +31,7 @@ namespace WebApiTerm.Controllers
         }
 
 
-        [HttpGet]
+        [HttpPost]
         public OwnApiHttpResponse Login(RopMachineLogin rop)
         {
             IResult result = TermServiceFactory.Machine.Login(rop);

@@ -97,10 +97,10 @@ namespace WebApiTerm.Controllers
             //host = "http://demo.api.term.17fanju.com";
 
             string machineId = "000000000000000";
-            model.Add("获取机器接口配置信息", MachineApiConfig(machineId));
-            model.Add("获取全局数据", GlobalDataSet(machineId, DateTime.Now));
-            model.Add("预定商品", OrderReserve(machineId));
-
+            //model.Add("获取机器接口配置信息", MachineApiConfig(machineId));
+            //model.Add("获取全局数据", GlobalDataSet(machineId, DateTime.Now));
+            //model.Add("预定商品", OrderReserve(machineId));
+            model.Add("登陆机器", MachineLogin(machineId,"a","b"));
 
             //HttpUtil http = new HttpUtil();
 
@@ -168,6 +168,31 @@ namespace WebApiTerm.Controllers
 
             HttpUtil http = new HttpUtil();
             string respon_data4 = http.HttpPostJson("" + host + "/api/Order/Reserve", a1, headers1);
+
+            return respon_data4;
+
+        }
+
+        public string MachineLogin(string machineId,string userName,string password)
+        {
+
+            RopMachineLogin pms = new RopMachineLogin();
+            pms.MachineId = machineId;
+            pms.UserName = userName;
+            pms.Password=password;
+
+
+            string a1 = JsonConvert.SerializeObject(pms);
+
+            string signStr = Signature.Compute(key, secret, timespan, a1);
+
+            Dictionary<string, string> headers1 = new Dictionary<string, string>();
+            headers1.Add("key", key);
+            headers1.Add("timestamp", (timespan.ToString()).ToString());
+            headers1.Add("sign", signStr);
+
+            HttpUtil http = new HttpUtil();
+            string respon_data4 = http.HttpPostJson("" + host + "/api/Machine/Login", a1, headers1);
 
             return respon_data4;
 
