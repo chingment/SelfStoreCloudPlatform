@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.AppTerm
 {
-    public class RetGlobalDataSet
+    public class RetMachineInitData
     {
-        public RetGlobalDataSet()
+        public RetMachineInitData()
         {
             this.Machine = new MachineModel();
             this.Banners = new List<BannerModel>();

@@ -10,6 +10,12 @@ namespace WebApiTerm.Controllers
     [OwnApiAuthorize]
     public class MachineController : OwnApiBaseController
     {
+        [HttpGet]
+        public OwnApiHttpResponse InitData([FromUri]RupMachineInitData rup)
+        {
+            IResult result = TermServiceFactory.Machine.InitData(rup);
+            return new OwnApiHttpResponse(result);
+        }
 
         [HttpGet]
         public OwnApiHttpResponse GetSlotSkuStock(RupMachineGetSlotSkuStock rup)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.AppTerm
 {
-    public class RupGlobalDataSet
+    public class RupMachineInitData
     {
         public string MachineId { get; set; }
         public DateTime? Datetime { get; set; }

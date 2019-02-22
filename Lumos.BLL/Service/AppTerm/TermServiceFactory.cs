@@ -31,13 +31,5 @@ namespace Lumos.BLL.Service.AppTerm
                 return new ProductKindService();
             }
         }
-
-        public static GlobalService Global
-        {
-            get
-            {
-                return new GlobalService();
-            }
-        }
     }
 }
