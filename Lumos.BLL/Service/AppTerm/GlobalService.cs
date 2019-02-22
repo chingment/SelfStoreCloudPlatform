@@ -16,10 +16,42 @@ namespace Lumos.BLL.Service.AppTerm
 
             var machine = CurrentDb.Machine.Where(m => m.Id == rup.MachineId).FirstOrDefault();
 
-            ret.LogoImgUrl = machine.LogoImgUrl;
-            ret.BtnBuyImgUrl = machine.BtnBuyImgUrl;
-            ret.BtnPickImgUrl = machine.BtnPickImgUrl;
+            if (machine == null)
+            {
+                return new CustomJsonResult(ResultType.Failure, "设备未入库登记");
+            }
 
+            if (string.IsNullOrEmpty(machine.MerchantId))
+            {
+                return new CustomJsonResult(ResultType.Failure, "未绑定商户");
+            }
+
+            var merchant = CurrentDb.Merchant.Where(m => m.Id == machine.MerchantId).FirstOrDefault();
+
+            if (merchant == null)
+            {
+                return new CustomJsonResult(ResultType.Failure, "商户不存在");
+            }
+
+            if (string.IsNullOrEmpty(machine.StoreId))
+            {
+                return new CustomJsonResult(ResultType.Failure, "未绑定店铺");
+            }
+
+            var store = CurrentDb.Store.Where(m => m.Id == machine.StoreId).FirstOrDefault();
+
+            if (store == null)
+            {
+                return new CustomJsonResult(ResultType.Failure, "店铺不存在");
+            }
+
+            ret.Machine.Id = machine.Id;
+            ret.Machine.Name = machine.Name;
+            ret.Machine.MerchantName = merchant.Name;
+            ret.Machine.StoreName = store.Name;
+            ret.Machine.PayTimeout = merchant.PayTimeout;
+            ret.Machine.LogoImgUrl = machine.LogoImgUrl;
+      
             ret.Banners = TermServiceFactory.Machine.GetBanners(machine.MerchantId, machine.StoreId, machine.Id);
             ret.ProductKinds = TermServiceFactory.ProductKind.GetKinds(machine.MerchantId, machine.StoreId, machine.Id);
             ret.ProductSkus = TermServiceFactory.Machine.GetProductSkus(machine.MerchantId, machine.StoreId, machine.Id);

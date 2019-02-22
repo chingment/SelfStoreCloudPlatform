@@ -13,54 +13,6 @@ namespace Lumos.BLL.Service.AppTerm
 {
     public class MachineService : BaseService
     {
-        public CustomJsonResult ApiConfig(RupMachineApiConfig rup)
-        {
-            CustomJsonResult result = new CustomJsonResult();
-
-            var machine = CurrentDb.Machine.Where(m => m.Id == rup.MachineId).FirstOrDefault();
-
-            if (machine == null)
-            {
-                return new CustomJsonResult(ResultType.Failure, "设备未入库登记");
-            }
-
-            if (string.IsNullOrEmpty(machine.MerchantId))
-            {
-                return new CustomJsonResult(ResultType.Failure, "未绑定商户");
-            }
-
-            var merchant = CurrentDb.Merchant.Where(m => m.Id == machine.MerchantId).FirstOrDefault();
-
-            if (merchant == null)
-            {
-                return new CustomJsonResult(ResultType.Failure, "商户不存在");
-            }
-
-            if (string.IsNullOrEmpty(machine.StoreId))
-            {
-                return new CustomJsonResult(ResultType.Failure, "未绑定店铺");
-            }
-
-            var store = CurrentDb.Store.Where(m => m.Id == machine.StoreId).FirstOrDefault();
-
-            if (store == null)
-            {
-                return new CustomJsonResult(ResultType.Failure, "店铺不存在");
-            }
-
-            var ret = new RetMachineApiConfig();
-            ret.MachineId = machine.Id;
-            ret.MachineName = machine.Name;
-            ret.MerchantName = merchant.Name;
-            ret.StoreName = store.Name;
-            ret.ApiHost = merchant.ApiHost;
-            ret.ApiKey = merchant.ApiKey;
-            ret.ApiSecret = merchant.ApiSecret;
-            ret.PayTimeout = merchant.PayTimeout;
-
-            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
-        }
-
         public Dictionary<string, ProductSkuModel> GetProductSkus(string merchantId, string storeId, string machineId)
         {
 

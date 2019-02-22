@@ -183,6 +183,7 @@
     <Compile Include="Service\AppMobile\UserDeliveryAddressService.cs" />
     <Compile Include="Service\AppTerm\BaseService.cs" />
     <Compile Include="Service\AppTerm\GlobalService.cs" />
+    <Compile Include="Service\AppTerm\Models\MachineModel.cs" />
     <Compile Include="Service\AppTerm\Models\ProductChildKindModel.cs" />
     <Compile Include="Service\AppTerm\Models\ProductParentKindModel.cs" />
     <Compile Include="Service\AppTerm\Models\ProductSkuModel.cs" />
@@ -192,7 +193,6 @@
     <Compile Include="Service\AppTerm\MachineService.cs" />
     <Compile Include="Service\AppTerm\Models\BannerModel.cs" />
     <Compile Include="Service\AppTerm\RModels\RetGlobalDataSet.cs" />
-    <Compile Include="Service\AppTerm\RModels\RetMachineApiConfig.cs" />
     <Compile Include="Service\AppTerm\RModels\RetMachineLogin.cs" />
     <Compile Include="Service\AppTerm\RModels\RetOrderReserve.cs" />
     <Compile Include="Service\AppTerm\RModels\RetOrderPayResultQuery.cs" />
@@ -203,7 +203,6 @@
     <Compile Include="Service\AppTerm\RModels\RopOrderReserve.cs" />
     <Compile Include="Service\AppTerm\RModels\RopUserAuthorize.cs" />
     <Compile Include="Service\AppTerm\RModels\RupGlobalDataSet.cs" />
-    <Compile Include="Service\AppTerm\RModels\RupMachineApiConfig.cs" />
     <Compile Include="Service\AppTerm\RModels\RupMachineGetSlotSkuStock.cs" />
     <Compile Include="Service\AppTerm\RModels\RupMachineLoginResultQuery.cs" />
     <Compile Include="Service\AppTerm\RModels\RupOrderCancle.cs" />
