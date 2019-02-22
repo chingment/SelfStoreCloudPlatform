@@ -100,11 +100,11 @@ namespace WebApiTerm.Controllers
             //model.Add("获取机器接口配置信息", MachineApiConfig(machineId));
             //model.Add("获取全局数据", GlobalDataSet(machineId, DateTime.Now));
             //model.Add("预定商品", OrderReserve(machineId));
-            model.Add("登陆机器", MachineLogin(machineId,"a","b"));
+            //model.Add("登陆机器", MachineLogin(machineId,"a","b"));
 
-            //HttpUtil http = new HttpUtil();
+            HttpUtil http = new HttpUtil();
 
-            //http.HttpUploadFile(host+ "/Api/Global/PostFile", "d:\\a.txt");
+            http.HttpUploadFile(host+ "/Api/Machine/UpLoadLog", "d:\\a.txt");
 
             return View(model);
         }
@@ -192,7 +192,7 @@ namespace WebApiTerm.Controllers
             headers1.Add("sign", signStr);
 
             HttpUtil http = new HttpUtil();
-            string respon_data4 = http.HttpPostJson("" + host + "/api/Machine/Login", a1, headers1);
+            string respon_data4 = http.HttpPostJson("" + host + "/api/Machine/UploadLog", a1, headers1);
 
             return respon_data4;
 

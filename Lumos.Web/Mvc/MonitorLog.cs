@@ -82,7 +82,10 @@ namespace Lumos.Web.Mvc
 
             if (request.HttpMethod == "POST")
             {
-                sb.Append("PostData: " + GetPostData(request.InputStream) + Environment.NewLine);
+                if (request.ContentType.IndexOf("multipart/form-data") < 0)
+                {
+                    sb.Append("PostData: " + GetPostData(request.InputStream) + Environment.NewLine);
+                }
             }
 
             if (result != null)

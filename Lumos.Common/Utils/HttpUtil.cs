@@ -326,7 +326,7 @@ namespace Lumos.Common
                 for (int i = 0; i < files.Length; i++)
                 {
                     stream.Write(boundarybytes, 0, boundarybytes.Length);
-                    string header = string.Format(headerTemplate, "file" + i, Path.GetFileName(files[i]));
+                    string header = string.Format(headerTemplate, "logfile", Path.GetFileName(files[i]));
                     byte[] headerbytes = encoding.GetBytes(header);
                     stream.Write(headerbytes, 0, headerbytes.Length);
                     using (FileStream fileStream = new FileStream(files[i], FileMode.Open, FileAccess.Read))
