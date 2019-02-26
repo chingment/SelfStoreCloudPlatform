@@ -14,7 +14,7 @@ namespace Lumos.BLL.Service.AppTerm
             var productKindModels = new List<ProductKindModel>();
 
             var productKinds = CurrentDb.ProductKind.Where(m => m.MerchantId == merchantId && m.Status == Entity.Enumeration.ProductKindStatus.Valid && m.IsDelete == false).ToList();
-            var productSkuIds = CurrentDb.StoreSellStock.Where(m => m.MerchantId == merchantId && m.ChannelType == Entity.Enumeration.ChannelType.Machine && m.IsOffSell == false).Select(m => m.ProductSkuId).ToArray();
+            var productSkuIds = CurrentDb.StoreSellStock.Where(m => m.MerchantId == merchantId && m.ChannelId == machineId && m.IsOffSell == false).Select(m => m.ProductSkuId).ToArray();
             var productSkus = CurrentDb.ProductSku.Where(m => productSkuIds.Contains(m.Id)).ToList();
 
             if (productKinds.Count > 0)
