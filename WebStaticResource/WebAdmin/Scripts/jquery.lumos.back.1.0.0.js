@@ -2120,7 +2120,7 @@
                         else {
                             toTree(data, topId, _selectedValue);
                         }
-                        console.log(html)
+                     
                         $(_this).html("");
                         var placeholder = $(_this).attr("data-placeholder");
 
