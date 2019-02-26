@@ -19,6 +19,7 @@ namespace Lumos.Common
         public int MinLength { get; set; }
 
         public ExcelCellValueType ValueType { get; set; }
+
     }
 
     public enum ExcelCellValueType
@@ -93,7 +94,7 @@ namespace Lumos.Common
 
         public void AddCheckCellIsString(int index, string title, int minLen, int maxLen)
         {
-            _checkCell.Add(new Common.CheckCell { Index = index, Title = title, MinLength = minLen, MaxLength = maxLen, ValueType = ExcelCellValueType.String });
+            _checkCell.Add(new Common.CheckCell { Index = index, Title = title, MinLength = minLen, MaxLength = maxLen, ValueType = ExcelCellValueType.String});
         }
 
 

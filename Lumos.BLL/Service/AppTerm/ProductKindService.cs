@@ -8,13 +8,13 @@ namespace Lumos.BLL.Service.AppTerm
 {
     public class ProductKindService : BaseService
     {
-        public List<ProductParentKindModel> GetKinds(string merchantId,string storeId, string machineId)
+        public List<ProductKindModel> GetKinds(string merchantId, string storeId, string machineId)
         {
 
-            var productKindModels = new List<ProductParentKindModel>();
+            var productKindModels = new List<ProductKindModel>();
 
             var productKinds = CurrentDb.ProductKind.Where(m => m.MerchantId == merchantId && m.Status == Entity.Enumeration.ProductKindStatus.Valid && m.IsDelete == false).ToList();
-            var productSkuIds = CurrentDb.StoreSellStock.Where(m => m.MerchantId == merchantId && m.IsOffSell == false).Select(m => m.ProductSkuId).ToArray();
+            var productSkuIds = CurrentDb.StoreSellStock.Where(m => m.MerchantId == merchantId && m.ChannelType == Entity.Enumeration.ChannelType.Machine && m.IsOffSell == false).Select(m => m.ProductSkuId).ToArray();
             var productSkus = CurrentDb.ProductSku.Where(m => productSkuIds.Contains(m.Id)).ToList();
 
             if (productKinds.Count > 0)
@@ -23,12 +23,12 @@ namespace Lumos.BLL.Service.AppTerm
 
                 if (productTopKind != null)
                 {
-                    
+
                     var productParentKinds = productKinds.Where(m => m.PId == productTopKind.Id).ToList();
 
                     foreach (var productParentKind in productParentKinds)
                     {
-                        var productParentKindModel = new ProductParentKindModel();
+                        var productParentKindModel = new ProductKindModel();
                         productParentKindModel.Id = productParentKind.Id;
                         productParentKindModel.Name = productParentKind.Name;
 
@@ -41,7 +41,13 @@ namespace Lumos.BLL.Service.AppTerm
                                 var l_productSkuIds = CurrentDb.ProductKindSku.Where(m => m.ProductKindId == productChildKind.Id).Select(m => m.ProductSkuId).ToList();
                                 if (l_productSkuIds.Count > 0)
                                 {
-                                    productParentKindModel.Childs.AddRange(l_productSkuIds);
+                                    foreach (var l_productSkuId in l_productSkuIds)
+                                    {
+                                        if (!productParentKindModel.Childs.Contains(l_productSkuId))
+                                        {
+                                            productParentKindModel.Childs.Add(l_productSkuId);
+                                        }
+                                    }
                                 }
                             }
                         }

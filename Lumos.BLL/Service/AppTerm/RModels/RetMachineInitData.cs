@@ -13,12 +13,12 @@ namespace Lumos.BLL.Service.AppTerm
             this.Machine = new MachineModel();
             this.Banners = new List<BannerModel>();
             this.ProductSkus = new Dictionary<string, ProductSkuModel>();
-            this.ProductKinds = new List<ProductParentKindModel>();
+            this.ProductKinds = new List<ProductKindModel>();
         }
         public MachineModel Machine { get; set; }
 
         public List<BannerModel> Banners { get; set; }
         public Dictionary<string, ProductSkuModel> ProductSkus { get; set; }
-        public List<ProductParentKindModel> ProductKinds { get; set; }
+        public List<ProductKindModel> ProductKinds { get; set; }
     }
 }

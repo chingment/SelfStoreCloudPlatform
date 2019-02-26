@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.AppTerm
 {
-    public class ProductChildKindModel
+    public class ProductKindModel
     {
-        public ProductChildKindModel()
+        public ProductKindModel()
         {
             this.Childs = new List<string>();
         }
@@ -18,5 +18,6 @@ namespace Lumos.BLL.Service.AppTerm
         public string Name { get; set; }
 
         public List<string> Childs { get; set; }
+
     }
 }

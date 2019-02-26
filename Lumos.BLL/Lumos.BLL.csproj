@@ -183,8 +183,7 @@
     <Compile Include="Service\AppMobile\UserDeliveryAddressService.cs" />
     <Compile Include="Service\AppTerm\BaseService.cs" />
     <Compile Include="Service\AppTerm\Models\MachineModel.cs" />
-    <Compile Include="Service\AppTerm\Models\ProductChildKindModel.cs" />
-    <Compile Include="Service\AppTerm\Models\ProductParentKindModel.cs" />
+    <Compile Include="Service\AppTerm\Models\ProductKindModel.cs" />
     <Compile Include="Service\AppTerm\Models\ProductSkuModel.cs" />
     <Compile Include="Service\AppTerm\Models\SlotProductSkuModel.cs" />
     <Compile Include="Service\AppTerm\OrderService.cs" />
