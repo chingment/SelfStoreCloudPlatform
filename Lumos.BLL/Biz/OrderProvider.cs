@@ -347,7 +347,7 @@ namespace Lumos.BLL.Biz
                 //var ret_UnifiedOrder = SdkFactory.Wx.Instance().UnifiedOrder(operater, order.Sn, order.ChargeAmount, "", Common.CommonUtils.GetIP(), "自助商品", order.PayExpireTime.Value);
 
                 //if (string.IsNullOrEmpty(ret_UnifiedOrder.CodeUrl))
-                //{
+                //{ 
                 //    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "支付二维码生成失败");
                 //}
 
@@ -558,9 +558,6 @@ namespace Lumos.BLL.Biz
 
                 details.Add(detail);
             }
-
-
-
 
             return details;
         }

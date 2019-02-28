@@ -17,10 +17,10 @@ namespace WebApiTerm.Controllers
         }
 
         [HttpGet]
-        public OwnApiHttpResponse<RetOrderPayResultQuery> PayResultQuery([FromUri]RupOrderPayResultQuery rup)
+        public OwnApiHttpResponse<RetOrderPayStatusQuery> PayStatusQuery([FromUri]RupOrderPayStatusQuery rup)
         {
-            IResult<RetOrderPayResultQuery> result = TermServiceFactory.Order.PayResultQuery(rup);
-            return new OwnApiHttpResponse<RetOrderPayResultQuery>(result);
+            IResult<RetOrderPayStatusQuery> result = TermServiceFactory.Order.PayStatusQuery(rup);
+            return new OwnApiHttpResponse<RetOrderPayStatusQuery>(result);
         }
 
         [HttpPost]
@@ -31,9 +31,9 @@ namespace WebApiTerm.Controllers
         }
 
         [HttpGet]
-        public OwnApiHttpResponse SkusPickupBill(RupOrderSkusPickupBill rup)
+        public OwnApiHttpResponse Details(RupOrderDetails rup)
         {
-            IResult result = TermServiceFactory.Order.SkusPickupBill(rup);
+            IResult result = TermServiceFactory.Order.Details(rup);
             return new OwnApiHttpResponse(result);
         }
 

@@ -194,8 +194,8 @@
     <Compile Include="Service\AppTerm\RModels\RetMachineLogin.cs" />
     <Compile Include="Service\AppTerm\RModels\RetOrderSkuPickupStatusQuery.cs" />
     <Compile Include="Service\AppTerm\RModels\RetOrderReserve.cs" />
-    <Compile Include="Service\AppTerm\RModels\RetOrderPayResultQuery.cs" />
-    <Compile Include="Service\AppTerm\RModels\RetOrderSkusPickupBill.cs" />
+    <Compile Include="Service\AppTerm\RModels\RetOrderPayStatusQuery.cs" />
+    <Compile Include="Service\AppTerm\RModels\RetOrderDetails.cs" />
     <Compile Include="Service\AppTerm\RModels\RopMachineLogin.cs" />
     <Compile Include="Service\AppTerm\RModels\RopMachineUpdateInfo.cs" />
     <Compile Include="Service\AppTerm\RModels\RopOrderCancle.cs" />
@@ -206,8 +206,8 @@
     <Compile Include="Service\AppTerm\RModels\RupMachineGetSlotSkuStock.cs" />
     <Compile Include="Service\AppTerm\RModels\RupMachineLoginResultQuery.cs" />
     <Compile Include="Service\AppTerm\RModels\RupOrderCancle.cs" />
-    <Compile Include="Service\AppTerm\RModels\RupOrderSkusPickupBill.cs" />
-    <Compile Include="Service\AppTerm\RModels\RupOrderPayResultQuery.cs" />
+    <Compile Include="Service\AppTerm\RModels\RupOrderDetails.cs" />
+    <Compile Include="Service\AppTerm\RModels\RupOrderPayStatusQuery.cs" />
     <Compile Include="Service\AppTerm\RModels\RupOrderSkuPickupStatusQuery.cs" />
     <Compile Include="Service\AppTerm\RModels\RupOrderReserve.cs" />
     <Compile Include="Service\AppTerm\TermServiceFactory.cs" />

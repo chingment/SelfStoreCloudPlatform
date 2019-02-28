@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.AppTerm
 {
-    public class RetOrderSkusPickupBill
+    public class RetOrderDetails
     {
-        public RetOrderSkusPickupBill()
+        public RetOrderDetails()
         {
             this.Skus = new List<Sku>();
         }

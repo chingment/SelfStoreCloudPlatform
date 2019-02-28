@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.AppTerm
 {
-    public class RupOrderPayResultQuery
+    public class RupOrderDetails
     {
         public string MachineId { get; set; }
         public string OrderId { get; set; }

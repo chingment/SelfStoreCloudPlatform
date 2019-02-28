@@ -53,9 +53,9 @@ namespace Lumos.BLL.Service.AppTerm
 
         }
 
-        public CustomJsonResult<RetOrderPayResultQuery> PayResultQuery(RupOrderPayResultQuery rup)
+        public CustomJsonResult<RetOrderPayStatusQuery> PayStatusQuery(RupOrderPayStatusQuery rup)
         {
-            CustomJsonResult<RetOrderPayResultQuery> ret = new CustomJsonResult<RetOrderPayResultQuery>();
+            CustomJsonResult<RetOrderPayStatusQuery> ret = new CustomJsonResult<RetOrderPayStatusQuery>();
 
 
             var ret_Biz = BizFactory.Order.PayResultQuery(rup.MachineId, rup.OrderId);
@@ -66,7 +66,7 @@ namespace Lumos.BLL.Service.AppTerm
 
             if (ret_Biz.Data != null)
             {
-                ret.Data = new RetOrderPayResultQuery();
+                ret.Data = new RetOrderPayStatusQuery();
                 ret.Data.OrderId = ret_Biz.Data.OrderId;
                 ret.Data.OrderSn = ret_Biz.Data.OrderSn;
                 ret.Data.Status = ret_Biz.Data.Status;
@@ -85,17 +85,17 @@ namespace Lumos.BLL.Service.AppTerm
             return result;
         }
 
-        public CustomJsonResult SkusPickupBill(RupOrderSkusPickupBill rup)
+        public CustomJsonResult Details(RupOrderDetails rup)
         {
             CustomJsonResult result = new CustomJsonResult();
 
-            var ret = new RetOrderSkusPickupBill();
+            var ret = new RetOrderDetails();
 
             var orderDetailsChilds = CurrentDb.OrderDetailsChild.Where(m => m.OrderId == rup.OrderId).ToList();
 
             foreach (var orderDetailsChild in orderDetailsChilds)
             {
-                var sku = new RetOrderSkusPickupBill.Sku();
+                var sku = new RetOrderDetails.Sku();
                 sku.Id = orderDetailsChild.ProductSkuId;
                 sku.Name = orderDetailsChild.ProductSkuName;
                 sku.ImgUrl = orderDetailsChild.ProductSkuImgUrl;
@@ -105,7 +105,7 @@ namespace Lumos.BLL.Service.AppTerm
 
                 foreach(var orderDetailsChildSon in  orderDetailsChildSons)
                 {
-                    var slot = new RetOrderSkusPickupBill.Slot();
+                    var slot = new RetOrderDetails.Slot();
                     slot.Id = orderDetailsChildSon.SlotId;
                     slot.Status = orderDetailsChildSon.Status;
 
