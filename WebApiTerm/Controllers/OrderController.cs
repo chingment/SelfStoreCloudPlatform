@@ -31,23 +31,23 @@ namespace WebApiTerm.Controllers
         }
 
         [HttpGet]
-        public OwnApiHttpResponse PickupSkusList(RupOrderPickupSkusList rup)
+        public OwnApiHttpResponse SkusPickupBill(RupOrderSkusPickupBill rup)
         {
-            IResult result = TermServiceFactory.Order.PickupSkusList(rup);
+            IResult result = TermServiceFactory.Order.SkusPickupBill(rup);
             return new OwnApiHttpResponse(result);
         }
 
         [HttpGet]
-        public OwnApiHttpResponse PickupStatusQuery(RupOrderPickupStatusQuery rup)
+        public OwnApiHttpResponse SkuPickupStatusQuery(RupOrderSkuPickupStatusQuery rup)
         {
-            IResult result = TermServiceFactory.Order.PickupStatusQuery(rup);
+            IResult result = TermServiceFactory.Order.SkuPickupStatusQuery(rup);
             return new OwnApiHttpResponse(result);
         }
 
         [HttpPost]
-        public OwnApiHttpResponse PickupEventNotify(RopOrderPickupEventNotify rop)
+        public OwnApiHttpResponse SkuPickupEventNotify(RopOrderSkuPickupEventNotify rop)
         {
-            IResult result = TermServiceFactory.Order.PickupEventNotify(rop);
+            IResult result = TermServiceFactory.Order.SkuPickupEventNotify(rop);
             return new OwnApiHttpResponse(result);
         }
     }

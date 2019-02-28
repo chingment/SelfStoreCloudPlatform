@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.AppTerm
 {
-    public class RetOrderPayResultQuery
+    public class RupOrderSkuPickupStatusQuery
     {
+        public string MachineId { get; set; }
         public string OrderId { get; set; }
-
-        public string OrderSn { get; set; }
-
-        public Entity.Enumeration.OrderStatus Status { get; set; }
-
+        public string SkuId { get; set; }
+        public string SlotId { get; set; }
     }
 }

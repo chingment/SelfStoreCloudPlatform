@@ -8,8 +8,8 @@ namespace Lumos.BLL.Biz
 {
     public class RetPayResultQuery
     {
+        public string OrderId { get; set; }
         public string OrderSn { get; set; }
-
         public Entity.Enumeration.OrderStatus Status { get; set; }
 
     }

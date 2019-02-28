@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.AppTerm
 {
-    public class RupOrderPickupSkusList
+    public class RetOrderSkuPickupStatusQuery
     {
-        public string MachineId { get; set; }
-        public string OrderId { get; set; }
+        public Entity.Enumeration.OrderDetailsChildSonStatus Status { get; set; }
+
+        public string Tips { get; set; }
     }
 }

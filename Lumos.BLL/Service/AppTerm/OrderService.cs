@@ -58,18 +58,19 @@ namespace Lumos.BLL.Service.AppTerm
             CustomJsonResult<RetOrderPayResultQuery> ret = new CustomJsonResult<RetOrderPayResultQuery>();
 
 
-            //var ret_Biz = BizFactory.Order.PayResultQuery(tk.UserId, rup.OrderSn);
+            var ret_Biz = BizFactory.Order.PayResultQuery(rup.MachineId, rup.OrderId);
 
-            //ret.Result = ret_Biz.Result;
-            //ret.Code = ret_Biz.Code;
-            //ret.Message = ret_Biz.Message;
+            ret.Result = ret_Biz.Result;
+            ret.Code = ret_Biz.Code;
+            ret.Message = ret_Biz.Message;
 
-            //if (ret_Biz.Data != null)
-            //{
-            //    ret.Data = new RetOrderPayResultQuery();
-            //    ret.Data.OrderSn = ret_Biz.Data.OrderSn;
-            //    ret.Data.Status = ret_Biz.Data.Status;
-            //}
+            if (ret_Biz.Data != null)
+            {
+                ret.Data = new RetOrderPayResultQuery();
+                ret.Data.OrderId = ret_Biz.Data.OrderId;
+                ret.Data.OrderSn = ret_Biz.Data.OrderSn;
+                ret.Data.Status = ret_Biz.Data.Status;
+            }
 
             return ret;
         }
@@ -84,25 +85,57 @@ namespace Lumos.BLL.Service.AppTerm
             return result;
         }
 
-        public CustomJsonResult PickupSkusList(RupOrderPickupSkusList rup)
+        public CustomJsonResult SkusPickupBill(RupOrderSkusPickupBill rup)
         {
             CustomJsonResult result = new CustomJsonResult();
 
-            //result = BizFactory.Order.Cancle(operater, rop.OrderSn, rop.Reason);
+            var ret = new RetOrderSkusPickupBill();
+
+            var orderDetailsChilds = CurrentDb.OrderDetailsChild.Where(m => m.OrderId == rup.OrderId).ToList();
+
+            foreach (var orderDetailsChild in orderDetailsChilds)
+            {
+                var sku = new RetOrderSkusPickupBill.Sku();
+                sku.Id = orderDetailsChild.ProductSkuId;
+                sku.Name = orderDetailsChild.ProductSkuName;
+                sku.ImgUrl = orderDetailsChild.ProductSkuImgUrl;
+                sku.Quantity = orderDetailsChild.Quantity;
+
+                var orderDetailsChildSons = CurrentDb.OrderDetailsChildSon.Where(m => m.OrderId == orderDetailsChild.OrderId && m.ProductSkuId == orderDetailsChild.ProductSkuId).ToList();
+
+                foreach(var orderDetailsChildSon in  orderDetailsChildSons)
+                {
+                    var slot = new RetOrderSkusPickupBill.Slot();
+                    slot.Id = orderDetailsChildSon.SlotId;
+                    slot.Status = orderDetailsChildSon.Status;
+
+                    sku.Slots.Add(slot);
+                }
+            }
+
+            result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
 
             return result;
         }
 
-        public CustomJsonResult PickupStatusQuery(RupOrderPickupStatusQuery rup)
+        public CustomJsonResult SkuPickupStatusQuery(RupOrderSkuPickupStatusQuery rup)
         {
             CustomJsonResult result = new CustomJsonResult();
 
-            //result = BizFactory.Order.Cancle(operater, rop.OrderSn, rop.Reason);
+            var ret = new RetOrderSkuPickupStatusQuery();
+
+            var orderDetailsChildSon = CurrentDb.OrderDetailsChildSon.Where(m => m.OrderId == rup.OrderId && m.ProductSkuId == rup.SkuId && m.SlotId == rup.SlotId).FirstOrDefault();
+
+            ret.Status = orderDetailsChildSon.Status;
+            ret.Tips = orderDetailsChildSon.Status.GetCnName();
+
+
+            result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
 
             return result;
         }
 
-        public CustomJsonResult PickupEventNotify(RopOrderPickupEventNotify rop)
+        public CustomJsonResult SkuPickupEventNotify(RopOrderSkuPickupEventNotify rop)
         {
             CustomJsonResult result = new CustomJsonResult();
 

@@ -675,11 +675,11 @@ namespace Lumos.BLL.Biz
             return result;
         }
 
-        public CustomJsonResult<RetPayResultQuery> PayResultQuery(string operater, string orderSn)
+        public CustomJsonResult<RetPayResultQuery> PayResultQuery(string operater, string orderId)
         {
             var result = new CustomJsonResult<RetPayResultQuery>();
 
-            var order = CurrentDb.Order.Where(m => m.Sn == orderSn).FirstOrDefault();
+            var order = CurrentDb.Order.Where(m => m.Id == orderId).FirstOrDefault();
 
             if (order == null)
             {
@@ -688,6 +688,7 @@ namespace Lumos.BLL.Biz
 
             var ret = new RetPayResultQuery();
 
+            ret.OrderId = order.Id;
             ret.OrderSn = order.Sn;
             ret.Status = order.Status;
 
