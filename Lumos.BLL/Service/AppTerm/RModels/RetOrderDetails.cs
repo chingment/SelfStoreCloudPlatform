@@ -14,6 +14,8 @@ namespace Lumos.BLL.Service.AppTerm
             this.Skus = new List<Sku>();
         }
 
+        public string Sn { get; set; }
+
         public List<Sku> Skus { get; set; }
 
         public class Sku

@@ -70,10 +70,12 @@ namespace Lumos.BLL.Service.AppTerm
                 ret.Data.OrderId = ret_Biz.Data.OrderId;
                 ret.Data.OrderSn = ret_Biz.Data.OrderSn;
                 ret.Data.Status = ret_Biz.Data.Status;
+                ret.Data.OrderDetails = GetOrderDetails(rup.MachineId, rup.OrderId);
             }
 
             return ret;
         }
+
 
         public CustomJsonResult Cancle(RopOrderCancle rop)
         {
@@ -85,13 +87,16 @@ namespace Lumos.BLL.Service.AppTerm
             return result;
         }
 
-        public CustomJsonResult Details(RupOrderDetails rup)
-        {
-            CustomJsonResult result = new CustomJsonResult();
 
+        private RetOrderDetails GetOrderDetails(string machineId, string orderId)
+        {
             var ret = new RetOrderDetails();
 
-            var orderDetailsChilds = CurrentDb.OrderDetailsChild.Where(m => m.OrderId == rup.OrderId).ToList();
+            var order = CurrentDb.Order.Where(m => m.Id == orderId).FirstOrDefault();
+            var orderDetailsChilds = CurrentDb.OrderDetailsChild.Where(m => m.OrderId == orderId).ToList();
+            var orderDetailsChildSons = CurrentDb.OrderDetailsChildSon.Where(m => m.OrderId == orderId).ToList();
+
+            ret.Sn = order.Sn;
 
             foreach (var orderDetailsChild in orderDetailsChilds)
             {
@@ -101,20 +106,29 @@ namespace Lumos.BLL.Service.AppTerm
                 sku.ImgUrl = orderDetailsChild.ProductSkuImgUrl;
                 sku.Quantity = orderDetailsChild.Quantity;
 
-                var orderDetailsChildSons = CurrentDb.OrderDetailsChildSon.Where(m => m.OrderId == orderDetailsChild.OrderId && m.ProductSkuId == orderDetailsChild.ProductSkuId).ToList();
 
-                foreach(var orderDetailsChildSon in  orderDetailsChildSons)
-                {
-                    var slot = new RetOrderDetails.Slot();
-                    slot.Id = orderDetailsChildSon.SlotId;
-                    slot.Status = orderDetailsChildSon.Status;
+                var l_orderDetailsChildSons = orderDetailsChildSons.Where(m => m.ProductSkuId == orderDetailsChild.ProductSkuId).ToList();
 
-                    sku.Slots.Add(slot);
-                }
+                sku.QuantityBySuccess = l_orderDetailsChildSons.Where(m => m.Status == Enumeration.OrderDetailsChildSonStatus.Completed).Count();
+
+                //foreach (var orderDetailsChildSon in l_orderDetailsChildSons)
+                //{
+                //    var slot = new RetOrderDetails.Slot();
+                //    slot.Id = orderDetailsChildSon.SlotId;
+                //    slot.Status = orderDetailsChildSon.Status;
+
+                //    sku.Slots.Add(slot);
+                //}
+                ret.Skus.Add(sku);
             }
 
-            result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
+            return ret;
+        }
 
+        public CustomJsonResult Details(RupOrderDetails rup)
+        {
+            CustomJsonResult result = new CustomJsonResult();
+            result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", GetOrderDetails(rup.MachineId, rup.OrderId));
             return result;
         }
 

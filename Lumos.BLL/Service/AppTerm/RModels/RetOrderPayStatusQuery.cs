@@ -15,5 +15,7 @@ namespace Lumos.BLL.Service.AppTerm
 
         public Entity.Enumeration.OrderStatus Status { get; set; }
 
+        public RetOrderDetails OrderDetails { get; set; }
+
     }
 }
