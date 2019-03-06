@@ -79,7 +79,7 @@ namespace Lumos.Common
                         {
                             if (value.Length <= checkCell.MinLength || value.Length > checkCell.MaxLength)
                             {
-                                _errorPoint.Add(string.Format("第{0}行的{1}的长度不符合要求,格式为{2}-{3}个字符", i, checkCell.Title, checkCell.MinLength, checkCell.MinLength));
+                                _errorPoint.Add(string.Format("第{0}行的{1}的长度不符合要求,格式为{2}-{3}个字符", i, checkCell.Title, checkCell.MinLength, checkCell.MaxLength));
                             }
                         }
                     }

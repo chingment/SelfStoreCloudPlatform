@@ -144,12 +144,7 @@ namespace Lumos.BLL.Service.Merch
                 CurrentDb.SaveChanges(true);
                 ts.Complete();
 
-
-                var ret = new RetProducSkuAdd();
-
-                ret.Id = productSku.Id;
-
-                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
+                result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
             }
 
             return result;

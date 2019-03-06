@@ -16,29 +16,27 @@ namespace Lumos.BLL.Biz
         public SkuModel GetModel(string id)
         {
             SkuModel skuModel = null;
-            var sku = ProductSkuCacheUtil.GetOne(id);
 
+            var sku = ProductSkuCacheUtil.GetOne(id);
             if (sku == null)
             {
-                sku = CurrentDb.ProductSku.Where(m => m.Id == id).FirstOrDefault();
-                if (sku != null)
-                {
-                    ProductSkuCacheUtil.Add(sku);
-                }
+                sku = CurrentDb.ProductSku.Where(m => m.Id == id).First();
+
+                ProductSkuCacheUtil.Add(sku);
+
             }
 
-            if (sku != null)
-            {
-                skuModel = new SkuModel();
-                skuModel.Id = sku.Id;
-                skuModel.Name = sku.Name;
-                skuModel.SalePrice = sku.SalePrice;
-                skuModel.ShowPrice = sku.ShowPrice;
-                skuModel.BriefInfo = sku.BriefInfo;
-                skuModel.DispalyImgUrls = sku.DispalyImgUrls.ToJsonObject<List<ImgSet>>();
-                skuModel.ImgUrl = ImgSet.GetMain(sku.DispalyImgUrls);
-                skuModel.DetailsDes = sku.DetailsDes;
-            }
+
+            skuModel = new SkuModel();
+            skuModel.Id = sku.Id;
+            skuModel.Name = sku.Name;
+            skuModel.SalePrice = sku.SalePrice;
+            skuModel.ShowPrice = sku.ShowPrice;
+            skuModel.BriefInfo = sku.BriefInfo;
+            skuModel.DispalyImgUrls = sku.DispalyImgUrls.ToJsonObject<List<ImgSet>>();
+            skuModel.ImgUrl = ImgSet.GetMain(sku.DispalyImgUrls);
+            skuModel.DetailsDes = sku.DetailsDes;
+
 
             return skuModel;
         }
@@ -85,7 +83,5 @@ namespace Lumos.BLL.Biz
             }
             return list;
         }
-
-
     }
 }

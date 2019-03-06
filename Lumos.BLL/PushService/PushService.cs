@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lumos.BLL.DataPush
+namespace Lumos.BLL.PushService
 {
-    public static class DataPushUtil
+    public static class PushService
     {
-        public static void Push(string id, object data)
+        public static void Send<T>(string id, T data)
         {
 
         }
