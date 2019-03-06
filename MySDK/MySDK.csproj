@@ -74,8 +74,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PushService\IPushService.cs" />
-    <Compile Include="PushService\JPushService.cs" />
-    <Compile Include="PushService\PushServiceUtils.cs" />
+    <Compile Include="PushService\JgPushService.cs" />
+    <Compile Include="PushService\PushService.cs" />
     <Compile Include="Sms\AliCloudApiUtils.cs" />
     <Compile Include="Sms\AliyunSingleSendSmsUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

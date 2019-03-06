@@ -71,9 +71,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\AssemblyInfo.cs">
-      <Link>Properties\AssemblyInfo.cs</Link>
-    </Compile>
     <Compile Include="DistanceUtil.cs" />
     <Compile Include="ExcelFormatCheckUtil.cs" />
     <Compile Include="Extensions\DecimalExtensions.cs" />

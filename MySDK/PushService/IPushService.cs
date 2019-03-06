@@ -7,13 +7,9 @@ using System.Threading.Tasks;
 
 namespace MySDK
 {
-    public enum PushDataType
-    {
-
-    }
 
     public interface IPushService
     {
-        CustomJsonResult SendPush(PushDataType type,string registrationid, object data);
+        CustomJsonResult Send<T>(string registrationid, string cmd, T data);
     }
 }

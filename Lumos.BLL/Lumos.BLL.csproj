@@ -73,9 +73,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\AssemblyInfo.cs">
-      <Link>Properties\AssemblyInfo.cs</Link>
-    </Compile>
     <Compile Include="BaseProvider.cs" />
     <Compile Include="Biz\BizFactory.cs" />
     <Compile Include="Biz\Models\FieldModel.cs" />
@@ -95,8 +92,8 @@
     <Compile Include="Biz\RModels\RopOrderReserve.cs" />
     <Compile Include="Biz\SmsProvider.cs" />
     <Compile Include="Biz\WxUserProvider.cs" />
-    <Compile Include="PushService\PushService.cs" />
     <Compile Include="MchPermissionCode.cs" />
+    <Compile Include="Sdk\PushServiceProvider.cs" />
     <Compile Include="Service\Admin\AdminServiceFactory.cs" />
     <Compile Include="Service\Admin\Biz\MachineProvider.cs" />
     <Compile Include="Service\Admin\Biz\MerchantProvider.cs" />
@@ -340,9 +337,7 @@
       <Name>WeiXinSdk</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="PushService\Model\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace MySDK
 {
-    public class JPushService : IPushService
+    public class JgPushService : IPushService
     {
         private static JPushClient client = new JPushClient("47571aa2482f3b9e2af243a9", "8b0ea490c90fddbf64e0fb9f");
 
-        public CustomJsonResult SendPush(PushDataType type, string registrationid, object data)
+        public CustomJsonResult Send<T>(string registrationid,string cmd, T data)
         {
             var result = new CustomJsonResult();
 
@@ -33,8 +33,8 @@ namespace MySDK
                     Content = "",
                     Extras = new Dictionary<string, string>
                     {
-                        ["serverMsgType"] = "banner",
-                        ["serverMsgContent"] = "{\"a\":\"sdsaddada.img\"}"
+                        ["serverMsgType"] = cmd,
+                        ["serverMsgContent"] = data.ToJsonString()
                     }
                 },
                 Options = new Options

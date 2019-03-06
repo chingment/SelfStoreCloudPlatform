@@ -30,6 +30,8 @@ namespace Lumos.BLL.Service.Merch
             CurrentDb.MachineBanner.Add(machineBanner);
             CurrentDb.SaveChanges();
 
+            SdkFactory.PushService.UpdateMachineBanner(machine.Id);
+
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
         }
 
@@ -42,6 +44,8 @@ namespace Lumos.BLL.Service.Merch
                 machineBanner.Mender = operater;
                 machineBanner.MendTime = DateTime.Now;
                 CurrentDb.SaveChanges();
+
+                SdkFactory.PushService.UpdateMachineBanner(machineBanner.MachineId);
             }
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");

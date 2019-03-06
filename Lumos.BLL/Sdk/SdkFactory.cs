@@ -18,6 +18,14 @@ namespace Lumos.BLL
             }
         }
 
+        public static PushServiceProvider PushService
+        {
+            get
+            {
+                return new PushServiceProvider();
+            }
+        }
+
 
     }
 }
