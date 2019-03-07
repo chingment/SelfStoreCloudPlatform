@@ -38,6 +38,7 @@ namespace Lumos.Redis
         {
             var client = new RedisClient<T>();
 
+         
             return client.KSet(key, value, expireIn);
         }
     }

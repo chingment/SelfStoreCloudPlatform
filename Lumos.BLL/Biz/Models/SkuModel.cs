@@ -16,5 +16,6 @@ namespace Lumos.BLL.Biz
         public string BriefInfo { get; set; }
         public List<Lumos.Entity.ImgSet> DispalyImgUrls { get; set; }
         public string DetailsDes { get; set; }
+        public string SpecDes { get; set; }
     }
 }

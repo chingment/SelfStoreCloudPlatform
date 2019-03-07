@@ -75,15 +75,12 @@ namespace Lumos.BLL.Service.AppTerm
             var productSkuIds = machineStocks.Select(m => m.ProductSkuId).Distinct();
             foreach (var productSkuId in productSkuIds)
             {
-                var productSku = productSkus.Where(m => m.Id == productSkuId).FirstOrDefault();
+                var productSku = BizFactory.ProductSku.GetModel(productSkuId);
                 if (productSku != null)
                 {
                     var productSkuModel = new ProductSkuModel();
 
-                    productSkuModel.Quantity = machineStocks.Where(m => m.ProductSkuId == productSkuId).Sum(m => m.Quantity);
-                    productSkuModel.LockQuantity = machineStocks.Where(m => m.ProductSkuId == productSkuId).Sum(m => m.LockQuantity);
-                    productSkuModel.SellQuantity = machineStocks.Where(m => m.ProductSkuId == productSkuId).Sum(m => m.SellQuantity);
-
+     
                     productSkuModel.Id = productSku.Id;
                     productSkuModel.Name = productSku.Name;
                     productSkuModel.SpecDes = productSku.SpecDes;

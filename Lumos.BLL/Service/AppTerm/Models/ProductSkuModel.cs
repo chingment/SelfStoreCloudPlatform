@@ -14,14 +14,14 @@ namespace Lumos.BLL.Service.AppTerm
         public string ImgUrl { get; set; }
         public string SalePrice { get; set; }
         public string ShowPirce { get; set; }
-        [JsonConverter(typeof(JsonObjectConvert))]
-        public string DisplayImgUrls { get; set; }
+        //[JsonConverter(typeof(JsonObjectConvert))]
+        public List<Lumos.Entity.ImgSet> DisplayImgUrls { get; set; }
         public string SpecDes { get; set; }
         public string BriefInfo { get; set; }
         public string DetailsDes { get; set; }
-        public int Quantity { get; set; }
-        public int LockQuantity { get; set; }
-        public int SellQuantity { get; set; }
+        //public int Quantity { get; set; }
+        //public int LockQuantity { get; set; }
+        //public int SellQuantity { get; set; }
 
     }
 }

@@ -10,6 +10,7 @@ namespace Lumos.Redis
         /// </summary>
         public static bool Exist<T>(string hashId, string key)
         {
+            
             return RedisManager.Db.HashExists(hashId, key);
         }
         /// <summary>
