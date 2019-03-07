@@ -70,8 +70,6 @@ namespace Lumos.BLL.Service.AppTerm
             var productSkuModels = new Dictionary<string, ProductSkuModel>();
 
             var machineStocks = CurrentDb.StoreSellStock.Where(m => m.MerchantId == merchantId && m.StoreId == storeId && m.ChannelId == machineId && m.IsOffSell == false).ToList();
-
-            var productSkus = CurrentDb.ProductSku.Where(m => m.MerchantId == merchantId).ToList();
             var productSkuIds = machineStocks.Select(m => m.ProductSkuId).Distinct();
             foreach (var productSkuId in productSkuIds)
             {
@@ -79,8 +77,6 @@ namespace Lumos.BLL.Service.AppTerm
                 if (productSku != null)
                 {
                     var productSkuModel = new ProductSkuModel();
-
-     
                     productSkuModel.Id = productSku.Id;
                     productSkuModel.Name = productSku.Name;
                     productSkuModel.SpecDes = productSku.SpecDes;
