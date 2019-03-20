@@ -10,6 +10,7 @@ namespace Lumos.BLL
 {
     public class PushServiceProvider : BaseProvider
     {
+
         public void UpdateMachineBanner(string machineId)
         {
             var machine = CurrentDb.Machine.Where(m => m.Id == machineId).FirstOrDefault();
@@ -19,7 +20,7 @@ namespace Lumos.BLL
 
         public void UpdateMachineProductKind()
         {
-            
+
             var machines = CurrentDb.Machine.ToList();
             foreach (var machine in machines)
             {
@@ -34,5 +35,16 @@ namespace Lumos.BLL
             var banners = TermServiceFactory.Machine.GetProductSkus(machine.MerchantId, machine.StoreId, machine.Id);
             PushService.Send(machine.JPushRegId, "update_product_skus", banners);
         }
+
+        public void UpdateMachineLogo(string machineId)
+        {
+
+        }
+
+        public void OpenPickupView(string machineId)
+        {
+
+        }
+
     }
 }
