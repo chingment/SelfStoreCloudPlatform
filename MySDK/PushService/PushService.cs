@@ -17,5 +17,6 @@ namespace MySDK
             pushService.Send(regId, cmd, content);
             return result;
         }
+
     }
 }

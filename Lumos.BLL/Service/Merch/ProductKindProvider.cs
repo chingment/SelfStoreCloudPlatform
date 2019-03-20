@@ -90,7 +90,11 @@ namespace Lumos.BLL.Service.Merch
                 CurrentDb.ProductKind.Add(productKind);
                 CurrentDb.SaveChanges();
                 ts.Complete();
+
+                SdkFactory.PushService.UpdateMachineProductKind();
+
                 result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
+
             }
 
             return result;
@@ -123,6 +127,8 @@ namespace Lumos.BLL.Service.Merch
             productKind.MendTime = DateTime.Now;
             productKind.Dept = dept;
             CurrentDb.SaveChanges();
+
+            SdkFactory.PushService.UpdateMachineProductKind();
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
 
@@ -191,6 +197,8 @@ namespace Lumos.BLL.Service.Merch
 
                 CurrentDb.SaveChanges();
                 ts.Complete();
+
+                SdkFactory.PushService.UpdateMachineProductKind();
 
                 result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
             }

@@ -10,23 +10,27 @@ namespace Lumos.BLL
 {
     public class PushServiceProvider : BaseProvider
     {
-        public void UpdateMachineBanner(string id)
+        public void UpdateMachineBanner(string machineId)
         {
-            var machine = CurrentDb.Machine.Where(m => m.Id == id).FirstOrDefault();
+            var machine = CurrentDb.Machine.Where(m => m.Id == machineId).FirstOrDefault();
             var banners = TermServiceFactory.Machine.GetBanners(machine.MerchantId, machine.StoreId, machine.Id);
             PushService.Send(machine.JPushRegId, "update_banner", banners);
         }
 
-        public void UpdateMachineProductKind(string id)
+        public void UpdateMachineProductKind()
         {
-            var machine = CurrentDb.Machine.Where(m => m.Id == id).FirstOrDefault();
-            var banners = TermServiceFactory.Machine.GetProductKinds(machine.MerchantId, machine.StoreId, machine.Id);
-            PushService.Send(machine.JPushRegId, "update_product_kinds", banners);
+            
+            var machines = CurrentDb.Machine.ToList();
+            foreach (var machine in machines)
+            {
+                var banners = TermServiceFactory.Machine.GetProductKinds(machine.MerchantId, machine.StoreId, machine.Id);
+                PushService.Send(machine.JPushRegId, "update_product_kinds", banners);
+            }
         }
 
-        public void UpdateMachineProductSkus(string id)
+        public void UpdateMachineProductSkus(string machineId)
         {
-            var machine = CurrentDb.Machine.Where(m => m.Id == id).FirstOrDefault();
+            var machine = CurrentDb.Machine.Where(m => m.Id == machineId).FirstOrDefault();
             var banners = TermServiceFactory.Machine.GetProductSkus(machine.MerchantId, machine.StoreId, machine.Id);
             PushService.Send(machine.JPushRegId, "update_product_skus", banners);
         }
