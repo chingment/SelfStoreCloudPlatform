@@ -14,7 +14,21 @@ namespace Lumos.BLL
         {
             var machine = CurrentDb.Machine.Where(m => m.Id == id).FirstOrDefault();
             var banners = TermServiceFactory.Machine.GetBanners(machine.MerchantId, machine.StoreId, machine.Id);
-            PushService.Send<List<BannerModel>>(machine.JPushRegId, "update_banner", banners);
+            PushService.Send(machine.JPushRegId, "update_banner", banners);
+        }
+
+        public void UpdateMachineProductKind(string id)
+        {
+            var machine = CurrentDb.Machine.Where(m => m.Id == id).FirstOrDefault();
+            var banners = TermServiceFactory.Machine.GetProductKinds(machine.MerchantId, machine.StoreId, machine.Id);
+            PushService.Send(machine.JPushRegId, "update_product_kinds", banners);
+        }
+
+        public void UpdateMachineProductSkus(string id)
+        {
+            var machine = CurrentDb.Machine.Where(m => m.Id == id).FirstOrDefault();
+            var banners = TermServiceFactory.Machine.GetProductSkus(machine.MerchantId, machine.StoreId, machine.Id);
+            PushService.Send(machine.JPushRegId, "update_product_skus", banners);
         }
     }
 }

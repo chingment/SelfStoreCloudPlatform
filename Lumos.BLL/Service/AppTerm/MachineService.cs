@@ -57,8 +57,11 @@ namespace Lumos.BLL.Service.AppTerm
             ret.Machine.LogoImgUrl = machine.LogoImgUrl;
 
             ret.Banners = TermServiceFactory.Machine.GetBanners(machine.MerchantId, machine.StoreId, machine.Id);
-            ret.ProductKinds = TermServiceFactory.ProductKind.GetKinds(machine.MerchantId, machine.StoreId, machine.Id);
+
+            ret.ProductKinds = TermServiceFactory.Machine.GetProductKinds(machine.MerchantId, machine.StoreId, machine.Id);
+
             ret.ProductSkus = TermServiceFactory.Machine.GetProductSkus(machine.MerchantId, machine.StoreId, machine.Id);
+
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
@@ -107,6 +110,59 @@ namespace Lumos.BLL.Service.AppTerm
             }
 
             return bannerModels;
+        }
+
+        public List<ProductKindModel> GetProductKinds(string merchantId, string storeId, string machineId)
+        {
+
+            var productKindModels = new List<ProductKindModel>();
+
+            var productKinds = CurrentDb.ProductKind.Where(m => m.MerchantId == merchantId && m.Status == Entity.Enumeration.ProductKindStatus.Valid && m.IsDelete == false).ToList();
+            var productSkuIds = CurrentDb.StoreSellStock.Where(m => m.MerchantId == merchantId && m.ChannelId == machineId && m.IsOffSell == false).Select(m => m.ProductSkuId).ToArray();
+            var productSkus = CurrentDb.ProductSku.Where(m => productSkuIds.Contains(m.Id)).ToList();
+
+            if (productKinds.Count > 0)
+            {
+                var productTopKind = productKinds.Where(m => m.Dept == 0).FirstOrDefault();
+
+                if (productTopKind != null)
+                {
+
+                    var productParentKinds = productKinds.Where(m => m.PId == productTopKind.Id).ToList();
+
+                    foreach (var productParentKind in productParentKinds)
+                    {
+                        var productParentKindModel = new ProductKindModel();
+                        productParentKindModel.Id = productParentKind.Id;
+                        productParentKindModel.Name = productParentKind.Name;
+
+                        var productChildKinds = productKinds.Where(m => m.PId == productParentKind.Id).ToList();
+
+                        if (productChildKinds.Count > 0)
+                        {
+                            foreach (var productChildKind in productChildKinds)
+                            {
+                                var l_productSkuIds = CurrentDb.ProductKindSku.Where(m => m.ProductKindId == productChildKind.Id).Select(m => m.ProductSkuId).ToList();
+                                if (l_productSkuIds.Count > 0)
+                                {
+                                    foreach (var l_productSkuId in l_productSkuIds)
+                                    {
+                                        if (!productParentKindModel.Childs.Contains(l_productSkuId))
+                                        {
+                                            productParentKindModel.Childs.Add(l_productSkuId);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        productKindModels.Add(productParentKindModel);
+
+                    }
+                }
+            }
+
+            return productKindModels;
         }
 
         public CustomJsonResult GetSlotSkusStock(string merchantId, string machineId)

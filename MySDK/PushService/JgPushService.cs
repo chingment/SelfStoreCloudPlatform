@@ -13,7 +13,7 @@ namespace MySDK
     {
         private static JPushClient client = new JPushClient("47571aa2482f3b9e2af243a9", "8b0ea490c90fddbf64e0fb9f");
 
-        public CustomJsonResult Send<T>(string registrationid,string cmd, T data)
+        public CustomJsonResult Send(string registrationid,string cmd, object data)
         {
             var result = new CustomJsonResult();
 

@@ -17,15 +17,18 @@ namespace Lumos.BLL.Biz
         {
             SkuModel skuModel = null;
 
+
             var sku = ProductSkuCacheUtil.GetOne(id);
+
             if (sku == null)
             {
-                sku = CurrentDb.ProductSku.Where(m => m.Id == id).First();
+                sku = CurrentDb.ProductSku.Where(m => m.Id == id).FirstOrDefault();
+                if (sku == null)
+                    return null;
 
                 ProductSkuCacheUtil.Add(sku);
 
             }
-
 
             skuModel = new SkuModel();
             skuModel.Id = sku.Id;
@@ -36,7 +39,6 @@ namespace Lumos.BLL.Biz
             skuModel.DispalyImgUrls = sku.DispalyImgUrls.ToJsonObject<List<ImgSet>>();
             skuModel.ImgUrl = ImgSet.GetMain(sku.DispalyImgUrls);
             skuModel.DetailsDes = sku.DetailsDes;
-
 
             return skuModel;
         }

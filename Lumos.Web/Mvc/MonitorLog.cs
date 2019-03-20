@@ -58,42 +58,65 @@ namespace Lumos.Web.Mvc
 
         public static void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            Log(filterContext.RequestContext.HttpContext.Request);
-
+            try
+            {
+                Log(filterContext.RequestContext.HttpContext.Request);
+            }
+            catch (Exception ex)
+            {
+                LogUtil.Error("错误", ex);
+            }
         }
         public static void OnActionExecuted(ActionExecutedContext filterContext)
         {
-            Log(filterContext.RequestContext.HttpContext.Request, filterContext.Result);
+            try
+            {
+                Log(filterContext.RequestContext.HttpContext.Request, filterContext.Result);
+            }
+            catch (Exception ex)
+            {
+                LogUtil.Error("错误", ex);
+            }
         }
 
         private static void Log(HttpRequestBase request, ActionResult result = null)
         {
-            var sb = new StringBuilder();
-            sb.Append("Url: " + request.RawUrl + Environment.NewLine);
-            sb.Append("IP: " + Common.CommonUtil.GetIP() + Environment.NewLine);
-            sb.Append("Method: " + request.HttpMethod + Environment.NewLine);
-            sb.Append("ContentType: " + request.ContentType + Environment.NewLine);
-            sb.Append("UserAgent: " + request.UserAgent + Environment.NewLine);
-
-            NameValueCollection headers = request.Headers;
-
-            sb.Append("Header.CurrentUserId: " + headers["CurrentUserId"] + Environment.NewLine);
-
-
-            if (request.HttpMethod == "POST")
+            try
             {
-                if (request.ContentType.IndexOf("multipart/form-data") < 0)
+                LogUtil.Info("Log Start");
+
+                var sb = new StringBuilder();
+                sb.Append("Url: " + request.RawUrl + Environment.NewLine);
+                sb.Append("IP: " + Common.CommonUtil.GetIP() + Environment.NewLine);
+                sb.Append("Method: " + request.HttpMethod + Environment.NewLine);
+                sb.Append("ContentType: " + request.ContentType + Environment.NewLine);
+                sb.Append("UserAgent: " + request.UserAgent + Environment.NewLine);
+
+                NameValueCollection headers = request.Headers;
+
+                sb.Append("Header.CurrentUserId: " + headers["CurrentUserId"] + Environment.NewLine);
+
+
+                if (request.HttpMethod == "POST")
                 {
-                    sb.Append("PostData: " + GetPostData(request.InputStream) + Environment.NewLine);
+                    if (request.ContentType.IndexOf("multipart/form-data") < 0)
+                    {
+                        sb.Append("PostData: " + GetPostData(request.InputStream) + Environment.NewLine);
+                    }
                 }
-            }
 
-            if (result != null)
+                if (result != null)
+                {
+                    sb.Append("Response: " + result.ToString() + Environment.NewLine);
+                }
+
+                LogUtil.Info(sb.ToString());
+                LogUtil.Info("Log End");
+            }
+            catch(Exception ex)
             {
-                sb.Append("Response: " + result.ToString() + Environment.NewLine);
+                LogUtil.Error("错误",ex);
             }
-
-            LogUtil.Info(sb.ToString());
         }
 
         //public static void OnResultExecuting(ResultExecutingContext filterContext)

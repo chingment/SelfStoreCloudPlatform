@@ -711,7 +711,7 @@
             headers["__RequestVerificationToken"] = token;
 
             var handling;
-
+          
             $.ajax({
                 type: "GET",
                 dataType: "json",
@@ -719,6 +719,7 @@
                 headers: headers,
                 timeout: _timeout,
                 url: _url,
+                cache: false,
                 beforeSend: function (XMLHttpRequest) {
                     if (_isUseHandling) {
                         handling = artDialog.loading2("正在加载");
@@ -809,7 +810,7 @@
 
 
                 }
-
+        
                 // request发送请求
                 jQuery('<form action="' + url + '" method="' + (method || 'post') + '">' + inputs + '</form>')
                 .appendTo('body').submit().remove();

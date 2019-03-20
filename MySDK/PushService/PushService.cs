@@ -11,7 +11,7 @@ namespace MySDK
     {
         private static IPushService pushService = new JgPushService();
 
-        public static CustomJsonResult Send<T>(string regId,string cmd, T data)
+        public static CustomJsonResult Send(string regId,string cmd, object data)
         {
             var result = new CustomJsonResult();
             pushService.Send(regId, cmd, data);

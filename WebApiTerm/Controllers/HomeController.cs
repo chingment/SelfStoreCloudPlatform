@@ -97,21 +97,21 @@ namespace WebApiTerm.Controllers
             //host = "http://demo.api.term.17fanju.com";
 
             string machineId = "000000000000000";
-            //model.Add("获取机器接口配置信息", MachineApiConfig(machineId));
+            model.Add("获取机器接口配置信息", InitData(machineId));
             //model.Add("获取全局数据", GlobalDataSet(machineId, DateTime.Now));
             //model.Add("预定商品", OrderReserve(machineId));
             //model.Add("登陆机器", MachineLogin(machineId,"a","b"));
 
-            HttpUtil http = new HttpUtil();
+            //HttpUtil http = new HttpUtil();
 
-            http.HttpUploadFile(host+ "/Api/Machine/UpLoadLog", "d:\\a.txt");
+            //http.HttpUploadFile(host+ "/Api/Machine/UpLoadLog", "d:\\a.txt");
 
             return View(model);
         }
 
 
 
-        public string MachineApiConfig(string machineId)
+        public string InitData(string machineId)
         {
             Dictionary<string, string> parames = new Dictionary<string, string>();
             parames.Add("machineId", machineId.ToString());
@@ -122,7 +122,7 @@ namespace WebApiTerm.Controllers
             headers.Add("timestamp", timespan.ToString());
             headers.Add("sign", signStr);
             HttpUtil http = new HttpUtil();
-            string result = http.HttpGet("" + host + "/api/Machine/ApiConfig?machineId=" + machineId, headers);
+            string result = http.HttpGet("" + host + "/api/Machine/InitData?machineId=" + machineId, headers);
 
             return result;
 
