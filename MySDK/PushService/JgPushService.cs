@@ -13,7 +13,7 @@ namespace MySDK
     {
         private static JPushClient client = new JPushClient("47571aa2482f3b9e2af243a9", "8b0ea490c90fddbf64e0fb9f");
 
-        public CustomJsonResult Send(string registrationid,string cmd, object data)
+        public CustomJsonResult Send(string registrationid,string cmd, object content)
         {
             var result = new CustomJsonResult();
 
@@ -33,8 +33,8 @@ namespace MySDK
                     Content = "",
                     Extras = new Dictionary<string, string>
                     {
-                        ["serverMsgType"] = cmd,
-                        ["serverMsgContent"] = data.ToJsonString()
+                        ["cmd"] = cmd,
+                        ["content"] = content.ToJsonString()
                     }
                 },
                 Options = new Options

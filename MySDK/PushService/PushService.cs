@@ -11,10 +11,10 @@ namespace MySDK
     {
         private static IPushService pushService = new JgPushService();
 
-        public static CustomJsonResult Send(string regId,string cmd, object data)
+        public static CustomJsonResult Send(string regId,string cmd, object content)
         {
             var result = new CustomJsonResult();
-            pushService.Send(regId, cmd, data);
+            pushService.Send(regId, cmd, content);
             return result;
         }
     }

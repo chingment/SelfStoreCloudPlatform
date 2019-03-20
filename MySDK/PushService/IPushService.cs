@@ -10,6 +10,6 @@ namespace MySDK
 
     public interface IPushService
     {
-        CustomJsonResult Send(string registrationid, string cmd, object data);
+        CustomJsonResult Send(string registrationid, string cmd, object content);
     }
 }
