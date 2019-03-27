@@ -160,13 +160,11 @@ namespace Lumos.BLL.Biz
                 order.StoreName = store.Name;
                 order.ClientUserId = rop.ClientUserId;
                 order.Quantity = rop.Skus.Sum(m => m.Quantity);
-                order.PayWay = rop.PayWay;
                 order.Status = Enumeration.OrderStatus.WaitPay;
                 order.Source = rop.Source;
                 order.SubmitTime = this.DateTime;
                 order.Creator = operater;
                 order.CreateTime = this.DateTime;
-
 
                 #region 更改购物车标识
                 LogUtil.Info("ClientId:" + rop.ClientUserId);
@@ -194,7 +192,6 @@ namespace Lumos.BLL.Biz
                 }
                 #endregion 
 
-                //var discount50;
                 var reserveDetails = GetReserveDetail(rop.Skus, skusByStock);
 
                 order.OriginalAmount = reserveDetails.Sum(m => m.OriginalAmount);
@@ -344,29 +341,6 @@ namespace Lumos.BLL.Biz
                 }
 
                 order.PayExpireTime = this.DateTime.AddSeconds(rop.PayTimeout);
-
-                //switch (rop.PayWay)
-                //{
-                //    case Enumeration.OrderPayWay.Wechat:
-
-                //        var appInfo = BizFactory.AppInfo.Get(order.AppId);
-
-                //        var ret_UnifiedOrder = SdkFactory.Wx.UnifiedOrderByNative(appInfo, order.Sn, order.ChargeAmount, "", Common.CommonUtil.GetIP(), "自助商品", order.PayExpireTime.Value);
-
-                //        if (string.IsNullOrEmpty(ret_UnifiedOrder.CodeUrl))
-                //        {
-                //            return new CustomJsonResult<RetOrderReserve>(ResultType.Failure, ResultCode.Failure, "支付二维码生成失败",null);
-                //        }
-
-                //        order.PayPrepayId = ret_UnifiedOrder.PrepayId;
-                //        order.PayQrCodeUrl = ret_UnifiedOrder.CodeUrl;
-
-                //        break;
-                //    case Enumeration.OrderPayWay.AliPay:
-                //        break;
-
-                //}
-
                 CurrentDb.Order.Add(order);
                 CurrentDb.SaveChanges(true);
                 ts.Complete();
