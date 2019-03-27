@@ -15,7 +15,7 @@ namespace Lumos.BLL.Service.AppTerm
         }
 
         public string OrderId { get; set; }
-        //public string PayQrCodeUrl { get; set; }
+        public string OrderSn { get; set; }
 
     }
 
