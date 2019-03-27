@@ -345,29 +345,27 @@ namespace Lumos.BLL.Biz
 
                 order.PayExpireTime = this.DateTime.AddSeconds(rop.PayTimeout);
 
-                switch (rop.PayWay)
-                {
-                    case Enumeration.OrderPayWay.Wechat:
+                //switch (rop.PayWay)
+                //{
+                //    case Enumeration.OrderPayWay.Wechat:
 
-                        var appInfo = BizFactory.AppInfo.Get(order.AppId);
+                //        var appInfo = BizFactory.AppInfo.Get(order.AppId);
 
-                        var ret_UnifiedOrder = SdkFactory.Wx.UnifiedOrderByNative(appInfo, order.Sn, order.ChargeAmount, "", Common.CommonUtil.GetIP(), "自助商品", order.PayExpireTime.Value);
+                //        var ret_UnifiedOrder = SdkFactory.Wx.UnifiedOrderByNative(appInfo, order.Sn, order.ChargeAmount, "", Common.CommonUtil.GetIP(), "自助商品", order.PayExpireTime.Value);
 
-                        if (string.IsNullOrEmpty(ret_UnifiedOrder.CodeUrl))
-                        {
-                            return new CustomJsonResult<RetOrderReserve>(ResultType.Failure, ResultCode.Failure, "支付二维码生成失败",null);
-                        }
+                //        if (string.IsNullOrEmpty(ret_UnifiedOrder.CodeUrl))
+                //        {
+                //            return new CustomJsonResult<RetOrderReserve>(ResultType.Failure, ResultCode.Failure, "支付二维码生成失败",null);
+                //        }
 
-                        order.PayPrepayId = ret_UnifiedOrder.PrepayId;
-                        order.PayQrCodeUrl = ret_UnifiedOrder.CodeUrl;
+                //        order.PayPrepayId = ret_UnifiedOrder.PrepayId;
+                //        order.PayQrCodeUrl = ret_UnifiedOrder.CodeUrl;
 
-                        break;
-                    case Enumeration.OrderPayWay.AliPay:
-                        break;
+                //        break;
+                //    case Enumeration.OrderPayWay.AliPay:
+                //        break;
 
-                }
-
-
+                //}
 
                 CurrentDb.Order.Add(order);
                 CurrentDb.SaveChanges(true);
@@ -377,8 +375,7 @@ namespace Lumos.BLL.Biz
 
                 ret.OrderId = order.Id;
                 ret.OrderSn = order.Sn;
-                ret.PayPrepayId = order.PayPrepayId;
-                ret.PayQrCodeUrl = order.PayQrCodeUrl;
+
                 result = new CustomJsonResult<RetOrderReserve>(ResultType.Success, ResultCode.Success, "预定成功", ret);
 
             }

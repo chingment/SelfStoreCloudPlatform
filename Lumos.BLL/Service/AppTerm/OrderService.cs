@@ -39,7 +39,10 @@ namespace Lumos.BLL.Service.AppTerm
             {
                 RetOrderReserve ret = new RetOrderReserve();
                 ret.OrderId = bizResult.Data.OrderId;
-                ret.PayUrl = string.Format("http://mobile.17fanju.com/Order/Confirm?soure=machine&orderId=" + bizResult.Data.OrderId);
+
+
+                //ret.PayQrCodeUrl = bizResult.Data.PayQrCodeUrl;
+                //ret.PayUrl = string.Format("http://mobile.17fanju.com/Order/Confirm?soure=machine&orderId=" + bizResult.Data.OrderId);
 
                 result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
             }

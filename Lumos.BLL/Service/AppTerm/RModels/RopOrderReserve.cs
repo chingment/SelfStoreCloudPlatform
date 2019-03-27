@@ -19,7 +19,6 @@ namespace Lumos.BLL.Service.AppTerm
         public string MachineId { get; set; }
         public int PayTimeout { get; set; }
         public List<Sku> Skus { get; set; }
-        public Enumeration.OrderPayWay PayWay { get; set; }
 
         public class Sku
         {
