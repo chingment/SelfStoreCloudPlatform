@@ -17,6 +17,9 @@ namespace Lumos.BLL.Biz
         }
         public string OrderId { get; set; }
         public string OrderSn { get; set; }
+
+        public string PayPrepayId { get; set; }
+        public string PayQrCodeUrl { get; set; }
     }
 
 

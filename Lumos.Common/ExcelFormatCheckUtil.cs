@@ -56,6 +56,13 @@ namespace Lumos.Common
                 }
             }
 
+            int rowCount = _sheet.LastRowNum + 1;
+            int cellCount = rowTitle.LastCellNum;
+
+            if (cellCount != _checkCell.Count)
+            {
+                _errorPoint.Add("导入文件的标题栏目数量是" + cellCount + "与模板标题栏目数量是" + _checkCell.Count + "，不一致");
+            }
 
             if (_errorPoint.Count > 0)
             {
@@ -63,8 +70,8 @@ namespace Lumos.Common
                 return;
             }
 
-            int rowCount = _sheet.LastRowNum + 1;
-            int cellCount = rowTitle.LastCellNum;
+
+
 
             for (int i = 1; i < rowCount; i++)
             {
@@ -94,7 +101,7 @@ namespace Lumos.Common
 
         public void AddCheckCellIsString(int index, string title, int minLen, int maxLen)
         {
-            _checkCell.Add(new Common.CheckCell { Index = index, Title = title, MinLength = minLen, MaxLength = maxLen, ValueType = ExcelCellValueType.String});
+            _checkCell.Add(new Common.CheckCell { Index = index, Title = title, MinLength = minLen, MaxLength = maxLen, ValueType = ExcelCellValueType.String });
         }
 
 

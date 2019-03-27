@@ -55,6 +55,8 @@ namespace Lumos.BLL.Service.AppTerm
             ret.Machine.StoreName = store.Name;
             ret.Machine.PayTimeout = merchant.PayTimeout;
             ret.Machine.LogoImgUrl = machine.LogoImgUrl;
+            ret.Machine.Currency = store.Currency;
+            ret.Machine.CurrencySymbol = store.CurrencySymbol;
 
             ret.Banners = TermServiceFactory.Machine.GetBanners(machine.MerchantId, machine.StoreId, machine.Id);
 
@@ -62,7 +64,7 @@ namespace Lumos.BLL.Service.AppTerm
 
             ret.ProductSkus = TermServiceFactory.Machine.GetProductSkus(machine.MerchantId, machine.StoreId, machine.Id);
 
-
+            
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
 

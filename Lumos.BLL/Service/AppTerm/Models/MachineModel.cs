@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lumos.Entity;
 
 namespace Lumos.BLL.Service.AppTerm
 {
@@ -14,5 +15,7 @@ namespace Lumos.BLL.Service.AppTerm
         public string StoreName { get; set; }
         public int PayTimeout { get; set; }
         public string LogoImgUrl { get; set; }
+        public string Currency { get; set; }
+        public string CurrencySymbol { get; set; }
     }
-}
+} 

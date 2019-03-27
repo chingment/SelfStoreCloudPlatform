@@ -86,7 +86,7 @@ namespace Lumos.BLL
 
         }
 
-        public UnifiedOrderResult UnifiedOrderByJSAPI(AppInfoConfig config, string openId, string orderSn, decimal orderAmount, string goods_tag, string ip, string body, DateTime? time_expire = null)
+        public UnifiedOrderResult UnifiedOrderByJsApi(AppInfoConfig config, string openId, string orderSn, decimal orderAmount, string goods_tag, string ip, string body, DateTime? time_expire = null)
         {
 
             var ret = new UnifiedOrderResult();
@@ -115,6 +115,37 @@ namespace Lumos.BLL
             return ret;
 
         }
+
+        public UnifiedOrderResult UnifiedOrderByNative(AppInfoConfig config,string orderSn, decimal orderAmount, string goods_tag, string ip, string body, DateTime? time_expire = null)
+        {
+
+            var ret = new UnifiedOrderResult();
+
+            TenpayUtil tenpayUtil = new TenpayUtil(config);
+
+            UnifiedOrder unifiedOrder = new UnifiedOrder();
+            unifiedOrder.openid = "";
+            unifiedOrder.out_trade_no = orderSn;//商户订单号
+            unifiedOrder.spbill_create_ip = "192.168.1.1";//终端IP
+            unifiedOrder.total_fee = Convert.ToInt32(orderAmount * 100);//标价金额
+            unifiedOrder.body = body;//商品描述  
+            unifiedOrder.trade_type = "Native";
+            if (time_expire != null)
+            {
+                unifiedOrder.time_expire = time_expire.Value.ToString("yyyyMMddHHmmss");
+            }
+
+            if (!string.IsNullOrEmpty(goods_tag))
+            {
+                unifiedOrder.goods_tag = goods_tag;
+            }
+
+            ret = tenpayUtil.UnifiedOrder(unifiedOrder);
+
+            return ret;
+
+        }
+
         public string GetWebAuthorizeUrl(AppInfoConfig config, string returnUrl)
         {
             return OAuthApi.GetAuthorizeUrl(config.AppId, config.AppWxOauth2RedirectUrl + "?returnUrl=" + returnUrl);

@@ -53,6 +53,7 @@ namespace Lumos.WeiXinSdk.Tenpay
             {
                 sParams.Add("goods_tag", order.goods_tag);//商品优惠标识  
             }
+
             if (order.trade_type == "MWEB")
             {
                 sParams.Add("scene_info", "{\"h5_info\": {\"type\":\"Wap\",\"wap_url\": \"http://mobile.17fanju.com\",\"wap_name\": \"贩聚社团\"}}");//场景信息

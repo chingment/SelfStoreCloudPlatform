@@ -299,7 +299,7 @@ namespace Lumos.BLL.Service.AppMobile
                     order.PayWay = Enumeration.OrderPayWay.Wechat;
 
 
-                    var ret_UnifiedOrder = SdkFactory.Wx.UnifiedOrderByJSAPI(appInfo, wxUserInfo.OpenId, order.Sn, 0.01m, "", Common.CommonUtil.GetIP(), "自助商品", order.PayExpireTime.Value);
+                    var ret_UnifiedOrder = SdkFactory.Wx.UnifiedOrderByJsApi(appInfo, wxUserInfo.OpenId, order.Sn, 0.01m, "", Common.CommonUtil.GetIP(), "自助商品", order.PayExpireTime.Value);
 
                     if (string.IsNullOrEmpty(ret_UnifiedOrder.PrepayId))
                     {
