@@ -18,6 +18,10 @@ namespace Lumos.BLL
             if (merchant == null)
                 return null;
 
+
+            //config.AppId= merchant.we
+
+
             return config;
         }
     }

@@ -10,12 +10,12 @@ namespace Lumos.WeiXinSdk
     {
         public string AppId { get; set; }
         public string AppSecret { get; set; }
-        public string AppWxPayMchId { get; set; }
-        public string AppWxPayKey { get; set; }
-        public string AppWxPayResultNotifyUrl { get; set; }
-        public string AppWxNotifyEventUrlToken { get; set; }
+        public string PayMchId { get; set; }
+        public string PayKey { get; set; }
+        public string PayResultNotifyUrl { get; set; }
+        public string NotifyEventUrlToken { get; set; }
         public string SslCert_Path { get; set; }
         public string SslCert_Password { get; set; }
-        public string AppWxOauth2RedirectUrl { get; set; }
+        public string Oauth2RedirectUrl { get; set; }
     }
 }

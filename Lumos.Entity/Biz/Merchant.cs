@@ -25,5 +25,15 @@ namespace Lumos.Entity
         public string SimpleCode { get; set; }
         public string Currency { get; set; }
         public string CurrencySymbol { get; set; }
+
+        public string WechatPayMchId { get; set; }
+        public string WechatPayKey { get; set; }
+        public string WechatPayResultNotifyUrl { get; set; }
+        public string WechatPaNotifyEventUrlToken { get; set; }
+        public string WechatPaOauth2RedirectUrl { get; set; }
+        public string WechatPaAppId { get; set; }
+        public string WechatPaAppSecret { get; set; }
+        public string WechatMpAppId { get; set; }
+        public string WechatMpAppSecret { get; set; }
     }
 }

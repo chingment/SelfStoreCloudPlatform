@@ -148,7 +148,7 @@ namespace Lumos.BLL
 
         public string GetWebAuthorizeUrl(WxAppInfoConfig config, string returnUrl)
         {
-            return OAuthApi.GetAuthorizeUrl(config.AppId, config.AppWxOauth2RedirectUrl + "?returnUrl=" + returnUrl);
+            return OAuthApi.GetAuthorizeUrl(config.AppId, config.Oauth2RedirectUrl + "?returnUrl=" + returnUrl);
         }
 
         public WxApiSnsOauth2AccessTokenResult GetWebOauth2AccessToken(WxAppInfoConfig config, string code)
@@ -244,14 +244,14 @@ namespace Lumos.BLL
 
         public JsApiPayParams GetJsApiPayParams(WxAppInfoConfig config, string orderId, string orderSn, string prepayId)
         {
-            JsApiPayParams parms = new JsApiPayParams(config.AppId, config.AppWxPayKey, prepayId, orderId, orderSn);
+            JsApiPayParams parms = new JsApiPayParams(config.AppId, config.PayKey, prepayId, orderId, orderSn);
 
             return parms;
         }
 
         public string GetNotifyEventUrlToken(WxAppInfoConfig config)
         {
-            return config.AppWxNotifyEventUrlToken;
+            return config.NotifyEventUrlToken;
         }
 
         public string GetCardApiTicket(WxAppInfoConfig config)
@@ -345,7 +345,7 @@ namespace Lumos.BLL
 
 
             //在string后加入API KEY
-            buff += "&key=" + config.AppWxPayKey;
+            buff += "&key=" + config.PayKey;
             //MD5加密
             var md5 = MD5.Create();
             var bs = md5.ComputeHash(Encoding.UTF8.GetBytes(buff));

@@ -19,7 +19,7 @@ namespace Lumos.BLL.Service.AppTerm
             CustomJsonResult result = new CustomJsonResult();
 
             var machine = CurrentDb.Machine.Where(m => m.Id == rop.MachineId).FirstOrDefault();
-      
+
             Biz.RopOrderReserve bizRop = new Biz.RopOrderReserve();
             bizRop.Source = Enumeration.OrderSource.Machine;
             bizRop.StoreId = machine.StoreId;
@@ -73,8 +73,9 @@ namespace Lumos.BLL.Service.AppTerm
                 case PayWay.Wechat:
                     order.PayWay = Enumeration.OrderPayWay.Wechat;
 
+                    var wxAppInfoConfig = BizFactory.Merchant.GetWxAppInfoConfig(order.MerchantId);
 
-                    ///var ret_UnifiedOrder = SdkFactory.Wx.UnifiedOrderByNative(appInfo,, order.Sn, 0.01m, "", Common.CommonUtil.GetIP(), "自助商品", order.PayExpireTime.Value);
+                    var ret_UnifiedOrder = SdkFactory.Wx.UnifiedOrderByNative(wxAppInfoConfig, order.Sn, 0.01m, "", Common.CommonUtil.GetIP(), "自助商品", order.PayExpireTime.Value);
 
                     //if (string.IsNullOrEmpty(ret_UnifiedOrder.PrepayId))
                     //{
