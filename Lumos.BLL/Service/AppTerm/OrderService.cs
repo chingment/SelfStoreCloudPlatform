@@ -51,11 +51,11 @@ namespace Lumos.BLL.Service.AppTerm
 
         }
 
-        public CustomJsonResult PayQrCodeBuild(RopOrderPayQrCodeBuild rop)
+        public CustomJsonResult PayUrlBuild(RopOrderPayUrlBuild rop)
         {
             var result = new CustomJsonResult();
 
-            var ret = new RetOrderPayQrCodeBuild();
+            var ret = new RetOrderPayUrlBuild();
 
             var order = CurrentDb.Order.Where(m => m.Id == rop.OrderId).FirstOrDefault();
 

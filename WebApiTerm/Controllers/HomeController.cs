@@ -158,7 +158,7 @@ namespace WebApiTerm.Controllers
         public string PayQrCodeBuild(string machineId, string orderId)
         {
 
-            RopOrderPayQrCodeBuild pms = new RopOrderPayQrCodeBuild();
+            RopOrderPayUrlBuild pms = new RopOrderPayUrlBuild();
             pms.MachineId = machineId;
             pms.PayWay = PayWay.Wechat;
             pms.OrderId = orderId;

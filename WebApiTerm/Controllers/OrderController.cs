@@ -16,9 +16,9 @@ namespace WebApiTerm.Controllers
             return new OwnApiHttpResponse(result);
         }
 
-        public OwnApiHttpResponse PayQrCodeBuild([FromBody]RopOrderPayQrCodeBuild rop)
+        public OwnApiHttpResponse PayUrlBuild([FromBody]RopOrderPayUrlBuild rop)
         {
-            IResult result = TermServiceFactory.Order.PayQrCodeBuild(rop);
+            IResult result = TermServiceFactory.Order.PayUrlBuild(rop);
             return new OwnApiHttpResponse(result);
         }
 

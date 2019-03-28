@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.AppTerm
 {
-    public class RetOrderPayQrCodeBuild
+    public class RetOrderPayUrlBuild
     {
         public string OrderId { get; set; }
 

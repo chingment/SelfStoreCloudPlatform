@@ -13,7 +13,7 @@ namespace Lumos.BLL.Service.AppTerm
         AliPay = 2
     }
 
-    public class RopOrderPayQrCodeBuild
+    public class RopOrderPayUrlBuild
     {
         public string MachineId { get; set; }
         public string OrderId { get; set; }
