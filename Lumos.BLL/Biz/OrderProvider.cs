@@ -10,18 +10,8 @@ using System.Transactions;
 
 namespace Lumos.BLL.Biz
 {
-    public class SkuByUnderStock
-    {
-        public string SkuId { get; set; }
-        public int ReserveQuantity { get; set; }
-        public int SellQuantity { get; set; }
-        public Enumeration.ReceptionMode ReceptionMode { get; set; }
-    }
-
-
     public class OrderProvider : BaseProvider
     {
-
         public CustomJsonResult<RetOrderReserve> Reserve(string operater, RopOrderReserve rop)
         {
             CustomJsonResult<RetOrderReserve> result = new CustomJsonResult<RetOrderReserve>();
