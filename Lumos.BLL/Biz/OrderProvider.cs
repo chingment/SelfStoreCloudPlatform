@@ -44,9 +44,9 @@ namespace Lumos.BLL.Biz
                 RetOrderReserve ret = new RetOrderReserve();
 
                 var skuIds = rop.Skus.Select(m => m.Id).ToArray();
-                
+
                 //检查是否有可买的商品
-                List<StoreSellStock> skusByStock=new List<StoreSellStock>();
+                List<StoreSellStock> skusByStock = new List<StoreSellStock>();
 
                 if (rop.ReserveMode == Enumeration.ReserveMode.OffLine)
                 {
@@ -57,93 +57,60 @@ namespace Lumos.BLL.Biz
                     skusByStock = CurrentDb.StoreSellStock.Where(m => m.StoreId == rop.StoreId && skuIds.Contains(m.ProductSkuId)).ToList();
                 }
 
-                if (skusByStock.Count == 0)
+                List<string> warn_tips = new List<string>();
+
+                foreach (var sku in rop.Skus)
                 {
-                    string tips = "";
-                    foreach (var item in skusByStock)
-                    {
-                        var skuModel = BizFactory.ProductSku.GetModel(item.ProductSkuId);
+                    var skuModel = BizFactory.ProductSku.GetModel(sku.Id);
 
-                        tips += skuModel.Name + "、";
-                    }
-
-                    if (!string.IsNullOrEmpty(tips))
-                    {
-                        tips = tips.Substring(0, tips.Length - 1) + ",";
-                    }
-
-                    return new CustomJsonResult<RetOrderReserve>(ResultType.Failure, ResultCode.Failure, tips + "可预定数量不足", null);
-                }
-
-                //检查是否有下架的商品
-                var skusByOffSell = skusByStock.Where(m => m.IsOffSell == true).ToList();
-                if (skusByOffSell.Count > 0)
-                {
-                    string tips = "";
-                    foreach (var item in skusByOffSell)
-                    {
-                        var skuModel = BizFactory.ProductSku.GetModel(item.ProductSkuId);
-
-                        tips += skuModel.Name + "、";
-                    }
-
-                    if (!string.IsNullOrEmpty(tips))
-                    {
-                        tips = tips.Substring(0, tips.Length - 1) + ",";
-                    }
-                    return new CustomJsonResult<RetOrderReserve>(ResultType.Failure, ResultCode.Failure, tips + "商品已经下架", null);
-                }
-
-                //检查是否有预定的商品数量与库存数量不对应
-                var skusByUnderStock = new List<SkuByUnderStock>();
-                foreach (var item in rop.Skus)
-                {
                     var sellQuantity = 0;
 
                     if (rop.ReserveMode == Enumeration.ReserveMode.OffLine)
                     {
-                        sellQuantity = skusByStock.Where(m => m.ProductSkuId == item.Id && m.ChannelType == Enumeration.ChannelType.Machine && m.ChannelId == rop.ChannelId).Sum(m => m.SellQuantity);
+                        sellQuantity = skusByStock.Where(m => m.ProductSkuId == sku.Id && m.ChannelType == Enumeration.ChannelType.Machine && m.ChannelId == rop.ChannelId).Sum(m => m.SellQuantity);
+                    }
+                    else if (rop.ReserveMode == Enumeration.ReserveMode.Online)
+                    {
+                        if (sku.ReceptionMode == Enumeration.ReceptionMode.Machine)
+                        {
+                            sellQuantity = skusByStock.Where(m => m.ProductSkuId == sku.Id && m.ChannelType == Enumeration.ChannelType.Machine).Sum(m => m.SellQuantity);
+                        }
+                        else if (sku.ReceptionMode == Enumeration.ReceptionMode.Express)
+                        {
+                            sellQuantity = skusByStock.Where(m => m.ProductSkuId == sku.Id && m.ChannelType == Enumeration.ChannelType.Express).Sum(m => m.SellQuantity);
+                        }
+                    }
+
+                    var hasOffSell = skusByStock.Where(m => m.ProductSkuId == sku.Id).Where(m => m.IsOffSell == true).FirstOrDefault();
+
+                    if (hasOffSell == null)
+                    {
+                        if (sellQuantity < sku.Quantity)
+                        {
+                            warn_tips.Add(string.Format("{0}的可销售数量为{1}个", skuModel.Name, sellQuantity));
+                        }
                     }
                     else
                     {
-                        if (item.ReceptionMode == Enumeration.ReceptionMode.Machine)
-                        {
-                            sellQuantity = skusByStock.Where(m => m.ProductSkuId == item.Id && m.ChannelType == Enumeration.ChannelType.Machine).Sum(m => m.SellQuantity);
-                        }
-                        else if (item.ReceptionMode == Enumeration.ReceptionMode.Express)
-                        {
-                            sellQuantity = skusByStock.Where(m => m.ProductSkuId == item.Id && m.ChannelType == Enumeration.ChannelType.Express).Sum(m => m.SellQuantity);
-                        }
-                    }
-
-                    if (item.Quantity > sellQuantity)
-                    {
-                        var skuByUnderStock = new SkuByUnderStock();
-                        skuByUnderStock.SkuId = item.Id;
-                        skuByUnderStock.ReserveQuantity = item.Quantity;
-                        skuByUnderStock.SellQuantity = sellQuantity;
-                        skuByUnderStock.ReceptionMode = item.ReceptionMode;
-                        skusByUnderStock.Add(skuByUnderStock);
+                        warn_tips.Add(string.Format("{0}的已经下架", skuModel.Name));
                     }
                 }
 
-                if (skusByUnderStock.Count > 0)
+                if (warn_tips.Count > 0)
                 {
                     string tips = "";
-                    foreach (var item in skusByUnderStock)
+                    foreach (var warn_tip in warn_tips)
                     {
-                        var skuModel = BizFactory.ProductSku.GetModel(item.SkuId);
-
-                        tips += "[" + item.ReceptionMode.GetCnName() + "]" + skuModel.Name + "的最大库存为" + item.SellQuantity + ";";
+                        tips += warn_tip + ";";
                     }
-
                     if (!string.IsNullOrEmpty(tips))
                     {
                         tips = tips.Substring(0, tips.Length - 1);
                     }
-
                     return new CustomJsonResult<RetOrderReserve>(ResultType.Failure, ResultCode.Failure, "库存不足," + tips, null);
                 }
+
+
 
                 var store = CurrentDb.Store.Where(m => m.Id == rop.StoreId).FirstOrDefault();
                 if (store == null)
