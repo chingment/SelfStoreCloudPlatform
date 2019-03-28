@@ -44,14 +44,15 @@ namespace Lumos.BLL.Biz
                 RetOrderReserve ret = new RetOrderReserve();
 
                 var skuIds = rop.Skus.Select(m => m.Id).ToArray();
+                
                 //检查是否有可买的商品
-                List<StoreSellStock> skusByStock;
+                List<StoreSellStock> skusByStock=new List<StoreSellStock>();
 
                 if (rop.ReserveMode == Enumeration.ReserveMode.OffLine)
                 {
                     skusByStock = CurrentDb.StoreSellStock.Where(m => m.StoreId == rop.StoreId && m.ChannelType == Enumeration.ChannelType.Machine && m.ChannelId == rop.ChannelId && skuIds.Contains(m.ProductSkuId)).ToList();
                 }
-                else
+                else if (rop.ReserveMode == Enumeration.ReserveMode.Online)
                 {
                     skusByStock = CurrentDb.StoreSellStock.Where(m => m.StoreId == rop.StoreId && skuIds.Contains(m.ProductSkuId)).ToList();
                 }
