@@ -22,7 +22,5 @@ namespace Lumos.Entity
         public string Mender { get; set; }
         public DateTime? MendTime { get; set; }
         public string Description { get; set; }
-        public string Currency { get; set; }
-        public string CurrencySymbol { get; set; }
     }
 }

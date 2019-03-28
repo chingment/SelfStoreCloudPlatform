@@ -16,6 +16,12 @@ namespace WebApiTerm.Controllers
             return new OwnApiHttpResponse(result);
         }
 
+        public OwnApiHttpResponse PayQrCodeBuild([FromBody]RopOrderPayQrCodeBuild rop)
+        {
+            IResult result = TermServiceFactory.Order.PayQrCodeBuild(rop);
+            return new OwnApiHttpResponse(result);
+        }
+
         [HttpGet]
         public OwnApiHttpResponse<RetOrderPayStatusQuery> PayStatusQuery([FromUri]RupOrderPayStatusQuery rup)
         {

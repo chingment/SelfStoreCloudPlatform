@@ -196,6 +196,7 @@
     <Compile Include="Service\AppTerm\RModels\RopMachineLogin.cs" />
     <Compile Include="Service\AppTerm\RModels\RopMachineUpdateInfo.cs" />
     <Compile Include="Service\AppTerm\RModels\RopOrderCancle.cs" />
+    <Compile Include="Service\AppTerm\RModels\RopOrderPayQrCodeBuild.cs" />
     <Compile Include="Service\AppTerm\RModels\RopOrderSkuPickupEventNotify.cs" />
     <Compile Include="Service\AppTerm\RModels\RopOrderReserve.cs" />
     <Compile Include="Service\AppTerm\RModels\RupMachineInitData.cs" />

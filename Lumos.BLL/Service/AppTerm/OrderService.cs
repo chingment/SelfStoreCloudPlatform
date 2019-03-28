@@ -51,6 +51,48 @@ namespace Lumos.BLL.Service.AppTerm
 
         }
 
+        public CustomJsonResult PayQrCodeBuild(RopOrderPayQrCodeBuild rop)
+        {
+            var result = new CustomJsonResult();
+
+
+            var order = CurrentDb.Order.Where(m => m.Id == rop.OrderId).FirstOrDefault();
+
+            if (order == null)
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "找不到该订单数据");
+            }
+
+            order.PayExpireTime = this.DateTime.AddMinutes(5);
+
+            switch (rop.PayWay)
+            {
+                case PayWay.AliPay:
+                    order.PayWay = Enumeration.OrderPayWay.AliPay;
+                    break;
+                case PayWay.Wechat:
+                    order.PayWay = Enumeration.OrderPayWay.Wechat;
+
+
+                    ///var ret_UnifiedOrder = SdkFactory.Wx.UnifiedOrderByNative(appInfo,, order.Sn, 0.01m, "", Common.CommonUtil.GetIP(), "自助商品", order.PayExpireTime.Value);
+
+                    //if (string.IsNullOrEmpty(ret_UnifiedOrder.PrepayId))
+                    //{
+                    //    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "支付二维码生成失败");
+                    //}
+                    //order.PayPrepayId = ret_UnifiedOrder.PrepayId;
+                    //order.PayQrCodeUrl = ret_UnifiedOrder.CodeUrl;
+                    //CurrentDb.SaveChanges();
+
+                    Task4Factory.Global.Enter(TimerTaskType.CheckOrderPay, order.PayExpireTime.Value, order);
+
+                    break;
+            }
+
+
+            return result;
+        }
+
         public CustomJsonResult<RetOrderPayStatusQuery> PayStatusQuery(RupOrderPayStatusQuery rup)
         {
             CustomJsonResult<RetOrderPayStatusQuery> ret = new CustomJsonResult<RetOrderPayStatusQuery>();
@@ -74,7 +116,6 @@ namespace Lumos.BLL.Service.AppTerm
             return ret;
         }
 
-
         public CustomJsonResult Cancle(RopOrderCancle rop)
         {
             CustomJsonResult result = new CustomJsonResult();
@@ -84,7 +125,6 @@ namespace Lumos.BLL.Service.AppTerm
 
             return result;
         }
-
 
         private RetOrderDetails GetOrderDetails(string machineId, string orderId)
         {

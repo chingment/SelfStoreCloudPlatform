@@ -54,8 +54,9 @@ namespace Lumos.BLL.Service.AppTerm
             ret.Machine.MerchantName = merchant.Name;
             ret.Machine.StoreName = store.Name;
             ret.Machine.LogoImgUrl = machine.LogoImgUrl;
-            ret.Machine.Currency = store.Currency;
-            ret.Machine.CurrencySymbol = store.CurrencySymbol;
+
+            ret.Machine.Currency = merchant.Currency;
+            ret.Machine.CurrencySymbol = merchant.CurrencySymbol;
 
             ret.Banners = TermServiceFactory.Machine.GetBanners(machine.MerchantId, machine.StoreId, machine.Id);
 

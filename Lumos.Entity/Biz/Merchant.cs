@@ -24,5 +24,7 @@ namespace Lumos.Entity
         public int PayTimeout { get; set; }
 
         public string SimpleCode { get; set; }
+        public string Currency { get; set; }
+        public string CurrencySymbol { get; set; }
     }
 }
