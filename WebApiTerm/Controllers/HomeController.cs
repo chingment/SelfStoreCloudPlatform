@@ -98,7 +98,7 @@ namespace WebApiTerm.Controllers
 
             string machineId = "000000000000000";
             model.Add("获取机器初始数据", MachineInitData(machineId));
-            //model.Add("预定商品", OrderReserve(machineId));
+            model.Add("预定商品", OrderReserve(machineId));
             //model.Add("登陆机器", MachineLogin(machineId,"a","b"));
 
             //HttpUtil http = new HttpUtil();
