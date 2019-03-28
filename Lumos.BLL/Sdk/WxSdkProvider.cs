@@ -47,7 +47,7 @@ namespace Lumos.BLL
 
         }
 
-        public string GetJsApiTicket(AppInfoConfig config)
+        public string GetJsApiTicket(WxAppInfoConfig config)
         {
 
             string key = string.Format("Wx_AppId_{0}_JsApiTicket", config.AppId);
@@ -86,7 +86,7 @@ namespace Lumos.BLL
 
         }
 
-        public UnifiedOrderResult UnifiedOrderByJsApi(AppInfoConfig config, string openId, string orderSn, decimal orderAmount, string goods_tag, string ip, string body, DateTime? time_expire = null)
+        public UnifiedOrderResult UnifiedOrderByJsApi(WxAppInfoConfig config, string openId, string orderSn, decimal orderAmount, string goods_tag, string ip, string body, DateTime? time_expire = null)
         {
 
             var ret = new UnifiedOrderResult();
@@ -116,7 +116,7 @@ namespace Lumos.BLL
 
         }
 
-        public UnifiedOrderResult UnifiedOrderByNative(AppInfoConfig config,string orderSn, decimal orderAmount, string goods_tag, string ip, string body, DateTime? time_expire = null)
+        public UnifiedOrderResult UnifiedOrderByNative(WxAppInfoConfig config,string orderSn, decimal orderAmount, string goods_tag, string ip, string body, DateTime? time_expire = null)
         {
 
             var ret = new UnifiedOrderResult();
@@ -146,17 +146,17 @@ namespace Lumos.BLL
 
         }
 
-        public string GetWebAuthorizeUrl(AppInfoConfig config, string returnUrl)
+        public string GetWebAuthorizeUrl(WxAppInfoConfig config, string returnUrl)
         {
             return OAuthApi.GetAuthorizeUrl(config.AppId, config.AppWxOauth2RedirectUrl + "?returnUrl=" + returnUrl);
         }
 
-        public WxApiSnsOauth2AccessTokenResult GetWebOauth2AccessToken(AppInfoConfig config, string code)
+        public WxApiSnsOauth2AccessTokenResult GetWebOauth2AccessToken(WxAppInfoConfig config, string code)
         {
             return OAuthApi.GetWebOauth2AccessToken(config.AppId, config.AppSecret, code);
         }
 
-        public string GetApiAccessToken(AppInfoConfig config)
+        public string GetApiAccessToken(WxAppInfoConfig config)
         {
             string wxAccessToken = System.Configuration.ConfigurationManager.AppSettings["custom:WxTestAccessToken"];
             if (wxAccessToken != null)
@@ -206,7 +206,7 @@ namespace Lumos.BLL
             return OAuthApi.GetUserInfo(accessToken, openId);
         }
 
-        public UserInfoModelByMinProramJsCode GetUserInfoByMinProramJsCode(AppInfoConfig config, string encryptedData, string iv, string code)
+        public UserInfoModelByMinProramJsCode GetUserInfoByMinProramJsCode(WxAppInfoConfig config, string encryptedData, string iv, string code)
         {
             try
             {
@@ -223,17 +223,17 @@ namespace Lumos.BLL
             }
         }
 
-        public string CardCodeDecrypt(AppInfoConfig config, string encrypt_code)
+        public string CardCodeDecrypt(WxAppInfoConfig config, string encrypt_code)
         {
             return OAuthApi.CardCodeDecrypt(this.GetApiAccessToken(config), encrypt_code);
         }
 
-        public WxApiUserInfoResult GetUserInfoByApiToken(AppInfoConfig config, string openId)
+        public WxApiUserInfoResult GetUserInfoByApiToken(WxAppInfoConfig config, string openId)
         {
             return OAuthApi.GetUserInfoByApiToken(this.GetApiAccessToken(config), openId);
         }
 
-        public CustomJsonResult<JsApiConfigParams> GetJsApiConfigParams(AppInfoConfig config, string url)
+        public CustomJsonResult<JsApiConfigParams> GetJsApiConfigParams(WxAppInfoConfig config, string url)
         {
             string jsApiTicket = GetJsApiTicket(config);
 
@@ -242,19 +242,19 @@ namespace Lumos.BLL
             return new CustomJsonResult<JsApiConfigParams>(ResultType.Success, ResultCode.Success, "", parms);
         }
 
-        public JsApiPayParams GetJsApiPayParams(AppInfoConfig config, string orderId, string orderSn, string prepayId)
+        public JsApiPayParams GetJsApiPayParams(WxAppInfoConfig config, string orderId, string orderSn, string prepayId)
         {
             JsApiPayParams parms = new JsApiPayParams(config.AppId, config.AppWxPayKey, prepayId, orderId, orderSn);
 
             return parms;
         }
 
-        public string GetNotifyEventUrlToken(AppInfoConfig config)
+        public string GetNotifyEventUrlToken(WxAppInfoConfig config)
         {
             return config.AppWxNotifyEventUrlToken;
         }
 
-        public string GetCardApiTicket(AppInfoConfig config)
+        public string GetCardApiTicket(WxAppInfoConfig config)
         {
 
             string key = string.Format("Wx_AppId_{0}_CardApiTicket", config.AppId);
@@ -293,12 +293,12 @@ namespace Lumos.BLL
 
         }
 
-        public string UploadMultimediaImage(AppInfoConfig config, string imageUrl)
+        public string UploadMultimediaImage(WxAppInfoConfig config, string imageUrl)
         {
             return OAuthApi.UploadMultimediaImage(this.GetApiAccessToken(config), imageUrl);
         }
 
-        public string OrderQuery(AppInfoConfig config, string orderSn)
+        public string OrderQuery(WxAppInfoConfig config, string orderSn)
         {
             CustomJsonResult result = new CustomJsonResult();
             TenpayUtil tenpayUtil = new TenpayUtil(config);
@@ -307,7 +307,7 @@ namespace Lumos.BLL
             return xml;
         }
 
-        public bool CheckPayNotifySign(AppInfoConfig config, string xml)
+        public bool CheckPayNotifySign(WxAppInfoConfig config, string xml)
         {
 
             var dic1 = WeiXinSdk.CommonUtil.ToDictionary(xml);

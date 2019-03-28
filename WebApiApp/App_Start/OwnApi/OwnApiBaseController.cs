@@ -53,7 +53,7 @@ namespace WebAppApi
             }
         }
 
-        public AppInfoConfig CurrentAppInfo
+        public WxAppInfoConfig CurrentAppInfo
         {
             get
             {
@@ -62,7 +62,7 @@ namespace WebAppApi
                 var appId = request.Params["appId"];
                 if (appId == null)
                     return null;
-                var appInfo = BizFactory.AppInfo.Get(appId);
+                var appInfo = BizFactory.Merchant.GetWxAppInfoConfig("");
                 return appInfo;
             }
         }

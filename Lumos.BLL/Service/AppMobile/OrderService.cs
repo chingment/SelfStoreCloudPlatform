@@ -267,7 +267,7 @@ namespace Lumos.BLL.Service.AppMobile
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
 
-        public CustomJsonResult GetJsApiPaymentPms(string operater, string clientUserId, AppInfoConfig appInfo, RupOrderGetJsApiPaymentPms rup)
+        public CustomJsonResult GetJsApiPaymentPms(string operater, string clientUserId, WxAppInfoConfig appInfo, RupOrderGetJsApiPaymentPms rup)
         {
             var result = new CustomJsonResult();
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lumos.WeiXinSdk
 {
-    public class AppInfoConfig
+    public class WxAppInfoConfig
     {
         public string AppId { get; set; }
         public string AppSecret { get; set; }

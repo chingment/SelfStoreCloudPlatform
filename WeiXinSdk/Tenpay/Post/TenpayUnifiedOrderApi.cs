@@ -30,7 +30,7 @@ namespace Lumos.WeiXinSdk.Tenpay
             }
         }
 
-        public TenpayUnifiedOrderApi(AppInfoConfig config, UnifiedOrder order)
+        public TenpayUnifiedOrderApi(WxAppInfoConfig config, UnifiedOrder order)
         {
             SortedDictionary<string, object> sParams = new SortedDictionary<string, object>();
 

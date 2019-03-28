@@ -54,7 +54,7 @@ namespace Lumos.WeiXinSdk
             return true;
         }
 
-        public string DoPost(AppInfoConfig config, string url, string xml, bool isUseCert = false, int timeout = 1000)
+        public string DoPost(WxAppInfoConfig config, string url, string xml, bool isUseCert = false, int timeout = 1000)
         {
             System.GC.Collect();//垃圾回收，回收没有正常关闭的http连接
 

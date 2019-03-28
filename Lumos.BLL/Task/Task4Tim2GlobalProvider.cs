@@ -88,7 +88,8 @@ namespace Lumos.BLL.Task
 
                                     if (!string.IsNullOrEmpty(chData.AppId))
                                     {
-                                        var appInfo = BizFactory.AppInfo.Get(chData.AppId);
+                                        var appInfo = BizFactory.Merchant.GetWxAppInfoConfig(chData.MerchantId);
+
                                         string xml = SdkFactory.Wx.OrderQuery(appInfo, chData.Sn);
                                         LogUtil.Info(string.Format("订单号：{0},结果文件:{1}", chData.Sn, xml));
                                         BizFactory.Order.PayResultNotify(GuidUtil.Empty(), Entity.Enumeration.OrderNotifyLogNotifyFrom.OrderQuery, xml, chData.Sn, out isPaySuccessed);

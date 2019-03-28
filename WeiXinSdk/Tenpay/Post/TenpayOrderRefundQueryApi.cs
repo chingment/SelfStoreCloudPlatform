@@ -36,7 +36,7 @@ namespace Lumos.WeiXinSdk.Tenpay
         /// </summary>
         /// <param name="config"></param>
         /// <param name="out_trade_no">商户内部的订单号</param>
-        public TenpayOrderRefundQueryApi(AppInfoConfig config, string out_refund_no)
+        public TenpayOrderRefundQueryApi(WxAppInfoConfig config, string out_refund_no)
         {
             SortedDictionary<string, object> sParams = new SortedDictionary<string, object>();
 

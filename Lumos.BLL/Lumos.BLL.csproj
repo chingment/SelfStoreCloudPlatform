@@ -75,6 +75,7 @@
   <ItemGroup>
     <Compile Include="BaseProvider.cs" />
     <Compile Include="Biz\BizFactory.cs" />
+    <Compile Include="Biz\MerchantProvider.cs" />
     <Compile Include="Biz\Models\FieldModel.cs" />
     <Compile Include="Biz\RModels\RetLogin.cs" />
     <Compile Include="Biz\RModels\RetWxUserCheckedUser.cs" />

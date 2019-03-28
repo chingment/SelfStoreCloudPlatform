@@ -110,12 +110,12 @@ namespace WebMobile
             }
         }
 
-        public AppInfoConfig CurrentAppInfo
+        public WxAppInfoConfig CurrentAppInfo
         {
             get
             {
                 var appId = ConfigurationManager.AppSettings["custom:WxAppId"];
-                var appInfo = BizFactory.AppInfo.Get(appId);
+                var appInfo = BizFactory.Merchant.GetWxAppInfoConfig("");
                 return appInfo;
             }
         }

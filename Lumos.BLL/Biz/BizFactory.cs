@@ -47,5 +47,13 @@ namespace Lumos.BLL.Biz
             }
         }
 
+        public static MerchantProvider Merchant
+        {
+            get
+            {
+                return new MerchantProvider();
+            }
+        }
+
     }
 }

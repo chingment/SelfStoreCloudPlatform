@@ -146,7 +146,7 @@ namespace WebMobile.Controllers
 
             string appId = dic2["appid"].ToString();
 
-            var appInfo = BizFactory.AppInfo.Get(appId);
+            var appInfo = BizFactory.Merchant.GetWxAppInfoConfig("");
 
             if (!SdkFactory.Wx.CheckPayNotifySign(appInfo, xml))
             {
@@ -210,7 +210,7 @@ namespace WebMobile.Controllers
                 if (baseEventMsg != null)
                 {
                     var appId = Request.QueryString["appId"];
-                    var appInfo = BizFactory.AppInfo.Get(appId);
+                    var appInfo = BizFactory.Merchant.GetWxAppInfoConfig("");
                     var userInfo_Result = SdkFactory.Wx.GetUserInfoByApiToken(appInfo, baseEventMsg.FromUserName);
 
                     if (userInfo_Result.openid != null)

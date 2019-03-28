@@ -18,24 +18,5 @@ namespace Lumos.BLL.Biz
 
             return appInfo.AppSecret;
         }
-
-        public AppInfoConfig Get(string id)
-        {
-            var sysAppInfo = CurrentDb.SysAppInfo.Where(m => m.AppId == id).FirstOrDefault();
-            if (sysAppInfo == null)
-                return null;
-
-            var appInfo = new AppInfoConfig();
-            appInfo.AppId = sysAppInfo.AppId;
-            appInfo.AppSecret = sysAppInfo.AppSecret;
-            appInfo.AppWxPayMchId = sysAppInfo.AppWxPayMchId;
-            appInfo.AppWxPayKey = sysAppInfo.AppWxPayKey;
-            appInfo.AppWxPayResultNotifyUrl = sysAppInfo.AppWxPayResultNotifyUrl;
-            appInfo.AppWxOauth2RedirectUrl = sysAppInfo.AppWxOauth2RedirectUrl;
-            appInfo.AppWxNotifyEventUrlToken = sysAppInfo.AppWxNotifyEventUrlToken;
-            return appInfo;
-        }
-
-
     }
 }
