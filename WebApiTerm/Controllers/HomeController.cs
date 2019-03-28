@@ -151,7 +151,6 @@ namespace WebApiTerm.Controllers
 
             RopOrderReserve pms = new RopOrderReserve();
             pms.MachineId = machineId;
-            pms.PayTimeout = 10;
             pms.Skus.Add(new RopOrderReserve.Sku() { Id = "3cbddffaf84148279bd91551db238ca3", Quantity = 1 });
             pms.Skus.Add(new RopOrderReserve.Sku() { Id = "44b2d4ae88e24b76a8a744f582214513", Quantity = 1 });
             pms.Skus.Add(new RopOrderReserve.Sku() { Id = "e8bb8685ed8d483fa60225fc750f3a79", Quantity = 1 });

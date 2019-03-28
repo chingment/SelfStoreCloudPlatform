@@ -19,11 +19,10 @@ namespace Lumos.BLL.Service.AppTerm
             CustomJsonResult result = new CustomJsonResult();
 
             var machine = CurrentDb.Machine.Where(m => m.Id == rop.MachineId).FirstOrDefault();
-
+      
             Biz.RopOrderReserve bizRop = new Biz.RopOrderReserve();
             bizRop.Source = Enumeration.OrderSource.Machine;
             bizRop.StoreId = machine.StoreId;
-            bizRop.PayTimeout = rop.PayTimeout;
             bizRop.ReserveMode = Enumeration.ReserveMode.OffLine;
             bizRop.ChannelId = machine.Id;
             bizRop.ChannelType = Enumeration.ChannelType.Machine;

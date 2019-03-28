@@ -23,7 +23,6 @@ namespace Lumos.BLL.Service.AppMobile
             Biz.RopOrderReserve bizRop = new Biz.RopOrderReserve();
             bizRop.Source = Enumeration.OrderSource.Machine;
             bizRop.StoreId = rop.StoreId;
-            bizRop.PayTimeout = rop.PayTimeout;
             bizRop.ReserveMode = Enumeration.ReserveMode.Online;
             bizRop.ClientUserId = clientUserId;
 

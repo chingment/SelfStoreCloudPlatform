@@ -10,7 +10,6 @@ namespace Lumos.BLL.Service.AppMobile
     public class RopOrderReserve
     {
         public string StoreId { get; set; }
-        public int PayTimeout { get; set; }
         public List<Sku> Skus { get; set; }
         public class Sku
         {

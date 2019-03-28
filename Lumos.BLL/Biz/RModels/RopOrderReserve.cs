@@ -23,7 +23,6 @@ namespace Lumos.BLL.Biz
         public string Receiver { get; set; }
         public string ReceiverPhone { get; set; }
         public string ReceptionAddress { get; set; }
-        public int PayTimeout { get; set; }
         public List<Sku> Skus { get; set; }
         public class Sku
         {

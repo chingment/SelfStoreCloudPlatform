@@ -43,9 +43,7 @@ namespace Lumos.BLL.Biz
             {
                 RetOrderReserve ret = new RetOrderReserve();
 
-
                 var skuIds = rop.Skus.Select(m => m.Id).ToArray();
-
                 //检查是否有可买的商品
                 List<StoreSellStock> skusByStock;
 
@@ -340,7 +338,7 @@ namespace Lumos.BLL.Biz
                     }
                 }
 
-                order.PayExpireTime = this.DateTime.AddSeconds(rop.PayTimeout);
+                order.PayExpireTime = this.DateTime.AddSeconds(120);
                 CurrentDb.Order.Add(order);
                 CurrentDb.SaveChanges(true);
                 ts.Complete();

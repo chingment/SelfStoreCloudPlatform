@@ -53,7 +53,6 @@ namespace Lumos.BLL.Service.AppTerm
             ret.Machine.Name = machine.Name;
             ret.Machine.MerchantName = merchant.Name;
             ret.Machine.StoreName = store.Name;
-            ret.Machine.PayTimeout = merchant.PayTimeout;
             ret.Machine.LogoImgUrl = machine.LogoImgUrl;
             ret.Machine.Currency = store.Currency;
             ret.Machine.CurrencySymbol = store.CurrencySymbol;
