@@ -82,7 +82,7 @@ namespace Lumos.BLL.Biz
                     }
                     else
                     {
-                        warn_tips.Add(string.Format("{0}的已经下架", skuModel.Name));
+                        warn_tips.Add(string.Format("{0}已经下架", skuModel.Name));
                     }
                 }
 
@@ -97,7 +97,7 @@ namespace Lumos.BLL.Biz
                     {
                         tips = tips.Substring(0, tips.Length - 1);
                     }
-                    return new CustomJsonResult<RetOrderReserve>(ResultType.Failure, ResultCode.Failure, "库存不足," + tips, null);
+                    return new CustomJsonResult<RetOrderReserve>(ResultType.Failure, ResultCode.Failure,tips, null);
                 }
 
 

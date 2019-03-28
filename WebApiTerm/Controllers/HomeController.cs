@@ -97,9 +97,9 @@ namespace WebApiTerm.Controllers
             //host = "http://demo.api.term.17fanju.com";
 
             string machineId = "000000000000000";
-            //model.Add("获取机器初始数据", MachineInitData(machineId));
-            //model.Add("预定商品", OrderReserve(machineId));
-            model.Add("生成支付二维码", PayQrCodeBuild(machineId, "6e564df016b84e5cb424100161c77076"));
+            model.Add("获取机器初始数据", MachineInitData(machineId));
+            model.Add("预定商品", OrderReserve(machineId));
+           // model.Add("生成支付二维码", PayQrCodeBuild(machineId, "6e564df016b84e5cb424100161c77076"));
 
             //model.Add("登陆机器", MachineLogin(machineId,"a","b"));
 
