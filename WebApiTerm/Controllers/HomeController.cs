@@ -97,8 +97,7 @@ namespace WebApiTerm.Controllers
             //host = "http://demo.api.term.17fanju.com";
 
             string machineId = "000000000000000";
-            model.Add("获取机器接口配置信息", InitData(machineId));
-            //model.Add("获取全局数据", GlobalDataSet(machineId, DateTime.Now));
+            model.Add("获取机器初始数据", MachineInitData(machineId));
             //model.Add("预定商品", OrderReserve(machineId));
             //model.Add("登陆机器", MachineLogin(machineId,"a","b"));
 
@@ -111,7 +110,7 @@ namespace WebApiTerm.Controllers
 
 
 
-        public string InitData(string machineId)
+        public string MachineInitData(string machineId)
         {
             Dictionary<string, string> parames = new Dictionary<string, string>();
             parames.Add("machineId", machineId.ToString());
@@ -123,24 +122,6 @@ namespace WebApiTerm.Controllers
             headers.Add("sign", signStr);
             HttpUtil http = new HttpUtil();
             string result = http.HttpGet("" + host + "/api/Machine/InitData?machineId=" + machineId, headers);
-
-            return result;
-
-        }
-
-        public string GlobalDataSet(string machineId, DateTime datetime)
-        {
-            Dictionary<string, string> parames = new Dictionary<string, string>();
-            parames.Add("machineId", machineId.ToString());
-            parames.Add("datetime", datetime.ToUnifiedFormatDateTime());
-            string signStr = Signature.Compute(key, secret, timespan, Signature.GetQueryData(parames));
-
-            Dictionary<string, string> headers = new Dictionary<string, string>();
-            headers.Add("key", key);
-            headers.Add("timestamp", timespan.ToString());
-            headers.Add("sign", signStr);
-            HttpUtil http = new HttpUtil();
-            string result = http.HttpGet("" + host + "/api/Global/DataSet?machineId=" + machineId + "&datetime=" + datetime.ToUnifiedFormatDateTime(), headers);
 
             return result;
 
@@ -191,7 +172,7 @@ namespace WebApiTerm.Controllers
             headers1.Add("sign", signStr);
 
             HttpUtil http = new HttpUtil();
-            string respon_data4 = http.HttpPostJson("" + host + "/api/Machine/UploadLog", a1, headers1);
+            string respon_data4 = http.HttpPostJson("" + host + "/api/Machine/Login", a1, headers1);
 
             return respon_data4;
 

@@ -198,15 +198,11 @@
     <Compile Include="Service\AppTerm\RModels\RopOrderCancle.cs" />
     <Compile Include="Service\AppTerm\RModels\RopOrderSkuPickupEventNotify.cs" />
     <Compile Include="Service\AppTerm\RModels\RopOrderReserve.cs" />
-    <Compile Include="Service\AppTerm\RModels\RopUserAuthorize.cs" />
     <Compile Include="Service\AppTerm\RModels\RupMachineInitData.cs" />
     <Compile Include="Service\AppTerm\RModels\RupMachineGetSlotSkuStock.cs" />
-    <Compile Include="Service\AppTerm\RModels\RupMachineLoginResultQuery.cs" />
-    <Compile Include="Service\AppTerm\RModels\RupOrderCancle.cs" />
     <Compile Include="Service\AppTerm\RModels\RupOrderDetails.cs" />
     <Compile Include="Service\AppTerm\RModels\RupOrderPayStatusQuery.cs" />
     <Compile Include="Service\AppTerm\RModels\RupOrderSkuPickupStatusQuery.cs" />
-    <Compile Include="Service\AppTerm\RModels\RupOrderReserve.cs" />
     <Compile Include="Service\AppTerm\TermServiceFactory.cs" />
     <Compile Include="Service\Admin\Sys\RModels\RetSysMenuGetDetails.cs" />
     <Compile Include="Service\Admin\Sys\RModels\RetSysMenuGetPermissions.cs" />

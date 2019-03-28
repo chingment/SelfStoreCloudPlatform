@@ -31,7 +31,6 @@ namespace WebApiTerm.Controllers
             return new OwnApiHttpResponse(result);
         }
 
-
         [HttpPost]
         public OwnApiHttpResponse Login(RopMachineLogin rop)
         {
