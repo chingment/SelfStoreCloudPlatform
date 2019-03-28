@@ -97,8 +97,10 @@ namespace WebApiTerm.Controllers
             //host = "http://demo.api.term.17fanju.com";
 
             string machineId = "000000000000000";
-            model.Add("获取机器初始数据", MachineInitData(machineId));
-            model.Add("预定商品", OrderReserve(machineId));
+            //model.Add("获取机器初始数据", MachineInitData(machineId));
+            //model.Add("预定商品", OrderReserve(machineId));
+            model.Add("生成支付二维码", PayQrCodeBuild(machineId, "6e564df016b84e5cb424100161c77076"));
+
             //model.Add("登陆机器", MachineLogin(machineId,"a","b"));
 
             //HttpUtil http = new HttpUtil();
@@ -153,13 +155,38 @@ namespace WebApiTerm.Controllers
 
         }
 
-        public string MachineLogin(string machineId,string userName,string password)
+        public string PayQrCodeBuild(string machineId, string orderId)
+        {
+
+            RopOrderPayQrCodeBuild pms = new RopOrderPayQrCodeBuild();
+            pms.MachineId = machineId;
+            pms.PayWay = PayWay.Wechat;
+            pms.OrderId = orderId;
+
+
+            string a1 = JsonConvert.SerializeObject(pms);
+
+            string signStr = Signature.Compute(key, secret, timespan, a1);
+
+            Dictionary<string, string> headers1 = new Dictionary<string, string>();
+            headers1.Add("key", key);
+            headers1.Add("timestamp", (timespan.ToString()).ToString());
+            headers1.Add("sign", signStr);
+
+            HttpUtil http = new HttpUtil();
+            string respon_data4 = http.HttpPostJson("" + host + "/api/Order/PayQrCodeBuild", a1, headers1);
+
+            return respon_data4;
+
+        }
+
+        public string MachineLogin(string machineId, string userName, string password)
         {
 
             RopMachineLogin pms = new RopMachineLogin();
             pms.MachineId = machineId;
             pms.UserName = userName;
-            pms.Password=password;
+            pms.Password = password;
 
 
             string a1 = JsonConvert.SerializeObject(pms);

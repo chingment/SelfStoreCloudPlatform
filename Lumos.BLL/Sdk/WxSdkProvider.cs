@@ -116,7 +116,7 @@ namespace Lumos.BLL
 
         }
 
-        public UnifiedOrderResult UnifiedOrderByNative(WxAppInfoConfig config,string orderSn, decimal orderAmount, string goods_tag, string ip, string body, DateTime? time_expire = null)
+        public UnifiedOrderResult UnifiedOrderByNative(WxAppInfoConfig config,string orderSn, decimal orderAmount, string goods_tag, string ip, string body, DateTime time_expire)
         {
 
             var ret = new UnifiedOrderResult();
@@ -126,20 +126,13 @@ namespace Lumos.BLL
             UnifiedOrder unifiedOrder = new UnifiedOrder();
             unifiedOrder.openid = "";
             unifiedOrder.out_trade_no = orderSn;//商户订单号
-            unifiedOrder.spbill_create_ip = "192.168.1.1";//终端IP
+            unifiedOrder.spbill_create_ip = ip;//终端IP
             unifiedOrder.total_fee = Convert.ToInt32(orderAmount * 100);//标价金额
             unifiedOrder.body = body;//商品描述  
-            unifiedOrder.trade_type = "Native";
-            if (time_expire != null)
-            {
-                unifiedOrder.time_expire = time_expire.Value.ToString("yyyyMMddHHmmss");
-            }
-
-            if (!string.IsNullOrEmpty(goods_tag))
-            {
-                unifiedOrder.goods_tag = goods_tag;
-            }
-
+            unifiedOrder.trade_type = "NATIVE";
+            unifiedOrder.time_expire = time_expire.ToString("yyyyMMddHHmmss");
+            unifiedOrder.goods_tag = goods_tag;
+   
             ret = tenpayUtil.UnifiedOrder(unifiedOrder);
 
             return ret;

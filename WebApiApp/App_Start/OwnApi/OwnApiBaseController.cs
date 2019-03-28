@@ -62,7 +62,7 @@ namespace WebAppApi
                 var appId = request.Params["appId"];
                 if (appId == null)
                     return null;
-                var appInfo = BizFactory.Merchant.GetWxAppInfoConfig("");
+                var appInfo = BizFactory.Merchant.GetWxPaAppInfoConfig("");
                 return appInfo;
             }
         }

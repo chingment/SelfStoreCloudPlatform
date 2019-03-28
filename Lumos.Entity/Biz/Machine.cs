@@ -25,8 +25,5 @@ namespace Lumos.Entity
         public string LogoImgUrl { get; set; }
         public string BtnBuyImgUrl { get; set; }
         public string BtnPickImgUrl { get; set; }
-
-        public string PayTimeout { get; set; }
-
     }
 }

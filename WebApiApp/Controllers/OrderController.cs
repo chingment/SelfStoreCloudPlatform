@@ -67,7 +67,7 @@ namespace WebAppApi.Controllers
 
             string appId = dic2["appid"].ToString();
 
-            var appInfo = BizFactory.Merchant.GetWxAppInfoConfig("");
+            var appInfo = BizFactory.Merchant.GetWxPaAppInfoConfig("");
 
             if (!SdkFactory.Wx.CheckPayNotifySign(appInfo, xml))
             {

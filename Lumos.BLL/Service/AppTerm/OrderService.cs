@@ -55,6 +55,7 @@ namespace Lumos.BLL.Service.AppTerm
         {
             var result = new CustomJsonResult();
 
+            var ret = new RetOrderPayQrCodeBuild();
 
             var order = CurrentDb.Order.Where(m => m.Id == rop.OrderId).FirstOrDefault();
 
@@ -73,20 +74,25 @@ namespace Lumos.BLL.Service.AppTerm
                 case PayWay.Wechat:
                     order.PayWay = Enumeration.OrderPayWay.Wechat;
 
-                    var wxAppInfoConfig = BizFactory.Merchant.GetWxAppInfoConfig(order.MerchantId);
+                    var wxPaAppInfoConfig = BizFactory.Merchant.GetWxPaAppInfoConfig(order.MerchantId);
 
-                    var ret_UnifiedOrder = SdkFactory.Wx.UnifiedOrderByNative(wxAppInfoConfig, order.Sn, 0.01m, "", Common.CommonUtil.GetIP(), "自助商品", order.PayExpireTime.Value);
+                    var ret_UnifiedOrder = SdkFactory.Wx.UnifiedOrderByNative(wxPaAppInfoConfig, order.Sn, 0.01m, "", Common.CommonUtil.GetIP(), "自助商品", order.PayExpireTime.Value);
 
-                    //if (string.IsNullOrEmpty(ret_UnifiedOrder.PrepayId))
-                    //{
-                    //    return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "支付二维码生成失败");
-                    //}
-                    //order.PayPrepayId = ret_UnifiedOrder.PrepayId;
-                    //order.PayQrCodeUrl = ret_UnifiedOrder.CodeUrl;
-                    //CurrentDb.SaveChanges();
+                    if (string.IsNullOrEmpty(ret_UnifiedOrder.PrepayId))
+                    {
+                        return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "支付二维码生成失败");
+                    }
+
+                    order.PayPrepayId = ret_UnifiedOrder.PrepayId;
+                    order.PayQrCodeUrl = ret_UnifiedOrder.CodeUrl;
+                    CurrentDb.SaveChanges();
 
                     Task4Factory.Global.Enter(TimerTaskType.CheckOrderPay, order.PayExpireTime.Value, order);
 
+                    ret.OrderId = order.Id;
+                    ret.PayUrl = ret_UnifiedOrder.CodeUrl;
+
+                    result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
                     break;
             }
 

@@ -15,6 +15,7 @@ namespace Lumos.BLL.Service.AppTerm
 
     public class RopOrderPayQrCodeBuild
     {
+        public string MachineId { get; set; }
         public string OrderId { get; set; }
 
         public PayWay PayWay { get; set; }

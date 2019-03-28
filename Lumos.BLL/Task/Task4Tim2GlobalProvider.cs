@@ -88,7 +88,7 @@ namespace Lumos.BLL.Task
 
                                     if (!string.IsNullOrEmpty(chData.AppId))
                                     {
-                                        var appInfo = BizFactory.Merchant.GetWxAppInfoConfig(chData.MerchantId);
+                                        var appInfo = BizFactory.Merchant.GetWxPaAppInfoConfig(chData.MerchantId);
 
                                         string xml = SdkFactory.Wx.OrderQuery(appInfo, chData.Sn);
                                         LogUtil.Info(string.Format("订单号：{0},结果文件:{1}", chData.Sn, xml));
