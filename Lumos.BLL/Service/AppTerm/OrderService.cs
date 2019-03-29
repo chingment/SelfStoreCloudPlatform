@@ -64,8 +64,6 @@ namespace Lumos.BLL.Service.AppTerm
                 return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "找不到该订单数据");
             }
 
-            order.PayExpireTime = this.DateTime.AddMinutes(5);
-
             switch (rop.PayWay)
             {
                 case PayWay.AliPay:
@@ -86,8 +84,6 @@ namespace Lumos.BLL.Service.AppTerm
                     order.PayPrepayId = ret_UnifiedOrder.PrepayId;
                     order.PayQrCodeUrl = ret_UnifiedOrder.CodeUrl;
                     CurrentDb.SaveChanges();
-
-                    Task4Factory.Global.Enter(TimerTaskType.CheckOrderPay, order.PayExpireTime.Value, order);
 
                     ret.OrderId = order.Id;
                     ret.PayUrl = ret_UnifiedOrder.CodeUrl;
