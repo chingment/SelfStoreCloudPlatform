@@ -218,7 +218,7 @@ namespace Lumos.BLL.Biz
                         {
                             var orderDetailsChildSon = new OrderDetailsChildSon();
 
-                            orderDetailsChildSon.Id = detailsChildSon.Id;
+                            orderDetailsChildSon.Id = GuidUtil.New();
                             orderDetailsChildSon.Sn = orderDetailsChild.Sn + detailsChild.Details.IndexOf(detailsChildSon);
                             orderDetailsChildSon.ClientUserId = rop.ClientUserId;
                             orderDetailsChildSon.MerchantId = store.MerchantId;
@@ -257,7 +257,6 @@ namespace Lumos.BLL.Biz
 
                             machineStock.LockQuantity += slotStock.Quantity;
                             machineStock.SellQuantity -= slotStock.Quantity;
-
                             machineStock.Mender = operater;
                             machineStock.MendTime = this.DateTime;
 
