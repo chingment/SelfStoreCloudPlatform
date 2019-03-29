@@ -18,21 +18,21 @@ namespace WebApiTerm.Controllers
         }
 
         [HttpGet]
-        public OwnApiHttpResponse GetSlotSkuStock(RupMachineGetSlotSkuStock rup)
+        public OwnApiHttpResponse GetSlotSkuStock([FromUri]RupMachineGetSlotSkuStock rup)
         {
             IResult result = TermServiceFactory.Machine.GetSlotSkusStock(rup.MerchantId, rup.MachineId);
             return new OwnApiHttpResponse(result);
         }
 
         [HttpPost]
-        public OwnApiHttpResponse UpdateInfo(RopMachineUpdateInfo rop)
+        public OwnApiHttpResponse UpdateInfo([FromBody]RopMachineUpdateInfo rop)
         {
             IResult result = TermServiceFactory.Machine.UpdateInfo(rop);
             return new OwnApiHttpResponse(result);
         }
 
         [HttpPost]
-        public OwnApiHttpResponse Login(RopMachineLogin rop)
+        public OwnApiHttpResponse Login([FromBody]RopMachineLogin rop)
         {
             IResult result = TermServiceFactory.Machine.Login(rop);
             return new OwnApiHttpResponse(result);
