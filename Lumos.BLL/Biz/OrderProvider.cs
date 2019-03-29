@@ -36,6 +36,7 @@ namespace Lumos.BLL.Biz
                 var skuIds = rop.Skus.Select(m => m.Id).ToArray();
 
                 //检查是否有可买的商品
+
                 List<StoreSellStock> skusByStock = new List<StoreSellStock>();
 
                 if (rop.ReserveMode == Enumeration.ReserveMode.OffLine)
@@ -88,19 +89,8 @@ namespace Lumos.BLL.Biz
 
                 if (warn_tips.Count > 0)
                 {
-                    string tips = "";
-                    foreach (var warn_tip in warn_tips)
-                    {
-                        tips += warn_tip + ";";
-                    }
-                    if (!string.IsNullOrEmpty(tips))
-                    {
-                        tips = tips.Substring(0, tips.Length - 1);
-                    }
-                    return new CustomJsonResult<RetOrderReserve>(ResultType.Failure, ResultCode.Failure,tips, null);
+                    return new CustomJsonResult<RetOrderReserve>(ResultType.Failure, ResultCode.Failure, string.Join(";", warn_tips.ToArray()), null);
                 }
-
-
 
                 var store = CurrentDb.Store.Where(m => m.Id == rop.StoreId).FirstOrDefault();
                 if (store == null)
@@ -119,23 +109,20 @@ namespace Lumos.BLL.Biz
                 order.Status = Enumeration.OrderStatus.WaitPay;
                 order.Source = rop.Source;
                 order.SubmitTime = this.DateTime;
+                order.PayExpireTime = this.DateTime.AddSeconds(120);
                 order.Creator = operater;
                 order.CreateTime = this.DateTime;
 
                 #region 更改购物车标识
-                LogUtil.Info("ClientId:" + rop.ClientUserId);
 
                 if (!string.IsNullOrEmpty(rop.ClientUserId))
                 {
                     var cartsIds = rop.Skus.Select(m => m.CartId).Distinct().ToArray();
                     if (cartsIds != null)
                     {
-                        LogUtil.Info("cartsIds:" + Newtonsoft.Json.JsonConvert.SerializeObject(cartsIds));
                         var clientCarts = CurrentDb.ClientCart.Where(m => cartsIds.Contains(m.Id) && m.ClientUserId == rop.ClientUserId).ToList();
                         if (clientCarts != null)
                         {
-                            LogUtil.Info("clientCarts.length" + clientCarts.Count);
-
                             foreach (var cart in clientCarts)
                             {
                                 cart.Status = Enumeration.CartStatus.Settling;
@@ -183,7 +170,7 @@ namespace Lumos.BLL.Biz
                         orderDetails.ReceiverPhone = rop.ReceiverPhone;
                         orderDetails.ReceptionAddress = rop.ReceptionAddress;
                         orderDetails.ChannelType = Enumeration.ChannelType.Express;
-                        orderDetails.Id = GuidUtil.Empty();
+                        orderDetails.ChannelId = GuidUtil.Empty();
                     }
                     else
                     {
@@ -296,7 +283,6 @@ namespace Lumos.BLL.Biz
                     }
                 }
 
-                order.PayExpireTime = this.DateTime.AddSeconds(120);
                 CurrentDb.Order.Add(order);
                 CurrentDb.SaveChanges(true);
                 ts.Complete();
