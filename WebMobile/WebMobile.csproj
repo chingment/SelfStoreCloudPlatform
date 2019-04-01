@@ -197,6 +197,7 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="zhaopin.html" />
     <None Include="log4net.config">
       <SubType>Designer</SubType>
     </None>
