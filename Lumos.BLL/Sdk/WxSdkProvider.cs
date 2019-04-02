@@ -132,7 +132,7 @@ namespace Lumos.BLL
             unifiedOrder.trade_type = "NATIVE";
             unifiedOrder.time_expire = time_expire.ToString("yyyyMMddHHmmss");
             unifiedOrder.goods_tag = goods_tag;
-            unifiedOrder.attach = "{\"merchantId:\":\"" + merchantId + "\"}";
+            unifiedOrder.attach = "{\"merchantId\":\"" + merchantId + "\"}";
             ret = tenpayUtil.UnifiedOrder(unifiedOrder);
 
             return ret;
