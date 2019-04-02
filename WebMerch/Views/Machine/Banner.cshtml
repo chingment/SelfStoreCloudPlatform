@@ -12,7 +12,7 @@
             $('input[name=machineId]').val(id);
 
             listTable = $("#list_table").loadDataTable({
-                url: "/MachineBanner/GetList",
+                url: "/Machine/GetBannerList",
                 pageIndex: 0,
                 searchParams: $("#form1").serializeArray(),
                 searchButtonId: "btn_Search",
@@ -41,7 +41,7 @@
                     "del": function (obj) {
                         art.dialog.confirm("确定删除[" + obj.title + "]？", function () {
                             $.lumos.postJson({
-                                url: "/MachineBanner/Delete",
+                                url: "/Machine/DeleteBanner",
                                 data: { id: obj.id },
                                 success: function (d) {
                                     $.lumos.tips(d.message);
@@ -62,7 +62,7 @@
 
             $("#btn_add").click(function () {
 
-                var url = '/MachineBanner/Add?id=' + id;
+                var url = '/Machine/AddBanner?id=' + id;
                 var title = '新建';
                 art.dialog.open(url, {
                     id: "openDialog3cd", title: title, width: '450px', height: '300px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '确定', ok: function () {

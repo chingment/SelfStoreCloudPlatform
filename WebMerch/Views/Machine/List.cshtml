@@ -46,7 +46,7 @@
             operate: {
                 "param": function (obj) {
 
-                    var url = '/Machine/Edit?id=' + obj.id;
+                    var url = '/Machine/ParamSet?id=' + obj.id;
                     var title = '参数';
                     art.dialog.open(url, {
                         id: "openDialog", title: title, width: '80%', height: '80%', lock: true, drag: false, cancelVal: '关闭', cancel: true
@@ -71,7 +71,7 @@
                         return;
                     }
 
-                    var url = '/MachineBanner/List?id=' + obj.id;
+                    var url = '/Machine/Banner?id=' + obj.id;
                     var title = '广告';
                     art.dialog.open(url, {
                         id: "openDialog", title: title, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true
@@ -85,7 +85,7 @@
                         return;
                     }
 
-                    var url = '/MachineStock/List?id=' + obj.id;
+                    var url = '/Machine/Stock?id=' + obj.id;
                     var title = '库存';
                     art.dialog.open(url, {
                         id: "openDialog", title: title, width: '80%', height: '80%', lock: true, drag: false, cancelVal: '关闭', cancel: true

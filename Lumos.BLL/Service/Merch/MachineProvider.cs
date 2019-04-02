@@ -24,7 +24,7 @@ namespace Lumos.BLL.Service.Merch
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
         }
 
-        public CustomJsonResult GetDetails(string operater, string merchantId, string id)
+        public CustomJsonResult GetStock(string operater, string merchantId, string id)
         {
 
             var ret = new RetMachineGetDetails();

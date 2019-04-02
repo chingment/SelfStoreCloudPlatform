@@ -162,8 +162,6 @@
     <Compile Include="App_Start\Own\OwnRequest.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CommonController.cs" />
-    <Compile Include="Controllers\MachineBannerController.cs" />
-    <Compile Include="Controllers\MachineStockController.cs" />
     <Compile Include="Controllers\Order2StockInController.cs" />
     <Compile Include="Controllers\Order2StockOutController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
@@ -204,7 +202,7 @@
     <Content Include="Views\Shared\UpLoadFile.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Machine\List.cshtml" />
-    <Content Include="Views\Machine\Edit.cshtml" />
+    <Content Include="Views\Machine\Stock.cshtml" />
     <Content Include="Views\Store\Edit.cshtml" />
     <Content Include="Views\Store\List.cshtml" />
     <Content Include="Views\ProductSku\Add.cshtml" />
@@ -232,13 +230,14 @@
     <Content Include="Views\ProductKind\Add.cshtml" />
     <Content Include="Views\Machine\Bind.cshtml" />
     <Content Include="Views\Store\ListBySelect.cshtml" />
-    <Content Include="Views\MachineBanner\List.cshtml" />
-    <Content Include="Views\MachineStock\List.cshtml" />
-    <Content Include="Views\MachineBanner\Add.cshtml" />
+    <Content Include="Views\Machine\Banner.cshtml" />
+    <Content Include="Views\Machine\AddBanner.cshtml" />
     <Content Include="Views\User\Add.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\User\List.cshtml" />
     <Content Include="Views\User\ListBySelect.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Machine\ParamSet.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>
