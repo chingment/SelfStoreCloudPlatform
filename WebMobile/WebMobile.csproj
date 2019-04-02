@@ -168,7 +168,6 @@
     <Compile Include="Controllers\MachineController.cs" />
     <Compile Include="Controllers\OperateController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
-    <Compile Include="Controllers\ReplenishStaffController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

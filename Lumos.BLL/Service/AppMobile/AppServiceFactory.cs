@@ -94,14 +94,5 @@ namespace Lumos.BLL.Service.AppMobile
                 return new MachineService();
             }
         }
-
-        public static ReplenishStaffService ReplenishStaff
-        {
-            get
-            {
-                return new ReplenishStaffService();
-            }
-        }
-
     }
 }

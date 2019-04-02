@@ -156,7 +156,6 @@
     <Compile Include="Service\AppMobile\Models\ProductKindPageModel.cs" />
     <Compile Include="Service\AppMobile\ProductKindService.cs" />
     <Compile Include="Service\AppMobile\ProductSkuService.cs" />
-    <Compile Include="Service\AppMobile\ReplenishStaffService.cs" />
     <Compile Include="Service\AppMobile\RModels\RetLoginByMinProgram.cs" />
     <Compile Include="Service\AppMobile\RModels\RetOrderConfirm.cs" />
     <Compile Include="Service\AppMobile\RModels\RetOrderReserve.cs" />
