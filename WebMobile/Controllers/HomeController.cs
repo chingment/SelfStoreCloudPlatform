@@ -163,6 +163,9 @@ namespace WebMobile.Controllers
             if (dic.ContainsKey("attach"))
             {
                 string str_attach = dic["attach"].ToString();
+
+                LogUtil.Info("attach:" + str_attach);
+
                 if (!string.IsNullOrEmpty(str_attach))
                 {
                     var unifiedOrderAttach = JsonConvert.DeserializeObject<UnifiedOrderAttach>(str_attach);
