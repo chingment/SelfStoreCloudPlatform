@@ -137,30 +137,48 @@ namespace WebMobile.Controllers
 
             LogUtil.Info("接收支付结果:" + xml);
 
-            var dic2 = Lumos.WeiXinSdk.CommonUtil.ToDictionary(xml);
-            if (!dic2.ContainsKey("appid"))
+            var dic = Lumos.WeiXinSdk.CommonUtil.ToDictionary(xml);
+            if (!dic.ContainsKey("appid"))
             {
                 LogUtil.Warn("查找不到appid");
                 return Content("");
             }
 
-            string orderSn = "";
-
-            if (dic2.ContainsKey("out_trade_no") && dic2.ContainsKey("result_code"))
+            if (!dic.ContainsKey("attach"))
             {
-                orderSn = dic2["out_trade_no"].ToString();
+                LogUtil.Warn("查找不到attach");
+                return Content("");
             }
 
-            var order = CurrentDb.Order.Where(m => m.Sn == orderSn).FirstOrDefault();
 
-            var appInfo = BizFactory.Merchant.GetWxPaAppInfoConfig(order.MerchantId);
+
+            string merchantId = "";
+            string orderSn = "";
+
+            if (dic.ContainsKey("out_trade_no"))
+            {
+                orderSn = dic["out_trade_no"].ToString();
+            }
+
+            if (dic.ContainsKey("attach"))
+            {
+                string str_attach = dic["attach"].ToString();
+                if (!string.IsNullOrEmpty(str_attach))
+                {
+                    var unifiedOrderAttach = JsonConvert.DeserializeObject<UnifiedOrderAttach>(str_attach);
+                    merchantId = unifiedOrderAttach.MerchantId;
+                }
+            }
+
+            LogUtil.Info("merchantId：" + merchantId + ",orderSn：" + orderSn);
+
+            var appInfo = BizFactory.Merchant.GetWxPaAppInfoConfig(merchantId);
 
             if (!SdkFactory.Wx.CheckPayNotifySign(appInfo, xml))
             {
                 LogUtil.Warn("支付通知结果签名验证失败");
                 return Content("");
             }
-
 
             bool isPaySuccessed = false;
             var result = BizFactory.Order.PayResultNotify(GuidUtil.Empty(), Enumeration.OrderNotifyLogNotifyFrom.NotifyUrl, xml, orderSn, out isPaySuccessed);
