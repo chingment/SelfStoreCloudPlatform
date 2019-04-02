@@ -144,9 +144,16 @@ namespace WebMobile.Controllers
                 return Content("");
             }
 
-            string appId = dic2["appid"].ToString();
+            string orderSn = "";
 
-            var appInfo = BizFactory.Merchant.GetWxPaAppInfoConfig("");
+            if (dic2.ContainsKey("out_trade_no") && dic2.ContainsKey("result_code"))
+            {
+                orderSn = dic2["out_trade_no"].ToString();
+            }
+
+            var order = CurrentDb.Order.Where(m => m.Sn == orderSn).FirstOrDefault();
+
+            var appInfo = BizFactory.Merchant.GetWxPaAppInfoConfig(order.MerchantId);
 
             if (!SdkFactory.Wx.CheckPayNotifySign(appInfo, xml))
             {
@@ -154,12 +161,6 @@ namespace WebMobile.Controllers
                 return Content("");
             }
 
-            string orderSn = "";
-
-            if (dic2.ContainsKey("out_trade_no") && dic2.ContainsKey("result_code"))
-            {
-                orderSn = dic2["out_trade_no"].ToString();
-            }
 
             bool isPaySuccessed = false;
             var result = BizFactory.Order.PayResultNotify(GuidUtil.Empty(), Enumeration.OrderNotifyLogNotifyFrom.NotifyUrl, xml, orderSn, out isPaySuccessed);

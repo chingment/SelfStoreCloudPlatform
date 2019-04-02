@@ -116,7 +116,7 @@ namespace Lumos.BLL
 
         }
 
-        public UnifiedOrderResult UnifiedOrderByNative(WxAppInfoConfig config,string orderSn, decimal orderAmount, string goods_tag, string ip, string body, DateTime time_expire)
+        public UnifiedOrderResult UnifiedOrderByNative(WxAppInfoConfig config, string merchantId, string orderSn, decimal orderAmount, string goods_tag, string ip, string body, DateTime time_expire)
         {
 
             var ret = new UnifiedOrderResult();
@@ -132,7 +132,7 @@ namespace Lumos.BLL
             unifiedOrder.trade_type = "NATIVE";
             unifiedOrder.time_expire = time_expire.ToString("yyyyMMddHHmmss");
             unifiedOrder.goods_tag = goods_tag;
-   
+            unifiedOrder.attach = "{\"merchantId:\":\"" + merchantId + "\"}";
             ret = tenpayUtil.UnifiedOrder(unifiedOrder);
 
             return ret;

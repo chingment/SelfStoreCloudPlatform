@@ -44,6 +44,7 @@ namespace Lumos.WeiXinSdk.Tenpay
             sParams.Add("total_fee", order.total_fee);//标价金额
             sParams.Add("body", order.body);//商品描述   
             sParams.Add("time_expire", order.time_expire);//订单过期时间  
+            sParams.Add("attach", order.attach); //附加数据
             if (order.trade_type == "JSAPI")
             {
                 sParams.Add("openid", order.openid);//用户标识   
