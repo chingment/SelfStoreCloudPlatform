@@ -97,9 +97,9 @@ namespace WebApiTerm.Controllers
             //host = "http://demo.api.term.17fanju.com";
 
             string machineId = "000000000000000";
-            model.Add("获取机器初始数据", MachineInitData(machineId));
-            model.Add("预定商品", OrderReserve(machineId));
-           // model.Add("生成支付二维码", PayQrCodeBuild(machineId, "6e564df016b84e5cb424100161c77076"));
+            //model.Add("获取机器初始数据", MachineInitData(machineId));
+            //model.Add("预定商品", OrderReserve(machineId));
+            model.Add("生成支付二维码", OrderPayUrlBuild(machineId, "bc427a99e2e94e338f9bcea16d67a062"));
 
             //model.Add("登陆机器", MachineLogin(machineId,"a","b"));
 
@@ -155,7 +155,7 @@ namespace WebApiTerm.Controllers
 
         }
 
-        public string PayQrCodeBuild(string machineId, string orderId)
+        public string OrderPayUrlBuild(string machineId, string orderId)
         {
 
             RopOrderPayUrlBuild pms = new RopOrderPayUrlBuild();
@@ -174,7 +174,7 @@ namespace WebApiTerm.Controllers
             headers1.Add("sign", signStr);
 
             HttpUtil http = new HttpUtil();
-            string respon_data4 = http.HttpPostJson("" + host + "/api/Order/PayQrCodeBuild", a1, headers1);
+            string respon_data4 = http.HttpPostJson("" + host + "/api/Order/PayUrlBuild", a1, headers1);
 
             return respon_data4;
 

@@ -16,6 +16,7 @@ namespace WebApiTerm.Controllers
             return new OwnApiHttpResponse(result);
         }
 
+        [HttpPost]
         public OwnApiHttpResponse PayUrlBuild([FromBody]RopOrderPayUrlBuild rop)
         {
             IResult result = TermServiceFactory.Order.PayUrlBuild(rop);
