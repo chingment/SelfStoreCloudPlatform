@@ -74,7 +74,7 @@ namespace Lumos.BLL.Service.AppTerm
 
                     var wxPaAppInfoConfig = BizFactory.Merchant.GetWxPaAppInfoConfig(order.MerchantId);
 
-                    var ret_UnifiedOrder = SdkFactory.Wx.UnifiedOrderByNative(wxPaAppInfoConfig, order.MerchantId, order.Sn, 0.01m, "", Common.CommonUtil.GetIP(), "自助商品", DateTime.Now.AddSeconds(120));
+                    var ret_UnifiedOrder = SdkFactory.Wx.UnifiedOrderByNative(wxPaAppInfoConfig, order.MerchantId, order.Sn, 0.01m, "", Common.CommonUtil.GetIP(), "自助商品", order.PayExpireTime.Value);
 
                     if (string.IsNullOrEmpty(ret_UnifiedOrder.PrepayId))
                     {

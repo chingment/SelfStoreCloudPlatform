@@ -109,7 +109,7 @@ namespace Lumos.BLL.Biz
                 order.Status = Enumeration.OrderStatus.WaitPay;
                 order.Source = rop.Source;
                 order.SubmitTime = this.DateTime;
-                order.PayExpireTime = this.DateTime.AddSeconds(120);
+                order.PayExpireTime = this.DateTime.AddSeconds(300);
                 order.Creator = operater;
                 order.CreateTime = this.DateTime;
 
