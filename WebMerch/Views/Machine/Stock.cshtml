@@ -11,7 +11,7 @@
 
             $.lumos.getJson({
                 isUseHandling: true,
-                url: "/Machine/GetDetails",
+                url: "/Machine/GetStock",
                 urlParams: { id: id },
                 success: function (d) {
                     $('#gbr_page').html($("#tmpl_block").tmpl(d.data));
