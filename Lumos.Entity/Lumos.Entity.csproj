@@ -56,7 +56,9 @@
     <Compile Include="BackgroundJob\BackgroundJobLog.cs" />
     <Compile Include="BizEnumeration.cs" />
     <Compile Include="Biz\BizSn.cs" />
+    <Compile Include="Biz\ClientAccessLog.cs" />
     <Compile Include="Biz\ClientCart.cs" />
+    <Compile Include="Biz\ClientShareLog.cs" />
     <Compile Include="Biz\Company.cs" />
     <Compile Include="Biz\ClientCoupon.cs" />
     <Compile Include="Biz\MachineBanner.cs" />

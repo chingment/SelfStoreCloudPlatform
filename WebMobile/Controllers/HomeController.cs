@@ -415,5 +415,46 @@ namespace WebMobile.Controllers
 
         }
 
+
+        [HttpPost]
+        [AllowAnonymous]
+        public CustomJsonResult ShareLog(string channelId,string shareLink)
+        {
+
+            var clientShareLog = new ClientShareLog();
+            clientShareLog.Id = GuidUtil.New();
+            clientShareLog.ClientUserId = "";
+            clientShareLog.ShareLink = shareLink;
+            clientShareLog.ChannelId = channelId;
+            clientShareLog.CreateTime = DateTime.Now;
+            clientShareLog.Creator = "";
+
+            CurrentDb.ClientShareLog.Add(clientShareLog);
+            CurrentDb.SaveChanges();
+
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "");
+
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public CustomJsonResult AccessLog(string channelId,string accessUrl)
+        {
+ 
+            var clientAccessLog = new ClientAccessLog();
+            clientAccessLog.Id = GuidUtil.New();
+            clientAccessLog.ClientUserId = "";
+            clientAccessLog.AccessUrl = accessUrl;
+            clientAccessLog.ChannelId = channelId;
+            clientAccessLog.CreateTime = DateTime.Now;
+            clientAccessLog.Creator = "";
+
+            CurrentDb.ClientAccessLog.Add(clientAccessLog);
+            CurrentDb.SaveChanges();
+
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "");
+
+        }
+
     }
 }
