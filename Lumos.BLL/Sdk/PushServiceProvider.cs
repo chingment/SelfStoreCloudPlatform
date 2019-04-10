@@ -18,14 +18,14 @@ namespace Lumos.BLL
             PushService.Send(machine.JPushRegId, "update_banner", banners);
         }
 
-        public void UpdateMachineProductKind()
+        public void UpdateMachineProductKind(string merchantId)
         {
 
-            var machines = CurrentDb.Machine.ToList();
+            var machines = CurrentDb.Machine.Where(m=>m.MerchantId== merchantId).ToList();
             foreach (var machine in machines)
             {
-                var banners = TermServiceFactory.Machine.GetProductKinds(machine.MerchantId, machine.StoreId, machine.Id);
-                PushService.Send(machine.JPushRegId, "update_product_kinds", banners);
+                var productKinds = TermServiceFactory.Machine.GetProductKinds(machine.MerchantId, machine.StoreId, machine.Id);
+                PushService.Send(machine.JPushRegId, "update_product_kinds", productKinds);
             }
         }
 
