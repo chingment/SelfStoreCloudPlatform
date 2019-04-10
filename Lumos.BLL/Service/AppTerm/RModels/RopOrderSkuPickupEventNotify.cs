@@ -10,6 +10,7 @@ namespace Lumos.BLL.Service.AppTerm
     {
         public string MachineId { get; set; }
         public string OrderId { get; set; }
+        public string UniqueId { get; set; }
         public string SkuId { get; set; }
         public string SlotId { get; set; }
         public string EventCode { get; set; }

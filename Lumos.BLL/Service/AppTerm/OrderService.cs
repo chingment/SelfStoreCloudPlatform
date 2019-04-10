@@ -152,14 +152,16 @@ namespace Lumos.BLL.Service.AppTerm
 
                 sku.QuantityBySuccess = l_orderDetailsChildSons.Where(m => m.Status == Enumeration.OrderDetailsChildSonStatus.Completed).Count();
 
-                //foreach (var orderDetailsChildSon in l_orderDetailsChildSons)
-                //{
-                //    var slot = new RetOrderDetails.Slot();
-                //    slot.Id = orderDetailsChildSon.SlotId;
-                //    slot.Status = orderDetailsChildSon.Status;
+                foreach (var orderDetailsChildSon in l_orderDetailsChildSons)
+                {
+                    var slot = new RetOrderDetails.Slot();
+                    slot.UniqueId = orderDetailsChildSon.Id;
+                    slot.SlotId = orderDetailsChildSon.SlotId;
+                    slot.Status = orderDetailsChildSon.Status;
 
-                //    sku.Slots.Add(slot);
-                //}
+                    sku.Slots.Add(slot);
+                }
+
                 ret.Skus.Add(sku);
             }
 
@@ -179,7 +181,7 @@ namespace Lumos.BLL.Service.AppTerm
 
             var ret = new RetOrderSkuPickupStatusQuery();
 
-            var orderDetailsChildSon = CurrentDb.OrderDetailsChildSon.Where(m => m.OrderId == rup.OrderId && m.ProductSkuId == rup.SkuId && m.SlotId == rup.SlotId).FirstOrDefault();
+            var orderDetailsChildSon = CurrentDb.OrderDetailsChildSon.Where(m => m.Id == rup.UniqueId && m.OrderId == rup.OrderId && m.ProductSkuId == rup.SkuId && m.SlotId == rup.SlotId).FirstOrDefault();
 
             ret.Status = orderDetailsChildSon.Status;
             ret.Tips = orderDetailsChildSon.Status.GetCnName();

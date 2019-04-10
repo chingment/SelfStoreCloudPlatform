@@ -36,8 +36,8 @@ namespace Lumos.BLL.Service.AppTerm
 
         public class Slot
         {
-            public string Id { get; set; }
-
+            public string UniqueId { get; set; }
+            public string SlotId { get; set; }
             public Enumeration.OrderDetailsChildSonStatus Status { get; set; }
         }
     }
