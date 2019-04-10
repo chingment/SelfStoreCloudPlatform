@@ -16,8 +16,10 @@ namespace Lumos.Entity
         [Key]
         public string Id { get; set; }
         public string ClientUserId { get; set; }
-        public string ChannelId {  get;set; }
+        public string ChannelId { get; set; }
         public string ShareLink { get; set; }
+        public string Type { get; set; }
+        public string Ip { get; set; }
         public string Creator { get; set; }
         public DateTime CreateTime { get; set; }
     }

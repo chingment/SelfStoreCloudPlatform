@@ -17,6 +17,7 @@ namespace Lumos.Entity
         public string ClientUserId { get; set; }
         public string ChannelId { get; set; }
         public string AccessUrl { get; set; }
+        public string Ip { get; set; }
         public string Creator { get; set; }
         public DateTime CreateTime { get; set; }
     }
