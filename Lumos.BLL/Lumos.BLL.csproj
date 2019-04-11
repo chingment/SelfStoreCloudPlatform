@@ -251,8 +251,7 @@
     <Compile Include="Service\Merch\RModels\RetWarehouseGetDetails.cs" />
     <Compile Include="Service\Merch\RModels\RopCompanyAdd.cs" />
     <Compile Include="Service\Merch\RModels\RopCompanyEdit.cs" />
-    <Compile Include="Service\Merch\RModels\RopMachineBannerAdd.cs" />
-    <Compile Include="Service\Merch\RModels\RopMachineLoginByQrCode.cs" />
+    <Compile Include="Service\Merch\RModels\RopAdReleaseAdd.cs" />
     <Compile Include="Service\Merch\RModels\RopMachineEdit.cs" />
     <Compile Include="Service\Merch\RModels\RopOrder2StockInAdd.cs" />
     <Compile Include="Service\Merch\RModels\RopOrder2StockOutAdd.cs" />
@@ -265,7 +264,6 @@
     <Compile Include="Service\Merch\RModels\RopProductSubjectAdd.cs" />
     <Compile Include="Service\Merch\RModels\RopProductSubjectEdit.cs" />
     <Compile Include="Service\Merch\RModels\RopProductSubjectEditSort.cs" />
-    <Compile Include="Service\Merch\RModels\RopReplenishStaffBindMobile.cs" />
     <Compile Include="Service\Merch\RModels\RopStoreAdd.cs" />
     <Compile Include="Service\Merch\RModels\RopStoreEdit.cs" />
     <Compile Include="Service\Merch\RModels\RopUserAdd.cs" />
@@ -275,11 +273,8 @@
     <Compile Include="Service\Merch\RModels\RupAdSpaceGetList.cs" />
     <Compile Include="Service\Merch\RModels\RupAdSpaceGetListByRelease.cs" />
     <Compile Include="Service\Merch\RModels\RupMachineGetList.cs" />
-    <Compile Include="Service\Merch\RModels\RupMachineLogin.cs" />
-    <Compile Include="Service\Merch\RModels\RupMachineLoginResultQuery.cs" />
     <Compile Include="Service\Merch\RModels\RupMachineStockGetList.cs" />
     <Compile Include="Service\Merch\RModels\RupMerchantGetList.cs" />
-    <Compile Include="Service\Merch\RModels\RupMerchantMachineGetList.cs" />
     <Compile Include="Service\Merch\RModels\RupOrder2StockInGetList.cs" />
     <Compile Include="Service\Merch\RModels\RupOrder2StockOutGetList.cs" />
     <Compile Include="Service\Merch\RModels\RupOrderGetList.cs" />

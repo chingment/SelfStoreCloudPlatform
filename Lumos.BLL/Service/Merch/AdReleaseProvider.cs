@@ -11,7 +11,7 @@ namespace Lumos.BLL.Service.Merch
 {
     public class AdReleaseProvider : BaseProvider
     {
-        public CustomJsonResult Add(string operater, string merchantId, RopMachineBannerAdd rop)
+        public CustomJsonResult Add(string operater, string merchantId, RopAdReleaseAdd rop)
         {
            
             var adRelease = new AdRelease();

@@ -104,7 +104,7 @@ namespace WebMerch.Controllers
             return Json(ResultType.Success, pageEntity, "");
         }
         [HttpPost]
-        public CustomJsonResult AddAdRelease(RopMachineBannerAdd rop)
+        public CustomJsonResult AddAdRelease(RopAdReleaseAdd rop)
         {
             return MerchServiceFactory.AdRelease.Add(this.CurrentUserId, this.CurrentMerchantId, rop);
         }
