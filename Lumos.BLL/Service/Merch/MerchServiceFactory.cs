@@ -17,11 +17,11 @@ namespace Lumos.BLL.Service.Merch
             }
         }
 
-        public static AdReleaseProvider AdRelease
+        public static AdProvider Ad
         {
             get
             {
-                return new AdReleaseProvider();
+                return new AdProvider();
             }
         }
 

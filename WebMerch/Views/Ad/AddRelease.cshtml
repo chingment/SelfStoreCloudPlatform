@@ -25,7 +25,7 @@
                 var title = $("#txt_Title").val();
                 var imgUrl = $("#txt_ImgUrl").val();
                 $.lumos.postJson({
-                    url: "/AdSpace/AddAdRelease",
+                    url: "/Ad/AddRelease",
                     data: { adSpaceId: adSpaceId, title: title, url: imgUrl },
                     success: function (d) {
                         if (d.result == $.lumos.resultType.success) {

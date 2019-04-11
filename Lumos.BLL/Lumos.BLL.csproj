@@ -225,7 +225,7 @@
     <Compile Include="Service\Admin\Sys\SysMenuProvider.cs" />
     <Compile Include="Service\Admin\Sys\SysRoleProvider.cs" />
     <Compile Include="Service\Admin\Sys\SysAdminUserProvider.cs" />
-    <Compile Include="Service\Merch\AdReleaseProvider.cs" />
+    <Compile Include="Service\Merch\AdProvider.cs" />
     <Compile Include="Service\Merch\MerchServiceFactory.cs" />
     <Compile Include="Service\Merch\CompanyProvider.cs" />
     <Compile Include="Service\Merch\MachineProvider.cs" />
@@ -251,7 +251,7 @@
     <Compile Include="Service\Merch\RModels\RetWarehouseGetDetails.cs" />
     <Compile Include="Service\Merch\RModels\RopCompanyAdd.cs" />
     <Compile Include="Service\Merch\RModels\RopCompanyEdit.cs" />
-    <Compile Include="Service\Merch\RModels\RopAdReleaseAdd.cs" />
+    <Compile Include="Service\Merch\RModels\RopAdAddRelease.cs" />
     <Compile Include="Service\Merch\RModels\RopMachineEdit.cs" />
     <Compile Include="Service\Merch\RModels\RopOrder2StockInAdd.cs" />
     <Compile Include="Service\Merch\RModels\RopOrder2StockOutAdd.cs" />
@@ -270,8 +270,8 @@
     <Compile Include="Service\Merch\RModels\RopUserEdit.cs" />
     <Compile Include="Service\Merch\RModels\RopWarehouseAdd.cs" />
     <Compile Include="Service\Merch\RModels\RopWarehouseEdit.cs" />
-    <Compile Include="Service\Merch\RModels\RupAdSpaceGetList.cs" />
-    <Compile Include="Service\Merch\RModels\RupAdSpaceGetListByRelease.cs" />
+    <Compile Include="Service\Merch\RModels\RupAdGetListBySpace.cs" />
+    <Compile Include="Service\Merch\RModels\RupAdGetListByRelease.cs" />
     <Compile Include="Service\Merch\RModels\RupMachineGetList.cs" />
     <Compile Include="Service\Merch\RModels\RupMachineStockGetList.cs" />
     <Compile Include="Service\Merch\RModels\RupMerchantGetList.cs" />
@@ -280,7 +280,6 @@
     <Compile Include="Service\Merch\RModels\RupOrderGetList.cs" />
     <Compile Include="Service\Merch\RModels\RupProductSkuGetList.cs" />
     <Compile Include="Service\Merch\RModels\RupProductSubjectGetList.cs" />
-    <Compile Include="Service\Merch\RModels\RupReplenishStaffGetList.cs" />
     <Compile Include="Service\Merch\RModels\RupUserGetList.cs" />
     <Compile Include="Service\Merch\RModels\RupStoreGetList.cs" />
     <Compile Include="Service\Merch\RModels\RupSupplierGetList.cs" />

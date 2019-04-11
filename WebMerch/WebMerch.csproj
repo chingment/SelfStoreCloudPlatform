@@ -161,7 +161,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\Own\OwnRequest.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\AdSpaceController.cs" />
+    <Compile Include="Controllers\AdController.cs" />
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\Order2StockInController.cs" />
     <Compile Include="Controllers\Order2StockOutController.cs" />
@@ -231,15 +231,15 @@
     <Content Include="Views\ProductKind\Add.cshtml" />
     <Content Include="Views\Machine\Bind.cshtml" />
     <Content Include="Views\Store\ListBySelect.cshtml" />
-    <Content Include="Views\AdSpace\ListByRelease.cshtml" />
-    <Content Include="Views\AdSpace\AddRelease.cshtml" />
+    <Content Include="Views\Ad\ListByRelease.cshtml" />
+    <Content Include="Views\Ad\AddRelease.cshtml" />
     <Content Include="Views\User\Add.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\User\List.cshtml" />
     <Content Include="Views\User\ListBySelect.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Machine\ParamSet.cshtml" />
-    <Content Include="Views\AdSpace\List.cshtml" />
+    <Content Include="Views\Ad\ListBySpace.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

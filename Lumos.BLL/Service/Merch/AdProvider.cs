@@ -9,9 +9,9 @@ using System.Transactions;
 
 namespace Lumos.BLL.Service.Merch
 {
-    public class AdReleaseProvider : BaseProvider
+    public class AdProvider : BaseProvider
     {
-        public CustomJsonResult Add(string operater, string merchantId, RopAdReleaseAdd rop)
+        public CustomJsonResult AddRelease(string operater, string merchantId, RopAdAddRelease rop)
         {
            
             var adRelease = new AdRelease();
@@ -33,7 +33,7 @@ namespace Lumos.BLL.Service.Merch
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功");
         }
 
-        public CustomJsonResult Delete(string operater, string merchantId, string id)
+        public CustomJsonResult DeleteRelease(string operater, string merchantId, string id)
         {
             var adRelease = CurrentDb.AdRelease.Where(m => m.MerchantId == merchantId && m.Id == id).FirstOrDefault();
             if (adRelease != null)

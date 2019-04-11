@@ -12,7 +12,7 @@
         $('input[name=Belong]').val(belong)
 
         listTable = $("#list_table").loadDataTable({
-            url: "/AdSpace/GetList",
+            url: "/Ad/GetListBySpace",
             pageIndex: 0,
             searchParams: $("#form1").serializeArray(),
             searchButtonId: "btn_Search",
@@ -35,7 +35,7 @@
             },
             operate: {
                 "banner": function (obj) {
-                    var url = '/AdSpace/ListByRelease?id=' + obj.id;
+                    var url = '/Ad/ListByRelease?id=' + obj.id;
                     var title = '广告';
                     art.dialog.open(url, {
                         id: "openDialog", title: title, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true

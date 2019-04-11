@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.Merch
 {
-    public class RopAdReleaseAdd
+    public class RopAdAddRelease
     {
         public Entity.Enumeration.AdSpaceId AdSpaceId { get; set; }
 

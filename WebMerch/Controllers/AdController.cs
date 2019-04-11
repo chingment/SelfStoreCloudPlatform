@@ -8,9 +8,9 @@ using System.Web.Mvc;
 
 namespace WebMerch.Controllers
 {
-    public class AdSpaceController : OwnBaseController
+    public class AdController : OwnBaseController
     {
-        public ActionResult List()
+        public ActionResult ListBySpace()
         {
             return View();
         }
@@ -25,7 +25,7 @@ namespace WebMerch.Controllers
             return View();
         }
 
-        public CustomJsonResult GetList(RupAdSpaceGetList rup)
+        public CustomJsonResult GetListBySpace(RupAdGetListBySpace rup)
         {
 
             var query = (from m in CurrentDb.AdSpace
@@ -64,9 +64,7 @@ namespace WebMerch.Controllers
         }
 
 
-
-
-        public CustomJsonResult GetListByRelease(RupAdSpaceGetListByRelease rup)
+        public CustomJsonResult GetListByRelease(RupAdGetListByRelease rup)
         {
 
 
@@ -104,15 +102,15 @@ namespace WebMerch.Controllers
             return Json(ResultType.Success, pageEntity, "");
         }
         [HttpPost]
-        public CustomJsonResult AddAdRelease(RopAdReleaseAdd rop)
+        public CustomJsonResult AddRelease(RopAdAddRelease rop)
         {
-            return MerchServiceFactory.AdRelease.Add(this.CurrentUserId, this.CurrentMerchantId, rop);
+            return MerchServiceFactory.Ad.AddRelease(this.CurrentUserId, this.CurrentMerchantId, rop);
         }
 
         [HttpPost]
         public CustomJsonResult DeleteRelease(string id)
         {
-            return MerchServiceFactory.AdRelease.Delete(this.CurrentUserId, this.CurrentMerchantId, id);
+            return MerchServiceFactory.Ad.DeleteRelease(this.CurrentUserId, this.CurrentMerchantId, id);
         }
     }
 }
