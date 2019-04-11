@@ -78,7 +78,7 @@ namespace WebMerch.Controllers
 
             int pageIndex = rup.PageIndex;
             int pageSize = 10;
-            query = query.OrderBy(m => m.Status).OrderByDescending(r => r.CreateTime).Skip(pageSize * (pageIndex)).Take(pageSize);
+            query = query.OrderBy(m => m.Status).OrderBy(m => m.Status).OrderByDescending(r => r.CreateTime).Skip(pageSize * (pageIndex)).Take(pageSize);
 
             var list = query.ToList();
 
