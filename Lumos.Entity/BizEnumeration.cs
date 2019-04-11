@@ -64,7 +64,7 @@ namespace Lumos.Entity
             MainHomeTop = 1
         }
 
-        public enum MachineBannerStatus
+        public enum AdReleaseStatus
         {
             [Remark("未知")]
             Unknow = 0,
@@ -372,6 +372,44 @@ namespace Lumos.Entity
             On = 1,
             [Remark("解绑")]
             Off = 2,
+        }
+
+        public enum AdSpaceBelong
+        {
+            [Remark("未知")]
+            Unknow = 0,
+            [Remark("机器")]
+            Machine = 1,
+            [Remark("小程序")]
+            MinProgram = 2,
+        }
+
+        public enum AdSpaceType
+        {
+            [Remark("未知")]
+            Unknow = 0,
+            [Remark("图片")]
+            Images = 1,
+            [Remark("视频")]
+            Video = 2,
+        }
+
+        public enum AdSpaceId
+        {
+            [Remark("未知")]
+            Unknow = 0,
+            [Remark("机器主页")]
+            MachineHome = 1
+        }
+
+        public enum AdSpaceStatus
+        {
+            [Remark("未知")]
+            Unknow = 0,
+            [Remark("启动")]
+            Enabled = 1,
+            [Remark("禁用")]
+            Disenabled = 2
         }
     }
 }

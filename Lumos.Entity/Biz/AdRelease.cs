@@ -1,25 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Lumos.Entity
 {
-    [Table("MachineBanner")]
-    public class MachineBanner
+    public class AdRelease
     {
         [Key]
         public string Id { get; set; }
-
+        public Enumeration.AdSpaceId AdSpaceId { get; set; }
         public string MerchantId { get; set; }
-
-        public string StoreId { get; set; }
-        public string MachineId { get; set; }
-        [MaxLength(128)]
         public string Title { get; set; }
-        [MaxLength(1024)]
-        public string ImgUrl { get; set; }
+        public string Url { get; set; }
         public int Priority { get; set; }
-        public Enumeration.MachineBannerStatus Status { get; set; }
+        public Enumeration.AdReleaseStatus Status { get; set; }
         public string Creator { get; set; }
         public DateTime CreateTime { get; set; }
         public string Mender { get; set; }

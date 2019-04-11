@@ -28,7 +28,7 @@ namespace Lumos.DAL
         public IDbSet<Machine> Machine { get; set; }
         public IDbSet<Merchant> Merchant { get; set; }
         public IDbSet<MachineBindLog> MachineBindLog { get; set; }
-        public IDbSet<MachineBanner> MachineBanner { get; set; }
+
         public IDbSet<ProductKind> ProductKind { get; set; }
         public IDbSet<ProductKindSku> ProductKindSku { get; set; }
         public DbSet<ProductSku> ProductSku { get; set; }
@@ -61,6 +61,10 @@ namespace Lumos.DAL
         public IDbSet<ProductSubjectSku> ProductSubjectSku { get; set; }
         public IDbSet<ClientAccessLog> ClientAccessLog { get; set; }
         public IDbSet<ClientShareLog> ClientShareLog { get; set; }
+
+
+        public IDbSet<AdSpace> AdSpace { get; set; }
+        public IDbSet<AdRelease> AdRelease { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

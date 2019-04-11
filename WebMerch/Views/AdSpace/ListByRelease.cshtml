@@ -9,10 +9,10 @@
         var id = $.lumos.getUrlParamValue("id");
         $(document).ready(function () {
 
-            $('input[name=machineId]').val(id);
+            $('input[name=id]').val(id);
 
             listTable = $("#list_table").loadDataTable({
-                url: "/Machine/GetBannerList",
+                url: "/AdSpace/GetListByRelease",
                 pageIndex: 0,
                 searchParams: $("#form1").serializeArray(),
                 searchButtonId: "btn_Search",
@@ -24,7 +24,7 @@
                     l_StrRows += "<tr>";
                     l_StrRows += "<td class=\"no\" >" + (p_index + 1) + "</td>";
                     l_StrRows += "<td class=\"overflow tipitem\" title=\"" + p_row.title + "\"   >" + p_row.title + "</td>";
-                    l_StrRows += "<td class=\"overflow\" ><div> <img src=\"" + p_row.imgUrl + "\" style=\"width:50px;height:50px\"><div></td>";
+                    l_StrRows += "<td class=\"overflow\" ><div> <img src=\"" + p_row.url + "\" style=\"width:50px;height:50px\"><div></td>";
                     l_StrRows += "<td class=\"overflow\" title=\"" + p_row.statusName + "\">" + p_row.statusName + "</td>";
                     l_StrRows += "<td class=\"operation\">";
 
@@ -41,7 +41,7 @@
                     "del": function (obj) {
                         art.dialog.confirm("确定删除[" + obj.title + "]？", function () {
                             $.lumos.postJson({
-                                url: "/Machine/DeleteBanner",
+                                url: "/AdSpace/DeleteRelease",
                                 data: { id: obj.id },
                                 success: function (d) {
                                     $.lumos.tips(d.message);
@@ -62,7 +62,7 @@
 
             $("#btn_add").click(function () {
 
-                var url = '/Machine/AddBanner?id=' + id;
+                var url = '/AdSpace/AddRelease?id=' + id;
                 var title = '新建';
                 art.dialog.open(url, {
                     id: "openDialog3cd", title: title, width: '450px', height: '300px', lock: true, drag: false, cancelVal: '关闭', cancel: true, okVal: '确定', ok: function () {
@@ -93,7 +93,7 @@
 <div class="gbr-row gbr-page">
 
     <form id="form1" name="form1">
-        <input type="hidden" name="machineId" value="" />
+        <input type="hidden" name="id" value="" />
 
         <div class="search-bar">
             <div class="filter">

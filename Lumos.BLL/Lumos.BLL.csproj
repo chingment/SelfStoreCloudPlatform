@@ -225,7 +225,7 @@
     <Compile Include="Service\Admin\Sys\SysMenuProvider.cs" />
     <Compile Include="Service\Admin\Sys\SysRoleProvider.cs" />
     <Compile Include="Service\Admin\Sys\SysAdminUserProvider.cs" />
-    <Compile Include="Service\Merch\MachineBannerProvider.cs" />
+    <Compile Include="Service\Merch\AdReleaseProvider.cs" />
     <Compile Include="Service\Merch\MerchServiceFactory.cs" />
     <Compile Include="Service\Merch\CompanyProvider.cs" />
     <Compile Include="Service\Merch\MachineProvider.cs" />
@@ -272,7 +272,8 @@
     <Compile Include="Service\Merch\RModels\RopUserEdit.cs" />
     <Compile Include="Service\Merch\RModels\RopWarehouseAdd.cs" />
     <Compile Include="Service\Merch\RModels\RopWarehouseEdit.cs" />
-    <Compile Include="Service\Merch\RModels\RupMachineBannerGetList.cs" />
+    <Compile Include="Service\Merch\RModels\RupAdSpaceGetList.cs" />
+    <Compile Include="Service\Merch\RModels\RupAdSpaceGetListByRelease.cs" />
     <Compile Include="Service\Merch\RModels\RupMachineGetList.cs" />
     <Compile Include="Service\Merch\RModels\RupMachineLogin.cs" />
     <Compile Include="Service\Merch\RModels\RupMachineLoginResultQuery.cs" />

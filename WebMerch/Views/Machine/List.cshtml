@@ -16,7 +16,6 @@
             containerId: "form1",
             rowDataCombie: function (p_index, p_row) {
                 var l_Strlimt = "";
-                l_Strlimt += "@Html.IsInPermission("<a href=\\\"javascript:void(0)\\\" operate=\\\"banner\\\"   class=\\\"a-btn a-btn-edit\\\"  >广告</a>")";
                 l_Strlimt += "@Html.IsInPermission("<a href=\\\"javascript:void(0)\\\" operate=\\\"stock\\\"   class=\\\"a-btn a-btn-edit\\\"  >库存</a>")";
                 l_Strlimt += "@Html.IsInPermission("<a href=\\\"javascript:void(0)\\\" operate=\\\"param\\\"   class=\\\"a-btn a-btn-edit\\\"  >参数</a>")";
                 var l_StrRows = "";
@@ -63,20 +62,6 @@
                             return false;
                         }
                     });
-                },
-                "banner": function (obj) {
-
-                    if (!obj.isBindStore) {
-                        $.lumos.tips("请先绑定店铺");
-                        return;
-                    }
-
-                    var url = '/Machine/Banner?id=' + obj.id;
-                    var title = '广告';
-                    art.dialog.open(url, {
-                        id: "openDialog", title: title, width: '650px', height: '500px', lock: true, drag: false, cancelVal: '关闭', cancel: true
-                    });
-
                 },
                 "stock": function (obj) {
 

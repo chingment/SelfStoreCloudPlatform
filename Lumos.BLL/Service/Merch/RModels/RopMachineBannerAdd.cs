@@ -8,10 +8,10 @@ namespace Lumos.BLL.Service.Merch
 {
     public class RopMachineBannerAdd
     {
-        public string MachineId { get; set; }
+        public Entity.Enumeration.AdSpaceId AdSpaceId { get; set; }
 
         public string Title { get; set; }
 
-        public string ImgUrl { get; set; }
+        public string Url { get; set; }
     }
 }

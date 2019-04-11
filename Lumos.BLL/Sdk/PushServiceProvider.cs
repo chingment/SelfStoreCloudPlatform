@@ -11,11 +11,15 @@ namespace Lumos.BLL
     public class PushServiceProvider : BaseProvider
     {
 
-        public void UpdateMachineBanner(string machineId)
+        public void UpdateMachineBanner(string merchantId)
         {
-            var machine = CurrentDb.Machine.Where(m => m.Id == machineId).FirstOrDefault();
-            var banners = TermServiceFactory.Machine.GetBanners(machine.MerchantId, machine.StoreId, machine.Id);
-            PushService.Send(machine.JPushRegId, "update_banner", banners);
+            var machines = CurrentDb.Machine.Where(m => m.MerchantId == merchantId).ToList();
+
+            foreach (var machine in machines)
+            {
+                var banners = TermServiceFactory.Machine.GetBanners(merchantId);
+                PushService.Send(machine.JPushRegId, "update_banner", banners);
+            }
         }
 
         public void UpdateMachineProductKind(string merchantId)

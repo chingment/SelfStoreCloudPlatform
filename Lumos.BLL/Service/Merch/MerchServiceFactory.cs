@@ -17,11 +17,11 @@ namespace Lumos.BLL.Service.Merch
             }
         }
 
-        public static MachineBannerProvider MachineBanner
+        public static AdReleaseProvider AdRelease
         {
             get
             {
-                return new MachineBannerProvider();
+                return new AdReleaseProvider();
             }
         }
 

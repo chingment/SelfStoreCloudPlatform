@@ -58,7 +58,7 @@ namespace Lumos.BLL.Service.AppTerm
             ret.Machine.Currency = merchant.Currency;
             ret.Machine.CurrencySymbol = merchant.CurrencySymbol;
 
-            ret.Banners = TermServiceFactory.Machine.GetBanners(machine.MerchantId, machine.StoreId, machine.Id);
+            ret.Banners = TermServiceFactory.Machine.GetBanners(machine.MerchantId);
 
             ret.ProductKinds = TermServiceFactory.Machine.GetProductKinds(machine.MerchantId, machine.StoreId, machine.Id);
 
@@ -100,15 +100,15 @@ namespace Lumos.BLL.Service.AppTerm
             return productSkuModels;
         }
 
-        public List<BannerModel> GetBanners(string merchantId, string storeId, string machineId)
+        public List<BannerModel> GetBanners(string merchantId)
         {
             var bannerModels = new List<BannerModel>();
 
-            var banners = CurrentDb.MachineBanner.Where(m => m.MerchantId == merchantId && m.StoreId == storeId && m.MachineId == machineId && m.Status == Entity.Enumeration.MachineBannerStatus.Normal).OrderByDescending(m => m.Priority).ToList();
+            var banners = CurrentDb.AdRelease.Where(m => m.MerchantId == merchantId   && m.Status == Entity.Enumeration.AdReleaseStatus.Normal).OrderByDescending(m => m.Priority).ToList();
 
             foreach (var item in banners)
             {
-                bannerModels.Add(new BannerModel { ImgUrl = item.ImgUrl });
+                bannerModels.Add(new BannerModel { ImgUrl = item.Url });
             }
 
             return bannerModels;

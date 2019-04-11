@@ -176,6 +176,11 @@ namespace Test
     {
         static void Main(string[] args)
         {
+            while (true)
+            {
+                //var s=get
+            }
+
             int num = 100;
             Thread[] th = new Thread[num];
             for (int i = 0; i < num; i++)

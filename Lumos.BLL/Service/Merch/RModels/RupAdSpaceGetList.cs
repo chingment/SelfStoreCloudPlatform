@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lumos.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL.Service.Merch
 {
-    public class RupMachineBannerGetList : RupBaseGetList
+    public class RupAdSpaceGetList:RupBaseGetList
     {
-        public string MachineId { get; set; }
+        public Enumeration.AdSpaceBelong Belong { get; set; }
     }
 }
