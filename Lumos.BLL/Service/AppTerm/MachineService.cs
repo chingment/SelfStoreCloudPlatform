@@ -58,7 +58,7 @@ namespace Lumos.BLL.Service.AppTerm
             ret.Machine.Currency = merchant.Currency;
             ret.Machine.CurrencySymbol = merchant.CurrencySymbol;
 
-            ret.Banners = TermServiceFactory.Machine.GetBanners(machine.MerchantId);
+            ret.Banners = TermServiceFactory.Machine.GetBanners(machine.MerchantId, machine.StoreId, machine.Id);
 
             ret.ProductKinds = TermServiceFactory.Machine.GetProductKinds(machine.MerchantId, machine.StoreId, machine.Id);
 
@@ -100,7 +100,7 @@ namespace Lumos.BLL.Service.AppTerm
             return productSkuModels;
         }
 
-        public List<BannerModel> GetBanners(string merchantId)
+        public List<BannerModel> GetBanners(string merchantId, string storeId, string machineId)
         {
             var bannerModels = new List<BannerModel>();
 
