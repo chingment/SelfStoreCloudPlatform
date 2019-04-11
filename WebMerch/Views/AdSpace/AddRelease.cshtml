@@ -5,7 +5,7 @@
 @section scripts{
     <script type="text/javascript">
 
-        var machineId = $.lumos.getUrlParamValue("id");
+        var adSpaceId = $.lumos.getUrlParamValue("id");
 
         $(this).ready(function () {
 
@@ -25,8 +25,8 @@
                 var title = $("#txt_Title").val();
                 var imgUrl = $("#txt_ImgUrl").val();
                 $.lumos.postJson({
-                    url: "/MachineBanner/Add",
-                    data: { machineId: machineId, title: title, imgUrl: imgUrl },
+                    url: "/AdSpace/AddAdRelease",
+                    data: { adSpaceId: adSpaceId, title: title, url: imgUrl },
                     success: function (d) {
                         if (d.result == $.lumos.resultType.success) {
                             $.lumos.parentDialog.refresh(1);

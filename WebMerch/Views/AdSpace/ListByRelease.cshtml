@@ -9,7 +9,7 @@
         var id = $.lumos.getUrlParamValue("id");
         $(document).ready(function () {
 
-            $('input[name=id]').val(id);
+            $('input[name=AdSpaceId]').val(id);
 
             listTable = $("#list_table").loadDataTable({
                 url: "/AdSpace/GetListByRelease",
@@ -93,7 +93,7 @@
 <div class="gbr-row gbr-page">
 
     <form id="form1" name="form1">
-        <input type="hidden" name="id" value="" />
+        <input type="hidden" name="AdSpaceId" value="" />
 
         <div class="search-bar">
             <div class="filter">
