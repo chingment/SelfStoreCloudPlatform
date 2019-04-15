@@ -238,6 +238,7 @@
     <Compile Include="Service\Merch\RecipientModeProvider.cs" />
     <Compile Include="Service\Merch\RModels\RetCompanyGetDetails.cs" />
     <Compile Include="Service\Merch\RModels\RetMachineGetDetails.cs" />
+    <Compile Include="Service\Merch\RModels\RetMachineGetStock.cs" />
     <Compile Include="Service\Merch\RModels\RetMerchantGetDetails.cs" />
     <Compile Include="Service\Merch\RModels\RetOrder2StockInGetDetails.cs" />
     <Compile Include="Service\Merch\RModels\RetOrder2StockOutGetDetails.cs" />

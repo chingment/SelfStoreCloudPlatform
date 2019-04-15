@@ -27,7 +27,7 @@ namespace Lumos.BLL.Service.Merch
         public CustomJsonResult GetStock(string operater, string merchantId, string id)
         {
 
-            var ret = new RetMachineGetDetails();
+            var ret = new RetMachineGetStock();
 
 
             var machine = CurrentDb.Machine.Where(m => m.MerchantId == merchantId && m.Id == id).FirstOrDefault();
@@ -65,7 +65,7 @@ namespace Lumos.BLL.Service.Merch
                             var skuModel = BizFactory.ProductSku.GetModel(item.ProductSkuId);
                             if (skuModel != null)
                             {
-                                ret.Skus.Add(new RetMachineGetDetails.SkuModel
+                                ret.Skus.Add(new RetMachineGetStock.SkuModel
                                 {
                                     Id = skuModel.Id,
                                     Name = skuModel.Name,
@@ -79,6 +79,39 @@ namespace Lumos.BLL.Service.Merch
                                 });
                             }
                         }
+                    }
+                }
+            }
+
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
+        }
+
+        public CustomJsonResult GetDetails(string operater, string merchantId, string id)
+        {
+
+            var ret = new RetMachineGetDetails();
+
+
+            var machine = CurrentDb.Machine.Where(m => m.MerchantId == merchantId && m.Id == id).FirstOrDefault();
+            if (machine != null)
+            {
+                ret.Id = id;
+                ret.Name = machine.Name;
+
+                if (machine.StoreId == null)
+                {
+                    ret.IsBindStore = false;
+                }
+                else
+                {
+                    ret.IsBindStore = true;
+
+                    var store = CurrentDb.Store.Where(m => m.Id == machine.StoreId).FirstOrDefault();
+                    if (store != null)
+                    {
+                        ret.Store.Id = store.Id;
+                        ret.Store.Name = store.Name;
+                        ret.Store.Address = store.Address;
                     }
                 }
             }

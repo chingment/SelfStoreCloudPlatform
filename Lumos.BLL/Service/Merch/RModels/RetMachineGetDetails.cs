@@ -16,7 +16,6 @@ namespace Lumos.BLL.Service.Merch
         private string _statusName = "";
         public RetMachineGetDetails()
         {
-            this.Skus = new List<SkuModel>();
             this.Store = new StoreModel();
         }
 
@@ -95,8 +94,6 @@ namespace Lumos.BLL.Service.Merch
             }
         }
 
-        public List<SkuModel> Skus { get; set; }
-
         public StoreModel Store { get; set; }
 
         public class StoreModel {
@@ -139,27 +136,6 @@ namespace Lumos.BLL.Service.Merch
                     _address = value;
                 }
             }
-        }
-
-        public class SkuModel
-        {
-            public string Id { get; set; }
-
-            public string SlotId { get; set; }
-
-            public string Name { get; set; }
-
-            public string ImgUrl { get; set; }
-
-            public int Quantity { get; set; }
-
-            public int LockQuantity { get; set; }
-
-            public int SellQuantity { get; set; }
-
-            public decimal SalePrice { get; set; }
-
-            public decimal SalePriceByVip { get; set; }
         }
     }
 }

@@ -34,10 +34,18 @@ namespace WebMerch.Controllers
             return View();
         }
 
+
+        public CustomJsonResult GetDetails(string id)
+        {
+            return MerchServiceFactory.Machine.GetDetails(this.CurrentUserId, this.CurrentMerchantId, id);
+        }
+
         public CustomJsonResult GetStock(string id)
         {
             return MerchServiceFactory.Machine.GetStock(this.CurrentUserId, this.CurrentMerchantId, id);
         }
+
+
 
         public CustomJsonResult GetList(RupMachineGetList rup)
         {
