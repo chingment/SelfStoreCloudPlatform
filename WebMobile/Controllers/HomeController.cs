@@ -418,7 +418,7 @@ namespace WebMobile.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public CustomJsonResult ShareLog(string type, string channelId,string shareLink)
+        public CustomJsonResult ShareLog(string themeId, string type, string channelId, string shareLink)
         {
 
             var clientShareLog = new ClientShareLog();
@@ -426,6 +426,7 @@ namespace WebMobile.Controllers
             clientShareLog.ClientUserId = "";
             clientShareLog.ShareLink = shareLink;
             clientShareLog.Type = type;
+            clientShareLog.ThemeId = themeId;
             clientShareLog.ChannelId = channelId;
             clientShareLog.Ip = Lumos.Common.CommonUtil.GetIP();
             clientShareLog.CreateTime = DateTime.Now;
@@ -440,13 +441,14 @@ namespace WebMobile.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public CustomJsonResult AccessLog(string channelId,string accessUrl)
+        public CustomJsonResult AccessLog(string themeId, string channelId, string accessUrl)
         {
- 
+
             var clientAccessLog = new ClientAccessLog();
             clientAccessLog.Id = GuidUtil.New();
             clientAccessLog.ClientUserId = "";
             clientAccessLog.AccessUrl = accessUrl;
+            clientAccessLog.ThemeId = themeId;
             clientAccessLog.ChannelId = channelId;
             clientAccessLog.Ip = Lumos.Common.CommonUtil.GetIP();
             clientAccessLog.CreateTime = DateTime.Now;
