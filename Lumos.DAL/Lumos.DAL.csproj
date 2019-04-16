@@ -58,9 +58,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\AssemblyInfo.cs">
-      <Link>Properties\AssemblyInfo.cs</Link>
-    </Compile>
     <Compile Include="AuthorizeRelay\AuthorizeRelay.cs" />
     <Compile Include="AuthorizeRelay\AuthorizeRelayDbContext.cs" />
     <Compile Include="AuthorizeRelay\DbContextDatabaseExtensions.cs" />
