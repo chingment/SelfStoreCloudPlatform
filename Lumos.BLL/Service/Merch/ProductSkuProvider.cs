@@ -78,6 +78,11 @@ namespace Lumos.BLL.Service.Merch
                 return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "商品图片不能为空");
             }
 
+            if (rop.ShowPrice < rop.SalePrice)
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "展示价格不能小于销售价");
+            }
+
             using (TransactionScope ts = new TransactionScope())
             {
 
@@ -177,6 +182,11 @@ namespace Lumos.BLL.Service.Merch
             if (rop.DispalyImgUrls == null || rop.DispalyImgUrls.Count == 0)
             {
                 return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "商品图片不能为空");
+            }
+
+            if (rop.ShowPrice < rop.SalePrice)
+            {
+                return new CustomJsonResult(ResultType.Failure, ResultCode.Failure, "展示价格不能小于销售价");
             }
 
             using (TransactionScope ts = new TransactionScope())
