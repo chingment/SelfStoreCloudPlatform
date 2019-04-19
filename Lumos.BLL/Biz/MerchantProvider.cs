@@ -29,5 +29,23 @@ namespace Lumos.BLL
 
             return config;
         }
+
+        public WxAppInfoConfig GetWxMpAppInfoConfig(string id)
+        {
+
+            var config = new WxAppInfoConfig();
+
+            var merchant = CurrentDb.Merchant.Where(m => m.Id == id).FirstOrDefault();
+            if (merchant == null)
+                return null;
+
+
+            config.AppId = merchant.WechatMpAppId;
+            config.AppSecret = merchant.WechatMpAppSecret;
+            config.PayMchId = merchant.WechatPayMchId;
+            config.PayKey = merchant.WechatPayKey;
+
+            return config;
+        }
     }
 }

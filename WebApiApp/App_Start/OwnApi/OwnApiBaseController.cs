@@ -6,6 +6,7 @@ using Lumos.BLL;
 using System.Web;
 using Lumos.BLL.Service.Admin;
 using Lumos.BLL.Biz;
+using System.Configuration;
 
 namespace WebAppApi
 {
@@ -57,12 +58,8 @@ namespace WebAppApi
         {
             get
             {
-                var context = HttpContext.Current;
-                var request = context.Request;
-                var appId = request.Params["appId"];
-                if (appId == null)
-                    return null;
-                var appInfo = BizFactory.Merchant.GetWxPaAppInfoConfig("");
+                var merchantId = ConfigurationManager.AppSettings["custom:MerchantId"];
+                var appInfo = BizFactory.Merchant.GetWxPaAppInfoConfig(merchantId);
                 return appInfo;
             }
         }
