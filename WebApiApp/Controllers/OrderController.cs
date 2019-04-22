@@ -35,6 +35,17 @@ namespace WebAppApi.Controllers
         }
 
         [HttpGet]
+        public OwnApiHttpResponse List([FromUri]RupOrderList rup)
+        {
+            var model = AppServiceFactory.Order.List(this.CurrentUserId, this.CurrentUserId, rup);
+
+            OwnApiHttpResult result = new OwnApiHttpResult() { Result = ResultType.Success, Code = ResultCode.Success, Message = "", Data = model };
+
+            return new OwnApiHttpResponse(result);
+
+        }
+
+        [HttpGet]
         public OwnApiHttpResponse GetJsApiPaymentPms([FromUri]RupOrderGetJsApiPaymentPms rop)
         {
             IResult result = AppServiceFactory.Order.GetJsApiPaymentPms(this.CurrentUserId, this.CurrentUserId, this.CurrentAppInfo, rop);

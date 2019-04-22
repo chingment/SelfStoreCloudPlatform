@@ -267,6 +267,37 @@ namespace Lumos.BLL.Service.ApiApp
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
 
+        public List<object> List(string operater, string clientUserId, RupOrderList rup)
+        {
+            var query = (from o in CurrentDb.Order
+                         where o.ClientUserId == clientUserId
+                         select new { o.Id, o.Sn, o.StoreId, o.StoreName, o.Status, o.SubmitTime, o.CompletedTime, o.ChargeAmount, o.CancledTime }
+             );
+
+
+            if (rup.Status != Enumeration.OrderStatus.Unknow)
+            {
+                query = query.Where(m => m.Status == rup.Status);
+            }
+
+            int pageSize = 10;
+
+            query = query.OrderByDescending(r => r.SubmitTime).Skip(pageSize * (rup.PageIndex)).Take(pageSize);
+
+            var list = query.ToList();
+
+            List<object> model = new List<object>();
+
+            foreach (var item in list)
+            {
+
+
+            }
+
+
+            return model;
+        }
+
         public CustomJsonResult GetJsApiPaymentPms(string operater, string clientUserId, WxAppInfoConfig appInfo, RupOrderGetJsApiPaymentPms rup)
         {
             var result = new CustomJsonResult();
