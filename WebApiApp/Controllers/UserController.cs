@@ -3,7 +3,7 @@ using Lumos.Entity;
 using System;
 using System.Web.Http;
 using Lumos;
-using Lumos.BLL.Service.AppMobile;
+using Lumos.BLL.Service.ApiApp;
 using Lumos.Session;
 using Lumos.BLL.Biz;
 using Lumos.BLL.Service.Merch;

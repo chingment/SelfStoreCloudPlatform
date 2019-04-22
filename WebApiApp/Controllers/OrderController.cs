@@ -9,7 +9,7 @@ using Lumos.Entity;
 using System.Net;
 using System.Text;
 using System.Web;
-using Lumos.BLL.Service.AppMobile;
+using Lumos.BLL.Service.ApiApp;
 using Lumos.BLL.Service.Admin;
 using Lumos.BLL.Service.Merch;
 using Lumos.BLL.Biz;
@@ -28,12 +28,11 @@ namespace WebAppApi.Controllers
 
 
         [HttpPost]
-        public OwnApiHttpResponse Reserve([FromBody]Lumos.BLL.Service.AppMobile.RopOrderReserve rop)
+        public OwnApiHttpResponse Reserve([FromBody]Lumos.BLL.Service.ApiApp.RopOrderReserve rop)
         {
             IResult result = AppServiceFactory.Order.Reserve(this.CurrentUserId, this.CurrentUserId, rop);
             return new OwnApiHttpResponse(result);
         }
-
 
         [HttpGet]
         public OwnApiHttpResponse GetJsApiPaymentPms([FromUri]RupOrderGetJsApiPaymentPms rop)

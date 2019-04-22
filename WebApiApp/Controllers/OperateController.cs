@@ -1,7 +1,7 @@
 ﻿using System.Web.Http;
 using Lumos;
 using Lumos.BLL;
-using Lumos.BLL.Service.AppMobile;
+using Lumos.BLL.Service.ApiApp;
 
 namespace WebAppApi.Controllers
 {

@@ -1,5 +1,5 @@
 ﻿using Lumos;
-using Lumos.BLL.Service.AppTerm;
+using Lumos.BLL.Service.ApiTerm;
 using System.Web;
 using System.Web.Http;
 
