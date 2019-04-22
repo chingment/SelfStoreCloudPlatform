@@ -399,7 +399,9 @@ namespace Lumos.Entity
             [Remark("未知")]
             Unknow = 0,
             [Remark("机器主页")]
-            MachineHome = 1
+            MachineHome = 1,
+            [Remark("App主页头部")]
+            AppHomeTop = 2
         }
 
         public enum AdSpaceStatus

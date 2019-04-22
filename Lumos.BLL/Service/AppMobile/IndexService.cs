@@ -24,7 +24,7 @@ namespace Lumos.BLL.Service.AppMobile
 
             pageModel.Store = storeModel;
 
-            var storeBanners = CurrentDb.StoreBanner.Where(m => m.StoreId == storeId && m.Type == Enumeration.StoreBannerType.IndexBanner).ToList();
+            var storeBanners = CurrentDb.AdRelease.Where(m => m.AdSpaceId== Enumeration.AdSpaceId.AppHomeTop).ToList();
 
             BannerModel bannerModel = new BannerModel();
             bannerModel.Autoplay = true;
@@ -36,7 +36,7 @@ namespace Lumos.BLL.Service.AppMobile
                 imgModel.Id = item.Id;
                 imgModel.Title = item.Title;
                 imgModel.Link = "";
-                imgModel.Url = item.ImgUrl;
+                imgModel.Url = item.Url;
                 bannerModel.Imgs.Add(imgModel);
             }
 
