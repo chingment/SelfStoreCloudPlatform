@@ -13,9 +13,11 @@ namespace Lumos.BLL.Service.ApiApp
         {
             this.Blocks = new List<BlockModel>();
         }
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         public string Sn { get; set; }
+
+        public string StoreName { get; set; }
 
         public string StatusName { get; set; }
 

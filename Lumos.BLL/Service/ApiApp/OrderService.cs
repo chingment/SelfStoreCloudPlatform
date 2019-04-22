@@ -267,7 +267,7 @@ namespace Lumos.BLL.Service.ApiApp
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
 
-        public List<object> List(string operater, string clientUserId, RupOrderList rup)
+        public List<OrderModel> List(string operater, string clientUserId, RupOrderList rup)
         {
             var query = (from o in CurrentDb.Order
                          where o.ClientUserId == clientUserId
@@ -286,16 +286,23 @@ namespace Lumos.BLL.Service.ApiApp
 
             var list = query.ToList();
 
-            List<object> model = new List<object>();
+            List<OrderModel> models = new List<OrderModel>();
 
             foreach (var item in list)
             {
+                var model = new OrderModel();
 
+                model.Id = item.Id;
+                model.Sn = item.Sn;
+                model.StoreName = item.StoreName;
+                model.StatusName = item.Status.GetCnName();
+                model.ChargeAmount = item.ChargeAmount.ToF2Price();
 
+                models.Add(model);
             }
 
 
-            return model;
+            return models;
         }
 
         public CustomJsonResult GetJsApiPaymentPms(string operater, string clientUserId, WxAppInfoConfig appInfo, RupOrderGetJsApiPaymentPms rup)
