@@ -59,7 +59,7 @@ namespace WebAppApi
             get
             {
                 var merchantId = ConfigurationManager.AppSettings["custom:MerchantId"];
-                var appInfo = BizFactory.Merchant.GetWxPaAppInfoConfig(merchantId);
+                var appInfo = BizFactory.Merchant.GetWxMpAppInfoConfig(merchantId);
                 return appInfo;
             }
         }

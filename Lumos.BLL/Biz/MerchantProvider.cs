@@ -44,6 +44,7 @@ namespace Lumos.BLL
             config.AppSecret = merchant.WechatMpAppSecret;
             config.PayMchId = merchant.WechatPayMchId;
             config.PayKey = merchant.WechatPayKey;
+            config.PayResultNotifyUrl = merchant.WechatPayResultNotifyUrl;
 
             return config;
         }
