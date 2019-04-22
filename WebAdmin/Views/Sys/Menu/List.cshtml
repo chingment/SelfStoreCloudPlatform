@@ -166,6 +166,7 @@
                                     mainTab.refresh(treeNode.id);
                                 },
                                 beforeDrag: function (treeId, treeNodes) {
+                                
                                     for (var i = 0, l = treeNodes.length; i < l; i++) {
                                         dragId = treeNodes[i].pId;
                                         if (treeNodes[i].drag === false) {

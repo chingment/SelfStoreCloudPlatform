@@ -294,7 +294,7 @@
                                     return true;
                                 },
                                 onDrop: function (event, treeId, treeNodes, targetNode, moveType, isCopy) {
-
+                                
                                     if (treeNodes[0].pId == dragId && targetNode.pId == dragId) {
                                         var updateNode = getPeerNodes(targetNode);
                                         var dics = [];
@@ -303,7 +303,7 @@
                                         }
 
                                         $.lumos.postJson({
-                                            url: "ProductSubject/EditSort",
+                                            url: "/ProductSubject/EditSort",
                                             isUseHandling: false,
                                             data: { dics: dics },
                                             success: function (d) {
