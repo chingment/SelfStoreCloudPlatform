@@ -35,7 +35,7 @@
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
             $("#txt_Name").formValidator().inputValidator({ min: 1, max: 20, onError: "名称须填，且不能超过20个字符" });
             $("#txt_MainImg").formValidator().inputValidator({ min: 1, max: 500, onError: "请上传封面" });
-            $("#txt_IconImg").formValidator().inputValidator({ min: 1, max: 500, onError: "请上传小图标" });
+            //$("#txt_IconImg").formValidator().inputValidator({ min: 1, max: 500, onError: "请上传小图标" });
             $("#sel_Status").formValidator().inputValidator({ min: 1, max: 500, onError: "请选择状态" });
             $("#txt_Description").formValidator().inputValidator({ min: 0, max: 500, onError: "描述不能超过500个字符" });
 
@@ -106,7 +106,8 @@
                     var id = selNode.id;
                     var name = $('#txt_Name').val();
                     var mainImg = $("#txt_MainImg").val();
-                    var iconImg = $("#txt_IconImg").val();
+                    //var iconImg = $("#txt_IconImg").val();
+                    var iconImg = "";
                     var description = $("#txt_Description").val();
                     var status = $("#sel_Status").val();
                     $.lumos.postJson({
@@ -228,11 +229,11 @@
                         $("#txt_Name").val(data.name);
                         $("#txt_Description").val(data.description);
                         $("#txt_MainImg").val(data.mainImg);
-                        $("#txt_IconImg").val(data.iconImg);
+                        //$("#txt_IconImg").val(data.iconImg);
                         $("#sel_Status").find("option[value='" + data.status + "']").attr("selected", true);
                         $("#sel_Status").trigger("chosen:updated");
                         $("#img_MainImg").attr("src", data.mainImg);
-                        $("#img_IconImg").attr("src", data.iconImg);
+                        //$("#img_IconImg").attr("src", data.iconImg);
                     }
                 }
             });
@@ -417,7 +418,7 @@
                                                         <span><span class="required-symbol">*</span>封面</span>
                                                     </div>
                                                 </td>
-                                                <td>
+                                                @*<td>
                                                     <div>
                                                         <span class="uploadimgbox" upload="true">
                                                             <span class="uploadimg" inputname="txt_IconImg" path="productkind">
@@ -431,7 +432,7 @@
                                                     <div>
                                                         <span><span class="required-symbol">*</span>小图标</span>
                                                     </div>
-                                                </td>
+                                                </td>*@
                                             </tr>
                                         </table>
                                     </td>

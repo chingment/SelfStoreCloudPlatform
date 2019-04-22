@@ -61,8 +61,7 @@ namespace Lumos.BLL.Service.AppMobile
                     var tab = new PdAreaModel.Tab();
                     tab.Id = productSubject.Id;
                     tab.Name = productSubject.Name;
-                    tab.Selected = true;
-                    tab.BannerImgUrl = "https://demo.res.17fanju.com/Images/Resource/banner0.png";
+                    tab.ImgUrl = productSubject.MainImg;
 
                     foreach (var i in list)
                     {
@@ -74,21 +73,6 @@ namespace Lumos.BLL.Service.AppMobile
                 }
 
             }
-
-            var selectedCount = pdAreaModel.Tabs.Where(m => m.Selected == true).Count();
-            if (selectedCount == 0)
-            {
-                if (pdAreaModel.Tabs.Count > 0)
-                {
-                    pdAreaModel.Tabs[0].Selected = true;
-                }
-            }
-
-            //pdAreaModel.Tabs.Add(new PdAreaModel.Tab { Name = "热门推荐", Selected = true, BannerImgUrl = "https://demo.res.17fanju.com/Images/Resource/banner0.png" });
-            // pdAreaModel.Tabs.Add(new PdAreaModel.Tab { Name = "休闲零食", Selected = false, BannerImgUrl = "https://demo.res.17fanju.com/Images/Resource/banner1.png" });
-            // pdAreaModel.Tabs.Add(new PdAreaModel.Tab { Name = "营养食品", Selected = false, BannerImgUrl = "https://demo.res.17fanju.com/Images/Resource/banner2.png" });
-            // pdAreaModel.Tabs.Add(new PdAreaModel.Tab { Name = "百货用品", Selected = false, BannerImgUrl = "https://demo.res.17fanju.com/Images/Resource/banner3.png" });
-
 
             pageModel.PdArea = pdAreaModel;
 

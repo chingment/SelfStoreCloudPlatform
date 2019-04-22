@@ -14,7 +14,7 @@
             $.formValidator.initConfig({ formID: "form1", onError: function (msg) { $.lumos.tips(msg); } });
             $("#txt_Name").formValidator().inputValidator({ min: 1, max: 20, onError: "名称须填，且不能超过20个字符" });
             $("#txt_MainImg").formValidator().inputValidator({ min: 1, max: 500, onError: "请上传封面" });
-            $("#txt_IconImg").formValidator().inputValidator({ min: 1, max: 500, onError: "请上传小图标" });
+            //$("#txt_IconImg").formValidator().inputValidator({ min: 1, max: 500, onError: "请上传小图标" });
             $("#txt_Description").formValidator().inputValidator({ min: 0, max: 500, onError: "备注不能超过500个字符" });
         });
 
@@ -28,7 +28,8 @@
 
                 var name = $("#txt_Name").val();
                 var mainImg = $("#txt_MainImg").val();
-                var iconImg = $("#txt_IconImg").val();
+                //var iconImg = $("#txt_IconImg").val();
+                var iconImg = "";
                 var description = $("#txt_Description").val();
 
                 $.lumos.postJson({
@@ -100,7 +101,7 @@
                                 <span><span class="required-symbol">*</span>封面</span>
                             </div>
                         </td>
-                        <td>
+                        @*<td>
                             <div>
                                 <span class="uploadimgbox" upload="true">
                                     <span class="uploadimg" inputname="txt_IconImg" path="productkind">
@@ -114,7 +115,7 @@
                             <div>
                                 <span><span class="required-symbol">*</span>小图标</span>
                             </div>
-                        </td>
+                        </td>*@
                     </tr>
                 </table>
             </td>

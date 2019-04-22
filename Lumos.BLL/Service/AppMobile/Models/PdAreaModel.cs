@@ -26,11 +26,9 @@ namespace Lumos.BLL.Service.AppMobile
             }
 
             public string Id { get; set; }
-            public string BannerImgUrl { get; set; }
+            public string ImgUrl { get; set; }
             public string Name { get; set; }
-            public bool Selected { get; set; }
             public List<SkuModel> List { get; set; }
-            public int PageIndex { get; set; }
         }
     }
 }
