@@ -136,6 +136,7 @@
     <Compile Include="Service\ApiApp\Models\CartPageModel.cs" />
     <Compile Include="Service\ApiApp\Models\CartSkuModel.cs" />
     <Compile Include="Service\ApiApp\Models\OrderConfirmSkuModel.cs" />
+    <Compile Include="Service\ApiApp\Models\OrderModel.cs" />
     <Compile Include="Service\ApiApp\Models\PdAreaModel.cs" />
     <Compile Include="Service\ApiApp\Models\StoreModel.cs" />
     <Compile Include="Service\ApiApp\Models\UserCouponModel.cs" />
@@ -173,6 +174,7 @@
     <Compile Include="Service\ApiApp\RModels\RupCouponMy.cs" />
     <Compile Include="Service\ApiApp\RModels\RupGlobalDataSet.cs" />
     <Compile Include="Service\ApiApp\RModels\RupGlobalAccessToken.cs" />
+    <Compile Include="Service\ApiApp\RModels\RupOrderList.cs" />
     <Compile Include="Service\ApiApp\RModels\RupProductSkuDetails.cs" />
     <Compile Include="Service\ApiApp\RModels\RupProductSkuList.cs" />
     <Compile Include="Service\ApiApp\RModels\RupStoreList.cs" />
