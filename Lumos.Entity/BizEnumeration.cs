@@ -356,14 +356,6 @@ namespace Lumos.Entity
             Delete = 4
         }
 
-        public enum StoreBannerType
-        {
-            [Remark("未知")]
-            Unknow = 0,
-            [Remark("首页Banner")]
-            IndexBanner = 1,
-        }
-
         public enum MachineBindType
         {
             [Remark("未知")]
