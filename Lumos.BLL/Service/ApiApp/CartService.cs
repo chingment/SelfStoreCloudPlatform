@@ -61,7 +61,7 @@ namespace Lumos.BLL.Service.ApiApp
                         break;
                 }
 
-                pageModel.Block.Add(carBlock);
+                pageModel.Blocks.Add(carBlock);
             }
 
 

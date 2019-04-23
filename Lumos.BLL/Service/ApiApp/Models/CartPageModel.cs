@@ -24,10 +24,10 @@ namespace Lumos.BLL.Service.ApiApp
     {
         public CartPageModel()
         {
-            this.Block = new List<CartBlock>();
+            this.Blocks = new List<CartBlock>();
         }
 
-        public List<CartBlock> Block { get; set; }
+        public List<CartBlock> Blocks { get; set; }
 
         public int Count { get; set; }
 
