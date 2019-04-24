@@ -67,6 +67,12 @@ namespace Lumos.BLL.Service.ApiApp
 
         public class TagModel
         {
+            public TagModel()
+            {
+                this.Name = new FontModel();
+                this.Desc = new FontModel();
+            }
+
             public FontModel Name { get; set; }
             public FontModel Desc { get; set; }
         }
