@@ -38,6 +38,17 @@ namespace Lumos.Entity
             return imgUrl;
         }
 
+        public static string GetMain_S(string jsonStr)
+        {
+            string imgUrl = GetMain(jsonStr);
+
+
+            imgUrl = imgUrl.Replace("_O", "_S");
+
+
+            return imgUrl;
+        }
+
         public static string GetMain(List<ImgSet> imgs)
         {
             string imgUrl = "";

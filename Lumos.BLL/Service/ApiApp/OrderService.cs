@@ -294,9 +294,49 @@ namespace Lumos.BLL.Service.ApiApp
 
                 model.Id = item.Id;
                 model.Sn = item.Sn;
-                model.StoreName = item.StoreName;
-                model.StatusName = item.Status.GetCnName();
+                model.Tag.Name.Content = item.StoreName;
+                model.Tag.Desc.Content = item.Status.GetCnName();
+
+                //model.StatusName = item.Status.GetCnName();
                 model.ChargeAmount = item.ChargeAmount.ToF2Price();
+
+
+                var orderDetails = CurrentDb.OrderDetails.Where(c => c.OrderId == item.Id).ToList();
+
+                foreach (var orderDetail in orderDetails)
+                {
+                    var block = new OrderModel.BlockModel();
+
+                    block.Tag.Name.Content = orderDetail.ChannelName;
+
+
+                    var orderDetailsChilds = CurrentDb.OrderDetailsChild.Where(m => m.OrderDetailsId == orderDetail.Id).ToList();
+
+                    foreach (var orderDetailsChild in orderDetailsChilds)
+                    {
+
+                        var field = new OrderModel.FieldModel();
+
+                        field.Type = "SkuTmp";
+
+                        var sku = new OrderModel.SkuModel();
+
+                        sku.Id = orderDetailsChild.Id;
+                        sku.Name = orderDetailsChild.ProductSkuName;
+                        sku.ImgUrl = orderDetailsChild.ProductSkuImgUrl;
+                        sku.Quantity = orderDetailsChild.Quantity;
+                        sku.ChargeAmount = orderDetailsChild.ChargeAmount;
+
+
+                        field.Value= sku;
+
+                        block.Fields.Add(field);
+                    }
+
+
+                    model.Blocks.Add(block);
+                }
+
 
                 models.Add(model);
             }
