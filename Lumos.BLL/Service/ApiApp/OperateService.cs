@@ -68,8 +68,8 @@ namespace Lumos.BLL.Service.ApiApp
                     ret.Remarks = "";
                     ret.Message = "支付成功";
                     ret.IsComplete = true;
-                    ret.Buttons.Add(new RetOperateResult.Button() { Name = "回到首页", Color = "red", Url = "" });
-                    ret.Buttons.Add(new RetOperateResult.Button() { Name = "查看详情", Color = "green", Url = "" });
+                    ret.Buttons.Add(new RetOperateResult.Button() { Name = "回到首页", Color = "red", OpVal = "" });
+                    ret.Buttons.Add(new RetOperateResult.Button() { Name = "查看详情", Color = "green", OpVal = "" });
                     ret.Fields.Add(new RetOperateResult.Field() { Name = "订单号", Value = order.Sn });
                     ret.Fields.Add(new RetOperateResult.Field() { Name = "提交时间", Value = order.SubmitTime.ToUnifiedFormatDateTime() });
                     ret.Fields.Add(new RetOperateResult.Field() { Name = "支付时间", Value = order.PayTime.ToUnifiedFormatDateTime() });
@@ -79,8 +79,8 @@ namespace Lumos.BLL.Service.ApiApp
                     ret.Result = RetOperateResult.ResultType.Success;
                     ret.Message = "该订单已经完成";
                     ret.IsComplete = true;
-                    ret.Buttons.Add(new RetOperateResult.Button() { Name = "回到首页", Color = "red", Url = "" });
-                    ret.Buttons.Add(new RetOperateResult.Button() { Name = "查看详情", Color = "green", Url = "" });
+                    ret.Buttons.Add(new RetOperateResult.Button() { Name = "回到首页", Color = "red", OpVal = "" });
+                    ret.Buttons.Add(new RetOperateResult.Button() { Name = "查看详情", Color = "green", OpVal = "" });
                     ret.Fields.Add(new RetOperateResult.Field() { Name = "订单号", Value = order.Sn });
                     ret.Fields.Add(new RetOperateResult.Field() { Name = "提交时间", Value = order.SubmitTime.ToUnifiedFormatDateTime() });
                     ret.Fields.Add(new RetOperateResult.Field() { Name = "支付时间", Value = order.PayTime.ToUnifiedFormatDateTime() });
@@ -91,8 +91,8 @@ namespace Lumos.BLL.Service.ApiApp
                     ret.Result = RetOperateResult.ResultType.Success;
                     ret.Message = "该订单已经取消";
                     ret.IsComplete = true;
-                    ret.Buttons.Add(new RetOperateResult.Button() { Name = "回到首页", Color = "red", Url = "" });
-                    ret.Buttons.Add(new RetOperateResult.Button() { Name = "查看详情", Color = "green", Url = "" });
+                    ret.Buttons.Add(new RetOperateResult.Button() { Name = "回到首页", Color = "red", OpVal = "" });
+                    ret.Buttons.Add(new RetOperateResult.Button() { Name = "查看详情", Color = "green", OpVal = "" });
                     ret.Fields.Add(new RetOperateResult.Field() { Name = "订单号", Value = order.Sn });
                     ret.Fields.Add(new RetOperateResult.Field() { Name = "提交时间", Value = order.SubmitTime.ToUnifiedFormatDateTime() });
                     ret.Fields.Add(new RetOperateResult.Field() { Name = "取消时间", Value = order.CancledTime.ToUnifiedFormatDateTime() });

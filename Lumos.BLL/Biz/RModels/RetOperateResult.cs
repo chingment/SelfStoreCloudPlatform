@@ -43,12 +43,12 @@ namespace Lumos.BLL
                 get; set;
             }
 
-            public string Url
+            public string OpVal
             {
                 get; set;
             }
 
-            public string Operate
+            public string OpType
             {
                 get;set;
             }
