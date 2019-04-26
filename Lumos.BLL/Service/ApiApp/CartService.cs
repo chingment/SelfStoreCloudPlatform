@@ -49,7 +49,7 @@ namespace Lumos.BLL.Service.ApiApp
 
                 var carBlock = new CartBlock();
                 carBlock.ReceptionMode = item.ReceptionMode;
-                carBlock.Skus = skus.Where(m => m.ReceptionMode==item.ReceptionMode).ToList();
+                carBlock.Skus = skus.Where(m => m.ReceptionMode == item.ReceptionMode).ToList();
 
                 switch (item.ReceptionMode)
                 {
@@ -119,6 +119,7 @@ namespace Lumos.BLL.Service.ApiApp
                                     clientCart.ProductSkuId = skuModel.Id;
                                     clientCart.ProductSkuName = skuModel.Name;
                                     clientCart.ProductSkuImgUrl = skuModel.ImgUrl;
+                                    clientCart.Selected = true;
                                     clientCart.CreateTime = this.DateTime;
                                     clientCart.Creator = operater;
                                     clientCart.Quantity = 1;

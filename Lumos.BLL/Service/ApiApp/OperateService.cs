@@ -65,31 +65,23 @@ namespace Lumos.BLL.Service.ApiApp
                     ret.Message = "支付成功";
                     ret.IsComplete = true;
 
-                    switch (rup.Caller)
-                    {
-                        case RupOperateGetResultCaller.MinProgram:
-                            ret.Buttons.Add(new ButtonModel() { Name = new TextModel() { Content = "回到首页", Color = "red" }, OpType = "FUN", OpVal = "goHome" });
-                            ret.Buttons.Add(new ButtonModel() { Name = new TextModel() { Content = "查看详情", Color = "green" }, OpType = "URL", OpVal = string.Format("/pages/orderdetails/orderdetails?id={0}", order.Id) });
-                            break;
-                    }
-
+                    ret.Buttons.Add(new ButtonModel() { Name = new TextModel() { Content = "回到首页", Color = "red" }, OpType = "FUN", OpVal = "goHome" });
+                    ret.Buttons.Add(new ButtonModel() { Name = new TextModel() { Content = "查看详情", Color = "green" }, OpType = "URL", OpVal = GetOrderDetailsUrl(rup.Caller, order.Id) });
 
                     ret.Fields.Add(new RetOperateResult.Field() { Name = "订单号", Value = order.Sn });
                     ret.Fields.Add(new RetOperateResult.Field() { Name = "提交时间", Value = order.SubmitTime.ToUnifiedFormatDateTime() });
                     ret.Fields.Add(new RetOperateResult.Field() { Name = "支付时间", Value = order.PayTime.ToUnifiedFormatDateTime() });
+
                     result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
                     break;
                 case Enumeration.OrderStatus.Completed:
                     ret.Result = RetOperateResult.ResultType.Success;
                     ret.Message = "该订单已经完成";
                     ret.IsComplete = true;
-                    switch (rup.Caller)
-                    {
-                        case RupOperateGetResultCaller.MinProgram:
-                            ret.Buttons.Add(new ButtonModel() { Name = new TextModel() { Content = "回到首页", Color = "red" }, OpType = "FUN", OpVal = "goHome" });
-                            ret.Buttons.Add(new ButtonModel() { Name = new TextModel() { Content = "查看详情", Color = "green" }, OpType = "URL", OpVal = string.Format("/pages/orderdetails/orderdetails?id={0}", order.Id) });
-                            break;
-                    }
+
+                    ret.Buttons.Add(new ButtonModel() { Name = new TextModel() { Content = "回到首页", Color = "red" }, OpType = "FUN", OpVal = "goHome" });
+                    ret.Buttons.Add(new ButtonModel() { Name = new TextModel() { Content = "查看详情", Color = "green" }, OpType = "URL", OpVal = GetOrderDetailsUrl(rup.Caller, order.Id) });
+
                     ret.Fields.Add(new RetOperateResult.Field() { Name = "订单号", Value = order.Sn });
                     ret.Fields.Add(new RetOperateResult.Field() { Name = "提交时间", Value = order.SubmitTime.ToUnifiedFormatDateTime() });
                     ret.Fields.Add(new RetOperateResult.Field() { Name = "支付时间", Value = order.PayTime.ToUnifiedFormatDateTime() });
@@ -101,14 +93,8 @@ namespace Lumos.BLL.Service.ApiApp
                     ret.Message = "该订单已经取消";
                     ret.IsComplete = true;
 
-                    switch (rup.Caller)
-                    {
-                        case RupOperateGetResultCaller.MinProgram:
-                            ret.Buttons.Add(new ButtonModel() { Name = new TextModel() { Content = "回到首页", Color = "red" }, OpType = "FUN", OpVal = "goHome" });
-                            ret.Buttons.Add(new ButtonModel() { Name = new TextModel() { Content = "查看详情", Color = "green" }, OpType = "URL", OpVal = string.Format("/pages/orderdetails/orderdetails?id={0}", order.Id) });
-                            break;
-                    }
-
+                    ret.Buttons.Add(new ButtonModel() { Name = new TextModel() { Content = "回到首页", Color = "red" }, OpType = "FUN", OpVal = "goHome" });
+                    ret.Buttons.Add(new ButtonModel() { Name = new TextModel() { Content = "查看详情", Color = "green" }, OpType = "URL", OpVal = GetOrderDetailsUrl(rup.Caller, order.Id) });
 
                     ret.Fields.Add(new RetOperateResult.Field() { Name = "订单号", Value = order.Sn });
                     ret.Fields.Add(new RetOperateResult.Field() { Name = "提交时间", Value = order.SubmitTime.ToUnifiedFormatDateTime() });
@@ -145,22 +131,27 @@ namespace Lumos.BLL.Service.ApiApp
             ret.Result = RetOperateResult.ResultType.Tips;
             ret.IsComplete = true;
             ret.Message = "该订单未支付";
-
-            switch (rup.Caller)
-            {
-                case RupOperateGetResultCaller.MinProgram:
-                    ret.Buttons.Add(new ButtonModel() { Name = new TextModel() { Content = "回到首页", Color = "red" }, OpType = "FUN", OpVal = "goHome" });
-                    ret.Buttons.Add(new ButtonModel() { Name = new TextModel() { Content = "继续支付", Color = "green" }, OpType = "URL", OpVal = string.Format("/pages/orderdetails/orderdetails?id={0}", order.Id) });
-                    break;
-            }
-
-
+            ret.Buttons.Add(new ButtonModel() { Name = new TextModel() { Content = "回到首页", Color = "red" }, OpType = "FUN", OpVal = "goHome" });
+            ret.Buttons.Add(new ButtonModel() { Name = new TextModel() { Content = "继续支付", Color = "green" }, OpType = "URL", OpVal = GetOrderDetailsUrl(rup.Caller, order.Id) });
             ret.Fields.Add(new RetOperateResult.Field() { Name = "订单号", Value = order.Sn });
             ret.Fields.Add(new RetOperateResult.Field() { Name = "提交时间", Value = order.SubmitTime.ToUnifiedFormatDateTime() });
 
             result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "订单未支付", ret);
 
             return result;
+        }
+
+        public static string GetOrderDetailsUrl(AppCaller caller, string orderid)
+        {
+            string url = "";
+            switch (caller)
+            {
+                case AppCaller.MinProgram:
+                    url = string.Format("/pages/orderdetails/orderdetails?id={0}", orderid);
+                    break;
+            }
+
+            return url;
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Lumos.BLL
         SendPayCancleCheck = 2
     }
 
-    public enum RupOperateGetResultCaller
+    public enum AppCaller
     {
         [Remark("未知")]
         Unknow = 0,
@@ -28,6 +28,6 @@ namespace Lumos.BLL
     {
         public string Id { get; set; }
         public RupOperateGetResultType Type { get; set; }
-        public RupOperateGetResultCaller Caller { get;set;}
+        public AppCaller Caller { get;set;}
     }
 }

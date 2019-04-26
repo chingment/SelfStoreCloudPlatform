@@ -337,6 +337,22 @@ namespace Lumos.BLL.Service.ApiApp
                     model.Blocks.Add(block);
                 }
 
+                switch(item.Status)
+                {
+                    case Enumeration.OrderStatus.WaitPay:
+                        model.Buttons.Add(new ButtonModel() { Name = new TextModel() { Content = "取消订单", Color = "red" }, OpType = "FUN", OpVal = "cancleOrder" });
+                        model.Buttons.Add(new ButtonModel() { Name = new TextModel() { Content = "继续支付", Color = "green" }, OpType = "URL", OpVal = OperateService.GetOrderDetailsUrl(rup.Caller, item.Id) });
+                        break;
+                    case Enumeration.OrderStatus.Payed:
+                        model.Buttons.Add(new ButtonModel() { Name = new TextModel() { Content = "查看详情", Color = "green" }, OpType = "URL", OpVal = OperateService.GetOrderDetailsUrl(rup.Caller, item.Id) });
+                        break;
+                    case Enumeration.OrderStatus.Completed:
+                        model.Buttons.Add(new ButtonModel() { Name = new TextModel() { Content = "查看详情", Color = "green" }, OpType = "URL", OpVal = OperateService.GetOrderDetailsUrl(rup.Caller, item.Id) });
+                        break;
+                    case Enumeration.OrderStatus.Cancled:
+                        model.Buttons.Add(new ButtonModel() { Name = new TextModel() { Content = "查看详情", Color = "green" }, OpType = "URL", OpVal = OperateService.GetOrderDetailsUrl(rup.Caller, item.Id) });
+                        break;
+                }
 
                 models.Add(model);
             }

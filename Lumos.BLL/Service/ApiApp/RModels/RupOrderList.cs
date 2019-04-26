@@ -13,5 +13,7 @@ namespace Lumos.BLL.Service.ApiApp
         public int PageIndex { get; set; }
 
         public Enumeration.OrderStatus Status { get; set; }
+
+        public AppCaller Caller { get; set; }
     }
 }

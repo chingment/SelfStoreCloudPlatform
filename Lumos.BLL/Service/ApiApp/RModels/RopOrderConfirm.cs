@@ -14,5 +14,6 @@ namespace Lumos.BLL.Service.ApiApp
         public List<OrderConfirmSkuModel> Skus { get; set; }
         public List<string> CouponId { get; set; }
 
+        public AppCaller Caller { get; set; }
     }
 }
