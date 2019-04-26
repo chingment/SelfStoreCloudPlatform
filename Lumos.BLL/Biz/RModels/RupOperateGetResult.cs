@@ -10,8 +10,10 @@ namespace Lumos.BLL
     {
         [Remark("未知")]
         Unknow = 0,
-        [Remark("支付")]
-        Pay = 1
+        [Remark("支付检查")]
+        PayCheck = 1,
+        [Remark("支付取消")]
+        PayCancle = 2,
     }
 
     public class RupOperateGetResult
@@ -19,5 +21,6 @@ namespace Lumos.BLL
         public string Id { get; set; }
 
         public RupOperateGetResultType Type { get; set; }
+
     }
 }

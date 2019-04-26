@@ -12,7 +12,7 @@ namespace Lumos.BLL.Service.ApiApp
         public OrderModel()
         {
             this.Tag = new TagModel();
-            this.Tip = new FontModel();
+            this.Tip = new TextModel();
             this.Blocks = new List<BlockModel>();
             this.Buttons = new List<ButtonModel>();
         }
@@ -26,7 +26,7 @@ namespace Lumos.BLL.Service.ApiApp
 
         public string ChargeAmount { get; set; }
 
-        public FontModel Tip { get; set; }
+        public TextModel Tip { get; set; }
 
         public class BlockModel
         {
@@ -58,31 +58,17 @@ namespace Lumos.BLL.Service.ApiApp
             public decimal ChargeAmount { get; set; }
         }
 
-        public class ButtonModel
-        {
-            public FontModel Name { get; set; }
-            public string Url { get; set; }
-            public string Operate { get; set; }
-        }
-
         public class TagModel
         {
             public TagModel()
             {
-                this.Name = new FontModel();
-                this.Desc = new FontModel();
+                this.Name = new TextModel();
+                this.Desc = new TextModel();
             }
 
-            public FontModel Name { get; set; }
-            public FontModel Desc { get; set; }
+            public TextModel Name { get; set; }
+            public TextModel Desc { get; set; }
         }
 
-        public class FontModel
-        {
-            public string Content { get; set; }
-            public string Color { get; set; }
-            public string BackgroundColor { get; set; }
-
-        }
     }
 }
