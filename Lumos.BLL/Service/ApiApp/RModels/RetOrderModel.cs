@@ -30,14 +30,6 @@ namespace Lumos.BLL.Service.ApiApp
 
         public List<FsButton> Buttons { get; set; }
 
-        public class SkuModel
-        {
-            public string Id { get; set; }
-            public string Name { get; set; }
-            public string ImgUrl { get; set; }
-            public int Quantity { get; set; }
-            public decimal ChargeAmount { get; set; }
-        }
 
     }
 }

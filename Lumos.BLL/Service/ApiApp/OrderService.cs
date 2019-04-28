@@ -319,7 +319,7 @@ namespace Lumos.BLL.Service.ApiApp
 
                         field.Type = "SkuTmp";
 
-                        var sku = new RetOrderModel.SkuModel();
+                        var sku = new FsTemplateData.TmplOrderSku();
 
                         sku.Id = orderDetailsChild.Id;
                         sku.Name = orderDetailsChild.ProductSkuName;

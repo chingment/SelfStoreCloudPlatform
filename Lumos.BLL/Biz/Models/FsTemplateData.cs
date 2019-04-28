@@ -11,5 +11,15 @@ namespace Lumos.BLL
         public string Type { get; set; }
 
         public object Value { get; set; }
+
+
+        public class TmplOrderSku
+        {
+            public string Id { get; set; }
+            public string Name { get; set; }
+            public string ImgUrl { get; set; }
+            public int Quantity { get; set; }
+            public decimal ChargeAmount { get; set; }
+        }
     }
 }
