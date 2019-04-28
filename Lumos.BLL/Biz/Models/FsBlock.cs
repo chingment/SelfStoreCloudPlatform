@@ -11,10 +11,10 @@ namespace Lumos.BLL
         public FsBlock()
         {
             this.Tag = new FsTag();
-            this.Fields = new List<FsField>();
+            this.Data = new List<FsTemplateData>();
         }
 
         public FsTag Tag { get; set; }
-        public List<FsField> Fields { get; set; }
+        public List<FsTemplateData> Data { get; set; }
     }
 }

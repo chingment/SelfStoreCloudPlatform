@@ -315,7 +315,7 @@ namespace Lumos.BLL.Service.ApiApp
                     foreach (var orderDetailsChild in orderDetailsChilds)
                     {
 
-                        var field = new FsField();
+                        var field = new FsTemplateData();
 
                         field.Type = "SkuTmp";
 
@@ -330,7 +330,7 @@ namespace Lumos.BLL.Service.ApiApp
 
                         field.Value= sku;
 
-                        block.Fields.Add(field);
+                        block.Data.Add(field);
                     }
 
 

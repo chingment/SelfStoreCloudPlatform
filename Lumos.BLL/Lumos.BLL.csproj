@@ -78,9 +78,10 @@
     <Compile Include="Biz\MerchantProvider.cs" />
     <Compile Include="Biz\Models\FsBlock.cs" />
     <Compile Include="Biz\Models\FsButton.cs" />
-    <Compile Include="Biz\Models\FsTemplate.cs" />
+    <Compile Include="Biz\Models\FsTemplateData.cs" />
     <Compile Include="Biz\Models\FsTag.cs" />
     <Compile Include="Biz\Models\FsText.cs" />
+    <Compile Include="Biz\Models\FsField.cs" />
     <Compile Include="Biz\RModels\RetLogin.cs" />
     <Compile Include="Biz\RModels\RetWxUserCheckedUser.cs" />
     <Compile Include="Biz\RModels\RopLogin.cs" />
