@@ -20,6 +20,8 @@ namespace Lumos.BLL
             public string ImgUrl { get; set; }
             public int Quantity { get; set; }
             public decimal ChargeAmount { get; set; }
+
+            public bool IsGift { get; set; }
         }
     }
 }
