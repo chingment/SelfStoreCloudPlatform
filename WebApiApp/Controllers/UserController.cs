@@ -55,7 +55,7 @@ namespace WebAppApi.Controllers
             var ret = new RetLoginByMinProgram();
 
             ret.AccessToken = GuidUtil.New();
-
+            ret.StoreId = "";
 
             SSOUtil.SetUserInfo(ret.AccessToken, new UserInfo { UserId = retWxCheckedUser.ClientUserId, UserName = retWxCheckedUser.Nickname, WxOpenId = retWxCheckedUser.OpenId }, new TimeSpan(30, 0, 0, 0, 0));
 
