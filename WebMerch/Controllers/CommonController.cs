@@ -165,7 +165,7 @@ namespace WebMerch.Controllers
 
             var result = new CustomJsonResult();
 
-            var fields = new List<FieldModel>();
+            var fields = new List<SelectControlFieldModel>();
 
             type = type.ToLower();
 
@@ -177,7 +177,7 @@ namespace WebMerch.Controllers
 
                     foreach (var item in warehouses)
                     {
-                        fields.Add(new FieldModel(item.Name, item.Id));
+                        fields.Add(new SelectControlFieldModel(item.Name, item.Id));
                     }
 
                     #endregion
@@ -187,7 +187,7 @@ namespace WebMerch.Controllers
                     var stores = CurrentDb.Store.Where(m => m.MerchantId == this.CurrentMerchantId).ToList();
                     foreach (var item in stores)
                     {
-                        fields.Add(new FieldModel(string.Format("[店铺]{0}", item.Name), item.Id, 2));
+                        fields.Add(new SelectControlFieldModel(string.Format("[店铺]{0}", item.Name), item.Id, 2));
                     }
                     #endregion 
                     break;
@@ -197,7 +197,7 @@ namespace WebMerch.Controllers
 
                     foreach (var item in suppliers)
                     {
-                        fields.Add(new FieldModel(item.Name, item.Id));
+                        fields.Add(new SelectControlFieldModel(item.Name, item.Id));
                     }
                     #endregion 
                     break;
@@ -210,7 +210,7 @@ namespace WebMerch.Controllers
                         string strKey = Convert.ToInt32(t).ToString();
                         Enum en = (Enum)Enum.Parse(t.GetType(), strKey);
                         string strValue = en.GetCnName();
-                        fields.Add(new FieldModel(strValue, strKey));
+                        fields.Add(new SelectControlFieldModel(strValue, strKey));
 
                     }
                     #endregion
@@ -221,7 +221,7 @@ namespace WebMerch.Controllers
 
                     foreach (var item in productKinds)
                     {
-                        var field = new FieldModel();
+                        var field = new SelectControlFieldModel();
                         field.Name = item.Name;
                         field.Value = item.Id;
                         field.PValue = item.PId;
@@ -247,7 +247,7 @@ namespace WebMerch.Controllers
                         string strValue = en.GetCnName();
                         if (strKey != "0")
                         {
-                            fields.Add(new FieldModel(strValue, strKey));
+                            fields.Add(new SelectControlFieldModel(strValue, strKey));
                         }
                     }
                     #endregion
@@ -258,7 +258,7 @@ namespace WebMerch.Controllers
 
                     foreach (var item in productSubjects)
                     {
-                        var field = new FieldModel();
+                        var field = new SelectControlFieldModel();
                         field.Name = item.Name;
                         field.Value = item.Id;
                         field.PValue = item.PId;
@@ -284,7 +284,7 @@ namespace WebMerch.Controllers
                         string strValue = en.GetCnName();
                         if (strKey != "0")
                         {
-                            fields.Add(new FieldModel(strValue, strKey));
+                            fields.Add(new SelectControlFieldModel(strValue, strKey));
                         }
                     }
                     #endregion
@@ -294,7 +294,7 @@ namespace WebMerch.Controllers
                     var sysPositions = CurrentDb.SysPosition.Where(m => m.BelongSite == Enumeration.BelongSite.Merchant).ToList();
                     foreach (var item in sysPositions)
                     {
-                        fields.Add(new FieldModel(item.Name, ((int)item.Id).ToString()));
+                        fields.Add(new SelectControlFieldModel(item.Name, ((int)item.Id).ToString()));
                     }
                     #endregion
                     break;

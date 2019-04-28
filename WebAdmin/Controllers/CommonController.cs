@@ -175,7 +175,7 @@ namespace WebAdmin.Controllers
             //    ret.ConfigPositions.Add(new FieldModel(item.Name, ((int)item.Id).ToString()));
             //}
 
-            var fields = new List<FieldModel>();
+            var fields = new List<SelectControlFieldModel>();
 
             type = type.ToLower();
 
@@ -187,7 +187,7 @@ namespace WebAdmin.Controllers
 
                     foreach (var item in sysPositions)
                     {
-                        fields.Add(new FieldModel(item.Name, ((int)item.Id).ToString()));
+                        fields.Add(new SelectControlFieldModel(item.Name, ((int)item.Id).ToString()));
                     }
                     #endregion
                     break;
@@ -197,7 +197,7 @@ namespace WebAdmin.Controllers
 
                     foreach (var item in sysOrganizations)
                     {
-                        var field = new FieldModel();
+                        var field = new SelectControlFieldModel();
                         field.Value = item.Id;
                         field.PValue = item.PId;
                         field.Name = item.Name;

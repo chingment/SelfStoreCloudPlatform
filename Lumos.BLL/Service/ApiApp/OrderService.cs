@@ -267,7 +267,7 @@ namespace Lumos.BLL.Service.ApiApp
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
         }
 
-        public List<OrderModel> List(string operater, string clientUserId, RupOrderList rup)
+        public List<RetOrderModel> List(string operater, string clientUserId, RupOrderList rup)
         {
             var query = (from o in CurrentDb.Order
                          where o.ClientUserId == clientUserId
@@ -286,11 +286,11 @@ namespace Lumos.BLL.Service.ApiApp
 
             var list = query.ToList();
 
-            List<OrderModel> models = new List<OrderModel>();
+            List<RetOrderModel> models = new List<RetOrderModel>();
 
             foreach (var item in list)
             {
-                var model = new OrderModel();
+                var model = new RetOrderModel();
 
                 model.Id = item.Id;
                 model.Sn = item.Sn;
@@ -305,7 +305,7 @@ namespace Lumos.BLL.Service.ApiApp
 
                 foreach (var orderDetail in orderDetails)
                 {
-                    var block = new OrderModel.BlockModel();
+                    var block = new FsBlock();
 
                     block.Tag.Name.Content = orderDetail.ChannelName;
 
@@ -315,11 +315,11 @@ namespace Lumos.BLL.Service.ApiApp
                     foreach (var orderDetailsChild in orderDetailsChilds)
                     {
 
-                        var field = new OrderModel.FieldModel();
+                        var field = new FsField();
 
                         field.Type = "SkuTmp";
 
-                        var sku = new OrderModel.SkuModel();
+                        var sku = new RetOrderModel.SkuModel();
 
                         sku.Id = orderDetailsChild.Id;
                         sku.Name = orderDetailsChild.ProductSkuName;
@@ -340,17 +340,17 @@ namespace Lumos.BLL.Service.ApiApp
                 switch(item.Status)
                 {
                     case Enumeration.OrderStatus.WaitPay:
-                        model.Buttons.Add(new ButtonModel() { Name = new TextModel() { Content = "取消订单", Color = "red" }, OpType = "FUN", OpVal = "cancleOrder" });
-                        model.Buttons.Add(new ButtonModel() { Name = new TextModel() { Content = "继续支付", Color = "green" }, OpType = "URL", OpVal = OperateService.GetOrderDetailsUrl(rup.Caller, item.Id) });
+                        model.Buttons.Add(new FsButton() { Name = new FsText() { Content = "取消订单", Color = "red" }, OpType = "FUN", OpVal = "cancleOrder" });
+                        model.Buttons.Add(new FsButton() { Name = new FsText() { Content = "继续支付", Color = "green" }, OpType = "URL", OpVal = OperateService.GetOrderDetailsUrl(rup.Caller, item.Id) });
                         break;
                     case Enumeration.OrderStatus.Payed:
-                        model.Buttons.Add(new ButtonModel() { Name = new TextModel() { Content = "查看详情", Color = "green" }, OpType = "URL", OpVal = OperateService.GetOrderDetailsUrl(rup.Caller, item.Id) });
+                        model.Buttons.Add(new FsButton() { Name = new FsText() { Content = "查看详情", Color = "green" }, OpType = "URL", OpVal = OperateService.GetOrderDetailsUrl(rup.Caller, item.Id) });
                         break;
                     case Enumeration.OrderStatus.Completed:
-                        model.Buttons.Add(new ButtonModel() { Name = new TextModel() { Content = "查看详情", Color = "green" }, OpType = "URL", OpVal = OperateService.GetOrderDetailsUrl(rup.Caller, item.Id) });
+                        model.Buttons.Add(new FsButton() { Name = new FsText() { Content = "查看详情", Color = "green" }, OpType = "URL", OpVal = OperateService.GetOrderDetailsUrl(rup.Caller, item.Id) });
                         break;
                     case Enumeration.OrderStatus.Cancled:
-                        model.Buttons.Add(new ButtonModel() { Name = new TextModel() { Content = "查看详情", Color = "green" }, OpType = "URL", OpVal = OperateService.GetOrderDetailsUrl(rup.Caller, item.Id) });
+                        model.Buttons.Add(new FsButton() { Name = new FsText() { Content = "查看详情", Color = "green" }, OpType = "URL", OpVal = OperateService.GetOrderDetailsUrl(rup.Caller, item.Id) });
                         break;
                 }
 

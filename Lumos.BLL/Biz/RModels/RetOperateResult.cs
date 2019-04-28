@@ -11,14 +11,14 @@ namespace Lumos.BLL
         public RetOperateResult()
         {
             this.Fields = new List<Field>();
-            this.Buttons = new List<ButtonModel>();
+            this.Buttons = new List<FsButton>();
         }
         public ResultType Result { get; set; }
         public string Message { get; set; }
         public string Remarks { get; set; }
         public bool IsComplete { get; set; }
         public List<Field> Fields { get; set; }
-        public List<ButtonModel> Buttons { get; set; }
+        public List<FsButton> Buttons { get; set; }
         public class Field
         {
             public string Name

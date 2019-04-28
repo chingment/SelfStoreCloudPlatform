@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lumos.BLL.Service.ApiApp
+namespace Lumos.BLL
 {
-    public class RetOrderDetails
+    public class FsField
     {
-        public List<FsBlock> Blocks { get; set; }
+        public string Type { get; set; }
+
+        public object Value { get; set; }
     }
 }

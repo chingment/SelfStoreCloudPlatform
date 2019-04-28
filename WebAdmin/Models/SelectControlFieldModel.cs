@@ -4,29 +4,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lumos.BLL
+namespace WebAdmin
 {
-    public class FieldModel
+    public class SelectControlFieldModel
     {
-        public FieldModel()
+        public SelectControlFieldModel()
         {
 
         }
 
-        public FieldModel(string name, string value)
+        public SelectControlFieldModel(string name, string value)
         {
             this.Name = name;
             this.Value = value;
         }
 
-        public FieldModel(string name, string value, int type)
+        public SelectControlFieldModel(string name, string value, int type)
         {
             this.Name = name;
             this.Value = value;
             this.Type = type;
         }
 
-        public FieldModel(string name, string value, string pValue)
+        public SelectControlFieldModel(string name, string value, string pValue)
         {
             this.Name = name;
             this.Value = value;

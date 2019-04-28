@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Lumos.BLL
 {
-    public class ButtonModel
+    public class FsButton
     {
-        public TextModel Name { get; set; }
+        public FsText Name { get; set; }
         public string OpVal { get; set; }
         public string OpType { get; set; }
     }

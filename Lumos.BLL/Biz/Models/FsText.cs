@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Lumos.BLL
 {
 
-    public class TextModel
+    public class FsText
     {
         public string Content { get; set; }
         public string Color { get; set; }

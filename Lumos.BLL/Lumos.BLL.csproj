@@ -76,9 +76,11 @@
     <Compile Include="BaseProvider.cs" />
     <Compile Include="Biz\BizFactory.cs" />
     <Compile Include="Biz\MerchantProvider.cs" />
-    <Compile Include="Biz\Models\ButtonModel.cs" />
-    <Compile Include="Biz\Models\FieldModel.cs" />
-    <Compile Include="Biz\Models\TextModel.cs" />
+    <Compile Include="Biz\Models\FsBlock.cs" />
+    <Compile Include="Biz\Models\FsButton.cs" />
+    <Compile Include="Biz\Models\FsTemplate.cs" />
+    <Compile Include="Biz\Models\FsTag.cs" />
+    <Compile Include="Biz\Models\FsText.cs" />
     <Compile Include="Biz\RModels\RetLogin.cs" />
     <Compile Include="Biz\RModels\RetWxUserCheckedUser.cs" />
     <Compile Include="Biz\RModels\RopLogin.cs" />
@@ -138,7 +140,7 @@
     <Compile Include="Service\ApiApp\Models\CartPageModel.cs" />
     <Compile Include="Service\ApiApp\Models\CartSkuModel.cs" />
     <Compile Include="Service\ApiApp\Models\OrderConfirmSkuModel.cs" />
-    <Compile Include="Service\ApiApp\Models\OrderModel.cs" />
+    <Compile Include="Service\ApiApp\RModels\RetOrderModel.cs" />
     <Compile Include="Service\ApiApp\Models\PdAreaModel.cs" />
     <Compile Include="Service\ApiApp\Models\StoreModel.cs" />
     <Compile Include="Service\ApiApp\Models\UserCouponModel.cs" />
