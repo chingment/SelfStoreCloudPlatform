@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lumos.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace Lumos.BLL.Service.ApiApp
     {
         public string Id { get; set; }
         public string Sn { get; set; }
-        public string Status { get; set; }
+        public Enumeration.OrderStatus Status { get; set; }
         public string StatusName { get; set; }
         public List<FsBlock> Blocks { get; set; }
         public List<FsBlockByField> FieldBlocks { get; set; }

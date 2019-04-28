@@ -371,6 +371,54 @@ namespace Lumos.BLL.Service.ApiApp
 
             var ret = new RetOrderDetails();
 
+            var order = CurrentDb.Order.Where(m => m.Id == orderId).FirstOrDefault();
+
+            ret.Id = order.Id;
+            ret.Sn = order.Sn;
+            ret.Status = order.Status;
+            ret.StatusName = order.Status.GetCnName();
+
+           // ret.FieldBlocks.
+
+
+            var orderDetails = CurrentDb.OrderDetails.Where(c => c.OrderId == order.Id).ToList();
+
+
+            foreach (var orderDetail in orderDetails)
+            {
+                var block = new FsBlock();
+
+                block.Tag.Name.Content = orderDetail.ChannelName;
+
+                var orderDetailsChilds = CurrentDb.OrderDetailsChild.Where(m => m.OrderDetailsId == orderDetail.Id).ToList();
+
+                foreach (var orderDetailsChild in orderDetailsChilds)
+                {
+
+                    var field = new FsTemplateData();
+
+                    field.Type = "SkuTmp";
+
+                    var sku = new FsTemplateData.TmplOrderSku();
+
+                    sku.Id = orderDetailsChild.Id;
+                    sku.Name = orderDetailsChild.ProductSkuName;
+                    sku.ImgUrl = orderDetailsChild.ProductSkuImgUrl;
+                    sku.Quantity = orderDetailsChild.Quantity.ToString();
+                    sku.ChargeAmount = orderDetailsChild.ChargeAmount.ToF2Price();
+
+
+                    field.Value = sku;
+
+                    block.Data.Add(field);
+                }
+
+
+                ret.Blocks.Add(block);
+            }
+
+
+
 
             return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
 
