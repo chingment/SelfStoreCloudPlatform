@@ -18,10 +18,10 @@ namespace Lumos.BLL
             public string Id { get; set; }
             public string Name { get; set; }
             public string ImgUrl { get; set; }
-            public int Quantity { get; set; }
-            public decimal ChargeAmount { get; set; }
-
+            public string Quantity { get; set; }
+            public string ChargeAmount { get; set; }
             public bool IsGift { get; set; }
+            public FsText Desc { get; set; }
         }
     }
 }

@@ -271,7 +271,7 @@ namespace Lumos.BLL.Service.ApiApp
         {
             var query = (from o in CurrentDb.Order
                          where o.ClientUserId == clientUserId
-                         select new { o.Id, o.Sn, o.StoreId, o.StoreName, o.Status, o.SubmitTime, o.CompletedTime, o.ChargeAmount, o.CancledTime }
+                         select new { o.Id, o.Sn, o.StoreId, o.PickCode, o.StoreName, o.Status, o.SubmitTime, o.CompletedTime, o.ChargeAmount, o.CancledTime }
              );
 
 
@@ -295,7 +295,7 @@ namespace Lumos.BLL.Service.ApiApp
                 model.Id = item.Id;
                 model.Sn = item.Sn;
                 model.Tag.Name.Content = item.StoreName;
-                model.Tag.Desc.Content = item.Status.GetCnName();
+
 
                 //model.StatusName = item.Status.GetCnName();
                 model.ChargeAmount = item.ChargeAmount.ToF2Price();
@@ -308,7 +308,6 @@ namespace Lumos.BLL.Service.ApiApp
                     var block = new FsBlock();
 
                     block.Tag.Name.Content = orderDetail.ChannelName;
-
 
                     var orderDetailsChilds = CurrentDb.OrderDetailsChild.Where(m => m.OrderDetailsId == orderDetail.Id).ToList();
 
@@ -324,11 +323,11 @@ namespace Lumos.BLL.Service.ApiApp
                         sku.Id = orderDetailsChild.Id;
                         sku.Name = orderDetailsChild.ProductSkuName;
                         sku.ImgUrl = orderDetailsChild.ProductSkuImgUrl;
-                        sku.Quantity = orderDetailsChild.Quantity;
-                        sku.ChargeAmount = orderDetailsChild.ChargeAmount;
+                        sku.Quantity = orderDetailsChild.Quantity.ToString();
+                        sku.ChargeAmount = orderDetailsChild.ChargeAmount.ToF2Price();
 
 
-                        field.Value= sku;
+                        field.Value = sku;
 
                         block.Data.Add(field);
                     }
@@ -337,13 +336,17 @@ namespace Lumos.BLL.Service.ApiApp
                     model.Blocks.Add(block);
                 }
 
-                switch(item.Status)
+                switch (item.Status)
                 {
                     case Enumeration.OrderStatus.WaitPay:
                         model.Buttons.Add(new FsButton() { Name = new FsText() { Content = "取消订单", Color = "red" }, OpType = "FUN", OpVal = "cancleOrder" });
                         model.Buttons.Add(new FsButton() { Name = new FsText() { Content = "继续支付", Color = "green" }, OpType = "URL", OpVal = OperateService.GetOrderDetailsUrl(rup.Caller, item.Id) });
                         break;
                     case Enumeration.OrderStatus.Payed:
+
+                        model.Tag.Desc.Content = item.PickCode;
+                        model.Tag.Desc.Title = "取货码";
+
                         model.Buttons.Add(new FsButton() { Name = new FsText() { Content = "查看详情", Color = "green" }, OpType = "URL", OpVal = OperateService.GetOrderDetailsUrl(rup.Caller, item.Id) });
                         break;
                     case Enumeration.OrderStatus.Completed:
