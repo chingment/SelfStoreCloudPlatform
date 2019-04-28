@@ -59,7 +59,7 @@ namespace WebAppApi.Controllers
         [HttpGet]
         public OwnApiHttpResponse GetJsApiPaymentPms([FromUri]RupOrderGetJsApiPaymentPms rop)
         {
-            IResult result = AppServiceFactory.Order.GetJsApiPaymentPms(this.CurrentUserId, this.CurrentUserId, this.CurrentAppInfo, rop);
+            IResult result = AppServiceFactory.Order.GetJsApiPaymentPms(this.CurrentUserId, this.CurrentUserId, this.CurrentWxMpAppInfo, rop);
             return new OwnApiHttpResponse(result);
         }
 

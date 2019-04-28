@@ -54,13 +54,21 @@ namespace WebAppApi
             }
         }
 
-        public WxAppInfoConfig CurrentAppInfo
+        public WxAppInfoConfig CurrentWxMpAppInfo
+        {
+            get
+            {
+                var appInfo = BizFactory.Merchant.GetWxMpAppInfoConfig(this.MerchantId);
+                return appInfo;
+            }
+        }
+
+        public string MerchantId
         {
             get
             {
                 var merchantId = ConfigurationManager.AppSettings["custom:MerchantId"];
-                var appInfo = BizFactory.Merchant.GetWxMpAppInfoConfig(merchantId);
-                return appInfo;
+                return merchantId;
             }
         }
     }

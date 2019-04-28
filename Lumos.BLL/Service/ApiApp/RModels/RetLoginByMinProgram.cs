@@ -9,7 +9,5 @@ namespace Lumos.BLL.Service.ApiApp
     public class RetLoginByMinProgram
     {
         public string AccessToken { get; set; }
-
-        public string StoreId { get; set; }
     }
 }

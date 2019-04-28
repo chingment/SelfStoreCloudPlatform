@@ -25,7 +25,7 @@ namespace WebAppApi.Controllers
         {
             OwnApiHttpResult result;
 
-            var userInfo = SdkFactory.Wx.GetUserInfoByMinProramJsCode(this.CurrentAppInfo, rop.EncryptedData, rop.Iv, rop.Code);
+            var userInfo = SdkFactory.Wx.GetUserInfoByMinProramJsCode(this.CurrentWxMpAppInfo, rop.EncryptedData, rop.Iv, rop.Code);
 
             if (userInfo == null)
             {
@@ -53,9 +53,8 @@ namespace WebAppApi.Controllers
             }
 
             var ret = new RetLoginByMinProgram();
-
+            
             ret.AccessToken = GuidUtil.New();
-            ret.StoreId = "";
 
             SSOUtil.SetUserInfo(ret.AccessToken, new UserInfo { UserId = retWxCheckedUser.ClientUserId, UserName = retWxCheckedUser.Nickname, WxOpenId = retWxCheckedUser.OpenId }, new TimeSpan(30, 0, 0, 0, 0));
 
