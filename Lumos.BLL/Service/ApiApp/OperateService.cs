@@ -130,7 +130,7 @@ namespace Lumos.BLL.Service.ApiApp
 
             ret.Result = RetOperateResult.ResultType.Tips;
             ret.IsComplete = true;
-            ret.Message = "该订单未支付";
+            ret.Message = "您已取消支付操作";
             ret.Buttons.Add(new FsButton() { Name = new FsText() { Content = "回到首页", Color = "red" }, OpType = "FUN", OpVal = "goHome" });
             ret.Buttons.Add(new FsButton() { Name = new FsText() { Content = "继续支付", Color = "green" }, OpType = "URL", OpVal = GetOrderDetailsUrl(rup.Caller, order.Id) });
             ret.Fields.Add(new FsField() { Name = "订单号", Value = order.Sn });
