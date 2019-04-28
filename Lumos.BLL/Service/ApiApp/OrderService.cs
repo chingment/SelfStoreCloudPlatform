@@ -361,6 +361,23 @@ namespace Lumos.BLL.Service.ApiApp
             return models;
         }
 
+
+        public CustomJsonResult Details(string operater, string clientUserId, string orderId)
+        {
+            CustomJsonResult result = new CustomJsonResult();
+
+            var ret = new RetOrderDetails();
+
+
+            return new CustomJsonResult(ResultType.Success, ResultCode.Success, "获取成功", ret);
+
+        }
+
+        public CustomJsonResult Cancle(string operater, string clientUserId, string orderId)
+        {
+            return BizFactory.Order.Cancle(operater, orderId, "用户取消");
+        }
+
         public CustomJsonResult GetJsApiPaymentPms(string operater, string clientUserId, WxAppInfoConfig appInfo, RupOrderGetJsApiPaymentPms rup)
         {
             var result = new CustomJsonResult();

@@ -26,7 +26,6 @@ namespace WebAppApi.Controllers
             return new OwnApiHttpResponse(result);
         }
 
-
         [HttpPost]
         public OwnApiHttpResponse Reserve([FromBody]Lumos.BLL.Service.ApiApp.RopOrderReserve rop)
         {
@@ -43,6 +42,18 @@ namespace WebAppApi.Controllers
 
             return new OwnApiHttpResponse(result);
 
+        }
+
+        public CustomJsonResult Details(string id)
+        {
+            return AppServiceFactory.Order.Details(this.CurrentUserId, this.CurrentUserId, id);
+        }
+
+        [HttpPost]
+        public CustomJsonResult Cancle(string id)
+        {
+            CustomJsonResult result = new CustomJsonResult();
+            return AppServiceFactory.Order.Cancle(this.CurrentUserId, this.CurrentUserId, id);
         }
 
         [HttpGet]
