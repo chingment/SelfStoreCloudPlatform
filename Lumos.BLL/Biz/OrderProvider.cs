@@ -113,6 +113,11 @@ namespace Lumos.BLL.Biz
                 order.Creator = operater;
                 order.CreateTime = this.DateTime;
 
+                //todo 
+                Random rd = new Random();
+                int num = rd.Next(100000, 1000000);
+                order.PickCode = num.ToString();
+
                 #region 更改购物车标识
 
                 if (!string.IsNullOrEmpty(rop.ClientUserId))
