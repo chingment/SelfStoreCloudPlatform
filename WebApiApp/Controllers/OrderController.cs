@@ -44,6 +44,7 @@ namespace WebAppApi.Controllers
 
         }
 
+        [HttpGet]
         public CustomJsonResult Details(string id)
         {
             return AppServiceFactory.Order.Details(this.CurrentUserId, this.CurrentUserId, id);

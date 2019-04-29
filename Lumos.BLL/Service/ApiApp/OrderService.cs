@@ -383,7 +383,7 @@ namespace Lumos.BLL.Service.ApiApp
             ret.Status = order.Status;
             ret.StatusName = order.Status.GetCnName();
 
-            // ret.FieldBlocks.
+            //ret.FieldBlocks.Add()
 
 
             var orderDetails = CurrentDb.OrderDetails.Where(c => c.OrderId == order.Id).ToList();
