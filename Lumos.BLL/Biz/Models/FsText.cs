@@ -9,20 +9,20 @@ namespace Lumos.BLL
 
     public class FsText
     {
-        private string _Title = "";
         private string _Content = "";
         private string _Color = "";
 
-        public string Title {
-            get
-            {
-                return _Title;
-            }
-            set
-            {
-                _Title = value;
-            }
+        public FsText()
+        {
+
         }
+
+        public FsText(string content,string color)
+        {
+            _Content = content;
+            _Color = color;
+        }
+
         public string Content
         {
             get

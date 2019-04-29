@@ -68,9 +68,9 @@ namespace Lumos.BLL.Service.ApiApp
                     ret.Buttons.Add(new FsButton() { Name = new FsText() { Content = "回到首页", Color = "red" }, OpType = "FUN", OpVal = "goHome" });
                     ret.Buttons.Add(new FsButton() { Name = new FsText() { Content = "查看详情", Color = "green" }, OpType = "URL", OpVal = GetOrderDetailsUrl(rup.Caller, order.Id) });
 
-                    ret.Fields.Add(new FsField() { Name = "订单号", Value = order.Sn });
-                    ret.Fields.Add(new FsField() { Name = "提交时间", Value = order.SubmitTime.ToUnifiedFormatDateTime() });
-                    ret.Fields.Add(new FsField() { Name = "支付时间", Value = order.PayTime.ToUnifiedFormatDateTime() });
+                    ret.Fields.Add(new FsField("订单号", "", order.Sn, ""));
+                    ret.Fields.Add(new FsField("提交时间", "", order.SubmitTime.ToUnifiedFormatDateTime(), ""));
+                    ret.Fields.Add(new FsField("支付时间", "", order.PayTime.ToUnifiedFormatDateTime(), ""));
 
                     result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "操作成功", ret);
                     break;
@@ -82,10 +82,11 @@ namespace Lumos.BLL.Service.ApiApp
                     ret.Buttons.Add(new FsButton() { Name = new FsText() { Content = "回到首页", Color = "red" }, OpType = "FUN", OpVal = "goHome" });
                     ret.Buttons.Add(new FsButton() { Name = new FsText() { Content = "查看详情", Color = "green" }, OpType = "URL", OpVal = GetOrderDetailsUrl(rup.Caller, order.Id) });
 
-                    ret.Fields.Add(new FsField() { Name = "订单号", Value = order.Sn });
-                    ret.Fields.Add(new FsField() { Name = "提交时间", Value = order.SubmitTime.ToUnifiedFormatDateTime() });
-                    ret.Fields.Add(new FsField() { Name = "支付时间", Value = order.PayTime.ToUnifiedFormatDateTime() });
-                    ret.Fields.Add(new FsField() { Name = "完成时间", Value = order.CompletedTime.ToUnifiedFormatDateTime() });
+                    ret.Fields.Add(new FsField("订单号", "", order.Sn, ""));
+                    ret.Fields.Add(new FsField("提交时间", "", order.SubmitTime.ToUnifiedFormatDateTime(), ""));
+                    ret.Fields.Add(new FsField("支付时间", "", order.PayTime.ToUnifiedFormatDateTime(), ""));
+                    ret.Fields.Add(new FsField("完成时间", "", order.CompletedTime.ToUnifiedFormatDateTime(), ""));
+
                     result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "订单已经完成", ret);
                     break;
                 case Enumeration.OrderStatus.Cancled:
@@ -96,10 +97,11 @@ namespace Lumos.BLL.Service.ApiApp
                     ret.Buttons.Add(new FsButton() { Name = new FsText() { Content = "回到首页", Color = "red" }, OpType = "FUN", OpVal = "goHome" });
                     ret.Buttons.Add(new FsButton() { Name = new FsText() { Content = "查看详情", Color = "green" }, OpType = "URL", OpVal = GetOrderDetailsUrl(rup.Caller, order.Id) });
 
-                    ret.Fields.Add(new FsField() { Name = "订单号", Value = order.Sn });
-                    ret.Fields.Add(new FsField() { Name = "提交时间", Value = order.SubmitTime.ToUnifiedFormatDateTime() });
-                    ret.Fields.Add(new FsField() { Name = "取消时间", Value = order.CancledTime.ToUnifiedFormatDateTime() });
-                    ret.Fields.Add(new FsField() { Name = "取消原因", Value = order.CancelReason });
+                    ret.Fields.Add(new FsField("订单号", "", order.Sn, ""));
+                    ret.Fields.Add(new FsField("提交时间", "", order.SubmitTime.ToUnifiedFormatDateTime(), ""));
+                    ret.Fields.Add(new FsField("取消时间", "", order.CancledTime.ToUnifiedFormatDateTime(), ""));
+                    ret.Fields.Add(new FsField("取消原因", "", order.CancelReason, ""));
+
                     result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "订单已经取消", ret);
                     break;
                 default:
@@ -133,8 +135,8 @@ namespace Lumos.BLL.Service.ApiApp
             ret.Message = "您已取消支付操作";
             ret.Buttons.Add(new FsButton() { Name = new FsText() { Content = "回到首页", Color = "red" }, OpType = "FUN", OpVal = "goHome" });
             ret.Buttons.Add(new FsButton() { Name = new FsText() { Content = "继续支付", Color = "green" }, OpType = "URL", OpVal = GetOrderDetailsUrl(rup.Caller, order.Id) });
-            ret.Fields.Add(new FsField() { Name = "订单号", Value = order.Sn });
-            ret.Fields.Add(new FsField() { Name = "提交时间", Value = order.SubmitTime.ToUnifiedFormatDateTime() });
+            ret.Fields.Add(new FsField("订单号", "", order.Sn, ""));
+            ret.Fields.Add(new FsField("提交时间", "", order.SubmitTime.ToUnifiedFormatDateTime(), ""));
 
             result = new CustomJsonResult(ResultType.Success, ResultCode.Success, "订单未支付", ret);
 

@@ -11,10 +11,10 @@ namespace Lumos.BLL
         public FsTag()
         {
             this.Name = new FsText();
-            this.Desc = new FsText();
+            this.Desc = new FsField();
         }
 
         public FsText Name { get; set; }
-        public FsText Desc { get; set; }
+        public FsField Desc { get; set; }
     }
 }

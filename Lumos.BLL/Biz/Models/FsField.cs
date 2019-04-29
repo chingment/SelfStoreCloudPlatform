@@ -8,12 +8,29 @@ namespace Lumos.BLL
 {
     public class FsField
     {
-        public string Name
+        public FsField()
+        {
+            this.Title = new FsText();
+            this.Value = new FsText();
+        }
+
+        public FsField(string title, string titleColor,string value,string valueColor)
+        {
+            this.Title = new FsText();
+            this.Value = new FsText();
+
+            this.Title.Content = title;
+            this.Title.Color = titleColor;
+            this.Value.Content = value;
+            this.Value.Color = valueColor;
+        }
+
+        public FsText Title
         {
             get; set;
         }
 
-        public string Value
+        public FsText Value
         {
             get; set;
         }

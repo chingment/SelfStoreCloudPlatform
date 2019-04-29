@@ -294,7 +294,7 @@ namespace Lumos.BLL.Service.ApiApp
 
                 model.Id = item.Id;
                 model.Sn = item.Sn;
-                model.Tag.Name.Content = item.StoreName;
+                model.Tag.Name = new FsText( item.StoreName, "");
 
 
                 //model.StatusName = item.Status.GetCnName();
@@ -307,15 +307,14 @@ namespace Lumos.BLL.Service.ApiApp
                 {
                     var block = new FsBlock();
 
-                    block.Tag.Name.Content = orderDetail.ChannelName;
+                    block.Tag.Name = new FsText(orderDetail.ChannelName, "");
+
 
                     if (item.Status == Enumeration.OrderStatus.Payed)
                     {
                         if (orderDetail.ChannelType == Enumeration.ChannelType.Machine)
                         {
-                            block.Tag.Desc.Title = "取货码";
-                            block.Tag.Desc.Content = item.PickCode;
-                            block.Tag.Desc.Color = "#f18d00";
+                            block.Tag.Desc = new FsField("取货码", "", item.PickCode, "#f18d00");
                         }
                     }
 
@@ -394,7 +393,8 @@ namespace Lumos.BLL.Service.ApiApp
             {
                 var block = new FsBlock();
 
-                block.Tag.Name.Content = orderDetail.ChannelName;
+                block.Tag.Name = new FsText(orderDetail.ChannelName, "");
+
 
                 var orderDetailsChilds = CurrentDb.OrderDetailsChild.Where(m => m.OrderDetailsId == orderDetail.Id).ToList();
 
