@@ -395,9 +395,9 @@ namespace Lumos.BLL.Service.ApiApp
                 foreach (var orderDetailsChild in orderDetailsChilds)
                 {
 
-                    var field = new FsTemplateData();
+                    var data = new FsTemplateData();
 
-                    field.Type = "SkuTmp";
+                    data.Type = "SkuTmp";
 
                     var sku = new FsTemplateData.TmplOrderSku();
 
@@ -408,9 +408,9 @@ namespace Lumos.BLL.Service.ApiApp
                     sku.ChargeAmount = orderDetailsChild.ChargeAmount.ToF2Price();
 
 
-                    field.Value = sku;
+                    data.Value = sku;
 
-                    block.Data.Add(field);
+                    block.Data.Add(data);
                 }
 
 
