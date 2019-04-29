@@ -309,6 +309,12 @@ namespace Lumos.BLL.Service.ApiApp
 
                     block.Tag.Name.Content = orderDetail.ChannelName;
 
+                    if (orderDetail.ChannelType == Enumeration.ChannelType.Machine)
+                    {
+                        model.Tag.Desc.Title = "取货码";
+                        model.Tag.Desc.Content = item.PickCode;
+                    }
+
                     var orderDetailsChilds = CurrentDb.OrderDetailsChild.Where(m => m.OrderDetailsId == orderDetail.Id).ToList();
 
                     foreach (var orderDetailsChild in orderDetailsChilds)
@@ -343,10 +349,6 @@ namespace Lumos.BLL.Service.ApiApp
                         model.Buttons.Add(new FsButton() { Name = new FsText() { Content = "继续支付", Color = "green" }, OpType = "URL", OpVal = OperateService.GetOrderDetailsUrl(rup.Caller, item.Id) });
                         break;
                     case Enumeration.OrderStatus.Payed:
-
-                        model.Tag.Desc.Content = item.PickCode;
-                        model.Tag.Desc.Title = "取货码";
-
                         model.Buttons.Add(new FsButton() { Name = new FsText() { Content = "查看详情", Color = "green" }, OpType = "URL", OpVal = OperateService.GetOrderDetailsUrl(rup.Caller, item.Id) });
                         break;
                     case Enumeration.OrderStatus.Completed:
@@ -424,9 +426,9 @@ namespace Lumos.BLL.Service.ApiApp
 
         }
 
-        public CustomJsonResult Cancle(string operater, string clientUserId, string orderId)
+        public CustomJsonResult Cancle(string operater, string clientUserId, RopOrderCancle rop)
         {
-            return BizFactory.Order.Cancle(operater, orderId, "用户取消");
+            return BizFactory.Order.Cancle(operater, rop.Id, "用户取消");
         }
 
         public CustomJsonResult GetJsApiPaymentPms(string operater, string clientUserId, WxAppInfoConfig appInfo, RupOrderGetJsApiPaymentPms rup)

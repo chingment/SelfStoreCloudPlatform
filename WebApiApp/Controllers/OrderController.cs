@@ -50,10 +50,10 @@ namespace WebAppApi.Controllers
         }
 
         [HttpPost]
-        public CustomJsonResult Cancle(string id)
+        public CustomJsonResult Cancle(RopOrderCancle rop)
         {
             CustomJsonResult result = new CustomJsonResult();
-            return AppServiceFactory.Order.Cancle(this.CurrentUserId, this.CurrentUserId, id);
+            return AppServiceFactory.Order.Cancle(this.CurrentUserId, this.CurrentUserId, rop);
         }
 
         [HttpGet]

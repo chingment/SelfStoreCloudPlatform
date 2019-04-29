@@ -168,6 +168,7 @@
     <Compile Include="Service\ApiApp\RModels\RetOrderDetails.cs" />
     <Compile Include="Service\ApiApp\RModels\RetOrderReserve.cs" />
     <Compile Include="Service\ApiApp\RModels\RopMachineLoginByQrCode.cs" />
+    <Compile Include="Service\ApiApp\RModels\RopOrderCancle.cs" />
     <Compile Include="Service\ApiApp\RModels\RopReplenishStaffBindMobile.cs" />
     <Compile Include="Service\ApiApp\RModels\RupCartPageData.cs" />
     <Compile Include="Service\ApiApp\RModels\RopLoginByMinProgram.cs" />
