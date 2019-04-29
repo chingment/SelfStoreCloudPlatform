@@ -13,6 +13,8 @@ namespace Lumos.BLL.Service.ApiApp
         public string Sn { get; set; }
         public Enumeration.OrderStatus Status { get; set; }
         public string StatusName { get; set; }
+
+
         public List<FsBlock> Blocks { get; set; }
         public List<FsBlockByField> FieldBlocks { get; set; }
     }

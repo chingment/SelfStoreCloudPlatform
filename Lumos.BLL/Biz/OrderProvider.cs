@@ -151,7 +151,16 @@ namespace Lumos.BLL.Biz
                     orderDetails.StoreId = rop.StoreId;
                     orderDetails.ChannelType = detail.ChannelType;
                     orderDetails.ChannelId = detail.ChannelId;
-                    orderDetails.ChannelName = "";//todo 若 ChannelType 为1 则机器昵称，2为自取
+                    switch (detail.ChannelType)
+                    {
+                        case Enumeration.ChannelType.Machine:
+                            var machine = CurrentDb.Machine.Where(m => m.Id == detail.ChannelId).FirstOrDefault();
+                            orderDetails.ChannelName = "【自提】 " + machine.Name;//todo 若 ChannelType 为1 则机器昵称，2为自取
+                            break;
+                        case Enumeration.ChannelType.Express:
+                            orderDetails.ChannelName = "【快递】";
+                            break;
+                    }
                     orderDetails.OrderId = order.Id;
                     orderDetails.OrderSn = order.Sn;
                     orderDetails.OriginalAmount = detail.OriginalAmount;

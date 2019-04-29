@@ -9,8 +9,41 @@ namespace Lumos.BLL
 
     public class FsText
     {
-        public string Title { get; set; }
-        public string Content { get; set; }
-        public string Color { get; set; }
+        private string _Title = "";
+        private string _Content = "";
+        private string _Color = "";
+
+        public string Title {
+            get
+            {
+                return _Title;
+            }
+            set
+            {
+                _Title = value;
+            }
+        }
+        public string Content
+        {
+            get
+            {
+                return _Content;
+            }
+            set
+            {
+                _Content = value;
+            }
+        }
+        public string Color
+        {
+            get
+            {
+                return _Color;
+            }
+            set
+            {
+                _Color = value;
+            }
+        }
     }
 }
