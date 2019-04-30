@@ -294,7 +294,7 @@ namespace Lumos.BLL.Service.ApiApp
 
                 model.Id = item.Id;
                 model.Sn = item.Sn;
-                model.Tag.Name = new FsText( item.StoreName, "");
+                model.Tag.Name = new FsText(item.StoreName, "");
 
 
                 //model.StatusName = item.Status.GetCnName();
@@ -378,12 +378,26 @@ namespace Lumos.BLL.Service.ApiApp
 
             var order = CurrentDb.Order.Where(m => m.Id == orderId).FirstOrDefault();
 
-            ret.Id = order.Id;
-            ret.Sn = order.Sn;
-            ret.Status = order.Status;
-            ret.StatusName = order.Status.GetCnName();
 
-            //ret.FieldBlocks.Add()
+            ret.Status = order.Status;
+
+
+            ret.Tag.Name = new FsText(order.StoreName, "");
+            ret.Tag.Desc = new FsField("状态", "", order.Status.GetCnName(), "");
+
+            var fsBlockByField = new FsBlockByField();
+
+            fsBlockByField.Tag.Name = new FsText("订单信息", "");
+
+            fsBlockByField.Data.Add(new FsField("订单编号", "", order.Sn, ""));
+            fsBlockByField.Data.Add(new FsField("创建时间", "", order.SubmitTime.ToUnifiedFormatDateTime(), ""));
+
+            fsBlockByField.Data.Add(new FsField("付款时间", "", order.PayTime.ToUnifiedFormatDateTime(), ""));
+            fsBlockByField.Data.Add(new FsField("完成时间", "", order.CompletedTime.ToUnifiedFormatDateTime(), ""));
+            fsBlockByField.Data.Add(new FsField("取消时间", "", order.CancledTime.ToUnifiedFormatDateTime(), ""));
+            fsBlockByField.Data.Add(new FsField("取消原因", "", order.CancelReason, ""));
+
+            ret.FieldBlocks.Add(fsBlockByField);
 
 
             var orderDetails = CurrentDb.OrderDetails.Where(c => c.OrderId == order.Id).ToList();

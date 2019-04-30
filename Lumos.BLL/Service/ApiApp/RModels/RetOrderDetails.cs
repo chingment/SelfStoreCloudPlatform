@@ -14,11 +14,8 @@ namespace Lumos.BLL.Service.ApiApp
             this.Blocks = new List<FsBlock>();
             this.FieldBlocks = new List<FsBlockByField>();
         }
-
-        public string Id { get; set; }
-        public string Sn { get; set; }
         public Enumeration.OrderStatus Status { get; set; }
-        public string StatusName { get; set; }
+        public FsTag Tag { get; set; }
         public List<FsBlock> Blocks { get; set; }
         public List<FsBlockByField> FieldBlocks { get; set; }
     }
