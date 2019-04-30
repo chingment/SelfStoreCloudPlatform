@@ -391,11 +391,20 @@ namespace Lumos.BLL.Service.ApiApp
 
             fsBlockByField.Data.Add(new FsField("订单编号", "", order.Sn, ""));
             fsBlockByField.Data.Add(new FsField("创建时间", "", order.SubmitTime.ToUnifiedFormatDateTime(), ""));
+            if (order.PayTime != null)
+            {
+                fsBlockByField.Data.Add(new FsField("付款时间", "", order.PayTime.ToUnifiedFormatDateTime(), ""));
+            }
+            if (order.CompletedTime != null)
+            {
+                fsBlockByField.Data.Add(new FsField("完成时间", "", order.CompletedTime.ToUnifiedFormatDateTime(), ""));
+            }
 
-            fsBlockByField.Data.Add(new FsField("付款时间", "", order.PayTime.ToUnifiedFormatDateTime(), ""));
-            fsBlockByField.Data.Add(new FsField("完成时间", "", order.CompletedTime.ToUnifiedFormatDateTime(), ""));
-            fsBlockByField.Data.Add(new FsField("取消时间", "", order.CancledTime.ToUnifiedFormatDateTime(), ""));
-            fsBlockByField.Data.Add(new FsField("取消原因", "", order.CancelReason, ""));
+            if (order.CancledTime != null)
+            {
+                fsBlockByField.Data.Add(new FsField("取消时间", "", order.CancledTime.ToUnifiedFormatDateTime(), ""));
+                fsBlockByField.Data.Add(new FsField("取消原因", "", order.CancelReason, ""));
+            }
 
             ret.FieldBlocks.Add(fsBlockByField);
 
