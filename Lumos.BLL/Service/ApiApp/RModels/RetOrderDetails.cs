@@ -11,6 +11,7 @@ namespace Lumos.BLL.Service.ApiApp
     {
         public RetOrderDetails()
         {
+            this.Tag = new FsTag();
             this.Blocks = new List<FsBlock>();
             this.FieldBlocks = new List<FsBlockByField>();
         }

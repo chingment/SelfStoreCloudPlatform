@@ -33,7 +33,7 @@ namespace WebMobile.Controllers
         [AllowAnonymous]
         //获取JsApiConfig配置参数
         public CustomJsonResult<JsApiConfigParams> GetJsApiConfigParams(string url)
-        {
+        {  
             return SdkFactory.Wx.GetJsApiConfigParams(this.CurrentAppInfo, url);
         }
 
