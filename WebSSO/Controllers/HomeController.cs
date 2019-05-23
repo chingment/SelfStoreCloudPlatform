@@ -16,7 +16,6 @@ using Lumos.BLL.Service.Merch;
 
 namespace WebSSO.Controllers
 {
-
     public class HomeController : OwnBaseController
     {
         public readonly string sesionKeyLoginVerifyCode = "sesionKeyLoginVerifyCode";
