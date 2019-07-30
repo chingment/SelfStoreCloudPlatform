@@ -1891,7 +1891,7 @@
         zIndex: 1987,				// 对话框叠加高度值(重要：此值不能超过浏览器最大限制)
         resize: true,				// 是否允许用户调节尺寸
         drag: true,					// 是否允许用户拖动位置
-        dblclickClose: true,
+        dblclickClose: true
     };
 
     window.artDialog = $.dialog = $.artDialog = artDialog;

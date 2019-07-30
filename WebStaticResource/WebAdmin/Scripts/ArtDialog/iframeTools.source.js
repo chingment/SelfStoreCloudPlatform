@@ -422,7 +422,7 @@
             title: false,
             cancel: false,
             fixed: true,
-            lock: false,
+            lock: false
         })
         .content('<div style="padding: 0 1em;">' + content + '</div>')
         .time(time || 1.5);

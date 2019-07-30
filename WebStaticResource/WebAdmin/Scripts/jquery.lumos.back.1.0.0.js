@@ -5,7 +5,7 @@
             unknown: 0,
             success: 1,
             failure: 2,
-            exception: 3,
+            exception: 3
         },
         operateType: {
             add: "1",
@@ -802,7 +802,7 @@
 
                 //if (data != '') {
                 //data = typeof data == 'string' ? data : jQuery.param(data);        // 把参数组装成 form的  input
-               // alert(JSON.stringify(data))
+                // alert(JSON.stringify(data))
 
                 $.each(data, function (i) {
                     inputs += '<input type="hidden" name="' + i + '" value="' + data[i] + '" />';
@@ -1199,7 +1199,11 @@
         getList(0, _searchParams, _isShowLoading);
 
         if (_refreshInterval != 0) {
-            setInterval(function () { getList(0, _searchParams, false) }, _refreshInterval);
+
+            setInterval(function () {
+                var currentPageIndex = $(_thisTable).data('currentPageIndex');
+                getList(currentPageIndex, _searchParams, false);
+            }, _refreshInterval);
         }
 
 
