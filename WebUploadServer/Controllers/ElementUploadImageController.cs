@@ -13,14 +13,12 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 
+
 namespace WebUploadImageServer.Controllers
 {
-
-
-
-    public class UploadImageController : BaseApiController
+    public class ElementUploadImageController : ApiController
     {
-        public  string GetUploadPath(string path)
+        public string GetUploadPath(string path)
         {
             string rootPath = "/Upload/";
             rootPath += path;
@@ -82,27 +80,38 @@ namespace WebUploadImageServer.Controllers
         }
 
         private static ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
-        public HttpResponseMessage Post(UploadFileEntity entity)
+        public HttpResponseMessage Post()
         {
+            log.Info("调用ElementUploadImage");
 
-            log.Info("调用UploadImage");
             HttpContextBase context = (HttpContextBase)Request.Properties["MS_HttpContext"];//获取传统context
             HttpRequestBase request = context.Request;//定义传统request对象 
             CustomJsonResult r = new CustomJsonResult();
             try
             {
-                if (entity.FileData != null && entity.FileData.Length > 0)
+                log.Info("文件Count:" + request.Files.Count);
+                for (var i = 0; i < request.Files.Count; i++)
+                {
+                    log.Info("文件名称:" + request.Files[i].FileName);
+                }
+                byte[] fileData = null;
+                using (var binaryReader = new BinaryReader(request.Files[0].InputStream))
+                {
+                    fileData = binaryReader.ReadBytes(request.Files[0].ContentLength);
+                }
+                if (fileData != null && fileData.Length > 0)
                 {
                     ImageUpload image = new ImageUpload();
                     int[] bigImgSize = new int[2] { 500, 500 };
                     int[] smallImgSize = new int[2] { 100, 100 };
                     string imageSign = "";
 
-                    string savefolder = GetUploadPath(entity.UploadFolder);
-                    string extension = Path.GetExtension(entity.FileName).ToLower();
+                    string fileName = request.Files[0].FileName;
+                    string uploadFolder = "common";
+                    string savefolder = GetUploadPath(uploadFolder);
+                    string extension = Path.GetExtension(fileName).ToLower();
                     string yyyyMMddhhmmssfff = Guid.NewGuid().ToString();
-                    string originalNewfilename = imageSign + yyyyMMddhhmmssfff + "_O" + extension;//原图片文件名称
+                    string originalNewfilename = imageSign + yyyyMMddhhmmssfff + extension;//原图片文件名称
                     string bigNewfilename = imageSign + yyyyMMddhhmmssfff + "_B" + extension;//大图片文件名称
                     string smallNewfilename = imageSign + yyyyMMddhhmmssfff + "_S" + extension;//小图片文件名称
 
@@ -113,11 +122,11 @@ namespace WebUploadImageServer.Controllers
 
                     string path = System.Configuration.ConfigurationManager.AppSettings["custom:FileServerUploadPath"];
 
-                    string serverOriginalSavePath = path + "/"+originalSavePath;
+                    string serverOriginalSavePath = path + "/" + originalSavePath;
                     string serverBigSavePath = path + "/" + bigSavePath;
                     string serverSmallSavePath = path + "/" + smallSavePath;
 
-                    entity.FileName = entity.FileName.ToLower().Replace("\\", "/");
+                    fileName = fileName.ToLower().Replace("\\", "/");
 
                     ImageUpload s = new ImageUpload();
                     string domain = System.Configuration.ConfigurationManager.AppSettings["custom:FilesServerUrl"];
@@ -132,7 +141,7 @@ namespace WebUploadImageServer.Controllers
                     }
 
                     FileStream fs = new FileStream(serverOriginalSavePath, FileMode.Create, FileAccess.Write);
-                    fs.Write(entity.FileData, 0, entity.FileData.Length);
+                    fs.Write(fileData, 0, fileData.Length);
                     fs.Flush();
                     fs.Close();
 
@@ -140,24 +149,23 @@ namespace WebUploadImageServer.Controllers
                     image.OriginalPath = domain + originalSavePath;
                     image.OriginalWidth = originalImage.Width;
                     image.OriginalHeight = originalImage.Height;
-                    if (entity.GenerateSize)
+
+                    if (GreateMiniImageModel(serverOriginalSavePath, serverBigSavePath, bigImgSize[0], bigImgSize[1]))
                     {
-                        if (GreateMiniImageModel(serverOriginalSavePath, serverBigSavePath, bigImgSize[0], bigImgSize[1]))
-                        {
-                            image.BigPath = domain + bigSavePath;
-                            image.BigWidth = bigImgSize[0];
-                            image.BigHeight = bigImgSize[1];
-                        }
-                        if (GreateMiniImageModel(serverOriginalSavePath, serverSmallSavePath, smallImgSize[0], smallImgSize[1]))
-                        {
-                            image.SmallPath = domain + smallSavePath;
-                            image.SmallWidth = smallImgSize[0];
-                            image.SmallHeight = smallImgSize[1];
-                        }
+                        image.BigPath = domain + bigSavePath;
+                        image.BigWidth = bigImgSize[0];
+                        image.BigHeight = bigImgSize[1];
+                    }
+                    if (GreateMiniImageModel(serverOriginalSavePath, serverSmallSavePath, smallImgSize[0], smallImgSize[1]))
+                    {
+                        image.SmallPath = domain + smallSavePath;
+                        image.SmallWidth = smallImgSize[0];
+                        image.SmallHeight = smallImgSize[1];
                     }
 
+
                     originalImage.Dispose();
-                    r.Data = image;
+                    r.Data = new { name = fileName, url = image.OriginalPath };
                     r.Message = "上传成功";
                     r.Result = ResultType.Success;
                 }
@@ -174,8 +182,5 @@ namespace WebUploadImageServer.Controllers
             HttpResponseMessage result = new HttpResponseMessage { Content = new StringContent(json, Encoding.GetEncoding("UTF-8"), "application/json") };
             return result;
         }
-
     }
-
-
 }
